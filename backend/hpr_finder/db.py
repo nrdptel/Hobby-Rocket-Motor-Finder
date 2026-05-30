@@ -6,13 +6,21 @@ from pathlib import Path
 from typing import Iterator
 
 from .models import Listing, Motor
-from .normalize import base_designation, lp_base_designation
+from .normalize import (
+    base_designation,
+    common_name as title_common_name,
+    extract_designation,
+    infer_propellant_from_title,
+    lp_base_designation,
+    strip_plug_suffix,
+)
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS motors (
     id INTEGER PRIMARY KEY,
     manufacturer TEXT NOT NULL,
     designation TEXT NOT NULL,
+    common_name TEXT NOT NULL DEFAULT '',
     diameter_mm INTEGER NOT NULL,
     length_mm INTEGER,
     total_impulse_ns REAL,
@@ -20,11 +28,15 @@ CREATE TABLE IF NOT EXISTS motors (
     burn_time_s REAL,
     propellant TEXT,
     impulse_class TEXT NOT NULL,
+    delays TEXT,
+    delay_adjustable INTEGER NOT NULL DEFAULT 0,
     thrustcurve_id TEXT,
     UNIQUE (manufacturer, designation)
 );
 
 CREATE INDEX IF NOT EXISTS idx_motors_class_diameter ON motors (impulse_class, diameter_mm);
+-- idx_motors_common_name is created after the migration in init_schema, so this
+-- file can be loaded against older databases that don't yet have the column.
 
 CREATE TABLE IF NOT EXISTS vendors (
     id INTEGER PRIMARY KEY,
@@ -84,6 +96,15 @@ def connect(path: Path | None = None) -> Iterator[sqlite3.Connection]:
 
 def init_schema(conn: sqlite3.Connection) -> None:
     conn.executescript(SCHEMA)
+    # Idempotent migration: add common_name column to motors if older DB lacks it.
+    cols = {r["name"] for r in conn.execute("PRAGMA table_info(motors)")}
+    if "common_name" not in cols:
+        conn.execute("ALTER TABLE motors ADD COLUMN common_name TEXT NOT NULL DEFAULT ''")
+    if "delays" not in cols:
+        conn.execute("ALTER TABLE motors ADD COLUMN delays TEXT")
+    if "delay_adjustable" not in cols:
+        conn.execute("ALTER TABLE motors ADD COLUMN delay_adjustable INTEGER NOT NULL DEFAULT 0")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_motors_common_name ON motors (common_name)")
 
 
 def upsert_vendor(conn: sqlite3.Connection, slug: str, name: str, homepage: str, state: str | None = None) -> int:
@@ -100,6 +121,7 @@ def upsert_motors(conn: sqlite3.Connection, motors: list[Motor]) -> int:
         (
             m.manufacturer,
             m.designation,
+            m.common_name,
             m.diameter_mm,
             m.length_mm,
             m.total_impulse_ns,
@@ -107,34 +129,56 @@ def upsert_motors(conn: sqlite3.Connection, motors: list[Motor]) -> int:
             m.burn_time_s,
             m.propellant,
             m.impulse_class,
+            m.delays,
+            1 if m.delay_adjustable else 0,
             m.thrustcurve_id,
         )
         for m in motors
     ]
     conn.executemany(
-        "INSERT INTO motors (manufacturer, designation, diameter_mm, length_mm, total_impulse_ns, avg_thrust_n, burn_time_s, propellant, impulse_class, thrustcurve_id) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "INSERT INTO motors (manufacturer, designation, common_name, diameter_mm, length_mm, total_impulse_ns, avg_thrust_n, burn_time_s, propellant, impulse_class, delays, delay_adjustable, thrustcurve_id) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT (manufacturer, designation) DO UPDATE SET "
-        "diameter_mm=excluded.diameter_mm, length_mm=excluded.length_mm, total_impulse_ns=excluded.total_impulse_ns, "
-        "avg_thrust_n=excluded.avg_thrust_n, burn_time_s=excluded.burn_time_s, propellant=excluded.propellant, "
-        "impulse_class=excluded.impulse_class, thrustcurve_id=excluded.thrustcurve_id",
+        "common_name=excluded.common_name, diameter_mm=excluded.diameter_mm, length_mm=excluded.length_mm, "
+        "total_impulse_ns=excluded.total_impulse_ns, avg_thrust_n=excluded.avg_thrust_n, "
+        "burn_time_s=excluded.burn_time_s, propellant=excluded.propellant, "
+        "impulse_class=excluded.impulse_class, delays=excluded.delays, "
+        "delay_adjustable=excluded.delay_adjustable, thrustcurve_id=excluded.thrustcurve_id",
         rows,
     )
     return len(rows)
 
 
-def find_motor_id(conn: sqlite3.Connection, manufacturer: str, designation: str) -> int | None:
-    """Match a vendor designation to a canonical ThrustCurve motor.
+def find_motor_id(
+    conn: sqlite3.Connection,
+    manufacturer: str,
+    designation: str,
+    title: str | None = None,
+) -> int | None:
+    """Match a vendor designation (+ optional product title) to a canonical motor.
 
-    Tries (in order):
-      1. Exact match.
-      2. HPR transform: strip ``-<delay><A?>`` suffix (H242T-14A -> H242T).
-      3. Low-power transform: strip ``-<delay>`` infix keeping trailing
-         propellant letter (D13-10W -> D13W).
+    Strategy, in order:
+      1. Exact match on designation.
+      2. HPR delay-suffix strip (H242T-14A -> H242T).
+      3. Low-power delay-infix strip keeping trailing propellant (D13-10W -> D13W).
+      4. Match against catalog's ``common_name`` and disambiguate by propellant
+         inferred from the title (e.g. vendor "M1500" + title "Mojave Green" ->
+         catalog motor M1500G).
+      5. Match against ``common_name`` of the bare-designation form of the vendor
+         string (covers "H115DM" -> catalog HP-H115DM whose common_name is H115).
     """
     if not designation:
         return None
-    for candidate in (designation, base_designation(designation), lp_base_designation(designation)):
+    # Steps 1-4: try increasingly aggressive designation transforms against the
+    # catalog's "designation" column (the canonical form ThrustCurve uses).
+    transforms = (
+        designation,
+        base_designation(designation),                       # strip -14A
+        lp_base_designation(designation),                    # strip -10 keeping W
+        strip_plug_suffix(designation),                      # strip -P
+        strip_plug_suffix(base_designation(designation)),    # strip both
+    )
+    for candidate in transforms:
         if not candidate:
             continue
         row = conn.execute(
@@ -143,6 +187,26 @@ def find_motor_id(conn: sqlite3.Connection, manufacturer: str, designation: str)
         ).fetchone()
         if row:
             return row[0]
+    # Steps 4-5: common_name with propellant disambiguation
+    inferred_prop = infer_propellant_from_title(title or "")
+    for cn in (designation, base_designation(designation), title_common_name(designation)):
+        if not cn:
+            continue
+        if inferred_prop:
+            row = conn.execute(
+                "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE AND propellant = ? COLLATE NOCASE",
+                (manufacturer, cn, inferred_prop),
+            ).fetchone()
+            if row:
+                return row[0]
+        # Last resort: common_name match without propellant disambiguation, only
+        # if exactly one catalog motor shares that common_name (no ambiguity).
+        rows = conn.execute(
+            "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE",
+            (manufacturer, cn),
+        ).fetchall()
+        if len(rows) == 1:
+            return rows[0][0]
     return None
 
 
@@ -151,7 +215,7 @@ def upsert_listings(conn: sqlite3.Connection, vendor_id: int, listings: list[Lis
     for l in listings:
         motor_id = l.motor_id
         if motor_id is None:
-            motor_id = find_motor_id(conn, "AeroTech", l.motor_designation)
+            motor_id = find_motor_id(conn, "AeroTech", l.motor_designation, l.raw_title)
         rows.append(
             (
                 vendor_id,
@@ -177,6 +241,32 @@ def upsert_listings(conn: sqlite3.Connection, vendor_id: int, listings: list[Lis
         rows,
     )
     return len(rows)
+
+
+def rematch_listings(conn: sqlite3.Connection) -> tuple[int, int, int]:
+    """Re-run normalization + motor matching against every existing listing.
+
+    First re-runs ``extract_designation`` on each listing's stored title so the
+    designation reflects the current regex (relevant when the parser is updated
+    after a scrape was already stored). Then re-matches motor_id.
+
+    Returns (designations_updated, motors_rematched, total).
+    """
+    listings = conn.execute(
+        "SELECT id, raw_designation, raw_title, motor_id FROM listings"
+    ).fetchall()
+    designations_changed = 0
+    motors_changed = 0
+    for r in listings:
+        new_des = extract_designation(r["raw_title"]) or r["raw_designation"]
+        if new_des != r["raw_designation"]:
+            conn.execute("UPDATE listings SET raw_designation = ? WHERE id = ?", (new_des, r["id"]))
+            designations_changed += 1
+        new_motor_id = find_motor_id(conn, "AeroTech", new_des, r["raw_title"])
+        if new_motor_id != r["motor_id"]:
+            conn.execute("UPDATE listings SET motor_id = ? WHERE id = ?", (new_motor_id, r["id"]))
+            motors_changed += 1
+    return designations_changed, motors_changed, len(listings)
 
 
 def start_run(conn: sqlite3.Connection, vendor_id: int, started_at: str) -> int:

@@ -13,6 +13,7 @@ export type Listing = {
   vendor_name: string;
   url: string;
   sku: string | null;
+  raw_designation: string;
   price_cents: number | null;
   currency: string;
   status: StockStatus;
@@ -24,18 +25,36 @@ export type Motor = {
   id: number;
   manufacturer: string;
   designation: string;
+  common_name?: string;
   diameter_mm: number;
   impulse_class: string;
   total_impulse_ns: number | null;
   avg_thrust_n: number | null;
   burn_time_s: number | null;
   propellant: string | null;
+  delays: string | null;
+  delay_adjustable: boolean;
   listings: Listing[];
+};
+
+export type UnmatchedListing = {
+  raw_designation: string;
+  raw_title: string;
+  vendor_slug: string;
+  vendor_name: string;
+  url: string;
+  sku: string | null;
+  price_cents: number | null;
+  currency: string;
+  status: StockStatus;
+  stock_count: number | null;
+  seen_at: string;
 };
 
 export type Snapshot = {
   generated_at: string;
   motors: Motor[];
+  unmatched: UnmatchedListing[];
 };
 
 const SNAPSHOT_PATH = path.resolve(process.cwd(), "..", "data", "snapshot.json");

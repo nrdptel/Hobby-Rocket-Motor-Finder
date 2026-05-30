@@ -66,3 +66,24 @@ def test_lowstock_h73j_stock_count_is_1():
     m = STOCK_LEVEL_RE.search(html)
     assert m is not None
     assert int(m.group(1)) == 1
+
+
+def test_o6000_with_invalid_json_escape_still_parses():
+    # The O6000 product description contains "AeroTech\'s" (invalid JSON escape).
+    # Strict json.loads fails; the scraper should recover by stripping bad escapes.
+    html = _load("csrocketry_o6000_oos_bad_escape.html")
+    product = _extract_product_jsonld(html)
+    assert product is not None
+    assert "O6000" in product["name"]
+    offers = product["offers"]
+    assert offers["price"] == "9999.99"  # placeholder OOS price; verify it parsed
+    assert "OutOfStock" in offers["availability"]
+
+
+def test_k400c_with_invalid_json_escape_still_parses():
+    html = _load("csrocketry_k400c_oos_bad_escape.html")
+    product = _extract_product_jsonld(html)
+    assert product is not None
+    assert "K400C-14A" in product["name"]
+    offers = product["offers"]
+    assert "OutOfStock" in offers["availability"]

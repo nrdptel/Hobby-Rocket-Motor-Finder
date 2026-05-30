@@ -18,7 +18,8 @@ class Motor:
     """A canonical motor from the ThrustCurve catalog."""
 
     manufacturer: str
-    designation: str  # e.g. "H242T-14A"
+    designation: str  # e.g. "H242T", "M1500G"
+    common_name: str  # e.g. "H242", "M1500" — designation minus propellant code
     diameter_mm: int
     length_mm: int | None
     total_impulse_ns: float | None
@@ -26,6 +27,8 @@ class Motor:
     burn_time_s: float | None
     propellant: str | None
     impulse_class: str  # single letter A..O
+    delays: str | None  # e.g. "4,6,8,10" or "P" (plugged) or None
+    delay_adjustable: bool
     thrustcurve_id: str | None = None
 
 

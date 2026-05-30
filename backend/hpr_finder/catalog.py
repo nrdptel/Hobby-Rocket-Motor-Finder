@@ -44,6 +44,7 @@ def to_motor(record: dict) -> Motor:
     return Motor(
         manufacturer=record["manufacturer"],
         designation=record["designation"],
+        common_name=record.get("commonName") or record["designation"],
         diameter_mm=int(record.get("diameter") or 0),
         length_mm=_maybe_int(record.get("length")),
         total_impulse_ns=_maybe_float(record.get("totImpulseNs")),
@@ -51,6 +52,8 @@ def to_motor(record: dict) -> Motor:
         burn_time_s=_maybe_float(record.get("burnTimeS")),
         propellant=record.get("propInfo"),
         impulse_class=record.get("impulseClass") or "",
+        delays=record.get("delays"),
+        delay_adjustable=bool(record.get("delayAdjustable")),
         thrustcurve_id=record.get("motorId"),
     )
 
