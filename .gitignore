@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data (regenerate via scrapers)
+data/*.db
+data/*.db-journal
+data/snapshots/
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code per-machine settings (commit .claude/settings.json if needed; never local)
+.claude/settings.local.json
