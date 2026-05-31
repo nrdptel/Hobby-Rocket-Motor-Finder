@@ -61,8 +61,13 @@ class WildmanScraper(Scraper):
     name = "Wildman Rocketry"
     homepage = "https://wildmanrocketry.com"
     state = "IL"
-    max_concurrent_per_host = 4
-    min_start_interval_s = 0.2
+    # Shopify aggressively rate-limits per-product fetches from data-center
+    # IPs (e.g., GitHub Actions). Hitting 4 concurrent / 200ms interval got
+    # ~80% of our product pages 403'd on Azure runners. 2 concurrent / 1s
+    # interval matches our conservative AMW/Sirius pace and clears the
+    # threshold cleanly. Slightly slower scrape, but reliable.
+    max_concurrent_per_host = 2
+    min_start_interval_s = 1.0
 
     async def scrape(
         self,

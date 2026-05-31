@@ -62,8 +62,11 @@ class BuyRocketMotorsScraper(Scraper):
     name = "BuyRocketMotors.com"
     homepage = "https://www.buyrocketmotors.com"
     state = "TX"
-    max_concurrent_per_host = 4
-    min_start_interval_s = 0.2
+    # Shopify aggressively rate-limits per-product fetches from data-center
+    # IPs. See the same comment in wildman.py — 2 concurrent / 1s interval
+    # is the threshold below which we don't get 403'd from GH Actions.
+    max_concurrent_per_host = 2
+    min_start_interval_s = 1.0
 
     async def scrape(
         self,
