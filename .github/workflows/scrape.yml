@@ -37,14 +37,14 @@ jobs:
       - name: Install
         run: pip install -e .
 
-      - name: Refresh ThrustCurve catalog if older than 24h
-        run: |
-          if [ -n "$(find ../data/thrustcurve_aerotech.json -mtime +1 2>/dev/null)" ] \
-             || [ ! -f ../data/thrustcurve_aerotech.json ]; then
-            hpr catalog refresh
-          else
-            echo "catalog fresh, skipping"
-          fi
+      - name: Refresh ThrustCurve catalog
+        # Always run this — the SQLite DB is gitignored so each runner starts
+        # empty, and we need motors loaded before scrape→match can succeed.
+        # ``actions/checkout`` resets file mtimes to "now," so an mtime-based
+        # "skip if fresh" check never triggered and silently produced
+        # snapshots where every listing was unmatched. The refresh itself is
+        # a single HTTP request (~2s, 273 records) — cheap to always run.
+        run: hpr catalog refresh
 
       - name: Scrape all vendors
         run: hpr scrape run all
