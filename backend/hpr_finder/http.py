@@ -8,8 +8,9 @@ from typing import AsyncIterator
 import httpx
 
 USER_AGENT = (
-    "HPRMotorFinder/0.1 (+https://github.com/nrdptel/hpr-finder; contact: nrdptel@gmail.com) "
-    "aggregator-spike"
+    "HPRMotorFinder/0.1 "
+    "(+https://github.com/nrdptel/Hobby-Rocket-Motor-Finder; "
+    "contact: https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/issues)"
 )
 
 DEFAULT_TIMEOUT = httpx.Timeout(30.0, connect=10.0)

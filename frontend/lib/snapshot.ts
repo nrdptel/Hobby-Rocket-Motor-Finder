@@ -57,14 +57,24 @@ export type Snapshot = {
   unmatched: UnmatchedListing[];
 };
 
+// Live snapshot (gitignored — produced by `hpr snapshot export` or by CI).
 const SNAPSHOT_PATH = path.resolve(process.cwd(), "..", "data", "snapshot.json");
+// Frozen reference snapshot (tracked in git). Lets `npm run dev` work without
+// running scrapers first — handy for new contributors and for CI build steps
+// where the live snapshot hasn't been generated yet.
+const EXAMPLE_SNAPSHOT_PATH = path.resolve(
+  process.cwd(), "..", "data", "snapshot.example.json"
+);
 
 export async function loadSnapshot(): Promise<Snapshot | null> {
-  try {
-    const raw = await readFile(SNAPSHOT_PATH, "utf-8");
-    return JSON.parse(raw) as Snapshot;
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === "ENOENT") return null;
-    throw err;
+  for (const candidate of [SNAPSHOT_PATH, EXAMPLE_SNAPSHOT_PATH]) {
+    try {
+      const raw = await readFile(candidate, "utf-8");
+      return JSON.parse(raw) as Snapshot;
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw err;
+    }
   }
+  return null;
 }
