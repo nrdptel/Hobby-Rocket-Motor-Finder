@@ -57,13 +57,20 @@ export type Snapshot = {
   unmatched: UnmatchedListing[];
 };
 
-// Live snapshot (gitignored — produced by `hpr snapshot export` or by CI).
-const SNAPSHOT_PATH = path.resolve(process.cwd(), "..", "data", "snapshot.json");
-// Frozen reference snapshot (tracked in git). Lets `npm run dev` work without
-// running scrapers first — handy for new contributors and for CI build steps
-// where the live snapshot hasn't been generated yet.
+// Both snapshots live inside the frontend project at build time. The actual
+// source-of-truth files are in the repo's top-level `data/` dir; the prebuild
+// `copy-snapshot.mjs` script copies them in before `next build`/`next dev`
+// runs. This indirection is required because Next 16 + Turbopack refuses
+// file traces outside the project root, so reading from `../data/` would
+// not survive deployment to Vercel / Cloudflare Pages.
+//
+// Live snapshot — copied from `<repo>/data/snapshot.json` if present.
+const SNAPSHOT_PATH = path.resolve(process.cwd(), "data", "snapshot.json");
+// Frozen reference snapshot, tracked in git at `<repo>/data/snapshot.example.json`
+// and copied in alongside the live one. Lets the UI render even when no live
+// scrape has been run yet.
 const EXAMPLE_SNAPSHOT_PATH = path.resolve(
-  process.cwd(), "..", "data", "snapshot.example.json"
+  process.cwd(), "data", "snapshot.example.json"
 );
 
 export async function loadSnapshot(): Promise<Snapshot | null> {

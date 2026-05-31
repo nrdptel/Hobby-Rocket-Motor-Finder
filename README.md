@@ -80,7 +80,7 @@ Key pieces:
 - [backend/hpr_finder/db.py](backend/hpr_finder/db.py) — `find_motor_id` runs a fallback chain of designation transforms to match listings against the ThrustCurve catalog. Currently 99%+ match rate.
 - [backend/hpr_finder/scrapers/](backend/hpr_finder/scrapers/) — one file per vendor; each implements the `Scraper` protocol and returns a list of `Listing`. Discovery strategies vary (Shopify `vendor=AEROTECH` filter, VirtueMart category sweep, Zen Cart manufacturer-page pagination).
 - [backend/hpr_finder/http.py](backend/hpr_finder/http.py) — `PoliteAsyncClient` enforces per-host concurrency cap + minimum-interval pacing + `Retry-After` honoring.
-- [frontend/lib/snapshot.ts](frontend/lib/snapshot.ts) — the only contract between backend and frontend. If `data/snapshot.json` exists it wins; otherwise the loader falls back to the tracked `data/snapshot.example.json`.
+- [frontend/lib/snapshot.ts](frontend/lib/snapshot.ts) — the only contract between backend and frontend. If `data/snapshot.json` exists it wins; otherwise the loader falls back to the tracked `data/snapshot.example.json`. A `predev`/`prebuild` script ([frontend/scripts/copy-snapshot.mjs](frontend/scripts/copy-snapshot.mjs)) copies both files into `frontend/data/` because Next 16 + Turbopack refuses to bundle files from outside the project root.
 
 ## Adding a vendor
 

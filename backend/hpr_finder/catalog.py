@@ -30,22 +30,32 @@ def fetch_aerotech_motors(timeout: float = 30.0) -> list[dict]:
         return r.json().get("results", [])
 
 
-def save_cache(records: list[dict], path: Path = CACHE_PATH) -> None:
+def save_cache(records: list[dict], path: Path | None = None) -> None:
+    # Resolve at call time so tests can monkeypatch ``CACHE_PATH`` and have it
+    # reach helpers invoked with the default. Capturing the default at def
+    # time would freeze the original path.
+    path = path or CACHE_PATH
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(records, indent=2, sort_keys=True))
 
 
-def load_cache(path: Path = CACHE_PATH) -> list[dict]:
+def load_cache(path: Path | None = None) -> list[dict]:
+    path = path or CACHE_PATH
     return json.loads(path.read_text())
 
 
 def to_motor(record: dict) -> Motor:
-    """Map a raw ThrustCurve record into our Motor dataclass."""
+    """Map a raw ThrustCurve record into our Motor dataclass.
+
+    Numeric fields are coerced through ``_maybe_int`` / ``_maybe_float`` so a
+    junk value upstream (string when we expect a number) becomes ``None``
+    rather than crashing the whole catalog refresh.
+    """
     return Motor(
         manufacturer=record["manufacturer"],
         designation=record["designation"],
         common_name=record.get("commonName") or record["designation"],
-        diameter_mm=int(record.get("diameter") or 0),
+        diameter_mm=_maybe_int(record.get("diameter")) or 0,
         length_mm=_maybe_int(record.get("length")),
         total_impulse_ns=_maybe_float(record.get("totImpulseNs")),
         avg_thrust_n=_maybe_float(record.get("avgThrustN")),
@@ -61,10 +71,10 @@ def to_motor(record: dict) -> Motor:
 def aerotech_motors(use_cache: bool = True) -> list[Motor]:
     """Return Motor objects for AeroTech. Uses cache if present, otherwise fetches and caches."""
     if use_cache and CACHE_PATH.exists():
-        raw = load_cache()
+        raw = load_cache(CACHE_PATH)
     else:
         raw = fetch_aerotech_motors()
-        save_cache(raw)
+        save_cache(raw, CACHE_PATH)
     return [to_motor(r) for r in raw]
 
 

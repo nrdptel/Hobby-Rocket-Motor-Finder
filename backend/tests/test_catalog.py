@@ -1,0 +1,184 @@
+"""Tests for the ThrustCurve catalog parser.
+
+The fetch path is intentionally not exercised against a live network — we
+have no control over the upstream service and don't want test runs hitting
+it. The fixture covers what we DO control: how the raw API records map
+into ``Motor`` dataclasses, including the missing-field cases that
+silently produced bad data in the past.
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+from hpr_finder.catalog import (
+    _maybe_float,
+    _maybe_int,
+    aerotech_motors,
+    load_cache,
+    save_cache,
+    to_motor,
+)
+
+FIXTURES = Path(__file__).parent / "fixtures"
+
+
+@pytest.fixture
+def sample_records() -> list[dict]:
+    return json.loads((FIXTURES / "thrustcurve_search_sample.json").read_text())
+
+
+# --- to_motor: normal record -----------------------------------------------
+
+def test_to_motor_normal_hpr(sample_records):
+    m = to_motor(sample_records[0])
+    assert m.manufacturer == "AeroTech"
+    assert m.designation == "H242T-14A"
+    assert m.common_name == "H242"
+    assert m.diameter_mm == 29
+    assert m.length_mm == 124
+    assert m.total_impulse_ns == pytest.approx(237.0)
+    assert m.avg_thrust_n == pytest.approx(242.0)
+    assert m.burn_time_s == pytest.approx(0.98)
+    assert m.propellant == "Blue Thunder"
+    assert m.impulse_class == "H"
+    assert m.delays == "6,10,14"
+    assert m.delay_adjustable is True
+    assert m.thrustcurve_id == "abc123"
+
+
+# --- to_motor: missing commonName falls back to designation ----------------
+
+def test_to_motor_falls_back_to_designation_when_common_name_missing(sample_records):
+    m = to_motor(sample_records[1])
+    # No "commonName" in the M1500 record — common_name should equal designation.
+    assert m.common_name == m.designation == "M1500"
+
+
+# --- to_motor: sparse record (many optional fields missing) ----------------
+
+def test_to_motor_handles_sparse_record(sample_records):
+    m = to_motor(sample_records[2])
+    assert m.designation == "D2.3T"
+    assert m.diameter_mm == 18
+    assert m.impulse_class == "D"
+    # All these were absent from the record:
+    assert m.length_mm is None
+    assert m.total_impulse_ns is None
+    assert m.avg_thrust_n is None
+    assert m.burn_time_s is None
+    assert m.propellant is None
+    assert m.delays is None
+    assert m.delay_adjustable is False
+
+
+# --- to_motor: regression on integer/float coercion ------------------------
+
+def test_to_motor_coerces_string_numeric_fields():
+    # ThrustCurve sometimes returns numerics as strings. Should still produce
+    # a valid Motor without raising.
+    m = to_motor({
+        "manufacturer": "AeroTech",
+        "designation": "Test1",
+        "diameter": "29",          # str
+        "length": "124",            # str
+        "totImpulseNs": "237.5",    # str
+        "avgThrustN": "242.0",      # str
+        "burnTimeS": "0.98",        # str
+        "impulseClass": "H",
+        "delayAdjustable": 0,       # falsy int
+    })
+    assert m.diameter_mm == 29
+    assert m.length_mm == 124
+    assert m.total_impulse_ns == pytest.approx(237.5)
+    assert m.avg_thrust_n == pytest.approx(242.0)
+    assert m.burn_time_s == pytest.approx(0.98)
+    assert m.delay_adjustable is False
+
+
+def test_to_motor_handles_bad_numerics_as_none():
+    m = to_motor({
+        "manufacturer": "AeroTech",
+        "designation": "Test2",
+        "diameter": "not-a-number",   # _maybe_int returns None
+        "length": "junk",             # _maybe_int returns None
+        "impulseClass": "H",
+    })
+    # diameter_mm is int (not Optional) — falls to 0 via `int(... or 0)`.
+    assert m.diameter_mm == 0
+    assert m.length_mm is None
+
+
+# --- _maybe_int / _maybe_float helpers -------------------------------------
+
+def test_maybe_int_passthrough_and_coercion():
+    assert _maybe_int(42) == 42
+    assert _maybe_int("42") == 42
+    assert _maybe_int(None) is None
+    assert _maybe_int("not-a-number") is None
+
+
+def test_maybe_float_passthrough_and_coercion():
+    assert _maybe_float(1.5) == pytest.approx(1.5)
+    assert _maybe_float("1.5") == pytest.approx(1.5)
+    assert _maybe_float(None) is None
+    assert _maybe_float("junk") is None
+
+
+# --- cache round-trip -------------------------------------------------------
+
+def test_cache_round_trip(tmp_path, sample_records):
+    path = tmp_path / "catalog.json"
+    save_cache(sample_records, path)
+    loaded = load_cache(path)
+    assert loaded == sample_records
+
+
+def test_save_cache_creates_parent_dir(tmp_path, sample_records):
+    nested = tmp_path / "deep" / "down" / "catalog.json"
+    save_cache(sample_records, nested)
+    assert nested.exists()
+
+
+# --- aerotech_motors: cache-first path -------------------------------------
+
+def test_aerotech_motors_reads_cache_when_present(monkeypatch, tmp_path, sample_records):
+    """When the cache file exists, ``aerotech_motors`` must read from it
+    without making any network calls. This is a non-negotiable regression
+    test: tests must never hit the live ThrustCurve API."""
+    cache_path = tmp_path / "thrustcurve_aerotech.json"
+    cache_path.write_text(json.dumps(sample_records))
+
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "CACHE_PATH", cache_path)
+
+    # If the cache miss path were taken, this would error — fetch is
+    # not patched, so a network call would fail or contact upstream.
+    def _explode(*args, **kwargs):
+        raise AssertionError("fetch should not be called when cache exists")
+    monkeypatch.setattr(catalog, "fetch_aerotech_motors", _explode)
+
+    motors = aerotech_motors(use_cache=True)
+    assert len(motors) == 3
+    assert motors[0].designation == "H242T-14A"
+
+
+def test_aerotech_motors_can_skip_cache(monkeypatch, tmp_path, sample_records):
+    """When ``use_cache=False`` the fetch path is taken even if the cache
+    is present. The result is then saved back to the cache."""
+    cache_path = tmp_path / "thrustcurve_aerotech.json"
+    cache_path.write_text(json.dumps([{"manufacturer": "AeroTech", "designation": "STALE"}]))
+
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "CACHE_PATH", cache_path)
+    monkeypatch.setattr(catalog, "fetch_aerotech_motors", lambda: sample_records)
+
+    motors = aerotech_motors(use_cache=False)
+    # We got the fresh records, not the stale one.
+    assert "STALE" not in {m.designation for m in motors}
+    assert motors[0].designation == "H242T-14A"
+    # And the cache was updated.
+    written = json.loads(cache_path.read_text())
+    assert written == sample_records

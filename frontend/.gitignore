@@ -17,6 +17,10 @@
 /.next/
 /out/
 
+# Snapshot files copied in by scripts/copy-snapshot.mjs at predev/prebuild.
+# Source of truth lives in <repo>/data/ — these are working copies only.
+/data/
+
 # production
 /build
 
