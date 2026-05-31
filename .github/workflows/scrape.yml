@@ -49,6 +49,45 @@ jobs:
       - name: Scrape all vendors
         run: hpr scrape run all
 
+      - name: Sanity-check per-vendor listing counts
+        # Catch the case where a vendor returns suspiciously few listings
+        # (Shopify rate-limiting from data center IPs, transient 5xx, etc.).
+        # If any vendor's count is under the floor we know is achievable on a
+        # healthy run, fail loudly instead of silently committing bad data.
+        working-directory: ${{ github.workspace }}
+        run: |
+          python3 - <<'PY'
+          import sqlite3, sys
+          # Floors are well below the typical healthy run, but well above the
+          # "scraper got rate-limited mid-walk and bailed early" floor we've
+          # observed (~20% of normal).
+          MIN_BY_VENDOR = {
+              "csrocketry": 200,
+              "buyrocketmotors": 200,
+              "wildman": 200,
+              "amw": 200,
+              "sirius": 200,
+          }
+          conn = sqlite3.connect("data/hpr.db")
+          rows = conn.execute(
+              "SELECT v.slug, COUNT(*) FROM listings l JOIN vendors v ON v.id=l.vendor_id GROUP BY v.slug"
+          ).fetchall()
+          counts = dict(rows)
+          bad = []
+          for slug, floor in MIN_BY_VENDOR.items():
+              got = counts.get(slug, 0)
+              status = "OK" if got >= floor else "LOW"
+              print(f"  {slug:20s} {got:4d}  (floor {floor}) {status}")
+              if got < floor:
+                  bad.append((slug, got, floor))
+          if bad:
+              print()
+              print("Refusing to commit snapshot — these vendors are below the sanity floor:")
+              for slug, got, floor in bad:
+                  print(f"  {slug}: {got} < {floor}")
+              sys.exit(1)
+          PY
+
       - name: Export snapshot
         run: hpr snapshot export
 
