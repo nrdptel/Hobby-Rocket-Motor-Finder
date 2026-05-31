@@ -40,6 +40,22 @@ def test_strip_internal_hyphens_skips_delay_form():
     assert strip_internal_hyphens("H242T-14A") == "H242T-14A"
 
 
+def test_strip_no_hyphen_delay_sirius_case():
+    from hpr_finder.normalize import strip_no_hyphen_delay
+    # Sirius writes "J340-M14A". After strip_internal_hyphens it's "J340M14A".
+    # The no-hyphen delay strip removes "14A" yielding "J340M" (catalog match).
+    assert strip_no_hyphen_delay("J340M14A") == "J340M"
+
+
+def test_strip_no_hyphen_delay_preserves_normal_designations():
+    from hpr_finder.normalize import strip_no_hyphen_delay
+    # The lookbehind requires a letter before the digits, so "H242T" (where
+    # the digits are preceded by another digit, then class letter) stays.
+    assert strip_no_hyphen_delay("H242T") == "H242T"
+    assert strip_no_hyphen_delay("M1297W") == "M1297W"
+    assert strip_no_hyphen_delay("D13W") == "D13W"
+
+
 # --- extract_designation ----------------------------------------------------
 
 def test_extract_basic_hpr():

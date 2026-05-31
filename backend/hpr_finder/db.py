@@ -13,6 +13,7 @@ from .normalize import (
     infer_propellant_from_title,
     lp_base_designation,
     strip_internal_hyphens,
+    strip_no_hyphen_delay,
     strip_plug_suffix,
 )
 
@@ -173,14 +174,21 @@ def find_motor_id(
     # Steps 1-N: try increasingly aggressive designation transforms against the
     # catalog's "designation" column (the canonical form ThrustCurve uses).
     base = base_designation(designation)
+    plug = strip_plug_suffix(base)
+    # Double plug strip handles vendor SKUs that stack two markers like
+    # H13ST-P-NTR (catalog has bare H13ST).
+    plug_twice = strip_plug_suffix(plug)
+    internal = strip_internal_hyphens(base)
     transforms = (
         designation,
         base,                                       # strip -14A
         lp_base_designation(designation),           # strip -10 keeping W
         strip_plug_suffix(designation),             # strip -P
-        strip_plug_suffix(base),                    # strip -P then -14A
-        strip_internal_hyphens(base),               # H550-ST -> H550ST
-        strip_internal_hyphens(strip_plug_suffix(base)),  # combo
+        plug,                                       # strip -P then -14A
+        plug_twice,                                 # H13ST-P-NTR -> H13ST
+        internal,                                   # H550-ST -> H550ST
+        strip_internal_hyphens(plug),               # combo
+        strip_no_hyphen_delay(internal),            # J340-M14A -> J340M14A -> J340M
     )
     for candidate in transforms:
         if not candidate:

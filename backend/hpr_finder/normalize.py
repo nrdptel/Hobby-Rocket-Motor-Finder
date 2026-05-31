@@ -69,6 +69,15 @@ LP_DELAY_RE = re.compile(r"-\d{1,2}(?=[A-Z]{1,3}$)", re.IGNORECASE)
 # inside the designation (H550-ST vs catalog H550ST). Doesn't match the leading
 # "HP-" prefix because the char before the hyphen there is a LETTER, not a digit.
 INTERNAL_HYPHEN_RE = re.compile(r"(?<=\d)-(?=[A-Z])", re.IGNORECASE)
+# Delay code WITHOUT a hyphen, preceded by a propellant-letter that follows
+# thrust digits. Catches Sirius's "J340-M14A" -> internal-hyphen-strip ->
+# "J340M14A" -> strip "14A" -> "J340M" (catalog).
+# Lookbehind requires DIGIT-then-LETTER immediately before the strip target,
+# so it doesn't fire on:
+#   - "D13W" (lookbehind off the start)
+#   - "G54W" (only one letter before)
+#   - "H242T" / "M1297W" (digit-digit before, not digit-letter)
+NO_HYPHEN_DELAY_RE = re.compile(r"(?<=\d[A-Z])\d{1,2}[A-Z]$", re.IGNORECASE)
 # Trailing alphabetic suffix the catalog may or may not include. Covers:
 #   * Plug markers: -P (plugged), -PS (plugged smoky-sam), -NTR (no test rocket
 #     included), -SK (sounding-kit).
@@ -117,6 +126,18 @@ def strip_internal_hyphens(designation: str) -> str:
     two letters, not digit-then-letter).
     """
     return INTERNAL_HYPHEN_RE.sub("", designation)
+
+
+def strip_no_hyphen_delay(designation: str) -> str:
+    """Strip a trailing delay code that's glued to a propellant letter without
+    a separating hyphen.
+
+    Catches the form ``J340M14A`` (no hyphen between M and 14A) which appears
+    after :func:`strip_internal_hyphens` collapses Sirius's ``J340-M14A`` ->
+    ``J340M14A``. The lookbehind requires the digits to follow a letter, so
+    "H242T" / "M1297W" / similar normal designations stay untouched.
+    """
+    return NO_HYPHEN_DELAY_RE.sub("", designation)
 
 
 def common_name(designation: str) -> str:

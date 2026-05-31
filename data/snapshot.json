@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-31T02:58:42",
+  "generated_at": "2026-05-31T04:29:57",
   "motors": [
     {
       "id": 1,
@@ -25,6 +25,30 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-30T22:32:30",
+          "raw_designation": "C3"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-c3-4t-p-rms-rc-reload-kit-12-pack-1849.html",
+          "sku": "1849",
+          "price_cents": 2974,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:49",
+          "raw_designation": "C3"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-c3-4t-p-rms-rc-reload-kit-3-pack-1848.html",
+          "sku": "1848",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:50",
           "raw_designation": "C3"
         }
       ]
@@ -129,6 +153,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:49",
           "raw_designation": "D13"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d13-10w-reload-kit-3-pack-1705.html",
+          "sku": "1705",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:53",
+          "raw_designation": "D13-10W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d13-4w-reload-kit-3-pack-1708.html",
+          "sku": "1708",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:54",
+          "raw_designation": "D13-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d13-7w-reload-kit-3-pack-1706.html",
+          "sku": "1706",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:55",
+          "raw_designation": "D13-7W"
         }
       ]
     },
@@ -193,6 +253,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:50",
           "raw_designation": "D15"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d15-4t-reload-kit-208.html",
+          "sku": "208",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:55",
+          "raw_designation": "D15-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d15-7t-reload-kit-209.html",
+          "sku": "209",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:56",
+          "raw_designation": "D15-7T"
         }
       ]
     },
@@ -221,6 +305,30 @@
           "stock_count": null,
           "seen_at": "2026-05-30T22:32:31",
           "raw_designation": "D2"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d2-3t-p-rms-rc-reload-kit-12-pack-1850.html",
+          "sku": "1850",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:57",
+          "raw_designation": "D2"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d2-3t-p-rms-rc-reload-kit-3-pack-1851.html",
+          "sku": "1851",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:58",
+          "raw_designation": "D2"
         }
       ]
     },
@@ -237,7 +345,32 @@
       "propellant": "Blue Thunder",
       "delays": "4,7",
       "delay_adjustable": false,
-      "listings": []
+      "listings": [
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d21-4t-18mm-single-use-motor-3pk-1703.html",
+          "sku": "1703",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:22:59",
+          "raw_designation": "D21-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d21-7t-18mm-single-use-motor-3pk-1704.html",
+          "sku": "1704",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:00",
+          "raw_designation": "D21-7T"
+        }
+      ]
     },
     {
       "id": 9,
@@ -364,6 +497,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:50",
           "raw_designation": "D24"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d24-10t-reload-kit-3-pack-1710.html",
+          "sku": "1710",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:01",
+          "raw_designation": "D24-10T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d24-4t-reload-kit-3-pack-1707.html",
+          "sku": "1707",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:02",
+          "raw_designation": "D24-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d24-7t-reload-kit-3-pack-1709.html",
+          "sku": "1709",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:03",
+          "raw_designation": "D24-7T"
         }
       ]
     },
@@ -380,7 +549,20 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
-      "listings": []
+      "listings": [
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d7-rct-rms-rc-reload-kit-3-pack-1852.html",
+          "sku": "1852",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:04",
+          "raw_designation": "D7-RCT"
+        }
+      ]
     },
     {
       "id": 6,
@@ -419,6 +601,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:50",
           "raw_designation": "D9"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d9-4w-reload-kit-203.html",
+          "sku": "203",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:06",
+          "raw_designation": "D9-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-d9-7w-reload-kit-559.html",
+          "sku": "559",
+          "price_cents": 2688,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:06",
+          "raw_designation": "D9-7W"
         }
       ]
     },
@@ -447,6 +653,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:50",
           "raw_designation": "E11"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e11-3j-reload-kit-210.html",
+          "sku": "210",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:07",
+          "raw_designation": "E11-3J"
         }
       ]
     },
@@ -574,6 +792,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "E16-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e16-4w-reload-kit-180.html",
+          "sku": "180",
+          "price_cents": 1739,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:08",
+          "raw_designation": "E16-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e16-7w-reload-kit-181.html",
+          "sku": "181",
+          "price_cents": 1739,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:09",
+          "raw_designation": "E16-7W"
         }
       ]
     },
@@ -662,6 +904,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:51",
           "raw_designation": "E18"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e18-4w-reload-kit-204.html",
+          "sku": "204",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:11",
+          "raw_designation": "E18-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e18-7w-reload-kit-205.html",
+          "sku": "205",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:12",
+          "raw_designation": "E18-7W"
         }
       ]
     },
@@ -773,6 +1039,30 @@
           "status": "in_stock_with_count",
           "stock_count": 6,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "E20-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e20-4w-24mm-single-use-motor-2-pack-555.html",
+          "sku": "555",
+          "price_cents": 2957,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:12",
+          "raw_designation": "E20-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e20-7w-24mm-single-use-motor-2-pack-554.html",
+          "sku": "554",
+          "price_cents": 2957,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:13",
           "raw_designation": "E20-7W"
         }
       ]
@@ -886,6 +1176,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "E23-8T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e23-5t-reload-kit-182.html",
+          "sku": "182",
+          "price_cents": 1739,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:14",
+          "raw_designation": "E23-5T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e23-8t-reload-kit-183.html",
+          "sku": "183",
+          "price_cents": 1739,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:15",
+          "raw_designation": "E23-8T"
         }
       ]
     },
@@ -998,6 +1312,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:32",
           "raw_designation": "E24"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e24-10c-classic-enerjet-single-use-motor-2-pack-2127.html",
+          "sku": "2127",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:16",
+          "raw_designation": "E24-10C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e24-4c-classic-enerjet-single-use-motor-2-pack-2125.html",
+          "sku": "2125",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:17",
+          "raw_designation": "E24-4C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e24-7c-classic-enerjet-single-use-motor-2-pack-2126.html",
+          "sku": "2126",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:18",
+          "raw_designation": "E24-7C"
         }
       ]
     },
@@ -1138,6 +1488,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:51",
           "raw_designation": "E28"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e28-4t-reload-kit-211.html",
+          "sku": "211",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:19",
+          "raw_designation": "E28-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-e28-7t-reload-kit-212.html",
+          "sku": "212",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:20",
+          "raw_designation": "E28-7T"
         }
       ]
     },
@@ -1249,6 +1623,30 @@
           "status": "in_stock_with_count",
           "stock_count": 10,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "E30-7T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/enerjet-by-aerotech-e30-4t-24mm-single-use-motor-1281.html",
+          "sku": "1281",
+          "price_cents": 2957,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:29:06",
+          "raw_designation": "E30-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/enerjet-by-aerotech-e30-7t-24mm-single-use-motor-1282.html",
+          "sku": "1282",
+          "price_cents": 2957,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:29:07",
           "raw_designation": "E30-7T"
         }
       ]
@@ -1421,6 +1819,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:52",
           "raw_designation": "F12"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f12-3j-reload-kit-201.html",
+          "sku": "201",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:29",
+          "raw_designation": "F12-3J"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f12-5j-reload-kit-202.html",
+          "sku": "202",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:30",
+          "raw_designation": "F12-5J"
         }
       ]
     },
@@ -1437,7 +1859,20 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
-      "listings": []
+      "listings": [
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f13rct-rms-rc-reload-kit-2-pack-lq-1966.html",
+          "sku": "1966",
+          "price_cents": 4084,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:31",
+          "raw_designation": "F13RCT"
+        }
+      ]
     },
     {
       "id": 46,
@@ -1563,6 +1998,30 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F20-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f20-4w-econojet-single-use-motor-2-pack-239.html",
+          "sku": "239",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:32",
+          "raw_designation": "F20-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f20-7w-econojet-single-use-motor-2-pack-245.html",
+          "sku": "245",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:33",
+          "raw_designation": "F20-7W"
         }
       ]
     },
@@ -1651,6 +2110,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "F22-7FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f22-5j-reload-kit-lq-184.html",
+          "sku": "184",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:34",
+          "raw_designation": "F22-5J"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f22-7j-reload-kit-lq-185.html",
+          "sku": "185",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:35",
+          "raw_designation": "F22-7J"
         }
       ]
     },
@@ -1754,6 +2237,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F23-7FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f23-4fj-econojet-single-use-motor-2-pack-246.html",
+          "sku": "246",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:36",
+          "raw_designation": "F23-4FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f23-7fj-econojet-single-use-motor-2-pack-247.html",
+          "sku": "247",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:37",
+          "raw_designation": "F23-7FJ"
         }
       ]
     },
@@ -1842,6 +2349,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:53",
           "raw_designation": "F24"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f24-4w-reload-kit-206.html",
+          "sku": "206",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:38",
+          "raw_designation": "F24-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f24-7w-reload-kit-207.html",
+          "sku": "207",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:39",
+          "raw_designation": "F24-7W"
         }
       ]
     },
@@ -1990,6 +2521,42 @@
           "stock_count": 9,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F25-9W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f25-4w-single-use-motor-lq-237.html",
+          "sku": "237",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:41",
+          "raw_designation": "F25-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f25-6w-single-use-motor-lq-252.html",
+          "sku": "252",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:41",
+          "raw_designation": "F25-6W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f25-9w-single-use-motor-lq-253.html",
+          "sku": "253",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:42",
+          "raw_designation": "F25-9W"
         }
       ]
     },
@@ -2089,6 +2656,30 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "F26-9FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f26-6fj-single-use-motor-lq-254.html",
+          "sku": "254",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:43",
+          "raw_designation": "F26-6FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f26-9fj-single-use-motor-lq-255.html",
+          "sku": "255",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:44",
           "raw_designation": "F26-9FJ"
         }
       ]
@@ -2201,6 +2792,30 @@
           "status": "in_stock_with_count",
           "stock_count": 3,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "F27-8R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f27-4r-econojet-single-use-motor-2-pack-248.html",
+          "sku": "248",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:45",
+          "raw_designation": "F27-4R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f27-8r-econojet-single-use-motor-2-pack-249.html",
+          "sku": "249",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:46",
           "raw_designation": "F27-8R"
         }
       ]
@@ -2362,6 +2977,42 @@
           "stock_count": 12,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F30-8FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f30-4fj-24mm-single-use-motor-695.html",
+          "sku": "695",
+          "price_cents": 2218,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:47",
+          "raw_designation": "F30-4FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f30-6fj-24mm-single-use-motor-696.html",
+          "sku": "696",
+          "price_cents": 2218,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:48",
+          "raw_designation": "F30-6FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f30-8fj-24mm-single-use-motor-697.html",
+          "sku": "697",
+          "price_cents": 2218,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:49",
+          "raw_designation": "F30-8FJ"
         }
       ]
     },
@@ -2522,6 +3173,42 @@
           "stock_count": 12,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F32-8T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f32-4t-24mm-single-use-motor-281.html",
+          "sku": "281",
+          "price_cents": 2218,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:51",
+          "raw_designation": "F32-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f32-6t-24mm-single-use-motor-283.html",
+          "sku": "283",
+          "price_cents": 2218,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:52",
+          "raw_designation": "F32-6T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f32-8t-24mm-single-use-motor-282.html",
+          "sku": "282",
+          "price_cents": 2218,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:52",
+          "raw_designation": "F32-8T"
         }
       ]
     },
@@ -2646,6 +3333,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:54",
           "raw_designation": "F35"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f35-11w-reload-kit-179.html",
+          "sku": "179",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:54",
+          "raw_designation": "F35-11W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f35-5w-reload-kit-178.html",
+          "sku": "178",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:55",
+          "raw_designation": "F35-5W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f35-8w-reload-kit-177.html",
+          "sku": "177",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:56",
+          "raw_designation": "F35-8W"
         }
       ]
     },
@@ -2674,6 +3397,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:54",
           "raw_designation": "F37-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f37w-14a-29mm-reload-kit-280.html",
+          "sku": "280",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:56",
+          "raw_designation": "F37W-14A"
         }
       ]
     },
@@ -2785,6 +3520,30 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:50",
+          "raw_designation": "F39-9T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f39-6t-reload-kit-213.html",
+          "sku": "213",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:57",
+          "raw_designation": "F39-6T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f39-9t-reload-kit-214.html",
+          "sku": "214",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:58",
           "raw_designation": "F39-9T"
         }
       ]
@@ -2946,6 +3705,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "F40-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f40-10w-reload-kit-lq-188.html",
+          "sku": "188",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:59",
+          "raw_designation": "F40-10W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f40-4w-reload-kit-lq-186.html",
+          "sku": "186",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:00",
+          "raw_designation": "F40-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f40-7w-reload-kit-lq-187.html",
+          "sku": "187",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:01",
+          "raw_designation": "F40-7W"
         }
       ]
     },
@@ -3058,6 +3853,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F42-8T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f42-4t-econojet-single-use-motor-2-pack-250.html",
+          "sku": "250",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:02",
+          "raw_designation": "F42-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f42-8t-econojet-single-use-motor-2-pack-251.html",
+          "sku": "251",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:03",
+          "raw_designation": "F42-8T"
         }
       ]
     },
@@ -3169,6 +3988,30 @@
           "status": "in_stock_with_count",
           "stock_count": 8,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "F44-8W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-f44-4w-24mm-single-use-motor-2-pack-1550.html",
+          "sku": "1550",
+          "price_cents": 3392,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:21",
+          "raw_designation": "F44-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-f44-8w-24mm-single-use-motor-2-pack-1551.html",
+          "sku": "1551",
+          "price_cents": 3392,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:22",
           "raw_designation": "F44-8W"
         }
       ]
@@ -3330,6 +4173,42 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F50-9T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f50-4t-single-use-motor-lq-256.html",
+          "sku": "256",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:05",
+          "raw_designation": "F50-4T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f50-6t-single-use-motor-lq-257.html",
+          "sku": "257",
+          "price_cents": 3131,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:06",
+          "raw_designation": "F50-6T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f50-9t-single-use-motor-lq-258.html",
+          "sku": "258",
+          "price_cents": 3419,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:06",
+          "raw_designation": "F50-9T"
         }
       ]
     },
@@ -3393,6 +4272,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:51",
+          "raw_designation": "F51-10NT"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f51-10nt-reload-kit-1903.html",
+          "sku": "1903",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:07",
           "raw_designation": "F51-10NT"
         }
       ]
@@ -3541,6 +4432,42 @@
           "status": "in_stock_with_count",
           "stock_count": 26,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "F52-8C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f52-12c-classic-enerjet-single-use-motor-2-pack-2047.html",
+          "sku": "2047",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:09",
+          "raw_designation": "F52-12C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f52-5c-classic-enerjet-single-use-motor-2-pack-2045.html",
+          "sku": "2045",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:10",
+          "raw_designation": "F52-5C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f52-8c-classic-enerjet-single-use-motor-2-pack-2046.html",
+          "sku": "2046",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:12",
           "raw_designation": "F52-8C"
         }
       ]
@@ -3702,6 +4629,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "F52-8T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f52-11t-reload-kit-lq-295.html",
+          "sku": "295",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:08",
+          "raw_designation": "F52-11T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f52-5t-reload-kit-lq-189.html",
+          "sku": "189",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:11",
+          "raw_designation": "F52-5T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f52-8t-reload-kit-lq-296.html",
+          "sku": "296",
+          "price_cents": 2184,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:13",
+          "raw_designation": "F52-8T"
         }
       ]
     },
@@ -3742,6 +4705,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:56",
           "raw_designation": "F62"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f62-10fj-reload-kit-1906.html",
+          "sku": "1906",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:14",
+          "raw_designation": "F62-10FJ"
         }
       ]
     },
@@ -3793,6 +4768,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:56",
+          "raw_designation": "F62T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f62t-14a-29mm-reload-kit-1824.html",
+          "sku": "1824",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:15",
           "raw_designation": "F62T-14A"
         }
       ]
@@ -3846,6 +4833,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:56",
           "raw_designation": "F63"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f63-10r-reload-kit-1905.html",
+          "sku": "1905",
+          "price_cents": 3305,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:16",
+          "raw_designation": "F63-10R"
         }
       ]
     },
@@ -3946,6 +4945,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:56",
           "raw_designation": "F67-C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f67-14c-classic-enerjet-single-use-motor-2-pack-lq-2124.html",
+          "sku": "2124",
+          "price_cents": 4369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:17",
+          "raw_designation": "F67-14C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f67-6c-classic-enerjet-single-use-motor-2-pack-lq-2122.html",
+          "sku": "2122",
+          "price_cents": 4369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:18",
+          "raw_designation": "F67-6C"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-f67-9c-classic-enerjet-single-use-motor-2-pack-lq-2123.html",
+          "sku": "2123",
+          "price_cents": 4369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:19",
+          "raw_designation": "F67-9C"
         }
       ]
     },
@@ -4106,6 +5141,42 @@
           "stock_count": 14,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "F67-9W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-f67-4w-29mm-single-use-motor-2-pack-1884.html",
+          "sku": "1884",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:23",
+          "raw_designation": "F67-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-f67-6w-29mm-single-use-motor-2-pack-1885.html",
+          "sku": "1885",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:25",
+          "raw_designation": "F67-6W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-f67-9w-29mm-single-use-motor-2-pack-1886.html",
+          "sku": "1886",
+          "price_cents": 3827,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:25",
+          "raw_designation": "F67-9W"
         }
       ]
     },
@@ -4169,6 +5240,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:53",
+          "raw_designation": "G104T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g104t-14a-high-power-29mm-reload-kit-1839.html",
+          "sku": "1839",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:25",
           "raw_designation": "G104T-14A"
         }
       ]
@@ -4289,6 +5372,18 @@
           "stock_count": 11,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "G125T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-g125t-14a-dms-single-use-motor-lq-1461.html",
+          "sku": "1461",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:07",
+          "raw_designation": "G125T-14A"
         }
       ]
     },
@@ -4353,6 +5448,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "G12ST-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g12st-p-dms-single-use-motor-hazmat-2103.html",
+          "sku": "2103",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:27",
+          "raw_designation": "G12ST-P"
         }
       ]
     },
@@ -4405,6 +5512,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:57",
           "raw_designation": "G25-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g25w-10a-29mm-reload-kit-hazmat-1476.html",
+          "sku": "1476",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:28",
+          "raw_designation": "G25W-10A"
         }
       ]
     },
@@ -4532,6 +5651,30 @@
           "status": "in_stock_with_count",
           "stock_count": 11,
           "seen_at": "2026-05-31T02:57:35",
+          "raw_designation": "G38-7FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g38-4fj-single-use-motor-lq-279.html",
+          "sku": "279",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:30",
+          "raw_designation": "G38-4FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g38-7fj-single-use-motor-lq-238.html",
+          "sku": "238",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:30",
           "raw_designation": "G38-7FJ"
         }
       ]
@@ -4693,6 +5836,42 @@
           "stock_count": 12,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "G40-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g40-10w-single-use-motor-lq-264.html",
+          "sku": "264",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:31",
+          "raw_designation": "G40-10W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g40-4w-single-use-motor-lq-262.html",
+          "sku": "262",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:32",
+          "raw_designation": "G40-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g40-7w-single-use-motor-lq-263.html",
+          "sku": "263",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:34",
+          "raw_designation": "G40-7W"
         }
       ]
     },
@@ -4853,6 +6032,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "G53-7FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g53-10fj-reload-kit-293.html",
+          "sku": "293",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:34",
+          "raw_designation": "G53-10FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g53-5fj-reload-kit-191.html",
+          "sku": "191",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:35",
+          "raw_designation": "G53-5FJ"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g53-7fj-reload-kit-192.html",
+          "sku": "192",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:36",
+          "raw_designation": "G53-7FJ"
         }
       ]
     },
@@ -4917,6 +6132,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:53",
           "raw_designation": "G54W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g54w-14a-29mm-reload-kit-1860.html",
+          "sku": "1860",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:37",
+          "raw_designation": "G54W-14A"
         }
       ]
     },
@@ -4980,6 +6207,18 @@
           "status": "in_stock_with_count",
           "stock_count": 2,
           "seen_at": "2026-05-31T02:57:56",
+          "raw_designation": "G61W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g61w-14a-38mm-reload-kit-lq-1841.html",
+          "sku": "1841",
+          "price_cents": 3324,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:38",
           "raw_designation": "G61W-14A"
         }
       ]
@@ -5141,6 +6380,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "G64-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g64-10w-reload-kit-195.html",
+          "sku": "195",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:39",
+          "raw_designation": "G64-10W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g64-4w-reload-kit-193.html",
+          "sku": "193",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:40",
+          "raw_designation": "G64-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g64-7w-reload-kit-194.html",
+          "sku": "194",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:42",
+          "raw_designation": "G64-7W"
         }
       ]
     },
@@ -5205,6 +6480,18 @@
           "stock_count": 5,
           "seen_at": "2026-05-31T02:57:56",
           "raw_designation": "G67R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g67r-14a-38mm-reload-kit-lq-1720.html",
+          "sku": "1720",
+          "price_cents": 3324,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:43",
+          "raw_designation": "G67R-14A"
         }
       ]
     },
@@ -5244,6 +6531,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:23:59",
+          "raw_designation": "G69N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g69n-p-38mm-reload-kit-hazmat-219.html",
+          "sku": "219",
+          "price_cents": 3044,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:44",
           "raw_designation": "G69N-P"
         }
       ]
@@ -5308,6 +6607,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "G72DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-g72dm-14a-dms-single-use-motor-hazmat-1982.html",
+          "sku": "1982",
+          "price_cents": 3509,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:07",
           "raw_designation": "G72DM-14A"
         }
       ]
@@ -5521,6 +6832,42 @@
           "stock_count": 14,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "G74-9W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-g74-4w-29mm-single-use-motor-2-pack-lq-2021.html",
+          "sku": "2021",
+          "price_cents": 5509,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:26",
+          "raw_designation": "G74-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-g74-6w-29mm-single-use-motor-2-pack-lq-1552.html",
+          "sku": "1552",
+          "price_cents": 5509,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:27",
+          "raw_designation": "G74-6W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-economax-g74-9w-29mm-single-use-motor-2-pack-lq-1553.html",
+          "sku": "1553",
+          "price_cents": 5509,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:23:28",
+          "raw_designation": "G74-9W"
         }
       ]
     },
@@ -5572,6 +6919,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:54",
+          "raw_designation": "G75J-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g75j-10a-29mm-reload-kit-hazmat-303.html",
+          "sku": "303",
+          "price_cents": 3044,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:44",
           "raw_designation": "G75J-10A"
         }
       ]
@@ -5785,6 +7144,42 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "G76-7G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g76-10g-reload-kit-553.html",
+          "sku": "553",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:45",
+          "raw_designation": "G76-10G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g76-4g-reload-kit-199.html",
+          "sku": "199",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:46",
+          "raw_designation": "G76-4G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g76-7g-reload-kit-200.html",
+          "sku": "200",
+          "price_cents": 2261,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:47",
+          "raw_designation": "G76-7G"
         }
       ]
     },
@@ -5945,6 +7340,66 @@
           "stock_count": 6,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "G77-7R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g77-10r-l-lms-motor-kit-230.html",
+          "sku": "230",
+          "price_cents": 2664,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:48",
+          "raw_designation": "G77-10R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g77-10r-single-use-motor-lq-267.html",
+          "sku": "267",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:49",
+          "raw_designation": "G77-10R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g77-4r-single-use-motor-lq-265.html",
+          "sku": "265",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:50",
+          "raw_designation": "G77-4R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g77-7r-single-use-motor-lq-266.html",
+          "sku": "266",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:51",
+          "raw_designation": "G77-7R"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g77r-14a-29mm-reload-kit-1840.html",
+          "sku": "1840",
+          "price_cents": 2435,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:52",
+          "raw_designation": "G77R-14A"
         }
       ]
     },
@@ -6157,6 +7612,54 @@
           "stock_count": 11,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "G78-7G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g78-10g-single-use-motor-lq-270.html",
+          "sku": "270",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:53",
+          "raw_designation": "G78-10G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g78-4g-single-use-motor-lq-268.html",
+          "sku": "268",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:54",
+          "raw_designation": "G78-4G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g78-7g-l-lms-motor-kit-232.html",
+          "sku": "232",
+          "price_cents": 2664,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:56",
+          "raw_designation": "G78-7G"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g78-7g-single-use-motor-lq-269.html",
+          "sku": "269",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:56",
+          "raw_designation": "G78-7G"
         }
       ]
     },
@@ -6281,6 +7784,54 @@
           "stock_count": 6,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "G79-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g79-10w-single-use-motor-lq-273.html",
+          "sku": "273",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:57",
+          "raw_designation": "G79-10W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g79-4w-single-use-motor-lq-271.html",
+          "sku": "271",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:58",
+          "raw_designation": "G79-4W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g79-7w-single-use-motor-lq-272.html",
+          "sku": "272",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:59",
+          "raw_designation": "G79-7W"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g79w-14a-29mm-reload-kit-1825.html",
+          "sku": "1825",
+          "price_cents": 2696,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:00",
+          "raw_designation": "G79W-14A"
         }
       ]
     },
@@ -6541,6 +8092,54 @@
           "stock_count": 11,
           "seen_at": "2026-05-31T02:57:35",
           "raw_designation": "G80-7T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g80-10t-single-use-motor-lq-260.html",
+          "sku": "260",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:01",
+          "raw_designation": "G80-10T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g80-13t-single-use-motor-lq-261.html",
+          "sku": "261",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:02",
+          "raw_designation": "G80-13T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g80-7t-single-use-motor-lq-259.html",
+          "sku": "259",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:03",
+          "raw_designation": "G80-7T"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g80t-14a-dms-single-use-motor-lq-1389.html",
+          "sku": "1389",
+          "price_cents": 3704,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:04",
+          "raw_designation": "G80T-14A"
         }
       ]
     },
@@ -6592,6 +8191,18 @@
           "status": "in_stock_with_count",
           "stock_count": 9,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "G8ST-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g8st-p-dms-single-use-motor-hazmat-2130.html",
+          "sku": "2130",
+          "price_cents": 3740,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:05",
           "raw_designation": "G8ST-P"
         }
       ]
@@ -6657,6 +8268,18 @@
           "stock_count": 5,
           "seen_at": "2026-05-31T02:57:52",
           "raw_designation": "G138T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html",
+          "sku": "744",
+          "price_cents": 2783,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:24:28",
+          "raw_designation": "G138T-14A"
         }
       ]
     },
@@ -6721,6 +8344,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "H100W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h100w-14a-38mm-dms-hazmat-1649.html",
+          "sku": "1649",
+          "price_cents": 4949,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:08",
+          "raw_designation": "H100W-14A"
         }
       ]
     },
@@ -6749,6 +8384,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:02",
           "raw_designation": "H112J-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h112j-reload-kit-hazmat-377.html",
+          "sku": "377",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:09",
+          "raw_designation": "H112J"
         }
       ]
     },
@@ -6812,6 +8459,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:57",
+          "raw_designation": "H123W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h123w-14a-rms-reload-kit-hazmat-1556.html",
+          "sku": "1556",
+          "price_cents": 3914,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:12",
           "raw_designation": "H123W-14A"
         }
       ]
@@ -6877,6 +8536,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:54",
           "raw_designation": "H128W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h128w-14a-reload-kit-362.html",
+          "sku": "362",
+          "price_cents": 3044,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:13",
+          "raw_designation": "H128W-14A"
         }
       ]
     },
@@ -6928,6 +8599,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:57",
+          "raw_designation": "H130W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h130w-14a-rms-reload-kit-1698.html",
+          "sku": "1698",
+          "price_cents": 4001,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:13",
           "raw_designation": "H130W-14A"
         }
       ]
@@ -7017,6 +8700,30 @@
           "stock_count": 5,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "H13ST-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h13st-p-29mm-dms-hazmat-2030.html",
+          "sku": "2030",
+          "price_cents": 5219,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:16",
+          "raw_designation": "H13ST-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h13st-p-ntr-29mm-dms-hazmat-2029.html",
+          "sku": "2029",
+          "price_cents": 5219,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:16",
+          "raw_designation": "H13ST-P-NTR"
         }
       ]
     },
@@ -7080,6 +8787,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:57",
+          "raw_designation": "H148R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h148r-14a-reload-kit-hazmat-1721.html",
+          "sku": "1721",
+          "price_cents": 3914,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:17",
           "raw_designation": "H148R-14A"
         }
       ]
@@ -7233,6 +8952,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:54",
           "raw_designation": "H165R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h165r-14a-reload-kit-363.html",
+          "sku": "363",
+          "price_cents": 3044,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:19",
+          "raw_designation": "H165R-14A"
         }
       ]
     },
@@ -7296,6 +9027,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "H169WS-13A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h169ws-13a-29mm-dms-hazmat-2002.html",
+          "sku": "2002",
+          "price_cents": 4229,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:19",
           "raw_designation": "H169WS-13A"
         }
       ]
@@ -7361,6 +9104,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "H170M-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h170m-14a-reload-kit-hazmat-581.html",
+          "sku": "581",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:20",
+          "raw_designation": "H170M-14A"
         }
       ]
     },
@@ -7425,6 +9180,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "H178DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h178dm-reload-kit-hazmat-1264.html",
+          "sku": "1264",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:22",
+          "raw_designation": "H178DM"
         }
       ]
     },
@@ -7488,6 +9255,18 @@
           "status": "in_stock_with_count",
           "stock_count": 2,
           "seen_at": "2026-05-31T02:57:55",
+          "raw_designation": "H180W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h180w-14a-reload-kit-1789.html",
+          "sku": "1789",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:22",
           "raw_designation": "H180W-14A"
         }
       ]
@@ -7553,6 +9332,18 @@
           "stock_count": 2,
           "seen_at": "2026-05-31T02:57:55",
           "raw_designation": "H210R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h210r-14a-reload-kit-367.html",
+          "sku": "367",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:25",
+          "raw_designation": "H210R-14A"
         }
       ]
     },
@@ -7616,6 +9407,18 @@
           "status": "in_stock_with_count",
           "stock_count": 13,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "H219T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h219t-14a-38mm-dms-hazmat-1861.html",
+          "sku": "1861",
+          "price_cents": 4949,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:26",
           "raw_designation": "H219T-14A"
         }
       ]
@@ -7681,6 +9484,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:57:55",
           "raw_designation": "H220T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h220t-14a-reload-kit-1836.html",
+          "sku": "1836",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:27",
+          "raw_designation": "H220T-14A"
         }
       ]
     },
@@ -7744,6 +9559,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:54",
+          "raw_designation": "H238T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h238t-14a-reload-kit-364.html",
+          "sku": "364",
+          "price_cents": 3044,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:28",
           "raw_designation": "H238T-14A"
         }
       ]
@@ -7809,6 +9636,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:57",
           "raw_designation": "H242T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h242t-14a-reload-kit-hazmat-1775.html",
+          "sku": "1775",
+          "price_cents": 3914,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:29",
+          "raw_designation": "H242T-14A"
         }
       ]
     },
@@ -7873,6 +9712,18 @@
           "stock_count": 2,
           "seen_at": "2026-05-31T02:57:55",
           "raw_designation": "H250G-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h250g-14a-reload-kit-368.html",
+          "sku": "368",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:30",
+          "raw_designation": "H250G-14A"
         }
       ]
     },
@@ -7924,6 +9775,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:07",
+          "raw_designation": "H268R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h268r-14a-reload-kit-370.html",
+          "sku": "370",
+          "price_cents": 4523,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:31",
           "raw_designation": "H268R-14A"
         }
       ]
@@ -7989,6 +9852,18 @@
           "stock_count": 19,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "H283ST-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h283st-14a-38mm-dms-hazmat-1872.html",
+          "sku": "1872",
+          "price_cents": 4949,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:32",
+          "raw_designation": "H283ST-14A"
         }
       ]
     },
@@ -8041,6 +9916,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "H550ST-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h550st-14a-38mm-dms-hazmat-1638.html",
+          "sku": "1638",
+          "price_cents": 5669,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:34",
+          "raw_designation": "H550ST-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h550st-14a-rms-reload-kit-hazmat-1587.html",
+          "sku": "1587",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:35",
+          "raw_designation": "H550ST-14A"
         }
       ]
     },
@@ -8068,6 +9967,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:08",
+          "raw_designation": "H669N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h669n-p-reload-kit-hazmat-375.html",
+          "sku": "375",
+          "price_cents": 4262,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:37",
           "raw_designation": "H669N-P"
         }
       ]
@@ -8121,6 +10032,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:57",
           "raw_designation": "H73J-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h73j-10a-reload-kit-hazmat-1813.html",
+          "sku": "1813",
+          "price_cents": 3914,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:37",
+          "raw_designation": "H73J-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h73j-reload-kit-hazmat-323.html",
+          "sku": "323",
+          "price_cents": 4784,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:38",
+          "raw_designation": "H73J"
         }
       ]
     },
@@ -8173,6 +10108,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:55",
           "raw_designation": "H97J-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h97j-10a-reload-kit-hazmat-360.html",
+          "sku": "360",
+          "price_cents": 3653,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:39",
+          "raw_designation": "H97J-10A"
         }
       ]
     },
@@ -8212,6 +10159,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:08",
+          "raw_designation": "H999N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h999n-p-reload-kit-hazmat-382.html",
+          "sku": "382",
+          "price_cents": 5654,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:40",
           "raw_designation": "H999N-P"
         }
       ]
@@ -8277,6 +10236,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "H115DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h115dm-14a-29mm-dms-hazmat-1459.html",
+          "sku": "1459",
+          "price_cents": 4229,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:11",
+          "raw_designation": "H115DM-14A"
         }
       ]
     },
@@ -8340,6 +10311,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "H135W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h135w-14a-29mm-dms-hazmat-1336.html",
+          "sku": "1336",
+          "price_cents": 4229,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:14",
           "raw_designation": "H135W-14A"
         }
       ]
@@ -8405,6 +10388,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "H182R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h182r-14a-29mm-dms-hazmat-1509.html",
+          "sku": "1509",
+          "price_cents": 4229,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:23",
+          "raw_designation": "H182R-14A"
         }
       ]
     },
@@ -8469,6 +10464,18 @@
           "stock_count": 5,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "H195NT-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h195nt-14a-29mm-dms-hazmat-1390.html",
+          "sku": "1390",
+          "price_cents": 4229,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:24",
+          "raw_designation": "H195NT-14A"
         }
       ]
     },
@@ -8532,6 +10539,18 @@
           "status": "in_stock_with_count",
           "stock_count": 4,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "H45W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h45w-p-38mm-dms-hazmat-1511.html",
+          "sku": "1511",
+          "price_cents": 5669,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:33",
           "raw_designation": "H45W-P"
         }
       ]
@@ -8661,6 +10680,18 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "I140W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i140w-14a-38mm-dms-hazmat-1335.html",
+          "sku": "1335",
+          "price_cents": 5849,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:46",
+          "raw_designation": "I140W-14A"
         }
       ]
     },
@@ -8724,6 +10755,18 @@
           "status": "in_stock_with_count",
           "stock_count": 27,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "I205W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i205w-14a-29mm-dms-hazmat-1510.html",
+          "sku": "1510",
+          "price_cents": 5759,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:54",
           "raw_designation": "I205W-14A"
         }
       ]
@@ -8789,6 +10832,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "I280DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i280dm-14a-38mm-dms-hazmat-1407.html",
+          "sku": "1407",
+          "price_cents": 8729,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:01",
+          "raw_designation": "I280DM-14A"
         }
       ]
     },
@@ -8853,6 +10908,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "I500T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i500t-14a-38mm-dms-hazmat-1460.html",
+          "sku": "1460",
+          "price_cents": 8729,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:12",
+          "raw_designation": "I500T-14A"
         }
       ]
     },
@@ -8904,6 +10971,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "I65W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i65w-p-54mm-dms-hazmat-1513.html",
+          "sku": "1513",
+          "price_cents": 10439,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:17",
           "raw_designation": "I65W-P"
         }
       ]
@@ -8957,6 +11036,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:04",
           "raw_designation": "I115W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i115w-reload-kit-hazmat-421.html",
+          "sku": "421",
+          "price_cents": 6524,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:43",
+          "raw_designation": "I115W"
         }
       ]
     },
@@ -8985,6 +11076,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:09",
           "raw_designation": "I117FJ-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i117fj-reload-kit-hazmat-423.html",
+          "sku": "423",
+          "price_cents": 6524,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:45",
+          "raw_designation": "I117FJ"
         }
       ]
     },
@@ -9049,6 +11152,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:59",
           "raw_designation": "I1299N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i1299n-p-reload-kit-hazmat-389.html",
+          "sku": "389",
+          "price_cents": 6698,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:46",
+          "raw_designation": "I1299N-P"
         }
       ]
     },
@@ -9076,6 +11191,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:09",
+          "raw_designation": "I154J-10A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i154j-10a-reload-kit-hazmat-384.html",
+          "sku": "384",
+          "price_cents": 6350,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:47",
           "raw_designation": "I154J-10A"
         }
       ]
@@ -9141,6 +11268,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "I161W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i161w-14a-rms-reload-kit-hazmat-1415.html",
+          "sku": "1415",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:48",
+          "raw_designation": "I161W-14A"
         }
       ]
     },
@@ -9193,6 +11332,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:04",
           "raw_designation": "I170G-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i170g-10a-reload-kit-hazmat-1011.html",
+          "sku": "1011",
+          "price_cents": 6524,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:49",
+          "raw_designation": "I170G-10A"
         }
       ]
     },
@@ -9257,6 +11408,18 @@
           "stock_count": 5,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "I175WS-13A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i175ws-13a-38mm-dms-hazmat-2017.html",
+          "sku": "2017",
+          "price_cents": 5849,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:51",
+          "raw_designation": "I175WS-13A"
         }
       ]
     },
@@ -9309,6 +11472,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "I180W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i180w-14a-rms-reload-kit-1699.html",
+          "sku": "1699",
+          "price_cents": 5480,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:52",
+          "raw_designation": "I180W-14A"
         }
       ]
     },
@@ -9325,7 +11500,20 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
-      "listings": []
+      "listings": [
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i195j-10a-reload-kit-hazmat-1842.html",
+          "sku": "1842",
+          "price_cents": 7220,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:53",
+          "raw_designation": "I195J-10A"
+        }
+      ]
     },
     {
       "id": 113,
@@ -9375,6 +11563,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:10",
+          "raw_designation": "I200W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i200w-14a-reload-kit-1790.html",
+          "sku": "1790",
+          "price_cents": 5132,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:53",
           "raw_designation": "I200W-14A"
         }
       ]
@@ -9440,6 +11640,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:59",
           "raw_designation": "I211W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i211w-14a-rms-reload-kit-hazmat-1417.html",
+          "sku": "1417",
+          "price_cents": 6350,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:55",
+          "raw_designation": "I211W-14A"
         }
       ]
     },
@@ -9504,6 +11716,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:04",
           "raw_designation": "I215R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i215r-reload-kit-hazmat-424.html",
+          "sku": "424",
+          "price_cents": 6524,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:56",
+          "raw_designation": "I215R"
         }
       ]
     },
@@ -9568,6 +11792,18 @@
           "stock_count": 2,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "I218R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i218r-14a-reload-kit-hazmat-1771.html",
+          "sku": "1771",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:58",
+          "raw_designation": "I218R-14A"
         }
       ]
     },
@@ -9595,6 +11831,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:11",
+          "raw_designation": "I225FJ-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i225fj-14a-reload-kit-hazmat-386.html",
+          "sku": "386",
+          "price_cents": 6350,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:58",
           "raw_designation": "I225FJ-14A"
         }
       ]
@@ -9660,6 +11908,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:04",
           "raw_designation": "I229T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i229t-reload-kit-hazmat-422.html",
+          "sku": "422",
+          "price_cents": 6524,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:25:59",
+          "raw_designation": "I229T"
         }
       ]
     },
@@ -9723,6 +11983,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:58",
+          "raw_designation": "I245G-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i245g-14a-reload-kit-hazmat-380.html",
+          "sku": "380",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:01",
           "raw_designation": "I245G-14A"
         }
       ]
@@ -9788,6 +12060,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:00",
           "raw_designation": "I284W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i284w-14a-rms-reload-kit-hazmat-1557.html",
+          "sku": "1557",
+          "price_cents": 7220,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:02",
+          "raw_designation": "I284W-14A"
         }
       ]
     },
@@ -9851,6 +12135,18 @@
           "status": "in_stock_with_count",
           "stock_count": 1,
           "seen_at": "2026-05-31T02:57:59",
+          "raw_designation": "I285R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i285r-14a-reload-kit-hazmat-1722.html",
+          "sku": "1722",
+          "price_cents": 6698,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:03",
           "raw_designation": "I285R-14A"
         }
       ]
@@ -9916,6 +12212,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:59",
           "raw_designation": "I300T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i300t-14a-reload-kit-hazmat-388.html",
+          "sku": "388",
+          "price_cents": 6350,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:04",
+          "raw_designation": "I300T-14A"
         }
       ]
     },
@@ -9932,7 +12240,20 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
-      "listings": []
+      "listings": [
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i305fj-14a-reload-kit-hazmat-392.html",
+          "sku": "392",
+          "price_cents": 7220,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:06",
+          "raw_designation": "I305FJ-14A"
+        }
+      ]
     },
     {
       "id": 139,
@@ -9995,6 +12316,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:01",
           "raw_designation": "I327DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i327dm-reload-kit-hazmat-1263.html",
+          "sku": "1263",
+          "price_cents": 7829,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:06",
+          "raw_designation": "I327DM"
         }
       ]
     },
@@ -10074,6 +12407,18 @@
           "stock_count": 4,
           "seen_at": "2026-05-31T02:57:58",
           "raw_designation": "I357T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i357t-14a-rms-reload-kit-hazmat-1416.html",
+          "sku": "1416",
+          "price_cents": 5393,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:07",
+          "raw_designation": "I357T-14A"
         }
       ]
     },
@@ -10090,7 +12435,20 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
-      "listings": []
+      "listings": [
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i364fj-14a-reload-kit-hazmat-395.html",
+          "sku": "395",
+          "price_cents": 7829,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:09",
+          "raw_designation": "I364FJ-14A"
+        }
+      ]
     },
     {
       "id": 140,
@@ -10153,6 +12511,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:00",
           "raw_designation": "I366R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i366r-14a-reload-kit-hazmat-1718.html",
+          "sku": "1718",
+          "price_cents": 7220,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:09",
+          "raw_designation": "I366R-14A"
         }
       ]
     },
@@ -10193,6 +12563,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:13",
           "raw_designation": "I40N"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i40n-p-38mm-dms-hazmat-2108.html",
+          "sku": "2108",
+          "price_cents": 6299,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:10",
+          "raw_designation": "I40N-P"
         }
       ]
     },
@@ -10256,6 +12638,18 @@
           "status": "in_stock_with_count",
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:00",
+          "raw_designation": "I435T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i435t-14a-reload-kit-hazmat-1723.html",
+          "sku": "1723",
+          "price_cents": 7220,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:11",
           "raw_designation": "I435T-14A"
         }
       ]
@@ -10349,6 +12743,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:04",
           "raw_designation": "I599N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i599n-p-reload-kit-hazmat-425.html",
+          "sku": "425",
+          "price_cents": 7133,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:13",
+          "raw_designation": "I599N-P"
         }
       ]
     },
@@ -10412,6 +12818,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:59",
+          "raw_designation": "I59WN-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i59wn-p-reload-kit-hazmat-383.html",
+          "sku": "383",
+          "price_cents": 6698,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:15",
           "raw_designation": "I59WN-P"
         }
       ]
@@ -10477,6 +12895,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:01",
           "raw_designation": "I600R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i600r-14a-reload-kit-hazmat-1772.html",
+          "sku": "1772",
+          "price_cents": 7829,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:16",
+          "raw_designation": "I600R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i600r-reload-kit-hazmat-396.html",
+          "sku": "396",
+          "price_cents": 7829,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:17",
+          "raw_designation": "I600R"
         }
       ]
     },
@@ -10541,6 +12983,18 @@
           "stock_count": 20,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "J270W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j270w-14a-38mm-dms-hazmat-1337.html",
+          "sku": "1337",
+          "price_cents": 9269,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:25",
+          "raw_designation": "J270W-14A"
         }
       ]
     },
@@ -10604,6 +13058,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "J425R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j425r-14a-38mm-dms-hazmat-1512.html",
+          "sku": "1512",
+          "price_cents": 8369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:32",
           "raw_designation": "J425R-14A"
         }
       ]
@@ -10684,6 +13150,18 @@
           "stock_count": 4,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J1299N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j1299n-p-reload-kit-hazmat-433.html",
+          "sku": "433",
+          "price_cents": 10091,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:18",
+          "raw_designation": "J1299N-P"
         }
       ]
     },
@@ -10748,6 +13226,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "J135W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j135w-l-reload-kit-hazmat-434.html",
+          "sku": "434",
+          "price_cents": 10700,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:19",
+          "raw_designation": "J135W-L"
         }
       ]
     },
@@ -10811,6 +13301,18 @@
           "status": "in_stock_with_count",
           "stock_count": 2,
           "seen_at": "2026-05-31T02:58:07",
+          "raw_designation": "J1799N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j1799n-p-reload-kit-hazmat-439.html",
+          "sku": "439",
+          "price_cents": 12962,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:21",
           "raw_designation": "J1799N-P"
         }
       ]
@@ -10876,6 +13378,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J180T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j180t-14a-reload-kit-hazmat-428.html",
+          "sku": "428",
+          "price_cents": 9569,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:21",
+          "raw_designation": "J180T-14A"
         }
       ]
     },
@@ -10928,6 +13442,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J250FJ-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j250fj-l-reload-kit-hazmat-429.html",
+          "sku": "429",
+          "price_cents": 9569,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:22",
+          "raw_designation": "J250FJ-L"
         }
       ]
     },
@@ -10991,6 +13517,18 @@
           "status": "in_stock_with_count",
           "stock_count": 15,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "J250W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j250w-14a-54mm-dms-hazmat-1650.html",
+          "sku": "1650",
+          "price_cents": 11609,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:23",
           "raw_designation": "J250W-14A"
         }
       ]
@@ -11056,6 +13594,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J275W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j275w-l-reload-kit-hazmat-430.html",
+          "sku": "430",
+          "price_cents": 9569,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:25",
+          "raw_designation": "J275W-L"
         }
       ]
     },
@@ -11120,6 +13670,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J315R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j315r-l-reload-kit-hazmat-431.html",
+          "sku": "431",
+          "price_cents": 9569,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:26",
+          "raw_designation": "J315R-L"
         }
       ]
     },
@@ -11184,6 +13746,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:01",
           "raw_designation": "J340M-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j340-m14a-reload-kit-hazmat-580.html",
+          "sku": "580",
+          "price_cents": 8351,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:27",
+          "raw_designation": "J340-M14A"
         }
       ]
     },
@@ -11248,6 +13822,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:01",
           "raw_designation": "J350W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j350w-14a-rms-reload-kit-hazmat-1558.html",
+          "sku": "1558",
+          "price_cents": 8351,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:28",
+          "raw_designation": "J350W-14A"
         }
       ]
     },
@@ -11275,6 +13861,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:17",
+          "raw_designation": "J401FJ-L"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j401fj-l-reload-kit-hazmat-435.html",
+          "sku": "435",
+          "price_cents": 10700,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:29",
           "raw_designation": "J401FJ-L"
         }
       ]
@@ -11340,6 +13938,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "J415W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j415w-l-reload-kit-hazmat-436.html",
+          "sku": "436",
+          "price_cents": 10700,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:30",
+          "raw_designation": "J415W-L"
         }
       ]
     },
@@ -11403,6 +14013,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:01",
+          "raw_designation": "J420R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j420r-14a-reload-kit-hazmat-1724.html",
+          "sku": "1724",
+          "price_cents": 7568,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:31",
           "raw_designation": "J420R-14A"
         }
       ]
@@ -11468,6 +14090,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "J435WS-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j435ws-14a-38mm-dms-hazmat-1871.html",
+          "sku": "1871",
+          "price_cents": 8369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:33",
+          "raw_designation": "J435WS-14A"
         }
       ]
     },
@@ -11531,6 +14165,18 @@
           "status": "in_stock_with_count",
           "stock_count": 10,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "J450DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j450dm-14a-54mm-dms-hazmat-1869.html",
+          "sku": "1869",
+          "price_cents": 13679,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:34",
           "raw_designation": "J450DM-14A"
         }
       ]
@@ -11596,6 +14242,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J460T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j460t-l-reload-kit-hazmat-432.html",
+          "sku": "432",
+          "price_cents": 8699,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:36",
+          "raw_designation": "J460T-L"
         }
       ]
     },
@@ -11659,6 +14317,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:01",
+          "raw_designation": "J500G-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j500g-14a-reload-kit-hazmat-399.html",
+          "sku": "399",
+          "price_cents": 8438,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:36",
           "raw_designation": "J500G-14A"
         }
       ]
@@ -11724,6 +14394,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:03",
           "raw_designation": "J510W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j510w-14a-reload-kit-hazmat-1827.html",
+          "sku": "1827",
+          "price_cents": 11222,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:37",
+          "raw_designation": "J510W-14A"
         }
       ]
     },
@@ -11776,6 +14458,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:02",
           "raw_designation": "J520W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j520w-13a-rms-reload-kit-1873.html",
+          "sku": "1873",
+          "price_cents": 9134,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:38",
+          "raw_designation": "J520W-13A"
         }
       ]
     },
@@ -11840,6 +14534,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "J540R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j540r-l-reload-kit-hazmat-437.html",
+          "sku": "437",
+          "price_cents": 11831,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:39",
+          "raw_designation": "J540R-L"
         }
       ]
     },
@@ -11903,6 +14609,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
+          "raw_designation": "J550ST-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j550st-14a-reload-kit-hazmat-2188.html",
+          "sku": "2188",
+          "price_cents": 9569,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:41",
           "raw_designation": "J550ST-14A"
         }
       ]
@@ -11968,6 +14686,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:02",
           "raw_designation": "J570W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j570w-14a-rms-reload-kit-hazmat-1559.html",
+          "sku": "1559",
+          "price_cents": 9917,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:41",
+          "raw_designation": "J570W-14A"
         }
       ]
     },
@@ -11995,6 +14725,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:20",
+          "raw_designation": "J575FJ-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j575fj-14a-reload-kit-hazmat-1773.html",
+          "sku": "1773",
+          "price_cents": 10091,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:42",
           "raw_designation": "J575FJ-14A"
         }
       ]
@@ -12088,6 +14830,18 @@
           "stock_count": 2,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "J800T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j800t-l-reload-kit-hazmat-438.html",
+          "sku": "438",
+          "price_cents": 11831,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:43",
+          "raw_designation": "J800T-L"
         }
       ]
     },
@@ -12151,6 +14905,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:02",
+          "raw_designation": "J825R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j825r-14a-reload-kit-hazmat-1826.html",
+          "sku": "1826",
+          "price_cents": 10091,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:44",
           "raw_designation": "J825R-14A"
         }
       ]
@@ -12216,6 +14982,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:06",
           "raw_designation": "J90W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j90w-l-reload-kit-hazmat-426.html",
+          "sku": "426",
+          "price_cents": 9569,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:45",
+          "raw_designation": "J90W-L"
         }
       ]
     },
@@ -12332,6 +15110,18 @@
           "stock_count": 6,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "K535W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k535-w-14a-54mm-dms-hazmat-1514.html",
+          "sku": "1514",
+          "price_cents": 17369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:03",
+          "raw_designation": "K535-W-14A"
         }
       ]
     },
@@ -12396,6 +15186,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:11",
           "raw_designation": "K1000T-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1000t-p-reload-kit-hazmat-906.html",
+          "sku": "906",
+          "price_cents": 17660,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:47",
+          "raw_designation": "K1000T-P"
         }
       ]
     },
@@ -12423,6 +15225,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:21",
+          "raw_designation": "K1050W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1050w-p-reload-kit-hazmat-448.html",
+          "sku": "448",
+          "price_cents": 22358,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:47",
           "raw_designation": "K1050W-P"
         }
       ]
@@ -12488,6 +15302,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K1100T-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1100t-l-reload-kit-hazmat-445.html",
+          "sku": "445",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:48",
+          "raw_designation": "K1100T-L"
         }
       ]
     },
@@ -12551,6 +15377,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
+          "raw_designation": "K1103X-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1103x-14a-reload-kit-hazmat-1262.html",
+          "sku": "1262",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:49",
           "raw_designation": "K1103X-14A"
         }
       ]
@@ -12616,6 +15454,18 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:58:08",
           "raw_designation": "K1275R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1275r-p-reload-kit-hazmat-451.html",
+          "sku": "451",
+          "price_cents": 20270,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:50",
+          "raw_designation": "K1275R-P"
         }
       ]
     },
@@ -12720,6 +15570,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:11",
           "raw_designation": "K1800ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1800st-ps-reload-kit-hazmat-2107.html",
+          "sku": "2107",
+          "price_cents": 21749,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:52",
+          "raw_designation": "K1800ST-PS"
         }
       ]
     },
@@ -12784,6 +15646,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K185W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k185w-l-reload-kit-hazmat-441.html",
+          "sku": "441",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:53",
+          "raw_designation": "K185W-L"
         }
       ]
     },
@@ -12835,6 +15709,30 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:16",
+          "raw_designation": "K1999N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1999n-p-reload-kit-hazmat-special-order-1319.html",
+          "sku": "1319",
+          "price_cents": 20559,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:54",
+          "raw_designation": "K1999N-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1999n-p-reload-kit-hazmat-924.html",
+          "sku": "924",
+          "price_cents": 22358,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:53",
           "raw_designation": "K1999N-P"
         }
       ]
@@ -12900,6 +15798,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K2050ST-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k2050st-p-reload-kit-hazmat-1786.html",
+          "sku": "1786",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:55",
+          "raw_designation": "K2050ST-P"
         }
       ]
     },
@@ -12952,6 +15862,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "K250W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-lms-k250w-p-load-hazmat-1290.html",
+          "sku": "1290",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:33",
+          "raw_designation": "K250W-P"
         }
       ]
     },
@@ -13016,6 +15938,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:08",
           "raw_designation": "K270W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k270w-p-reload-kit-hazmat-447.html",
+          "sku": "447",
+          "price_cents": 20270,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:57",
+          "raw_designation": "K270W-P"
         }
       ]
     },
@@ -13080,6 +16014,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:08",
           "raw_designation": "K375NW-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k375nw-p-reload-kit-hazmat-566.html",
+          "sku": "566",
+          "price_cents": 20270,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:57",
+          "raw_designation": "K375NW-P"
         }
       ]
     },
@@ -13143,6 +16089,18 @@
           "status": "in_stock_with_count",
           "stock_count": 10,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "K400C-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k400c-14a-54mm-dms-hazmat-1870.html",
+          "sku": "1870",
+          "price_cents": 17369,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:26:58",
           "raw_designation": "K400C-14A"
         }
       ]
@@ -13208,6 +16166,18 @@
           "stock_count": 6,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "K455-17A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k455nw-17a-54mm-dms-hazmat-2000.html",
+          "sku": "2000",
+          "price_cents": 26549,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:00",
+          "raw_designation": "K455NW-17A"
         }
       ]
     },
@@ -13272,6 +16242,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K456DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k456dm-reload-kit-hazmat-1265.html",
+          "sku": "1265",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:00",
+          "raw_designation": "K456DM"
         }
       ]
     },
@@ -13351,6 +16333,18 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:58:08",
           "raw_designation": "K480W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k480w-p-reload-kit-hazmat-567.html",
+          "sku": "567",
+          "price_cents": 20270,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:01",
+          "raw_designation": "K480W-P"
         }
       ]
     },
@@ -13403,6 +16397,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K513FJ-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k513fj-l-reload-kit-hazmat-442.html",
+          "sku": "442",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:02",
+          "raw_designation": "K513FJ-L"
         }
       ]
     },
@@ -13467,6 +16473,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K540M-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k540m-reload-kit-hazmat-586.html",
+          "sku": "586",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:04",
+          "raw_designation": "K540M"
         }
       ]
     },
@@ -13531,6 +16549,18 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K550W-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k550w-l-reload-kit-hazmat-443.html",
+          "sku": "443",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:05",
+          "raw_designation": "K550W-L"
         }
       ]
     },
@@ -13595,6 +16625,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:11",
           "raw_designation": "K560W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k560w-p-reload-kit-hazmat-904.html",
+          "sku": "904",
+          "price_cents": 17660,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:06",
+          "raw_designation": "K560W-P"
         }
       ]
     },
@@ -13730,6 +16772,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K695R-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k695r-l-reload-kit-hazmat-444.html",
+          "sku": "444",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:07",
+          "raw_designation": "K695R-L"
         }
       ]
     },
@@ -13794,6 +16848,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:08",
           "raw_designation": "K700W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k700w-p-reload-kit-hazmat-450.html",
+          "sku": "450",
+          "price_cents": 20270,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:08",
+          "raw_designation": "K700W-P"
         }
       ]
     },
@@ -13857,6 +16923,18 @@
           "status": "in_stock_with_count",
           "stock_count": 6,
           "seen_at": "2026-05-31T02:58:11",
+          "raw_designation": "K750ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k750st-ps-reload-kit-hazmat-2093.html",
+          "sku": "2093",
+          "price_cents": 15137,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:09",
           "raw_designation": "K750ST-PS"
         }
       ]
@@ -13937,6 +17015,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:11",
           "raw_designation": "K780R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k780r-p-reload-kit-hazmat-905.html",
+          "sku": "905",
+          "price_cents": 17660,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:10",
+          "raw_designation": "K780R-P"
         }
       ]
     },
@@ -14001,6 +17091,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:07",
           "raw_designation": "K805G-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k805g-p-reload-kit-hazmat-446.html",
+          "sku": "446",
+          "price_cents": 14615,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:12",
+          "raw_designation": "K805G-P"
         }
       ]
     },
@@ -14028,6 +17130,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:26",
+          "raw_designation": "K828FJ-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k828fj-p-reload-kit-hazmat-449.html",
+          "sku": "449",
+          "price_cents": 20270,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:13",
           "raw_designation": "K828FJ-P"
         }
       ]
@@ -14093,6 +17207,18 @@
           "stock_count": 8,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "K850DM-16A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k850dm-16a-54mm-dms-hazmat-1785.html",
+          "sku": "1785",
+          "price_cents": 26549,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:13",
+          "raw_designation": "K850DM-16A"
         }
       ]
     },
@@ -14156,6 +17282,18 @@
           "status": "in_stock_with_count",
           "stock_count": 6,
           "seen_at": "2026-05-31T02:58:09",
+          "raw_designation": "K990DM-14A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k990dm-14a-reload-kit-hazmat-1784.html",
+          "sku": "1784",
+          "price_cents": 22358,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:14",
           "raw_designation": "K990DM-14A"
         }
       ]
@@ -14221,6 +17359,18 @@
           "stock_count": 4,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "L1000W-18A"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1000w-18a-54mm-dms-hazmat-2192.html",
+          "sku": "2192",
+          "price_cents": 27719,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:15",
+          "raw_designation": "L1000W-18A"
         }
       ]
     },
@@ -14248,6 +17398,18 @@
           "status": "out_of_stock",
           "stock_count": null,
           "seen_at": "2026-05-31T02:24:33",
+          "raw_designation": "L1040DM-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1040dm-ps-reload-kit-hazmat-1455.html",
+          "sku": "1455",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:16",
           "raw_designation": "L1040DM-PS"
         }
       ]
@@ -14313,6 +17475,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:09",
           "raw_designation": "L1090W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1090w-ps-reload-kit-hazmat-1586.html",
+          "sku": "1586",
+          "price_cents": 23489,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:17",
+          "raw_designation": "L1090W-PS"
         }
       ]
     },
@@ -14377,6 +17551,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L1150R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1150r-p-reload-kit-hazmat-908.html",
+          "sku": "908",
+          "price_cents": 25229,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:18",
+          "raw_designation": "L1150R-P"
         }
       ]
     },
@@ -14457,6 +17643,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:14",
           "raw_designation": "L1250DM-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1250dm-p-reload-kit-hazmat-1666.html",
+          "sku": "1666",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:19",
+          "raw_designation": "L1250DM-P"
         }
       ]
     },
@@ -14521,6 +17719,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L1256WS-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1256ws-p-reload-kit-hazmat-1995.html",
+          "sku": "1995",
+          "price_cents": 25229,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:20",
+          "raw_designation": "L1256WS-P"
         }
       ]
     },
@@ -14641,6 +17851,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L1390G-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1390g-p-reload-kit-hazmat-909.html",
+          "sku": "909",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:21",
+          "raw_designation": "L1390G-P"
         }
       ]
     },
@@ -14705,6 +17927,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L1420R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1420r-p-reload-kit-hazmat-912.html",
+          "sku": "912",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:22",
+          "raw_designation": "L1420R-P"
         }
       ]
     },
@@ -14797,6 +18031,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L1520T-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1520t-ps-reload-kit-hazmat-910.html",
+          "sku": "910",
+          "price_cents": 25229,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:23",
+          "raw_designation": "L1520T-PS"
         }
       ]
     },
@@ -14860,6 +18106,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
+          "raw_designation": "L1940X-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l1940x-ps-reload-kit-hazmat-2094.html",
+          "sku": "2094",
+          "price_cents": 26447,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:25",
           "raw_designation": "L1940X-PS"
         }
       ]
@@ -14925,6 +18183,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L2200G-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l2200g-p-reload-kit-hazmat-913.html",
+          "sku": "913",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:25",
+          "raw_designation": "L2200G-P"
         }
       ]
     },
@@ -14976,6 +18246,30 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:17",
+          "raw_designation": "L2500ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l2500st-ps-reload-kit-hazmat-special-order-1780.html",
+          "sku": "1780",
+          "price_cents": 36959,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:27",
+          "raw_designation": "L2500ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l2500st-ps-reload-kit-hazmat-1779.html",
+          "sku": "1779",
+          "price_cents": 40193,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:26",
           "raw_designation": "L2500ST-PS"
         }
       ]
@@ -15060,6 +18354,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:17",
           "raw_designation": "L400W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l400w-ps-reload-kit-hazmat-926.html",
+          "sku": "926",
+          "price_cents": 37148,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:28",
+          "raw_designation": "L400W-PS"
         }
       ]
     },
@@ -15124,6 +18430,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L850W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l850w-p-reload-kit-hazmat-907.html",
+          "sku": "907",
+          "price_cents": 25229,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:29",
+          "raw_designation": "L850W-P"
         }
       ]
     },
@@ -15176,6 +18494,18 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "L875DM-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l875dm-ps-75mm-dms-hazmat-1585.html",
+          "sku": "1585",
+          "price_cents": null,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:30",
+          "raw_designation": "L875DM-PS"
         }
       ]
     },
@@ -15240,6 +18570,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "L900DM-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l900dm-ps-reload-kit-hazmat-1266.html",
+          "sku": "1266",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:31",
+          "raw_designation": "L900DM-PS"
         }
       ]
     },
@@ -15268,6 +18610,18 @@
           "stock_count": null,
           "seen_at": "2026-05-30T22:33:48",
           "raw_designation": "L952"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-l952w-p-reload-kit-hazmat-927.html",
+          "sku": "927",
+          "price_cents": 37148,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:32",
+          "raw_designation": "L952W-P"
         }
       ]
     },
@@ -15372,6 +18726,18 @@
           "stock_count": 2,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "M1297W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1297w-p-reload-kit-hazmat-914.html",
+          "sku": "914",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:34",
+          "raw_designation": "M1297W-P"
         }
       ]
     },
@@ -15464,6 +18830,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:14",
           "raw_designation": "M1315W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1315w-p-reload-kit-hazmat-918.html",
+          "sku": "918",
+          "price_cents": 39671,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:35",
+          "raw_designation": "M1315W-P"
         }
       ]
     },
@@ -15527,6 +18905,30 @@
           "status": "in_stock_with_count",
           "stock_count": 1,
           "seen_at": "2026-05-31T02:57:34",
+          "raw_designation": "M1340W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1340w-p-98mm-dms-hazmat-1937.html",
+          "sku": "1937",
+          "price_cents": 61421,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:36",
+          "raw_designation": "M1340W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1340w-p-98mm-dms-hazmat-special-order-1938.html",
+          "sku": "1938",
+          "price_cents": 56479,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:37",
           "raw_designation": "M1340W-P"
         }
       ]
@@ -15592,6 +18994,30 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:57:34",
           "raw_designation": "M1350W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1350w-p-75mm-dms-hazmat-1774.html",
+          "sku": "1774",
+          "price_cents": 67859,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:38",
+          "raw_designation": "M1350W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1350w-p-75mm-dms-hazmat-special-order-1584.html",
+          "sku": "1584",
+          "price_cents": 62320,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:40",
+          "raw_designation": "M1350W-P"
         }
       ]
     },
@@ -15644,6 +19070,18 @@
           "stock_count": 3,
           "seen_at": "2026-05-31T02:58:18",
           "raw_designation": "M1419W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1419w-p-reload-kit-hazmat-special-order-1019.html",
+          "sku": "1019",
+          "price_cents": 51359,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:40",
+          "raw_designation": "M1419W-P"
         }
       ]
     },
@@ -15696,6 +19134,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "M1500G-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1500g-p-reload-kit-hazmat-915.html",
+          "sku": "915",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:41",
+          "raw_designation": "M1500G-P"
         }
       ]
     },
@@ -15760,6 +19210,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:14",
           "raw_designation": "M1550R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1550r-p-reload-kit-hazmat-919.html",
+          "sku": "919",
+          "price_cents": 39671,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:42",
+          "raw_designation": "M1550R-P"
         }
       ]
     },
@@ -15864,6 +19326,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "M1780NT-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1780nt-p-reload-kit-hazmat-916.html",
+          "sku": "916",
+          "price_cents": 32798,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:43",
+          "raw_designation": "M1780NT-P"
         }
       ]
     },
@@ -15904,6 +19378,18 @@
           "stock_count": 2,
           "seen_at": "2026-05-31T02:58:19",
           "raw_designation": "M1800FJ-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1800fj-p-reload-kit-hazmat-936.html",
+          "sku": "936",
+          "price_cents": 74819,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:44",
+          "raw_designation": "M1800FJ-P"
         }
       ]
     },
@@ -15955,6 +19441,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:18",
+          "raw_designation": "M1845NT-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1845nt-p-reload-kit-hazmat-special-order-1021.html",
+          "sku": "1021",
+          "price_cents": 51359,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:46",
           "raw_designation": "M1845NT-P"
         }
       ]
@@ -16020,6 +19518,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:15",
           "raw_designation": "M1850W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1850w-p-reload-kit-hazmat-920.html",
+          "sku": "920",
+          "price_cents": 46892,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:47",
+          "raw_designation": "M1850W-P"
         }
       ]
     },
@@ -16072,6 +19582,30 @@
           "stock_count": 4,
           "seen_at": "2026-05-31T02:58:19",
           "raw_designation": "M1939W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1939w-p-reload-kit-hazmat-937.html",
+          "sku": "937",
+          "price_cents": 74819,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:47",
+          "raw_designation": "M1939W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1939w-p-reload-kit-hazmat-special-order-1027.html",
+          "sku": "1027",
+          "price_cents": 68799,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:48",
+          "raw_designation": "M1939W-P"
         }
       ]
     },
@@ -16163,6 +19697,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
+          "raw_designation": "M2050X-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2050x-ps-reload-kit-hazmat-2073.html",
+          "sku": "2073",
+          "price_cents": 35321,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:49",
           "raw_designation": "M2050X-PS"
         }
       ]
@@ -16256,6 +19802,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:13",
           "raw_designation": "M2225WS-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2225ws-ps-reload-kit-hazmat-2142.html",
+          "sku": "2142",
+          "price_cents": 35321,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:50",
+          "raw_designation": "M2225WS-PS"
         }
       ]
     },
@@ -16308,6 +19866,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:18",
           "raw_designation": "M2400T-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2400t-p-reload-kit-hazmat-933.html",
+          "sku": "933",
+          "price_cents": 55853,
+          "currency": "USD",
+          "status": "in_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:51",
+          "raw_designation": "M2400T-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2400t-p-reload-kit-hazmat-special-order-1024.html",
+          "sku": "1024",
+          "price_cents": 51359,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:52",
+          "raw_designation": "M2400T-P"
         }
       ]
     },
@@ -16360,6 +19942,30 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:19",
           "raw_designation": "M2500T-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2500t-p-reload-kit-hazmat-938.html",
+          "sku": "938",
+          "price_cents": 74819,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:53",
+          "raw_designation": "M2500T-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2500t-p-reload-kit-hazmat-special-order-1029.html",
+          "sku": "1029",
+          "price_cents": 68799,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:54",
+          "raw_designation": "M2500T-P"
         }
       ]
     },
@@ -16412,6 +20018,18 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:18",
           "raw_designation": "M4500ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m4500st-ps-reload-kit-hazmat-special-order-1777.html",
+          "sku": "1777",
+          "price_cents": 55439,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:55",
+          "raw_designation": "M4500ST-PS"
         }
       ]
     },
@@ -16463,6 +20081,30 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:19",
+          "raw_designation": "M6000ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m6000st-ps-reload-kit-hazmat-1875.html",
+          "sku": "1875",
+          "price_cents": 78125,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:56",
+          "raw_designation": "M6000ST-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m6000st-ps-reload-kit-hazmat-special-order-1776.html",
+          "sku": "1776",
+          "price_cents": 71839,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:57",
           "raw_designation": "M6000ST-PS"
         }
       ]
@@ -16528,6 +20170,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:14",
           "raw_designation": "M650W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m650w-p-reload-kit-hazmat-917.html",
+          "sku": "917",
+          "price_cents": 41324,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:58",
+          "raw_designation": "M650W-P"
         }
       ]
     },
@@ -16592,6 +20246,18 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:15",
           "raw_designation": "M685W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m685w-p-reload-kit-hazmat-1344.html",
+          "sku": "1344",
+          "price_cents": 50285,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:27:59",
+          "raw_designation": "M685W-P"
         }
       ]
     },
@@ -16659,6 +20325,30 @@
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:20",
           "raw_designation": "N1000W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n1000w-p-reload-kit-hazmat-941.html",
+          "sku": "941",
+          "price_cents": 109445,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:00",
+          "raw_designation": "N1000W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n1000w-p-reload-kit-hazmat-special-order-1030.html",
+          "sku": "1030",
+          "price_cents": 100639,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:01",
+          "raw_designation": "N1000W-P"
         }
       ]
     },
@@ -16726,6 +20416,30 @@
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:20",
           "raw_designation": "N2000W-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n2000w-p-reload-kit-hazmat-942.html",
+          "sku": "942",
+          "price_cents": 109445,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:02",
+          "raw_designation": "N2000W-P"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n2000w-p-reload-kit-hazmat-special-order-1031.html",
+          "sku": "1031",
+          "price_cents": 100639,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:03",
+          "raw_designation": "N2000W-P"
         }
       ]
     },
@@ -16765,6 +20479,18 @@
           "status": "special_order",
           "stock_count": null,
           "seen_at": "2026-05-31T02:58:20",
+          "raw_designation": "N2220DM-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n2220dm-ps-reload-kit-hazmat-1876.html",
+          "sku": "1876",
+          "price_cents": 105791,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:04",
           "raw_designation": "N2220DM-PS"
         }
       ]
@@ -16909,6 +20635,30 @@
           "status": "in_stock_with_count",
           "stock_count": 1,
           "seen_at": "2026-05-31T02:58:20",
+          "raw_designation": "N3300R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n3300r-ps-reload-kit-hazmat-940.html",
+          "sku": "940",
+          "price_cents": 100397,
+          "currency": "USD",
+          "status": "out_of_stock",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:05",
+          "raw_designation": "N3300R-PS"
+        },
+        {
+          "vendor_slug": "sirius",
+          "vendor_name": "Sirius Rocketry",
+          "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-n3300r-ps-reload-kit-hazmat-special-order-1032.html",
+          "sku": "1032",
+          "price_cents": 92319,
+          "currency": "USD",
+          "status": "special_order",
+          "stock_count": null,
+          "seen_at": "2026-05-31T04:28:06",
           "raw_designation": "N3300R-PS"
         }
       ]
@@ -17603,6 +21353,19 @@
       "status": "out_of_stock",
       "stock_count": null,
       "seen_at": "2026-05-31T01:16:17"
+    },
+    {
+      "raw_designation": "O5280X-PS",
+      "raw_title": "Aerotech High-Power O5280X-PS 98mm DMS HAZMAT - Special Order",
+      "vendor_slug": "sirius",
+      "vendor_name": "Sirius Rocketry",
+      "url": "https://www.siriusrocketry.biz/ishop/aerotech-high-power-o5280x-ps-98mm-dms-hazmat-special-order-2040.html",
+      "sku": "2040",
+      "price_cents": 27719,
+      "currency": "USD",
+      "status": "special_order",
+      "stock_count": null,
+      "seen_at": "2026-05-31T04:28:08"
     }
   ]
 }
