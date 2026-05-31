@@ -12,9 +12,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Set NEXT_PUBLIC_SITE_URL on the deploy host (Vercel / Cloudflare Pages) so
+// OG / Twitter cards resolve the share image URL absolutely. Without it,
+// social previews work locally but may fail when the URL is shared.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+const description =
+  "U.S. high-power rocketry motor availability aggregated across vendors. " +
+  "AeroTech stock + pricing in one searchable view.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "HPR Motor Finder",
-  description: "U.S. high-power rocketry motor availability aggregated across vendors.",
+  description,
+  openGraph: {
+    type: "website",
+    siteName: "HPR Motor Finder",
+    title: "HPR Motor Finder",
+    description,
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HPR Motor Finder",
+    description,
+  },
 };
 
 export default function RootLayout({

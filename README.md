@@ -102,6 +102,8 @@ Free hosting works since the architecture is essentially a static site fed by a 
 
 A test workflow lives at [.github/workflows/test.yml](.github/workflows/test.yml). A deploy workflow is left as an exercise — pick the host you prefer.
 
+For OpenGraph / Twitter share cards to resolve correctly in production, set `NEXT_PUBLIC_SITE_URL` to your deployed origin (e.g. `https://your-domain.example`). Without it, social previews still render but their image URLs fall back to localhost.
+
 ## Scraping ethics
 
 This project scrapes vendors without prior permission. The bar we hold ourselves to:
