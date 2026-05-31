@@ -29,10 +29,9 @@ import asyncio
 import json
 import logging
 import re
-from datetime import datetime
 
 from ..http import PoliteAsyncClient
-from ..models import Listing, StockStatus
+from ..models import Listing, StockStatus, _utc_now
 from ..normalize import (
     extract_designation,
     infer_propellant_from_title,
@@ -146,7 +145,6 @@ class WildmanScraper(Scraper):
 
         if len(variants) == 1 or not is_delay_option:
             v = variants[0]
-            sku_value = v.get("sku")
             return [
                 _variant_to_listing(
                     vendor_slug=self.slug,
@@ -266,5 +264,5 @@ def _variant_to_listing(
         status=status,
         stock_count=stock_count,
         raw_title=product_title,
-        seen_at=datetime.utcnow(),
+        seen_at=_utc_now(),
     )

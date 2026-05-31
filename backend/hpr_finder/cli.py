@@ -4,13 +4,13 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-from datetime import datetime
 from pathlib import Path
 
 import typer
 
 from . import catalog, db
 from .http import polite_async_client
+from .models import _utc_now
 from .scrapers import REGISTRY
 
 app = typer.Typer(help="HPR motor availability aggregator CLI", no_args_is_help=True)
@@ -92,7 +92,7 @@ async def _async_scrape_run(
         with db.connect() as conn:
             db.init_schema(conn)
             vendor_id = db.upsert_vendor(conn, scraper.slug, scraper.name, scraper.homepage, scraper.state)
-            started = datetime.utcnow().isoformat(timespec="seconds")
+            started = _utc_now().isoformat(timespec="seconds")
             run_id = db.start_run(conn, vendor_id, started)
 
         ok, err, count = True, None, 0
@@ -112,7 +112,7 @@ async def _async_scrape_run(
             raise
         finally:
             with db.connect() as conn:
-                finished = datetime.utcnow().isoformat(timespec="seconds")
+                finished = _utc_now().isoformat(timespec="seconds")
                 db.finish_run(conn, run_id, finished, ok, count, err)
 
     # Scrape each vendor concurrently. Politeness is per-host, so this doesn't
@@ -174,7 +174,7 @@ def snapshot_export(
         )
 
     payload = {
-        "generated_at": datetime.utcnow().isoformat(timespec="seconds"),
+        "generated_at": _utc_now().isoformat(timespec="seconds"),
         "motors": [
             {
                 "id": m["id"],

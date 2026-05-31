@@ -37,10 +37,9 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
-from datetime import datetime
 
 from ..http import PoliteAsyncClient
-from ..models import Listing, StockStatus
+from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_designation
 from .base import Scraper
 
@@ -215,7 +214,7 @@ class SiriusScraper(Scraper):
             status=status,
             stock_count=None,  # Sirius doesn't publish counts
             raw_title=title,
-            seen_at=datetime.utcnow(),
+            seen_at=_utc_now(),
         )
 
 

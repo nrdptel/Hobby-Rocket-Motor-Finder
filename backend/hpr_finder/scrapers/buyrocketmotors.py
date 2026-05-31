@@ -31,10 +31,9 @@ import asyncio
 import json
 import logging
 import re
-from datetime import datetime
 
 from ..http import PoliteAsyncClient
-from ..models import Listing, StockStatus
+from ..models import Listing, StockStatus, _utc_now
 from ..normalize import (
     extract_designation,
     infer_propellant_from_title,
@@ -168,7 +167,7 @@ class BuyRocketMotorsScraper(Scraper):
                 status=_availability_to_status(availability),
                 stock_count=None,
                 raw_title=name,
-                seen_at=datetime.utcnow(),
+                seen_at=_utc_now(),
             )
         ]
 
@@ -271,7 +270,7 @@ def _variant_to_listing(
         status=status,
         stock_count=None,
         raw_title=product_title,
-        seen_at=datetime.utcnow(),
+        seen_at=_utc_now(),
     )
 
 

@@ -207,7 +207,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         <p className="mt-2 text-sm text-zinc-400">
           {visible} motors shown · {inStockCount} with stock somewhere
           {unmatched.length > 0 && <> · {unmatched.length} listings we couldn&apos;t identify</>} ·
-          snapshot generated {new Date(snapshot.generated_at + "Z").toLocaleString()}
+          snapshot generated {new Date(snapshot.generated_at).toLocaleString()}
         </p>
       </header>
 

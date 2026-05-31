@@ -1,20 +1,22 @@
 from __future__ import annotations
 
 import sqlite3
+from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterator
 
 from .models import Listing, Motor
 from .normalize import (
     base_designation,
-    common_name as title_common_name,
     extract_designation,
     infer_propellant_from_title,
     lp_base_designation,
     strip_internal_hyphens,
     strip_no_hyphen_delay,
     strip_plug_suffix,
+)
+from .normalize import (
+    common_name as title_common_name,
 )
 
 SCHEMA = """

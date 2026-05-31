@@ -3,11 +3,10 @@ from pathlib import Path
 
 from hpr_finder.models import StockStatus
 from hpr_finder.scrapers.csrocketry import (
+    STOCK_LEVEL_RE,
     _availability_to_status,
     _extract_product_jsonld,
 )
-import re
-from hpr_finder.scrapers.csrocketry import STOCK_LEVEL_RE
 
 FIXTURES = Path(__file__).parent / "fixtures"
 

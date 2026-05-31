@@ -1,8 +1,13 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import UTC, datetime
 from enum import Enum
+
+
+def _utc_now() -> datetime:
+    """Timezone-aware UTC now. Replaces deprecated datetime.utcnow()."""
+    return datetime.now(UTC)
 
 
 class StockStatus(str, Enum):
@@ -46,7 +51,7 @@ class Listing:
     status: StockStatus
     stock_count: int | None
     raw_title: str
-    seen_at: datetime = field(default_factory=datetime.utcnow)
+    seen_at: datetime = field(default_factory=_utc_now)
 
 
 @dataclass(slots=True)

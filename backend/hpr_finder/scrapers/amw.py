@@ -36,10 +36,9 @@ from __future__ import annotations
 import asyncio
 import logging
 import re
-from datetime import datetime
 
 from ..http import PoliteAsyncClient
-from ..models import Listing, StockStatus
+from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_designation
 from .base import Scraper
 
@@ -188,7 +187,7 @@ class AMWScraper(Scraper):
                     status=status,
                     stock_count=stock_count,
                     raw_title=raw_title,
-                    seen_at=datetime.utcnow(),
+                    seen_at=_utc_now(),
                 )
             )
         return listings
