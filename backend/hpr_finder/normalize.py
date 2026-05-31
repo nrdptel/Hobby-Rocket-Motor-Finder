@@ -19,9 +19,10 @@ import re
 #   - propellant-only:  "-RCT", "-RCJ", "-RCW"  (no digits — used by older AT lines)
 #   - plug suffix:       "-P", "-PS", "-SK"      (1-3 trailing letters)
 # Examples that should match: H242T-14A, D13-10W, F23-4FJ, H283ST, G12-RCT,
-# F23-RCW-SK, K1800ST-P, M1500.
+# F23-RCW-SK, K1800ST-P, M1500, M1297w-p (case-insensitive).
 DESIGNATION_RE = re.compile(
-    r"\b([A-O]\d{1,4}[A-Z]{0,3}(?:-[A-Z0-9]{1,4}){0,3})\b"
+    r"\b([A-O]\d{1,4}[A-Z]{0,3}(?:-[A-Z0-9]{1,4}){0,3})\b",
+    re.IGNORECASE,
 )
 
 # Map propellant marketing names (as seen in vendor product titles) to the
@@ -48,23 +49,36 @@ PROPELLANT_NAME_TO_INFO = [
 
 
 def extract_designation(title: str) -> str | None:
-    """Return the first AeroTech-style designation found in a title, or None."""
+    """Return the first AeroTech-style designation found in a title, or None.
+
+    Match is case-insensitive (catches typos like ``M1297w-p``) but the result
+    is always uppercased for canonical storage and downstream comparison.
+    """
     if not title:
         return None
     cleaned = re.sub(r"^\s*Aerotech\s+", "", title, flags=re.I)
     m = DESIGNATION_RE.search(cleaned)
     if not m:
         return None
-    return m.group(1)
+    return m.group(1).upper()
 
 
-DELAY_SUFFIX_RE = re.compile(r"-\d{1,2}[A-Z]{0,3}$")
-LP_DELAY_RE = re.compile(r"-\d{1,2}(?=[A-Z]{1,3}$)")
-# AeroTech "plug" markers: -P = plugged (no ejection charge), -PS = plugged
-# smoky-sam, -NTR = no test rocket included, -SK = sounding-kit. Catalog
-# sometimes includes them in the designation (I40N-P, K1800ST-P) and sometimes
-# doesn't (G339N has -P at vendor but bare in catalog). We try both.
-PLUG_SUFFIX_RE = re.compile(r"-(?:PS|NTR|SK|P)$")
+DELAY_SUFFIX_RE = re.compile(r"-\d{1,2}[A-Z]{0,3}$", re.IGNORECASE)
+LP_DELAY_RE = re.compile(r"-\d{1,2}(?=[A-Z]{1,3}$)", re.IGNORECASE)
+# Hyphen between a digit and an uppercase letter — vendor sometimes inserts one
+# inside the designation (H550-ST vs catalog H550ST). Doesn't match the leading
+# "HP-" prefix because the char before the hyphen there is a LETTER, not a digit.
+INTERNAL_HYPHEN_RE = re.compile(r"(?<=\d)-(?=[A-Z])", re.IGNORECASE)
+# Trailing alphabetic suffix the catalog may or may not include. Covers:
+#   * Plug markers: -P (plugged), -PS (plugged smoky-sam), -NTR (no test rocket
+#     included), -SK (sounding-kit).
+#   * Variant tags: -L (long delay variant), -C (when vendor hyphenates the
+#     propellant code, e.g. F67-C vs catalog F67C).
+#   * General multi-letter suffixes the vendor adds but catalog doesn't.
+# Catalog sometimes includes them (I40N-P, K1800ST-P) and sometimes doesn't
+# (J401FJ-L at vendor vs J401FJ in catalog). Exact-match is tried first; this
+# stripper is one of the fallback transforms.
+PLUG_SUFFIX_RE = re.compile(r"-[A-Z]{1,3}$", re.IGNORECASE)
 
 
 def base_designation(designation: str) -> str:
@@ -92,6 +106,19 @@ def strip_plug_suffix(designation: str) -> str:
     return PLUG_SUFFIX_RE.sub("", designation)
 
 
+def strip_internal_hyphens(designation: str) -> str:
+    """Strip hyphens between a digit and an uppercase letter.
+
+    Used when the vendor inserts a hyphen between the thrust number and the
+    propellant code, e.g. ``H550-ST-14A`` -> after base strips ``-14A`` ->
+    ``H550-ST`` -> ``H550ST`` (matches catalog).
+
+    Preserves the leading ``HP-`` style prefix (the hyphen there is between
+    two letters, not digit-then-letter).
+    """
+    return INTERNAL_HYPHEN_RE.sub("", designation)
+
+
 def common_name(designation: str) -> str:
     """Strip the trailing propellant code from a vendor designation.
 
@@ -115,3 +142,32 @@ def infer_propellant_from_title(title: str) -> str | None:
         if needle.lower() in lower:
             return propinfo
     return None
+
+
+# Map ThrustCurve propellant name -> AeroTech's single/multi-letter code.
+# Used when constructing a vendor designation from a delay-variant SKU (e.g.,
+# BRM sells D13 with three Shopify variants {4,7,10}; we synthesize a SKU
+# like "D13-4W" by appending the propellant letter inferred from the title).
+PROPELLANT_LETTER = {
+    "White Lightning": "W",
+    "Blue Thunder": "T",
+    "Redline": "R",
+    "Blackjack": "J",
+    "Mojave Green": "G",
+    "Dark Matter": "DM",
+    "Super Thunder": "ST",
+    "Super White Lightning": "WS",
+    "Metalstorm": "M",
+    "Warp 9": "N",
+    "Propellant X": "X",
+    "Classic": "C",
+    "Black Max": "FJ",
+}
+
+
+def propellant_letter(name: str | None) -> str:
+    """Map a propellant name to the 1-3 letter code AeroTech uses in
+    designations. Returns "" if unknown."""
+    if not name:
+        return ""
+    return PROPELLANT_LETTER.get(name, "")

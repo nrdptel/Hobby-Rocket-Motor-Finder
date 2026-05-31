@@ -4,7 +4,40 @@ from hpr_finder.normalize import (
     extract_designation,
     infer_propellant_from_title,
     lp_base_designation,
+    strip_internal_hyphens,
+    strip_plug_suffix,
 )
+
+
+def test_extract_lowercase_designation_is_uppercased():
+    # M1297w-p (lowercase w + plug suffix) used to fail entirely because the
+    # \b boundary couldn't escape an alphanumeric. Now case-insensitive +
+    # canonicalized to uppercase.
+    assert extract_designation("M1297w-p") == "M1297W-P"
+
+
+def test_strip_plug_handles_uppercased_single_letter():
+    assert strip_plug_suffix("M1297W-P") == "M1297W"
+
+
+def test_strip_internal_hyphens_h550_st():
+    # Vendor "H550-ST-14A" -> base strips -14A -> "H550-ST" -> hyphen strip
+    # -> "H550ST" (matches catalog H550ST and is one designation away from
+    # HP-H550ST via common_name).
+    assert strip_internal_hyphens("H550-ST") == "H550ST"
+
+
+def test_strip_internal_hyphens_preserves_hp_prefix():
+    # Leading "HP-H..." has letter before the hyphen, not digit. Stay.
+    assert strip_internal_hyphens("HP-H550ST") == "HP-H550ST"
+    assert strip_internal_hyphens("HP-I280DM") == "HP-I280DM"
+
+
+def test_strip_internal_hyphens_skips_delay_form():
+    # "H242T-14A" has digit before "-" but letter "T" before that. Pattern
+    # requires digit IMMEDIATELY before "-", which "T-14A" doesn't satisfy.
+    # (Also "-14A" starts with a digit, not an uppercase letter.) Untouched.
+    assert strip_internal_hyphens("H242T-14A") == "H242T-14A"
 
 
 # --- extract_designation ----------------------------------------------------

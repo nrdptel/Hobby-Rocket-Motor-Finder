@@ -12,6 +12,7 @@ from .normalize import (
     extract_designation,
     infer_propellant_from_title,
     lp_base_designation,
+    strip_internal_hyphens,
     strip_plug_suffix,
 )
 
@@ -169,14 +170,17 @@ def find_motor_id(
     """
     if not designation:
         return None
-    # Steps 1-4: try increasingly aggressive designation transforms against the
+    # Steps 1-N: try increasingly aggressive designation transforms against the
     # catalog's "designation" column (the canonical form ThrustCurve uses).
+    base = base_designation(designation)
     transforms = (
         designation,
-        base_designation(designation),                       # strip -14A
-        lp_base_designation(designation),                    # strip -10 keeping W
-        strip_plug_suffix(designation),                      # strip -P
-        strip_plug_suffix(base_designation(designation)),    # strip both
+        base,                                       # strip -14A
+        lp_base_designation(designation),           # strip -10 keeping W
+        strip_plug_suffix(designation),             # strip -P
+        strip_plug_suffix(base),                    # strip -P then -14A
+        strip_internal_hyphens(base),               # H550-ST -> H550ST
+        strip_internal_hyphens(strip_plug_suffix(base)),  # combo
     )
     for candidate in transforms:
         if not candidate:
