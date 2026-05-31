@@ -1,113 +1,22 @@
-import { loadSnapshot, type Listing, type Motor } from "@/lib/snapshot";
+import { loadSnapshot } from "@/lib/snapshot";
+import {
+  MIN_CLASS,
+  formatPrice,
+  groupByDelay,
+  listingInStock,
+  parseSetParam,
+  sortedMotors,
+  thrustcurveUrl,
+} from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
 import { StatusBadge } from "./components/StatusBadge";
 
-export const dynamic = "force-dynamic";
+// Snapshot refreshes on a scrape cadence (typically every few hours), so
+// per-request SSR is wasted work. Revalidate cached HTML every 60s — same
+// freshness ceiling as our scrape, ~50× less server work under load.
+export const revalidate = 60;
 
 type SearchParamsRaw = Promise<{ [k: string]: string | string[] | undefined }>;
-
-type DelayGroup = {
-  delay: string;
-  delaySortKey: number;
-  variety: string;
-  listings: Listing[];
-};
-
-type GroupedMotor = Motor & { delayGroups: DelayGroup[] };
-
-function formatPrice(cents: number | null, currency: string): string {
-  if (cents == null) return "—";
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(cents / 100);
-}
-
-function extractDelay(designation: string): string | null {
-  if (!designation) return null;
-  const m = designation.match(/-(\d{1,2})([A-Z]?)/);
-  if (!m) return null;
-  const seconds = m[1];
-  const adjustable = m[2] === "A";
-  return adjustable ? `${seconds}s adj` : `${seconds}s`;
-}
-
-function delayForRow(rawDesignation: string, motor: Motor): string {
-  const fromSku = extractDelay(rawDesignation);
-  if (fromSku) return fromSku;
-  const d = motor.delays;
-  if (!d) return "—";
-  if (d === "P") return "plugged";
-  const isMulti = d.includes(",");
-  if (motor.delay_adjustable) {
-    return isMulti ? `${d} adj` : `${d}s adj`;
-  }
-  return `${d}s`;
-}
-
-function rankMotor(m: Motor): [string, number, string] {
-  return [m.impulse_class, m.diameter_mm, m.designation];
-}
-
-function thrustcurveUrl(m: Motor): string {
-  return `https://www.thrustcurve.org/motors/${encodeURIComponent(m.manufacturer)}/${encodeURIComponent(m.designation)}/`;
-}
-
-function sortedMotors(motors: Motor[]): Motor[] {
-  return [...motors].sort((a, b) => {
-    const [ac, ad, an] = rankMotor(a);
-    const [bc, bd, bn] = rankMotor(b);
-    if (ac !== bc) return ac.localeCompare(bc);
-    if (ad !== bd) return ad - bd;
-    return an.localeCompare(bn);
-  });
-}
-
-function parseSetParam(v: string | string[] | undefined): Set<string> {
-  if (!v) return new Set();
-  const raw = Array.isArray(v) ? v.join(",") : v;
-  return new Set(raw.split(",").filter(Boolean));
-}
-
-function listingInStock(status: string): boolean {
-  return status === "in_stock_with_count" || status === "in_stock";
-}
-
-function delaySortKey(delay: string): number {
-  if (delay === "—") return Number.POSITIVE_INFINITY;
-  if (delay === "plugged") return -1;
-  // Take the first numeric value found ("4s" -> 4, "6,8,10,12,14 adj" -> 6).
-  const m = delay.match(/\d+/);
-  return m ? parseInt(m[0], 10) : Number.POSITIVE_INFINITY;
-}
-
-function groupByDelay(motor: Motor): GroupedMotor {
-  const byDelay = new Map<string, DelayGroup>();
-  for (const l of motor.listings) {
-    const delay = delayForRow(l.raw_designation, motor);
-    const existing = byDelay.get(delay);
-    if (existing) {
-      existing.listings.push(l);
-    } else {
-      byDelay.set(delay, {
-        delay,
-        delaySortKey: delaySortKey(delay),
-        variety: l.raw_designation || motor.designation,
-        listings: [l],
-      });
-    }
-  }
-  const delayGroups = Array.from(byDelay.values())
-    .map((g) => ({
-      ...g,
-      // In-stock first, then alphabetical by vendor.
-      listings: [...g.listings].sort((a, b) => {
-        const ai = listingInStock(a.status) ? 0 : 1;
-        const bi = listingInStock(b.status) ? 0 : 1;
-        if (ai !== bi) return ai - bi;
-        return a.vendor_name.localeCompare(b.vendor_name);
-      }),
-    }))
-    .sort((a, b) => a.delaySortKey - b.delaySortKey);
-  return { ...motor, delayGroups };
-}
 
 export default async function Home({ searchParams }: { searchParams: SearchParamsRaw }) {
   const snapshot = await loadSnapshot();
@@ -134,11 +43,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fQueryRaw = Array.isArray(params.q) ? params.q[0] : params.q;
   const fQuery = (fQueryRaw ?? "").trim().toLowerCase();
 
-  // Hide A/B/C-class Estes-style model rocket motors — this tool is for
-  // mid-power and HPR builders. D is where the project's primary audience starts.
-  const MIN_CLASS = "D";
-
   // All motors that have any listing (before filtering).
+  // MIN_CLASS hides A/B/C-class Estes-style model rocket motors — this tool
+  // is for mid-power and HPR builders.
   const motorsWithListings = snapshot.motors.filter(
     (m) => m.listings.length > 0 && m.impulse_class >= MIN_CLASS,
   );
@@ -376,8 +283,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-900">
-                {unmatched.map((u, i) => (
-                  <tr key={`u-${u.vendor_slug}-${i}`} className="hover:bg-zinc-900/60">
+                {unmatched.map((u) => (
+                  <tr key={u.url} className="hover:bg-zinc-900/60">
                     <td className="px-3 py-2 font-mono">{u.raw_designation || "—"}</td>
                     <td className="px-3 py-2 text-zinc-400">{u.raw_title}</td>
                     <td className="px-3 py-2 text-zinc-400">{u.vendor_name}</td>

@@ -73,14 +73,30 @@ const EXAMPLE_SNAPSHOT_PATH = path.resolve(
   process.cwd(), "data", "snapshot.example.json"
 );
 
+export class SnapshotParseError extends Error {
+  constructor(path: string, cause: unknown) {
+    super(`Could not parse snapshot at ${path}: ${(cause as Error)?.message ?? cause}`);
+    this.name = "SnapshotParseError";
+    this.cause = cause;
+  }
+}
+
 export async function loadSnapshot(): Promise<Snapshot | null> {
   for (const candidate of [SNAPSHOT_PATH, EXAMPLE_SNAPSHOT_PATH]) {
+    let raw: string;
     try {
-      const raw = await readFile(candidate, "utf-8");
-      return JSON.parse(raw) as Snapshot;
+      raw = await readFile(candidate, "utf-8");
     } catch (err) {
       if ((err as NodeJS.ErrnoException).code === "ENOENT") continue;
       throw err;
+    }
+    try {
+      return JSON.parse(raw) as Snapshot;
+    } catch (err) {
+      // Distinguish "missing file" (fall through) from "file present but
+      // malformed" — the latter is a real bug and should surface, not
+      // silently fall back to the example seed.
+      throw new SnapshotParseError(candidate, err);
     }
   }
   return null;
