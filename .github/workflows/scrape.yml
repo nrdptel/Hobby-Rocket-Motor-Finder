@@ -49,47 +49,16 @@ jobs:
       - name: Scrape all vendors
         run: hpr scrape run all
 
-      - name: Sanity-check per-vendor listing counts
-        # Catch the case where a vendor returns suspiciously few listings
-        # (Shopify rate-limiting from data center IPs, transient 5xx, etc.).
-        # If any vendor's count is under the floor we know is achievable on a
-        # healthy run, fail loudly instead of silently committing bad data.
+      - name: Export snapshot (resilient to a flaky vendor)
+        # A vendor that scrapes below the floor (AMW/Sirius intermittently
+        # return 0 when blocked from CI data-center IPs) keeps its last-good
+        # listings from the previously-committed data/snapshot.json instead of
+        # vanishing — so healthy vendors' fresh data still publishes every run.
+        # The export only fails (and skips the commit) if a below-floor vendor
+        # has NO prior data to fall back on. The floor (200) is well above a
+        # rate-limited-mid-walk run (~20% of normal) but below a healthy run.
         working-directory: ${{ github.workspace }}
-        run: |
-          python3 - <<'PY'
-          import sqlite3, sys
-          # Floors are well below the typical healthy run, but well above the
-          # "scraper got rate-limited mid-walk and bailed early" floor we've
-          # observed (~20% of normal).
-          MIN_BY_VENDOR = {
-              "csrocketry": 200,
-              "buyrocketmotors": 200,
-              "wildman": 200,
-              "amw": 200,
-              "sirius": 200,
-          }
-          conn = sqlite3.connect("data/hpr.db")
-          rows = conn.execute(
-              "SELECT v.slug, COUNT(*) FROM listings l JOIN vendors v ON v.id=l.vendor_id GROUP BY v.slug"
-          ).fetchall()
-          counts = dict(rows)
-          bad = []
-          for slug, floor in MIN_BY_VENDOR.items():
-              got = counts.get(slug, 0)
-              status = "OK" if got >= floor else "LOW"
-              print(f"  {slug:20s} {got:4d}  (floor {floor}) {status}")
-              if got < floor:
-                  bad.append((slug, got, floor))
-          if bad:
-              print()
-              print("Refusing to commit snapshot — these vendors are below the sanity floor:")
-              for slug, got, floor in bad:
-                  print(f"  {slug}: {got} < {floor}")
-              sys.exit(1)
-          PY
-
-      - name: Export snapshot
-        run: hpr snapshot export
+        run: hpr snapshot export --floor 200
 
       - name: Commit changes if any
         working-directory: ${{ github.workspace }}

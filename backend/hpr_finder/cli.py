@@ -12,6 +12,7 @@ from . import catalog, db
 from .http import polite_async_client
 from .models import _utc_now
 from .scrapers import REGISTRY
+from .snapshot import carry_forward
 
 app = typer.Typer(help="HPR motor availability aggregator CLI", no_args_is_help=True)
 catalog_app = typer.Typer(help="Manage the canonical motor catalog")
@@ -131,13 +132,39 @@ def snapshot_export(
         Path(__file__).resolve().parents[2] / "data" / "snapshot.json",
         help="Output JSON path (frontend reads this)",
     ),
+    floor: int = typer.Option(
+        0,
+        help=(
+            "Per-vendor minimum listing count. When >0, a vendor that scrapes "
+            "below this carries its listings forward from the existing --out "
+            "snapshot (last-good) instead of vanishing. Exits non-zero only if a "
+            "below-floor vendor has no prior data to fall back on. 0 disables."
+        ),
+    ),
 ) -> None:
     """Dump every motor with its per-vendor listings into one JSON file.
 
     Includes a separate ``unmatched`` array of listings whose ``motor_id`` is
     NULL so the UI can surface them as 'spec unknown' instead of silently
     dropping data.
+
+    With ``--floor`` set, a degraded vendor (e.g. AMW/Sirius blocked from CI IPs)
+    keeps its last-good listings from the previous snapshot rather than dropping
+    out, so healthy vendors and new data still publish.
     """
+    # When called directly (tests) rather than through the CLI, typer defaults
+    # arrive unresolved (an OptionInfo); treat a non-int floor as disabled.
+    if not isinstance(floor, int):
+        floor = 0
+
+    # Read the previous snapshot BEFORE we overwrite ``out``.
+    prev = None
+    if floor > 0 and out.exists():
+        try:
+            prev = json.loads(out.read_text())
+        except (OSError, json.JSONDecodeError):
+            prev = None
+
     with db.connect() as conn:
         motors = conn.execute(
             "SELECT id, manufacturer, designation, common_name, diameter_mm, impulse_class, "
@@ -220,6 +247,20 @@ def snapshot_export(
             for r in unmatched_listings
         ],
     }
+    failed: list[str] = []
+    if floor > 0:
+        payload, report = carry_forward(payload, prev, floor)
+        typer.echo(f"snapshot floor={floor} — per-vendor:")
+        for vendor in sorted(report["decision"]):
+            d = report["decision"][vendor]
+            fresh_n = report["fresh_counts"].get(vendor, 0)
+            prev_n = report["prev_counts"].get(vendor, 0)
+            note = f"carried {prev_n} from prev" if d == "carried" else (
+                "NO PRIOR DATA" if d == "failed" else f"{fresh_n} fresh"
+            )
+            typer.echo(f"  {vendor:18s} {d:8s} ({note})")
+        failed = report["failed"]
+
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2))
     typer.echo(
@@ -227,6 +268,12 @@ def snapshot_export(
         f"{sum(1 for m in payload['motors'] if m['listings'])} motors with listings, "
         f"{len(payload['unmatched'])} unmatched"
     )
+    if failed:
+        typer.echo(
+            f"Refusing to publish — below floor with no prior data: {', '.join(failed)}",
+            err=True,
+        )
+        raise typer.Exit(1)
 
 
 def _get_vendor(slug: str):
