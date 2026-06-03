@@ -9,6 +9,7 @@ from .models import Listing, Motor
 from .normalize import (
     base_designation,
     extract_designation,
+    infer_cti_propellant,
     infer_propellant_from_title,
     lp_base_designation,
     strip_internal_hyphens,
@@ -158,10 +159,15 @@ def find_motor_id(
     manufacturer: str,
     designation: str,
     title: str | None = None,
+    diameter_mm: int | None = None,
 ) -> int | None:
     """Match a vendor designation (+ optional product title) to a canonical motor.
 
-    Strategy, in order:
+    Dispatches on manufacturer: Cesaroni has a different designation grammar
+    (no propellant letter) and so a different match path — see
+    :func:`_find_cti_motor_id`. AeroTech uses the transform chain below.
+
+    AeroTech strategy, in order:
       1. Exact match on designation.
       2. HPR delay-suffix strip (H242T-14A -> H242T).
       3. Low-power delay-infix strip keeping trailing propellant (D13-10W -> D13W).
@@ -173,6 +179,9 @@ def find_motor_id(
     """
     if not designation:
         return None
+    # Cesaroni Technology (the name ThrustCurve stores; query term is "Cesaroni").
+    if manufacturer.lower().startswith("cesaroni"):
+        return _find_cti_motor_id(conn, manufacturer, designation, title, diameter_mm)
     # Steps 1-N: try increasingly aggressive designation transforms against the
     # catalog's "designation" column (the canonical form ThrustCurve uses).
     base = base_designation(designation)
@@ -221,6 +230,51 @@ def find_motor_id(
         ).fetchall()
         if len(rows) == 1:
             return rows[0][0]
+    return None
+
+
+def _find_cti_motor_id(
+    conn: sqlite3.Connection,
+    manufacturer: str,
+    designation: str,
+    title: str | None,
+    diameter_mm: int | None,
+) -> int | None:
+    """Match a Cesaroni listing to a catalog motor.
+
+    ``designation`` is the CTI commonName (e.g. ``I445``) — there is no
+    propellant letter, so we match on the catalog's ``common_name`` column and
+    disambiguate by the flavor inferred from the title. The only commonName+flavor
+    collision in the catalog (H123 Skidmark, 29mm vs 38mm) is resolved by
+    ``diameter_mm`` when the scraper supplies it. Falls back to a commonName-only
+    match when it is unambiguous.
+    """
+    common = designation.upper()
+    propinfo = infer_cti_propellant(title or "")
+    if propinfo:
+        rows = conn.execute(
+            "SELECT id, diameter_mm FROM motors "
+            "WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE "
+            "AND propellant = ? COLLATE NOCASE",
+            (manufacturer, common, propinfo),
+        ).fetchall()
+        if len(rows) == 1:
+            return rows[0][0]
+        if len(rows) > 1:
+            if diameter_mm is not None:
+                for r in rows:
+                    if r["diameter_mm"] == diameter_mm:
+                        return r["id"]
+            # Ambiguous and no diameter hint — pick the first deterministically
+            # (only the lone H123-Skidmark case ever reaches here).
+            return rows[0]["id"]
+    # Fallback: commonName alone, only when it identifies exactly one motor.
+    rows = conn.execute(
+        "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE",
+        (manufacturer, common),
+    ).fetchall()
+    if len(rows) == 1:
+        return rows[0][0]
     return None
 
 
