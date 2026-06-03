@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 type Props = {
+  manufacturers: string[];
   classes: string[];
   diameters: number[];
   propellants: string[];
@@ -26,6 +27,7 @@ function toggleInList(list: Set<string>, value: string): string | null {
 }
 
 export function FilterBar({
+  manufacturers,
   classes,
   diameters,
   propellants,
@@ -35,6 +37,7 @@ export function FilterBar({
   const router = useRouter();
   const sp = useSearchParams();
 
+  const activeManufacturers = parseList(sp.get("mfr"));
   const activeClasses = parseList(sp.get("class"));
   const activeDiameters = parseList(sp.get("dia"));
   const activePropellants = parseList(sp.get("prop"));
@@ -70,6 +73,7 @@ export function FilterBar({
     return () => clearTimeout(id);
   }, [query, urlQuery, update]);
 
+  const toggleMfr = (m: string) => update("mfr", toggleInList(activeManufacturers, m));
   const toggleClass = (c: string) => update("class", toggleInList(activeClasses, c));
   const toggleDia = (d: number) =>
     update("dia", toggleInList(activeDiameters, String(d)));
@@ -78,6 +82,7 @@ export function FilterBar({
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
 
   const anyFilter =
+    activeManufacturers.size > 0 ||
     activeClasses.size > 0 ||
     activeDiameters.size > 0 ||
     activePropellants.size > 0 ||
@@ -136,6 +141,21 @@ export function FilterBar({
           )}
         </div>
       </FilterRow>
+
+      {manufacturers.length > 1 && (
+        <FilterRow label="Brand">
+          {manufacturers.map((m) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => toggleMfr(m)}
+              className={pill(activeManufacturers.has(m))}
+            >
+              {m}
+            </button>
+          ))}
+        </FilterRow>
+      )}
 
       <FilterRow label="Class">
         {classes.map((c) => (

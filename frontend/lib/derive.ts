@@ -64,6 +64,15 @@ export function thrustcurveUrl(m: Motor): string {
   return `https://www.thrustcurve.org/motors/${encodeURIComponent(m.manufacturer)}/${encodeURIComponent(m.designation)}/`;
 }
 
+/** Short, human display name for a manufacturer. ThrustCurve stores Cesaroni
+ * as "Cesaroni Technology"; shorten it for the UI. Everything else is shown
+ * verbatim. Used for both the table column and the filter pills, so the URL
+ * filter value matches what the user sees. */
+export function manufacturerLabel(manufacturer: string): string {
+  if (manufacturer === "Cesaroni Technology") return "Cesaroni";
+  return manufacturer;
+}
+
 /** Sort motors for display: class first, then diameter ascending, then
  * designation alphabetical. */
 export function sortedMotors(motors: Motor[]): Motor[] {

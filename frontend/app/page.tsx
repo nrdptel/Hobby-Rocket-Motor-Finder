@@ -4,6 +4,7 @@ import {
   formatPrice,
   groupByDelay,
   listingInStock,
+  manufacturerLabel,
   parseSetParam,
   sortedMotors,
   thrustcurveUrl,
@@ -36,6 +37,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   }
 
   const params = await searchParams;
+  const fMfr = parseSetParam(params.mfr);
   const fClass = parseSetParam(params.class);
   const fDia = parseSetParam(params.dia);
   const fProp = parseSetParam(params.prop);
@@ -52,6 +54,12 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
   // Available filter options derived from motors-with-listings (so we don't
   // offer pills that yield zero results).
+  const manufacturerOptions = Array.from(
+    new Set(motorsWithListings.map((m) => manufacturerLabel(m.manufacturer))),
+  ).sort();
+  // The brand column + filter only matter once more than one manufacturer is
+  // present; with AeroTech alone (e.g. the example snapshot) they'd be noise.
+  const showManufacturer = manufacturerOptions.length > 1;
   const classOptions = Array.from(
     new Set(motorsWithListings.map((m) => m.impulse_class)),
   ).sort();
@@ -65,6 +73,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   // Apply filters.
   const filtered = sortedMotors(
     motorsWithListings.filter((m) => {
+      if (fMfr.size > 0 && !fMfr.has(manufacturerLabel(m.manufacturer))) return false;
       if (fClass.size > 0 && !fClass.has(m.impulse_class)) return false;
       if (fDia.size > 0 && !fDia.has(String(m.diameter_mm))) return false;
       if (fProp.size > 0 && (!m.propellant || !fProp.has(m.propellant))) return false;
@@ -119,6 +128,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       </header>
 
       <FilterBar
+        manufacturers={manufacturerOptions}
         classes={classOptions}
         diameters={diameterOptions}
         propellants={propellantOptions}
@@ -131,6 +141,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           <thead className="bg-zinc-900 text-left text-xs uppercase tracking-wider text-zinc-400">
             <tr>
               <th className="px-3 py-2">Motor</th>
+              {showManufacturer && <th className="px-3 py-2">Mfr</th>}
               <th className="px-3 py-2">Class</th>
               <th className="px-3 py-2">Dia</th>
               <th className="px-3 py-2">Propellant</th>
@@ -150,7 +161,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           <tbody>
             {filteredWithListings.length === 0 ? (
               <tr>
-                <td colSpan={11} className="px-3 py-8 text-center text-sm text-zinc-400">
+                <td colSpan={showManufacturer ? 12 : 11} className="px-3 py-8 text-center text-sm text-zinc-400">
                   No motors match the current filters.
                 </td>
               </tr>
@@ -198,6 +209,14 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                                 {m.designation}
                               </a>
                             </td>
+                            {showManufacturer && (
+                              <td
+                                rowSpan={motorTotal}
+                                className="px-3 py-2 align-top text-zinc-400 whitespace-nowrap"
+                              >
+                                {manufacturerLabel(m.manufacturer)}
+                              </td>
+                            )}
                             <td rowSpan={motorTotal} className="px-3 py-2 align-top">
                               {m.impulse_class}
                             </td>
