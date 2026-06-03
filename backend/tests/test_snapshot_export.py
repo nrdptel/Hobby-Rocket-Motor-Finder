@@ -158,6 +158,43 @@ def test_snapshot_status_enum_values(tmp_db, tmp_path):
     )
 
 
+def test_snapshot_excludes_motors_without_listings(tmp_db, tmp_path):
+    """Catalog motors with zero listings must NOT appear in the snapshot.
+
+    This is the guard that keeps catalog-only motors (e.g. Cesaroni loaded
+    before its scraper exists) out of snapshot.json. The frontend already
+    hides listing-less motors, so emitting them is pure dead weight.
+    """
+    _seed_minimal(tmp_db)
+    # Add a second motor that has NO listing — it should be filtered out.
+    with db.connect(tmp_db) as conn:
+        upsert_motors(conn, [
+            Motor(
+                manufacturer="Cesaroni Technology",
+                designation="234I445-16A",
+                common_name="I445",
+                diameter_mm=38,
+                length_mm=None,
+                total_impulse_ns=234.0,
+                avg_thrust_n=445.0,
+                burn_time_s=None,
+                propellant="White Thunder",
+                impulse_class="I",
+                delays="6,8,10,12,14,16",
+                delay_adjustable=True,
+                thrustcurve_id="cti-1",
+            ),
+        ])
+    out = tmp_path / "snap.json"
+    snapshot_export(out=out)
+    snap = json.loads(out.read_text())
+
+    designations = {m["designation"] for m in snap["motors"]}
+    assert "H242T-14A" in designations          # has a listing → kept
+    assert "234I445-16A" not in designations     # listing-less → excluded
+    assert all(len(m["listings"]) > 0 for m in snap["motors"])
+
+
 def test_snapshot_empty_db_produces_valid_shape(tmp_db, tmp_path):
     """Edge: fresh DB with no motors and no listings. Frontend must still
     be able to render an empty state."""

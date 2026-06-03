@@ -26,9 +26,14 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(messag
 
 @catalog_app.command("refresh")
 def catalog_refresh() -> None:
-    """Download the AeroTech subset of ThrustCurve and load it into SQLite."""
-    motors = catalog.aerotech_motors(use_cache=False)
-    typer.echo(f"fetched {len(motors)} AeroTech motors from ThrustCurve")
+    """Download the catalog from ThrustCurve (all manufacturers) and load it into SQLite."""
+    aerotech = catalog.aerotech_motors(use_cache=False)
+    cesaroni = catalog.cesaroni_motors(use_cache=False)
+    motors = aerotech + cesaroni
+    typer.echo(
+        f"fetched {len(aerotech)} AeroTech + {len(cesaroni)} Cesaroni "
+        f"= {len(motors)} motors from ThrustCurve"
+    )
     with db.connect() as conn:
         db.init_schema(conn)
         n = db.upsert_motors(conn, motors)
@@ -175,6 +180,10 @@ def snapshot_export(
 
     payload = {
         "generated_at": _utc_now().isoformat(timespec="seconds"),
+        # Only emit motors that have at least one matched listing. The frontend
+        # already hides listing-less motors (`listings.length > 0`), so shipping
+        # them is dead weight — and it keeps catalog-only motors (e.g. Cesaroni
+        # loaded before its scraper exists) out of the snapshot entirely.
         "motors": [
             {
                 "id": m["id"],
@@ -189,9 +198,10 @@ def snapshot_export(
                 "propellant": m["propellant"],
                 "delays": m["delays"],
                 "delay_adjustable": bool(m["delay_adjustable"]),
-                "listings": by_motor.get(m["id"], []),
+                "listings": by_motor[m["id"]],
             }
             for m in motors
+            if m["id"] in by_motor
         ],
         "unmatched": [
             {
