@@ -8,7 +8,9 @@ from pathlib import Path
 from .models import Listing, Motor
 from .normalize import (
     base_designation,
+    extract_cti_designation,
     extract_designation,
+    infer_cti_propellant,
     infer_propellant_from_title,
     lp_base_designation,
     strip_internal_hyphens,
@@ -62,6 +64,11 @@ CREATE TABLE IF NOT EXISTS listings (
     currency TEXT NOT NULL DEFAULT 'USD',
     status TEXT NOT NULL,
     stock_count INTEGER,
+    -- Manufacturer this listing matches against (routes find_motor_id) and an
+    -- optional diameter hint for Cesaroni collision-breaking. Defaults keep
+    -- existing AeroTech-only databases working without a backfill.
+    manufacturer TEXT NOT NULL DEFAULT 'AeroTech',
+    diameter_mm INTEGER,
     seen_at TEXT NOT NULL,
     UNIQUE (vendor_id, url)
 );
@@ -109,6 +116,13 @@ def init_schema(conn: sqlite3.Connection) -> None:
     if "delay_adjustable" not in cols:
         conn.execute("ALTER TABLE motors ADD COLUMN delay_adjustable INTEGER NOT NULL DEFAULT 0")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_motors_common_name ON motors (common_name)")
+    # Idempotent migration: add manufacturer/diameter routing columns to listings
+    # if an older DB predates multi-manufacturer support.
+    lcols = {r["name"] for r in conn.execute("PRAGMA table_info(listings)")}
+    if "manufacturer" not in lcols:
+        conn.execute("ALTER TABLE listings ADD COLUMN manufacturer TEXT NOT NULL DEFAULT 'AeroTech'")
+    if "diameter_mm" not in lcols:
+        conn.execute("ALTER TABLE listings ADD COLUMN diameter_mm INTEGER")
 
 
 def upsert_vendor(conn: sqlite3.Connection, slug: str, name: str, homepage: str, state: str | None = None) -> int:
@@ -158,10 +172,15 @@ def find_motor_id(
     manufacturer: str,
     designation: str,
     title: str | None = None,
+    diameter_mm: int | None = None,
 ) -> int | None:
     """Match a vendor designation (+ optional product title) to a canonical motor.
 
-    Strategy, in order:
+    Dispatches on manufacturer: Cesaroni has a different designation grammar
+    (no propellant letter) and so a different match path — see
+    :func:`_find_cti_motor_id`. AeroTech uses the transform chain below.
+
+    AeroTech strategy, in order:
       1. Exact match on designation.
       2. HPR delay-suffix strip (H242T-14A -> H242T).
       3. Low-power delay-infix strip keeping trailing propellant (D13-10W -> D13W).
@@ -173,6 +192,9 @@ def find_motor_id(
     """
     if not designation:
         return None
+    # Cesaroni Technology (the name ThrustCurve stores; query term is "Cesaroni").
+    if manufacturer.lower().startswith("cesaroni"):
+        return _find_cti_motor_id(conn, manufacturer, designation, title, diameter_mm)
     # Steps 1-N: try increasingly aggressive designation transforms against the
     # catalog's "designation" column (the canonical form ThrustCurve uses).
     base = base_designation(designation)
@@ -224,12 +246,59 @@ def find_motor_id(
     return None
 
 
+def _find_cti_motor_id(
+    conn: sqlite3.Connection,
+    manufacturer: str,
+    designation: str,
+    title: str | None,
+    diameter_mm: int | None,
+) -> int | None:
+    """Match a Cesaroni listing to a catalog motor.
+
+    ``designation`` is the CTI commonName (e.g. ``I445``) — there is no
+    propellant letter, so we match on the catalog's ``common_name`` column and
+    disambiguate by the flavor inferred from the title. The only commonName+flavor
+    collision in the catalog (H123 Skidmark, 29mm vs 38mm) is resolved by
+    ``diameter_mm`` when the scraper supplies it. Falls back to a commonName-only
+    match when it is unambiguous.
+    """
+    common = designation.upper()
+    propinfo = infer_cti_propellant(title or "")
+    if propinfo:
+        rows = conn.execute(
+            "SELECT id, diameter_mm FROM motors "
+            "WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE "
+            "AND propellant = ? COLLATE NOCASE",
+            (manufacturer, common, propinfo),
+        ).fetchall()
+        if len(rows) == 1:
+            return rows[0][0]
+        if len(rows) > 1:
+            if diameter_mm is not None:
+                for r in rows:
+                    if r["diameter_mm"] == diameter_mm:
+                        return r["id"]
+            # Ambiguous and no diameter hint — pick the first deterministically
+            # (only the lone H123-Skidmark case ever reaches here).
+            return rows[0]["id"]
+    # Fallback: commonName alone, only when it identifies exactly one motor.
+    rows = conn.execute(
+        "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE",
+        (manufacturer, common),
+    ).fetchall()
+    if len(rows) == 1:
+        return rows[0][0]
+    return None
+
+
 def upsert_listings(conn: sqlite3.Connection, vendor_id: int, listings: list[Listing]) -> int:
     rows = []
     for l in listings:
         motor_id = l.motor_id
         if motor_id is None:
-            motor_id = find_motor_id(conn, "AeroTech", l.motor_designation, l.raw_title)
+            motor_id = find_motor_id(
+                conn, l.manufacturer, l.motor_designation, l.raw_title, l.diameter_mm
+            )
         rows.append(
             (
                 vendor_id,
@@ -242,16 +311,18 @@ def upsert_listings(conn: sqlite3.Connection, vendor_id: int, listings: list[Lis
                 l.currency,
                 l.status.value,
                 l.stock_count,
+                l.manufacturer,
+                l.diameter_mm,
                 l.seen_at.isoformat(timespec="seconds"),
             )
         )
     conn.executemany(
-        "INSERT INTO listings (vendor_id, motor_id, raw_designation, raw_title, url, sku, price_cents, currency, status, stock_count, seen_at) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "INSERT INTO listings (vendor_id, motor_id, raw_designation, raw_title, url, sku, price_cents, currency, status, stock_count, manufacturer, diameter_mm, seen_at) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT (vendor_id, url) DO UPDATE SET "
         "motor_id=excluded.motor_id, raw_designation=excluded.raw_designation, raw_title=excluded.raw_title, "
         "sku=excluded.sku, price_cents=excluded.price_cents, currency=excluded.currency, status=excluded.status, "
-        "stock_count=excluded.stock_count, seen_at=excluded.seen_at",
+        "stock_count=excluded.stock_count, manufacturer=excluded.manufacturer, diameter_mm=excluded.diameter_mm, seen_at=excluded.seen_at",
         rows,
     )
     return len(rows)
@@ -267,16 +338,21 @@ def rematch_listings(conn: sqlite3.Connection) -> tuple[int, int, int]:
     Returns (designations_updated, motors_rematched, total).
     """
     listings = conn.execute(
-        "SELECT id, raw_designation, raw_title, motor_id FROM listings"
+        "SELECT id, raw_designation, raw_title, motor_id, manufacturer, diameter_mm FROM listings"
     ).fetchall()
     designations_changed = 0
     motors_changed = 0
     for r in listings:
-        new_des = extract_designation(r["raw_title"]) or r["raw_designation"]
+        manufacturer = r["manufacturer"] or "AeroTech"
+        is_cti = manufacturer.lower().startswith("cesaroni")
+        extract = extract_cti_designation if is_cti else extract_designation
+        new_des = extract(r["raw_title"]) or r["raw_designation"]
         if new_des != r["raw_designation"]:
             conn.execute("UPDATE listings SET raw_designation = ? WHERE id = ?", (new_des, r["id"]))
             designations_changed += 1
-        new_motor_id = find_motor_id(conn, "AeroTech", new_des, r["raw_title"])
+        new_motor_id = find_motor_id(
+            conn, manufacturer, new_des, r["raw_title"], r["diameter_mm"]
+        )
         if new_motor_id != r["motor_id"]:
             conn.execute("UPDATE listings SET motor_id = ? WHERE id = ?", (new_motor_id, r["id"]))
             motors_changed += 1

@@ -17,6 +17,8 @@ from hpr_finder.catalog import (
     _maybe_float,
     _maybe_int,
     aerotech_motors,
+    all_motors,
+    cesaroni_motors,
     load_cache,
     save_cache,
     to_motor,
@@ -182,3 +184,59 @@ def test_aerotech_motors_can_skip_cache(monkeypatch, tmp_path, sample_records):
     # And the cache was updated.
     written = json.loads(cache_path.read_text())
     assert written == sample_records
+
+
+# --- cesaroni_motors: parallel cache-first path ----------------------------
+
+def test_cesaroni_motors_reads_cache_when_present(monkeypatch, tmp_path, sample_records):
+    """Cesaroni mirrors AeroTech: when its cache exists, no network call.
+    Uses the generic ``fetch_motors`` rather than a manufacturer-specific fetch."""
+    cache_path = tmp_path / "thrustcurve_cesaroni.json"
+    cache_path.write_text(json.dumps(sample_records))
+
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "CESARONI_CACHE_PATH", cache_path)
+
+    def _explode(*args, **kwargs):
+        raise AssertionError("fetch_motors should not be called when cache exists")
+    monkeypatch.setattr(catalog, "fetch_motors", _explode)
+
+    motors = cesaroni_motors(use_cache=True)
+    assert len(motors) == 3
+
+
+def test_cesaroni_motors_fetches_with_manufacturer_when_no_cache(monkeypatch, tmp_path, sample_records):
+    """On cache miss, ``cesaroni_motors`` fetches the Cesaroni manufacturer and
+    writes the cache back."""
+    cache_path = tmp_path / "thrustcurve_cesaroni.json"  # does not exist yet
+
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "CESARONI_CACHE_PATH", cache_path)
+
+    called_with = {}
+    def _fake_fetch(manufacturer, timeout=30.0):
+        called_with["manufacturer"] = manufacturer
+        return sample_records
+    monkeypatch.setattr(catalog, "fetch_motors", _fake_fetch)
+
+    motors = cesaroni_motors(use_cache=False)
+    assert called_with["manufacturer"] == "Cesaroni"
+    assert len(motors) == 3
+    assert json.loads(cache_path.read_text()) == sample_records
+
+
+# --- all_motors: concatenation of every manufacturer -----------------------
+
+def test_all_motors_concatenates_manufacturers(monkeypatch, tmp_path, sample_records):
+    """``all_motors`` returns AeroTech + Cesaroni from their respective caches."""
+    at_cache = tmp_path / "thrustcurve_aerotech.json"
+    cti_cache = tmp_path / "thrustcurve_cesaroni.json"
+    at_cache.write_text(json.dumps(sample_records))
+    cti_cache.write_text(json.dumps(sample_records[:2]))
+
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "CACHE_PATH", at_cache)
+    monkeypatch.setattr(catalog, "CESARONI_CACHE_PATH", cti_cache)
+
+    motors = all_motors(use_cache=True)
+    assert len(motors) == 3 + 2

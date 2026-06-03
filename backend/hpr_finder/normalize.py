@@ -192,3 +192,82 @@ def propellant_letter(name: str | None) -> str:
     if not name:
         return ""
     return PROPELLANT_LETTER.get(name, "")
+
+
+# ---------------------------------------------------------------------------
+# Cesaroni (CTI)
+# ---------------------------------------------------------------------------
+# CTI's scheme is fundamentally different from AeroTech: there is NO propellant
+# letter inside the designation. ThrustCurve's canonical designation is
+# ``<totImpulse><class><avgThrust>-<delay>A`` (e.g. ``234I445-16A``) and the
+# ``commonName`` is just ``<class><avgThrust>`` (e.g. ``I445``). Vendors list the
+# commonName, and the propellant is a separate *flavor* word in the title.
+#
+# Matching therefore keys on (commonName, flavor[, diameter]) — see
+# ``db.find_motor_id``. See docs/CTI_spike.md for the full derivation.
+
+# Class letter (CTI HPR runs roughly D..O) + 2-4 avg-thrust digits, e.g.
+# I445, E22, N5600. The leading total-impulse number (the "234" in 234I445) and
+# the trailing "-16A" delay are deliberately NOT captured — only the commonName.
+CTI_COMMON_NAME_RE = re.compile(r"\b([D-O]\d{2,4})\b", re.IGNORECASE)
+
+# Vendor flavor text -> ThrustCurve ``propInfo``. ORDER MATTERS: longest/most
+# specific phrases first, so "White Thunder" wins over bare "White" and
+# "Red Lightning" over bare "Red". Covers the abbreviations vendors actually use
+# (Wildman: Green/Red/Blue/Skid Mark/C Star; csrocketry slug: smokey-sam). See
+# the validated alias table in docs/CTI_spike.md.
+CTI_FLAVOR_NAME_TO_INFO = [
+    ("white thunder", "White Thunder"),
+    ("blue streak", "Blue Streak"),
+    ("red lightning", "Red Lightning"),
+    ("smokey sam", "Smoky Sam"),
+    ("smoky sam", "Smoky Sam"),
+    ("skid mark", "Skidmark"),
+    ("skidmark", "Skidmark"),
+    ("c-star", "C-Star"),
+    ("c star", "C-Star"),
+    ("cstar", "C-Star"),
+    ("green3", "Green3"),
+    ("green", "Green3"),
+    ("imax", "Imax"),
+    ("vmax", "Vmax"),
+    ("mellow", "Mellow"),
+    ("classic", "Classic"),
+    ("pink", "Pink"),
+    ("red", "Red Lightning"),
+    ("blue", "Blue Streak"),
+    ("white", "White"),
+]
+
+
+def extract_cti_designation(title: str) -> str | None:
+    """Return the Cesaroni commonName (class + avg thrust, e.g. ``I445``) from a
+    vendor product title, or None.
+
+    Handles the two real vendor formats:
+      * csrocketry: ``Cesaroni I170-14A Classic Rocket Motor`` -> ``I170``
+      * Wildman:    ``N5600-CTI White Thunder``               -> ``N5600``
+    and the catalog's leading-total-impulse form (``234I445`` -> ``I445``).
+    Result is uppercased for canonical storage and comparison.
+    """
+    if not title:
+        return None
+    # Strip Wildman's literal "-CTI"/"CTI" tag so it can't shadow the commonName.
+    cleaned = re.sub(r"-?CTI\b", " ", title, flags=re.I)
+    # Split the leading total-impulse form so the class token gets a word
+    # boundary: "234I445" -> "234 I445".
+    cleaned = re.sub(r"(?<=\d)(?=[D-O]\d)", " ", cleaned, flags=re.I)
+    m = CTI_COMMON_NAME_RE.search(cleaned)
+    return m.group(1).upper() if m else None
+
+
+def infer_cti_propellant(title: str) -> str | None:
+    """Find a CTI flavor name in the title and return ThrustCurve's canonical
+    ``propInfo`` string (e.g. "White Thunder", "Skidmark"). None if absent."""
+    if not title:
+        return None
+    lower = title.lower()
+    for needle, propinfo in CTI_FLAVOR_NAME_TO_INFO:
+        if needle in lower:
+            return propinfo
+    return None

@@ -14,20 +14,35 @@ from .http import USER_AGENT
 from .models import Motor
 
 THRUSTCURVE_SEARCH_URL = "https://www.thrustcurve.org/api/v1/search.json"
-CACHE_PATH = Path(__file__).resolve().parents[2] / "data" / "thrustcurve_aerotech.json"
+DATA_DIR = Path(__file__).resolve().parents[2] / "data"
+
+# Per-manufacturer ThrustCurve caches. ``CACHE_PATH`` keeps its original name so
+# existing callers and tests (which monkeypatch it) are unaffected.
+CACHE_PATH = DATA_DIR / "thrustcurve_aerotech.json"
+CESARONI_CACHE_PATH = DATA_DIR / "thrustcurve_cesaroni.json"
 
 
-def fetch_aerotech_motors(timeout: float = 30.0) -> list[dict]:
-    """Hit ThrustCurve and return raw AeroTech motor records (available status only).
+def fetch_motors(manufacturer: str, timeout: float = 30.0) -> list[dict]:
+    """Hit ThrustCurve and return raw motor records for one manufacturer
+    (available status only).
 
-    Default maxResults is 20, so we pass a large number to get the full catalog.
+    ``manufacturer`` is the ThrustCurve manufacturer name, e.g. ``"AeroTech"`` or
+    ``"Cesaroni"``. Default maxResults is 20, so we pass a large number to get the
+    full catalog.
     """
     headers = {"User-Agent": USER_AGENT, "Content-Type": "application/json"}
-    body = {"manufacturer": "AeroTech", "availability": "available", "maxResults": 9999}
+    body = {"manufacturer": manufacturer, "availability": "available", "maxResults": 9999}
     with httpx.Client(headers=headers, timeout=timeout) as c:
         r = c.post(THRUSTCURVE_SEARCH_URL, json=body)
         r.raise_for_status()
         return r.json().get("results", [])
+
+
+def fetch_aerotech_motors(timeout: float = 30.0) -> list[dict]:
+    """Back-compat wrapper for the AeroTech subset. New code should prefer
+    :func:`fetch_motors`. Kept because ``aerotech_motors`` and its tests refer
+    to this name."""
+    return fetch_motors("AeroTech", timeout)
 
 
 def save_cache(records: list[dict], path: Path | None = None) -> None:
@@ -76,6 +91,24 @@ def aerotech_motors(use_cache: bool = True) -> list[Motor]:
         raw = fetch_aerotech_motors()
         save_cache(raw, CACHE_PATH)
     return [to_motor(r) for r in raw]
+
+
+def cesaroni_motors(use_cache: bool = True) -> list[Motor]:
+    """Return Motor objects for Cesaroni (CTI). Mirrors :func:`aerotech_motors`:
+    cache-first, falling back to a live fetch that repopulates the cache."""
+    if use_cache and CESARONI_CACHE_PATH.exists():
+        raw = load_cache(CESARONI_CACHE_PATH)
+    else:
+        raw = fetch_motors("Cesaroni")
+        save_cache(raw, CESARONI_CACHE_PATH)
+    return [to_motor(r) for r in raw]
+
+
+def all_motors(use_cache: bool = True) -> list[Motor]:
+    """Every manufacturer's motors, concatenated. The catalog's
+    ``(manufacturer, designation)`` unique key keeps the two sets distinct, so a
+    Cesaroni ``I445`` and an AeroTech motor never collide."""
+    return aerotech_motors(use_cache) + cesaroni_motors(use_cache)
 
 
 def _maybe_int(v) -> int | None:

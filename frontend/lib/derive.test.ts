@@ -7,6 +7,7 @@ import {
   formatPrice,
   groupByDelay,
   listingInStock,
+  manufacturerLabel,
   parseSetParam,
   rankMotor,
   sortedMotors,
@@ -63,6 +64,18 @@ describe("formatPrice", () => {
 
   it("returns an em-dash for null", () => {
     expect(formatPrice(null, "USD")).toBe("—");
+  });
+});
+
+// --- manufacturerLabel -----------------------------------------------------
+
+describe("manufacturerLabel", () => {
+  it("shortens the ThrustCurve Cesaroni name", () => {
+    expect(manufacturerLabel("Cesaroni Technology")).toBe("Cesaroni");
+  });
+
+  it("passes other manufacturers through verbatim", () => {
+    expect(manufacturerLabel("AeroTech")).toBe("AeroTech");
   });
 });
 

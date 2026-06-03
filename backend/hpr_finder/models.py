@@ -51,6 +51,14 @@ class Listing:
     status: StockStatus
     stock_count: int | None
     raw_title: str
+    # Which manufacturer's catalog this listing should be matched against.
+    # Defaults to AeroTech so existing scrapers need no change; Cesaroni
+    # scrapers set "Cesaroni Technology" (the name ThrustCurve stores).
+    manufacturer: str = "AeroTech"
+    # Optional diameter hint (mm) the matcher uses to break the lone Cesaroni
+    # commonName+flavor collision. Recovered by the scraper from the Pro-size in
+    # the product URL; None for AeroTech.
+    diameter_mm: int | None = None
     seen_at: datetime = field(default_factory=_utc_now)
 
 
