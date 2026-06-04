@@ -6,9 +6,11 @@ import {
   delaySortKey,
   extractDelay,
   formatBurn,
+  formatImpulse,
   formatPrice,
   formatThrust,
   groupByDelay,
+  isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
   parseSetParam,
@@ -68,6 +70,19 @@ describe("formatPrice", () => {
 
   it("returns an em-dash for null", () => {
     expect(formatPrice(null, "USD")).toBe("—");
+  });
+});
+
+// --- formatImpulse ---------------------------------------------------------
+
+describe("formatImpulse", () => {
+  it("rounds newton-seconds to a whole number with the unit", () => {
+    expect(formatImpulse(237)).toBe("237 N·s");
+    expect(formatImpulse(2479.6)).toBe("2480 N·s");
+  });
+
+  it("returns an em-dash for null", () => {
+    expect(formatImpulse(null)).toBe("—");
   });
 });
 
@@ -335,6 +350,37 @@ describe("bestInStockPriceCents", () => {
 
   it("returns null for an empty list", () => {
     expect(bestInStockPriceCents([])).toBeNull();
+  });
+});
+
+// --- isBestInStockPrice ----------------------------------------------------
+
+describe("isBestInStockPrice", () => {
+  it("flags an in-stock listing whose price ties the group minimum", () => {
+    const l = makeListing({ status: "in_stock", price_cents: 3999 });
+    expect(isBestInStockPrice(l, 3999)).toBe(true);
+  });
+
+  it("does not flag a listing priced above the minimum", () => {
+    const l = makeListing({ status: "in_stock", price_cents: 5500 });
+    expect(isBestInStockPrice(l, 3999)).toBe(false);
+  });
+
+  it("does not flag an out-of-stock listing even at the minimum price", () => {
+    const l = makeListing({ status: "out_of_stock", price_cents: 3999 });
+    expect(isBestInStockPrice(l, 3999)).toBe(false);
+  });
+
+  it("flags every in-stock listing tied at the minimum (ties allowed)", () => {
+    const a = makeListing({ vendor_name: "A", status: "in_stock", price_cents: 3999 });
+    const b = makeListing({ vendor_name: "B", status: "in_stock", price_cents: 3999 });
+    expect(isBestInStockPrice(a, 3999)).toBe(true);
+    expect(isBestInStockPrice(b, 3999)).toBe(true);
+  });
+
+  it("flags nothing when bestCents is null", () => {
+    const l = makeListing({ status: "in_stock", price_cents: 3999 });
+    expect(isBestInStockPrice(l, null)).toBe(false);
   });
 });
 

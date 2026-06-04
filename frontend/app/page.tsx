@@ -3,18 +3,21 @@ import {
   MIN_CLASS,
   bestInStockPriceCents,
   formatBurn,
+  formatImpulse,
   formatPrice,
   formatThrust,
   groupByDelay,
+  isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
   parseSetParam,
   sortedMotors,
-  staleLabel,
   thrustcurveUrl,
 } from "@/lib/derive";
+import { BestPriceTag } from "./components/BestPriceTag";
 import { FilterBar } from "./components/FilterBar";
 import { MotorCard } from "./components/MotorCard";
+import { StaleBadge } from "./components/StaleBadge";
 import { StatusBadge } from "./components/StatusBadge";
 
 // Snapshot refreshes on a scrape cadence (typically every few hours), so
@@ -204,10 +207,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                   let delayIdx = 0;
                   const bestCents = bestInStockPriceCents(g.listings);
                   for (const l of g.listings) {
-                    const isBestPrice =
-                      bestCents != null &&
-                      listingInStock(l.status) &&
-                      l.price_cents === bestCents;
+                    const isBestPrice = isBestInStockPrice(l, bestCents);
                     const isMotorFirst = motorIdx === 0;
                     const isDelayFirst = delayIdx === 0;
                     const isLastInMotor = motorIdx === motorTotal - 1;
@@ -262,9 +262,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                               rowSpan={motorTotal}
                               className="px-3 py-2 tabular-nums align-top"
                             >
-                              {m.total_impulse_ns != null
-                                ? `${m.total_impulse_ns.toFixed(0)} N·s`
-                                : "—"}
+                              {formatImpulse(m.total_impulse_ns)}
                             </td>
                             <td
                               rowSpan={motorTotal}
@@ -294,27 +292,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                         <td className="px-3 py-2 text-zinc-400">{l.vendor_name}</td>
                         <td className="px-3 py-2 whitespace-nowrap">
                           <StatusBadge status={l.status} count={l.stock_count} />
-                          {(() => {
-                            const stale = staleLabel(l.seen_at, snapshotTime);
-                            return stale ? (
-                              <span
-                                className="ml-1.5 text-xs text-amber-500/80"
-                                title={`This vendor's data was last refreshed ${new Date(l.seen_at).toLocaleString()} — likely carried forward from an earlier scrape.`}
-                              >
-                                {stale}
-                              </span>
-                            ) : null;
-                          })()}
+                          <StaleBadge seenAt={l.seen_at} now={snapshotTime} />
                         </td>
                         <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
-                          {isBestPrice && (
-                            <span
-                              className="mr-1.5 rounded bg-emerald-950 px-1 py-0.5 text-[10px] font-medium text-emerald-400 align-middle"
-                              title="Lowest in-stock price for this variety across vendors"
-                            >
-                              best
-                            </span>
-                          )}
+                          {isBestPrice && <BestPriceTag />}
                           <span className={isBestPrice ? "font-medium text-emerald-400" : ""}>
                             {formatPrice(l.price_cents, l.currency)}
                           </span>
