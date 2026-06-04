@@ -41,3 +41,7 @@ data/snapshots/
 
 # Claude Code per-machine settings (commit .claude/settings.json if needed; never local)
 .claude/settings.local.json
+
+# Design sources (Illustrator) — keep the exported SVG, not the binary
+*.ai
+*.AI
