@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { OG_LOGO_PNG } from "@/lib/og-logo";
 
 // Next picks up `opengraph-image.tsx` (and `twitter-image.tsx`) by file-system
 // convention and serves it at /opengraph-image. The Metadata API in layout.tsx
@@ -63,14 +64,19 @@ export default async function Image() {
         <div
           style={{
             position: "absolute",
-            bottom: 64,
+            bottom: 58,
             left: 80,
-            fontSize: 28,
-            color: "#a1a1aa",
-            letterSpacing: "0.04em",
+            display: "flex",
+            alignItems: "center",
+            gap: 18,
+            opacity: 0.85,
           }}
         >
-          Fusion Space · motor.fusionspace.co
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={OG_LOGO_PNG} width={233} height={52} alt="Fusion Space" />
+          <span style={{ fontSize: 26, color: "#a1a1aa", letterSpacing: "0.04em" }}>
+            motor.fusionspace.co
+          </span>
         </div>
       </div>
     ),
