@@ -1,23 +1,15 @@
 import { loadSnapshot } from "@/lib/snapshot";
 import {
   MIN_CLASS,
-  bestInStockPriceCents,
-  formatBurn,
-  formatImpulse,
   formatPrice,
-  formatThrust,
   groupByDelay,
-  isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
   parseSetParam,
   sortedMotors,
-  thrustcurveUrl,
 } from "@/lib/derive";
-import { BestPriceTag } from "./components/BestPriceTag";
 import { FilterBar } from "./components/FilterBar";
-import { MotorCard } from "./components/MotorCard";
-import { StaleBadge } from "./components/StaleBadge";
+import { MotorResults } from "./components/MotorResults";
 import { StatusBadge } from "./components/StatusBadge";
 
 // Snapshot refreshes on a scrape cadence (typically every few hours), so
@@ -51,6 +43,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fProp = parseSetParam(params.prop);
   const fInStock = params.in_stock === "1";
   const fSort = params.sort === "price" ? "price" : "stock";
+  const fStarredOnly = params.starred === "1";
   const fQueryRaw = Array.isArray(params.q) ? params.q[0] : params.q;
   const fQuery = (fQueryRaw ?? "").trim().toLowerCase();
   // Total-impulse bounds (N·s). Non-numeric/absent params leave the bound open.
@@ -121,17 +114,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     )
     .map((m) => groupByDelay(m, fSort));
 
-  // Reference point for staleness labels: the moment this snapshot was
-  // assembled, NOT wall-clock now. The whole snapshot ages together, so what's
-  // worth flagging is a listing that's old *relative to the rest of the run* —
-  // i.e. a vendor whose data was carried forward from an earlier scrape.
-  const snapshotTime = new Date(snapshot.generated_at);
-
-  const total = motorsWithListings.length;
-  const visible = filteredWithListings.length;
-  const inStockCount = filteredWithListings.filter((m) =>
-    m.listings.some((l) => listingInStock(l.status)),
-  ).length;
   // Drop A/B/C-class entries from the unmatched section too (the same
   // MIN_CLASS gate applied to motors). Also drop AeroTech Q-Jet products —
   // they're a low-power model-rocketry line not in the ThrustCurve subset
@@ -148,8 +130,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       <header className="border-b border-zinc-800 pb-6">
         <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
         <p className="mt-2 text-sm text-zinc-400">
-          {visible} motors shown · {inStockCount} with stock somewhere
-          {unmatched.length > 0 && <> · {unmatched.length} listings we couldn&apos;t identify</>} ·
+          {unmatched.length > 0 && (
+            <>{unmatched.length} listings we couldn&apos;t identify · </>
+          )}
           snapshot generated {new Date(snapshot.generated_at).toLocaleString()}
         </p>
       </header>
@@ -159,188 +142,14 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         classes={classOptions}
         diameters={diameterOptions}
         propellants={propellantOptions}
-        totalMotors={total}
-        visibleMotors={visible}
       />
 
-      <div className="mt-6 hidden overflow-x-auto md:block">
-        <table className="min-w-full text-sm">
-          <thead className="bg-zinc-900 text-left text-xs uppercase tracking-wider text-zinc-400">
-            <tr>
-              <th className="px-3 py-2">Motor</th>
-              {showManufacturer && <th className="px-3 py-2">Mfr</th>}
-              <th className="px-3 py-2">Class</th>
-              <th className="px-3 py-2">Dia</th>
-              <th className="px-3 py-2">Propellant</th>
-              <th className="px-3 py-2">Total Impulse</th>
-              <th className="px-3 py-2" title="Average thrust and burn time from the ThrustCurve catalog — useful for matching a motor to a thrust-to-weight target.">
-                Thrust / Burn
-              </th>
-              <th className="px-3 py-2" title="The full vendor designation, e.g. D13-10W or H242T-14A — what the vendor actually lists the SKU as.">
-                Variety
-              </th>
-              <th className="px-3 py-2" title="Ejection-charge delay time. For HPR motors, 'adj' means the delay is drilled to length at the field.">
-                Delay
-              </th>
-              <th className="px-3 py-2">Vendor</th>
-              <th className="px-3 py-2">Status</th>
-              <th className="px-3 py-2 text-right">Price</th>
-              <th className="px-3 py-2"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredWithListings.length === 0 ? (
-              <tr>
-                <td colSpan={showManufacturer ? 13 : 12} className="px-3 py-8 text-center text-sm text-zinc-400">
-                  No motors match the current filters.
-                </td>
-              </tr>
-            ) : (
-              filteredWithListings.flatMap((m) => {
-                const motorTotal = m.delayGroups.reduce(
-                  (s, g) => s + g.listings.length,
-                  0,
-                );
-                const rows: React.ReactNode[] = [];
-                let motorIdx = 0;
-                for (const g of m.delayGroups) {
-                  let delayIdx = 0;
-                  const bestCents = bestInStockPriceCents(g.listings);
-                  for (const l of g.listings) {
-                    const isBestPrice = isBestInStockPrice(l, bestCents);
-                    const isMotorFirst = motorIdx === 0;
-                    const isDelayFirst = delayIdx === 0;
-                    const isLastInMotor = motorIdx === motorTotal - 1;
-                    const trBase =
-                      "hover:bg-zinc-900/60 " +
-                      (isMotorFirst
-                        ? "border-t-2 border-zinc-700 "
-                        : isDelayFirst
-                          ? "border-t border-zinc-800 "
-                          : "");
-                    rows.push(
-                      <tr
-                        key={`${m.id}-${g.delay}-${l.vendor_slug}-${delayIdx}`}
-                        className={
-                          trBase + (isLastInMotor ? "border-b-2 border-zinc-700" : "")
-                        }
-                      >
-                        {isMotorFirst && (
-                          <>
-                            <td
-                              rowSpan={motorTotal}
-                              className="px-3 py-2 font-mono align-top"
-                            >
-                              <a
-                                href={thrustcurveUrl(m)}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-zinc-100 underline decoration-zinc-700 underline-offset-2 hover:decoration-zinc-300"
-                                title={`View ${m.designation} on ThrustCurve.org`}
-                              >
-                                {m.designation}
-                              </a>
-                            </td>
-                            {showManufacturer && (
-                              <td
-                                rowSpan={motorTotal}
-                                className="px-3 py-2 align-top text-zinc-400 whitespace-nowrap"
-                              >
-                                {manufacturerLabel(m.manufacturer)}
-                              </td>
-                            )}
-                            <td rowSpan={motorTotal} className="px-3 py-2 align-top">
-                              {m.impulse_class}
-                            </td>
-                            <td rowSpan={motorTotal} className="px-3 py-2 align-top">
-                              {`${m.diameter_mm}mm`}
-                            </td>
-                            <td rowSpan={motorTotal} className="px-3 py-2 align-top">
-                              {m.propellant ?? "—"}
-                            </td>
-                            <td
-                              rowSpan={motorTotal}
-                              className="px-3 py-2 tabular-nums align-top"
-                            >
-                              {formatImpulse(m.total_impulse_ns)}
-                            </td>
-                            <td
-                              rowSpan={motorTotal}
-                              className="px-3 py-2 tabular-nums align-top whitespace-nowrap"
-                            >
-                              <span className="text-zinc-200">{formatThrust(m.avg_thrust_n)}</span>
-                              <span className="text-zinc-500"> · {formatBurn(m.burn_time_s)}</span>
-                            </td>
-                          </>
-                        )}
-                        {isDelayFirst && (
-                          <>
-                            <td
-                              rowSpan={g.listings.length}
-                              className="px-3 py-2 font-mono text-zinc-300 align-top"
-                            >
-                              {g.variety || "—"}
-                            </td>
-                            <td
-                              rowSpan={g.listings.length}
-                              className="px-3 py-2 tabular-nums align-top"
-                            >
-                              {g.delay}
-                            </td>
-                          </>
-                        )}
-                        <td className="px-3 py-2 text-zinc-400">{l.vendor_name}</td>
-                        <td className="px-3 py-2 whitespace-nowrap">
-                          <StatusBadge status={l.status} count={l.stock_count} />
-                          <StaleBadge seenAt={l.seen_at} now={snapshotTime} />
-                        </td>
-                        <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
-                          {isBestPrice && <BestPriceTag />}
-                          <span className={isBestPrice ? "font-medium text-emerald-400" : ""}>
-                            {formatPrice(l.price_cents, l.currency)}
-                          </span>
-                        </td>
-                        <td className="px-3 py-2">
-                          <a
-                            href={l.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-zinc-400 underline hover:text-zinc-100"
-                          >
-                            view
-                          </a>
-                        </td>
-                      </tr>,
-                    );
-                    delayIdx++;
-                    motorIdx++;
-                  }
-                }
-                return rows;
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Narrow screens: the 13-column table only horizontal-scrolls, so render
-          a stacked card per motor instead below the md breakpoint. */}
-      <div className="mt-6 space-y-3 md:hidden">
-        {filteredWithListings.length === 0 ? (
-          <p className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-8 text-center text-sm text-zinc-400">
-            No motors match the current filters.
-          </p>
-        ) : (
-          filteredWithListings.map((m) => (
-            <MotorCard
-              key={m.id}
-              motor={m}
-              showManufacturer={showManufacturer}
-              snapshotTime={snapshotTime}
-            />
-          ))
-        )}
-      </div>
+      <MotorResults
+        motors={filteredWithListings}
+        showManufacturer={showManufacturer}
+        generatedAt={snapshot.generated_at}
+        starredOnly={fStarredOnly}
+      />
 
       {unmatched.length > 0 && (
         <section className="mt-10 border-t border-zinc-800 pt-6">
