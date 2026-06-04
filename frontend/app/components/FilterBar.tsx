@@ -42,16 +42,27 @@ export function FilterBar({
   const activeDiameters = parseList(sp.get("dia"));
   const activePropellants = parseList(sp.get("prop"));
   const inStockOnly = sp.get("in_stock") === "1";
+  const cheapestFirst = sp.get("sort") === "price";
   const urlQuery = sp.get("q") ?? "";
+  const urlMinImpulse = sp.get("imin") ?? "";
+  const urlMaxImpulse = sp.get("imax") ?? "";
 
-  // Local state for the search input so typing feels instant. Debounce pushes
-  // to the URL (which triggers a server re-render).
+  // Local state for the free-text inputs so typing feels instant. Debounce
+  // pushes to the URL (which triggers a server re-render).
   const [query, setQuery] = useState(urlQuery);
+  const [minImpulse, setMinImpulse] = useState(urlMinImpulse);
+  const [maxImpulse, setMaxImpulse] = useState(urlMaxImpulse);
 
   // Keep local in sync when URL changes externally (e.g., Clear all).
   useEffect(() => {
     setQuery(urlQuery);
   }, [urlQuery]);
+  useEffect(() => {
+    setMinImpulse(urlMinImpulse);
+  }, [urlMinImpulse]);
+  useEffect(() => {
+    setMaxImpulse(urlMaxImpulse);
+  }, [urlMaxImpulse]);
 
   const update = useCallback(
     (key: string, value: string | null) => {
@@ -73,6 +84,25 @@ export function FilterBar({
     return () => clearTimeout(id);
   }, [query, urlQuery, update]);
 
+  // Same debounce for the impulse range inputs. A blank or non-numeric value
+  // clears the bound rather than pushing garbage to the URL.
+  useEffect(() => {
+    if (minImpulse === urlMinImpulse) return;
+    const id = setTimeout(() => {
+      const n = minImpulse.trim();
+      update("imin", n && Number.isFinite(Number(n)) ? n : null);
+    }, 250);
+    return () => clearTimeout(id);
+  }, [minImpulse, urlMinImpulse, update]);
+  useEffect(() => {
+    if (maxImpulse === urlMaxImpulse) return;
+    const id = setTimeout(() => {
+      const n = maxImpulse.trim();
+      update("imax", n && Number.isFinite(Number(n)) ? n : null);
+    }, 250);
+    return () => clearTimeout(id);
+  }, [maxImpulse, urlMaxImpulse, update]);
+
   const toggleMfr = (m: string) => update("mfr", toggleInList(activeManufacturers, m));
   const toggleClass = (c: string) => update("class", toggleInList(activeClasses, c));
   const toggleDia = (d: number) =>
@@ -80,6 +110,7 @@ export function FilterBar({
   const toggleProp = (p: string) =>
     update("prop", toggleInList(activePropellants, p));
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
+  const toggleSort = () => update("sort", cheapestFirst ? null : "price");
 
   const anyFilter =
     activeManufacturers.size > 0 ||
@@ -87,7 +118,10 @@ export function FilterBar({
     activeDiameters.size > 0 ||
     activePropellants.size > 0 ||
     inStockOnly ||
-    urlQuery.length > 0;
+    cheapestFirst ||
+    urlQuery.length > 0 ||
+    urlMinImpulse.length > 0 ||
+    urlMaxImpulse.length > 0;
   const clearAll = () => router.push("/", { scroll: false });
 
   const pill = (active: boolean) =>
@@ -196,6 +230,33 @@ export function FilterBar({
         ))}
       </FilterRow>
 
+      <FilterRow label="Impulse">
+        <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={minImpulse}
+            onChange={(e) => setMinImpulse(e.target.value)}
+            placeholder="min"
+            className="w-20 rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+            aria-label="Minimum total impulse in newton-seconds"
+          />
+          <span>–</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={maxImpulse}
+            onChange={(e) => setMaxImpulse(e.target.value)}
+            placeholder="max"
+            className="w-20 rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+            aria-label="Maximum total impulse in newton-seconds"
+          />
+          <span className="text-zinc-500">N·s</span>
+        </div>
+      </FilterRow>
+
       <FilterRow label="Stock">
         <button
           type="button"
@@ -203,6 +264,14 @@ export function FilterBar({
           className={pill(inStockOnly)}
         >
           In stock only
+        </button>
+        <button
+          type="button"
+          onClick={toggleSort}
+          className={pill(cheapestFirst)}
+          title="Within each motor, list the cheapest vendor first instead of alphabetically"
+        >
+          Cheapest first
         </button>
       </FilterRow>
     </div>

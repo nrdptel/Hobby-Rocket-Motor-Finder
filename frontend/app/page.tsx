@@ -1,15 +1,20 @@
 import { loadSnapshot } from "@/lib/snapshot";
 import {
   MIN_CLASS,
+  bestInStockPriceCents,
+  formatBurn,
   formatPrice,
+  formatThrust,
   groupByDelay,
   listingInStock,
   manufacturerLabel,
   parseSetParam,
   sortedMotors,
+  staleLabel,
   thrustcurveUrl,
 } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
+import { MotorCard } from "./components/MotorCard";
 import { StatusBadge } from "./components/StatusBadge";
 
 // Snapshot refreshes on a scrape cadence (typically every few hours), so
@@ -42,8 +47,17 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fDia = parseSetParam(params.dia);
   const fProp = parseSetParam(params.prop);
   const fInStock = params.in_stock === "1";
+  const fSort = params.sort === "price" ? "price" : "stock";
   const fQueryRaw = Array.isArray(params.q) ? params.q[0] : params.q;
   const fQuery = (fQueryRaw ?? "").trim().toLowerCase();
+  // Total-impulse bounds (N·s). Non-numeric/absent params leave the bound open.
+  const parseNum = (v: string | string[] | undefined): number | null => {
+    const raw = Array.isArray(v) ? v[0] : v;
+    const n = raw != null && raw.trim() !== "" ? Number(raw) : NaN;
+    return Number.isFinite(n) ? n : null;
+  };
+  const fMinImpulse = parseNum(params.imin);
+  const fMaxImpulse = parseNum(params.imax);
 
   // All motors that have any listing (before filtering).
   // MIN_CLASS hides A/B/C-class Estes-style model rocket motors — this tool
@@ -77,6 +91,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       if (fClass.size > 0 && !fClass.has(m.impulse_class)) return false;
       if (fDia.size > 0 && !fDia.has(String(m.diameter_mm))) return false;
       if (fProp.size > 0 && (!m.propellant || !fProp.has(m.propellant))) return false;
+      if (fMinImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < fMinImpulse))
+        return false;
+      if (fMaxImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns > fMaxImpulse))
+        return false;
       if (fInStock && !m.listings.some((l) => listingInStock(l.status))) return false;
       if (fQuery) {
         const designationHit = m.designation.toLowerCase().includes(fQuery);
@@ -98,7 +116,13 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         ? { ...m, listings: m.listings.filter((l) => listingInStock(l.status)) }
         : m,
     )
-    .map(groupByDelay);
+    .map((m) => groupByDelay(m, fSort));
+
+  // Reference point for staleness labels: the moment this snapshot was
+  // assembled, NOT wall-clock now. The whole snapshot ages together, so what's
+  // worth flagging is a listing that's old *relative to the rest of the run* —
+  // i.e. a vendor whose data was carried forward from an earlier scrape.
+  const snapshotTime = new Date(snapshot.generated_at);
 
   const total = motorsWithListings.length;
   const visible = filteredWithListings.length;
@@ -117,7 +141,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   });
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-10">
+    <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
       <header className="border-b border-zinc-800 pb-6">
         <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
         <p className="mt-2 text-sm text-zinc-400">
@@ -136,7 +160,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         visibleMotors={visible}
       />
 
-      <div className="mt-6 overflow-x-auto">
+      <div className="mt-6 hidden overflow-x-auto md:block">
         <table className="min-w-full text-sm">
           <thead className="bg-zinc-900 text-left text-xs uppercase tracking-wider text-zinc-400">
             <tr>
@@ -146,6 +170,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
               <th className="px-3 py-2">Dia</th>
               <th className="px-3 py-2">Propellant</th>
               <th className="px-3 py-2">Total Impulse</th>
+              <th className="px-3 py-2" title="Average thrust and burn time from the ThrustCurve catalog — useful for matching a motor to a thrust-to-weight target.">
+                Thrust / Burn
+              </th>
               <th className="px-3 py-2" title="The full vendor designation, e.g. D13-10W or H242T-14A — what the vendor actually lists the SKU as.">
                 Variety
               </th>
@@ -161,7 +188,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           <tbody>
             {filteredWithListings.length === 0 ? (
               <tr>
-                <td colSpan={showManufacturer ? 12 : 11} className="px-3 py-8 text-center text-sm text-zinc-400">
+                <td colSpan={showManufacturer ? 13 : 12} className="px-3 py-8 text-center text-sm text-zinc-400">
                   No motors match the current filters.
                 </td>
               </tr>
@@ -175,7 +202,12 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                 let motorIdx = 0;
                 for (const g of m.delayGroups) {
                   let delayIdx = 0;
+                  const bestCents = bestInStockPriceCents(g.listings);
                   for (const l of g.listings) {
+                    const isBestPrice =
+                      bestCents != null &&
+                      listingInStock(l.status) &&
+                      l.price_cents === bestCents;
                     const isMotorFirst = motorIdx === 0;
                     const isDelayFirst = delayIdx === 0;
                     const isLastInMotor = motorIdx === motorTotal - 1;
@@ -234,6 +266,13 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                                 ? `${m.total_impulse_ns.toFixed(0)} N·s`
                                 : "—"}
                             </td>
+                            <td
+                              rowSpan={motorTotal}
+                              className="px-3 py-2 tabular-nums align-top whitespace-nowrap"
+                            >
+                              <span className="text-zinc-200">{formatThrust(m.avg_thrust_n)}</span>
+                              <span className="text-zinc-500"> · {formatBurn(m.burn_time_s)}</span>
+                            </td>
                           </>
                         )}
                         {isDelayFirst && (
@@ -253,11 +292,32 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                           </>
                         )}
                         <td className="px-3 py-2 text-zinc-400">{l.vendor_name}</td>
-                        <td className="px-3 py-2">
+                        <td className="px-3 py-2 whitespace-nowrap">
                           <StatusBadge status={l.status} count={l.stock_count} />
+                          {(() => {
+                            const stale = staleLabel(l.seen_at, snapshotTime);
+                            return stale ? (
+                              <span
+                                className="ml-1.5 text-xs text-amber-500/80"
+                                title={`This vendor's data was last refreshed ${new Date(l.seen_at).toLocaleString()} — likely carried forward from an earlier scrape.`}
+                              >
+                                {stale}
+                              </span>
+                            ) : null;
+                          })()}
                         </td>
-                        <td className="px-3 py-2 text-right tabular-nums">
-                          {formatPrice(l.price_cents, l.currency)}
+                        <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
+                          {isBestPrice && (
+                            <span
+                              className="mr-1.5 rounded bg-emerald-950 px-1 py-0.5 text-[10px] font-medium text-emerald-400 align-middle"
+                              title="Lowest in-stock price for this variety across vendors"
+                            >
+                              best
+                            </span>
+                          )}
+                          <span className={isBestPrice ? "font-medium text-emerald-400" : ""}>
+                            {formatPrice(l.price_cents, l.currency)}
+                          </span>
                         </td>
                         <td className="px-3 py-2">
                           <a
@@ -282,6 +342,25 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         </table>
       </div>
 
+      {/* Narrow screens: the 13-column table only horizontal-scrolls, so render
+          a stacked card per motor instead below the md breakpoint. */}
+      <div className="mt-6 space-y-3 md:hidden">
+        {filteredWithListings.length === 0 ? (
+          <p className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-8 text-center text-sm text-zinc-400">
+            No motors match the current filters.
+          </p>
+        ) : (
+          filteredWithListings.map((m) => (
+            <MotorCard
+              key={m.id}
+              motor={m}
+              showManufacturer={showManufacturer}
+              snapshotTime={snapshotTime}
+            />
+          ))
+        )}
+      </div>
+
       {unmatched.length > 0 && (
         <section className="mt-10 border-t border-zinc-800 pt-6">
           <h2 className="text-lg font-semibold tracking-tight">Unmatched listings</h2>
@@ -289,7 +368,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             Products we found on a vendor site but couldn&apos;t map to a ThrustCurve motor.
             Usually means a new naming pattern we haven&apos;t taught the normalizer yet.
           </p>
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-4 hidden overflow-x-auto md:block">
             <table className="min-w-full divide-y divide-zinc-800 text-sm">
               <thead className="bg-zinc-900 text-left text-xs uppercase tracking-wider text-zinc-400">
                 <tr>
@@ -328,6 +407,39 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
               </tbody>
             </table>
           </div>
+
+          {/* Stacked counterpart of the unmatched table for narrow screens. */}
+          <ul className="mt-4 space-y-2 md:hidden">
+            {unmatched.map((u) => (
+              <li
+                key={u.url}
+                className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-3"
+              >
+                <div className="min-w-0">
+                  <div className="truncate font-mono text-zinc-200">
+                    {u.raw_designation || u.raw_title}
+                  </div>
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="text-xs text-zinc-500">{u.vendor_name}</span>
+                    <StatusBadge status={u.status} count={u.stock_count} />
+                  </div>
+                </div>
+                <div className="shrink-0 text-right">
+                  <div className="tabular-nums text-zinc-200">
+                    {formatPrice(u.price_cents, u.currency)}
+                  </div>
+                  <a
+                    href={u.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-zinc-400 underline hover:text-zinc-100"
+                  >
+                    view
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 

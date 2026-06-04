@@ -1,16 +1,20 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  bestInStockPriceCents,
   delayForRow,
   delaySortKey,
   extractDelay,
+  formatBurn,
   formatPrice,
+  formatThrust,
   groupByDelay,
   listingInStock,
   manufacturerLabel,
   parseSetParam,
   rankMotor,
   sortedMotors,
+  staleLabel,
   thrustcurveUrl,
 } from "./derive";
 import type { Listing, Motor } from "./snapshot";
@@ -64,6 +68,81 @@ describe("formatPrice", () => {
 
   it("returns an em-dash for null", () => {
     expect(formatPrice(null, "USD")).toBe("—");
+  });
+});
+
+// --- formatThrust ----------------------------------------------------------
+
+describe("formatThrust", () => {
+  it("rounds newtons and appends the unit", () => {
+    expect(formatThrust(242)).toBe("242 N");
+    expect(formatThrust(241.7)).toBe("242 N");
+  });
+
+  it("returns an em-dash for null", () => {
+    expect(formatThrust(null)).toBe("—");
+  });
+});
+
+// --- formatBurn ------------------------------------------------------------
+
+describe("formatBurn", () => {
+  it("keeps two decimals for sub-second burns", () => {
+    expect(formatBurn(0.98)).toBe("0.98 s");
+    expect(formatBurn(0.3)).toBe("0.30 s");
+  });
+
+  it("rounds to one decimal for burns of a second or more", () => {
+    expect(formatBurn(1.0)).toBe("1.0 s");
+    expect(formatBurn(12.34)).toBe("12.3 s");
+  });
+
+  it("returns an em-dash for null", () => {
+    expect(formatBurn(null)).toBe("—");
+  });
+});
+
+// --- staleLabel ------------------------------------------------------------
+
+describe("staleLabel", () => {
+  const now = new Date("2026-06-03T12:00:00+00:00");
+
+  it("returns null for data fresher than the 45-minute threshold", () => {
+    // 30 minutes old — a single run's fresh listings span only ~15 min.
+    expect(staleLabel("2026-06-03T11:30:00+00:00", now)).toBeNull();
+    // Just under the threshold (44 min).
+    expect(staleLabel("2026-06-03T11:16:00+00:00", now)).toBeNull();
+    // Exactly at the snapshot moment.
+    expect(staleLabel("2026-06-03T12:00:00+00:00", now)).toBeNull();
+  });
+
+  it("flags a single-cycle carry-forward (~75 min old)", () => {
+    // The case the threshold exists to catch: a vendor carried forward for one
+    // hourly cycle. ~65 min here rounds to 1h.
+    expect(staleLabel("2026-06-03T10:55:00+00:00", now)).toBe("1h old");
+    // 75 min still rounds to 1h.
+    expect(staleLabel("2026-06-03T10:45:00+00:00", now)).toBe("1h old");
+  });
+
+  it("labels hours for stale-but-recent data", () => {
+    expect(staleLabel("2026-06-03T09:00:00+00:00", now)).toBe("3h old");
+    // 90 minutes rounds to 2h.
+    expect(staleLabel("2026-06-03T10:30:00+00:00", now)).toBe("2h old");
+  });
+
+  it("labels days once past 24 hours", () => {
+    expect(staleLabel("2026-06-01T12:00:00+00:00", now)).toBe("2d old");
+    expect(staleLabel("2026-05-31T12:00:00+00:00", now)).toBe("3d old");
+  });
+
+  it("returns null for an unparseable seen_at rather than throwing", () => {
+    expect(staleLabel("not-a-date", now)).toBeNull();
+  });
+
+  it("returns null when the reference time is unparseable", () => {
+    // e.g. a snapshot whose generated_at is missing/malformed — don't render
+    // a bogus 'NaNd old' badge on every listing.
+    expect(staleLabel("2026-06-01T12:00:00+00:00", new Date("nonsense"))).toBeNull();
   });
 });
 
@@ -214,6 +293,51 @@ describe("listingInStock", () => {
   });
 });
 
+// --- bestInStockPriceCents -------------------------------------------------
+
+describe("bestInStockPriceCents", () => {
+  it("returns the lowest in-stock price when two or more compete", () => {
+    expect(
+      bestInStockPriceCents([
+        makeListing({ status: "in_stock", price_cents: 5500 }),
+        makeListing({ status: "in_stock", price_cents: 3999 }),
+        makeListing({ status: "in_stock", price_cents: 4499 }),
+      ]),
+    ).toBe(3999);
+  });
+
+  it("ignores out-of-stock listings even if they are cheaper", () => {
+    expect(
+      bestInStockPriceCents([
+        makeListing({ status: "out_of_stock", price_cents: 1000 }),
+        makeListing({ status: "in_stock", price_cents: 4499 }),
+        makeListing({ status: "in_stock", price_cents: 3999 }),
+      ]),
+    ).toBe(3999);
+  });
+
+  it("returns null when fewer than two in-stock listings carry a price", () => {
+    // Only one in-stock priced listing — no comparison to make.
+    expect(
+      bestInStockPriceCents([
+        makeListing({ status: "in_stock", price_cents: 3999 }),
+        makeListing({ status: "out_of_stock", price_cents: 2999 }),
+      ]),
+    ).toBeNull();
+    // Two in-stock but one has no price.
+    expect(
+      bestInStockPriceCents([
+        makeListing({ status: "in_stock", price_cents: 3999 }),
+        makeListing({ status: "in_stock", price_cents: null }),
+      ]),
+    ).toBeNull();
+  });
+
+  it("returns null for an empty list", () => {
+    expect(bestInStockPriceCents([])).toBeNull();
+  });
+});
+
 // --- delaySortKey ----------------------------------------------------------
 
 describe("delaySortKey", () => {
@@ -290,6 +414,53 @@ describe("groupByDelay", () => {
     });
     const g = groupByDelay(motor);
     expect(g.delayGroups[0].variety).toBe("H242T-14A");
+  });
+
+  it("sorts in-stock listings cheapest-first in price mode, OOS still last", () => {
+    const motor = makeMotor({
+      listings: [
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Pricey", status: "in_stock", price_cents: 5500 }),
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Cheapest OOS", status: "out_of_stock", price_cents: 1000 }),
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Cheapest", status: "in_stock", price_cents: 3999 }),
+      ],
+    });
+    const g = groupByDelay(motor, "price");
+    // In-stock first (cheapest of those leading), out-of-stock last despite
+    // being the lowest price overall.
+    expect(g.delayGroups[0].listings.map((l) => l.vendor_name)).toEqual([
+      "Cheapest",
+      "Pricey",
+      "Cheapest OOS",
+    ]);
+  });
+
+  it("sends listings without a price to the end in price mode", () => {
+    const motor = makeMotor({
+      listings: [
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "No price", status: "in_stock", price_cents: null }),
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Has price", status: "in_stock", price_cents: 4999 }),
+      ],
+    });
+    const g = groupByDelay(motor, "price");
+    expect(g.delayGroups[0].listings.map((l) => l.vendor_name)).toEqual([
+      "Has price",
+      "No price",
+    ]);
+  });
+
+  it("defaults to vendor-alphabetical tiebreak when no sort mode is given", () => {
+    const motor = makeMotor({
+      listings: [
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Z Vendor", status: "in_stock", price_cents: 100 }),
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "A Vendor", status: "in_stock", price_cents: 9999 }),
+      ],
+    });
+    const g = groupByDelay(motor);
+    // Alphabetical, not cheapest-first.
+    expect(g.delayGroups[0].listings.map((l) => l.vendor_name)).toEqual([
+      "A Vendor",
+      "Z Vendor",
+    ]);
   });
 
   it("preserves the motor's identity fields on the grouped result", () => {
