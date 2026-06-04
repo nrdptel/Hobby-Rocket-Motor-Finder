@@ -59,7 +59,7 @@ export default async function Image() {
             maxWidth: 980,
           }}
         >
-          AeroTech motor stock + pricing aggregated across vendors, in one searchable view.
+          AeroTech & Cesaroni motor stock + pricing aggregated across vendors, in one searchable view.
         </div>
         <div
           style={{
