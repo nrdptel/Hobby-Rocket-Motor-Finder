@@ -13,8 +13,10 @@ import {
   isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
+  numericParamValue,
   parseSetParam,
   rankMotor,
+  searchParamValue,
   sortedMotors,
   staleLabel,
   thrustcurveUrl,
@@ -290,6 +292,38 @@ describe("parseSetParam", () => {
 
   it("drops empty fragments from trailing commas", () => {
     expect(parseSetParam("H,,I,")).toEqual(new Set(["H", "I"]));
+  });
+});
+
+// --- searchParamValue ------------------------------------------------------
+
+describe("searchParamValue", () => {
+  it("trims and keeps non-empty input", () => {
+    expect(searchParamValue("  H242 ")).toBe("H242");
+  });
+
+  it("returns null for blank/whitespace-only input", () => {
+    expect(searchParamValue("")).toBeNull();
+    expect(searchParamValue("   ")).toBeNull();
+  });
+});
+
+// --- numericParamValue -----------------------------------------------------
+
+describe("numericParamValue", () => {
+  it("keeps a finite numeric string (trimmed, user's form preserved)", () => {
+    expect(numericParamValue(" 2000 ")).toBe("2000");
+    expect(numericParamValue("007")).toBe("007");
+  });
+
+  it("returns null for blank input", () => {
+    expect(numericParamValue("")).toBeNull();
+    expect(numericParamValue("  ")).toBeNull();
+  });
+
+  it("returns null for non-numeric input", () => {
+    expect(numericParamValue("abc")).toBeNull();
+    expect(numericParamValue("1e")).toBeNull();
   });
 });
 

@@ -133,6 +133,22 @@ export function parseSetParam(v: string | string[] | undefined): Set<string> {
   return new Set(raw.split(",").filter(Boolean));
 }
 
+/** Normalize a free-text search input into the URL param value to store, or
+ * ``null`` to drop the param. Trims; an empty result clears it. */
+export function searchParamValue(raw: string): string | null {
+  const t = raw.trim();
+  return t ? t : null;
+}
+
+/** Normalize a numeric filter input into the URL param value to store, or
+ * ``null`` to drop it (blank or non-numeric). Keeps the user's string form
+ * (e.g. ``"2000"``) rather than reformatting. The single definition of "a
+ * usable numeric filter value" on the URL-write side. */
+export function numericParamValue(raw: string): string | null {
+  const t = raw.trim();
+  return t && Number.isFinite(Number(t)) ? t : null;
+}
+
 /** True when a listing's status means a customer could buy it right now. */
 export function listingInStock(status: string): boolean {
   return status === "in_stock_with_count" || status === "in_stock";
