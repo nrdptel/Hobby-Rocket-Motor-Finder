@@ -128,6 +128,14 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
       <header className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
         <div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/fusion-space-logo.svg"
+            alt="Fusion Space"
+            width={1534}
+            height={682}
+            className="mb-2 h-10 w-auto"
+          />
           <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             {unmatched.length > 0 && (
