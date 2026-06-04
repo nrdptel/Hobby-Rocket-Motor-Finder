@@ -26,6 +26,12 @@ export function formatPrice(cents: number | null, currency: string): string {
   );
 }
 
+/** Format total impulse in newton-seconds. ``237`` → ``237 N·s``. */
+export function formatImpulse(ns: number | null): string {
+  if (ns == null) return "—";
+  return `${ns.toFixed(0)} N·s`;
+}
+
 /** Format average thrust in newtons for the table. ``242`` → ``242 N``. */
 export function formatThrust(newtons: number | null): string {
   if (newtons == null) return "—";
@@ -144,6 +150,17 @@ export function bestInStockPriceCents(listings: Listing[]): number | null {
     .map((l) => l.price_cents as number);
   if (priced.length < 2) return null;
   return Math.min(...priced);
+}
+
+/** True when this listing should carry the "best price" marker: it's in stock
+ * and its price ties the group's lowest (``bestCents`` from
+ * ``bestInStockPriceCents``). ``bestCents == null`` means nothing to flag. */
+export function isBestInStockPrice(listing: Listing, bestCents: number | null): boolean {
+  return (
+    bestCents != null &&
+    listingInStock(listing.status) &&
+    listing.price_cents === bestCents
+  );
 }
 
 /** Numeric sort key for a delay display string. ``"—"`` last,
