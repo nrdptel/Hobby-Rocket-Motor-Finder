@@ -11,6 +11,7 @@ import {
 import { FilterBar } from "./components/FilterBar";
 import { MotorResults } from "./components/MotorResults";
 import { StatusBadge } from "./components/StatusBadge";
+import { ThemeToggle } from "./components/ThemeToggle";
 
 // Snapshot refreshes on a scrape cadence (typically every few hours), so
 // per-request SSR is wasted work. Revalidate cached HTML every 60s — same
@@ -24,8 +25,11 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   if (!snapshot) {
     return (
       <main className="mx-auto max-w-6xl px-6 py-12">
-        <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
-        <p className="mt-4 text-zinc-400">
+        <div className="flex items-start justify-between gap-4">
+          <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
+          <ThemeToggle />
+        </div>
+        <p className="mt-4 text-zinc-500 dark:text-zinc-400">
           No snapshot yet. Run{" "}
           <code className="font-mono text-xs">
             hpr catalog refresh && hpr scrape run csrocketry && hpr snapshot export
@@ -122,14 +126,17 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-      <header className="border-b border-zinc-800 pb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
-        <p className="mt-2 text-sm text-zinc-400">
-          {unmatched.length > 0 && (
-            <>{unmatched.length} listings we couldn&apos;t identify · </>
-          )}
-          snapshot generated {new Date(snapshot.generated_at).toLocaleString()}
-        </p>
+      <header className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+            {unmatched.length > 0 && (
+              <>{unmatched.length} listings we couldn&apos;t identify · </>
+            )}
+            snapshot generated {new Date(snapshot.generated_at).toLocaleString()}
+          </p>
+        </div>
+        <ThemeToggle />
       </header>
 
       <FilterBar
@@ -146,15 +153,15 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       />
 
       {unmatched.length > 0 && (
-        <section className="mt-10 border-t border-zinc-800 pt-6">
+        <section className="mt-10 border-t border-zinc-200 pt-6 dark:border-zinc-800">
           <h2 className="text-lg font-semibold tracking-tight">Unmatched listings</h2>
-          <p className="mt-1 text-xs text-zinc-400">
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
             Products we found on a vendor site but couldn&apos;t map to a ThrustCurve motor.
             Usually means a new naming pattern we haven&apos;t taught the normalizer yet.
           </p>
           <div className="mt-4 hidden overflow-x-auto md:block">
-            <table className="min-w-full divide-y divide-zinc-800 text-sm">
-              <thead className="bg-zinc-900 text-left text-xs uppercase tracking-wider text-zinc-400">
+            <table className="min-w-full divide-y divide-zinc-200 text-sm dark:divide-zinc-800">
+              <thead className="bg-zinc-100 text-left text-xs uppercase tracking-wider text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
                 <tr>
                   <th className="px-3 py-2">Raw designation</th>
                   <th className="px-3 py-2">Title</th>
@@ -164,12 +171,12 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                   <th className="px-3 py-2"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-900">
+              <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900">
                 {unmatched.map((u) => (
-                  <tr key={u.url} className="hover:bg-zinc-900/60">
+                  <tr key={u.url} className="hover:bg-zinc-100 dark:hover:bg-zinc-900/60">
                     <td className="px-3 py-2 font-mono">{u.raw_designation || "—"}</td>
-                    <td className="px-3 py-2 text-zinc-400">{u.raw_title}</td>
-                    <td className="px-3 py-2 text-zinc-400">{u.vendor_name}</td>
+                    <td className="px-3 py-2 text-zinc-500 dark:text-zinc-400">{u.raw_title}</td>
+                    <td className="px-3 py-2 text-zinc-500 dark:text-zinc-400">{u.vendor_name}</td>
                     <td className="px-3 py-2">
                       <StatusBadge status={u.status} count={u.stock_count} />
                     </td>
@@ -181,7 +188,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                         href={u.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-zinc-400 underline hover:text-zinc-100"
+                        className="text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                       >
                         view
                       </a>
@@ -197,10 +204,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             {unmatched.map((u) => (
               <li
                 key={u.url}
-                className="flex items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-3"
+                className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40"
               >
                 <div className="min-w-0">
-                  <div className="truncate font-mono text-zinc-200">
+                  <div className="truncate font-mono text-zinc-800 dark:text-zinc-200">
                     {u.raw_designation || u.raw_title}
                   </div>
                   <div className="mt-1 flex items-center gap-2">
@@ -209,14 +216,14 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                   </div>
                 </div>
                 <div className="shrink-0 text-right">
-                  <div className="tabular-nums text-zinc-200">
+                  <div className="tabular-nums text-zinc-800 dark:text-zinc-200">
                     {formatPrice(u.price_cents, u.currency)}
                   </div>
                   <a
                     href={u.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-zinc-400 underline hover:text-zinc-100"
+                    className="text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                   >
                     view
                   </a>
@@ -227,7 +234,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         </section>
       )}
 
-      <footer className="mt-12 border-t border-zinc-800 pt-4 text-xs text-zinc-500">
+      <footer className="mt-12 border-t border-zinc-200 pt-4 text-xs text-zinc-500 dark:border-zinc-800">
         Sources scraped on a schedule from public vendor sites. Stock data is a
         point-in-time snapshot and may be stale by the time you click through &mdash;
         always verify on the vendor page before buying.

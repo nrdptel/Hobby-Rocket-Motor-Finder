@@ -5,7 +5,7 @@
 export function BestPriceTag() {
   return (
     <span
-      className="mr-1.5 rounded bg-emerald-950 px-1 py-0.5 text-[10px] font-medium text-emerald-400 align-middle"
+      className="mr-1.5 rounded bg-emerald-100 px-1 py-0.5 text-[10px] font-medium text-emerald-700 align-middle dark:bg-emerald-950 dark:text-emerald-400"
       title="Lowest in-stock price for this variety across vendors"
     >
       best

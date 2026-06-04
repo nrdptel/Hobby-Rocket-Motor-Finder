@@ -144,20 +144,20 @@ export function FilterBar({
   const pill = (active: boolean) =>
     `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer ${
       active
-        ? "bg-zinc-100 text-zinc-900 border-zinc-100"
-        : "bg-zinc-900 text-zinc-300 border-zinc-700 hover:bg-zinc-800 hover:text-zinc-100"
+        ? "bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100"
+        : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
     }`;
 
   return (
-    <div className="mt-4 space-y-3 rounded-md border border-zinc-800 bg-zinc-900/40 p-4 text-sm">
+    <div className="mt-4 space-y-3 rounded-md border border-zinc-200 bg-zinc-50 p-4 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <div className="flex items-center justify-between gap-3">
-        <div className="text-xs uppercase tracking-wider text-zinc-400">
+        <div className="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
           Filters
         </div>
         <div className="flex items-center gap-3 text-xs">
           <button
             onClick={copyLink}
-            className="text-zinc-300 underline underline-offset-2 hover:text-white"
+            className="text-zinc-600 underline underline-offset-2 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
             title="Copy a link to this filtered view"
           >
             {copied ? "Copied!" : "Copy link"}
@@ -165,7 +165,7 @@ export function FilterBar({
           {anyFilter && (
             <button
               onClick={clearAll}
-              className="text-zinc-200 underline underline-offset-2 hover:text-white"
+              className="text-zinc-700 underline underline-offset-2 hover:text-zinc-900 dark:text-zinc-200 dark:hover:text-white"
             >
               clear all
             </button>
@@ -180,14 +180,14 @@ export function FilterBar({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="motor designation or vendor SKU — e.g. H242 or J350"
-            className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-sm text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+            className="w-full rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
             aria-label="Search motor designation or vendor SKU"
           />
           {query && (
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-200"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 dark:text-zinc-500 dark:hover:text-zinc-200"
               aria-label="Clear search"
             >
               ×
@@ -238,7 +238,7 @@ export function FilterBar({
       </FilterRow>
 
       <FilterRow label="Impulse">
-        <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+        <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
           <input
             type="number"
             inputMode="numeric"
@@ -246,7 +246,7 @@ export function FilterBar({
             value={minImpulse}
             onChange={(e) => setMinImpulse(e.target.value)}
             placeholder="min"
-            className="w-20 rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+            className="w-20 rounded-md border border-zinc-300 bg-white px-2 py-1 text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
             aria-label="Minimum total impulse in newton-seconds"
           />
           <span>–</span>
@@ -257,7 +257,7 @@ export function FilterBar({
             value={maxImpulse}
             onChange={(e) => setMaxImpulse(e.target.value)}
             placeholder="max"
-            className="w-20 rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1 text-zinc-100 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+            className="w-20 rounded-md border border-zinc-300 bg-white px-2 py-1 text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
             aria-label="Maximum total impulse in newton-seconds"
           />
           <span className="text-zinc-500">N·s</span>
@@ -292,7 +292,7 @@ export function FilterBar({
           <button
             type="button"
             onClick={clearWatch}
-            className="text-xs text-zinc-500 underline underline-offset-2 hover:text-zinc-300"
+            className="text-xs text-zinc-500 underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300"
             title="Remove all motors from your watchlist"
           >
             clear watchlist
@@ -312,7 +312,7 @@ function FilterRow({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <div className="w-20 shrink-0 text-xs font-medium uppercase tracking-wider text-zinc-400">
+      <div className="w-20 shrink-0 text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
         {label}
       </div>
       <div className="flex flex-wrap gap-1.5 flex-1">{children}</div>
