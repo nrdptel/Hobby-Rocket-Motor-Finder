@@ -19,7 +19,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.c
 
 const description =
   "U.S. high-power rocketry motor availability aggregated across vendors. " +
-  "AeroTech stock + pricing in one searchable view.";
+  "AeroTech & Cesaroni stock + pricing in one searchable view.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
