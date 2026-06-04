@@ -14,15 +14,15 @@ Released under the [MIT License](LICENSE) — fork it, modify it, deploy your ow
 
 ## What's covered
 
-Today: AeroTech motors across 5 vendors.
+Today: AeroTech across all 5 vendors, plus Cesaroni (CTI) on Chris' Rocket Supplies and Wildman Rocketry.
 
-| Vendor | State | Platform |
-|---|---|---|
-| [Chris' Rocket Supplies](https://www.csrocketry.com) | GA | Custom (Schema.org JSON-LD) |
-| [BuyRocketMotors](https://www.buyrocketmotors.com) | TX | Shopify |
-| [Wildman Rocketry](https://wildmanrocketry.com) | IL | Shopify |
-| [Animal Motor Works](https://cart.amwprox.com) | AZ | VirtueMart |
-| [Sirius Rocketry](https://www.siriusrocketry.biz) | WI | Zen Cart |
+| Vendor | State | Platform | Motors |
+|---|---|---|---|
+| [Chris' Rocket Supplies](https://www.csrocketry.com) | GA | Custom (Schema.org JSON-LD) | AeroTech, Cesaroni |
+| [BuyRocketMotors](https://www.buyrocketmotors.com) | TX | Shopify | AeroTech |
+| [Wildman Rocketry](https://wildmanrocketry.com) | IL | Shopify | AeroTech, Cesaroni |
+| [Animal Motor Works](https://cart.amwprox.com) | AZ | VirtueMart | AeroTech |
+| [Sirius Rocketry](https://www.siriusrocketry.biz) | WI | Zen Cart | AeroTech |
 
 The architecture isn't motor-specific — see [Adding a vendor](#adding-a-vendor) and [Extending beyond motors](#extending-beyond-motors) if you want to grow it.
 
