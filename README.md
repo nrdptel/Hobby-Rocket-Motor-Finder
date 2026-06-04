@@ -2,6 +2,8 @@
 
 A web aggregator for U.S. high-power rocketry (HPR) motor availability across multiple vendors.
 
+**Live at [motor.fusionspace.co](https://motor.fusionspace.co).**
+
 The U.S. hobby motor shortage makes finding a specific impulse / diameter / propellant motor difficult — flyers often check each vendor manually. This project scrapes a curated set of vendors on a schedule, normalizes their listings against a canonical motor catalog ([ThrustCurve.org](https://www.thrustcurve.org)), and presents a single searchable view of stock status by motor.
 
 ## Disclaimer
@@ -102,7 +104,7 @@ Free hosting works since the architecture is essentially a static site fed by a 
 
 A test workflow lives at [.github/workflows/test.yml](.github/workflows/test.yml). A deploy workflow is left as an exercise — pick the host you prefer.
 
-For OpenGraph / Twitter share cards to resolve correctly in production, set `NEXT_PUBLIC_SITE_URL` to your deployed origin (e.g. `https://your-domain.example`). Without it, social previews still render but their image URLs fall back to localhost.
+For OpenGraph / Twitter share cards, the site origin defaults to the production domain (`https://motor.fusionspace.co`). If you deploy your own copy, set `NEXT_PUBLIC_SITE_URL` to your deployed origin so card image URLs resolve to your domain instead.
 
 ## Scraping ethics
 

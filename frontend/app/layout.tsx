@@ -12,10 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Set NEXT_PUBLIC_SITE_URL on the deploy host (Vercel / Cloudflare Pages) so
-// OG / Twitter cards resolve the share image URL absolutely. Without it,
-// social previews work locally but may fail when the URL is shared.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+// Origin used to resolve OG / Twitter card image URLs absolutely. Defaults to
+// the production site; a fork can override with NEXT_PUBLIC_SITE_URL on its
+// deploy host (Vercel / Cloudflare Pages) to point cards at its own domain.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
 
 const description =
   "U.S. high-power rocketry motor availability aggregated across vendors. " +
