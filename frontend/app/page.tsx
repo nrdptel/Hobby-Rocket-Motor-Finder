@@ -40,7 +40,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fMfr = parseSetParam(params.mfr);
   const fClass = parseSetParam(params.class);
   const fDia = parseSetParam(params.dia);
-  const fProp = parseSetParam(params.prop);
   const fInStock = params.in_stock === "1";
   const fSort = params.sort === "price" ? "price" : "stock";
   const fStarredOnly = params.starred === "1";
@@ -76,9 +75,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const diameterOptions = Array.from(
     new Set(motorsWithListings.map((m) => m.diameter_mm)),
   ).sort((a, b) => a - b);
-  const propellantOptions = Array.from(
-    new Set(motorsWithListings.map((m) => m.propellant).filter((p): p is string => !!p)),
-  ).sort();
 
   // Apply filters.
   const filtered = sortedMotors(
@@ -86,7 +82,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       if (fMfr.size > 0 && !fMfr.has(manufacturerLabel(m.manufacturer))) return false;
       if (fClass.size > 0 && !fClass.has(m.impulse_class)) return false;
       if (fDia.size > 0 && !fDia.has(String(m.diameter_mm))) return false;
-      if (fProp.size > 0 && (!m.propellant || !fProp.has(m.propellant))) return false;
       if (fMinImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < fMinImpulse))
         return false;
       if (fMaxImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns > fMaxImpulse))
@@ -141,7 +136,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         manufacturers={manufacturerOptions}
         classes={classOptions}
         diameters={diameterOptions}
-        propellants={propellantOptions}
       />
 
       <MotorResults
