@@ -95,10 +95,21 @@ export function toggleStar(id: number): void {
   emit();
 }
 
+/** Empty the watchlist entirely and persist. */
+export function clearWatchlist(): void {
+  loaded = true;
+  current = EMPTY;
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(STORAGE_KEY);
+  }
+  emit();
+}
+
 export type Watchlist = {
   starred: ReadonlySet<number>;
   isStarred: (id: number) => boolean;
   toggle: (id: number) => void;
+  clear: () => void;
   /** False during SSR and the first client paint; true after mount. Gate any
    * starred-dependent UI on this so the first render matches the server. */
   hydrated: boolean;
@@ -113,6 +124,7 @@ export function useWatchlist(): Watchlist {
     starred,
     isStarred: (id) => starred.has(id),
     toggle: toggleStar,
+    clear: clearWatchlist,
     hydrated,
     count: starred.size,
   };
