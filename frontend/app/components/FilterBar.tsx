@@ -61,7 +61,8 @@ export function FilterBar({
 }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
-  const { count: starredCount, hydrated } = useWatchlist();
+  const { count: starredCount, clear: clearWatchlist, hydrated } = useWatchlist();
+  const [copied, setCopied] = useState(false);
 
   const activeManufacturers = parseList(sp.get("mfr"));
   const activeClasses = parseList(sp.get("class"));
@@ -124,6 +125,28 @@ export function FilterBar({
     urlMaxImpulse.length > 0;
   const clearAll = () => router.push("/", { scroll: false });
 
+  // Copy a shareable link to the current filtered view — the filters all live
+  // in the URL, so the address itself is the share payload.
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard API unavailable (insecure context / denied) — no-op.
+    }
+  };
+
+  const clearWatch = () => {
+    if (
+      window.confirm(
+        `Remove all ${starredCount} motor${starredCount === 1 ? "" : "s"} from your watchlist?`,
+      )
+    ) {
+      clearWatchlist();
+    }
+  };
+
   const pill = (active: boolean) =>
     `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer ${
       active
@@ -137,14 +160,23 @@ export function FilterBar({
         <div className="text-xs uppercase tracking-wider text-zinc-400">
           Filters
         </div>
-        {anyFilter && (
+        <div className="flex items-center gap-3 text-xs">
           <button
-            onClick={clearAll}
-            className="text-xs text-zinc-200 underline underline-offset-2 hover:text-white"
+            onClick={copyLink}
+            className="text-zinc-300 underline underline-offset-2 hover:text-white"
+            title="Copy a link to this filtered view"
           >
-            clear all
+            {copied ? "Copied!" : "Copy link"}
           </button>
-        )}
+          {anyFilter && (
+            <button
+              onClick={clearAll}
+              className="text-zinc-200 underline underline-offset-2 hover:text-white"
+            >
+              clear all
+            </button>
+          )}
+        </div>
       </div>
 
       <FilterRow label="Search">
@@ -275,6 +307,16 @@ export function FilterBar({
         >
           ★ Starred{hydrated && starredCount > 0 ? ` (${starredCount})` : ""}
         </button>
+        {hydrated && starredCount > 0 && (
+          <button
+            type="button"
+            onClick={clearWatch}
+            className="text-xs text-zinc-500 underline underline-offset-2 hover:text-zinc-300"
+            title="Remove all motors from your watchlist"
+          >
+            clear watchlist
+          </button>
+        )}
       </FilterRow>
     </div>
   );
