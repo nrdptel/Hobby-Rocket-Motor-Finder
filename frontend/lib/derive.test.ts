@@ -107,11 +107,21 @@ describe("formatBurn", () => {
 describe("staleLabel", () => {
   const now = new Date("2026-06-03T12:00:00+00:00");
 
-  it("returns null for data fresher than the stale threshold", () => {
-    // 30 minutes old — well within the 90-minute window.
+  it("returns null for data fresher than the 45-minute threshold", () => {
+    // 30 minutes old — a single run's fresh listings span only ~15 min.
     expect(staleLabel("2026-06-03T11:30:00+00:00", now)).toBeNull();
+    // Just under the threshold (44 min).
+    expect(staleLabel("2026-06-03T11:16:00+00:00", now)).toBeNull();
     // Exactly at the snapshot moment.
     expect(staleLabel("2026-06-03T12:00:00+00:00", now)).toBeNull();
+  });
+
+  it("flags a single-cycle carry-forward (~75 min old)", () => {
+    // The case the threshold exists to catch: a vendor carried forward for one
+    // hourly cycle. ~65 min here rounds to 1h.
+    expect(staleLabel("2026-06-03T10:55:00+00:00", now)).toBe("1h old");
+    // 75 min still rounds to 1h.
+    expect(staleLabel("2026-06-03T10:45:00+00:00", now)).toBe("1h old");
   });
 
   it("labels hours for stale-but-recent data", () => {
@@ -125,8 +135,14 @@ describe("staleLabel", () => {
     expect(staleLabel("2026-05-31T12:00:00+00:00", now)).toBe("3d old");
   });
 
-  it("returns null for an unparseable timestamp rather than throwing", () => {
+  it("returns null for an unparseable seen_at rather than throwing", () => {
     expect(staleLabel("not-a-date", now)).toBeNull();
+  });
+
+  it("returns null when the reference time is unparseable", () => {
+    // e.g. a snapshot whose generated_at is missing/malformed — don't render
+    // a bogus 'NaNd old' badge on every listing.
+    expect(staleLabel("2026-06-01T12:00:00+00:00", new Date("nonsense"))).toBeNull();
   });
 });
 

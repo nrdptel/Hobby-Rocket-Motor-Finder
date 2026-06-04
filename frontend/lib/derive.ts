@@ -39,18 +39,22 @@ export function formatBurn(seconds: number | null): string {
   return seconds < 1 ? `${seconds.toFixed(2)} s` : `${seconds.toFixed(1)} s`;
 }
 
-/** A listing's data is "stale" once it's older than this. Scrapes run hourly,
- * so anything past ~1.5 cycles is almost certainly a carry-forward survivor
- * from a degraded vendor rather than fresh stock. */
-export const STALE_MS = 90 * 60 * 1000;
+/** A listing's data is "stale" once it's older than this, measured against the
+ * snapshot's own ``generated_at``. Scrapes run hourly and a single run's fresh
+ * listings span only ~15 min, so 45 min sits comfortably above fresh data while
+ * still catching a vendor carried forward for even one cycle (~75 min old: the
+ * ~1 h cadence plus the prior run's intra-run offset). A higher bound would
+ * silently miss first-cycle carry-forwards — the exact case worth surfacing. */
+export const STALE_MS = 45 * 60 * 1000;
 
 /** Human age label for a listing's ``seen_at``, or ``null`` when the data is
  * fresh enough not to warrant flagging. ``now`` is injected so the function
- * stays pure and testable. */
+ * stays pure and testable; pass the snapshot's ``generated_at``. */
 export function staleLabel(seenAt: string, now: Date): string | null {
   const seen = new Date(seenAt).getTime();
-  if (Number.isNaN(seen)) return null;
-  const ageMs = now.getTime() - seen;
+  const ref = now.getTime();
+  if (Number.isNaN(seen) || Number.isNaN(ref)) return null;
+  const ageMs = ref - seen;
   if (ageMs < STALE_MS) return null;
   const hours = ageMs / 3_600_000;
   if (hours < 24) return `${Math.round(hours)}h old`;
