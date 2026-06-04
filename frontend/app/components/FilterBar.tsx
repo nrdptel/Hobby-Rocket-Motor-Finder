@@ -9,7 +9,6 @@ type Props = {
   manufacturers: string[];
   classes: string[];
   diameters: number[];
-  propellants: string[];
 };
 
 function parseList(value: string | null): Set<string> {
@@ -57,7 +56,6 @@ export function FilterBar({
   manufacturers,
   classes,
   diameters,
-  propellants,
 }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -67,7 +65,6 @@ export function FilterBar({
   const activeManufacturers = parseList(sp.get("mfr"));
   const activeClasses = parseList(sp.get("class"));
   const activeDiameters = parseList(sp.get("dia"));
-  const activePropellants = parseList(sp.get("prop"));
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
   const starredOnly = sp.get("starred") === "1";
@@ -106,8 +103,6 @@ export function FilterBar({
   const toggleClass = (c: string) => update("class", toggleInList(activeClasses, c));
   const toggleDia = (d: number) =>
     update("dia", toggleInList(activeDiameters, String(d)));
-  const toggleProp = (p: string) =>
-    update("prop", toggleInList(activePropellants, p));
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
   const toggleSort = () => update("sort", cheapestFirst ? null : "price");
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
@@ -116,7 +111,6 @@ export function FilterBar({
     activeManufacturers.size > 0 ||
     activeClasses.size > 0 ||
     activeDiameters.size > 0 ||
-    activePropellants.size > 0 ||
     inStockOnly ||
     cheapestFirst ||
     starredOnly ||
@@ -239,19 +233,6 @@ export function FilterBar({
             className={pill(activeDiameters.has(String(d)))}
           >
             {d}mm
-          </button>
-        ))}
-      </FilterRow>
-
-      <FilterRow label="Propellant">
-        {propellants.map((p) => (
-          <button
-            key={p}
-            type="button"
-            onClick={() => toggleProp(p)}
-            className={pill(activePropellants.has(p))}
-          >
-            {p}
           </button>
         ))}
       </FilterRow>
