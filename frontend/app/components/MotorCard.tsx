@@ -33,7 +33,7 @@ export function MotorCard({
   snapshotTime: Date;
 }) {
   return (
-    <article className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-4">
+    <article className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
       <div className="flex items-baseline justify-between gap-3">
         <div className="flex min-w-0 items-center gap-1.5">
           <StarButton motorId={motor.id} designation={motor.designation} />
@@ -41,15 +41,17 @@ export function MotorCard({
             href={thrustcurveUrl(motor)}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-base text-zinc-100 underline decoration-zinc-700 underline-offset-2 hover:decoration-zinc-300"
+            className="font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
             title={`View ${motor.designation} on ThrustCurve.org`}
           >
             {motor.designation}
           </a>
         </div>
-        <div className="text-right text-xs text-zinc-400">
+        <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">
           {showManufacturer && (
-            <div className="text-zinc-300">{manufacturerLabel(motor.manufacturer)}</div>
+            <div className="text-zinc-600 dark:text-zinc-300">
+              {manufacturerLabel(motor.manufacturer)}
+            </div>
           )}
           <div>
             {motor.impulse_class} · {motor.diameter_mm}mm
@@ -65,7 +67,7 @@ export function MotorCard({
         </span>
       </div>
 
-      <div className="mt-3 divide-y divide-zinc-800/80 border-t border-zinc-800/80">
+      <div className="mt-3 divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-zinc-800/80 dark:border-zinc-800/80">
         {motor.delayGroups.map((g) => {
           const bestCents = bestInStockPriceCents(g.listings);
           return (
@@ -83,7 +85,9 @@ export function MotorCard({
                       className="flex items-center justify-between gap-3"
                     >
                       <div className="min-w-0">
-                        <div className="truncate text-zinc-300">{l.vendor_name}</div>
+                        <div className="truncate text-zinc-700 dark:text-zinc-300">
+                          {l.vendor_name}
+                        </div>
                         <div className="mt-0.5 flex items-center">
                           <StatusBadge status={l.status} count={l.stock_count} />
                           <StaleBadge seenAt={l.seen_at} now={snapshotTime} />
@@ -91,7 +95,7 @@ export function MotorCard({
                       </div>
                       <div className="shrink-0 text-right">
                         <div
-                          className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-400" : "text-zinc-200"}`}
+                          className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
                         >
                           {isBestPrice && <BestPriceTag />}
                           {formatPrice(l.price_cents, l.currency)}
@@ -100,7 +104,7 @@ export function MotorCard({
                           href={l.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-zinc-400 underline hover:text-zinc-100"
+                          className="text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                         >
                           view
                         </a>

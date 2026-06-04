@@ -27,8 +27,8 @@ export function StarButton({
       title={starred ? "Remove from watchlist" : "Add to watchlist"}
       className={`shrink-0 cursor-pointer text-base leading-none transition ${
         starred
-          ? "text-amber-400 hover:text-amber-300"
-          : "text-zinc-600 hover:text-zinc-300"
+          ? "text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300"
+          : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-600 dark:hover:text-zinc-300"
       }`}
     >
       {starred ? "★" : "☆"}
