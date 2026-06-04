@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { numericParamValue, searchParamValue } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
 
 type Props = {
@@ -22,6 +23,34 @@ function toggleInList(list: Set<string>, value: string): string | null {
   else next.add(value);
   if (next.size === 0) return null;
   return Array.from(next).join(",");
+}
+
+/** Two-way bind a free-text input to a URL query param with debounced writes.
+ * Returns ``[value, setValue]`` like useState; mirrors external URL changes
+ * (e.g. "clear all", back/forward) into local state, and pushes
+ * ``normalize(value)`` to the URL ``delayMs`` after the user stops typing.
+ * Collapses the otherwise-identical sync + debounce effect pair we'd repeat
+ * per field. ``normalize`` must be a stable reference. */
+function useDebouncedParam(
+  key: string,
+  urlValue: string,
+  update: (key: string, value: string | null) => void,
+  normalize: (raw: string) => string | null,
+  delayMs = 250,
+): [string, (v: string) => void] {
+  const [value, setValue] = useState(urlValue);
+  // Mirror external URL changes into the input.
+  useEffect(() => {
+    setValue(urlValue);
+  }, [urlValue]);
+  // Push after the user pauses; the guard avoids echoing back a value we just
+  // received from the URL.
+  useEffect(() => {
+    if (value === urlValue) return;
+    const id = setTimeout(() => update(key, normalize(value)), delayMs);
+    return () => clearTimeout(id);
+  }, [value, urlValue, key, normalize, update, delayMs]);
+  return [value, setValue];
 }
 
 export function FilterBar({
@@ -45,23 +74,6 @@ export function FilterBar({
   const urlMinImpulse = sp.get("imin") ?? "";
   const urlMaxImpulse = sp.get("imax") ?? "";
 
-  // Local state for the free-text inputs so typing feels instant. Debounce
-  // pushes to the URL (which triggers a server re-render).
-  const [query, setQuery] = useState(urlQuery);
-  const [minImpulse, setMinImpulse] = useState(urlMinImpulse);
-  const [maxImpulse, setMaxImpulse] = useState(urlMaxImpulse);
-
-  // Keep local in sync when URL changes externally (e.g., Clear all).
-  useEffect(() => {
-    setQuery(urlQuery);
-  }, [urlQuery]);
-  useEffect(() => {
-    setMinImpulse(urlMinImpulse);
-  }, [urlMinImpulse]);
-  useEffect(() => {
-    setMaxImpulse(urlMaxImpulse);
-  }, [urlMaxImpulse]);
-
   const update = useCallback(
     (key: string, value: string | null) => {
       const next = new URLSearchParams(sp.toString());
@@ -73,33 +85,21 @@ export function FilterBar({
     [router, sp],
   );
 
-  // Debounced push: 250ms after the user stops typing.
-  useEffect(() => {
-    if (query === urlQuery) return;
-    const id = setTimeout(() => {
-      update("q", query.trim() ? query.trim() : null);
-    }, 250);
-    return () => clearTimeout(id);
-  }, [query, urlQuery, update]);
-
-  // Same debounce for the impulse range inputs. A blank or non-numeric value
-  // clears the bound rather than pushing garbage to the URL.
-  useEffect(() => {
-    if (minImpulse === urlMinImpulse) return;
-    const id = setTimeout(() => {
-      const n = minImpulse.trim();
-      update("imin", n && Number.isFinite(Number(n)) ? n : null);
-    }, 250);
-    return () => clearTimeout(id);
-  }, [minImpulse, urlMinImpulse, update]);
-  useEffect(() => {
-    if (maxImpulse === urlMaxImpulse) return;
-    const id = setTimeout(() => {
-      const n = maxImpulse.trim();
-      update("imax", n && Number.isFinite(Number(n)) ? n : null);
-    }, 250);
-    return () => clearTimeout(id);
-  }, [maxImpulse, urlMaxImpulse, update]);
+  // Free-text inputs: instant local typing, debounced URL writes. The hook also
+  // mirrors external URL changes (e.g. "clear all") back into the input.
+  const [query, setQuery] = useDebouncedParam("q", urlQuery, update, searchParamValue);
+  const [minImpulse, setMinImpulse] = useDebouncedParam(
+    "imin",
+    urlMinImpulse,
+    update,
+    numericParamValue,
+  );
+  const [maxImpulse, setMaxImpulse] = useDebouncedParam(
+    "imax",
+    urlMaxImpulse,
+    update,
+    numericParamValue,
+  );
 
   const toggleMfr = (m: string) => update("mfr", toggleInList(activeManufacturers, m));
   const toggleClass = (c: string) => update("class", toggleInList(activeClasses, c));
