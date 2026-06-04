@@ -25,6 +25,7 @@ export default async function Image() {
           background: "linear-gradient(135deg, #09090b 0%, #18181b 100%)",
           color: "#fafafa",
           fontFamily: "sans-serif",
+          position: "relative",
         }}
       >
         <div
@@ -58,6 +59,18 @@ export default async function Image() {
           }}
         >
           AeroTech motor stock + pricing aggregated across vendors, in one searchable view.
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            bottom: 64,
+            left: 80,
+            fontSize: 28,
+            color: "#a1a1aa",
+            letterSpacing: "0.04em",
+          }}
+        >
+          Fusion Space · motor.fusionspace.co
         </div>
       </div>
     ),
