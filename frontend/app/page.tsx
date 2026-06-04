@@ -128,14 +128,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
       <header className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/fusion-space-logo.svg"
-            alt="Fusion Space"
-            width={1534}
-            height={682}
-            className="mb-2 h-10 w-auto"
-          />
           <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             {unmatched.length > 0 && (
@@ -243,12 +235,25 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       )}
 
       <footer className="mt-12 border-t border-zinc-200 pt-4 text-xs text-zinc-500 dark:border-zinc-800">
-        Sources scraped on a schedule from public vendor sites. Stock data is a
-        point-in-time snapshot and may be stale by the time you click through &mdash;
-        always verify on the vendor page before buying.
-        {new Date().getMonth() === 5 && (
-          <span className="ml-1">🏳️‍🌈 Happy Pride Month — fly high. 🚀</span>
-        )}
+        <p>
+          Sources scraped on a schedule from public vendor sites. Stock data is a
+          point-in-time snapshot and may be stale by the time you click through &mdash;
+          always verify on the vendor page before buying.
+          {new Date().getMonth() === 5 && (
+            <span className="ml-1">🏳️‍🌈 Happy Pride Month — fly high. 🚀</span>
+          )}
+        </p>
+        <div className="mt-3 flex items-center gap-1.5">
+          <span>Built by</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/fusion-space-logo.svg"
+            alt="Fusion Space"
+            width={1694}
+            height={378}
+            className="h-5 w-auto opacity-80"
+          />
+        </div>
       </footer>
     </main>
   );
