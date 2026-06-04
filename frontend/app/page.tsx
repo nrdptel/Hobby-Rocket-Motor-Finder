@@ -238,6 +238,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         Sources scraped on a schedule from public vendor sites. Stock data is a
         point-in-time snapshot and may be stale by the time you click through &mdash;
         always verify on the vendor page before buying.
+        {new Date().getMonth() === 5 && (
+          <span className="ml-1">🏳️‍🌈 Happy Pride Month — fly high. 🚀</span>
+        )}
       </footer>
     </main>
   );
