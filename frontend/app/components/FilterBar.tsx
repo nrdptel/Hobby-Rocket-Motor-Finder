@@ -2,15 +2,13 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { useWatchlist } from "@/lib/watchlist";
 
 type Props = {
   manufacturers: string[];
   classes: string[];
   diameters: number[];
   propellants: string[];
-  // For display only — server computes the actual numbers.
-  totalMotors: number;
-  visibleMotors: number;
 };
 
 function parseList(value: string | null): Set<string> {
@@ -31,11 +29,10 @@ export function FilterBar({
   classes,
   diameters,
   propellants,
-  totalMotors,
-  visibleMotors,
 }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
+  const { count: starredCount, hydrated } = useWatchlist();
 
   const activeManufacturers = parseList(sp.get("mfr"));
   const activeClasses = parseList(sp.get("class"));
@@ -43,6 +40,7 @@ export function FilterBar({
   const activePropellants = parseList(sp.get("prop"));
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
+  const starredOnly = sp.get("starred") === "1";
   const urlQuery = sp.get("q") ?? "";
   const urlMinImpulse = sp.get("imin") ?? "";
   const urlMaxImpulse = sp.get("imax") ?? "";
@@ -111,6 +109,7 @@ export function FilterBar({
     update("prop", toggleInList(activePropellants, p));
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
   const toggleSort = () => update("sort", cheapestFirst ? null : "price");
+  const toggleStarred = () => update("starred", starredOnly ? null : "1");
 
   const anyFilter =
     activeManufacturers.size > 0 ||
@@ -119,6 +118,7 @@ export function FilterBar({
     activePropellants.size > 0 ||
     inStockOnly ||
     cheapestFirst ||
+    starredOnly ||
     urlQuery.length > 0 ||
     urlMinImpulse.length > 0 ||
     urlMaxImpulse.length > 0;
@@ -137,20 +137,14 @@ export function FilterBar({
         <div className="text-xs uppercase tracking-wider text-zinc-400">
           Filters
         </div>
-        <div className="text-xs text-zinc-400">
-          {visibleMotors} of {totalMotors} motors shown
-          {anyFilter && (
-            <>
-              {" · "}
-              <button
-                onClick={clearAll}
-                className="text-zinc-200 underline underline-offset-2 hover:text-white"
-              >
-                clear all
-              </button>
-            </>
-          )}
-        </div>
+        {anyFilter && (
+          <button
+            onClick={clearAll}
+            className="text-xs text-zinc-200 underline underline-offset-2 hover:text-white"
+          >
+            clear all
+          </button>
+        )}
       </div>
 
       <FilterRow label="Search">
@@ -272,6 +266,14 @@ export function FilterBar({
           title="Within each motor, list the cheapest vendor first instead of alphabetically"
         >
           Cheapest first
+        </button>
+        <button
+          type="button"
+          onClick={toggleStarred}
+          className={pill(starredOnly)}
+          title="Show only motors you've starred (saved in this browser)"
+        >
+          ★ Starred{hydrated && starredCount > 0 ? ` (${starredCount})` : ""}
         </button>
       </FilterRow>
     </div>

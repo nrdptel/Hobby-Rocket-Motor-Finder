@@ -11,6 +11,7 @@ import {
 import type { GroupedMotor } from "@/lib/derive";
 import { BestPriceTag } from "./BestPriceTag";
 import { StaleBadge } from "./StaleBadge";
+import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
 
 /** Stacked, single-column rendering of one motor and its listings — the
@@ -34,15 +35,18 @@ export function MotorCard({
   return (
     <article className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-4">
       <div className="flex items-baseline justify-between gap-3">
-        <a
-          href={thrustcurveUrl(motor)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-base text-zinc-100 underline decoration-zinc-700 underline-offset-2 hover:decoration-zinc-300"
-          title={`View ${motor.designation} on ThrustCurve.org`}
-        >
-          {motor.designation}
-        </a>
+        <div className="flex min-w-0 items-center gap-1.5">
+          <StarButton motorId={motor.id} designation={motor.designation} />
+          <a
+            href={thrustcurveUrl(motor)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-base text-zinc-100 underline decoration-zinc-700 underline-offset-2 hover:decoration-zinc-300"
+            title={`View ${motor.designation} on ThrustCurve.org`}
+          >
+            {motor.designation}
+          </a>
+        </div>
         <div className="text-right text-xs text-zinc-400">
           {showManufacturer && (
             <div className="text-zinc-300">{manufacturerLabel(motor.manufacturer)}</div>
