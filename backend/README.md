@@ -40,4 +40,5 @@ hpr_finder/
     loki.py              Loki Research (Loki)
     performancehobbies.py  Performance Hobbies (AeroTech, Cesaroni, Loki)
     aerotechdirect.py    AeroTech manufacturer-direct (special-order + lead times)
+    moto_joe.py          Moto-Joe Rocketry — OpenCart (AeroTech, Cesaroni)
 ```
