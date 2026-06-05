@@ -43,19 +43,16 @@ def catalog_refresh() -> None:
     every listing unmatched). The run only fails if there is no cache to fall
     back to.
     """
-    aerotech, at_stale = catalog.refresh_catalog("AeroTech", catalog.CACHE_PATH)
-    cesaroni, cti_stale = catalog.refresh_catalog("Cesaroni", catalog.CESARONI_CACHE_PATH)
-    motors = aerotech + cesaroni
-    for name, stale in (("AeroTech", at_stale), ("Cesaroni", cti_stale)):
+    results = catalog.refresh_all()
+    motors = [m for _, mfr_motors, _ in results for m in mfr_motors]
+    for name, _motors, stale in results:
         if stale:
             typer.echo(
                 f"WARNING: {name} live fetch failed — using committed cache (stale)",
                 err=True,
             )
-    typer.echo(
-        f"fetched {len(aerotech)} AeroTech + {len(cesaroni)} Cesaroni "
-        f"= {len(motors)} motors from ThrustCurve"
-    )
+    summary = " + ".join(f"{len(mfr_motors)} {name}" for name, mfr_motors, _ in results)
+    typer.echo(f"fetched {summary} = {len(motors)} motors from ThrustCurve")
     with db.connect() as conn:
         db.init_schema(conn)
         n = db.upsert_motors(conn, motors)

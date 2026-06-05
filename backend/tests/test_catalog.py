@@ -292,3 +292,28 @@ def test_refresh_catalog_reraises_when_no_cache_to_fall_back_to(monkeypatch, tmp
 
     with pytest.raises(httpx.HTTPError):
         refresh_catalog("AeroTech", cache_path)
+
+
+# --- manufacturer registry: refresh_all iterates MANUFACTURERS -------------
+
+def test_refresh_all_iterates_manufacturer_registry(monkeypatch, tmp_path, sample_records):
+    """refresh_all() fetches every manufacturer in the registry (in order),
+    writes each cache, and returns one (name, motors, stale) per manufacturer —
+    so adding a manufacturer is a single MANUFACTURERS entry."""
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "CACHE_PATH", tmp_path / "at.json")
+    monkeypatch.setattr(catalog, "CESARONI_CACHE_PATH", tmp_path / "cti.json")
+
+    calls = []
+    def fake_fetch(name, timeout=30.0):
+        calls.append(name)
+        return sample_records if name == "AeroTech" else sample_records[:2]
+    monkeypatch.setattr(catalog, "fetch_motors", fake_fetch)
+
+    results = catalog.refresh_all()
+
+    assert [name for name, _, _ in results] == ["AeroTech", "Cesaroni"]
+    assert calls == ["AeroTech", "Cesaroni"]  # one fetch per registry entry, in order
+    assert len(results[0][1]) == 3 and results[0][2] is False
+    assert len(results[1][1]) == 2 and results[1][2] is False
+    assert (tmp_path / "at.json").exists() and (tmp_path / "cti.json").exists()

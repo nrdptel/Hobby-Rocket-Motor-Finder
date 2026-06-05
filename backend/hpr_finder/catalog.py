@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import NamedTuple
 
 import httpx
 
@@ -20,6 +21,31 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 # existing callers and tests (which monkeypatch it) are unaffected.
 CACHE_PATH = DATA_DIR / "thrustcurve_aerotech.json"
 CESARONI_CACHE_PATH = DATA_DIR / "thrustcurve_cesaroni.json"
+
+
+class ManufacturerCatalog(NamedTuple):
+    """One manufacturer we pull from ThrustCurve. ``cache_attr`` is the name of
+    the module global holding its cache Path (not the Path itself) so it resolves
+    at call time and stays monkeypatch-friendly for tests — see ``_cache_path``."""
+
+    thrustcurve_name: str  # ThrustCurve query term, e.g. "AeroTech", "Cesaroni"
+    cache_attr: str
+
+
+# Single source of truth for which manufacturers the catalog covers. Adding one
+# is a single entry here (plus a match strategy in ``db.find_motor_id`` only if
+# its designation grammar differs from AeroTech's). ``all_motors``,
+# ``refresh_all``, and the CLI's ``catalog refresh`` all iterate this list.
+MANUFACTURERS: tuple[ManufacturerCatalog, ...] = (
+    ManufacturerCatalog("AeroTech", "CACHE_PATH"),
+    ManufacturerCatalog("Cesaroni", "CESARONI_CACHE_PATH"),
+)
+
+
+def _cache_path(mc: ManufacturerCatalog) -> Path:
+    # Resolve the cache Path from the module global at call time so a test that
+    # monkeypatches ``CACHE_PATH`` reaches the registry-driven code paths too.
+    return globals()[mc.cache_attr]
 
 
 def fetch_motors(manufacturer: str, timeout: float = 30.0) -> list[dict]:
@@ -136,11 +162,37 @@ def refresh_catalog(manufacturer: str, cache_path: Path) -> tuple[list[Motor], b
     return [to_motor(r) for r in raw], False
 
 
+def _manufacturer_motors(thrustcurve_name: str, cache_path: Path, use_cache: bool) -> list[Motor]:
+    """Cache-first load of one manufacturer's catalog: read the cache if present,
+    else fetch live and repopulate it. The registry-driven counterpart of the
+    per-manufacturer ``aerotech_motors`` / ``cesaroni_motors`` shims."""
+    if use_cache and cache_path.exists():
+        raw = load_cache(cache_path)
+    else:
+        raw = fetch_motors(thrustcurve_name)
+        save_cache(raw, cache_path)
+    return [to_motor(r) for r in raw]
+
+
+def refresh_all() -> list[tuple[str, list[Motor], bool]]:
+    """Live-refresh every manufacturer in :data:`MANUFACTURERS`, each falling back
+    to its committed cache on fetch failure. Returns one
+    ``(manufacturer, motors, used_cache_fallback)`` per manufacturer so the caller
+    can report which (if any) came back stale."""
+    return [
+        (mc.thrustcurve_name, *refresh_catalog(mc.thrustcurve_name, _cache_path(mc)))
+        for mc in MANUFACTURERS
+    ]
+
+
 def all_motors(use_cache: bool = True) -> list[Motor]:
     """Every manufacturer's motors, concatenated. The catalog's
-    ``(manufacturer, designation)`` unique key keeps the two sets distinct, so a
+    ``(manufacturer, designation)`` unique key keeps the sets distinct, so a
     Cesaroni ``I445`` and an AeroTech motor never collide."""
-    return aerotech_motors(use_cache) + cesaroni_motors(use_cache)
+    motors: list[Motor] = []
+    for mc in MANUFACTURERS:
+        motors.extend(_manufacturer_motors(mc.thrustcurve_name, _cache_path(mc), use_cache))
+    return motors
 
 
 def _maybe_int(v) -> int | None:
