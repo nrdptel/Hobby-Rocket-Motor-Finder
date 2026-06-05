@@ -230,7 +230,9 @@ def test_cesaroni_motors_fetches_with_manufacturer_when_no_cache(monkeypatch, tm
 # --- all_motors: concatenation of every manufacturer -----------------------
 
 def test_all_motors_concatenates_manufacturers(monkeypatch, tmp_path, sample_records):
-    """``all_motors`` returns AeroTech + Cesaroni from their respective caches."""
+    """``all_motors`` concatenates every manufacturer in the registry from its
+    cache. Pin the registry to two entries so the count is independent of how
+    many manufacturers are actually configured."""
     at_cache = tmp_path / "thrustcurve_aerotech.json"
     cti_cache = tmp_path / "thrustcurve_cesaroni.json"
     at_cache.write_text(json.dumps(sample_records))
@@ -239,6 +241,10 @@ def test_all_motors_concatenates_manufacturers(monkeypatch, tmp_path, sample_rec
     import hpr_finder.catalog as catalog
     monkeypatch.setattr(catalog, "CACHE_PATH", at_cache)
     monkeypatch.setattr(catalog, "CESARONI_CACHE_PATH", cti_cache)
+    monkeypatch.setattr(catalog, "MANUFACTURERS", (
+        catalog.ManufacturerCatalog("AeroTech", "CACHE_PATH"),
+        catalog.ManufacturerCatalog("Cesaroni", "CESARONI_CACHE_PATH"),
+    ))
 
     motors = all_motors(use_cache=True)
     assert len(motors) == 3 + 2
@@ -303,6 +309,10 @@ def test_refresh_all_iterates_manufacturer_registry(monkeypatch, tmp_path, sampl
     import hpr_finder.catalog as catalog
     monkeypatch.setattr(catalog, "CACHE_PATH", tmp_path / "at.json")
     monkeypatch.setattr(catalog, "CESARONI_CACHE_PATH", tmp_path / "cti.json")
+    monkeypatch.setattr(catalog, "MANUFACTURERS", (
+        catalog.ManufacturerCatalog("AeroTech", "CACHE_PATH"),
+        catalog.ManufacturerCatalog("Cesaroni", "CESARONI_CACHE_PATH"),
+    ))
 
     calls = []
     def fake_fetch(name, timeout=30.0):

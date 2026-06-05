@@ -132,3 +132,31 @@ def test_generated_at_is_from_fresh():
                   generated_at="2026-06-03T12:00:00+00:00")
     merged, _ = carry_forward(fresh, prev=None, floor=1)
     assert merged["generated_at"] == "2026-06-03T12:00:00+00:00"
+
+
+# --- per-vendor floor overrides --------------------------------------------
+
+def test_vendor_floor_override_keeps_small_vendor_healthy():
+    """A small-catalog vendor (e.g. Loki, ~60 reloads) sits below the global
+    floor sized for the big vendors. Its per-vendor override keeps it HEALTHY so
+    its fresh data publishes instead of being carried forward forever."""
+    fresh = {"motors": [_motor("Loki Research", "N5500-LW",
+                               [_listing("loki", f"u{i}") for i in range(50)])],
+             "unmatched": []}
+    prev = {"motors": [], "unmatched": []}
+    # Global floor 200 would mark loki degraded; the override (10) keeps it healthy.
+    _, report = carry_forward(fresh, prev, floor=200, vendor_floors={"loki": 10})
+    assert report["decision"]["loki"] == "healthy"
+    assert report["failed"] == []
+    assert report["carried"] == []
+
+
+def test_vendor_floor_override_still_carries_a_truly_degraded_small_vendor():
+    fresh = {"motors": [_motor("Loki Research", "N5500-LW",
+                               [_listing("loki", "u0")])],  # only 1 — below the 10 override
+             "unmatched": []}
+    prev = {"motors": [_motor("Loki Research", "N5500-LW",
+                              [_listing("loki", f"p{i}") for i in range(40)])],
+            "unmatched": []}
+    _, report = carry_forward(fresh, prev, floor=200, vendor_floors={"loki": 10})
+    assert report["decision"]["loki"] == "carried"

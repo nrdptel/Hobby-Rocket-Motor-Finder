@@ -63,6 +63,28 @@ def extract_designation(title: str) -> str | None:
     return m.group(1).upper()
 
 
+# Loki Research writes designations with a hyphen between the class letter and
+# the thrust number, e.g. "N-5500-LW" (and some G-class reloads add an "HP-"
+# prefix, e.g. "HP-G-69-SF"). Those are the only things that keep the
+# AeroTech-style DESIGNATION_RE from matching; strip the prefix and collapse the
+# hyphen and the shared extractor/matcher handle Loki (catalog has "N5500-LW" /
+# "HP-G69-SF", commonNames "N5500" / "G69", which are unique so matching is
+# unambiguous).
+_LOKI_HP_PREFIX_RE = re.compile(r"^\s*HP-", re.IGNORECASE)
+_LOKI_LEADING_HYPHEN_RE = re.compile(r"^\s*([G-O])-(\d)", re.IGNORECASE)
+
+
+def extract_loki_designation(text: str) -> str | None:
+    """Extract a Loki motor designation, normalizing the ``HP-`` prefix and the
+    class-number hyphen (``N-5500-LW`` -> ``N5500-LW``, ``HP-G-69-SF`` ->
+    ``G69-SF``) so :func:`extract_designation` applies. Matching then resolves via
+    the (unique) Loki commonName."""
+    if not text:
+        return None
+    stripped = _LOKI_HP_PREFIX_RE.sub("", text.strip())
+    return extract_designation(_LOKI_LEADING_HYPHEN_RE.sub(r"\1\2", stripped))
+
+
 DELAY_SUFFIX_RE = re.compile(r"-\d{1,2}[A-Z]{0,3}$", re.IGNORECASE)
 LP_DELAY_RE = re.compile(r"-\d{1,2}(?=[A-Z]{1,3}$)", re.IGNORECASE)
 # Hyphen between a digit and an uppercase letter — vendor sometimes inserts one

@@ -1,0 +1,620 @@
+
+
+<html>
+<head>
+<meta NAME="GENERATOR" Content="Microsoft FrontPage 4.0">
+<link rel="stylesheet" type="text/css" href="Style.css">
+<style>
+    @font-face { font-family: Nasa; src: url('NASALIZA.TTF'); } 
+</style>
+<script LANGUAGE="JavaScript">
+
+<!-- 
+var imageArray = new Array();
+var activeimageArray = new Array();     
+var restimageArray = new Array();       
+var navpreloadtest = 0;
+var last_image = null;
+var browsertest = 0;
+
+
+if ((navigator.appCodeName == 'MSIE') && (navigator.appVersion.substring(0,1) > 3)) { browsertest = 1; }
+if ((navigator.appCodeName == 'Mozilla') && (navigator.appVersion.substring(0,1) > 2)) { browsertest = 1; }
+
+
+function mouseover(image_name) { if (navpreloadtest) {
+        if (last_image && (last_image != image_name)) mouseout(last_image);
+        if (image_name != 'noswap') {
+        if (activeimageArray[image_name] != null) {
+                document.images[image_name].src = activeimageArray[image_name].src;
+                last_image = image_name;
+        }
+}}}
+
+function mouseout(image_name) { if (navpreloadtest) {
+        if (image_name != 'noswap') {
+        if (restimageArray[image_name] != null) {
+                document.images[image_name].src = restimageArray[image_name].src;
+        }
+}}}
+
+function preloadimages() { if (document.images) {
+
+        x=0;
+        for (i=0; i<document.images.length; i++) {
+                if (document.images[i].name != 'noswap') {
+                        imageArray[x] = document.images[i].name;
+                        x++
+                }
+        }
+
+        for (i = 0; i < imageArray.length; i++) {
+                activeimageArray[imageArray[i]] = new Image();
+                activeimageArray[imageArray[i]].src = 'images/' + imageArray[i] + '.gif';
+        }
+        for (i = 0; i < imageArray.length; i++) {
+                restimageArray[imageArray[i]] = new Image();
+                restimageArray[imageArray[i]].src = 'images/' + imageArray[i] + '_off.gif';
+        }
+        navpreloadtest = 1;
+}}
+
+// -->
+
+</script>
+</head>
+<body text="#ffffff" bgcolor="#000000" link="#ffff00" vlink="#c0c0c0" alink="#c0ffc0" background="images/stars.gif" ONLOAD="preloadimages();">
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+<tr>
+<td colspan="2">
+<img src="images/lokiresearch.gif">
+
+</td></tr><tr>
+<td width="150" valign="top">
+
+<br><br>
+
+<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/Home" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>Home</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/PRODUCTS" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>PRODUCTS</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=831200410431019"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>Reload Kits</span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=5520031443530"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>38mm</span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=521200312291168"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>54mm</span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=52120032164128"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>76mm </span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=52120032311666"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>98mm </span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=52120034052913"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>152mm </span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/secure/store.asp?groupid=6112003225363"><span style='font-size:10pt;font-weight:bold;font-family:Nasa,sans-serif'>Supplies</span></a> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/Tech_Info" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>Tech Info</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/Dealers" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>Dealers</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/Software" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>Software</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/About_Us" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>About Us</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/FAQ" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>FAQ</span></a><BR>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a HREF="/page/Documents" ><span style='font-size:14pt;font-weight:bold;font-family:Nasa,sans-serif'>Documents</span></a><BR>
+
+
+
+
+</td>
+<td width="100%" VALIGN="TOP">
+
+<img src="images/header_products.gif" WIDTH="300" HEIGHT="43"><br>
+
+<hr WIDTH="100%"></center>
+
+<center><!--SELECT p.groupid,productdesclong,productdescshort,retail,wholesale,image,productname,p.productid,productnumber,field1,field2,field3,field4,field5 FROM Products P, Groups G where retail>=0 and P.GroupID = G.GroupID and P.Groupid = 831200410431019 order by p.orderfield-->
+
+<table cellpadding="10"><tr><td>
+<p>
+<table border="0"><tr><td align="middle"><div class="DescTable"><p class="MsoNormal"><span style="font-size: 18.0pt; line-height: 107%;">At Loki Research, we have worked very hard over the years to create, improve and deliver the very best quality of products possible to our customers.<span style="mso-spacerun: yes;">&nbsp; </span>This work has taken us a great deal of time and effort.<span style="mso-spacerun: yes;">&nbsp; </span>It has all come at a higher cost, but as the saying goes, you get what you pay for. In the end the results are very clear.<span style="mso-spacerun: yes;">&nbsp; </span>You will not find a comparable product with higher reliability and quality in a hobby high power rocket motor than with Loki Research products.<span style="mso-spacerun: yes;">&nbsp; </span>Ask around and look at the success of the many large and small projects we have been a part of over the years and you will see for yourself. Loki Research makes the most reliable hobby rocket motors you can buy, period.<span style="mso-spacerun: yes;">&nbsp; </span>Search the website https://www.motorcato.org/search and you will find the lowest number of failures with Loki Research rocket motors.</span></p>
+<p><span style="font-size: 14pt;"><strong><span style="color: #ff0000; font-size: 18pt;">All commercial reloads G impulse through H, along with five I reloads and two J reloads can be shipped through the U.S. Postal Service&nbsp;<u>without Haz-Mat charges</u>. These orders must ship via USPS Parcel Ground service. This may now take as long as 2-3 weeks for delivery depending on your location. Look for "No Haz-Mat Shipping" below.</span><br /></strong></span></p>
+<p><span style="font-size: 12pt;">This Ground Service may take several days longer since it must be sent surface mail only. All other reloads must be shipped FedEx Haz-Mat with an additional Hazmat fee. If you can send it to a commercial address, please do so and make a note of it in the comments section at check out. It will save you another $3-4.</span></p>
+<p><span style="color: yellow; font-size: 10pt;"><strong>PLEASE NOTE, Loki Research reloads have not been approved by the California State Fire Marshall`s Office. Accordingly, reloads may not be shipped or imported to the state of California unless they are for commercial business use.</strong></span></p>
+<p><span style="font-size: x-large;"><u><strong>Every reload listed below is certified for commercial hobby use by TRA and NAR members.</strong></u></span></p>
+<p><span style="font-size: x-large;"><u><strong>Custom reloads, some of which are compatible with other name brand 75 &amp; 98mm hardware, are available directly to Universities and other organizations by request.&nbsp; Please contact us for more information.<br /></strong></u></span></p>
+<p><span style="font-size: 24pt; color: #ff0000; font-family: arial black,sans-serif;"><strong>Updated on 6/2/2026</strong></span></p>
+<p><span style="font-size: 24pt; color: #ffff00; font-family: arial black, sans-serif;"><strong>How much did your last motor failure cost you with brand A or C?</strong></span></p></div></td></tr></table>
+<p>
+<table width="100%" border="0" cellspacing="0" cellpadding="3">
+<form action="cartadd.asp?" method="post" id="form1" name="form1">
+<input type="hidden" name="return" value="store.asp?groupid=831200410431019">
+<TR bgcolor=dddddd><td align=left><font color=000000><B>Item</b></font></td><td align=left><font color=000000><B>Designation</b></font></td>
+<td align=left><font color=000000><B>Propellant Type</b></font></td>
+<td align=left><font color=000000><B>Burn Time</b></font></td>
+<td align=left><font color=000000><B>Total Impulse</b></font></td>
+<td align=left><font color=000000><B>Hardware</b></font></td>
+<td><font color=000000><B>Cost</b></font></td><td align=middle><font color=000000><B>Qty.</b></font></td></tr><TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=4420245464133'><p><span style="color: #ffff00;; ;; ;;;; background-color: #ff0000;;">NEW</span> N-5500 BATES with out tracking smoke. <a href="https://www.thrustcurve.org/motors/Loki/N5500LW/" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>N-5500-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>3.5</font></td>
+<td valign=top align=middle><font>19,137</font></td>
+<td valign=top align=middle><font>CTI 98mm 6gXL</font></td>
+<TD valign=top><font>$2,299.00</font></td><TD align=right valign=top> <input name=Q_4420245464133 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625200910410326'><p>N-3800 BATES with extended tracking smoke. <span style="color: #00ffff;;">Made to order.</span> Allow 6-8 weeks for delivery. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1698" target="_blank">MotorData</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>N-3800-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>3.3 sec</font></td>
+<td valign=top align=middle><font>12,500 N-s</font></td>
+<td valign=top align=middle><font>98-12500</font></td>
+<TD valign=top><font>$1,245.00</font></td><TD align=right valign=top> <input name=Q_625200910410326 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=799020325111927'><p>M-3464 BATES with extended tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2126" target="_blank">Motor Data</a> - <a href="../images/Documents/Loki%20Research%20Gluing%20Multiple%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-3464-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>2.71</font></td>
+<td valign=top align=middle><font>9395.2 N-s</font></td>
+<td valign=top align=middle><font>76/8000</font></td>
+<TD valign=top><font>$759.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=799020355125414'><p>M-1969 BATES with extended tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2125" target="_blank">Motor Data</a> - <a href="../images/Documents/Loki%20Research%20Gluing%20Multiple%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-1969-SF</font></td>
+<td valign=top align=middle><font>Spitfire</font></td>
+<td valign=top align=middle><font>3.71 sec</font></td>
+<td valign=top align=middle><font>7296 N-s</font></td>
+<td valign=top align=middle><font>76/8000</font></td>
+<TD valign=top><font>$775.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=32520137431986'><p>M-3000 BATES with extended tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1697" target="_blank">Motor Data</a> - <a href="../images/Documents/Loki%20Research%20Gluing%20Multiple%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-3000-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>3.1</font></td>
+<td valign=top align=middle><font>8838 N-s</font></td>
+<td valign=top align=middle><font>76/8000</font></td>
+<TD valign=top><font>$730.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=101520141007436'><p>M-1650 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2124" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-1650-CT</font></td>
+<td valign=top align=middle><font>Cocktail (blue/red)</font></td>
+<td valign=top align=middle><font>3.96 sec</font></td>
+<td valign=top align=middle><font>6534.7 N-s</font></td>
+<td valign=top align=middle><font>76/6000</font></td>
+<TD valign=top><font>$523.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=420200911350617'><p>M-1200 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2123" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-1200-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>4.5 sec</font></td>
+<td valign=top align=middle><font>5123 N-s</font></td>
+<td valign=top align=middle><font>76-6000</font></td>
+<TD valign=top><font>$528.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=71020074553030'><p>M-2550 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1345" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-2550-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>2.5 sec</font></td>
+<td valign=top align=middle><font>6502 N-s</font></td>
+<td valign=top align=middle><font>76-6000</font></td>
+<TD valign=top><font>$509.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=7820057445687'><p>M-1882 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1032" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-1882-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>3.25 sec</font></td>
+<td valign=top align=middle><font>6303 N-s</font></td>
+<td valign=top align=middle><font>76-6000</font></td>
+<TD valign=top><font>$509.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=32320138233038'><p>M-900 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2128" target="_blank">Motor Data</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-900-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>6.0 sec</font></td>
+<td valign=top align=middle><font>5477 N-s</font></td>
+<td valign=top align=middle><font>76/6000 </font></td>
+<TD valign=top><font>$509.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><p>L-840 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2122" target="_blank">Motor Data</a></p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-840-CT</font></td>
+<td valign=top align=middle><font>Cocktail (blue/red)</font></td>
+<td valign=top align=middle><font>4.66 sec</font></td>
+<td valign=top align=middle><font>3890 N-s</font></td>
+<td valign=top align=middle><font>76/3600</font></td>
+<TD valign=top><font>$334.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=420200911334720'><p>L-780 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2120" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-780-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>3.8 sec</font></td>
+<td valign=top align=middle><font>3006 N-s</font></td>
+<td valign=top align=middle><font>76-3600</font></td>
+<TD valign=top><font>$334.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074540154'><p>L-1482 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1502" target="_blank">Motor Data</a> <span style="background-color: #ff6600;;">Only 1 available</span></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-1482-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>2.6 sec</font></td>
+<td valign=top align=middle><font>3882 N-s</font></td>
+<td valign=top align=middle><font>76-3600</font></td>
+<TD valign=top><font>$314.00</font></td><TD align=right valign=top> <input name=Q_71020074540154 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=32520137385647'><p>L-930 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1030" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-930-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>3.8</font></td>
+<td valign=top align=middle><font>3587.2 N-s</font></td>
+<td valign=top align=middle><font>76/3600</font></td>
+<TD valign=top><font>$314.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><p>L-480 BATES with tracking smoke.<a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2121" target="_blank">Motor Data</a><span style="background-color: #ff6600;;"><br /></span></p>
+<p>.</p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-480-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>6.4 sec</font></td>
+<td valign=top align=middle><font>3200 N-s</font></td>
+<td valign=top align=middle><font>76-3600</font></td>
+<TD valign=top><font>$314.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625201611015134'><p>M-1378 BATES with extended tracking smoke and single use composite nozzle. Requires 54mm extended bulkhead, custom ground forward snap ring and 2-turn internal/aft retaining ring. <a title="Motor Data" href="http://www.thrustcurve.org/simfilesearch.jsp?id=2151" target="_blank">Motor Data - </a><a title="Grain Gluing Instructions" href="../images/Documents/Loki%20Research%20Gluing%20Multiple%20Grains.docx">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>M-1378-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>3.9</font></td>
+<td valign=top align=middle><font>5363 N-s</font></td>
+<td valign=top align=middle><font>54-4000</font></td>
+<TD valign=top><font>$625.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=799020355123259'><p>L-2050 BATES with extended tracking smoke and single use nozzle. Requires 54mm extended bulkhead and 2-turn internal retaining ring. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2106" target="_blank">Motor Data</a> - <a href="../images/Documents/Loki%20Research%20Gluing%20Multiple%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-2050-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>2.4 sec</font></td>
+<td valign=top align=middle><font>4802.4 N-s</font></td>
+<td valign=top align=middle><font>54/4000</font></td>
+<TD valign=top><font>$570.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=799020355122313'><p>L-1040 Loki Red BATES with extended tracking smoke and single use nozzle. Requires 54mm extended bulkhead and 2-turn internal retaining ring. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2107" target="_blank">Motor Data</a> - <a href="../images/Documents/Loki%20Research%20Gluing%20Multiple%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-1040-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>3.6 sec</font></td>
+<td valign=top align=middle><font>3708 N-s</font></td>
+<td valign=top align=middle><font>54/2800</font></td>
+<TD valign=top><font>$432.00</font></td><TD align=right valign=top> <input name=Q_799020355122313 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=11620069225717'><p>K-350 Moon burner with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1028" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-350-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>6.4 sec</font></td>
+<td valign=top align=middle><font>2527 N-s</font></td>
+<td valign=top align=middle><font>54-2800</font></td>
+<TD valign=top><font>$334.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=420200911311793'><p>K-830 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2119" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-830-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>2.7 sec</font></td>
+<td valign=top align=middle><font>2287 N-s</font></td>
+<td valign=top align=middle><font>54-2800</font></td>
+<TD valign=top><font>$328.00</font></td><TD align=right valign=top> <input name=Q_420200911311793 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=31620052392598'><p>L-1400 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1031" target="_blank">Motor Data</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>L-1400-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>2.0 sec</font></td>
+<td valign=top align=middle><font>2850.6 N-s</font></td>
+<td valign=top align=middle><font>54-2800</font></td>
+<TD valign=top><font>$320.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><p>K-690 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2117" target="_blank">Motor Data</a></p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-690-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>2.3 sec</font></td>
+<td valign=top align=middle><font>1616 N-s</font></td>
+<td valign=top align=middle><font>54-2000</font></td>
+<TD valign=top><font>$227.00</font></td><TD align=right valign=top> <input name=Q_420200911290167 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><p>K-250 Moon burner with tracking smoke.<a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1027" target="_blank">Motor Data</a></p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-250-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>7 sec</font></td>
+<td valign=top align=middle><font>1607 N-s</font></td>
+<td valign=top align=middle><font>54-2000</font></td>
+<TD valign=top><font>$228.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=7820057431698'><p>K-960 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1029" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-960-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>2 sec</font></td>
+<td valign=top align=middle><font>1946.5 N-s</font></td>
+<td valign=top align=middle><font>54-2000</font></td>
+<TD valign=top><font>$219.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=101520149222983'><p>K-527 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2118" target="_blank">Motor Data</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-527-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>3.77 sec</font></td>
+<td valign=top align=middle><font>1983.3 N-s</font></td>
+<td valign=top align=middle><font>54/2000</font></td>
+<TD valign=top><font>$219.00</font></td><TD align=right valign=top> <input name=Q_101520149222983 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=420200911270189'><p>J-350 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2111" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-350-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>2.7 sec</font></td>
+<td valign=top align=middle><font>931 N-s</font></td>
+<td valign=top align=middle><font>54-1200</font></td>
+<TD valign=top><font>$162.00</font></td><TD align=right valign=top> <input name=Q_420200911270189 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><p>J-175 Moon burner with tracking smoke <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1489" target="_blank">Motor Data</a></p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-175-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>6.5 sec</font></td>
+<td valign=top align=middle><font>1135 N-s</font></td>
+<td valign=top align=middle><font>54-1200</font></td>
+<TD valign=top><font>$164.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=11620069285369'><p>J-820 Star grain with tracking smoke.<a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1490" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-820-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>1.4 sec</font></td>
+<td valign=top align=middle><font>1108 N-s</font></td>
+<td valign=top align=middle><font>54-1200</font></td>
+<TD valign=top><font>$155.00</font></td><TD align=right valign=top> <input name=Q_11620069285369 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=31620052424083'><p>J-525 BATES with tracking smoke <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1025" target="_blank">Motor Data</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-525-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>2 sec</font></td>
+<td valign=top align=middle><font>1112.5 N-s</font></td>
+<td valign=top align=middle><font>54-1200</font></td>
+<TD valign=top><font>$155.00</font></td><TD align=right valign=top> <input name=Q_31620052424083 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><p><span style="color: #ffff00;; ;; ;;;; background-color: #ff0000;;">NEW</span> J-670 BATES with tracking smoke <a href="https://www.thrustcurve.org/motors/Loki/J670LB/" target="_blank">Motor Data</a></p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-670-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>1.9</font></td>
+<td valign=top align=middle><font>1270</font></td>
+<td valign=top align=middle><font>54-1200</font></td>
+<TD valign=top><font>$155.00</font></td><TD align=right valign=top> <input name=Q_4182024131356 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><p>J-300 BATES with tracking smoke. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2113" target="_blank">Motor Data</a></p>
+<p>.</p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-300-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>4.1 sec</font></td>
+<td valign=top align=middle><font>1208.7 N-s</font></td>
+<td valign=top align=middle><font>54/1200</font></td>
+<TD valign=top><font>$155.00</font></td><TD align=right valign=top> <input name=Q_101520149134023 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625201610522257'><p>K-627 -Tracking smoke only<strong>. Requires a #25 nozzle.<span style="text-decoration: underline;; ;; ;;;; ;;;;;;;; ;;;;;;;;;;;;;;;; color: #ffffff;;">.</span></strong> <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2145" target="_blank">Motor Data</a> - <a href="../images/Gluing%2038_1200%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-627-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>2.4 sec</font></td>
+<td valign=top align=middle><font>1519 N-s</font></td>
+<td valign=top align=middle><font>38-1200</font></td>
+<TD valign=top><font>$210.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=420200911242689'><p>K-1127 - Tracking smoke only<strong>.</strong> <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2116" target="_blank">Motor Data</a> - <a href="../images/Gluing%2038_1200%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>K-1127-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>1.25 sec</font></td>
+<td valign=top align=middle><font>1284.6 N-s</font></td>
+<td valign=top align=middle><font>38-1200</font></td>
+<TD valign=top><font>$189.00</font></td><TD align=right valign=top> <input name=Q_420200911242689 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=420200911215642'><p>J-650 - Tracking smoke only<strong>.</strong> <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2112" target="_blank">Motor Data</a> - <a href="../images/Gluing%2038_1200%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-650-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>1.45 sec</font></td>
+<td valign=top align=middle><font>942 N-s</font></td>
+<td valign=top align=middle><font>38-1200</font></td>
+<TD valign=top><font>$195.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=799020355121128'><p>J-1026 - Tracking smoke only<strong>.</strong> <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2115" target="_blank">Motor Data</a> - <a href="../images/Gluing%2038_1200%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-1026-LC</font></td>
+<td valign=top align=middle><font>Cocktail (blue/red)</font></td>
+<td valign=top align=middle><font>1.24 sec</font></td>
+<td valign=top align=middle><font>1266.3 N-s</font></td>
+<td valign=top align=middle><font>38/1200</font></td>
+<TD valign=top><font>$189.00</font></td><TD align=right valign=top> <input name=Q_799020355121128 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=101520141003319'><p>J-1000 - Tracking smoke only<strong>.</strong> <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2114" target="_blank">MotorData</a> - <a href="../images/Gluing%2038_1200%20Grains.docx" target="_blank">Grain Gluing Instructions</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-1000-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>1.4 sec</font></td>
+<td valign=top align=middle><font>1220.0 N-s</font></td>
+<td valign=top align=middle><font>38/1200</font></td>
+<TD valign=top><font>$189.00</font></td><TD align=right valign=top> <input name=Q_101520141003319 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=7102007448204'><p>J-396 - The delay time is adjustable from 5 to 17 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1495" target="_blank">Motor Data <span style="background-color: #ff6600;; color: #ffffff;;">Only 1 available</span></a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-396-SF</font></td>
+<td valign=top align=middle><font>Spitfire</font></td>
+<td valign=top align=middle><font>1.65 sec</font></td>
+<td valign=top align=middle><font>650 N-s</font></td>
+<td valign=top align=middle><font>38-740</font></td>
+<TD valign=top><font>$119.00</font></td><TD align=right valign=top> <input name=Q_7102007448204 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=51920197383527'><p>J-474 - The delay time is adjustable from 8 to 18 seconds. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1126" target="_blank">Motor Data</a> <strong><span style="text-decoration: underline;;">**Requires a #28 nozzle.</span></strong> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-474-CT</font></td>
+<td valign=top align=middle><font>Cocktail</font></td>
+<td valign=top align=middle><font>1.5 sec</font></td>
+<td valign=top align=middle><font>709.1 N-s</font></td>
+<td valign=top align=middle><font>38-740</font></td>
+<TD valign=top><font>$119.00</font></td><TD align=right valign=top> <input name=Q_51920197383527 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074460296'><p>J-326 - The delay time is adjustable from 5 to 15 seconds. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1125" target="_blank">Motor Data</a> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-326-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>2.3 sec</font></td>
+<td valign=top align=middle><font>732.9 N-s</font></td>
+<td valign=top align=middle><font>38-740</font></td>
+<TD valign=top><font>$119.00</font></td><TD align=right valign=top> <input name=Q_71020074460296 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=71020074502158'><p>J-712 - The delay time is adjustable from 7 to 15 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1500" target="_blank">MotorData</a></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-712-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>1.16 sec</font></td>
+<td valign=top align=middle><font>812 N-s</font></td>
+<td valign=top align=middle><font>38-740</font></td>
+<TD valign=top><font>$113.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=831200410544145'><p>J-528 - The delay time is adjustable from 5 to 17 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1026" target="_blank">Motor Data</a></p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>J-528-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>1.3 sec</font></td>
+<td valign=top align=middle><font>741 N-s</font></td>
+<td valign=top align=middle><font>38-740</font></td>
+<TD valign=top><font>$113.00</font></td><TD align=right valign=top> <input name=Q_831200410544145 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><p><span style="font-size: small;;">I-110 Moon burner - Delay adustable from 5 to 12 seconds. <strong><span style="text-decoration: underline;;">**Requires #16 Nozzle. </span></strong></span><a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1491" target="_blank">MotorData</a></p></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-110-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>4.0 sec</font></td>
+<td valign=top align=middle><font>487.8 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$93.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074404889'><p>I-316 - The delay time is adjustable from 5 to 17 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2109" target="_blank">Motor Data </a>No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-316-SF</font></td>
+<td valign=top align=middle><font>Spitfire</font></td>
+<td valign=top align=middle><font>1.5 sec</font></td>
+<td valign=top align=middle><font>408.6 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$92.00</font></td><TD align=right valign=top> <input name=Q_71020074404889 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625201610492085'><p><span style="font-size: small;;">I-377 - The delay time is adjustable from 8 to 18 seconds. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1096" target="_blank">Motor Data</a> No Haz-Mat shipping.<br /></span></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-377-CT</font></td>
+<td valign=top align=middle><font>Cocktail (blue/red)</font></td>
+<td valign=top align=middle><font>1.4 sec</font></td>
+<td valign=top align=middle><font>522 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$87.00</font></td><TD align=right valign=top> <input name=Q_625201610492085 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074425141'><p><span style="font-size: small;;">I-430 - The delay time is adjustable from 7 to 15 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=2110" target="_blank">Motor Data</a></span></p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-430-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>1.2 sec</font></td>
+<td valign=top align=middle><font>532.6 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$87.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=418202411515868'><p><span style="font-size: small;;"><span style="color: #ffff00;; ;; background-color: #ff0000;;">NEW</span> I-426 - Tracking Smoke Only. <span style="text-decoration: underline;;"><em>No Delay Ejection</em></span>. <a href="https://www.thrustcurve.org/motors/Loki/I426LB/" target="_blank">Motor Data</a></span> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-426-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>1.2 sec</font></td>
+<td valign=top align=middle><font>505.0 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$81.00</font></td><TD align=right valign=top> <input name=Q_418202411515868 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=831200410535294'><p>I-405 - The delay time is adjustable from 5 to 17 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1024" target="_blank">Motor Data </a>No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-405-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>1.2 sec</font></td>
+<td valign=top align=middle><font>493.2 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$87.00</font></td><TD align=right valign=top> <input name=Q_831200410535294 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=71020074341078'><p>I-210 - The delay time is adjustable from 5 to 14 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1497" target="_blank">Motor Data </a>No Haz-Mat Shipping.</p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>I-210-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>2.4 sec</font></td>
+<td valign=top align=middle><font>489.8 N-s</font></td>
+<td valign=top align=middle><font>38-480</font></td>
+<TD valign=top><font>$87.00</font></td><TD align=right valign=top> <input name=Q_71020074341078 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074301975'><p>H-100 - The delay time is adjustable from 5 to 17 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1493" target="_blank">Motor Data</a> No Haz-Mat shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>H-100-SF</font></td>
+<td valign=top align=middle><font>Spitfire</font></td>
+<td valign=top align=middle><font>2.0 sec</font></td>
+<td valign=top align=middle><font>200 N-s</font></td>
+<td valign=top align=middle><font>38-240</font></td>
+<TD valign=top><font>$62.00</font></td><TD align=right valign=top> <input name=Q_71020074301975 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=62520161042367'><p>H-125 - The delay time is adjustable from 8 to 18 seconds. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1095" target="_blank">Motor Data</a> No Haz-Mat Shipping</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>H-125-CT</font></td>
+<td valign=top align=middle><font>Cocktail (blue/red)</font></td>
+<td valign=top align=middle><font>1.9 sec</font></td>
+<td valign=top align=middle><font>240</font></td>
+<td valign=top align=middle><font>38-240</font></td>
+<TD valign=top><font>$57.00</font></td><TD align=right valign=top> <input name=Q_62520161042367 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074272556'><p>H-160 - The delay time is adjustable from 7 to 15 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1501" target="_blank">MotorData</a> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>H-160-LB</font></td>
+<td valign=top align=middle><font>Loki Blue</font></td>
+<td valign=top align=middle><font>1.6 sec</font></td>
+<td valign=top align=middle><font>260.1 N-s</font></td>
+<td valign=top align=middle><font>38-240</font></td>
+<TD valign=top><font>$57.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=475814709104626'><p>H-144 - The delay time is adjustable from 5 to 17 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1023" target="_blank">Motor Data</a> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>H-144-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>1.7 sec</font></td>
+<td valign=top align=middle><font>239.3 N-s</font></td>
+<td valign=top align=middle><font>38-240</font></td>
+<TD valign=top><font>$57.00</font></td><TD align=right valign=top> <input name=Q_475814709104626 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074243821'><p>H-90 - The delay time is adjustable from 5 to 14 seconds. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1496" target="_blank">MotorData</a> No Haz-Mat Shipping.</p>
+<p>.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>H-90-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>2.7 sec</font></td>
+<td valign=top align=middle><font>234.4 N-s</font></td>
+<td valign=top align=middle><font>38-240</font></td>
+<TD valign=top><font>$57.00</font></td><TD align=right valign=top> <input name=Q_71020074243821 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625200910363512'><p>HP-G-69 (2-pack) - The delay time is adjustable from 5 to 17 seconds. Two reloads per package. <a title="G-69 SF Data" href="http://www.thrustcurve.org/simfilesearch.jsp?id=2127" target="_blank">Motor Data</a> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>HP-G-69-SF</font></td>
+<td valign=top align=middle><font>SpitFire</font></td>
+<td valign=top align=middle><font>1.6 sec</font></td>
+<td valign=top align=middle><font>110 N-s</font></td>
+<td valign=top align=middle><font>38-120</font></td>
+<TD valign=top><font>$77.00</font></td><TD align=right valign=top> <input name=Q_625200910363512 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=625201610241977'><p>G-70 (2-pack) - The delay time is adjustable from 8 to 18 seconds. Two reloads per package. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1098" target="_blank">Motor Data</a> No Haz-Mat shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>G-70-CT</font></td>
+<td valign=top align=middle><font>Cocktail (blue/red)</font></td>
+<td valign=top align=middle><font>1.7 sec</font></td>
+<td valign=top align=middle><font>119 N-s</font></td>
+<td valign=top align=middle><font>38-120</font></td>
+<TD valign=top><font>$75.00</font></td><TD align=right valign=top> <input name=Q_625201610241977 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625201610330434'><p>HP-G-94 (2-pack) - The delay time is adjustable from 5 to 18 seconds. Two reloads per package. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1099" target="_blank">Motor Data</a> No Haz-Mat shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>HP-G94-IB</font></td>
+<td valign=top align=middle><font>Ice Blue (blue/white)</font></td>
+<td valign=top align=middle><font>1.3 sec</font></td>
+<td valign=top align=middle><font>121 N-s</font></td>
+<td valign=top align=middle><font>38-120</font></td>
+<TD valign=top><font>$74.00</font></td><TD align=right valign=top> <input name=Q_625201610330434 size=2></td></tr>
+<TR bgcolor=666666><TD valign=top><font><a href='storeDetail.asp?id=71020074213811'><p>G-80 (2-pack) - The delay time is adjustable from 5 to 17 seconds. Two reloads per package. <a href="http://www.thrustcurve.org/simfilesearch.jsp?id=1499" target="_blank">MotorData</a> No Haz-Mat Shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>G-80-LW</font></td>
+<td valign=top align=middle><font>Loki White</font></td>
+<td valign=top align=middle><font>1.5 sec</font></td>
+<td valign=top align=middle><font>122.5 N-s</font></td>
+<td valign=top align=middle><font>38-120</font></td>
+<TD valign=top><font>$74.00</font></td><TD align=right valign=top> <input name=Q_71020074213811 size=2></td></tr>
+<TR bgcolor=888888><TD valign=top><font><a href='storeDetail.asp?id=625201610023235'><p>G-66 (2-pack) - The delay time is adjustable from 5 to 15 seconds. Two reloads per package. <a href="http://www.thrustcurve.org/motorsearch.jsp?id=1097" target="_blank">Motor Data.</a> No Haz-Mat shipping.</p></a></font></td>
+<!--yes fields-->
+<td valign=top align=middle><font>G-66-LR</font></td>
+<td valign=top align=middle><font>Loki Red</font></td>
+<td valign=top align=middle><font>2.0 sec</font></td>
+<td valign=top align=middle><font>134.5 N-s</font></td>
+<td valign=top align=middle><font>38-120</font></td>
+<TD valign=top><font>$76.00</font></td><TD align=right valign=top> <STRONG><EM><font style='font-size:7pt'>TEMPORARILY<BR> OUT OF STOCK</font></EM></STRONG></td></tr>
+
+
+</table>
+<center>
+<input type="submit" value="Add to cart">
+<input type="button" value="View Cart" onClick="document.location.href='cartshow.asp?return=store%2Easp%3Fgroupid%3D831200410431019'">
+</center>
+</form>
+</table>
+</td></tr>
+<TR><TD colspan=2 align=middle>
+<BR><BR><BR><BR>
+<b><font face="Arial,Helvetica"><font color="#ffffff"><font size="-2">All
+portions of the LokiResearch.com web site are Copyrighted 2002 by Loki
+Research and should not be reproduced anywhere without permission.</font></font></font></b>
+</td><Tr>
+</table>
+
+</BODY>
+</HTML>

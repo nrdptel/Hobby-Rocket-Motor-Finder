@@ -21,6 +21,7 @@ DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 # existing callers and tests (which monkeypatch it) are unaffected.
 CACHE_PATH = DATA_DIR / "thrustcurve_aerotech.json"
 CESARONI_CACHE_PATH = DATA_DIR / "thrustcurve_cesaroni.json"
+LOKI_CACHE_PATH = DATA_DIR / "thrustcurve_loki.json"
 
 
 class ManufacturerCatalog(NamedTuple):
@@ -39,6 +40,9 @@ class ManufacturerCatalog(NamedTuple):
 MANUFACTURERS: tuple[ManufacturerCatalog, ...] = (
     ManufacturerCatalog("AeroTech", "CACHE_PATH"),
     ManufacturerCatalog("Cesaroni", "CESARONI_CACHE_PATH"),
+    # Query term "Loki"; ThrustCurve stores the name as "Loki Research", which is
+    # what the Loki scraper sets on its listings so they match this catalog.
+    ManufacturerCatalog("Loki", "LOKI_CACHE_PATH"),
 )
 
 

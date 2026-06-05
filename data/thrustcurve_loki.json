@@ -1,0 +1,33 @@
+[
+  {
+    "availability": "regular",
+    "avgThrustN": 242.0,
+    "burnTimeS": 0.98,
+    "commonName": "H242",
+    "delayAdjustable": true,
+    "delays": "6,10,14",
+    "designation": "H242T-14A",
+    "diameter": 29,
+    "impulseClass": "H",
+    "length": 124,
+    "manufacturer": "AeroTech",
+    "motorId": "abc123",
+    "propInfo": "Blue Thunder",
+    "totImpulseNs": 237.0
+  },
+  {
+    "availability": "regular",
+    "avgThrustN": 1500.0,
+    "burnTimeS": 4.15,
+    "delayAdjustable": false,
+    "delays": "P",
+    "designation": "M1500",
+    "diameter": 75,
+    "impulseClass": "M",
+    "length": 619,
+    "manufacturer": "AeroTech",
+    "motorId": "m1500",
+    "propInfo": "Mojave Green",
+    "totImpulseNs": 6230.0
+  }
+]

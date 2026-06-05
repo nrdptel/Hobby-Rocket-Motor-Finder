@@ -41,24 +41,36 @@ def _motor_key(motor: dict) -> tuple[str, str]:
     return (motor["manufacturer"], motor["designation"])
 
 
-def carry_forward(fresh: dict, prev: dict | None, floor: int) -> tuple[dict, dict]:
+def carry_forward(
+    fresh: dict,
+    prev: dict | None,
+    floor: int,
+    vendor_floors: dict[str, int] | None = None,
+) -> tuple[dict, dict]:
     """Merge ``fresh`` with last-good data from ``prev`` for degraded vendors.
 
-    A vendor is degraded when its fresh listing count is < ``floor``. Degraded
+    A vendor is degraded when its fresh listing count is < its floor. Degraded
     vendors reuse their ``prev`` listings if available (``carried``), else they
     are reported ``failed``. Healthy vendors always use fresh data.
+
+    ``floor`` is the default applied to every vendor; ``vendor_floors`` overrides
+    it per-vendor slug. The override exists for small-catalog vendors (e.g. Loki
+    has only ~60 reloads) that would otherwise sit permanently below the global
+    floor sized for the big AeroTech/CTI vendors.
 
     Returns ``(merged_snapshot, report)``. ``report`` carries the per-vendor
     decision and counts; ``report["failed"]`` lists vendors with no fallback so
     the caller can decide to refuse publishing.
     """
     prev = prev or {"motors": [], "unmatched": []}
+    vendor_floors = vendor_floors or {}
     fresh_counts = vendor_counts(fresh)
     prev_counts = vendor_counts(prev)
 
     decision: dict[str, str] = {}
     for vendor in set(fresh_counts) | set(prev_counts):
-        if fresh_counts.get(vendor, 0) >= floor:
+        vfloor = vendor_floors.get(vendor, floor)
+        if fresh_counts.get(vendor, 0) >= vfloor:
             decision[vendor] = HEALTHY
         elif prev_counts.get(vendor, 0) > 0:
             decision[vendor] = CARRIED

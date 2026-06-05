@@ -31,6 +31,13 @@ _DEFAULT_SNAPSHOT = _REPO_ROOT / "data" / "snapshot.json"
 _DEFAULT_HISTORY_LOG = _REPO_ROOT / "data" / "history" / "log.json"
 _DEFAULT_HISTORY_SUMMARY = _REPO_ROOT / "data" / "history" / "summary.json"
 
+# Per-vendor carry-forward floor overrides (slug -> floor). Small-catalog vendors
+# sit permanently below the global --floor (sized for the big AeroTech/CTI
+# vendors), so they get a lower threshold matched to their catalog size. Loki
+# lists ~60 reloads total from a single page (all-or-nothing), so anything in the
+# low tens signals a degraded scrape.
+_VENDOR_FLOORS = {"loki": 10}
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
 
@@ -296,7 +303,7 @@ def snapshot_export(
     failed: list[str] = []
     carried: list[str] = []
     if floor > 0:
-        payload, report = carry_forward(payload, prev, floor)
+        payload, report = carry_forward(payload, prev, floor, _VENDOR_FLOORS)
         typer.echo(f"snapshot floor={floor} — per-vendor:")
         for vendor in sorted(report["decision"]):
             d = report["decision"][vendor]
