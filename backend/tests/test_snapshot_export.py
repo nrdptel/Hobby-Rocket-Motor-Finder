@@ -103,13 +103,14 @@ def test_snapshot_shape_matches_frontend_contract(tmp_db, tmp_path):
     expected_motor_keys = {
         "id", "manufacturer", "designation", "common_name", "diameter_mm",
         "impulse_class", "total_impulse_ns", "avg_thrust_n", "burn_time_s",
-        "propellant", "delays", "delay_adjustable", "listings",
+        "propellant", "delays", "delay_adjustable", "discontinued", "listings",
     }
     assert set(motor.keys()) >= expected_motor_keys
     assert motor["designation"] == "H242T-14A"
     assert motor["impulse_class"] == "H"
     assert motor["diameter_mm"] == 29
     assert motor["delay_adjustable"] is True  # critical — frontend reads as bool, not int
+    assert motor["discontinued"] is False  # a regular (in-production) motor
     assert motor["propellant"] == "Blue Thunder"
 
     # Listings nested under motor
@@ -302,3 +303,34 @@ def test_report_json_written_even_on_refuse_to_publish(tmp_db, tmp_path):
     assert status["degraded"] is True
     assert "csrocketry" in status["failed"]
     assert status["decision"]["csrocketry"] == "failed"
+
+
+def test_snapshot_marks_discontinued_oop_motor(tmp_db, tmp_path):
+    """A motor matched to an out-of-production catalog entry is flagged
+    ``discontinued`` so the UI can mark it as old stock that won't restock."""
+    with db.connect(tmp_db) as conn:
+        db.init_schema(conn)
+        v_id = upsert_vendor(conn, slug="wildman", name="Wildman Rocketry",
+                             homepage="https://wildman.test")
+        upsert_motors(conn, [
+            Motor(
+                manufacturer="AeroTech", designation="E15W", common_name="E15",
+                diameter_mm=29, length_mm=None, total_impulse_ns=None,
+                avg_thrust_n=None, burn_time_s=None, propellant="White Lightning",
+                impulse_class="E", delays=None, delay_adjustable=False,
+                thrustcurve_id=None, availability="OOP",
+            ),
+        ])
+        upsert_listings(conn, v_id, [
+            Listing(
+                vendor_slug="wildman", motor_designation="E15W", motor_id=None,
+                url="https://wildman.test/e15", sku="E15", price_cents=1999,
+                currency="USD", status=StockStatus.IN_STOCK, stock_count=None,
+                raw_title="AeroTech E15 White Lightning", seen_at=datetime(2026, 5, 31, tzinfo=UTC),
+            ),
+        ])
+    out = tmp_path / "snap.json"
+    snapshot_export(out=out)
+    snap = json.loads(out.read_text())
+    e15 = next(m for m in snap["motors"] if m["designation"] == "E15W")
+    assert e15["discontinued"] is True
