@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS motors (
     delays TEXT,
     delay_adjustable INTEGER NOT NULL DEFAULT 0,
     thrustcurve_id TEXT,
+    availability TEXT,
     UNIQUE (manufacturer, designation)
 );
 
@@ -115,6 +116,8 @@ def init_schema(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE motors ADD COLUMN delays TEXT")
     if "delay_adjustable" not in cols:
         conn.execute("ALTER TABLE motors ADD COLUMN delay_adjustable INTEGER NOT NULL DEFAULT 0")
+    if "availability" not in cols:
+        conn.execute("ALTER TABLE motors ADD COLUMN availability TEXT")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_motors_common_name ON motors (common_name)")
     # Idempotent migration: add manufacturer/diameter routing columns to listings
     # if an older DB predates multi-manufacturer support.
@@ -150,21 +153,28 @@ def upsert_motors(conn: sqlite3.Connection, motors: list[Motor]) -> int:
             m.delays,
             1 if m.delay_adjustable else 0,
             m.thrustcurve_id,
+            m.availability,
         )
         for m in motors
     ]
     conn.executemany(
-        "INSERT INTO motors (manufacturer, designation, common_name, diameter_mm, length_mm, total_impulse_ns, avg_thrust_n, burn_time_s, propellant, impulse_class, delays, delay_adjustable, thrustcurve_id) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "INSERT INTO motors (manufacturer, designation, common_name, diameter_mm, length_mm, total_impulse_ns, avg_thrust_n, burn_time_s, propellant, impulse_class, delays, delay_adjustable, thrustcurve_id, availability) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT (manufacturer, designation) DO UPDATE SET "
         "common_name=excluded.common_name, diameter_mm=excluded.diameter_mm, length_mm=excluded.length_mm, "
         "total_impulse_ns=excluded.total_impulse_ns, avg_thrust_n=excluded.avg_thrust_n, "
         "burn_time_s=excluded.burn_time_s, propellant=excluded.propellant, "
         "impulse_class=excluded.impulse_class, delays=excluded.delays, "
-        "delay_adjustable=excluded.delay_adjustable, thrustcurve_id=excluded.thrustcurve_id",
+        "delay_adjustable=excluded.delay_adjustable, thrustcurve_id=excluded.thrustcurve_id, "
+        "availability=excluded.availability",
         rows,
     )
     return len(rows)
+
+
+# SQL fragment that restricts a match to current (in-production) motors. NULL
+# availability (rows from before the column existed) counts as current.
+_EXCLUDE_OOP = " AND (availability IS NULL OR availability <> 'OOP')"
 
 
 def find_motor_id(
@@ -176,11 +186,19 @@ def find_motor_id(
 ) -> int | None:
     """Match a vendor designation (+ optional product title) to a canonical motor.
 
-    Dispatches on manufacturer: Cesaroni has a different designation grammar
-    (no propellant letter) and so a different match path — see
+    Runs the match in TWO passes: first against current (in-production) motors
+    only, then — only if nothing matched — against the full catalog including
+    out-of-production (OOP) motors. This lets a vendor's old-stock listing match a
+    discontinued motor (e.g. AeroTech E15W) while guaranteeing that adding OOP
+    motors can never divert a listing a current motor already matches: pass 1 sees
+    exactly the current-only catalog, so its result is identical to before. The
+    OOP pass only runs for listings that were previously unmatched.
+
+    Dispatches on manufacturer: Cesaroni has a different designation grammar (no
+    propellant letter) and so a different match path — see
     :func:`_find_cti_motor_id`. AeroTech uses the transform chain below.
 
-    AeroTech strategy, in order:
+    AeroTech strategy within each pass, in order:
       1. Exact match on designation.
       2. HPR delay-suffix strip (H242T-14A -> H242T).
       3. Low-power delay-infix strip keeping trailing propellant (D13-10W -> D13W).
@@ -192,11 +210,31 @@ def find_motor_id(
     """
     if not designation:
         return None
-    # Cesaroni Technology (the name ThrustCurve stores; query term is "Cesaroni").
-    if manufacturer.lower().startswith("cesaroni"):
-        return _find_cti_motor_id(conn, manufacturer, designation, title, diameter_mm)
-    # Steps 1-N: try increasingly aggressive designation transforms against the
-    # catalog's "designation" column (the canonical form ThrustCurve uses).
+    match = (
+        _find_cti_motor_id
+        if manufacturer.lower().startswith("cesaroni")
+        else _find_at_motor_id
+    )
+    # Current-only pass first, then a full pass that also allows OOP motors.
+    for av_filter in (_EXCLUDE_OOP, ""):
+        mid = match(conn, manufacturer, designation, title, diameter_mm, av_filter)
+        if mid is not None:
+            return mid
+    return None
+
+
+def _find_at_motor_id(
+    conn: sqlite3.Connection,
+    manufacturer: str,
+    designation: str,
+    title: str | None,
+    diameter_mm: int | None,
+    av_filter: str,
+) -> int | None:
+    """AeroTech match within one availability pool (``av_filter`` is the SQL
+    fragment restricting to current motors, or "" for the full catalog)."""
+    # Steps 1-N: increasingly aggressive designation transforms vs the catalog's
+    # "designation" column (the canonical form ThrustCurve uses).
     base = base_designation(designation)
     plug = strip_plug_suffix(base)
     # Double plug strip handles vendor SKUs that stack two markers like
@@ -218,27 +256,30 @@ def find_motor_id(
         if not candidate:
             continue
         row = conn.execute(
-            "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND designation = ? COLLATE NOCASE",
+            "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND designation = ? COLLATE NOCASE"
+            + av_filter,
             (manufacturer, candidate),
         ).fetchone()
         if row:
             return row[0]
-    # Steps 4-5: common_name with propellant disambiguation
+    # Steps 4-5: common_name with propellant disambiguation.
     inferred_prop = infer_propellant_from_title(title or "")
     for cn in (designation, base_designation(designation), title_common_name(designation)):
         if not cn:
             continue
         if inferred_prop:
             row = conn.execute(
-                "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE AND propellant = ? COLLATE NOCASE",
+                "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE AND propellant = ? COLLATE NOCASE"
+                + av_filter,
                 (manufacturer, cn, inferred_prop),
             ).fetchone()
             if row:
                 return row[0]
         # Last resort: common_name match without propellant disambiguation, only
-        # if exactly one catalog motor shares that common_name (no ambiguity).
+        # if exactly one catalog motor in this pool shares that common_name.
         rows = conn.execute(
-            "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE",
+            "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE"
+            + av_filter,
             (manufacturer, cn),
         ).fetchall()
         if len(rows) == 1:
@@ -252,8 +293,9 @@ def _find_cti_motor_id(
     designation: str,
     title: str | None,
     diameter_mm: int | None,
+    av_filter: str,
 ) -> int | None:
-    """Match a Cesaroni listing to a catalog motor.
+    """Match a Cesaroni listing to a catalog motor within one availability pool.
 
     ``designation`` is the CTI commonName (e.g. ``I445``) — there is no
     propellant letter, so we match on the catalog's ``common_name`` column and
@@ -268,7 +310,7 @@ def _find_cti_motor_id(
         rows = conn.execute(
             "SELECT id, diameter_mm FROM motors "
             "WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE "
-            "AND propellant = ? COLLATE NOCASE",
+            "AND propellant = ? COLLATE NOCASE" + av_filter,
             (manufacturer, common, propinfo),
         ).fetchall()
         if len(rows) == 1:
@@ -283,7 +325,8 @@ def _find_cti_motor_id(
             return rows[0]["id"]
     # Fallback: commonName alone, only when it identifies exactly one motor.
     rows = conn.execute(
-        "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE",
+        "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE"
+        + av_filter,
         (manufacturer, common),
     ).fetchall()
     if len(rows) == 1:
