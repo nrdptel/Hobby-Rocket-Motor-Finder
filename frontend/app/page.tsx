@@ -1,4 +1,5 @@
 import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
+import type { HistorySummary } from "@/lib/snapshot";
 import {
   MIN_CLASS,
   formatPrice,
@@ -115,6 +116,21 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     )
     .map((m) => groupByDelay(m, fSort));
 
+  // History is looked up per listing by URL inside the (client) results
+  // component, so only the rendered motors' listings need it. Ship just those
+  // entries instead of the whole summary — this keeps the server→client payload
+  // proportional to what's shown, not the full catalog (which grows with every
+  // manufacturer added).
+  const visibleHistory: HistorySummary = {};
+  for (const m of filteredWithListings) {
+    for (const g of m.delayGroups) {
+      for (const l of g.listings) {
+        const h = history[l.url];
+        if (h) visibleHistory[l.url] = h;
+      }
+    }
+  }
+
   // Drop A/B/C-class entries from the unmatched section too (the same
   // MIN_CLASS gate applied to motors). Also drop AeroTech Q-Jet products —
   // they're a low-power model-rocketry line not in the ThrustCurve subset
@@ -154,7 +170,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         showManufacturer={showManufacturer}
         generatedAt={snapshot.generated_at}
         starredOnly={fStarredOnly}
-        history={history}
+        history={visibleHistory}
       />
 
       {unmatched.length > 0 && (
