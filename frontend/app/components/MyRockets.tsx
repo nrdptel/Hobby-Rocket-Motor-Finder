@@ -29,22 +29,38 @@ export function MyRockets({
   const certLabel = (key: string) =>
     certLevels.find((c) => c.key === key)?.label ?? key;
 
+  const paramEq = (param: string, val: number | null) =>
+    val == null ? !sp.get(param) : sp.get(param) === String(val);
+
   const isActive = (r: Rocket) =>
-    sp.get("cert") === r.cert && sp.get("dia") === String(r.diameterMm);
+    sp.get("cert") === r.cert &&
+    sp.get("dia") === String(r.diameterMm) &&
+    paramEq("imin", r.minImpulseNs) &&
+    paramEq("imax", r.maxImpulseNs);
 
   const apply = (r: Rocket) => {
     const next = new URLSearchParams(sp.toString());
     if (isActive(r)) {
       // Toggle off — clear this rocket's filters.
-      next.delete("cert");
-      next.delete("dia");
+      for (const p of ["cert", "dia", "imin", "imax"]) next.delete(p);
     } else {
       next.set("cert", r.cert);
       next.set("dia", String(r.diameterMm));
       next.delete("class"); // class ∩ cert would usually be empty
+      if (r.minImpulseNs != null) next.set("imin", String(r.minImpulseNs));
+      else next.delete("imin");
+      if (r.maxImpulseNs != null) next.set("imax", String(r.maxImpulseNs));
+      else next.delete("imax");
     }
     const qs = next.toString();
     router.push(qs ? `/?${qs}` : "/", { scroll: false });
+  };
+
+  const band = (r: Rocket): string => {
+    const { minImpulseNs: lo, maxImpulseNs: hi } = r;
+    if (lo == null && hi == null) return "";
+    if (lo != null && hi != null) return `${lo}–${hi} N·s`;
+    return lo != null ? `≥${lo} N·s` : `≤${hi} N·s`;
   };
 
   const label = (r: Rocket) =>
@@ -66,7 +82,9 @@ export function MyRockets({
                   type="button"
                   onClick={() => apply(r)}
                   aria-pressed={active}
-                  title={`Show in-stock ${r.diameterMm}mm motors you can fly at ${certLabel(r.cert)}`}
+                  title={`Show in-stock ${r.diameterMm}mm motors you can fly at ${certLabel(r.cert)}${
+                    band(r) ? `, ${band(r)}` : ""
+                  }`}
                   className={`inline-flex items-center gap-1 rounded-l-full border py-0.5 pl-2.5 pr-2 text-xs font-medium transition ${
                     active
                       ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
@@ -130,7 +148,13 @@ function AddRocketForm({
 }: {
   diameters: number[];
   certLevels: CertLevel[];
-  onAdd: (spec: { name?: string; diameterMm: number; cert: string }) => void;
+  onAdd: (spec: {
+    name?: string;
+    diameterMm: number;
+    cert: string;
+    minImpulseNs: number | null;
+    maxImpulseNs: number | null;
+  }) => void;
 }) {
   const [name, setName] = useState("");
   const [diameter, setDiameter] = useState(String(diameters[0]));
@@ -138,15 +162,33 @@ function AddRocketForm({
   const [cert, setCert] = useState(
     certLevels.find((c) => c.key === "l1")?.key ?? certLevels[0].key,
   );
+  const [imin, setImin] = useState("");
+  const [imax, setImax] = useState("");
+
+  // Parse an optional non-negative impulse bound; blank/invalid/negative → null.
+  const bound = (s: string): number | null => {
+    const t = s.trim();
+    if (!t) return null;
+    const n = Number(t);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  };
 
   const selectCls =
     "rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300";
+  const inputCls =
+    "w-20 rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500";
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onAdd({ name, diameterMm: Number(diameter), cert });
+        onAdd({
+          name,
+          diameterMm: Number(diameter),
+          cert,
+          minImpulseNs: bound(imin),
+          maxImpulseNs: bound(imax),
+        });
       }}
       className="mt-3 flex flex-wrap items-end gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-800"
     >
@@ -179,6 +221,32 @@ function AddRocketForm({
           ))}
         </select>
       </label>
+      <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+        Impulse <span className="opacity-60">N·s (optional)</span>
+        <div className="flex items-center gap-1">
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={imin}
+            onChange={(e) => setImin(e.target.value)}
+            placeholder="min"
+            aria-label="Minimum total impulse for this rocket, N·s"
+            className={inputCls}
+          />
+          <span>–</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={imax}
+            onChange={(e) => setImax(e.target.value)}
+            placeholder="max"
+            aria-label="Maximum total impulse for this rocket, N·s"
+            className={inputCls}
+          />
+        </div>
+      </div>
       <button
         type="submit"
         className="rounded-full border border-zinc-900 bg-zinc-900 px-3 py-1 text-xs font-medium text-white transition hover:bg-zinc-700 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
