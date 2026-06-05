@@ -41,4 +41,5 @@ hpr_finder/
     performancehobbies.py  Performance Hobbies (AeroTech, Cesaroni, Loki)
     aerotechdirect.py    AeroTech manufacturer-direct (special-order + lead times)
     moto_joe.py          Moto-Joe Rocketry — OpenCart (AeroTech, Cesaroni)
+    balsa_machining.py   Balsa Machining Service — single-page HP motor table (AeroTech)
 ```
