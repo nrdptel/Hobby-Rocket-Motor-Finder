@@ -14,12 +14,16 @@ function systemDark(): boolean {
 }
 
 /** Apply a theme to the document: toggle the `.dark` class (which drives every
- * `dark:` utility) and the native `color-scheme` (scrollbars, form controls). */
+ * `dark:` utility) and the native `color-scheme` (scrollbars, form controls).
+ * Also persist the resolved value to a cookie so the server renders the matching
+ * `.dark` class on the next request (no hydration flash) — mirrors the inline
+ * script in layout.tsx. */
 function apply(theme: Theme): void {
   const dark = theme === "dark" || (theme === "system" && systemDark());
   const e = document.documentElement;
   e.classList.toggle("dark", dark);
   e.style.colorScheme = dark ? "dark" : "light";
+  document.cookie = `hpr.theme.resolved=${dark ? "dark" : "light"}; path=/; max-age=31536000; samesite=lax`;
 }
 
 /** Cycles System → Light → Dark, persisted in localStorage. The inline script

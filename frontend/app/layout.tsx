@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -47,17 +48,20 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 };
 
-// Resolve and apply the theme before first paint to avoid a flash of the wrong
-// mode. Reads the persisted choice (light/dark/system; default system) and the
-// OS preference, then toggles `.dark` and the native `color-scheme`. Kept in
-// sync afterward by <ThemeToggle>.
-const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
+// Resolve and apply the theme before first paint. Reads the persisted choice
+// (light/dark/system; default system) and the OS preference, then toggles
+// `.dark` and the native `color-scheme`. It also writes the *resolved* value to
+// a cookie so the server can render the matching `.dark` class on <html> on the
+// next request — that's what prevents the dark→light→dark hydration flash (the
+// server otherwise renders no theme class, and React reconciles the script's
+// `.dark` away for a frame). Kept in sync afterward by <ThemeToggle>.
+const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';document.cookie='hpr.theme.resolved='+(d?'dark':'light')+';path=/;max-age=31536000;samesite=lax';}catch(e){}})();`;
 
 // Classic six-stripe Pride flag, left to right.
 const PRIDE_GRADIENT =
   "linear-gradient(to right, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787)";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -66,11 +70,17 @@ export default function RootLayout({
   // Computed per request, so it appears and disappears on its own.
   const isPrideMonth = new Date().getMonth() === 5;
 
+  // Render the theme class on the server from the cookie the theme script wrote
+  // last visit, so the SSR HTML already matches what the client will show — no
+  // hydration mismatch, no flash. Unknown (first visit) defaults to dark: a dark
+  // flash beats a light one, and a returning user's cookie makes it exact.
+  const ssrDark = (await cookies()).get("hpr.theme.resolved")?.value !== "light";
+
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased${ssrDark ? " dark" : ""}`}
     >
       <body className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
