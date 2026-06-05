@@ -1,0 +1,78 @@
+"""Tests for the restock diff that drives email alerts."""
+from __future__ import annotations
+
+from hpr_finder.alerts import restocked_motors
+
+
+def _motor(mfr, des, listings, common_name=None):
+    return {
+        "manufacturer": mfr,
+        "designation": des,
+        "common_name": common_name or des,
+        "listings": listings,
+    }
+
+
+def _listing(url, status):
+    return {"vendor_slug": "v", "url": url, "status": status}
+
+
+def _snap(motors):
+    return {"motors": motors}
+
+
+def test_out_to_in_is_a_restock():
+    prev = _snap([_motor("AeroTech", "J500G", [_listing("u1", "out_of_stock")])])
+    cur = _snap([_motor("AeroTech", "J500G", [_listing("u1", "in_stock")])])
+    out = restocked_motors(prev, cur)
+    assert out == [{"manufacturer": "AeroTech", "designation": "J500G", "common_name": "J500G"}]
+
+
+def test_in_stock_with_count_counts_as_in_stock():
+    prev = _snap([_motor("AeroTech", "H100W", [_listing("u1", "out_of_stock")])])
+    cur = _snap([_motor("AeroTech", "H100W", [_listing("u1", "in_stock_with_count")])])
+    assert len(restocked_motors(prev, cur)) == 1
+
+
+def test_still_in_stock_is_not_a_restock():
+    prev = _snap([_motor("AeroTech", "J", [_listing("u1", "in_stock")])])
+    cur = _snap([_motor("AeroTech", "J", [_listing("u1", "in_stock")])])
+    assert restocked_motors(prev, cur) == []
+
+
+def test_brand_new_listing_in_stock_is_not_a_restock():
+    # A URL absent from prev (new product / new vendor / first run) must NOT
+    # flood alerts — only genuine comebacks of a previously-tracked listing.
+    prev = _snap([])
+    cur = _snap([_motor("AeroTech", "K", [_listing("new-url", "in_stock")])])
+    assert restocked_motors(prev, cur) == []
+
+
+def test_special_order_to_in_stock_is_a_restock():
+    prev = _snap([_motor("Cesaroni Technology", "I445", [_listing("u1", "special_order")])])
+    cur = _snap([_motor("Cesaroni Technology", "I445", [_listing("u1", "in_stock")])])
+    assert restocked_motors(prev, cur)[0]["designation"] == "I445"
+
+
+def test_motor_with_multiple_vendors_dedups_and_any_restock_counts():
+    prev = _snap([
+        _motor("AeroTech", "M1300", [_listing("a", "out_of_stock"), _listing("b", "in_stock")]),
+    ])
+    cur = _snap([
+        # vendor a restocked; vendor b still in stock — one restock event, deduped.
+        _motor("AeroTech", "M1300", [_listing("a", "in_stock"), _listing("b", "in_stock")]),
+    ])
+    out = restocked_motors(prev, cur)
+    assert len(out) == 1 and out[0]["designation"] == "M1300"
+
+
+def test_carry_forward_identical_status_does_not_trigger():
+    # Carried-forward vendors republish identical statuses → no transition.
+    prev = _snap([_motor("AeroTech", "G80", [_listing("u1", "out_of_stock")])])
+    cur = _snap([_motor("AeroTech", "G80", [_listing("u1", "out_of_stock")])])
+    assert restocked_motors(prev, cur) == []
+
+
+def test_missing_or_empty_snapshots_are_safe():
+    assert restocked_motors({}, {}) == []
+    assert restocked_motors({"motors": []}, {"motors": []}) == []

@@ -4,14 +4,17 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
+import httpx
 import typer
 
 from . import catalog, db, history
-from .http import polite_async_client
+from .alerts import restocked_motors
+from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
 from .scrapers import REGISTRY
 from .snapshot import carry_forward, vendor_counts
@@ -21,10 +24,12 @@ catalog_app = typer.Typer(help="Manage the canonical motor catalog")
 scrape_app = typer.Typer(help="Run vendor scrapers")
 snapshot_app = typer.Typer(help="Export the current state for the frontend")
 history_app = typer.Typer(help="Maintain per-listing stock/price history")
+alerts_app = typer.Typer(help="Trigger restock email alerts")
 app.add_typer(catalog_app, name="catalog")
 app.add_typer(scrape_app, name="scrape")
 app.add_typer(snapshot_app, name="snapshot")
 app.add_typer(history_app, name="history")
+app.add_typer(alerts_app, name="alerts")
 
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_SNAPSHOT = _REPO_ROOT / "data" / "snapshot.json"
@@ -388,6 +393,50 @@ def snapshot_export(
             err=True,
         )
         raise typer.Exit(1)
+
+
+def _load_json(path: Path) -> dict:
+    try:
+        return json.loads(Path(path).read_text())
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+@alerts_app.command("dispatch")
+def alerts_dispatch(
+    prev: Path = typer.Option(..., help="Previously published snapshot (last committed)"),
+    current: Path = typer.Option(_DEFAULT_SNAPSHOT, help="Freshly written snapshot to compare against"),
+    url: str = typer.Option("", help="Dispatch endpoint URL (default: $ALERTS_DISPATCH_URL)"),
+    secret: str = typer.Option("", help="Bearer secret (default: $ALERTS_DISPATCH_SECRET)"),
+    dry_run: bool = typer.Option(False, help="Compute + print restocks, don't POST"),
+) -> None:
+    """Diff prev vs current snapshot and POST the restocked motors to the alert
+    dispatch route. Best-effort: if not configured, or if the POST fails, it logs
+    and exits 0 — alerts must never break the hourly scrape/commit.
+    """
+    url = url or os.environ.get("ALERTS_DISPATCH_URL", "")
+    secret = secret or os.environ.get("ALERTS_DISPATCH_SECRET", "")
+    motors = restocked_motors(_load_json(prev), _load_json(current))
+    typer.echo(f"alerts: {len(motors)} motor(s) restocked this run")
+    if not motors:
+        return
+    if dry_run:
+        for m in motors:
+            typer.echo(f"  restocked: {m['manufacturer']} {m['designation']}")
+        return
+    if not url or not secret:
+        typer.echo("alerts: dispatch not configured (ALERTS_DISPATCH_URL/SECRET unset) — skipping")
+        return
+    try:
+        r = httpx.post(
+            url,
+            json={"motors": motors},
+            headers={"Authorization": f"Bearer {secret}", "User-Agent": USER_AGENT},
+            timeout=30,
+        )
+        typer.echo(f"alerts: dispatch -> HTTP {r.status_code}: {r.text[:200]}")
+    except Exception as e:  # best-effort: never fail the scrape on alert errors
+        typer.echo(f"alerts: dispatch failed (best-effort): {e!r}", err=True)
 
 
 def _parse_iso(s: str | None) -> datetime | None:

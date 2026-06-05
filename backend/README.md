@@ -18,7 +18,11 @@ hpr catalog refresh         # download AeroTech, Cesaroni, and Loki motors from 
 hpr scrape run csrocketry   # scrape one vendor end-to-end into data/hpr.db
 hpr scrape run all          # scrape every configured vendor
 hpr snapshot export         # dump current DB state to data/snapshot.json (for the frontend)
+hpr alerts dispatch --prev OLD.json --current data/snapshot.json   # email restock alerts (best-effort)
 ```
+
+Restock email alerts are optional and free/serverless — see
+[docs/email-alerts.md](../docs/email-alerts.md) for the setup.
 
 ## Layout
 
