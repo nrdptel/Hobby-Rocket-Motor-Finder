@@ -5,6 +5,7 @@ from .amw import AMWScraper
 from .balsa_machining import BalsaMachiningScraper
 from .buyrocketmotors import BuyRocketMotorsScraper
 from .csrocketry import CSRocketryScraper
+from .erockets import ERocketsScraper
 from .loki import LokiScraper
 from .moto_joe import MotoJoeScraper
 from .performancehobbies import PerformanceHobbiesScraper
@@ -22,4 +23,5 @@ REGISTRY = {
     AeroTechDirectScraper.slug: AeroTechDirectScraper,
     MotoJoeScraper.slug: MotoJoeScraper,
     BalsaMachiningScraper.slug: BalsaMachiningScraper,
+    ERocketsScraper.slug: ERocketsScraper,
 }
