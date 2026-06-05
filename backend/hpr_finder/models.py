@@ -63,6 +63,10 @@ class Listing:
     # commonName+flavor collision. Recovered by the scraper from the Pro-size in
     # the product URL; None for AeroTech.
     diameter_mm: int | None = None
+    # Optional human-readable order lead time, e.g. "16–20 weeks". Set only by
+    # vendors that backorder rather than stock (currently AeroTech-direct, whose
+    # status is special_order with a fulfillment-time tier); None elsewhere.
+    lead_time: str | None = None
     seen_at: datetime = field(default_factory=_utc_now)
 
 

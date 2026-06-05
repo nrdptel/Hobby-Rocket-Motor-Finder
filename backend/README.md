@@ -39,4 +39,5 @@ hpr_finder/
     sirius.py            Sirius Rocketry (AeroTech)
     loki.py              Loki Research (Loki)
     performancehobbies.py  Performance Hobbies (AeroTech, Cesaroni, Loki)
+    aerotechdirect.py    AeroTech manufacturer-direct (special-order + lead times)
 ```

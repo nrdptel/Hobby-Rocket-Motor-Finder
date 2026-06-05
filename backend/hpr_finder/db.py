@@ -70,6 +70,9 @@ CREATE TABLE IF NOT EXISTS listings (
     -- existing AeroTech-only databases working without a backfill.
     manufacturer TEXT NOT NULL DEFAULT 'AeroTech',
     diameter_mm INTEGER,
+    -- Human-readable order lead time for backorder vendors (e.g. "16–20 weeks");
+    -- NULL for normal stock-or-not vendors.
+    lead_time TEXT,
     seen_at TEXT NOT NULL,
     UNIQUE (vendor_id, url)
 );
@@ -126,6 +129,8 @@ def init_schema(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE listings ADD COLUMN manufacturer TEXT NOT NULL DEFAULT 'AeroTech'")
     if "diameter_mm" not in lcols:
         conn.execute("ALTER TABLE listings ADD COLUMN diameter_mm INTEGER")
+    if "lead_time" not in lcols:
+        conn.execute("ALTER TABLE listings ADD COLUMN lead_time TEXT")
 
 
 def upsert_vendor(conn: sqlite3.Connection, slug: str, name: str, homepage: str, state: str | None = None) -> int:
@@ -356,16 +361,18 @@ def upsert_listings(conn: sqlite3.Connection, vendor_id: int, listings: list[Lis
                 l.stock_count,
                 l.manufacturer,
                 l.diameter_mm,
+                l.lead_time,
                 l.seen_at.isoformat(timespec="seconds"),
             )
         )
     conn.executemany(
-        "INSERT INTO listings (vendor_id, motor_id, raw_designation, raw_title, url, sku, price_cents, currency, status, stock_count, manufacturer, diameter_mm, seen_at) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "INSERT INTO listings (vendor_id, motor_id, raw_designation, raw_title, url, sku, price_cents, currency, status, stock_count, manufacturer, diameter_mm, lead_time, seen_at) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT (vendor_id, url) DO UPDATE SET "
         "motor_id=excluded.motor_id, raw_designation=excluded.raw_designation, raw_title=excluded.raw_title, "
         "sku=excluded.sku, price_cents=excluded.price_cents, currency=excluded.currency, status=excluded.status, "
-        "stock_count=excluded.stock_count, manufacturer=excluded.manufacturer, diameter_mm=excluded.diameter_mm, seen_at=excluded.seen_at",
+        "stock_count=excluded.stock_count, manufacturer=excluded.manufacturer, diameter_mm=excluded.diameter_mm, "
+        "lead_time=excluded.lead_time, seen_at=excluded.seen_at",
         rows,
     )
     return len(rows)

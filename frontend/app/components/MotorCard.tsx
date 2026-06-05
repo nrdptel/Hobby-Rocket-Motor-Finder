@@ -95,7 +95,7 @@ export function MotorCard({
                           {l.vendor_name}
                         </div>
                         <div className="mt-0.5 flex flex-wrap items-center">
-                          <StatusBadge status={l.status} count={l.stock_count} />
+                          <StatusBadge status={l.status} count={l.stock_count} leadTime={l.lead_time} />
                           <RestockBadge history={history[l.url]} now={snapshotTime} />
                           <StaleBadge seenAt={l.seen_at} now={snapshotTime} />
                         </div>

@@ -24,16 +24,23 @@ const LABELS: Record<StockStatus, string> = {
 export function StatusBadge({
   status,
   count,
+  leadTime,
 }: {
   status: StockStatus;
   count: number | null;
+  // Optional order lead time (e.g. "16–20 weeks"); only meaningful, and only
+  // shown, for special-order/backorder listings.
+  leadTime?: string | null;
 }) {
   const label = status === "in_stock_with_count" && count != null ? `${count} in stock` : LABELS[status];
+  const showLead = status === "special_order" && leadTime;
   return (
     <span
       className={`inline-flex items-center rounded border px-2 py-0.5 text-xs font-medium ${STYLES[status]}`}
+      title={showLead ? `Backorder — estimated fulfillment ${leadTime}` : undefined}
     >
       {label}
+      {showLead ? <span className="ml-1 font-normal opacity-80">· ~{leadTime}</span> : null}
     </span>
   );
 }
