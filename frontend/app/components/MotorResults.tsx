@@ -22,6 +22,7 @@ import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
+import { NotifyButton } from "./NotifyButton";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
 
@@ -125,6 +126,7 @@ export function MotorResults({
                       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span className="flex items-center gap-1.5">
                           <StarButton motorId={m.id} designation={m.designation} />
+                          <NotifyButton manufacturer={m.manufacturer} designation={m.designation} />
                           <a
                             href={thrustcurveUrl(m)}
                             target="_blank"
