@@ -87,6 +87,16 @@ PRICE_RE = {
     "general": re.compile(r'productGeneralPrice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
     "normal": re.compile(r'normalprice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
 }
+# The MAIN product's price lives in Zen Cart's "Product Price block":
+#   <h2 id="productPrices" ...> ...prices... </h2> <!--eof Product Price block -->
+# Price extraction must be scoped to THIS block. The same product page also
+# renders OTHER products' prices (identical CSS classes) in rotating
+# "also purchased" / "what's new" boxes lower down; a whole-page search picks
+# those up whenever the main block has no visible price (e.g. some sold-out
+# items), making that product's recorded price oscillate run-to-run as the
+# boxes rotate. Anchoring to the block returns the real price, or None when the
+# product genuinely shows no price — never a neighbor's.
+PRODUCT_PRICE_BLOCK_RE = re.compile(r'id="productPrices".*?eof Product Price block', re.S)
 SOLD_OUT_BUTTON_RE = re.compile(r'button_sold_out', re.I)
 IN_CART_BUTTON_RE = re.compile(r'button_in_cart', re.I)
 PRODUCT_ID_FROM_URL_RE = re.compile(r"-(\d+)\.html$")
@@ -219,9 +229,15 @@ class SiriusScraper(Scraper):
 
 
 def _extract_price_cents(html: str) -> int | None:
+    # Scope to the main product price block so rotating "also purchased" /
+    # "what's new" boxes can't leak a neighbor's price (see PRODUCT_PRICE_BLOCK_RE).
+    block_match = PRODUCT_PRICE_BLOCK_RE.search(html)
+    if not block_match:
+        return None
+    block = block_match.group(0)
     # Prefer sale > special > general > normal — what the customer would pay.
     for key in ("sale", "special", "general", "normal"):
-        m = PRICE_RE[key].search(html)
+        m = PRICE_RE[key].search(block)
         if m:
             try:
                 return int(round(float(m.group(1).replace(",", "")) * 100))
