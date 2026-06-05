@@ -1,4 +1,4 @@
-import { loadSnapshot } from "@/lib/snapshot";
+import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
 import {
   MIN_CLASS,
   formatPrice,
@@ -23,7 +23,7 @@ export const revalidate = 60;
 type SearchParamsRaw = Promise<{ [k: string]: string | string[] | undefined }>;
 
 export default async function Home({ searchParams }: { searchParams: SearchParamsRaw }) {
-  const snapshot = await loadSnapshot();
+  const [snapshot, history] = await Promise.all([loadSnapshot(), loadHistorySummary()]);
   if (!snapshot) {
     return (
       <main className="mx-auto max-w-6xl px-6 py-12">
@@ -154,6 +154,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         showManufacturer={showManufacturer}
         generatedAt={snapshot.generated_at}
         starredOnly={fStarredOnly}
+        history={history}
       />
 
       {unmatched.length > 0 && (

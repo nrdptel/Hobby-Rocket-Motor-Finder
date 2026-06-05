@@ -9,7 +9,9 @@ import {
   thrustcurveUrl,
 } from "@/lib/derive";
 import type { GroupedMotor } from "@/lib/derive";
+import type { HistorySummary } from "@/lib/snapshot";
 import { BestPriceTag } from "./BestPriceTag";
+import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
@@ -27,10 +29,12 @@ export function MotorCard({
   motor,
   showManufacturer,
   snapshotTime,
+  history,
 }: {
   motor: GroupedMotor;
   showManufacturer: boolean;
   snapshotTime: Date;
+  history: HistorySummary;
 }) {
   return (
     <article className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
@@ -88,8 +92,9 @@ export function MotorCard({
                         <div className="truncate text-zinc-700 dark:text-zinc-300">
                           {l.vendor_name}
                         </div>
-                        <div className="mt-0.5 flex items-center">
+                        <div className="mt-0.5 flex flex-wrap items-center">
                           <StatusBadge status={l.status} count={l.stock_count} />
+                          <RestockBadge history={history[l.url]} now={snapshotTime} />
                           <StaleBadge seenAt={l.seen_at} now={snapshotTime} />
                         </div>
                       </div>
