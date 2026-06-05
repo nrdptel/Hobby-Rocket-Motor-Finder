@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-06-05T11:14:08+00:00",
+  "updated_at": "2026-06-05T12:22:27+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -21369,6 +21369,506 @@
           "t": "2026-06-03T03:01:48+00:00",
           "status": "out_of_stock",
           "price_cents": 158808
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625201610023235": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 7600
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625201610241977": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 7500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074213811": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 7400
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625200910363512": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 7700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625201610330434": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 7400
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074301975": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 6200
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=62520161042367": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 5700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=475814709104626": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 5700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074272556": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 5700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074243821": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 5700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074341078": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 8700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074404889": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 9200
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625201610492085": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 8700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=831200410535294": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 8700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=418202411515868": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 8100
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074425141": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 8700
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074460296": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 11900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=101520141003319": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 18900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=799020355121128": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 18900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=420200911270189": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 16200
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=7102007448204": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 11900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=51920197383527": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 11900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=31620052424083": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 15500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=831200410544145": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 11300
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=420200911215642": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 19500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074502158": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 11300
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=11620069285369": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 15500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=420200911242689": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 18900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=11620069225717": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 33400
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=101520149222983": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 21900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625201610522257": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 21000
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=420200911311793": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 32800
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=7820057431698": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 21900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=799020355122313": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 43200
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=31620052392598": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 32000
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074540154": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 31400
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=799020355123259": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 57000
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=420200911334720": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 33400
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=32520137385647": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 31400
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=420200911350617": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 52800
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625201611015134": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 62500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=101520141007436": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 52300
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=7820057445687": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 50900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=799020355125414": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 77500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=71020074553030": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 50900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=32520137431986": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 73000
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=799020325111927": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 75900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=32320138233038": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "out_of_stock",
+          "price_cents": 50900
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=625200910410326": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "special_order",
+          "price_cents": 124500
+        }
+      ]
+    },
+    "https://lokiresearch.com/secure/storeDetail.asp?id=4420245464133": {
+      "vendor_slug": "loki",
+      "events": [
+        {
+          "t": "2026-06-05T12:11:02+00:00",
+          "status": "in_stock",
+          "price_cents": 229900
         }
       ]
     }
