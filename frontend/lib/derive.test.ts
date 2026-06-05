@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   bestInStockPriceCents,
+  cheapestInStockCents,
   delayForRow,
   delaySortKey,
   extractDelay,
@@ -14,6 +15,7 @@ import {
   listingInStock,
   manufacturerLabel,
   numericParamValue,
+  parseOrder,
   parseSetParam,
   rankMotor,
   restockLabel,
@@ -284,6 +286,78 @@ describe("rankMotor + sortedMotors", () => {
     const before = motors.map((m) => m.id);
     sortedMotors(motors);
     expect(motors.map((m) => m.id)).toEqual(before);
+  });
+
+  it("orders by total impulse ascending (nulls last) when order=impulse", () => {
+    const motors = [
+      makeMotor({ id: 1, total_impulse_ns: 900 }),
+      makeMotor({ id: 2, total_impulse_ns: null }),
+      makeMotor({ id: 3, total_impulse_ns: 120 }),
+    ];
+    expect(sortedMotors(motors, "impulse").map((m) => m.id)).toEqual([3, 1, 2]);
+  });
+
+  it("orders by diameter ascending when order=diameter", () => {
+    const motors = [
+      makeMotor({ id: 1, diameter_mm: 54 }),
+      makeMotor({ id: 2, diameter_mm: 29 }),
+      makeMotor({ id: 3, diameter_mm: 98 }),
+    ];
+    expect(sortedMotors(motors, "diameter").map((m) => m.id)).toEqual([2, 1, 3]);
+  });
+
+  it("orders by cheapest in-stock price (unpriced/OOS last) when order=price", () => {
+    const motors = [
+      makeMotor({ id: 1, listings: [makeListing({ price_cents: 5000, status: "in_stock" })] }),
+      // out of stock — its price doesn't count, so it sorts last.
+      makeMotor({ id: 2, listings: [makeListing({ price_cents: 1000, status: "out_of_stock" })] }),
+      makeMotor({
+        id: 3,
+        listings: [
+          makeListing({ price_cents: 9000, status: "in_stock" }),
+          makeListing({ price_cents: 3000, status: "in_stock" }), // cheapest in-stock
+        ],
+      }),
+    ];
+    expect(sortedMotors(motors, "price").map((m) => m.id)).toEqual([3, 1, 2]);
+  });
+});
+
+// --- parseOrder ------------------------------------------------------------
+
+describe("parseOrder", () => {
+  it("accepts known orders", () => {
+    expect(parseOrder("impulse")).toBe("impulse");
+    expect(parseOrder("price")).toBe("price");
+  });
+  it("defaults to class for unknown/absent", () => {
+    expect(parseOrder(undefined)).toBe("class");
+    expect(parseOrder("bogus")).toBe("class");
+    expect(parseOrder(["impulse", "thrust"])).toBe("impulse"); // first wins
+  });
+});
+
+// --- cheapestInStockCents --------------------------------------------------
+
+describe("cheapestInStockCents", () => {
+  it("returns the cheapest in-stock priced listing", () => {
+    const m = makeMotor({
+      listings: [
+        makeListing({ price_cents: 5000, status: "in_stock" }),
+        makeListing({ price_cents: 3000, status: "in_stock_with_count" }),
+        makeListing({ price_cents: 100, status: "out_of_stock" }), // ignored
+      ],
+    });
+    expect(cheapestInStockCents(m)).toBe(3000);
+  });
+  it("returns null when nothing is in stock with a price", () => {
+    const m = makeMotor({
+      listings: [
+        makeListing({ price_cents: 100, status: "out_of_stock" }),
+        makeListing({ price_cents: null, status: "in_stock" }),
+      ],
+    });
+    expect(cheapestInStockCents(m)).toBeNull();
   });
 });
 

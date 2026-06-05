@@ -67,6 +67,7 @@ export function FilterBar({
   const activeDiameters = parseList(sp.get("dia"));
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
+  const sortOrder = sp.get("order") ?? "class";
   const starredOnly = sp.get("starred") === "1";
   const urlQuery = sp.get("q") ?? "";
   const urlMinImpulse = sp.get("imin") ?? "";
@@ -113,6 +114,7 @@ export function FilterBar({
     activeDiameters.size > 0 ||
     inStockOnly ||
     cheapestFirst ||
+    sortOrder !== "class" ||
     starredOnly ||
     urlQuery.length > 0 ||
     urlMinImpulse.length > 0 ||
@@ -304,6 +306,24 @@ export function FilterBar({
             clear watchlist
           </button>
         )}
+      </FilterRow>
+
+      <FilterRow label="Sort by">
+        <label htmlFor="sort-order" className="sr-only">
+          Sort motors by
+        </label>
+        <select
+          id="sort-order"
+          value={sortOrder}
+          onChange={(e) => update("order", e.target.value === "class" ? null : e.target.value)}
+          className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+        >
+          <option value="class">Class (default)</option>
+          <option value="impulse">Total impulse</option>
+          <option value="thrust">Avg thrust</option>
+          <option value="diameter">Diameter</option>
+          <option value="price">Cheapest in stock</option>
+        </select>
       </FilterRow>
     </div>
   );

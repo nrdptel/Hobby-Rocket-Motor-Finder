@@ -172,16 +172,73 @@ export function manufacturerLabel(manufacturer: string): string {
   return manufacturer;
 }
 
-/** Sort motors for display: class first, then diameter ascending, then
- * designation alphabetical. */
-export function sortedMotors(motors: Motor[]): Motor[] {
-  return [...motors].sort((a, b) => {
-    const [ac, ad, an] = rankMotor(a);
-    const [bc, bd, bn] = rankMotor(b);
-    if (ac !== bc) return ac.localeCompare(bc);
-    if (ad !== bd) return ad - bd;
-    return an.localeCompare(bn);
-  });
+/** User-selectable motor-list orderings (the ``?order=`` URL param). "class" is
+ * the default natural ordering (impulse class → diameter → designation). */
+export type MotorOrder = "class" | "impulse" | "thrust" | "diameter" | "price";
+
+const MOTOR_ORDERS: ReadonlySet<string> = new Set([
+  "class",
+  "impulse",
+  "thrust",
+  "diameter",
+  "price",
+]);
+
+/** Parse the ``?order=`` param into a known MotorOrder, defaulting to "class". */
+export function parseOrder(raw: string | string[] | undefined): MotorOrder {
+  const v = Array.isArray(raw) ? raw[0] : raw;
+  return v && MOTOR_ORDERS.has(v) ? (v as MotorOrder) : "class";
+}
+
+/** Cheapest *in-stock* price (cents) across a motor's listings, or null when
+ * nothing is in stock with a price. Used by the "price" ordering. */
+export function cheapestInStockCents(m: Motor): number | null {
+  let best: number | null = null;
+  for (const l of m.listings) {
+    if (!listingInStock(l.status) || l.price_cents == null) continue;
+    if (best == null || l.price_cents < best) best = l.price_cents;
+  }
+  return best;
+}
+
+// Natural ordering: impulse class → diameter → designation.
+function compareByClass(a: Motor, b: Motor): number {
+  const [ac, ad, an] = rankMotor(a);
+  const [bc, bd, bn] = rankMotor(b);
+  if (ac !== bc) return ac.localeCompare(bc);
+  if (ad !== bd) return ad - bd;
+  return an.localeCompare(bn);
+}
+
+// Ascending by a numeric key with null/undefined sorted last, then the natural
+// class ordering as a stable tiebreak.
+function ascNullsLast(
+  key: (m: Motor) => number | null | undefined,
+): (a: Motor, b: Motor) => number {
+  return (a, b) => {
+    const av = key(a);
+    const bv = key(b);
+    if (av == null && bv == null) return compareByClass(a, b);
+    if (av == null) return 1;
+    if (bv == null) return -1;
+    if (av !== bv) return av - bv;
+    return compareByClass(a, b);
+  };
+}
+
+const ORDER_COMPARATORS: Record<MotorOrder, (a: Motor, b: Motor) => number> = {
+  class: compareByClass,
+  impulse: ascNullsLast((m) => m.total_impulse_ns),
+  thrust: ascNullsLast((m) => m.avg_thrust_n),
+  diameter: ascNullsLast((m) => m.diameter_mm),
+  price: ascNullsLast(cheapestInStockCents), // cheapest in-stock first, unpriced last
+};
+
+/** Sort motors for display by the chosen order. Default "class": impulse class,
+ * then diameter ascending, then designation. Numeric orders put motors missing
+ * that value (e.g. no in-stock price) last. */
+export function sortedMotors(motors: Motor[], order: MotorOrder = "class"): Motor[] {
+  return [...motors].sort(ORDER_COMPARATORS[order] ?? compareByClass);
 }
 
 /** Read a comma-separated multi-value query parameter into a Set. */

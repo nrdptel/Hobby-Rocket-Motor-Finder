@@ -6,6 +6,7 @@ import {
   groupByDelay,
   listingInStock,
   manufacturerLabel,
+  parseOrder,
   parseSetParam,
   safeHref,
   sortedMotors,
@@ -50,6 +51,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fDia = parseSetParam(params.dia);
   const fInStock = params.in_stock === "1";
   const fSort = params.sort === "price" ? "price" : "stock";
+  const fOrder = parseOrder(params.order);
   const fStarredOnly = params.starred === "1";
   const fQueryRaw = Array.isArray(params.q) ? params.q[0] : params.q;
   const fQuery = (fQueryRaw ?? "").trim().toLowerCase();
@@ -84,7 +86,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     new Set(motorsWithListings.map((m) => m.diameter_mm)),
   ).sort((a, b) => a - b);
 
-  // Apply filters.
+  // Apply filters, then order by the user's chosen sort.
   const filtered = sortedMotors(
     motorsWithListings.filter((m) => {
       if (fMfr.size > 0 && !fMfr.has(manufacturerLabel(m.manufacturer))) return false;
@@ -105,6 +107,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       }
       return true;
     }),
+    fOrder,
   );
 
   // For the in-stock toggle: also visually hide the OOS listing rows when active,
