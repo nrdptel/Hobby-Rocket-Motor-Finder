@@ -15,7 +15,7 @@ export function HowItWorks() {
       <div className="mt-3 space-y-4 text-zinc-600 dark:text-zinc-400">
         <p>
           Live <strong className="font-medium text-zinc-800 dark:text-zinc-200">AeroTech, Cesaroni &amp; Loki</strong>{" "}
-          motor stock and pricing, aggregated across 9 U.S. vendors, refreshed on a schedule and
+          motor stock and pricing, aggregated across 10 U.S. vendors, refreshed on a schedule and
           matched against{" "}
           <a
             href="https://www.thrustcurve.org"

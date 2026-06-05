@@ -14,7 +14,7 @@ Released under the [MIT License](LICENSE) — fork it, modify it, deploy your ow
 
 ## What's covered
 
-Today: AeroTech across eight vendors (including manufacturer-direct from AeroTech itself); Cesaroni (CTI) on Chris' Rocket Supplies, Wildman Rocketry, Performance Hobbies, and Moto-Joe Rocketry; and Loki Research direct from the manufacturer and via Performance Hobbies.
+Today: AeroTech across nine vendors (including manufacturer-direct from AeroTech itself); Cesaroni (CTI) on Chris' Rocket Supplies, Wildman Rocketry, Performance Hobbies, and Moto-Joe Rocketry; and Loki Research direct from the manufacturer and via Performance Hobbies.
 
 | Vendor | State | Platform | Motors |
 |---|---|---|---|
@@ -27,6 +27,7 @@ Today: AeroTech across eight vendors (including manufacturer-direct from AeroTec
 | [Performance Hobbies](https://performancehobbies.com) | VA | Custom (ASP.NET store) | AeroTech, Cesaroni, Loki |
 | [AeroTech (direct)](https://aerotech-rocketry.com) | UT | Shopify | AeroTech (manufacturer-direct) |
 | [Moto-Joe Rocketry](https://www.moto-joe.com) | — | OpenCart | AeroTech, Cesaroni |
+| [Balsa Machining Service](https://www.balsamachining.com) | NV | Custom (single-page ASP) | AeroTech |
 
 AeroTech currently backorders nearly everything rather than holding stock, and their store doesn't expose real inventory — so AeroTech-direct listings are shown as **special-order with a fulfillment lead-time** (e.g. "special order · ~16–20 weeks"), parsed live from AeroTech's own published lead-time banner, rather than as "in stock."
 
@@ -53,7 +54,7 @@ To run a real scrape against live vendors:
 ```sh
 cd backend
 hpr catalog refresh         # download AeroTech, Cesaroni, and Loki motors from ThrustCurve
-hpr scrape run all          # ~5-10 min across all 9 vendors
+hpr scrape run all          # ~5-10 min across all 10 vendors
 hpr snapshot export         # writes data/snapshot.json
 ```
 
