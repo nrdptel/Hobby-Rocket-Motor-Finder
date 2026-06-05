@@ -224,7 +224,7 @@ def snapshot_export(
         ).fetchall()
         matched_listings = conn.execute(
             "SELECT l.motor_id, v.slug AS vendor_slug, v.name AS vendor_name, l.url, l.sku, "
-            "       l.price_cents, l.currency, l.status, l.stock_count, l.seen_at, "
+            "       l.price_cents, l.currency, l.status, l.stock_count, l.lead_time, l.seen_at, "
             "       l.raw_title, l.raw_designation "
             "FROM listings l JOIN vendors v ON v.id = l.vendor_id "
             "WHERE l.motor_id IS NOT NULL"
@@ -250,6 +250,9 @@ def snapshot_export(
                 "currency": r["currency"],
                 "status": r["status"],
                 "stock_count": r["stock_count"],
+                # Only emit lead_time when set, to keep the snapshot lean for the
+                # vast majority of listings (normal stock-or-not vendors).
+                **({"lead_time": r["lead_time"]} if r["lead_time"] else {}),
                 "seen_at": r["seen_at"],
                 "raw_designation": r["raw_designation"],
             }

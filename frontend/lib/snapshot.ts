@@ -18,6 +18,9 @@ export type Listing = {
   currency: string;
   status: StockStatus;
   stock_count: number | null;
+  // Order lead time for backorder vendors (e.g. "16–20 weeks"), shown next to a
+  // special-order badge. Absent for normal stock-or-not listings.
+  lead_time?: string | null;
   seen_at: string;
 };
 

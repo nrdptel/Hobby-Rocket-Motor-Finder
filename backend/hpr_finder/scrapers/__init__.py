@@ -1,5 +1,6 @@
 """Per-vendor scrapers. Each scraper produces a list of Listing for one vendor."""
 
+from .aerotechdirect import AeroTechDirectScraper
 from .amw import AMWScraper
 from .buyrocketmotors import BuyRocketMotorsScraper
 from .csrocketry import CSRocketryScraper
@@ -16,4 +17,5 @@ REGISTRY = {
     SiriusScraper.slug: SiriusScraper,
     LokiScraper.slug: LokiScraper,
     PerformanceHobbiesScraper.slug: PerformanceHobbiesScraper,
+    AeroTechDirectScraper.slug: AeroTechDirectScraper,
 }

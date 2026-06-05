@@ -178,7 +178,7 @@ export function MotorResults({
                           {l.vendor_name}
                         </td>
                         <td className="px-3 py-2 whitespace-nowrap">
-                          <StatusBadge status={l.status} count={l.stock_count} />
+                          <StatusBadge status={l.status} count={l.stock_count} leadTime={l.lead_time} />
                           <RestockBadge history={history[l.url]} now={now} />
                           <StaleBadge seenAt={l.seen_at} now={now} />
                         </td>
