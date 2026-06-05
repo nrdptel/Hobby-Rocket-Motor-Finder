@@ -12,6 +12,7 @@ import {
 import type { GroupedMotor } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
 import { BestPriceTag } from "./BestPriceTag";
+import { CertBadge } from "./CertBadge";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
@@ -52,6 +53,7 @@ export function MotorCard({
           >
             {motor.designation}
           </a>
+          <CertBadge impulseClass={motor.impulse_class} />
           <DiscontinuedBadge discontinued={motor.discontinued} />
         </div>
         <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">

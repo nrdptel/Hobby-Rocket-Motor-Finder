@@ -17,6 +17,7 @@ import type { GroupedMotor } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
 import { BestPriceTag } from "./BestPriceTag";
+import { CertBadge } from "./CertBadge";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
@@ -133,6 +134,7 @@ export function MotorResults({
                           >
                             {m.designation}
                           </a>
+                          <CertBadge impulseClass={m.impulse_class} />
                           <DiscontinuedBadge discontinued={m.discontinued} />
                         </span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">
