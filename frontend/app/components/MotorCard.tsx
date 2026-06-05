@@ -16,6 +16,7 @@ import { CertBadge } from "./CertBadge";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
+import { NotifyButton } from "./NotifyButton";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
 
@@ -44,6 +45,7 @@ export function MotorCard({
       <div className="flex items-baseline justify-between gap-3">
         <div className="flex min-w-0 items-center gap-1.5">
           <StarButton motorId={motor.id} designation={motor.designation} />
+          <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
           <a
             href={thrustcurveUrl(motor)}
             target="_blank"
