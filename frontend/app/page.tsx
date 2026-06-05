@@ -9,6 +9,7 @@ import {
   sortedMotors,
 } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
+import { HowItWorks } from "./components/HowItWorks";
 import { MotorResults } from "./components/MotorResults";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
@@ -139,6 +140,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         </div>
         <ThemeToggle />
       </header>
+
+      <HowItWorks />
 
       <FilterBar
         manufacturers={manufacturerOptions}
