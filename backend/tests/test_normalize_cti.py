@@ -81,6 +81,12 @@ def test_infer_cti_propellant_longest_match_first():
     assert infer_cti_propellant("the White Thunder") == "White Thunder"
 
 
+def test_extract_cti_designation_five_digit_thrust():
+    # High-thrust O/N motors have 5-digit avg-thrust commonNames; must not be missed.
+    assert extract_cti_designation("Cesaroni N10000 White") == "N10000"
+    assert extract_cti_designation("12345 O25000-something") == "O25000"
+
+
 def test_infer_cti_propellant_none_when_absent():
     assert infer_cti_propellant("Cesaroni N1100 Moon Burner") is None
     assert infer_cti_propellant("") is None

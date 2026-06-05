@@ -17,6 +17,7 @@ import pytest
 from hpr_finder.catalog import (
     _maybe_float,
     _maybe_int,
+    _motors_from,
     aerotech_motors,
     all_motors,
     cesaroni_motors,
@@ -116,6 +117,26 @@ def test_to_motor_handles_bad_numerics_as_none():
 
 
 # --- _maybe_int / _maybe_float helpers -------------------------------------
+
+def test_to_motor_returns_none_for_missing_required_keys():
+    # A record missing manufacturer or designation must be skipped, not crash.
+    assert to_motor({"manufacturer": "AeroTech"}) is None
+    assert to_motor({"designation": "H100W"}) is None
+    assert to_motor({}) is None
+
+
+def test_motors_from_skips_unusable_records_without_aborting():
+    # One bad record in the batch must not lose the good ones (a single junk row
+    # from ThrustCurve previously aborted the entire multi-manufacturer refresh).
+    records = [
+        {"manufacturer": "AeroTech", "designation": "H100W"},
+        {"manufacturer": "AeroTech"},  # junk — no designation
+        {},  # junk
+        {"manufacturer": "Cesaroni", "designation": "234I445-16A"},
+    ]
+    motors = _motors_from(records)
+    assert [m.designation for m in motors] == ["H100W", "234I445-16A"]
+
 
 def test_maybe_int_passthrough_and_coercion():
     assert _maybe_int(42) == 42

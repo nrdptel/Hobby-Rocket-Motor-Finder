@@ -32,7 +32,12 @@ MANUFACTURER = "AeroTech"
 CATEGORIES = ("aerotech-single-use-motors", "aerotech-reloadable-motors")
 _MAX_PAGES = 12  # safety stop; each category is ~2-3 pages
 
-_CARD_RE = re.compile(r'<li class="product[^"]*".*?</li>', re.S | re.I)
+# Split on each card's START rather than matching `...</li>` non-greedily: a card
+# can contain nested <li> (option swatches, badges) that would truncate a
+# `.*?</li>` match and silently drop the product. Each split segment runs from one
+# card start to the next; per-card regexes below take the first match in it.
+_CARD_SPLIT_RE = re.compile(r'(?=<li class="product[^"]*")', re.I)
+_IS_CARD_RE = re.compile(r'^<li class="product', re.I)
 _TITLE_RE = re.compile(
     r'<h\d[^>]*class="card-title"[^>]*>\s*<a[^>]*href="([^"]+)"[^>]*>(.*?)</a>', re.S | re.I
 )
@@ -91,7 +96,9 @@ def parse_category(html: str) -> list[Listing]:
     """
     seen_at = _utc_now()
     out: list[Listing] = []
-    for card in _CARD_RE.findall(html):
+    for card in _CARD_SPLIT_RE.split(html):
+        if not _IS_CARD_RE.match(card):
+            continue
         tm = _TITLE_RE.search(card)
         if not tm:
             continue

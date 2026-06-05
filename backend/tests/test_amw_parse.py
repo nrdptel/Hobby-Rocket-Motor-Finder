@@ -89,6 +89,13 @@ def test_parse_status_missing():
     assert count is None
 
 
+def test_parse_status_zero_in_stock_is_out_of_stock():
+    # "0 In Stock" means sold out — must NOT report in-stock-with-count-zero.
+    status, count = _parse_status('<span class="amw_in_stock">0 In Stock</span>')
+    assert status is StockStatus.OUT_OF_STOCK
+    assert count is None
+
+
 def test_price_to_cents_normal():
     assert _price_to_cents("33.14") == 3314
     assert _price_to_cents("600.09") == 60009

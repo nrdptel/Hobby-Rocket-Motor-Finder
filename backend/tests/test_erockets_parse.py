@@ -57,3 +57,23 @@ def test_reload_with_variants_counts_as_in_stock():
 def test_out_of_production_motor_still_listed():
     # OOP motors (slug tagged "-oop") are kept; they match via the catalog OOP pass.
     assert _by(_listings(), "F52-12C").status == StockStatus.IN_STOCK
+
+
+def test_card_with_nested_li_is_not_truncated():
+    # A card containing a nested <li> (option swatch / badge) must still parse —
+    # the splitter keys on card start, not a non-greedy ...</li>.
+    html = (
+        '<ul class="productGrid">'
+        '<li class="product">'
+        '<ul class="productOptions"><li>Choose delay</li></ul>'
+        '<h4 class="card-title"><a href="https://www.erockets.biz/aerotech-h128w-14a/">'
+        "Aerotech 29mm RMS H128W-14A (1pk)</a></h4>"
+        '<span class="price">$34.99</span>'
+        "<button>Add to Cart</button>"
+        "</li></ul>"
+    )
+    listings = parse_category(html)
+    assert len(listings) == 1
+    assert listings[0].motor_designation == "H128W-14A"
+    assert listings[0].status == StockStatus.IN_STOCK
+    assert listings[0].price_cents == 3499

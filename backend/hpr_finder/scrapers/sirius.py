@@ -150,6 +150,7 @@ class SiriusScraper(Scraper):
         """
         product_urls: set[str] = set()
         expected_total: int | None = None
+        paginated_to_end = False
         for page in range(1, MAX_MANUFACTURER_PAGES + 1):
             url = (
                 MANUFACTURER_PAGE_URL
@@ -175,14 +176,24 @@ class SiriusScraper(Scraper):
                 # End of pagination: this page yielded no products we haven't
                 # already seen on a prior page.
                 log.info("sirius: pagination exhausted at page %d", page)
+                paginated_to_end = True
                 break
             product_urls.update(new)
             log.debug("sirius: page %d added %d products (total so far: %d)", page, len(new), len(product_urls))
 
-        if expected_total is not None and len(product_urls) < expected_total:
+        # ``expected_total`` counts ALL products on the manufacturer page —
+        # including AeroTech hardware (RMS casings/closures/seal discs, slugged
+        # ``rms-*`` not ``aerotech-*``) and rotating cross-sell items from other
+        # brands — so it is legitimately HIGHER than the motor-only URLs we keep.
+        # Only warn about a real pagination failure: hitting the page cap without
+        # ever reaching an empty page (a runaway or an early stop), not the
+        # expected count gap.
+        if not paginated_to_end:
             log.warning(
-                "sirius: discovered %d product URLs but manufacturer page advertised %d — "
-                "pagination may have stopped early",
+                "sirius: hit the %d-page cap without exhausting pagination "
+                "(discovered %d product URLs; page advertised %s total) — "
+                "pagination may be truncated or the cap too low",
+                MAX_MANUFACTURER_PAGES,
                 len(product_urls),
                 expected_total,
             )

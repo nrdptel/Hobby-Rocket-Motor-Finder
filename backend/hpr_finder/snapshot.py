@@ -8,10 +8,15 @@ where those vendors' motors vanish, or (b) fails the whole run so NO fresh data
 publishes — including healthy vendors and new manufacturers.
 
 ``carry_forward`` fixes both: for any vendor whose fresh listing count is below a
-floor, it reuses that vendor's listings from the previous committed snapshot
-(last-good), while every healthy vendor keeps its fresh data. A vendor only
-"fails" — meaning the caller should refuse to publish — when it's below floor AND
-there is no prior data to fall back on.
+floor (``carried``), it KEEPS whatever fresh listings that vendor did return and
+BACKFILLS from the previous committed snapshot only the listings (by URL) the
+fresh scrape is missing. So a fully-blocked vendor (0 fresh) republishes its
+last-good data wholesale, while a *partial* scrape (e.g. a few category pages
+timed out) keeps all the current data it got and only backfills the gaps —
+instead of being rolled all the way back to stale data. Healthy vendors always
+use fresh data. A vendor is reported ``failed`` only when it's below floor AND
+there is no prior data to fall back on (so the caller can flag a brand-new or
+chronically-broken vendor), but that no longer blocks publishing the rest.
 
 Pure functions over snapshot dicts (the shape ``cli.snapshot_export`` writes):
 no DB, no network, trivially testable.
@@ -86,17 +91,25 @@ def carry_forward(
         for m in snap.get("motors", []):
             meta[_motor_key(m)] = {k: v for k, v in m.items() if k != "listings"}
 
-    # Gather the listings we keep: fresh for non-carried vendors, prev for carried.
+    # URLs a carried vendor returned THIS run, so we backfill only the gaps from
+    # prev (keep all fresh data; don't roll a partial scrape back to stale).
+    fresh_urls: dict[str, set[str]] = defaultdict(set)
+    for m in fresh.get("motors", []):
+        for l in m.get("listings", []):
+            fresh_urls[l["vendor_slug"]].add(l["url"])
+
     listings_by_motor: dict[tuple[str, str], list[dict]] = defaultdict(list)
+    # Keep ALL fresh listings — healthy and carried (partially-degraded) vendors alike.
     for m in fresh.get("motors", []):
         key = _motor_key(m)
         for l in m.get("listings", []):
-            if l["vendor_slug"] not in carried_vendors:
-                listings_by_motor[key].append(l)
+            listings_by_motor[key].append(l)
+    # Backfill carried vendors from prev for listings the fresh scrape is missing.
     for m in prev.get("motors", []):
         key = _motor_key(m)
         for l in m.get("listings", []):
-            if l["vendor_slug"] in carried_vendors:
+            v = l["vendor_slug"]
+            if v in carried_vendors and l["url"] not in fresh_urls[v]:
                 listings_by_motor[key].append(l)
 
     motors_out = []
@@ -108,9 +121,17 @@ def carry_forward(
     # Mirror cli export ordering: impulse_class, then designation.
     motors_out.sort(key=lambda m: (m.get("impulse_class") or "", m.get("designation") or ""))
 
-    # Unmatched follows the same per-vendor source rule.
-    unmatched_out = [u for u in fresh.get("unmatched", []) if u["vendor_slug"] not in carried_vendors]
-    unmatched_out += [u for u in prev.get("unmatched", []) if u["vendor_slug"] in carried_vendors]
+    # Unmatched follows the same keep-fresh-plus-backfill rule.
+    fresh_unmatched_urls: dict[str, set[str]] = defaultdict(set)
+    for u in fresh.get("unmatched", []):
+        fresh_unmatched_urls[u["vendor_slug"]].add(u["url"])
+    unmatched_out = list(fresh.get("unmatched", []))
+    unmatched_out += [
+        u
+        for u in prev.get("unmatched", [])
+        if u["vendor_slug"] in carried_vendors
+        and u["url"] not in fresh_unmatched_urls[u["vendor_slug"]]
+    ]
 
     merged = {
         "generated_at": fresh.get("generated_at"),

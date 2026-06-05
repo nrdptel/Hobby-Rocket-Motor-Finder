@@ -7,6 +7,7 @@ import {
   listingInStock,
   manufacturerLabel,
   parseSetParam,
+  safeHref,
   sortedMotors,
 } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
@@ -136,9 +137,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   // they're a low-power model-rocketry line not in the ThrustCurve subset
   // we pull, and the user doesn't care to see them as "unmatched".
   const unmatched = (snapshot.unmatched ?? []).filter((u) => {
-    const m = u.raw_designation.match(/^([A-O])/i);
+    // Null-guard scraped strings: a malformed snapshot shouldn't crash the page.
+    const m = (u.raw_designation ?? "").match(/^([A-O])/i);
     if (m && m[1].toUpperCase() < MIN_CLASS) return false;
-    if (/q-?jet/i.test(u.raw_title)) return false;
+    if (/q-?jet/i.test(u.raw_title ?? "")) return false;
     return true;
   });
 
@@ -206,7 +208,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                     </td>
                     <td className="px-3 py-2">
                       <a
-                        href={u.url}
+                        href={safeHref(u.url)}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
@@ -241,7 +243,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                     {formatPrice(u.price_cents, u.currency)}
                   </div>
                   <a
-                    href={u.url}
+                    href={safeHref(u.url)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"

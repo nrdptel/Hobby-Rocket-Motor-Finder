@@ -228,10 +228,11 @@ def propellant_letter(name: str | None) -> str:
 # Matching therefore keys on (commonName, flavor[, diameter]) — see
 # ``db.find_motor_id``. See docs/CTI_spike.md for the full derivation.
 
-# Class letter (CTI HPR runs roughly D..O) + 2-4 avg-thrust digits, e.g.
-# I445, E22, N5600. The leading total-impulse number (the "234" in 234I445) and
-# the trailing "-16A" delay are deliberately NOT captured — only the commonName.
-CTI_COMMON_NAME_RE = re.compile(r"\b([D-O]\d{2,4})\b", re.IGNORECASE)
+# Class letter (CTI HPR runs roughly D..O) + 2-5 avg-thrust digits, e.g.
+# I445, E22, N5600, and 5-digit-thrust giants like N10000 / O25000. The leading
+# total-impulse number (the "234" in 234I445) and the trailing "-16A" delay are
+# deliberately NOT captured — only the commonName.
+CTI_COMMON_NAME_RE = re.compile(r"\b([D-O]\d{2,5})\b", re.IGNORECASE)
 
 # Vendor flavor text -> ThrustCurve ``propInfo``. ORDER MATTERS: longest/most
 # specific phrases first, so "White Thunder" wins over bare "White" and

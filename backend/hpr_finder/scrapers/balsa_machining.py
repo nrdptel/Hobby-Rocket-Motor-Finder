@@ -129,7 +129,9 @@ def parse_motors(html: str) -> list[Listing]:
 def _classify_stock(row: str) -> tuple[StockStatus, int | None]:
     m = _AVAIL_RE.search(row)
     if m:
-        return StockStatus.IN_STOCK_WITH_COUNT, int(m.group(1))
+        n = int(m.group(1))
+        # "0 available" is sold out, not in-stock-with-count-zero.
+        return (StockStatus.IN_STOCK_WITH_COUNT, n) if n > 0 else (StockStatus.OUT_OF_STOCK, None)
     if re.search(r"out of stock", row, re.I):
         return StockStatus.OUT_OF_STOCK, None
     return StockStatus.UNKNOWN, None
