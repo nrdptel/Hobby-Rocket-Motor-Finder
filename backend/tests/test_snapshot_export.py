@@ -12,6 +12,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
+import typer
 
 from hpr_finder import db
 from hpr_finder.cli import snapshot_export
@@ -206,3 +207,98 @@ def test_snapshot_empty_db_produces_valid_shape(tmp_db, tmp_path):
     assert snap["motors"] == []
     assert snap["unmatched"] == []
     assert snap["generated_at"]
+
+
+# --- health report (--report-json) for CI alerting -------------------------
+
+def _prev_snapshot_with_csrocketry(n_listings: int) -> dict:
+    """A previous snapshot carrying ``n_listings`` csrocketry listings on one
+    motor — enough for carry_forward to treat csrocketry as recoverable."""
+    return {
+        "generated_at": "2026-05-31T11:00:00+00:00",
+        "motors": [
+            {
+                "id": 1,
+                "manufacturer": "AeroTech",
+                "designation": "H242T-14A",
+                "common_name": "H242",
+                "diameter_mm": 29,
+                "impulse_class": "H",
+                "total_impulse_ns": 237.0,
+                "avg_thrust_n": 242.0,
+                "burn_time_s": 0.98,
+                "propellant": "Blue Thunder",
+                "delays": "6,10,14",
+                "delay_adjustable": True,
+                "listings": [
+                    {
+                        "vendor_slug": "csrocketry",
+                        "vendor_name": "Chris' Rocket Supplies",
+                        "url": f"https://www.csrocketry.com/p/{i}",
+                        "sku": f"AT-{i}",
+                        "price_cents": 4499,
+                        "currency": "USD",
+                        "status": "in_stock",
+                        "stock_count": None,
+                        "seen_at": "2026-05-31T11:00:00+00:00",
+                        "raw_designation": "H242T-14A",
+                    }
+                    for i in range(n_listings)
+                ],
+            }
+        ],
+        "unmatched": [],
+    }
+
+
+def test_report_json_healthy_when_no_floor(tmp_db, tmp_path):
+    """With floor disabled, every vendor is healthy and the report is not degraded."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["degraded"] is False
+    assert status["carried"] == []
+    assert status["failed"] == []
+    assert status["decision"]["csrocketry"] == "healthy"
+
+
+def test_report_json_flags_carried_vendor(tmp_db, tmp_path):
+    """A vendor below floor but with prior data is 'carried' → degraded=True,
+    and the snapshot still publishes (no exit)."""
+    _seed_minimal(tmp_db)  # fresh csrocketry = 1 matched listing
+    out = tmp_path / "snap.json"
+    out.write_text(json.dumps(_prev_snapshot_with_csrocketry(3)))  # prior data exists
+    report = tmp_path / "status.json"
+
+    # floor=2 > fresh(1), prev(3) > 0  → carried, publishes normally.
+    snapshot_export(out=out, floor=2, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["degraded"] is True
+    assert status["carried"] == ["csrocketry"]
+    assert status["failed"] == []
+    assert status["decision"]["csrocketry"] == "carried"
+    # Carried data keeps its original (old) seen_at, so staleness is measurable
+    # and positive — this is what the sustained-outage alert thresholds on.
+    assert status["stale_hours"]["csrocketry"] is not None
+    assert status["stale_hours"]["csrocketry"] > 0
+    assert status["max_stale_hours"] == status["stale_hours"]["csrocketry"]
+
+
+def test_report_json_written_even_on_refuse_to_publish(tmp_db, tmp_path):
+    """A vendor below floor with NO prior data is 'failed' → export exits
+    non-zero, but the health report is written FIRST so CI can still alert."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"  # does not exist → no prev data
+    report = tmp_path / "status.json"
+
+    with pytest.raises(typer.Exit):
+        snapshot_export(out=out, floor=2, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["degraded"] is True
+    assert "csrocketry" in status["failed"]
+    assert status["decision"]["csrocketry"] == "failed"

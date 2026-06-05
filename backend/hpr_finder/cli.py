@@ -4,6 +4,7 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+from datetime import datetime
 from pathlib import Path
 
 import typer
@@ -12,7 +13,7 @@ from . import catalog, db
 from .http import polite_async_client
 from .models import _utc_now
 from .scrapers import REGISTRY
-from .snapshot import carry_forward
+from .snapshot import carry_forward, vendor_counts
 
 app = typer.Typer(help="HPR motor availability aggregator CLI", no_args_is_help=True)
 catalog_app = typer.Typer(help="Manage the canonical motor catalog")
@@ -27,10 +28,22 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(messag
 
 @catalog_app.command("refresh")
 def catalog_refresh() -> None:
-    """Download the catalog from ThrustCurve (all manufacturers) and load it into SQLite."""
-    aerotech = catalog.aerotech_motors(use_cache=False)
-    cesaroni = catalog.cesaroni_motors(use_cache=False)
+    """Download the catalog from ThrustCurve (all manufacturers) and load it into SQLite.
+
+    If ThrustCurve is unreachable, fall back to the committed per-manufacturer
+    cache rather than failing the run with an empty catalog (which would leave
+    every listing unmatched). The run only fails if there is no cache to fall
+    back to.
+    """
+    aerotech, at_stale = catalog.refresh_catalog("AeroTech", catalog.CACHE_PATH)
+    cesaroni, cti_stale = catalog.refresh_catalog("Cesaroni", catalog.CESARONI_CACHE_PATH)
     motors = aerotech + cesaroni
+    for name, stale in (("AeroTech", at_stale), ("Cesaroni", cti_stale)):
+        if stale:
+            typer.echo(
+                f"WARNING: {name} live fetch failed — using committed cache (stale)",
+                err=True,
+            )
     typer.echo(
         f"fetched {len(aerotech)} AeroTech + {len(cesaroni)} Cesaroni "
         f"= {len(motors)} motors from ThrustCurve"
@@ -122,8 +135,22 @@ async def _async_scrape_run(
                 db.finish_run(conn, run_id, finished, ok, count, err)
 
     # Scrape each vendor concurrently. Politeness is per-host, so this doesn't
-    # increase load on any single vendor.
-    await asyncio.gather(*[run_one(s) for s in targets])
+    # increase load on any single vendor. ``return_exceptions=True`` isolates
+    # failures: one vendor raising (timeout, connection reset, blocked IP) must
+    # NOT cancel its in-flight siblings before they store their listings. Each
+    # vendor still records its own ok/err in ``scrape_runs`` via run_one's
+    # finally. We surface failures and only exit non-zero if EVERY vendor failed
+    # — a partial scrape still feeds the snapshot's per-vendor carry-forward.
+    results = await asyncio.gather(*[run_one(s) for s in targets], return_exceptions=True)
+    failures = [
+        (s.slug, r)
+        for s, r in zip(targets, results, strict=True)
+        if isinstance(r, BaseException)
+    ]
+    for slug, exc in failures:
+        typer.echo(f"{slug}: scrape failed — {exc!r}", err=True)
+    if failures and len(failures) == len(targets):
+        raise typer.Exit(1)
 
 
 @snapshot_app.command("export")
@@ -141,6 +168,14 @@ def snapshot_export(
             "below-floor vendor has no prior data to fall back on. 0 disables."
         ),
     ),
+    report_json: Path = typer.Option(
+        None,
+        help=(
+            "Write per-vendor carry-forward health as JSON here (for CI alerting). "
+            "Always written when set, even on a refuse-to-publish exit, so the "
+            "alerting step can see what degraded."
+        ),
+    ),
 ) -> None:
     """Dump every motor with its per-vendor listings into one JSON file.
 
@@ -153,9 +188,12 @@ def snapshot_export(
     out, so healthy vendors and new data still publish.
     """
     # When called directly (tests) rather than through the CLI, typer defaults
-    # arrive unresolved (an OptionInfo); treat a non-int floor as disabled.
+    # arrive unresolved (an OptionInfo); treat a non-int floor as disabled and
+    # an unresolved report path as "don't write one".
     if not isinstance(floor, int):
         floor = 0
+    if not isinstance(report_json, Path):
+        report_json = None
 
     # Read the previous snapshot BEFORE we overwrite ``out``.
     prev = None
@@ -248,6 +286,7 @@ def snapshot_export(
         ],
     }
     failed: list[str] = []
+    carried: list[str] = []
     if floor > 0:
         payload, report = carry_forward(payload, prev, floor)
         typer.echo(f"snapshot floor={floor} — per-vendor:")
@@ -260,6 +299,46 @@ def snapshot_export(
             )
             typer.echo(f"  {vendor:18s} {d:8s} ({note})")
         failed = report["failed"]
+        carried = report["carried"]
+        decision = report["decision"]
+        fresh_counts = report["fresh_counts"]
+        prev_counts = report["prev_counts"]
+    else:
+        # No floor → no carry-forward ran. Synthesize an all-healthy report so a
+        # report-json consumer always gets a consistent shape.
+        fresh_counts = vendor_counts(payload)
+        prev_counts = {}
+        decision = {v: "healthy" for v in fresh_counts}
+
+    # Machine-readable health for CI alerting. The alerter stays quiet on a
+    # transient carry-forward (that's the safety net working) and only escalates
+    # when a vendor's published data has gone STALE for a sustained period. We
+    # compute that age statelessly here: a carried vendor keeps its listings'
+    # original ``seen_at``, so the gap to ``generated_at`` grows each hour the
+    # outage persists — a healthy (just-scraped) vendor reads ~0.
+    if report_json is not None:
+        stale_hours = _vendor_stale_hours(payload, decision)
+        ages = [h for h in stale_hours.values() if h is not None]
+        status = {
+            "generated_at": payload["generated_at"],
+            "floor": floor,
+            "degraded": bool(carried or failed),
+            "carried": carried,
+            "failed": failed,
+            "decision": decision,
+            "fresh_counts": fresh_counts,
+            "prev_counts": prev_counts,
+            # Per-vendor age of published data, hours. None = no published
+            # listings (a failed vendor) or unparseable timestamps.
+            "stale_hours": stale_hours,
+            "max_stale_hours": max(ages) if ages else 0.0,
+        }
+        report_json.parent.mkdir(parents=True, exist_ok=True)
+        report_json.write_text(json.dumps(status, indent=2))
+        typer.echo(
+            f"wrote health report {report_json} "
+            f"(degraded={status['degraded']}, max_stale_hours={status['max_stale_hours']})"
+        )
 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2))
@@ -274,6 +353,37 @@ def snapshot_export(
             err=True,
         )
         raise typer.Exit(1)
+
+
+def _parse_iso(s: str | None) -> datetime | None:
+    try:
+        return datetime.fromisoformat(s) if s else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _vendor_stale_hours(payload: dict, decision: dict[str, str]) -> dict[str, float | None]:
+    """Age (hours) of each vendor's freshest published listing vs ``generated_at``.
+
+    A just-scraped vendor reads ~0; a vendor whose data is being carried forward
+    reads how long ago that data was last genuinely scraped, which grows every
+    hour the outage persists. ``None`` for a vendor with no published listings.
+    """
+    gen = _parse_iso(payload.get("generated_at"))
+    newest: dict[str, datetime] = {}
+    for m in payload.get("motors", []):
+        for l in m.get("listings", []):
+            dt = _parse_iso(l.get("seen_at"))
+            if dt is None:
+                continue
+            v = l["vendor_slug"]
+            if v not in newest or dt > newest[v]:
+                newest[v] = dt
+    out: dict[str, float | None] = {}
+    for v in decision:
+        nd = newest.get(v)
+        out[v] = None if (nd is None or gen is None) else round((gen - nd).total_seconds() / 3600, 2)
+    return out
 
 
 def _get_vendor(slug: str):

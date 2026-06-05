@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # Lets the alerting step open/comment/close a tracking issue when a
+      # vendor degrades (carry-forward) or fails outright.
+      issues: write
     defaults:
       run:
         working-directory: backend
@@ -58,7 +61,24 @@ jobs:
         # has NO prior data to fall back on. The floor (200) is well above a
         # rate-limited-mid-walk run (~20% of normal) but below a healthy run.
         working-directory: ${{ github.workspace }}
-        run: hpr snapshot export --floor 200
+        # --report-json writes machine-readable per-vendor health that the
+        # alerting step reads. It's written even when export exits non-zero
+        # (refuse-to-publish), so the alert still fires on a total failure.
+        run: hpr snapshot export --floor 200 --report-json data/scrape-status.json
+
+      - name: Report scrape health
+        # always() so it runs even when the export step exited non-zero. Writes a
+        # one-line health note to the run summary every time, and opens a single
+        # tracking issue ONLY when a vendor's data has been stale beyond the
+        # threshold (a sustained outage, not a transient carry-forward). The
+        # issue auto-closes on recovery. Total failures exit non-zero and are
+        # covered by GitHub's native workflow-failure email.
+        if: always()
+        working-directory: ${{ github.workspace }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        # Second arg is the stale-hours threshold that opens an issue.
+        run: bash .github/scripts/alert_on_degraded.sh data/scrape-status.json 6
 
       - name: Commit changes if any
         working-directory: ${{ github.workspace }}

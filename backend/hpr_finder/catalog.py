@@ -104,6 +104,28 @@ def cesaroni_motors(use_cache: bool = True) -> list[Motor]:
     return [to_motor(r) for r in raw]
 
 
+def refresh_catalog(manufacturer: str, cache_path: Path) -> tuple[list[Motor], bool]:
+    """Fetch one manufacturer's catalog live and refresh its on-disk cache.
+
+    If the live fetch fails (ThrustCurve down, slow, or returning an HTTP error)
+    AND a committed cache exists, fall back to that cache so the hourly run still
+    has a catalog to match listings against — a stale catalog is far better than
+    an empty one, which would leave every listing unmatched and trip the snapshot
+    floor for every vendor. Re-raises only when the fetch fails and there is no
+    cache to fall back to (a first run with neither has nothing to offer).
+
+    Returns ``(motors, used_cache_fallback)``.
+    """
+    try:
+        raw = fetch_motors(manufacturer)
+    except (httpx.HTTPError, OSError):
+        if cache_path.exists():
+            return [to_motor(r) for r in load_cache(cache_path)], True
+        raise
+    save_cache(raw, cache_path)
+    return [to_motor(r) for r in raw], False
+
+
 def all_motors(use_cache: bool = True) -> list[Motor]:
     """Every manufacturer's motors, concatenated. The catalog's
     ``(manufacturer, designation)`` unique key keeps the two sets distinct, so a

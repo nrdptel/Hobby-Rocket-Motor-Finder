@@ -34,6 +34,8 @@ Thumbs.db
 data/*.db
 data/*.db-journal
 data/snapshots/
+# Transient CI health report consumed by the scrape alerting step.
+data/scrape-status.json
 
 # IDE
 .vscode/

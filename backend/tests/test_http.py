@@ -26,15 +26,20 @@ def _make_client_with_mock_transport(
     *,
     max_concurrent_per_host: int = 4,
     min_start_interval_s: float = 0.0,
+    max_retries: int = 2,
+    backoff_base_s: float = 0.0,
 ) -> PoliteAsyncClient:
     """Build a PoliteAsyncClient whose underlying transport is mocked.
 
     The handler is invoked for every request; tests use it to record
-    timestamps, return canned responses, or vary by URL.
+    timestamps, return canned responses, or vary by URL. ``backoff_base_s``
+    defaults to 0 so retry tests don't sleep on real wall-clock.
     """
     pc = PoliteAsyncClient(
         max_concurrent_per_host=max_concurrent_per_host,
         min_start_interval_s=min_start_interval_s,
+        max_retries=max_retries,
+        backoff_base_s=backoff_base_s,
     )
     pc._client = httpx.AsyncClient(
         transport=httpx.MockTransport(handler),
@@ -219,3 +224,113 @@ async def test_get_returns_response_body():
 
     assert r.status_code == 200
     assert r.text == "hello from mock"
+
+
+# --- transient-error retry --------------------------------------------------
+
+@pytest.mark.asyncio
+async def test_retries_transport_error_then_succeeds():
+    """A connection reset / timeout on the first attempt is retried and the
+    eventual 200 is returned — a single hiccup must not fail the page."""
+    attempts = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            raise httpx.ConnectError("connection reset", request=request)
+        return httpx.Response(200, text="ok")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/flaky")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert attempts == 2  # failed once, retried once
+
+
+@pytest.mark.asyncio
+async def test_retries_503_then_succeeds():
+    """A transient 502/503/504 is retried (unlike 429, which is rate-limiting)."""
+    attempts = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            return httpx.Response(503, text="unavailable")
+        return httpx.Response(200, text="ok")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/flaky")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert attempts == 2
+
+
+@pytest.mark.asyncio
+async def test_transport_error_raised_after_retries_exhausted():
+    """If every attempt fails at the transport layer, the error propagates so
+    the caller marks the vendor run failed — we don't swallow it."""
+    attempts = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        raise httpx.ConnectError("down", request=request)
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        with pytest.raises(httpx.ConnectError):
+            await pc.get("https://example.com/dead")
+    finally:
+        await pc.close()
+
+    assert attempts == 3  # initial + 2 retries
+
+
+@pytest.mark.asyncio
+async def test_429_is_not_retried():
+    """A 429 is honored via Retry-After sleep and returned — NOT retried, so we
+    don't hammer a host that just told us to slow down."""
+    attempts = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        return httpx.Response(429, text="slow down")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/throttled")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 429
+    assert attempts == 1
+
+
+@pytest.mark.asyncio
+async def test_persistent_503_returns_last_response_not_raises():
+    """When 502/503/504 persists through every attempt, return the final error
+    response (the scraper decides what to do) rather than raising."""
+    attempts = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        return httpx.Response(503, text="still down")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/down")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 503
+    assert attempts == 3  # initial + 2 retries, then returned
