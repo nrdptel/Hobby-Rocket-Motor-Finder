@@ -183,6 +183,34 @@ export function addRocket(spec: {
   return rocket;
 }
 
+/** Update an existing rocket in place (preserving id + position) and persist. */
+export function updateRocket(
+  id: string,
+  spec: {
+    name?: string;
+    diameterMm: number;
+    cert: string;
+    minImpulseNs?: number | null;
+    maxImpulseNs?: number | null;
+  },
+): void {
+  load();
+  current = current.map((r) =>
+    r.id === id
+      ? {
+          ...r,
+          name: (spec.name ?? "").trim(),
+          diameterMm: spec.diameterMm,
+          cert: spec.cert,
+          minImpulseNs: spec.minImpulseNs ?? null,
+          maxImpulseNs: spec.maxImpulseNs ?? null,
+        }
+      : r,
+  );
+  persist();
+  emit();
+}
+
 /** Remove a rocket by id and persist. */
 export function removeRocket(id: string): void {
   load();
@@ -200,6 +228,7 @@ export type Rockets = {
     minImpulseNs?: number | null;
     maxImpulseNs?: number | null;
   }) => Rocket;
+  update: typeof updateRocket;
   remove: (id: string) => void;
   /** False during SSR and first client paint; true after mount. Gate
    * rocket-dependent UI on this so the first render matches the server. */
@@ -210,5 +239,5 @@ export function useRockets(): Rockets {
   const rockets = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
-  return { rockets, add: addRocket, remove: removeRocket, hydrated };
+  return { rockets, add: addRocket, update: updateRocket, remove: removeRocket, hydrated };
 }

@@ -28,8 +28,9 @@ export function MyRockets({
 }) {
   const router = useRouter();
   const sp = useSearchParams();
-  const { rockets, add, remove, hydrated } = useRockets();
+  const { rockets, add, update, remove, hydrated } = useRockets();
   const [showAdd, setShowAdd] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   if (diameters.length === 0 || certLevels.length === 0) return null;
 
@@ -45,22 +46,36 @@ export function MyRockets({
     paramEq("imin", r.minImpulseNs) &&
     paramEq("imax", r.maxImpulseNs);
 
-  const apply = (r: Rocket) => {
-    const next = new URLSearchParams(sp.toString());
-    if (isActive(r)) {
-      // Toggle off — clear this rocket's filters.
-      for (const p of ["cert", "dia", "imin", "imax"]) next.delete(p);
-    } else {
-      next.set("cert", r.cert);
-      next.set("dia", String(r.diameterMm));
-      next.delete("class"); // class ∩ cert would usually be empty
-      if (r.minImpulseNs != null) next.set("imin", String(r.minImpulseNs));
-      else next.delete("imin");
-      if (r.maxImpulseNs != null) next.set("imax", String(r.maxImpulseNs));
-      else next.delete("imax");
-    }
+  const pushParams = (next: URLSearchParams) => {
     const qs = next.toString();
     router.push(qs ? `/?${qs}` : "/", { scroll: false });
+  };
+
+  type Spec = Pick<Rocket, "cert" | "diameterMm" | "minImpulseNs" | "maxImpulseNs">;
+
+  // Set the cert/dia/impulse filters from a rocket spec (clearing class, which
+  // would intersect cert to nothing). Always sets — never toggles.
+  const setFiltersFromSpec = (s: Spec) => {
+    const next = new URLSearchParams(sp.toString());
+    next.set("cert", s.cert);
+    next.set("dia", String(s.diameterMm));
+    next.delete("class");
+    if (s.minImpulseNs != null) next.set("imin", String(s.minImpulseNs));
+    else next.delete("imin");
+    if (s.maxImpulseNs != null) next.set("imax", String(s.maxImpulseNs));
+    else next.delete("imax");
+    pushParams(next);
+  };
+
+  const apply = (r: Rocket) => {
+    if (isActive(r)) {
+      // Toggle off — clear this rocket's filters.
+      const next = new URLSearchParams(sp.toString());
+      for (const p of ["cert", "dia", "imin", "imax"]) next.delete(p);
+      pushParams(next);
+    } else {
+      setFiltersFromSpec(r);
+    }
   };
 
   const band = (r: Rocket): string => {
@@ -72,6 +87,12 @@ export function MyRockets({
 
   const label = (r: Rocket) =>
     r.name || `${r.diameterMm}mm · ${certLabel(r.cert)}`;
+
+  // Shared styling for the edit/delete segments of a rocket chip.
+  const edge = (active: boolean) =>
+    active
+      ? "border-zinc-900 bg-zinc-900 text-zinc-300 hover:text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-500 dark:hover:text-zinc-900"
+      : "border-zinc-300 bg-white text-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:text-zinc-200";
 
   // "Save current view as a rocket": offered when the current filters describe a
   // single rocket (one cert + one diameter) that isn't already saved — so a
@@ -107,7 +128,9 @@ export function MyRockets({
         r.minImpulseNs === curSpec.minImpulseNs &&
         r.maxImpulseNs === curSpec.maxImpulseNs,
     );
-  const canSaveCurrent = hydrated && curSpec != null && !alreadySaved && !showAdd;
+  const canSaveCurrent =
+    hydrated && curSpec != null && !alreadySaved && !showAdd && !editingId;
+  const editingRocket = editingId ? rockets.find((r) => r.id === editingId) : undefined;
 
   return (
     <section className="mt-4 rounded-md border border-zinc-200 bg-zinc-50 p-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
@@ -150,14 +173,25 @@ export function MyRockets({
                 </button>
                 <button
                   type="button"
-                  onClick={() => remove(r.id)}
+                  onClick={() => {
+                    setEditingId(r.id);
+                    setShowAdd(false);
+                  }}
+                  aria-label={`Edit rocket ${label(r)}`}
+                  title="Edit this rocket"
+                  className={`border border-l-0 px-1.5 py-0.5 text-xs transition ${edge(active)}`}
+                >
+                  ✎
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (editingId === r.id) setEditingId(null);
+                    remove(r.id);
+                  }}
                   aria-label={`Delete rocket ${label(r)}`}
                   title="Delete this rocket"
-                  className={`rounded-r-full border border-l-0 px-1.5 py-0.5 text-xs transition ${
-                    active
-                      ? "border-zinc-900 bg-zinc-900 text-zinc-300 hover:text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-500 dark:hover:text-zinc-900"
-                      : "border-zinc-300 bg-white text-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:text-zinc-200"
-                  }`}
+                  className={`rounded-r-full border border-l-0 px-1.5 py-0.5 text-xs transition ${edge(active)}`}
                 >
                   ×
                 </button>
@@ -184,22 +218,35 @@ export function MyRockets({
 
         <button
           type="button"
-          onClick={() => setShowAdd((v) => !v)}
-          aria-expanded={showAdd}
+          onClick={() => {
+            if (editingId) setEditingId(null); // cancel an in-progress edit
+            else setShowAdd((v) => !v);
+          }}
+          aria-expanded={showAdd || editingId != null}
           className="rounded-full border border-dashed border-zinc-400 px-2.5 py-0.5 text-xs font-medium text-zinc-600 transition hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
-          {showAdd ? "Cancel" : "+ Add rocket"}
+          {showAdd || editingId ? "Cancel" : "+ Add rocket"}
         </button>
       </div>
 
-      {showAdd && (
-        <AddRocketForm
+      {(showAdd || editingRocket) && (
+        <RocketForm
+          key={editingRocket?.id ?? "add"}
           diameters={diameters}
           certLevels={certLevels}
-          onAdd={(spec) => {
-            const r = add(spec);
-            setShowAdd(false);
-            apply(r);
+          initial={editingRocket}
+          submitLabel={editingRocket ? "Save changes" : "Add & show"}
+          onSubmit={(spec) => {
+            if (editingRocket) {
+              const wasActive = isActive(editingRocket);
+              update(editingRocket.id, spec);
+              setEditingId(null);
+              if (wasActive) setFiltersFromSpec({ ...spec });
+            } else {
+              const r = add(spec);
+              setShowAdd(false);
+              apply(r);
+            }
           }}
         />
       )}
@@ -207,14 +254,18 @@ export function MyRockets({
   );
 }
 
-function AddRocketForm({
+function RocketForm({
   diameters,
   certLevels,
-  onAdd,
+  initial,
+  submitLabel,
+  onSubmit,
 }: {
   diameters: number[];
   certLevels: CertLevel[];
-  onAdd: (spec: {
+  initial?: Rocket;
+  submitLabel: string;
+  onSubmit: (spec: {
     name?: string;
     diameterMm: number;
     cert: string;
@@ -222,14 +273,20 @@ function AddRocketForm({
     maxImpulseNs: number | null;
   }) => void;
 }) {
-  const [name, setName] = useState("");
-  const [diameter, setDiameter] = useState(String(diameters[0]));
-  // Prefer L1 as the sensible default cert if present.
-  const [cert, setCert] = useState(
-    certLevels.find((c) => c.key === "l1")?.key ?? certLevels[0].key,
+  const [name, setName] = useState(initial?.name ?? "");
+  const [diameter, setDiameter] = useState(
+    String(initial?.diameterMm ?? diameters[0]),
   );
-  const [imin, setImin] = useState("");
-  const [imax, setImax] = useState("");
+  const [cert, setCert] = useState(
+    // Edit: the rocket's cert. Add: prefer L1 as the sensible default.
+    initial?.cert ?? certLevels.find((c) => c.key === "l1")?.key ?? certLevels[0].key,
+  );
+  const [imin, setImin] = useState(
+    initial?.minImpulseNs != null ? String(initial.minImpulseNs) : "",
+  );
+  const [imax, setImax] = useState(
+    initial?.maxImpulseNs != null ? String(initial.maxImpulseNs) : "",
+  );
 
   // Parse an optional non-negative impulse bound; blank/invalid/negative → null.
   const bound = (s: string): number | null => {
@@ -248,7 +305,7 @@ function AddRocketForm({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onAdd({
+        onSubmit({
           name,
           diameterMm: Number(diameter),
           cert,
@@ -317,7 +374,7 @@ function AddRocketForm({
         type="submit"
         className="rounded-full border border-zinc-900 bg-zinc-900 px-3 py-1 text-xs font-medium text-white transition hover:bg-zinc-700 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
       >
-        Add &amp; show
+        {submitLabel}
       </button>
     </form>
   );
