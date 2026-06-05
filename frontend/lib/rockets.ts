@@ -15,7 +15,16 @@ export type Rocket = {
   name: string; // optional label; "" means show the spec instead
   diameterMm: number;
   cert: string; // a CERT_LEVELS key ("mid" | "l1" | "l2" | "l3")
+  // Optional preferred total-impulse window (N·s). null = open bound. Applying a
+  // rocket sets the imin/imax filters to these; absent on rockets saved before
+  // this field existed.
+  minImpulseNs: number | null;
+  maxImpulseNs: number | null;
 };
+
+function numOrNull(x: unknown): number | null {
+  return typeof x === "number" && Number.isFinite(x) ? x : null;
+}
 
 // --- pure helpers (no window/localStorage; unit-tested in a node env) --------
 
@@ -33,7 +42,16 @@ export function parseRockets(raw: string | null): Rocket[] {
       if (typeof r.cert !== "string") return [];
       const id = typeof r.id === "string" && r.id ? r.id : String(r.diameterMm) + r.cert;
       const name = typeof r.name === "string" ? r.name : "";
-      return [{ id, name, diameterMm: r.diameterMm, cert: r.cert }];
+      return [
+        {
+          id,
+          name,
+          diameterMm: r.diameterMm,
+          cert: r.cert,
+          minImpulseNs: numOrNull(r.minImpulseNs),
+          maxImpulseNs: numOrNull(r.maxImpulseNs),
+        },
+      ];
     });
   } catch {
     return [];
@@ -105,13 +123,21 @@ function getServerSnapshot(): readonly Rocket[] {
 }
 
 /** Add a rocket and persist; returns the created rocket. */
-export function addRocket(spec: { name?: string; diameterMm: number; cert: string }): Rocket {
+export function addRocket(spec: {
+  name?: string;
+  diameterMm: number;
+  cert: string;
+  minImpulseNs?: number | null;
+  maxImpulseNs?: number | null;
+}): Rocket {
   load();
   const rocket: Rocket = {
     id: newId(),
     name: (spec.name ?? "").trim(),
     diameterMm: spec.diameterMm,
     cert: spec.cert,
+    minImpulseNs: spec.minImpulseNs ?? null,
+    maxImpulseNs: spec.maxImpulseNs ?? null,
   };
   current = [...current, rocket];
   persist();
@@ -129,7 +155,13 @@ export function removeRocket(id: string): void {
 
 export type Rockets = {
   rockets: readonly Rocket[];
-  add: (spec: { name?: string; diameterMm: number; cert: string }) => Rocket;
+  add: (spec: {
+    name?: string;
+    diameterMm: number;
+    cert: string;
+    minImpulseNs?: number | null;
+    maxImpulseNs?: number | null;
+  }) => Rocket;
   remove: (id: string) => void;
   /** False during SSR and first client paint; true after mount. Gate
    * rocket-dependent UI on this so the first render matches the server. */

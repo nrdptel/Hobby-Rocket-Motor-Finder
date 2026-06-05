@@ -5,7 +5,14 @@ import { parseRockets, serializeRockets, type Rocket } from "./rockets";
 // The localStorage / useSyncExternalStore glue is client-only and verified in
 // the browser; these cover the pure parse/serialize logic the store is built on.
 
-const ROCKET: Rocket = { id: "abc", name: "Punisher", diameterMm: 54, cert: "l2" };
+const ROCKET: Rocket = {
+  id: "abc",
+  name: "Punisher",
+  diameterMm: 54,
+  cert: "l2",
+  minImpulseNs: 1000,
+  maxImpulseNs: 2560,
+};
 
 describe("parseRockets", () => {
   it("parses a JSON array of rockets", () => {
@@ -45,8 +52,27 @@ describe("parseRockets", () => {
     expect(r.name).toBe("");
   });
 
+  it("defaults the impulse band to null for rockets saved before that field (back-compat)", () => {
+    const raw = JSON.stringify([{ id: "old", name: "Legacy", diameterMm: 38, cert: "l1" }]);
+    const [r] = parseRockets(raw);
+    expect(r.minImpulseNs).toBeNull();
+    expect(r.maxImpulseNs).toBeNull();
+  });
+
+  it("parses and coerces an invalid impulse bound to null", () => {
+    const raw = JSON.stringify([
+      { id: "a", name: "", diameterMm: 54, cert: "l2", minImpulseNs: 1000, maxImpulseNs: "x" },
+    ]);
+    const [r] = parseRockets(raw);
+    expect(r.minImpulseNs).toBe(1000);
+    expect(r.maxImpulseNs).toBeNull();
+  });
+
   it("round-trips through serialize", () => {
-    const rockets = [ROCKET, { id: "d2", name: "", diameterMm: 75, cert: "l3" }];
+    const rockets = [
+      ROCKET,
+      { id: "d2", name: "", diameterMm: 75, cert: "l3", minImpulseNs: null, maxImpulseNs: null },
+    ];
     expect(parseRockets(serializeRockets(rockets))).toEqual(rockets);
   });
 });
