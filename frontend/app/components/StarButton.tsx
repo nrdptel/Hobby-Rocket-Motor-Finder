@@ -25,7 +25,7 @@ export function StarButton({
           : `Add ${designation} to watchlist`
       }
       title={starred ? "Remove from watchlist" : "Add to watchlist"}
-      className={`shrink-0 cursor-pointer text-base leading-none transition ${
+      className={`-m-1.5 shrink-0 cursor-pointer p-1.5 text-base leading-none transition ${
         starred
           ? "text-amber-500 hover:text-amber-600 dark:text-amber-400 dark:hover:text-amber-300"
           : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-600 dark:hover:text-zinc-300"

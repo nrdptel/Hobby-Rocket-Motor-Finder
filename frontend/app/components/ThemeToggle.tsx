@@ -23,7 +23,14 @@ function apply(theme: Theme): void {
   const e = document.documentElement;
   e.classList.toggle("dark", dark);
   e.style.colorScheme = dark ? "dark" : "light";
-  document.cookie = `hpr.theme.resolved=${dark ? "dark" : "light"}; path=/; max-age=31536000; samesite=lax`;
+  // Cookie writes can throw if storage is blocked; the class toggle above is
+  // what actually themes the page, so a failed cookie just costs the next
+  // server render the flash-avoidance, not correctness.
+  try {
+    document.cookie = `hpr.theme.resolved=${dark ? "dark" : "light"}; path=/; max-age=31536000; samesite=lax`;
+  } catch {
+    /* ignore */
+  }
 }
 
 /** Cycles System → Light → Dark, persisted in localStorage. The inline script
@@ -43,7 +50,11 @@ export function ThemeToggle() {
 
   useEffect(() => {
     if (!mounted) return;
-    localStorage.setItem(KEY, theme);
+    try {
+      localStorage.setItem(KEY, theme);
+    } catch {
+      /* storage disabled/full — apply() still themes this session */
+    }
     apply(theme);
   }, [theme, mounted]);
 

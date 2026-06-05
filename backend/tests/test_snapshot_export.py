@@ -15,7 +15,7 @@ import pytest
 import typer
 
 from hpr_finder import db
-from hpr_finder.cli import snapshot_export
+from hpr_finder.cli import _parse_iso, _vendor_stale_hours, snapshot_export
 from hpr_finder.db import upsert_listings, upsert_motors, upsert_vendor
 from hpr_finder.models import Listing, Motor, StockStatus
 
@@ -308,6 +308,34 @@ def test_below_floor_new_vendor_publishes_but_is_flagged(tmp_db, tmp_path):
     # The partial data is published, not discarded.
     snap = json.loads(out.read_text())
     assert any(m["listings"] for m in snap["motors"])
+
+
+def test_parse_iso_normalizes_naive_to_utc():
+    # A naive timestamp (carried forward from an early archived snapshot) must
+    # become tz-aware so the stale-hours subtraction can't raise TypeError.
+    aware = _parse_iso("2026-06-01T00:00:00+00:00")
+    naive = _parse_iso("2026-06-01T00:00:00")  # no offset
+    assert aware is not None and naive is not None
+    assert naive.tzinfo is not None
+    # Mixing the two in a subtraction (what _vendor_stale_hours does) must work.
+    assert (aware - naive).total_seconds() == 0
+
+
+def test_vendor_stale_hours_survives_naive_seen_at():
+    # generated_at aware, a carried listing's seen_at naive — must not crash.
+    payload = {
+        "generated_at": "2026-06-02T00:00:00+00:00",
+        "motors": [
+            {
+                "manufacturer": "AeroTech", "designation": "H1",
+                "listings": [
+                    {"vendor_slug": "amw", "seen_at": "2026-06-01T00:00:00"},  # naive
+                ],
+            }
+        ],
+    }
+    out = _vendor_stale_hours(payload, {"amw": "carried"})
+    assert out["amw"] == 24.0  # 1 day gap, computed without raising
 
 
 def test_refuses_to_publish_empty_snapshot_under_floor(tmp_db, tmp_path):

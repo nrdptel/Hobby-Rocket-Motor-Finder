@@ -81,21 +81,23 @@ export function MotorResults({
           <thead className="sticky top-0 z-10 bg-zinc-100 text-left text-xs uppercase tracking-wider text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
             <tr>
               <th
+                scope="col"
                 className="px-3 py-2"
                 title="The full vendor designation, e.g. D13-10W or H242T-14A — what the vendor actually lists the SKU as."
               >
                 Variety
               </th>
               <th
+                scope="col"
                 className="px-3 py-2"
                 title="Ejection-charge delay time. For HPR motors, 'adj' means the delay is drilled to length at the field."
               >
                 Delay
               </th>
-              <th className="px-3 py-2">Vendor</th>
-              <th className="px-3 py-2">Status</th>
-              <th className="px-3 py-2 text-right">Price</th>
-              <th className="px-3 py-2"></th>
+              <th scope="col" className="px-3 py-2">Vendor</th>
+              <th scope="col" className="px-3 py-2">Status</th>
+              <th scope="col" className="px-3 py-2 text-right">Price</th>
+              <th scope="col" className="px-3 py-2"></th>
             </tr>
           </thead>
           <tbody>
