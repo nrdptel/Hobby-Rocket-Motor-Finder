@@ -1,5 +1,53 @@
 # U.S. High-Power Rocketry Vendor Directory
 
+> **Last updated: 2026-06-05.**
+>
+> The original directory below is the source research. This top section records the
+> **Hobby Rocket Motor Finder aggregator's integration status** for every *motor*
+> vendor — i.e. which we scrape and, for the rest, the concrete reason we don't.
+> Scope is locked to three manufacturers: **AeroTech, Cesaroni (CTI), and Loki
+> Research**; support-only shops (kits, recovery, electronics, hardware) and
+> out-of-scope motor makers (hybrids, AMW/Kosdon/Gorilla own-brands, Estes/Quest
+> low-power) are intentionally not integrated.
+
+## Aggregator integration status (motor vendors)
+
+### ✅ Live — scraped (11 vendors: AeroTech ×10, Cesaroni ×4, Loki ×2)
+
+| Vendor | Brands integrated | Platform | Notes |
+|---|---|---|---|
+| [Chris' Rocket Supplies](https://www.csrocketry.com) | AeroTech, Cesaroni | Custom (Schema.org JSON-LD) | sitemap + per-product JSON-LD |
+| [BuyRocketMotors](https://www.buyrocketmotors.com) | AeroTech | Shopify | no inventory count (in/out only) |
+| [Wildman Rocketry](https://wildmanrocketry.com) | AeroTech, Cesaroni | Shopify | inline product JSON exposes qty |
+| [Animal Motor Works](https://cart.amwprox.com) | AeroTech | VirtueMart | OOS items hidden from listings |
+| [Sirius Rocketry](https://www.siriusrocketry.biz) | AeroTech | Zen Cart | `special_order` state for big reloads |
+| [Loki Research](https://lokiresearch.com) | Loki | Custom ASP (`store.asp`) | manufacturer-direct, single page |
+| [Performance Hobbies](https://performancehobbies.com) | AeroTech, Cesaroni, Loki | Custom ASP.NET (`store.aspx` tree) | only vendor carrying all three brands |
+| [AeroTech (direct)](https://aerotech-rocketry.com) | AeroTech | Shopify | manufacturer-direct; backorders nearly everything → shown as `special_order` with a fulfillment lead-time parsed live from their banner |
+| [Moto-Joe Rocketry](https://www.moto-joe.com) | AeroTech, Cesaroni | OpenCart | category list for price, per-product page for stock |
+| [Balsa Machining Service](https://www.balsamachining.com) | AeroTech | Custom single-page ASP | one page; rows link to ThrustCurve → 100% match; numeric stock |
+| [eRockets](https://www.erockets.biz) | AeroTech (low/mid-power) | BigCommerce | category-page scrape; tops out ~H class |
+
+### ❌ Investigated & excluded (motor vendors carrying our brands)
+
+| Vendor | Brands | Reason not integrated (verified 2026-06-05) |
+|---|---|---|
+| [Apogee Components](https://www.apogeerockets.com) | AeroTech, Cesaroni | robots.txt `Disallow: /` for the generic user-agent (only named search engines allowed) — off-limits by our honor-robots policy. Would otherwise be a top pick. |
+| [Dayton Rocketry](https://daytonrocketry.square.site) | AeroTech | Square Online SPA: price + stock are 100% client-rendered behind a CSRF/session-gated store API; absent from server HTML. Would need a headless browser. (CTI/Loki: none.) |
+| [OneBadHawk](https://www.onebadhawk.com) | Loki | Sells ~19 Loki 38mm reloads but has **no stock signal** (static PayPal "Add to Cart" buttons, no inventory state). One of only 3 official Loki dealers. |
+| Miller Motor Works (millermotorworks.com → sfsmindustries.com) | Loki | Host robots.txt `Disallow: /`; storefront returns HTTP 500. Effectively a launch-field vendor. Official Loki dealer. |
+| [Oregon Astronomy & Rocketry](https://oregonastronomy.com) | Loki | No e-commerce at all — inquiry/contact-only WordPress brochure. Official Loki dealer. |
+| [Merlin Missile Solutions](http://www.merlinmissiles.com) | AeroTech, Cesaroni | No motors sold online (AeroTech page lists accessories only; no CTI/Loki pages); no stock signal ("call for availability"); HTTPS down (HTTP-only). |
+| The Rocket Garden (therocketgarden.com) | (kits + motors) | Defunct — domain no longer resolves; last real storefront ~2007. |
+| Bay Area Rocketry (bayarearocketry.com) | AeroTech, Cesaroni | Business **closed** (~Nov 2025); domain hijacked — now serves an unrelated online-casino page. Former WooCommerce `/product/` & `/shop/` URLs 404. |
+| Off We Go Rocketry (offwegorocketry.com) | AeroTech, Cesaroni | Owner **retired; store closed Dec 31, 2025**; domain now parked ("Coming Soon"). Never carried Loki. |
+| [Aerocon Systems](https://aeroconsystems.com) | none of ours | Live OpenCart store, but carries **zero** AeroTech/Cesaroni/Loki — it's a hybrid/liquid/EX-research supplier (RATTWorks, bipropellant). |
+| [Countyline / Starlight Model Rockets](https://www.starlightrockets.com) | none of ours | Live Wix store (cleanly scrapeable) but stocks only Estes/Quest low-power (A–E) + kits — no AeroTech/Cesaroni/Loki composite motors. |
+
+**Status: every motor vendor in this directory has been triaged.** No further leads remain without either (a) a headless-browser scraper (would unlock Dayton Rocketry and other client-rendered Square stores) or (b) relaxing the three-manufacturer scope. The three official Loki dealers (OneBadHawk, Miller, Oregon Astronomy) are all unusable, which is why Loki coverage is limited to the manufacturer-direct site plus Performance Hobbies.
+
+---
+
 This directory is limited to public-facing U.S. hobby vendors and broad category descriptions only. It does **not** include private sellers, informal sources, restricted-material shopping guidance, motor-making instructions, or any workaround for certification, hazmat, age, membership, or transport rules. That compliance-first framing matters because lawful U.S. HPR purchasing and flying are tied to certification and organization rules: the [National Association of Rocketry](https://www.nar.org) and the [Tripoli Rocketry Association](https://www.tripoli.org) both maintain formal high-power certification systems; Tripoli has publicly reminded vendors that they are responsible for verifying member certification levels; and [AeroTech](https://aerotech-rocketry.com) explicitly states age, proof-of-age, and NAR/Tripoli certification requirements for high-power reload purchases.
 
 I included both **motor dealers/manufacturer-direct sellers** and **HPR-support suppliers** such as kit, recovery, electronics, launcher, and retention vendors, because Tripoli's public vendor/resource system is organized across those same mixed categories and many certified flyers buy from a combination of motor, recovery, electronics, and field-support stores rather than from a single seller.
