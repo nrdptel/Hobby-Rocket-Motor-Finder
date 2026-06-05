@@ -219,6 +219,19 @@ export function removeRocket(id: string): void {
   emit();
 }
 
+/** Re-insert a previously-removed rocket at ``index`` (preserving its id and,
+ * where possible, its original position) and persist. No-op if its id is already
+ * present. Powers undo-on-delete. */
+export function restoreRocket(rocket: Rocket, index: number): void {
+  load();
+  if (current.some((r) => r.id === rocket.id)) return;
+  const next = [...current];
+  next.splice(Math.max(0, Math.min(index, next.length)), 0, rocket);
+  current = next;
+  persist();
+  emit();
+}
+
 export type Rockets = {
   rockets: readonly Rocket[];
   add: (spec: {
@@ -230,6 +243,7 @@ export type Rockets = {
   }) => Rocket;
   update: typeof updateRocket;
   remove: (id: string) => void;
+  restore: typeof restoreRocket;
   /** False during SSR and first client paint; true after mount. Gate
    * rocket-dependent UI on this so the first render matches the server. */
   hydrated: boolean;
@@ -239,5 +253,12 @@ export function useRockets(): Rockets {
   const rockets = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => setHydrated(true), []);
-  return { rockets, add: addRocket, update: updateRocket, remove: removeRocket, hydrated };
+  return {
+    rockets,
+    add: addRocket,
+    update: updateRocket,
+    remove: removeRocket,
+    restore: restoreRocket,
+    hydrated,
+  };
 }

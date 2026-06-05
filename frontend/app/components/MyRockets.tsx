@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import {
@@ -28,9 +28,18 @@ export function MyRockets({
 }) {
   const router = useRouter();
   const sp = useSearchParams();
-  const { rockets, add, update, remove, hydrated } = useRockets();
+  const { rockets, add, update, remove, restore, hydrated } = useRockets();
   const [showAdd, setShowAdd] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  // Last-deleted rocket (+ its position), kept briefly so a misclick on × can be
+  // undone rather than silently losing a configured profile.
+  const [undo, setUndo] = useState<{ rocket: Rocket; index: number } | null>(null);
+
+  useEffect(() => {
+    if (!undo) return;
+    const t = setTimeout(() => setUndo(null), 6000);
+    return () => clearTimeout(t);
+  }, [undo]);
 
   if (diameters.length === 0 || certLevels.length === 0) return null;
 
@@ -186,8 +195,10 @@ export function MyRockets({
                 <button
                   type="button"
                   onClick={() => {
+                    const index = rockets.findIndex((x) => x.id === r.id);
                     if (editingId === r.id) setEditingId(null);
                     remove(r.id);
+                    setUndo({ rocket: r, index });
                   }}
                   aria-label={`Delete rocket ${label(r)}`}
                   title="Delete this rocket"
@@ -228,6 +239,22 @@ export function MyRockets({
           {showAdd || editingId ? "Cancel" : "+ Add rocket"}
         </button>
       </div>
+
+      {undo && (
+        <div className="mt-2 flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <span>Deleted “{label(undo.rocket)}”.</span>
+          <button
+            type="button"
+            onClick={() => {
+              restore(undo.rocket, undo.index);
+              setUndo(null);
+            }}
+            className="font-medium text-zinc-700 underline underline-offset-2 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
+          >
+            Undo
+          </button>
+        </div>
+      )}
 
       {(showAdd || editingRocket) && (
         <RocketForm
