@@ -285,10 +285,14 @@ def extract_cti_designation(title: str) -> str | None:
 
 def infer_cti_propellant(title: str) -> str | None:
     """Find a CTI flavor name in the title and return ThrustCurve's canonical
-    ``propInfo`` string (e.g. "White Thunder", "Skidmark"). None if absent."""
+    ``propInfo`` string (e.g. "White Thunder", "Skidmark"). None if absent.
+
+    Underscores are treated as spaces so a vendor's ``Smoky_Sam`` matches the
+    two-word ``smoky sam`` alias (Performance Hobbies writes some flavors that
+    way)."""
     if not title:
         return None
-    lower = title.lower()
+    lower = title.lower().replace("_", " ")
     for needle, propinfo in CTI_FLAVOR_NAME_TO_INFO:
         if needle in lower:
             return propinfo

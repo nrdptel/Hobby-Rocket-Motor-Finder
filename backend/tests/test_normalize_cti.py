@@ -64,6 +64,8 @@ def test_extract_cti_designation_ignores_pro_hardware():
         ("N5800-CTI C Star", "C-Star"),
         # csrocketry slug spelling
         ("Cesaroni I212 Smokey Sam", "Smoky Sam"),
+        # Performance Hobbies underscore-separated flavor
+        ("1750-K650-16A - Smoky_Sam", "Smoky Sam"),
         # bare White must NOT be read as White Thunder
         ("Cesaroni I175 White", "White"),
         ("N1560-CTI White Moon Burner", "White"),

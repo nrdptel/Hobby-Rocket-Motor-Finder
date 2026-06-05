@@ -14,7 +14,7 @@ Released under the [MIT License](LICENSE) — fork it, modify it, deploy your ow
 
 ## What's covered
 
-Today: AeroTech across five vendors, Cesaroni (CTI) on Chris' Rocket Supplies and Wildman Rocketry, and Loki Research direct from the manufacturer.
+Today: AeroTech across six vendors, Cesaroni (CTI) on Chris' Rocket Supplies, Wildman Rocketry, and Performance Hobbies, and Loki Research direct from the manufacturer plus Performance Hobbies.
 
 | Vendor | State | Platform | Motors |
 |---|---|---|---|
@@ -24,6 +24,7 @@ Today: AeroTech across five vendors, Cesaroni (CTI) on Chris' Rocket Supplies an
 | [Animal Motor Works](https://cart.amwprox.com) | AZ | VirtueMart | AeroTech |
 | [Sirius Rocketry](https://www.siriusrocketry.biz) | WI | Zen Cart | AeroTech |
 | [Loki Research](https://lokiresearch.com) | MO | Custom (ASP store) | Loki |
+| [Performance Hobbies](https://performancehobbies.com) | VA | Custom (ASP.NET store) | AeroTech, Cesaroni, Loki |
 
 The architecture isn't motor-specific — see [Adding a vendor](#adding-a-vendor) and [Extending beyond motors](#extending-beyond-motors) if you want to grow it.
 
@@ -48,7 +49,7 @@ To run a real scrape against live vendors:
 ```sh
 cd backend
 hpr catalog refresh         # download AeroTech subset of ThrustCurve
-hpr scrape run all          # ~5-10 min across all 6 vendors
+hpr scrape run all          # ~5-10 min across all 7 vendors
 hpr snapshot export         # writes data/snapshot.json
 ```
 
