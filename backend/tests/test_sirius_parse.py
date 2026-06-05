@@ -116,10 +116,16 @@ def test_total_products_regex_extracts_pagination_count():
 
 # --- _extract_price_cents preference order ---------------------------------
 
+def _price_block(inner: str) -> str:
+    """Wrap price spans in Sirius's main 'Product Price block' so the scoped
+    extractor sees them (it ignores prices outside this block)."""
+    return f'<h2 id="productPrices" class="productGeneral">{inner}</h2> <!--eof Product Price block -->'
+
+
 def test_price_preference_sale_over_normal():
     """When a product is on sale, productSalePrice (Sirius theme) takes
     precedence over the struck-through normalprice MSRP."""
-    html = (
+    html = _price_block(
         '<span class="normalprice">$705.99</span>'
         '<span class="productSalePrice">Sale:&nbsp;$614.21</span>'
     )
@@ -129,9 +135,35 @@ def test_price_preference_sale_over_normal():
 
 def test_price_general_when_no_sale():
     """Bare productGeneralPrice (no sale) is used when present."""
-    html = '<span class="productGeneralPrice">$33.14</span>'
+    html = _price_block('<span class="productGeneralPrice">$33.14</span>')
     assert _extract_price_cents(html) == 3314
 
 
 def test_price_none_when_no_price_present():
     assert _extract_price_cents("<p>no price here</p>") is None
+
+
+# --- _extract_price_cents: ignore rotating related-product boxes ------------
+
+def test_price_ignores_also_purchased_box_leak():
+    """The main block's price wins over a different product's price rendered in
+    a lower 'also purchased' / 'what's new' box — the bug that made a sold-out
+    listing's price oscillate run-to-run."""
+    html = (
+        _price_block('<span class="productSalePrice">Sale:&nbsp;$53.93</span>')
+        + '<div id="alsoPurchased">'
+        '<span class="productSalePrice">Sale:&nbsp;$277.19</span></div>'
+    )
+    assert _extract_price_cents(html) == 5393
+
+
+def test_price_none_when_main_block_priceless_despite_leak():
+    """When the main product shows no price, return None — never a price from a
+    rotating related-product box outside the block."""
+    html = (
+        '<h2 id="productPrices" class="productGeneral">Call for price</h2>'
+        " <!--eof Product Price block -->"
+        '<div id="alsoPurchased">'
+        '<span class="productSalePrice">Sale:&nbsp;$277.19</span></div>'
+    )
+    assert _extract_price_cents(html) is None
