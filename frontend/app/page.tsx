@@ -1,7 +1,9 @@
 import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
 import type { HistorySummary } from "@/lib/snapshot";
 import {
+  CERT_LEVELS,
   MIN_CLASS,
+  certClasses,
   formatPrice,
   groupByDelay,
   listingInStock,
@@ -50,6 +52,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fMfr = parseSetParam(params.mfr);
   const fClass = parseSetParam(params.class);
   const fDia = parseSetParam(params.dia);
+  const fCertClasses = certClasses(parseSetParam(params.cert));
   const fInStock = params.in_stock === "1";
   const fSort = params.sort === "price" ? "price" : "stock";
   const fOrder = parseOrder(params.order);
@@ -87,12 +90,18 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const diameterOptions = Array.from(
     new Set(motorsWithListings.map((m) => m.diameter_mm)),
   ).sort((a, b) => a - b);
+  // Only offer cert levels that actually have motors with listings.
+  const presentClasses = new Set(motorsWithListings.map((m) => m.impulse_class));
+  const certOptions = CERT_LEVELS.filter((lvl) =>
+    lvl.classes.some((c) => presentClasses.has(c)),
+  ).map(({ key, label, sublabel }) => ({ key, label, sublabel }));
 
   // Apply filters, then order by the user's chosen sort.
   const filtered = sortedMotors(
     motorsWithListings.filter((m) => {
       if (fMfr.size > 0 && !fMfr.has(manufacturerLabel(m.manufacturer))) return false;
       if (fClass.size > 0 && !fClass.has(m.impulse_class)) return false;
+      if (fCertClasses.size > 0 && !fCertClasses.has(m.impulse_class)) return false;
       if (fDia.size > 0 && !fDia.has(String(m.diameter_mm))) return false;
       if (fMinImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < fMinImpulse))
         return false;
@@ -171,6 +180,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         manufacturers={manufacturerOptions}
         classes={classOptions}
         diameters={diameterOptions}
+        certLevels={certOptions}
       />
 
       <MotorResults

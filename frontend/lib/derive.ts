@@ -9,6 +9,50 @@ import type { ListingHistory, Listing, Motor } from "./snapshot";
  * Estes-style model rocket motors that aren't this project's audience. */
 export const MIN_CLASS = "D";
 
+/** NAR/Tripoli certification ladder, by impulse class (which is itself a total-
+ * impulse bracket). High-power certification is gated by total impulse:
+ * L1 = H–I, L2 = J–L, L3 = M–O; D–G need no HPR cert. Lets a flyer filter to
+ * exactly what they're rated to buy and fly, and powers the per-motor cert badge.
+ * Order matters: rendered as a ladder. */
+export const CERT_LEVELS: ReadonlyArray<{
+  key: string;
+  label: string;
+  sublabel: string;
+  classes: readonly string[];
+}> = [
+  { key: "mid", label: "Mid-power", sublabel: "D–G", classes: ["D", "E", "F", "G"] },
+  { key: "l1", label: "L1", sublabel: "H–I", classes: ["H", "I"] },
+  { key: "l2", label: "L2", sublabel: "J–L", classes: ["J", "K", "L"] },
+  { key: "l3", label: "L3", sublabel: "M–O", classes: ["M", "N", "O"] },
+];
+
+const CLASS_TO_CERT: ReadonlyMap<string, { key: string; label: string; sublabel: string }> =
+  new Map(
+    CERT_LEVELS.flatMap((lvl) =>
+      lvl.classes.map((c) => [c, { key: lvl.key, label: lvl.label, sublabel: lvl.sublabel }]),
+    ),
+  );
+
+/** The set of impulse classes covered by the selected cert-level keys (the
+ * ``?cert=`` URL param). Empty selection → empty set (no cert filtering). */
+export function certClasses(selected: ReadonlySet<string>): Set<string> {
+  const out = new Set<string>();
+  for (const lvl of CERT_LEVELS) {
+    if (selected.has(lvl.key)) for (const c of lvl.classes) out.add(c);
+  }
+  return out;
+}
+
+/** The cert level a motor's impulse class falls under, or null for classes
+ * below H (no HPR cert) / unknown. Used for the per-motor cert badge. */
+export function certForClass(
+  impulseClass: string,
+): { key: string; label: string; sublabel: string } | null {
+  const cert = CLASS_TO_CERT.get(impulseClass);
+  // Mid-power (D–G) isn't an HPR "certification", so it gets no badge.
+  return cert && cert.key !== "mid" ? cert : null;
+}
+
 export type DelayGroup = {
   delay: string;
   delaySortKey: number;

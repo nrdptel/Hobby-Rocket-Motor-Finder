@@ -9,6 +9,7 @@ type Props = {
   manufacturers: string[];
   classes: string[];
   diameters: number[];
+  certLevels: { key: string; label: string; sublabel: string }[];
 };
 
 function parseList(value: string | null): Set<string> {
@@ -56,6 +57,7 @@ export function FilterBar({
   manufacturers,
   classes,
   diameters,
+  certLevels,
 }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -65,6 +67,7 @@ export function FilterBar({
   const activeManufacturers = parseList(sp.get("mfr"));
   const activeClasses = parseList(sp.get("class"));
   const activeDiameters = parseList(sp.get("dia"));
+  const activeCert = parseList(sp.get("cert"));
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
   const sortOrder = sp.get("order") ?? "class";
@@ -105,6 +108,7 @@ export function FilterBar({
   const toggleClass = (c: string) => update("class", toggleInList(activeClasses, c));
   const toggleDia = (d: number) =>
     update("dia", toggleInList(activeDiameters, String(d)));
+  const toggleCert = (key: string) => update("cert", toggleInList(activeCert, key));
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
   const toggleSort = () => update("sort", cheapestFirst ? null : "price");
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
@@ -113,6 +117,7 @@ export function FilterBar({
     activeManufacturers.size > 0 ||
     activeClasses.size > 0 ||
     activeDiameters.size > 0 ||
+    activeCert.size > 0 ||
     inStockOnly ||
     cheapestFirst ||
     sortOrder !== "class" ||
@@ -211,6 +216,24 @@ export function FilterBar({
               className={pill(activeManufacturers.has(m))}
             >
               {m}
+            </button>
+          ))}
+        </FilterRow>
+      )}
+
+      {certLevels.length > 0 && (
+        <FilterRow label="Cert">
+          {certLevels.map((lvl) => (
+            <button
+              key={lvl.key}
+              type="button"
+              onClick={() => toggleCert(lvl.key)}
+              aria-pressed={activeCert.has(lvl.key)}
+              className={pill(activeCert.has(lvl.key))}
+              title={`Motors you can fly at ${lvl.label} (${lvl.sublabel})`}
+            >
+              {lvl.label}
+              <span className="ml-1 opacity-60">{lvl.sublabel}</span>
             </button>
           ))}
         </FilterRow>

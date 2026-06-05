@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   bestInStockPriceCents,
+  certClasses,
+  certForClass,
   cheapestInStockCents,
   delayForRow,
   delaySortKey,
@@ -257,6 +259,36 @@ describe("delayForRow", () => {
   it("returns an em-dash when neither SKU nor catalog has a delay", () => {
     const motor = makeMotor({ delays: null });
     expect(delayForRow("M1500", motor)).toBe("—");
+  });
+});
+
+// --- certification mapping -------------------------------------------------
+
+describe("certClasses", () => {
+  it("expands selected cert keys to their impulse classes (union)", () => {
+    expect([...certClasses(new Set(["l1"]))].sort()).toEqual(["H", "I"]);
+    expect([...certClasses(new Set(["l2", "l3"]))].sort()).toEqual([
+      "J", "K", "L", "M", "N", "O",
+    ]);
+    expect([...certClasses(new Set(["mid"]))].sort()).toEqual(["D", "E", "F", "G"]);
+  });
+  it("returns an empty set for no selection or unknown keys", () => {
+    expect(certClasses(new Set()).size).toBe(0);
+    expect(certClasses(new Set(["bogus"])).size).toBe(0);
+  });
+});
+
+describe("certForClass", () => {
+  it("maps HPR classes to their cert level", () => {
+    expect(certForClass("H")?.label).toBe("L1");
+    expect(certForClass("I")?.label).toBe("L1");
+    expect(certForClass("K")?.label).toBe("L2");
+    expect(certForClass("N")?.label).toBe("L3");
+  });
+  it("returns null for mid-power (no HPR cert) and unknown classes", () => {
+    expect(certForClass("D")).toBeNull();
+    expect(certForClass("G")).toBeNull();
+    expect(certForClass("Z")).toBeNull();
   });
 });
 
