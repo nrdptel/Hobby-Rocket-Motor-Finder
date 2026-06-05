@@ -35,6 +35,10 @@ class Motor:
     delays: str | None  # e.g. "4,6,8,10" or "P" (plugged) or None
     delay_adjustable: bool
     thrustcurve_id: str | None = None
+    # ThrustCurve availability ("regular"/"OOP"/...). OOP (out-of-production)
+    # motors are carried so vendors' old-stock listings still match; the matcher
+    # prefers a current motor over an OOP one on any common-name ambiguity.
+    availability: str | None = None
 
 
 @dataclass(slots=True)

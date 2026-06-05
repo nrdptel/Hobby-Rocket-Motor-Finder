@@ -21,6 +21,7 @@ def _make_motor(
     propellant: str | None = None,
     impulse_class: str = "H",
     diameter_mm: int = 29,
+    availability: str | None = None,
 ) -> Motor:
     """Build a minimal Motor record for tests. Only fields find_motor_id
     actually queries are set meaningfully; the rest get reasonable defaults
@@ -39,6 +40,7 @@ def _make_motor(
         delays=None,
         delay_adjustable=False,
         thrustcurve_id=None,
+        availability=availability,
     )
 
 
@@ -189,3 +191,50 @@ def test_manufacturer_scope_excludes_other_brands(conn):
     _seed(conn, _make_motor("H242T-14A"))
     # Same designation but different manufacturer — no match.
     assert find_motor_id(conn, "Cesaroni", "H242T-14A") is None
+
+
+# --- out-of-production (OOP) motors & two-pass current-first matching --------
+
+def test_oop_only_motor_matches_old_stock(conn):
+    """A vendor selling old stock of a discontinued motor matches the OOP catalog
+    entry when no current motor fits (e.g. AeroTech E15W)."""
+    _seed(conn, _make_motor("E15W", common_name="E15", availability="OOP"))
+    assert find_motor_id(conn, "AeroTech", "E15-PW", "E15-PW 3PK") is not None
+
+
+def test_current_preferred_over_oop_on_exact_designation(conn):
+    """Regression guard: the vendor's stripped designation 'H45W' exactly equals
+    an OOP motor's designation, but a current motor (HP-H45W, common_name H45)
+    is what the listing really is. The current-first pass must win."""
+    current = _make_motor("HP-H45W", common_name="H45", propellant="White Lightning")
+    oop = _make_motor("H45W", common_name="H45", propellant="White Lightning", availability="OOP")
+    _seed(conn, current, oop)
+    mid = find_motor_id(conn, "AeroTech", "H45W-P", "Aerotech H45-P White Lightning 38mm DMS")
+    got = conn.execute("SELECT designation FROM motors WHERE id=?", (mid,)).fetchone()[0]
+    assert got == "HP-H45W"  # current DMS motor, not the discontinued RMS H45W
+
+
+def test_current_preferred_when_oop_shares_common_name(conn):
+    """A propellant-less listing whose common_name is shared by a current motor and
+    a discontinued variant still matches the current one (current-only pass finds
+    a unique current motor before the OOP pass runs)."""
+    current = _make_motor("F32T", common_name="F32", propellant="Blue Thunder")
+    oop = _make_motor("F32W", common_name="F32", propellant="White Lightning", availability="OOP")
+    _seed(conn, current, oop)
+    # No propellant in the title → relies on the common_name uniqueness step.
+    mid = find_motor_id(conn, "AeroTech", "F32", "AeroTech F32")
+    got = conn.execute("SELECT designation FROM motors WHERE id=?", (mid,)).fetchone()[0]
+    assert got == "F32T"
+
+
+def test_adding_oop_does_not_break_existing_unique_common_name(conn):
+    """Sanity: a current motor uniquely identified by common_name still matches
+    after an OOP variant with the same common_name is added to the catalog."""
+    _seed(
+        conn,
+        _make_motor("J350W", common_name="J350", propellant="White Lightning"),
+        _make_motor("J350W-OLD", common_name="J350", propellant="White Lightning", availability="OOP"),
+    )
+    mid = find_motor_id(conn, "AeroTech", "J350", "AeroTech J350 White Lightning")
+    got = conn.execute("SELECT designation FROM motors WHERE id=?", (mid,)).fetchone()[0]
+    assert got == "J350W"

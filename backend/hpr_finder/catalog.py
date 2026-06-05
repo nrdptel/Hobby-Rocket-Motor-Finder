@@ -23,15 +23,24 @@ CESARONI_CACHE_PATH = DATA_DIR / "thrustcurve_cesaroni.json"
 
 
 def fetch_motors(manufacturer: str, timeout: float = 30.0) -> list[dict]:
-    """Hit ThrustCurve and return raw motor records for one manufacturer
-    (available status only).
+    """Hit ThrustCurve and return raw motor records for one manufacturer.
 
     ``manufacturer`` is the ThrustCurve manufacturer name, e.g. ``"AeroTech"`` or
     ``"Cesaroni"``. Default maxResults is 20, so we pass a large number to get the
     full catalog.
+
+    ``availability="all"`` (rather than ``"available"``) deliberately includes
+    out-of-production (OOP) motors. Vendors routinely sell old stock of
+    discontinued motors — especially during shortages, when a flyer's only option
+    is a NLA reload someone still has on a shelf — and those listings would
+    otherwise land in the "unmatched" bucket with no specs. ThrustCurve still
+    carries the spec data for OOP motors, so including them lets us match e.g. an
+    AeroTech E15W or J350W reload that a vendor is clearing out. (OOP designations
+    don't collide with current ones, and catalog motors with no listing are
+    dropped from the snapshot, so this adds matches without bloat.)
     """
     headers = {"User-Agent": USER_AGENT, "Content-Type": "application/json"}
-    body = {"manufacturer": manufacturer, "availability": "available", "maxResults": 9999}
+    body = {"manufacturer": manufacturer, "availability": "all", "maxResults": 9999}
     with httpx.Client(headers=headers, timeout=timeout) as c:
         r = c.post(THRUSTCURVE_SEARCH_URL, json=body)
         r.raise_for_status()
@@ -80,6 +89,7 @@ def to_motor(record: dict) -> Motor:
         delays=record.get("delays"),
         delay_adjustable=bool(record.get("delayAdjustable")),
         thrustcurve_id=record.get("motorId"),
+        availability=record.get("availability"),
     )
 
 
