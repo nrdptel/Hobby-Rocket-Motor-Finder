@@ -10,16 +10,26 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Put the page background on <html> (not just <body>) and declare color-scheme
-   so the browser paints the reload/navigation canvas to match the active theme
-   instead of flashing white. The inline script in layout.tsx sets `.dark` on
-   <html> before first paint; the <meta name="color-scheme"> (in layout.tsx) and
-   these rules cover the brief window before that script runs. */
+/* Background lives on <html> (not just <body>) so the whole document — and the
+   reload canvas — is themed before any content paints. It's driven by a CSS
+   media query, NOT the JS theme script, so it's correct on the very first paint
+   with no script-timing dependency (the previous version hardcoded a white
+   background that covered the canvas and flashed white until JS ran).
+
+   The default is DARK: a brief flash of dark on reload is preferable to white,
+   and dark-OS users (the common dark-mode case) never see white. Light-OS users
+   get the light background via the media query; an explicit Dark choice (the
+   `.dark` class the script sets) keeps it dark on a light OS too. */
 html {
   color-scheme: light dark;
-  background-color: #ffffff;
+  background-color: #09090b; /* zinc-950 — matches the body's dark background */
+}
+@media (prefers-color-scheme: light) {
+  html:not(.dark) {
+    background-color: #ffffff;
+  }
 }
 html.dark {
   color-scheme: dark;
-  background-color: #09090b; /* zinc-950 — matches the body's dark background */
+  background-color: #09090b;
 }
