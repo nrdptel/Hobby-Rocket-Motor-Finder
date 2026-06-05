@@ -34,6 +34,10 @@ export type Motor = {
   propellant: string | null;
   delays: string | null;
   delay_adjustable: boolean;
+  // Out of production — matched to a discontinued ThrustCurve motor, i.e. old
+  // stock that won't be restocked once it sells out. Optional for back-compat
+  // with snapshots written before the field existed.
+  discontinued?: boolean;
   listings: Listing[];
 };
 
