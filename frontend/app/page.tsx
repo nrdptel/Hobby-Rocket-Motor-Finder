@@ -15,6 +15,7 @@ import {
   sortedMotors,
 } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
+import { MyRockets } from "./components/MyRockets";
 import { HowItWorks } from "./components/HowItWorks";
 import { MotorResults } from "./components/MotorResults";
 import { SnapshotTime } from "./components/SnapshotTime";
@@ -175,6 +176,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       </header>
 
       <HowItWorks />
+
+      <MyRockets diameters={diameterOptions} certLevels={certOptions} />
 
       <FilterBar
         manufacturers={manufacturerOptions}
