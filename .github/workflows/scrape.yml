@@ -94,6 +94,20 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: hpr history update --snapshot-path data/snapshot.json
 
+      - name: Send restock email alerts (best-effort)
+        # Diff the previously-published snapshot (git HEAD, before this run's
+        # commit) against the freshly-written one and notify subscribers of
+        # motors that came back in stock. No-op unless the dispatch secrets are
+        # set; continue-on-error so alerts can never block the snapshot commit.
+        working-directory: ${{ github.workspace }}
+        continue-on-error: true
+        env:
+          ALERTS_DISPATCH_URL: ${{ secrets.ALERTS_DISPATCH_URL }}
+          ALERTS_DISPATCH_SECRET: ${{ secrets.ALERTS_DISPATCH_SECRET }}
+        run: |
+          git show HEAD:data/snapshot.json > /tmp/prev_snapshot.json 2>/dev/null || echo '{}' > /tmp/prev_snapshot.json
+          hpr alerts dispatch --prev /tmp/prev_snapshot.json --current data/snapshot.json
+
       - name: Commit changes if any
         working-directory: ${{ github.workspace }}
         run: |
