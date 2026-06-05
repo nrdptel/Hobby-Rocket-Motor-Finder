@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -37,6 +37,14 @@ export const metadata: Metadata = {
     title: "HPR Motor Finder",
     description,
   },
+};
+
+// Emits <meta name="color-scheme" content="light dark">. The browser reads this
+// during HTML parse — before CSS/JS — and paints the load/reload canvas to match
+// the user's OS preference instead of defaulting to white. This is what stops
+// the white flash on refresh for dark-mode users.
+export const viewport: Viewport = {
+  colorScheme: "light dark",
 };
 
 // Resolve and apply the theme before first paint to avoid a flash of the wrong
