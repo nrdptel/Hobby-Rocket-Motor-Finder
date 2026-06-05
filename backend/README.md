@@ -42,4 +42,5 @@ hpr_finder/
     aerotechdirect.py    AeroTech manufacturer-direct (special-order + lead times)
     moto_joe.py          Moto-Joe Rocketry — OpenCart (AeroTech, Cesaroni)
     balsa_machining.py   Balsa Machining Service — single-page HP motor table (AeroTech)
+    erockets.py          eRockets — BigCommerce category pages (AeroTech, low/mid-power)
 ```
