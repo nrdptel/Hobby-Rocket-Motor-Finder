@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 
+import { certClasses } from "./derive";
+
 // Browser-persisted "my rockets": each is a saved {motor-mount diameter + cert
 // level} the flyer owns, so one click filters the catalog to the motors that
 // physically fit AND they're rated to fly. Lives entirely client-side (like the
@@ -24,6 +26,42 @@ export type Rocket = {
 
 function numOrNull(x: unknown): number | null {
   return typeof x === "number" && Number.isFinite(x) ? x : null;
+}
+
+/** Minimal motor shape the rocket match-count needs (a compact summary the page
+ * passes down, rather than the full Motor objects). */
+export type RocketMotor = {
+  diameter_mm: number;
+  impulse_class: string;
+  total_impulse_ns: number | null;
+  inStock: boolean;
+};
+
+/** True when a motor fits a rocket: same mount diameter, an impulse class the
+ * rocket's cert covers, and (if the rocket sets a band) within its impulse
+ * window. Stock is checked separately by the caller. */
+export function motorFitsRocket(
+  r: Pick<Rocket, "diameterMm" | "cert" | "minImpulseNs" | "maxImpulseNs">,
+  m: Pick<RocketMotor, "diameter_mm" | "impulse_class" | "total_impulse_ns">,
+): boolean {
+  if (m.diameter_mm !== r.diameterMm) return false;
+  if (!certClasses(new Set([r.cert])).has(m.impulse_class)) return false;
+  if (r.minImpulseNs != null && (m.total_impulse_ns == null || m.total_impulse_ns < r.minImpulseNs))
+    return false;
+  if (r.maxImpulseNs != null && (m.total_impulse_ns == null || m.total_impulse_ns > r.maxImpulseNs))
+    return false;
+  return true;
+}
+
+/** Count the in-stock motors that fit a rocket — powers the per-rocket "(N)"
+ * availability badge. */
+export function rocketInStockCount(
+  r: Pick<Rocket, "diameterMm" | "cert" | "minImpulseNs" | "maxImpulseNs">,
+  motors: readonly RocketMotor[],
+): number {
+  let n = 0;
+  for (const m of motors) if (m.inStock && motorFitsRocket(r, m)) n++;
+  return n;
 }
 
 // --- pure helpers (no window/localStorage; unit-tested in a node env) --------

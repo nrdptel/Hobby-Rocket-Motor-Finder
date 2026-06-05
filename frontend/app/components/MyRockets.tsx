@@ -3,7 +3,12 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { useRockets, type Rocket } from "@/lib/rockets";
+import {
+  rocketInStockCount,
+  useRockets,
+  type Rocket,
+  type RocketMotor,
+} from "@/lib/rockets";
 
 type CertLevel = { key: string; label: string; sublabel: string };
 
@@ -15,9 +20,11 @@ type CertLevel = { key: string; label: string; sublabel: string };
 export function MyRockets({
   diameters,
   certLevels,
+  motors,
 }: {
   diameters: number[];
   certLevels: CertLevel[];
+  motors: RocketMotor[];
 }) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -66,6 +73,42 @@ export function MyRockets({
   const label = (r: Rocket) =>
     r.name || `${r.diameterMm}mm · ${certLabel(r.cert)}`;
 
+  // "Save current view as a rocket": offered when the current filters describe a
+  // single rocket (one cert + one diameter) that isn't already saved — so a
+  // flyer who's dialed in cert/diameter/impulse can persist it in one click.
+  const numParam = (p: string): number | null => {
+    const v = sp.get(p);
+    if (!v) return null;
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  };
+  const curCert = sp.get("cert");
+  const curDia = sp.get("dia");
+  const curSpec =
+    curCert &&
+    !curCert.includes(",") &&
+    certLevels.some((c) => c.key === curCert) &&
+    curDia &&
+    !curDia.includes(",") &&
+    Number.isFinite(Number(curDia))
+      ? {
+          diameterMm: Number(curDia),
+          cert: curCert,
+          minImpulseNs: numParam("imin"),
+          maxImpulseNs: numParam("imax"),
+        }
+      : null;
+  const alreadySaved =
+    curSpec != null &&
+    rockets.some(
+      (r) =>
+        r.cert === curSpec.cert &&
+        r.diameterMm === curSpec.diameterMm &&
+        r.minImpulseNs === curSpec.minImpulseNs &&
+        r.maxImpulseNs === curSpec.maxImpulseNs,
+    );
+  const canSaveCurrent = hydrated && curSpec != null && !alreadySaved && !showAdd;
+
   return (
     <section className="mt-4 rounded-md border border-zinc-200 bg-zinc-50 p-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <div className="flex flex-wrap items-center gap-2">
@@ -76,15 +119,16 @@ export function MyRockets({
         {hydrated &&
           rockets.map((r) => {
             const active = isActive(r);
+            const count = rocketInStockCount(r, motors);
             return (
               <span key={r.id} className="inline-flex items-center">
                 <button
                   type="button"
                   onClick={() => apply(r)}
                   aria-pressed={active}
-                  title={`Show in-stock ${r.diameterMm}mm motors you can fly at ${certLabel(r.cert)}${
-                    band(r) ? `, ${band(r)}` : ""
-                  }`}
+                  title={`${count} in-stock motor${count === 1 ? "" : "s"} fit this rocket — ${
+                    r.diameterMm
+                  }mm, ${certLabel(r.cert)}${band(r) ? `, ${band(r)}` : ""}`}
                   className={`inline-flex items-center gap-1 rounded-l-full border py-0.5 pl-2.5 pr-2 text-xs font-medium transition ${
                     active
                       ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
@@ -92,6 +136,17 @@ export function MyRockets({
                   }`}
                 >
                   🚀 {label(r)}
+                  <span
+                    className={
+                      count > 0
+                        ? active
+                          ? "opacity-80"
+                          : "text-emerald-600 dark:text-emerald-400"
+                        : "opacity-50"
+                    }
+                  >
+                    ({count})
+                  </span>
                 </button>
                 <button
                   type="button"
@@ -114,6 +169,17 @@ export function MyRockets({
           <span className="text-xs text-zinc-500 dark:text-zinc-400">
             Save your rocket to filter by what fits + your cert in one tap.
           </span>
+        )}
+
+        {canSaveCurrent && curSpec && (
+          <button
+            type="button"
+            onClick={() => add(curSpec)}
+            title="Save the current cert + diameter (+ impulse) filters as a rocket"
+            className="rounded-full border border-emerald-400 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700/60 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900/60"
+          >
+            ＋ Save current view
+          </button>
         )}
 
         <button

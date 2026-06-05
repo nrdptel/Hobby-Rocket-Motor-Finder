@@ -96,6 +96,15 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const certOptions = CERT_LEVELS.filter((lvl) =>
     lvl.classes.some((c) => presentClasses.has(c)),
   ).map(({ key, label, sublabel }) => ({ key, label, sublabel }));
+  // Compact per-motor summary for the "My Rockets" in-stock match counts. Built
+  // over all motors-with-listings (not the filtered view) so each rocket's count
+  // is absolute, independent of the current filters.
+  const rocketMotors = motorsWithListings.map((m) => ({
+    diameter_mm: m.diameter_mm,
+    impulse_class: m.impulse_class,
+    total_impulse_ns: m.total_impulse_ns,
+    inStock: m.listings.some((l) => listingInStock(l.status)),
+  }));
 
   // Apply filters, then order by the user's chosen sort.
   const filtered = sortedMotors(
@@ -177,7 +186,11 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
       <HowItWorks />
 
-      <MyRockets diameters={diameterOptions} certLevels={certOptions} />
+      <MyRockets
+        diameters={diameterOptions}
+        certLevels={certOptions}
+        motors={rocketMotors}
+      />
 
       <FilterBar
         manufacturers={manufacturerOptions}
