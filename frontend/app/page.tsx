@@ -10,6 +10,7 @@ import {
 } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
 import { MotorResults } from "./components/MotorResults";
+import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ThemeToggle } from "./components/ThemeToggle";
 
@@ -133,7 +134,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             {unmatched.length > 0 && (
               <>{unmatched.length} listings we couldn&apos;t identify · </>
             )}
-            snapshot generated {new Date(snapshot.generated_at).toLocaleString()}
+            snapshot generated <SnapshotTime iso={snapshot.generated_at} />
           </p>
         </div>
         <ThemeToggle />
