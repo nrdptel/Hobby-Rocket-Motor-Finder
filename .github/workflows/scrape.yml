@@ -1,11 +1,15 @@
 name: scrape
 
-# Top of every hour. GitHub Actions cron is best-effort — runs may slip by
-# 5-15 minutes under platform load, which is fine for a stock aggregator.
-# workflow_dispatch lets you trigger a refresh manually from the Actions tab.
+# Primary trigger is an external cron (cron-job.org) hitting workflow_dispatch
+# every hour — GitHub's own scheduler is best-effort and silently drops/delays
+# scheduled runs, which left us closer to every ~1.5h. See docs/ops-scrape-cron.md.
+#
+# This `schedule` is now only a FALLBACK: every 6 hours, so that if the external
+# cron ever goes down the data still refreshes (and never goes badly stale)
+# without redundantly doubling the reliable hourly external trigger.
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch: {}
 
 # Don't pile up runs if one is still going.
