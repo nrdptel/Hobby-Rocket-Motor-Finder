@@ -366,8 +366,25 @@ def snapshot_export(
         f"{len(payload['unmatched'])} unmatched"
     )
     if failed:
+        # A below-floor vendor with no prior data (brand-new, or chronically
+        # blocked) keeps whatever partial fresh data it returned and is flagged
+        # for alerting — but it must NOT block publishing everyone else's good
+        # data. (Previously this exited non-zero, so one struggling new vendor
+        # took the whole site's snapshot offline.)
         typer.echo(
-            f"Refusing to publish — below floor with no prior data: {', '.join(failed)}",
+            f"WARNING: below floor with no prior data (publishing their partial data anyway): "
+            f"{', '.join(failed)}",
+            err=True,
+        )
+    # The only catastrophe worth refusing to publish for is a snapshot with no
+    # motor listings at all — e.g. a broken catalog refresh left everything
+    # unmatched, or every vendor failed on a first-ever run with no prev to carry.
+    # Only enforced when a floor is set (the automated/production path); with
+    # floor=0 (local/dev) an empty snapshot is a valid empty state.
+    if floor > 0 and not any(m["listings"] for m in payload["motors"]):
+        typer.echo(
+            "Refusing to publish — snapshot has no motor listings at all "
+            "(likely a broken catalog or a total scrape failure).",
             err=True,
         )
         raise typer.Exit(1)

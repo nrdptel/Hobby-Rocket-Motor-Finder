@@ -99,7 +99,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/snapshot.json data/thrustcurve_aerotech.json \
+          # Commit ALL three manufacturer caches (not just AeroTech) — each is
+          # rewritten by `catalog refresh` and is the stale-cache fallback if
+          # ThrustCurve is down; omitting cesaroni/loki let those rot (and once
+          # corrupted the Loki cache). The glob also covers future manufacturers.
+          git add data/snapshot.json data/thrustcurve_*.json \
                   data/history/log.json data/history/summary.json
           # No-op when scrape produced no changes (e.g. all vendors quiet).
           # [skip ci] keeps the regular test workflow from running on these
@@ -108,5 +112,7 @@ jobs:
             echo "no changes to commit"
           else
             git commit -m "Hourly scrape: refresh snapshot [skip ci]"
-            git push
+            # Rebase onto any concurrent push (e.g. a merged PR) so a
+            # non-fast-forward doesn't silently drop this run's data.
+            git pull --rebase --autostash origin main && git push
           fi

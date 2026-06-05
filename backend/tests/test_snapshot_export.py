@@ -289,20 +289,36 @@ def test_report_json_flags_carried_vendor(tmp_db, tmp_path):
     assert status["max_stale_hours"] == status["stale_hours"]["csrocketry"]
 
 
-def test_report_json_written_even_on_refuse_to_publish(tmp_db, tmp_path):
-    """A vendor below floor with NO prior data is 'failed' → export exits
-    non-zero, but the health report is written FIRST so CI can still alert."""
+def test_below_floor_new_vendor_publishes_but_is_flagged(tmp_db, tmp_path):
+    """A vendor below floor with NO prior data is 'failed' in the report, but it
+    must NOT block publishing: it keeps its partial fresh data and the snapshot
+    is written (no exit), so one struggling new vendor can't take the site
+    offline. The health report still flags it for alerting."""
     _seed_minimal(tmp_db)
     out = tmp_path / "snap.json"  # does not exist → no prev data
     report = tmp_path / "status.json"
 
-    with pytest.raises(typer.Exit):
-        snapshot_export(out=out, floor=2, report_json=report)
+    # Does not raise — the snapshot has listings, so it publishes.
+    snapshot_export(out=out, floor=2, report_json=report)
 
     status = json.loads(report.read_text())
     assert status["degraded"] is True
     assert "csrocketry" in status["failed"]
     assert status["decision"]["csrocketry"] == "failed"
+    # The partial data is published, not discarded.
+    snap = json.loads(out.read_text())
+    assert any(m["listings"] for m in snap["motors"])
+
+
+def test_refuses_to_publish_empty_snapshot_under_floor(tmp_db, tmp_path):
+    """With a floor set (production path), a snapshot with zero motor listings —
+    e.g. a broken catalog left everything unmatched — must refuse to publish so
+    a blank snapshot never overwrites good committed data."""
+    with db.connect(tmp_db) as conn:
+        db.init_schema(conn)  # empty DB → no motors, no listings
+    out = tmp_path / "snap.json"
+    with pytest.raises(typer.Exit):
+        snapshot_export(out=out, floor=200)
 
 
 def test_snapshot_marks_discontinued_oop_motor(tmp_db, tmp_path):

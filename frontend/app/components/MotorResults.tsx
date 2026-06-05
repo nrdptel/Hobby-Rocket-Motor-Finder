@@ -11,6 +11,7 @@ import {
   listingInStock,
   manufacturerLabel,
   thrustcurveUrl,
+  safeHref,
 } from "@/lib/derive";
 import type { GroupedMotor } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
@@ -192,7 +193,7 @@ export function MotorResults({
                         </td>
                         <td className="px-3 py-2">
                           <a
-                            href={l.url}
+                            href={safeHref(l.url)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"

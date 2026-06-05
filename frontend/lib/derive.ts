@@ -18,12 +18,31 @@ export type DelayGroup = {
 
 export type GroupedMotor = Motor & { delayGroups: DelayGroup[] };
 
-/** Format a price stored as integer cents into a human currency string. */
+/** Format a price stored as integer cents into a human currency string.
+ *
+ * Defensive: ``Intl.NumberFormat`` throws a RangeError on an invalid ISO
+ * currency code, and ``currency`` can come straight from scraped vendor JSON-LD.
+ * A single bad value would otherwise crash the whole server-rendered page, so we
+ * fall back to a plain dollar string rather than let one poisoned listing take
+ * the site down. */
 export function formatPrice(cents: number | null, currency: string): string {
   if (cents == null) return "—";
-  return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(
-    cents / 100,
-  );
+  try {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(
+      cents / 100,
+    );
+  } catch {
+    return `$${(cents / 100).toFixed(2)}`;
+  }
+}
+
+/** Return ``url`` only if it's a safe http(s) link, else ``"#"``. Listing URLs
+ * come from scraped vendor data; React neutralizes ``javascript:`` hrefs but not
+ * ``data:``/``vbscript:``, so we whitelist the scheme before putting it in an
+ * ``href``. */
+export function safeHref(url: string | null | undefined): string {
+  if (!url) return "#";
+  return /^https?:\/\//i.test(url.trim()) ? url : "#";
 }
 
 /** Format total impulse in newton-seconds. ``237`` → ``237 N·s``. */

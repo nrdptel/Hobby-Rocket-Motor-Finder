@@ -198,7 +198,9 @@ def _parse_status(block: str) -> tuple[StockStatus, int | None]:
     if not m:
         return StockStatus.UNKNOWN, None
     if m.group("count") is not None:
-        return StockStatus.IN_STOCK_WITH_COUNT, int(m.group("count"))
+        n = int(m.group("count"))
+        # "0 In Stock" means sold out, not in-stock-with-count-zero.
+        return (StockStatus.IN_STOCK_WITH_COUNT, n) if n > 0 else (StockStatus.OUT_OF_STOCK, None)
     if m.group("call") or m.group("preorder"):
         return StockStatus.SPECIAL_ORDER, None
     return StockStatus.UNKNOWN, None

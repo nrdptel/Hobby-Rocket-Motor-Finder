@@ -85,6 +85,32 @@ def test_degraded_vendor_with_healthy_one_on_same_motor():
     assert urls == {"cs1", "cs2", "amw-old"}    # cs fresh (not cs-old), amw prev
 
 
+# --- carried (partial): keep fresh + backfill only the gaps ----------------
+
+def test_partial_scrape_keeps_fresh_and_backfills_missing():
+    """A partially-degraded vendor (below floor but not empty) must keep ALL the
+    fresh listings it returned and only backfill from prev the URLs it's missing
+    — not get rolled wholesale back to stale data."""
+    # amw returned 2 fresh this run (below floor 5) but had 4 last run.
+    fresh = _snap([_motor("AeroTech", "K9", [
+        _listing("amw", "amw-1", status="in_stock"),       # fresh, current
+        _listing("amw", "amw-2", status="out_of_stock"),   # fresh, current
+    ])])
+    prev = _snap([_motor("AeroTech", "K9", [
+        _listing("amw", "amw-1", status="out_of_stock"),   # stale dup of amw-1
+        _listing("amw", "amw-2", status="in_stock"),       # stale dup of amw-2
+        _listing("amw", "amw-3"), _listing("amw", "amw-4"),  # only in prev → backfill
+    ])])
+    merged, report = carry_forward(fresh, prev, floor=5)
+    assert report["decision"]["amw"] == "carried"
+    k9 = next(m for m in merged["motors"] if m["designation"] == "K9")
+    by_url = {l["url"]: l for l in k9["listings"]}
+    assert set(by_url) == {"amw-1", "amw-2", "amw-3", "amw-4"}  # fresh + backfilled gaps
+    # Fresh wins for URLs present this run (current status, not stale prev).
+    assert by_url["amw-1"]["status"] == "in_stock"
+    assert by_url["amw-2"]["status"] == "out_of_stock"
+
+
 # --- failed: degraded with no prior data -----------------------------------
 
 def test_degraded_vendor_with_no_prev_is_failed():

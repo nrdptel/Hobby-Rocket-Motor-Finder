@@ -17,6 +17,7 @@ import {
   parseSetParam,
   rankMotor,
   restockLabel,
+  safeHref,
   searchParamValue,
   sortedMotors,
   staleLabel,
@@ -73,6 +74,32 @@ describe("formatPrice", () => {
 
   it("returns an em-dash for null", () => {
     expect(formatPrice(null, "USD")).toBe("—");
+  });
+
+  it("falls back to a dollar string on an invalid scraped currency (no crash)", () => {
+    // Intl.NumberFormat throws RangeError on a bad ISO code; a poisoned scraped
+    // currency must not take down the whole SSR page.
+    expect(formatPrice(4499, "")).toBe("$44.99");
+    expect(formatPrice(4499, "<img>")).toBe("$44.99");
+    expect(formatPrice(4499, "NOTACURRENCY")).toBe("$44.99");
+  });
+});
+
+// --- safeHref --------------------------------------------------------------
+
+describe("safeHref", () => {
+  it("passes through http(s) URLs", () => {
+    expect(safeHref("https://www.csrocketry.com/x")).toBe("https://www.csrocketry.com/x");
+    expect(safeHref("http://example.com")).toBe("http://example.com");
+  });
+
+  it("neutralizes non-http schemes and empties to '#'", () => {
+    expect(safeHref("javascript:alert(1)")).toBe("#");
+    expect(safeHref("data:text/html,<script>")).toBe("#");
+    expect(safeHref("vbscript:msgbox")).toBe("#");
+    expect(safeHref("")).toBe("#");
+    expect(safeHref(null)).toBe("#");
+    expect(safeHref(undefined)).toBe("#");
   });
 });
 

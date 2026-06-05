@@ -98,17 +98,24 @@ def load_cache(path: Path | None = None) -> list[dict]:
     return json.loads(path.read_text())
 
 
-def to_motor(record: dict) -> Motor:
-    """Map a raw ThrustCurve record into our Motor dataclass.
+def to_motor(record: dict) -> Motor | None:
+    """Map a raw ThrustCurve record into our Motor dataclass, or None if the
+    record is unusable (missing the required manufacturer/designation keys).
 
     Numeric fields are coerced through ``_maybe_int`` / ``_maybe_float`` so a
     junk value upstream (string when we expect a number) becomes ``None``
-    rather than crashing the whole catalog refresh.
+    rather than crashing the whole catalog refresh. Likewise a single record
+    missing the two required string keys is skipped (returns None) rather than
+    raising and aborting the refresh of the entire (multi-manufacturer) catalog.
     """
+    manufacturer = record.get("manufacturer")
+    designation = record.get("designation")
+    if not manufacturer or not designation:
+        return None
     return Motor(
-        manufacturer=record["manufacturer"],
-        designation=record["designation"],
-        common_name=record.get("commonName") or record["designation"],
+        manufacturer=manufacturer,
+        designation=designation,
+        common_name=record.get("commonName") or designation,
         diameter_mm=_maybe_int(record.get("diameter")) or 0,
         length_mm=_maybe_int(record.get("length")),
         total_impulse_ns=_maybe_float(record.get("totImpulseNs")),
@@ -123,6 +130,12 @@ def to_motor(record: dict) -> Motor:
     )
 
 
+def _motors_from(records: list[dict]) -> list[Motor]:
+    """Map raw ThrustCurve records to Motors, skipping any unusable record
+    (``to_motor`` returns None) so one bad row can't abort the catalog."""
+    return [m for r in records if (m := to_motor(r)) is not None]
+
+
 def aerotech_motors(use_cache: bool = True) -> list[Motor]:
     """Return Motor objects for AeroTech. Uses cache if present, otherwise fetches and caches."""
     if use_cache and CACHE_PATH.exists():
@@ -130,7 +143,7 @@ def aerotech_motors(use_cache: bool = True) -> list[Motor]:
     else:
         raw = fetch_aerotech_motors()
         save_cache(raw, CACHE_PATH)
-    return [to_motor(r) for r in raw]
+    return _motors_from(raw)
 
 
 def cesaroni_motors(use_cache: bool = True) -> list[Motor]:
@@ -141,7 +154,7 @@ def cesaroni_motors(use_cache: bool = True) -> list[Motor]:
     else:
         raw = fetch_motors("Cesaroni")
         save_cache(raw, CESARONI_CACHE_PATH)
-    return [to_motor(r) for r in raw]
+    return _motors_from(raw)
 
 
 def refresh_catalog(manufacturer: str, cache_path: Path) -> tuple[list[Motor], bool]:
@@ -160,10 +173,10 @@ def refresh_catalog(manufacturer: str, cache_path: Path) -> tuple[list[Motor], b
         raw = fetch_motors(manufacturer)
     except (httpx.HTTPError, OSError):
         if cache_path.exists():
-            return [to_motor(r) for r in load_cache(cache_path)], True
+            return _motors_from(load_cache(cache_path)), True
         raise
     save_cache(raw, cache_path)
-    return [to_motor(r) for r in raw], False
+    return _motors_from(raw), False
 
 
 def _manufacturer_motors(thrustcurve_name: str, cache_path: Path, use_cache: bool) -> list[Motor]:
@@ -175,7 +188,7 @@ def _manufacturer_motors(thrustcurve_name: str, cache_path: Path, use_cache: boo
     else:
         raw = fetch_motors(thrustcurve_name)
         save_cache(raw, cache_path)
-    return [to_motor(r) for r in raw]
+    return _motors_from(raw)
 
 
 def refresh_all() -> list[tuple[str, list[Motor], bool]]:
