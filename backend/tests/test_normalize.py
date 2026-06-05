@@ -2,11 +2,33 @@ from hpr_finder.normalize import (
     base_designation,
     common_name,
     extract_designation,
+    extract_loki_designation,
     infer_propellant_from_title,
     lp_base_designation,
     strip_internal_hyphens,
     strip_plug_suffix,
 )
+
+# --- extract_loki_designation ----------------------------------------------
+
+def test_loki_collapses_class_number_hyphen():
+    # Loki writes "N-5500-LW"; collapse the class-number hyphen so the shared
+    # AeroTech-style extractor matches and the catalog ("N5500-LW") resolves.
+    assert extract_loki_designation("N-5500-LW") == "N5500-LW"
+    assert extract_loki_designation("G-80-LW") == "G80-LW"
+
+
+def test_loki_strips_hp_prefix():
+    # Some G-class reloads carry an HP- prefix: "HP-G-69-SF" -> commonName G69.
+    assert extract_loki_designation("HP-G-69-SF") == "G69-SF"
+
+
+def test_loki_passes_through_already_normal_form():
+    assert extract_loki_designation("G94-IB") == "G94-IB"
+
+
+def test_loki_empty_is_none():
+    assert extract_loki_designation("") is None
 
 
 def test_extract_lowercase_designation_is_uppercased():

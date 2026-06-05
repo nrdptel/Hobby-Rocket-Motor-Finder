@@ -149,6 +149,7 @@ export function thrustcurveUrl(m: Motor): string {
  * filter value matches what the user sees. */
 export function manufacturerLabel(manufacturer: string): string {
   if (manufacturer === "Cesaroni Technology") return "Cesaroni";
+  if (manufacturer === "Loki Research") return "Loki";
   return manufacturer;
 }
 

@@ -238,3 +238,21 @@ def test_adding_oop_does_not_break_existing_unique_common_name(conn):
     mid = find_motor_id(conn, "AeroTech", "J350", "AeroTech J350 White Lightning")
     got = conn.execute("SELECT designation FROM motors WHERE id=?", (mid,)).fetchone()[0]
     assert got == "J350W"
+
+
+# --- Loki (reuses the AeroTech match path via unique commonNames) -----------
+
+def test_loki_listing_matches_via_unique_common_name(conn):
+    """A Loki vendor designation ('N5500-LW', already normalized by
+    extract_loki_designation) matches its catalog motor under the Loki
+    manufacturer — no Loki-specific strategy needed."""
+    loki = Motor(
+        manufacturer="Loki Research", designation="N5500-LW", common_name="N5500",
+        diameter_mm=98, length_mm=None, total_impulse_ns=None, avg_thrust_n=None,
+        burn_time_s=None, propellant="Loki White", impulse_class="N",
+        delays=None, delay_adjustable=False, thrustcurve_id=None,
+    )
+    _seed(conn, loki)
+    assert find_motor_id(conn, "Loki Research", "N5500-LW", "Loki N5500-LW") is not None
+    # AeroTech manufacturer must not match the Loki motor (manufacturer-scoped).
+    assert find_motor_id(conn, "AeroTech", "N5500-LW") is None

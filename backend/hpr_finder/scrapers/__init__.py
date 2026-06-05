@@ -3,6 +3,7 @@
 from .amw import AMWScraper
 from .buyrocketmotors import BuyRocketMotorsScraper
 from .csrocketry import CSRocketryScraper
+from .loki import LokiScraper
 from .sirius import SiriusScraper
 from .wildman import WildmanScraper
 
@@ -12,4 +13,5 @@ REGISTRY = {
     WildmanScraper.slug: WildmanScraper,
     AMWScraper.slug: AMWScraper,
     SiriusScraper.slug: SiriusScraper,
+    LokiScraper.slug: LokiScraper,
 }
