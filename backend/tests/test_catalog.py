@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import httpx
 import pytest
 
 from hpr_finder.catalog import (
@@ -20,6 +21,7 @@ from hpr_finder.catalog import (
     all_motors,
     cesaroni_motors,
     load_cache,
+    refresh_catalog,
     save_cache,
     to_motor,
 )
@@ -240,3 +242,53 @@ def test_all_motors_concatenates_manufacturers(monkeypatch, tmp_path, sample_rec
 
     motors = all_motors(use_cache=True)
     assert len(motors) == 3 + 2
+
+
+# --- refresh_catalog: live fetch with cache fallback -----------------------
+
+def test_refresh_catalog_live_success_writes_cache(monkeypatch, tmp_path, sample_records):
+    """A successful live fetch returns fresh motors, marks not-stale, and
+    refreshes the on-disk cache."""
+    cache_path = tmp_path / "thrustcurve_aerotech.json"
+
+    import hpr_finder.catalog as catalog
+    monkeypatch.setattr(catalog, "fetch_motors", lambda m, timeout=30.0: sample_records)
+
+    motors, stale = refresh_catalog("AeroTech", cache_path)
+    assert stale is False
+    assert len(motors) == 3
+    # Cache was written for next time / as the fallback source.
+    assert json.loads(cache_path.read_text()) == sample_records
+
+
+def test_refresh_catalog_falls_back_to_cache_on_fetch_failure(monkeypatch, tmp_path, sample_records):
+    """When ThrustCurve errors but a committed cache exists, fall back to it and
+    report stale=True instead of failing the whole run with an empty catalog."""
+    cache_path = tmp_path / "thrustcurve_aerotech.json"
+    cache_path.write_text(json.dumps(sample_records))
+
+    import hpr_finder.catalog as catalog
+
+    def _boom(manufacturer, timeout=30.0):
+        raise httpx.ConnectError("thrustcurve down")
+    monkeypatch.setattr(catalog, "fetch_motors", _boom)
+
+    motors, stale = refresh_catalog("AeroTech", cache_path)
+    assert stale is True
+    assert len(motors) == 3
+    assert motors[0].designation == "H242T-14A"
+
+
+def test_refresh_catalog_reraises_when_no_cache_to_fall_back_to(monkeypatch, tmp_path):
+    """First-run-with-no-cache: a fetch failure has nothing to offer, so it must
+    propagate rather than silently producing an empty catalog."""
+    cache_path = tmp_path / "missing.json"  # does not exist
+
+    import hpr_finder.catalog as catalog
+
+    def _boom(manufacturer, timeout=30.0):
+        raise httpx.HTTPStatusError("503", request=None, response=None)
+    monkeypatch.setattr(catalog, "fetch_motors", _boom)
+
+    with pytest.raises(httpx.HTTPError):
+        refresh_catalog("AeroTech", cache_path)
