@@ -80,12 +80,23 @@ jobs:
         # Second arg is the stale-hours threshold that opens an issue.
         run: bash .github/scripts/alert_on_degraded.sh data/scrape-status.json 6
 
+      - name: Update stock/price history
+        # Append this run's stock/price changes to the per-listing history log.
+        # No `if: always()` on purpose: the export step exits non-zero on a
+        # refuse-to-publish run, which short-circuits the job here so history
+        # never ingests an unpublished snapshot. On a carry-forward run the
+        # snapshot DID publish but carried listings are byte-identical, so this
+        # records nothing (idempotent) — correct by design.
+        working-directory: ${{ github.workspace }}
+        run: hpr history update --snapshot-path data/snapshot.json
+
       - name: Commit changes if any
         working-directory: ${{ github.workspace }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/snapshot.json data/thrustcurve_aerotech.json
+          git add data/snapshot.json data/thrustcurve_aerotech.json \
+                  data/history/log.json data/history/summary.json
           # No-op when scrape produced no changes (e.g. all vendors quiet).
           # [skip ci] keeps the regular test workflow from running on these
           # data-only commits — saves Actions minutes and avoids noise.

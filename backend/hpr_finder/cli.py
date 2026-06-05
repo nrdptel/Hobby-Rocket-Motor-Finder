@@ -4,12 +4,13 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
 import typer
 
-from . import catalog, db
+from . import catalog, db, history
 from .http import polite_async_client
 from .models import _utc_now
 from .scrapers import REGISTRY
@@ -19,9 +20,16 @@ app = typer.Typer(help="HPR motor availability aggregator CLI", no_args_is_help=
 catalog_app = typer.Typer(help="Manage the canonical motor catalog")
 scrape_app = typer.Typer(help="Run vendor scrapers")
 snapshot_app = typer.Typer(help="Export the current state for the frontend")
+history_app = typer.Typer(help="Maintain per-listing stock/price history")
 app.add_typer(catalog_app, name="catalog")
 app.add_typer(scrape_app, name="scrape")
 app.add_typer(snapshot_app, name="snapshot")
+app.add_typer(history_app, name="history")
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_DEFAULT_SNAPSHOT = _REPO_ROOT / "data" / "snapshot.json"
+_DEFAULT_HISTORY_LOG = _REPO_ROOT / "data" / "history" / "log.json"
+_DEFAULT_HISTORY_SUMMARY = _REPO_ROOT / "data" / "history" / "summary.json"
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
@@ -384,6 +392,93 @@ def _vendor_stale_hours(payload: dict, decision: dict[str, str]) -> dict[str, fl
         nd = newest.get(v)
         out[v] = None if (nd is None or gen is None) else round((gen - nd).total_seconds() / 3600, 2)
     return out
+
+
+# --- history -----------------------------------------------------------------
+#
+# The pure event-log logic lives in history.py; the CLI owns git-walking and IO.
+
+def _git_commits_for(path: Path) -> list[str]:
+    """Commit SHAs that touched ``path``, oldest first."""
+    rel = path.relative_to(_REPO_ROOT)
+    out = subprocess.run(
+        ["git", "-C", str(_REPO_ROOT), "log", "--reverse", "--format=%H", "--", str(rel)],
+        capture_output=True, text=True, check=True,
+    )
+    return out.stdout.split()
+
+
+def _git_snapshots(path: Path):
+    """Yield each historical version of ``path`` parsed as a snapshot dict,
+    oldest first. Unparseable early commits (before the file was valid JSON) are
+    skipped with a warning."""
+    rel = path.relative_to(_REPO_ROOT)
+    for sha in _git_commits_for(path):
+        blob = subprocess.run(
+            ["git", "-C", str(_REPO_ROOT), "show", f"{sha}:{rel}"],
+            capture_output=True, text=True,
+        )
+        if blob.returncode != 0 or not blob.stdout.strip():
+            continue
+        try:
+            yield json.loads(blob.stdout)
+        except json.JSONDecodeError:
+            typer.echo(f"  skip {sha[:9]}: snapshot not valid JSON", err=True)
+
+
+def _write_history(log: dict, log_out: Path, summary_out: Path, window_days: int) -> None:
+    """Prune, write the log, derive + write the summary. Shared by both commands."""
+    now = _utc_now().isoformat(timespec="seconds")
+    log = history.prune(log, now, window_days)
+    summary = history.summarize(log, now)
+    for path, payload in ((log_out, log), (summary_out, summary)):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, indent=2))
+    typer.echo(
+        f"history: {len(log['listings'])} listings tracked, "
+        f"{len(summary)} summarized → {summary_out}"
+    )
+
+
+@history_app.command("backfill")
+def history_backfill(
+    snapshot_path: Path = typer.Option(_DEFAULT_SNAPSHOT, help="Tracked snapshot file to walk through git history"),
+    log_out: Path = typer.Option(_DEFAULT_HISTORY_LOG, help="Where to write the full event log"),
+    summary_out: Path = typer.Option(_DEFAULT_HISTORY_SUMMARY, help="Where to write the compact frontend summary"),
+    window_days: int = typer.Option(180, help="Retain events within this many days (most recent always kept)"),
+) -> None:
+    """Rebuild the history log from scratch by replaying every committed version
+    of the snapshot. One-time bootstrap — run locally and commit the result."""
+    if not isinstance(window_days, int):
+        window_days = 180
+    log = history.backfill(_git_snapshots(snapshot_path))
+    _write_history(log, log_out, summary_out, window_days)
+
+
+@history_app.command("update")
+def history_update(
+    snapshot_path: Path = typer.Option(_DEFAULT_SNAPSHOT, help="Freshly-published snapshot to ingest"),
+    log: Path = typer.Option(_DEFAULT_HISTORY_LOG, help="Existing event log to append to (created if absent)"),
+    summary_out: Path = typer.Option(_DEFAULT_HISTORY_SUMMARY, help="Where to write the compact frontend summary"),
+    window_days: int = typer.Option(180, help="Retain events within this many days (most recent always kept)"),
+) -> None:
+    """Append events from the current snapshot to the history log (run hourly
+    after ``snapshot export``). Idempotent: an unchanged snapshot writes
+    byte-identical files, so the CI commit no-ops."""
+    if not isinstance(window_days, int):
+        window_days = 180
+    if not isinstance(log, Path):
+        log = _DEFAULT_HISTORY_LOG
+    if not isinstance(summary_out, Path):
+        summary_out = _DEFAULT_HISTORY_SUMMARY
+
+    try:
+        current = history.empty_log() if not log.exists() else json.loads(log.read_text())
+    except (OSError, json.JSONDecodeError):
+        current = history.empty_log()
+    snapshot = json.loads(Path(snapshot_path).read_text())
+    updated = history.apply_snapshot(current, snapshot)
+    _write_history(updated, log, summary_out, window_days)
 
 
 def _get_vendor(slug: str):

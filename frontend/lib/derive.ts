@@ -3,7 +3,7 @@
 // to exercise. If the table renders something garbled, the bug is almost
 // always in here, not in the JSX.
 
-import type { Listing, Motor } from "./snapshot";
+import type { ListingHistory, Listing, Motor } from "./snapshot";
 
 /** Lower bound on impulse class shown by the UI — D and up. Hides A/B/C
  * Estes-style model rocket motors that aren't this project's audience. */
@@ -52,6 +52,44 @@ export function formatBurn(seconds: number | null): string {
  * ~1 h cadence plus the prior run's intra-run offset). A higher bound would
  * silently miss first-cycle carry-forwards — the exact case worth surfacing. */
 export const STALE_MS = 45 * 60 * 1000;
+
+// How recent a restock must be to surface "restocked Xh ago" (in-stock rows),
+// and how recently a now-out-of-stock listing was last in stock to surface
+// "last in stock Xd ago". Both windows keep the badge to genuinely actionable,
+// recent events — older history shows nothing, so the table stays uncluttered.
+export const RESTOCK_WINDOW_MS = 14 * 24 * 60 * 60 * 1000;
+export const LAST_STOCK_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+
+/** Compact age like ``3h`` / ``2d`` (minimum ``1h``, so we never print ``0h``). */
+function ageLabel(ms: number): string {
+  const hours = ms / 3_600_000;
+  if (hours < 24) return `${Math.max(1, Math.round(hours))}h`;
+  return `${Math.round(hours / 24)}d`;
+}
+
+/** Restock-timing label for a listing, or ``null`` when there's nothing worth
+ * showing. ``now`` is injected (pass the snapshot's ``generated_at``) so the
+ * function stays pure and testable.
+ *
+ * - In stock with a genuine restock in the last ~14 days → ``restocked 3h ago``.
+ *   (A listing in stock continuously since tracking began has no
+ *   ``last_restock_at`` and shows nothing — see the backend's restock rule.)
+ * - Out of stock but last in stock within ~30 days → ``last in stock 2d ago``.
+ * - Otherwise → ``null`` (never-stocked, or the event is too old to matter). */
+export function restockLabel(h: ListingHistory | undefined, now: Date): string | null {
+  if (!h) return null;
+  const ref = now.getTime();
+  if (h.currently_in_stock) {
+    if (!h.last_restock_at) return null;
+    const age = ref - new Date(h.last_restock_at).getTime();
+    if (!Number.isFinite(age) || age < 0 || age > RESTOCK_WINDOW_MS) return null;
+    return `restocked ${ageLabel(age)} ago`;
+  }
+  if (!h.last_in_stock_at) return null;
+  const age = ref - new Date(h.last_in_stock_at).getTime();
+  if (!Number.isFinite(age) || age < 0 || age > LAST_STOCK_WINDOW_MS) return null;
+  return `last in stock ${ageLabel(age)} ago`;
+}
 
 /** Human age label for a listing's ``seen_at``, or ``null`` when the data is
  * fresh enough not to warrant flagging. ``now`` is injected so the function

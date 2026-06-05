@@ -16,12 +16,13 @@ import {
   numericParamValue,
   parseSetParam,
   rankMotor,
+  restockLabel,
   searchParamValue,
   sortedMotors,
   staleLabel,
   thrustcurveUrl,
 } from "./derive";
-import type { Listing, Motor } from "./snapshot";
+import type { Listing, ListingHistory, Motor } from "./snapshot";
 
 /** Minimal Motor builder for tests — overrides override the defaults. */
 function makeMotor(overrides: Partial<Motor> = {}): Motor {
@@ -549,5 +550,90 @@ describe("groupByDelay", () => {
     expect(g.id).toBe(42);
     expect(g.designation).toBe("X");
     expect(g.delayGroups).toEqual([]);
+  });
+});
+
+/** Minimal ListingHistory builder for restockLabel tests. */
+function makeHistory(overrides: Partial<ListingHistory> = {}): ListingHistory {
+  return {
+    currently_in_stock: true,
+    status_current: "in_stock",
+    first_seen_at: "2026-05-01T00:00:00+00:00",
+    last_change_at: "2026-06-01T00:00:00+00:00",
+    last_in_stock_at: "2026-06-01T00:00:00+00:00",
+    last_restock_at: null,
+    restock_count: 0,
+    price_current_cents: 4499,
+    price_prev_cents: null,
+    price_low_cents: 4499,
+    price_high_cents: 4499,
+    ...overrides,
+  };
+}
+
+describe("restockLabel", () => {
+  const now = new Date("2026-06-04T12:00:00+00:00");
+
+  it("returns null when there is no history for the listing", () => {
+    expect(restockLabel(undefined, now)).toBeNull();
+  });
+
+  it("labels a recent restock on an in-stock listing", () => {
+    const h = makeHistory({
+      currently_in_stock: true,
+      last_restock_at: "2026-06-04T09:00:00+00:00", // 3h before now
+    });
+    expect(restockLabel(h, now)).toBe("restocked 3h ago");
+  });
+
+  it("uses day granularity for older-but-in-window restocks", () => {
+    const h = makeHistory({
+      currently_in_stock: true,
+      last_restock_at: "2026-06-02T12:00:00+00:00", // 2d before now
+    });
+    expect(restockLabel(h, now)).toBe("restocked 2d ago");
+  });
+
+  it("shows nothing for an in-stock listing with no genuine restock", () => {
+    // Continuously in stock since tracking began → last_restock_at is null.
+    const h = makeHistory({ currently_in_stock: true, last_restock_at: null });
+    expect(restockLabel(h, now)).toBeNull();
+  });
+
+  it("shows nothing when the restock is older than the 14-day window", () => {
+    const h = makeHistory({
+      currently_in_stock: true,
+      last_restock_at: "2026-05-01T12:00:00+00:00", // >14d before now
+    });
+    expect(restockLabel(h, now)).toBeNull();
+  });
+
+  it("labels when a now-out-of-stock listing was last in stock recently", () => {
+    const h = makeHistory({
+      currently_in_stock: false,
+      last_in_stock_at: "2026-06-02T12:00:00+00:00", // 2d before now
+    });
+    expect(restockLabel(h, now)).toBe("last in stock 2d ago");
+  });
+
+  it("shows nothing for an out-of-stock listing never seen in stock", () => {
+    const h = makeHistory({ currently_in_stock: false, last_in_stock_at: null });
+    expect(restockLabel(h, now)).toBeNull();
+  });
+
+  it("shows nothing when last-in-stock is older than the 30-day window", () => {
+    const h = makeHistory({
+      currently_in_stock: false,
+      last_in_stock_at: "2026-04-01T12:00:00+00:00", // >30d before now
+    });
+    expect(restockLabel(h, now)).toBeNull();
+  });
+
+  it("floors sub-hour ages at 1h rather than printing 0h", () => {
+    const h = makeHistory({
+      currently_in_stock: true,
+      last_restock_at: "2026-06-04T11:45:00+00:00", // 15min before now
+    });
+    expect(restockLabel(h, now)).toBe("restocked 1h ago");
   });
 });

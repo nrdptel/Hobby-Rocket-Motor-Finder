@@ -14,22 +14,29 @@ const here = dirname(fileURLToPath(import.meta.url));
 const sourceDir = resolve(here, "..", "..", "data");
 const targetDir = resolve(here, "..", "data");
 
-const files = ["snapshot.json", "snapshot.example.json"];
+// Each entry is { src (relative to ../data), dst (relative to frontend/data) }.
+// The history summary lives in a subdir but is flattened on the Next side so the
+// loader reads one flat file, matching how snapshot.json is read today.
+const files = [
+  { src: "snapshot.json", dst: "snapshot.json" },
+  { src: "snapshot.example.json", dst: "snapshot.example.json" },
+  { src: "history/summary.json", dst: "history-summary.json" },
+];
 
 await mkdir(targetDir, { recursive: true });
 
-for (const name of files) {
-  const src = resolve(sourceDir, name);
-  const dst = resolve(targetDir, name);
+for (const { src: srcName, dst: dstName } of files) {
+  const src = resolve(sourceDir, srcName);
+  const dst = resolve(targetDir, dstName);
   try {
     await access(src);
     await copyFile(src, dst);
-    console.log(`copy-snapshot: ${name} → frontend/data/`);
+    console.log(`copy-snapshot: ${srcName} → frontend/data/${dstName}`);
   } catch (err) {
     if (err.code === "ENOENT") {
-      // OK for live snapshot.json on a fresh clone; the example seed
-      // alone is enough for `npm run dev` to work.
-      console.log(`copy-snapshot: ${name} not present, skipping`);
+      // OK on a fresh clone: the example seed alone runs `npm run dev`, and the
+      // history summary is an optional overlay produced by `hpr history`.
+      console.log(`copy-snapshot: ${srcName} not present, skipping`);
     } else {
       throw err;
     }

@@ -57,6 +57,25 @@ export type Snapshot = {
   unmatched: UnmatchedListing[];
 };
 
+// Per-listing stock/price history, keyed by listing `url`, derived by the
+// backend `hpr history` commands. The UI currently surfaces only restock
+// timing; the price_* fields are carried for a future price-trend view.
+export type ListingHistory = {
+  currently_in_stock: boolean;
+  status_current: StockStatus;
+  first_seen_at: string;
+  last_change_at: string;
+  last_in_stock_at: string | null;
+  last_restock_at: string | null;
+  restock_count: number;
+  price_current_cents: number | null;
+  price_prev_cents: number | null;
+  price_low_cents: number | null;
+  price_high_cents: number | null;
+};
+
+export type HistorySummary = Record<string, ListingHistory>;
+
 // Both snapshots live inside the frontend project at build time. The actual
 // source-of-truth files are in the repo's top-level `data/` dir; the prebuild
 // `copy-snapshot.mjs` script copies them in before `next build`/`next dev`
@@ -71,6 +90,12 @@ const SNAPSHOT_PATH = path.resolve(process.cwd(), "data", "snapshot.json");
 // scrape has been run yet.
 const EXAMPLE_SNAPSHOT_PATH = path.resolve(
   process.cwd(), "data", "snapshot.example.json"
+);
+// Compact per-listing history summary — copied in from
+// `<repo>/data/history/summary.json` by `copy-snapshot.mjs`. Optional: a fresh
+// clone (or a deploy before the first backfill) simply has no history overlay.
+const HISTORY_SUMMARY_PATH = path.resolve(
+  process.cwd(), "data", "history-summary.json"
 );
 
 export class SnapshotParseError extends Error {
@@ -100,4 +125,22 @@ export async function loadSnapshot(): Promise<Snapshot | null> {
     }
   }
   return null;
+}
+
+/** Load the per-listing history summary, keyed by listing `url`. History is a
+ * nice-to-have overlay on top of the snapshot, so a missing OR malformed file
+ * degrades gracefully to "no history" ({}) rather than taking down the page. */
+export async function loadHistorySummary(): Promise<HistorySummary> {
+  let raw: string;
+  try {
+    raw = await readFile(HISTORY_SUMMARY_PATH, "utf-8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return {};
+    throw err;
+  }
+  try {
+    return JSON.parse(raw) as HistorySummary;
+  } catch {
+    return {};
+  }
 }

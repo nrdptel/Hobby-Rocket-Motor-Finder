@@ -13,9 +13,11 @@ import {
   thrustcurveUrl,
 } from "@/lib/derive";
 import type { GroupedMotor } from "@/lib/derive";
+import type { HistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
 import { BestPriceTag } from "./BestPriceTag";
 import { MotorCard } from "./MotorCard";
+import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
@@ -37,11 +39,13 @@ export function MotorResults({
   showManufacturer,
   generatedAt,
   starredOnly,
+  history,
 }: {
   motors: GroupedMotor[];
   showManufacturer: boolean;
   generatedAt: string;
   starredOnly: boolean;
+  history: HistorySummary;
 }) {
   const { starred, hydrated, count } = useWatchlist();
   const now = new Date(generatedAt);
@@ -173,6 +177,7 @@ export function MotorResults({
                         </td>
                         <td className="px-3 py-2 whitespace-nowrap">
                           <StatusBadge status={l.status} count={l.stock_count} />
+                          <RestockBadge history={history[l.url]} now={now} />
                           <StaleBadge seenAt={l.seen_at} now={now} />
                         </td>
                         <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
@@ -218,6 +223,7 @@ export function MotorResults({
               motor={m}
               showManufacturer={showManufacturer}
               snapshotTime={now}
+              history={history}
             />
           ))
         )}
