@@ -190,6 +190,15 @@ export function parseOrder(raw: string | string[] | undefined): MotorOrder {
   return v && MOTOR_ORDERS.has(v) ? (v as MotorOrder) : "class";
 }
 
+/** Sort direction (the ``?dir=`` URL param), defaulting to ascending. */
+export type SortDir = "asc" | "desc";
+
+/** Parse the ``?dir=`` param, defaulting to "asc". */
+export function parseDir(raw: string | string[] | undefined): SortDir {
+  const v = Array.isArray(raw) ? raw[0] : raw;
+  return v === "desc" ? "desc" : "asc";
+}
+
 /** Cheapest *in-stock* price (cents) across a motor's listings, or null when
  * nothing is in stock with a price. Used by the "price" ordering. */
 export function cheapestInStockCents(m: Motor): number | null {
@@ -210,10 +219,24 @@ function compareByClass(a: Motor, b: Motor): number {
   return an.localeCompare(bn);
 }
 
-// Ascending by a numeric key with null/undefined sorted last, then the natural
-// class ordering as a stable tiebreak.
-function ascNullsLast(
+// Numeric sort keys for the non-"class" orderings.
+const ORDER_KEYS: Record<
+  Exclude<MotorOrder, "class">,
+  (m: Motor) => number | null | undefined
+> = {
+  impulse: (m) => m.total_impulse_ns,
+  thrust: (m) => m.avg_thrust_n,
+  diameter: (m) => m.diameter_mm,
+  price: cheapestInStockCents,
+};
+
+// Compare by a numeric key in the given direction. Motors missing the value
+// (null/undefined) ALWAYS sort last regardless of direction — you don't want
+// unpriced/spec-less motors floating to the top of a descending view. Ties fall
+// back to the natural class ordering for stability.
+function compareByKey(
   key: (m: Motor) => number | null | undefined,
+  dir: SortDir,
 ): (a: Motor, b: Motor) => number {
   return (a, b) => {
     const av = key(a);
@@ -221,24 +244,28 @@ function ascNullsLast(
     if (av == null && bv == null) return compareByClass(a, b);
     if (av == null) return 1;
     if (bv == null) return -1;
-    if (av !== bv) return av - bv;
+    if (av !== bv) return dir === "desc" ? bv - av : av - bv;
     return compareByClass(a, b);
   };
 }
 
-const ORDER_COMPARATORS: Record<MotorOrder, (a: Motor, b: Motor) => number> = {
-  class: compareByClass,
-  impulse: ascNullsLast((m) => m.total_impulse_ns),
-  thrust: ascNullsLast((m) => m.avg_thrust_n),
-  diameter: ascNullsLast((m) => m.diameter_mm),
-  price: ascNullsLast(cheapestInStockCents), // cheapest in-stock first, unpriced last
-};
-
-/** Sort motors for display by the chosen order. Default "class": impulse class,
- * then diameter ascending, then designation. Numeric orders put motors missing
- * that value (e.g. no in-stock price) last. */
-export function sortedMotors(motors: Motor[], order: MotorOrder = "class"): Motor[] {
-  return [...motors].sort(ORDER_COMPARATORS[order] ?? compareByClass);
+/** Sort motors for display by the chosen order and direction. Default
+ * "class"/"asc": impulse class, then diameter, then designation. Numeric orders
+ * put motors missing that value (e.g. no in-stock price) last in BOTH
+ * directions; "desc" flips only the ordering among the motors that have it. */
+export function sortedMotors(
+  motors: Motor[],
+  order: MotorOrder = "class",
+  dir: SortDir = "asc",
+): Motor[] {
+  if (order === "class") {
+    const cmp =
+      dir === "desc"
+        ? (a: Motor, b: Motor) => -compareByClass(a, b)
+        : compareByClass;
+    return [...motors].sort(cmp);
+  }
+  return [...motors].sort(compareByKey(ORDER_KEYS[order], dir));
 }
 
 /** Read a comma-separated multi-value query parameter into a Set. */

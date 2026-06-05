@@ -68,6 +68,7 @@ export function FilterBar({
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
   const sortOrder = sp.get("order") ?? "class";
+  const sortDir = sp.get("dir") === "desc" ? "desc" : "asc";
   const starredOnly = sp.get("starred") === "1";
   const urlQuery = sp.get("q") ?? "";
   const urlMinImpulse = sp.get("imin") ?? "";
@@ -115,6 +116,7 @@ export function FilterBar({
     inStockOnly ||
     cheapestFirst ||
     sortOrder !== "class" ||
+    sortDir !== "asc" ||
     starredOnly ||
     urlQuery.length > 0 ||
     urlMinImpulse.length > 0 ||
@@ -324,6 +326,17 @@ export function FilterBar({
           <option value="diameter">Diameter</option>
           <option value="price">Cheapest in stock</option>
         </select>
+        <button
+          type="button"
+          onClick={() => update("dir", sortDir === "desc" ? null : "desc")}
+          aria-pressed={sortDir === "desc"}
+          aria-label={sortDir === "desc" ? "Sort descending" : "Sort ascending"}
+          title={sortDir === "desc" ? "Descending (high → low) — click for ascending" : "Ascending (low → high) — click for descending"}
+          className={pill(sortDir === "desc")}
+        >
+          <span aria-hidden="true">{sortDir === "desc" ? "↓" : "↑"}</span>{" "}
+          {sortDir === "desc" ? "Desc" : "Asc"}
+        </button>
       </FilterRow>
     </div>
   );

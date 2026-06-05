@@ -15,6 +15,7 @@ import {
   listingInStock,
   manufacturerLabel,
   numericParamValue,
+  parseDir,
   parseOrder,
   parseSetParam,
   rankMotor,
@@ -306,6 +307,25 @@ describe("rankMotor + sortedMotors", () => {
     expect(sortedMotors(motors, "diameter").map((m) => m.id)).toEqual([2, 1, 3]);
   });
 
+  it("reverses a numeric order with dir=desc but keeps nulls last", () => {
+    const motors = [
+      makeMotor({ id: 1, total_impulse_ns: 900 }),
+      makeMotor({ id: 2, total_impulse_ns: null }),
+      makeMotor({ id: 3, total_impulse_ns: 120 }),
+    ];
+    // desc among the valued ones (900 before 120), null still last.
+    expect(sortedMotors(motors, "impulse", "desc").map((m) => m.id)).toEqual([1, 3, 2]);
+  });
+
+  it("reverses the class order with dir=desc", () => {
+    const motors = [
+      makeMotor({ id: 1, impulse_class: "D", diameter_mm: 18, designation: "D13" }),
+      makeMotor({ id: 2, impulse_class: "H", diameter_mm: 29, designation: "H242T" }),
+    ];
+    expect(sortedMotors(motors, "class", "asc").map((m) => m.id)).toEqual([1, 2]);
+    expect(sortedMotors(motors, "class", "desc").map((m) => m.id)).toEqual([2, 1]);
+  });
+
   it("orders by cheapest in-stock price (unpriced/OOS last) when order=price", () => {
     const motors = [
       makeMotor({ id: 1, listings: [makeListing({ price_cents: 5000, status: "in_stock" })] }),
@@ -323,7 +343,7 @@ describe("rankMotor + sortedMotors", () => {
   });
 });
 
-// --- parseOrder ------------------------------------------------------------
+// --- parseOrder / parseDir -------------------------------------------------
 
 describe("parseOrder", () => {
   it("accepts known orders", () => {
@@ -334,6 +354,15 @@ describe("parseOrder", () => {
     expect(parseOrder(undefined)).toBe("class");
     expect(parseOrder("bogus")).toBe("class");
     expect(parseOrder(["impulse", "thrust"])).toBe("impulse"); // first wins
+  });
+});
+
+describe("parseDir", () => {
+  it("accepts desc, defaults to asc otherwise", () => {
+    expect(parseDir("desc")).toBe("desc");
+    expect(parseDir("asc")).toBe("asc");
+    expect(parseDir(undefined)).toBe("asc");
+    expect(parseDir("bogus")).toBe("asc");
   });
 });
 
