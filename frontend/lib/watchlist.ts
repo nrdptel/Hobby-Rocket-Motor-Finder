@@ -90,7 +90,14 @@ export function toggleStar(id: number): void {
   load();
   current = toggleId(current, id);
   if (typeof window !== "undefined") {
-    window.localStorage.setItem(STORAGE_KEY, serializeWatchlist(current));
+    // localStorage.setItem can throw (Safari Private Mode, storage disabled or
+    // full). Keep the in-memory toggle and just skip persistence rather than
+    // throwing out of the click handler.
+    try {
+      window.localStorage.setItem(STORAGE_KEY, serializeWatchlist(current));
+    } catch {
+      /* ignore */
+    }
   }
   emit();
 }
@@ -100,7 +107,11 @@ export function clearWatchlist(): void {
   loaded = true;
   current = EMPTY;
   if (typeof window !== "undefined") {
-    window.localStorage.removeItem(STORAGE_KEY);
+    try {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore — see toggleStar */
+    }
   }
   emit();
 }

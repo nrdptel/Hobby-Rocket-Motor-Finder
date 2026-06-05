@@ -204,7 +204,11 @@ export function searchParamValue(raw: string): string | null {
  * usable numeric filter value" on the URL-write side. */
 export function numericParamValue(raw: string): string | null {
   const t = raw.trim();
-  return t && Number.isFinite(Number(t)) ? t : null;
+  if (!t) return null;
+  const n = Number(t);
+  // Impulse is a non-negative quantity; drop blank, non-numeric, or negative
+  // input (the `min={0}` on the inputs only constrains the spinner arrows).
+  return Number.isFinite(n) && n >= 0 ? t : null;
 }
 
 /** True when a listing's status means a customer could buy it right now. */

@@ -58,9 +58,13 @@ summary "### Scrape health — ${icon} ${head}
 ${detail}"
 
 # --- issue lifecycle: only for sustained staleness -------------------------
+# Tolerate a transient GitHub API hiccup: under `set -e` an un-guarded failure
+# here would abort the whole alerter (after the run summary, before opening or
+# closing the issue) on the very run an outage needs it. Degrade to "no issue
+# action this run" instead of crashing.
 existing=$(gh issue list --state open --search "in:title $TITLE" \
   --json number,title \
-  --jq "map(select(.title == \"$TITLE\")) | .[0].number // empty")
+  --jq "map(select(.title == \"$TITLE\")) | .[0].number // empty" 2>/dev/null || echo "")
 
 body="Automated by the hourly scrape workflow.
 

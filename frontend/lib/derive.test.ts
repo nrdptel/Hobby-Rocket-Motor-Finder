@@ -353,6 +353,12 @@ describe("numericParamValue", () => {
     expect(numericParamValue("abc")).toBeNull();
     expect(numericParamValue("1e")).toBeNull();
   });
+
+  it("rejects negative impulse values", () => {
+    // Impulse is non-negative; a typed/pasted "-5" must not reach the URL.
+    expect(numericParamValue("-5")).toBeNull();
+    expect(numericParamValue("0")).toBe("0");
+  });
 });
 
 // --- listingInStock --------------------------------------------------------

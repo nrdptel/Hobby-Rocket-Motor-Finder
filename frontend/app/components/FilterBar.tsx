@@ -203,6 +203,7 @@ export function FilterBar({
               key={m}
               type="button"
               onClick={() => toggleMfr(m)}
+              aria-pressed={activeManufacturers.has(m)}
               className={pill(activeManufacturers.has(m))}
             >
               {m}
@@ -217,6 +218,7 @@ export function FilterBar({
             key={c}
             type="button"
             onClick={() => toggleClass(c)}
+            aria-pressed={activeClasses.has(c)}
             className={pill(activeClasses.has(c))}
           >
             {c}
@@ -230,6 +232,7 @@ export function FilterBar({
             key={d}
             type="button"
             onClick={() => toggleDia(d)}
+            aria-pressed={activeDiameters.has(String(d))}
             className={pill(activeDiameters.has(String(d)))}
           >
             {d}mm
@@ -268,6 +271,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={toggleStock}
+          aria-pressed={inStockOnly}
           className={pill(inStockOnly)}
         >
           In stock only
@@ -275,6 +279,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={toggleSort}
+          aria-pressed={cheapestFirst}
           className={pill(cheapestFirst)}
           title="Within each motor, list the cheapest vendor first instead of alphabetically"
         >
@@ -283,6 +288,7 @@ export function FilterBar({
         <button
           type="button"
           onClick={toggleStarred}
+          aria-pressed={starredOnly}
           className={pill(starredOnly)}
           title="Show only motors you've starred (saved in this browser)"
         >

@@ -99,7 +99,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         const designationHit = m.designation.toLowerCase().includes(fQuery);
         const commonHit = (m.common_name ?? "").toLowerCase().includes(fQuery);
         const varietyHit = m.listings.some((l) =>
-          l.raw_designation.toLowerCase().includes(fQuery)
+          (l.raw_designation ?? "").toLowerCase().includes(fQuery)
         );
         if (!designationHit && !commonHit && !varietyHit) return false;
       }

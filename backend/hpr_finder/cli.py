@@ -5,7 +5,7 @@ import asyncio
 import json
 import logging
 import subprocess
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 import typer
@@ -392,9 +392,16 @@ def snapshot_export(
 
 def _parse_iso(s: str | None) -> datetime | None:
     try:
-        return datetime.fromisoformat(s) if s else None
+        dt = datetime.fromisoformat(s) if s else None
     except (TypeError, ValueError):
         return None
+    # Normalize naive → UTC (matches history._parse). carry_forward backfills
+    # listings verbatim from the previous snapshot, and early archived snapshots
+    # had tz-naive seen_at; mixing naive and aware in the stale-hours subtraction
+    # below would raise TypeError and abort the export.
+    if dt is not None and dt.tzinfo is None:
+        dt = dt.replace(tzinfo=UTC)
+    return dt
 
 
 def _vendor_stale_hours(payload: dict, decision: dict[str, str]) -> dict[str, float | None]:
