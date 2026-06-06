@@ -9594,10 +9594,10 @@
     "price_high_cents": 5604
   },
   "https://wildmanrocketry.com/products/i211w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:51",
-    "last_change_at": "2026-05-31T01:15:51",
+    "last_change_at": "2026-06-06T16:07:22+00:00",
     "last_in_stock_at": "2026-05-31T01:15:51",
     "last_restock_at": null,
     "restock_count": 0,
