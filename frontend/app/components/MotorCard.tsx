@@ -70,6 +70,11 @@ export function MotorCard({
           <div>
             {motor.impulse_class} · {motor.diameter_mm}mm
             {motor.propellant ? ` · ${motor.propellant}` : ""}
+            {motor.case_info
+              ? ` · ${motor.case_info}`
+              : motor.motor_type === "SU"
+                ? " · single use"
+                : ""}
           </div>
         </div>
       </div>

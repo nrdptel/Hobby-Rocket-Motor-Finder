@@ -238,7 +238,7 @@ def snapshot_export(
         motors = conn.execute(
             "SELECT id, manufacturer, designation, common_name, diameter_mm, impulse_class, "
             "       total_impulse_ns, avg_thrust_n, burn_time_s, propellant, "
-            "       delays, delay_adjustable, availability "
+            "       delays, delay_adjustable, availability, motor_type, case_info "
             "FROM motors ORDER BY impulse_class, designation"
         ).fetchall()
         matched_listings = conn.execute(
@@ -301,6 +301,11 @@ def snapshot_export(
                 "propellant": m["propellant"],
                 "delays": m["delays"],
                 "delay_adjustable": bool(m["delay_adjustable"]),
+                # Motor type ("reload"/"SU"/"hybrid") and the reload hardware it
+                # uses (e.g. "RMS-38/720", "Pro38-3G"), for the case filter. case_info
+                # is null for single-use motors.
+                "motor_type": m["motor_type"],
+                "case_info": m["case_info"],
                 # Out-of-production: matched to a discontinued ThrustCurve motor,
                 # i.e. a vendor's old stock that won't be restocked once it sells.
                 "discontinued": (m["availability"] or "") == "OOP",

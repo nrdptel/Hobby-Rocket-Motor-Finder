@@ -41,6 +41,11 @@ export type Motor = {
   // stock that won't be restocked once it sells out. Optional for back-compat
   // with snapshots written before the field existed.
   discontinued?: boolean;
+  // ThrustCurve motor type ("reload" / "SU" / "hybrid") and the reload hardware
+  // the motor uses (e.g. "RMS-38/720", "Pro38-3G"). case_info is null for
+  // single-use motors. Both optional for back-compat with older snapshots.
+  motor_type?: string | null;
+  case_info?: string | null;
   listings: Listing[];
 };
 

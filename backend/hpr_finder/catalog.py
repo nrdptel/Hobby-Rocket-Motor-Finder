@@ -127,6 +127,8 @@ def to_motor(record: dict) -> Motor | None:
         delay_adjustable=bool(record.get("delayAdjustable")),
         thrustcurve_id=record.get("motorId"),
         availability=record.get("availability"),
+        motor_type=record.get("type"),
+        case_info=record.get("caseInfo"),
     )
 
 

@@ -4,6 +4,8 @@ import type { HistorySummary } from "@/lib/snapshot";
 import {
   CERT_LEVELS,
   MIN_CLASS,
+  caseKey,
+  caseOptions,
   certClasses,
   findSubstitutes,
   formatPrice,
@@ -60,6 +62,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fClass = parseSetParam(params.class);
   const fDia = parseSetParam(params.dia);
   const fCertClasses = certClasses(parseSetParam(params.cert));
+  const fCase = parseSetParam(params.case);
   const fInStock = params.in_stock === "1";
   const fSort = params.sort === "price" ? "price" : "stock";
   const fOrder = parseOrder(params.order);
@@ -97,6 +100,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const diameterOptions = Array.from(
     new Set(motorsWithListings.map((m) => m.diameter_mm)),
   ).sort((a, b) => a - b);
+  // Reload cases (+ "Single use") present among motors-with-listings, for the
+  // searchable case filter. Empty on a snapshot written before case data existed,
+  // which hides the Case row entirely.
+  const caseFilterOptions = caseOptions(motorsWithListings);
   // Only offer cert levels that actually have motors with listings.
   const presentClasses = new Set(motorsWithListings.map((m) => m.impulse_class));
   const certOptions = CERT_LEVELS.filter((lvl) =>
@@ -119,6 +126,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       if (fClass.size > 0 && !fClass.has(m.impulse_class)) return false;
       if (fCertClasses.size > 0 && !fCertClasses.has(m.impulse_class)) return false;
       if (fDia.size > 0 && !fDia.has(String(m.diameter_mm))) return false;
+      if (fCase.size > 0) {
+        const k = caseKey(m);
+        if (k == null || !fCase.has(k)) return false;
+      }
       if (fMinImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < fMinImpulse))
         return false;
       if (fMaxImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns > fMaxImpulse))
@@ -220,6 +231,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         classes={classOptions}
         diameters={diameterOptions}
         certLevels={certOptions}
+        cases={caseFilterOptions}
       />
 
       <MotorResults

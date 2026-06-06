@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  SINGLE_USE_CASE,
   bestInStockPriceCents,
+  caseKey,
+  caseOptions,
   certClasses,
   certForClass,
   cheapestInStockCents,
@@ -909,5 +912,36 @@ describe("findSubstitutes / motorInStock", () => {
     const noData = makeMotor({ id: 14, total_impulse_ns: null, listings: [makeListing({ status: "out_of_stock" })] });
     const good = inStock({ id: 15, total_impulse_ns: 240, avg_thrust_n: 240 });
     expect(findSubstitutes(noData, [noData, good])).toEqual([]);
+  });
+});
+
+// Reload-case filter helpers.
+describe("caseKey / caseOptions", () => {
+  it("caseKey returns the reload case for a reload", () => {
+    expect(caseKey(makeMotor({ motor_type: "reload", case_info: "RMS-38/720" }))).toBe("RMS-38/720");
+  });
+
+  it("caseKey returns 'Single use' for a single-use motor", () => {
+    expect(caseKey(makeMotor({ motor_type: "SU", case_info: null }))).toBe(SINGLE_USE_CASE);
+  });
+
+  it("caseKey returns null when unknown (old snapshot, or hybrid w/o case)", () => {
+    expect(caseKey(makeMotor({ motor_type: undefined, case_info: undefined }))).toBeNull();
+    expect(caseKey(makeMotor({ motor_type: "hybrid", case_info: null }))).toBeNull();
+  });
+
+  it("caseOptions: distinct cases w/ diameter + brand, sorted by diameter then value, Single use last", () => {
+    const motors = [
+      makeMotor({ id: 1, manufacturer: "AeroTech", diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }),
+      makeMotor({ id: 2, manufacturer: "AeroTech", diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }), // dup
+      makeMotor({ id: 3, manufacturer: "Cesaroni Technology", diameter_mm: 29, motor_type: "reload", case_info: "Pro29-3G" }),
+      makeMotor({ id: 4, manufacturer: "AeroTech", diameter_mm: 24, motor_type: "SU", case_info: null }),
+      makeMotor({ id: 5, diameter_mm: 38, motor_type: undefined, case_info: undefined }), // no case → skipped
+    ];
+    expect(caseOptions(motors)).toEqual([
+      { value: "Pro29-3G", diameter: 29, manufacturer: "Cesaroni" },
+      { value: "RMS-38/720", diameter: 38, manufacturer: "AeroTech" },
+      { value: SINGLE_USE_CASE, diameter: null, manufacturer: null },
+    ]);
   });
 });

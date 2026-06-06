@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS motors (
     delay_adjustable INTEGER NOT NULL DEFAULT 0,
     thrustcurve_id TEXT,
     availability TEXT,
+    motor_type TEXT,
+    case_info TEXT,
     UNIQUE (manufacturer, designation)
 );
 
@@ -124,6 +126,10 @@ def init_schema(conn: sqlite3.Connection) -> None:
         conn.execute("ALTER TABLE motors ADD COLUMN delay_adjustable INTEGER NOT NULL DEFAULT 0")
     if "availability" not in cols:
         conn.execute("ALTER TABLE motors ADD COLUMN availability TEXT")
+    if "motor_type" not in cols:
+        conn.execute("ALTER TABLE motors ADD COLUMN motor_type TEXT")
+    if "case_info" not in cols:
+        conn.execute("ALTER TABLE motors ADD COLUMN case_info TEXT")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_motors_common_name ON motors (common_name)")
     # Idempotent migration: add manufacturer/diameter routing columns to listings
     # if an older DB predates multi-manufacturer support.
@@ -162,19 +168,21 @@ def upsert_motors(conn: sqlite3.Connection, motors: list[Motor]) -> int:
             1 if m.delay_adjustable else 0,
             m.thrustcurve_id,
             m.availability,
+            m.motor_type,
+            m.case_info,
         )
         for m in motors
     ]
     conn.executemany(
-        "INSERT INTO motors (manufacturer, designation, common_name, diameter_mm, length_mm, total_impulse_ns, avg_thrust_n, burn_time_s, propellant, impulse_class, delays, delay_adjustable, thrustcurve_id, availability) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
+        "INSERT INTO motors (manufacturer, designation, common_name, diameter_mm, length_mm, total_impulse_ns, avg_thrust_n, burn_time_s, propellant, impulse_class, delays, delay_adjustable, thrustcurve_id, availability, motor_type, case_info) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) "
         "ON CONFLICT (manufacturer, designation) DO UPDATE SET "
         "common_name=excluded.common_name, diameter_mm=excluded.diameter_mm, length_mm=excluded.length_mm, "
         "total_impulse_ns=excluded.total_impulse_ns, avg_thrust_n=excluded.avg_thrust_n, "
         "burn_time_s=excluded.burn_time_s, propellant=excluded.propellant, "
         "impulse_class=excluded.impulse_class, delays=excluded.delays, "
         "delay_adjustable=excluded.delay_adjustable, thrustcurve_id=excluded.thrustcurve_id, "
-        "availability=excluded.availability",
+        "availability=excluded.availability, motor_type=excluded.motor_type, case_info=excluded.case_info",
         rows,
     )
     return len(rows)
