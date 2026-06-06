@@ -1,4 +1,4 @@
-import { alertConfig, normalizeEmail, userMotorsKey } from "@/lib/alerts/config";
+import { alertConfig, normalizeEmail, userMotorsKey, userRocketsKey } from "@/lib/alerts/config";
 import { manageEmail, sendEmail } from "@/lib/alerts/email";
 import { signToken } from "@/lib/alerts/tokens";
 import { incrWithTtl, smembers } from "@/lib/alerts/upstash";
@@ -45,8 +45,14 @@ export async function POST(request: Request): Promise<Response> {
   }
 
   try {
-    const motors = await smembers(cfg, userMotorsKey(email));
-    if (motors.length > 0) {
+    // Send a link if the email has ANY alerts — motor subscriptions OR rocket-fit
+    // subscriptions. (Checking only motors was a bug: rocket-only subscribers got
+    // no manage email even though the manage page lists their rocket alerts.)
+    const [motors, rockets] = await Promise.all([
+      smembers(cfg, userMotorsKey(email)),
+      smembers(cfg, userRocketsKey(email)),
+    ]);
+    if (motors.length > 0 || rockets.length > 0) {
       const token = await signToken(cfg.secret, {
         t: "m",
         e: email,
