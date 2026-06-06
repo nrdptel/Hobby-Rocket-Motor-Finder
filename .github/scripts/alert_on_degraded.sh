@@ -136,6 +136,11 @@ ${detail}
 Below-baseline anomalies (vendor above floor + fresh, but well under its own normal counts):
 ${anomalies}
 
+Last scrape errors (categorized — why the latest run failed):
+${scrape_errors}
+
+Vendors with no finished scrape run this cycle (likely a hang): ${no_finished}
+
 This issue auto-closes once the scrape is healthy again. Logs: [Actions](../../actions/workflows/scrape.yml)."
 
 if [[ "$escalate" == "true" ]]; then
