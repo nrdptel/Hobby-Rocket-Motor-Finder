@@ -22,6 +22,7 @@ import type { Substitute } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
 import { MyRockets } from "./components/MyRockets";
 import { HowItWorks } from "./components/HowItWorks";
+import { Methodology } from "./components/Methodology";
 import { MotorResults } from "./components/MotorResults";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
@@ -206,6 +207,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
       <HowItWorks />
 
+      <Methodology />
+
       <MyRockets
         diameters={diameterOptions}
         certLevels={certOptions}
@@ -310,35 +313,61 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         </section>
       )}
 
-      <footer className="mt-12 border-t border-zinc-200 pt-4 text-xs text-zinc-500 dark:border-zinc-800">
-        <p>
-          Sources scraped on a schedule from public vendor sites. Stock data is a
-          point-in-time snapshot and may be stale by the time you click through &mdash;
-          always verify on the vendor page before buying.
+      <footer className="mt-12 border-t border-zinc-200 pt-6 text-xs text-zinc-500 dark:border-zinc-800">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <a
+              href="https://github.com/nrdptel/Hobby-Rocket-Motor-Finder"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
+            >
+              <svg viewBox="0 0 16 16" aria-hidden="true" className="h-4 w-4 fill-current">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+              </svg>
+              Source on GitHub
+            </a>
+            <span aria-hidden className="text-zinc-300 dark:text-zinc-700">·</span>
+            <a
+              href="https://www.thrustcurve.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-zinc-800 dark:hover:text-zinc-200"
+            >
+              Motor data from ThrustCurve
+            </a>
+            {process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1" && (
+              <>
+                <span aria-hidden className="text-zinc-300 dark:text-zinc-700">·</span>
+                <Link href="/alerts" className="hover:text-zinc-800 dark:hover:text-zinc-200">
+                  Manage email alerts
+                </Link>
+              </>
+            )}
+          </nav>
+
+          <div className="flex items-center gap-1.5 opacity-80">
+            <span>Built by</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/fusion-space-logo.svg"
+              alt="Fusion Space"
+              width={1694}
+              height={378}
+              className="h-5 w-auto"
+            />
+          </div>
+        </div>
+
+        <p className="mt-5 max-w-3xl leading-relaxed text-zinc-400 dark:text-zinc-500">
+          Personal, non-commercial project &mdash; not affiliated with any listed vendor or manufacturer.
+          Stock and prices are scraped on a schedule from public vendor sites, are a point-in-time
+          snapshot, and may be stale by the time you click through; always verify on the vendor&apos;s
+          own page before buying.
           {new Date().getMonth() === 5 && (
-            <span className="ml-1">🏳️‍🌈 Happy Pride Month — fly high. 🚀</span>
+            <span className="ml-1">🏳️‍🌈 Happy Pride Month &mdash; fly high. 🚀</span>
           )}
         </p>
-        {process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1" && (
-          <p className="mt-2">
-            Get restock alerts with the 🔔 on any motor.{" "}
-            <Link href="/alerts" className="underline hover:text-zinc-700 dark:hover:text-zinc-300">
-              Manage your email alerts
-            </Link>
-            .
-          </p>
-        )}
-        <div className="mt-3 flex items-center gap-1.5">
-          <span>Built by</span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/fusion-space-logo.svg"
-            alt="Fusion Space"
-            width={1694}
-            height={378}
-            className="h-5 w-auto opacity-80"
-          />
-        </div>
       </footer>
     </main>
   );
