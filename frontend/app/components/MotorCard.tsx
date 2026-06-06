@@ -9,7 +9,7 @@ import {
   thrustcurveUrl,
   safeHref,
 } from "@/lib/derive";
-import type { GroupedMotor } from "@/lib/derive";
+import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
 import { BestPriceTag } from "./BestPriceTag";
 import { CertBadge } from "./CertBadge";
@@ -19,6 +19,7 @@ import { StaleBadge } from "./StaleBadge";
 import { NotifyButton } from "./NotifyButton";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
+import { Substitutes } from "./Substitutes";
 
 /** Stacked, single-column rendering of one motor and its listings — the
  * narrow-screen counterpart to a row group in the desktop table. The table
@@ -34,11 +35,13 @@ export function MotorCard({
   showManufacturer,
   snapshotTime,
   history,
+  substitutes,
 }: {
   motor: GroupedMotor;
   showManufacturer: boolean;
   snapshotTime: Date;
   history: HistorySummary;
+  substitutes?: Substitute[];
 }) {
   return (
     <article className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
@@ -129,6 +132,12 @@ export function MotorCard({
           );
         })}
       </div>
+
+      {substitutes && substitutes.length > 0 && (
+        <div className="mt-3 border-t border-zinc-200 pt-2 dark:border-zinc-800/80">
+          <Substitutes subs={substitutes} />
+        </div>
+      )}
     </article>
   );
 }

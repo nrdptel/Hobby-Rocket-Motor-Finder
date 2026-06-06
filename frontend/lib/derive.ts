@@ -254,6 +254,111 @@ export function cheapestInStockCents(m: Motor): number | null {
   return best;
 }
 
+/** True when at least one of a motor's listings is in stock somewhere. */
+export function motorInStock(m: Motor): boolean {
+  return m.listings.some((l) => listingInStock(l.status));
+}
+
+// Tolerances for what counts as a usable substitute for a sold-out motor. A
+// substitute must share the *exact* diameter (it has to fit the same mount) and
+// impulse class (so a flyer rated for the original is rated for the swap), then
+// land within these bands so the flight is comparable. Bands chosen from the
+// live snapshot: tight enough that matches are genuinely interchangeable, loose
+// enough that ~2/3 of sold-out motors get at least one in-stock alternative.
+export const SUBSTITUTE_IMPULSE_BAND = 0.15; // ±15% total impulse
+export const SUBSTITUTE_THRUST_BAND = 0.35; // ±35% average thrust (when known)
+
+/** In-stock motors that can stand in for a sold-out ``target`` — same diameter
+ * and impulse class, total impulse within ±15%, and (when both are known)
+ * average thrust within ±35%. Ranked best-fit first: closest total impulse, then
+ * closest thrust, then cheapest in-stock price, then designation.
+ *
+ * Returns ``[]`` when the target lacks the impulse/diameter data needed to judge
+ * (we never guess a substitute we can't justify). The caller decides when to ask
+ * — typically only for a motor that is out of stock everywhere. ``all`` should be
+ * the full motor set, not the filtered view, so a swap isn't hidden by the
+ * current filters. */
+export function findSubstitutes(target: Motor, all: readonly Motor[]): Motor[] {
+  const ti = target.total_impulse_ns;
+  if (ti == null || ti <= 0) return [];
+  const th = target.avg_thrust_n;
+
+  const scored: { motor: Motor; score: number }[] = [];
+  for (const c of all) {
+    if (c.id === target.id) continue;
+    if (c.diameter_mm !== target.diameter_mm) continue;
+    if (c.impulse_class !== target.impulse_class) continue;
+    if (!motorInStock(c)) continue;
+
+    const cti = c.total_impulse_ns;
+    if (cti == null) continue;
+    const impulseDelta = Math.abs(cti - ti) / ti;
+    if (impulseDelta > SUBSTITUTE_IMPULSE_BAND) continue;
+
+    let thrustDelta = 0;
+    const cth = c.avg_thrust_n;
+    if (th != null && th > 0 && cth != null) {
+      thrustDelta = Math.abs(cth - th) / th;
+      if (thrustDelta > SUBSTITUTE_THRUST_BAND) continue;
+    }
+
+    // Impulse fit dominates; thrust is a secondary nudge.
+    scored.push({ motor: c, score: impulseDelta + thrustDelta * 0.5 });
+  }
+
+  scored.sort((a, b) => {
+    if (a.score !== b.score) return a.score - b.score;
+    const pa = cheapestInStockCents(a.motor) ?? Number.POSITIVE_INFINITY;
+    const pb = cheapestInStockCents(b.motor) ?? Number.POSITIVE_INFINITY;
+    if (pa !== pb) return pa - pb;
+    return a.motor.designation.localeCompare(b.motor.designation);
+  });
+  return scored.map((s) => s.motor);
+}
+
+/** The in-stock listing to point a flyer at for a substitute: the cheapest one
+ * with a price, falling back to any in-stock listing when none is priced. */
+export function cheapestInStockListing(m: Motor): Listing | null {
+  let best: Listing | null = null;
+  for (const l of m.listings) {
+    if (!listingInStock(l.status) || l.price_cents == null) continue;
+    if (best == null || l.price_cents < (best.price_cents as number)) best = l;
+  }
+  return best ?? m.listings.find((l) => listingInStock(l.status)) ?? null;
+}
+
+/** The compact, render-ready shape shipped to the client for one substitute —
+ * just what the disclosure needs, so the server→client payload stays small and
+ * doesn't carry every substitute's full listing array. */
+export type Substitute = {
+  manufacturer: string;
+  designation: string;
+  impulse_class: string;
+  total_impulse_ns: number | null;
+  avg_thrust_n: number | null;
+  bestPriceCents: number | null;
+  currency: string;
+  vendorName: string | null;
+  url: string | null;
+};
+
+/** Project a substitute Motor into the compact {@link Substitute} payload,
+ * resolving the cheapest in-stock listing for the price/vendor/link. */
+export function toSubstitute(m: Motor): Substitute {
+  const listing = cheapestInStockListing(m);
+  return {
+    manufacturer: m.manufacturer,
+    designation: m.designation,
+    impulse_class: m.impulse_class,
+    total_impulse_ns: m.total_impulse_ns,
+    avg_thrust_n: m.avg_thrust_n,
+    bestPriceCents: cheapestInStockCents(m),
+    currency: listing?.currency ?? "USD",
+    vendorName: listing?.vendor_name ?? null,
+    url: listing?.url ?? null,
+  };
+}
+
 // Natural ordering: impulse class → diameter → designation.
 function compareByClass(a: Motor, b: Motor): number {
   const [ac, ad, an] = rankMotor(a);

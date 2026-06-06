@@ -5,16 +5,20 @@ import {
   CERT_LEVELS,
   MIN_CLASS,
   certClasses,
+  findSubstitutes,
   formatPrice,
   groupByDelay,
   listingInStock,
   manufacturerLabel,
+  motorInStock,
   parseDir,
   parseOrder,
   parseSetParam,
   safeHref,
   sortedMotors,
+  toSubstitute,
 } from "@/lib/derive";
+import type { Substitute } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
 import { MyRockets } from "./components/MyRockets";
 import { HowItWorks } from "./components/HowItWorks";
@@ -158,6 +162,18 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     }
   }
 
+  // For each visible motor that's sold out everywhere, the best in-stock swaps
+  // (same diameter + impulse class, close total impulse/thrust). Computed against
+  // the full motor set — not the filtered view — so a usable swap isn't hidden by
+  // the active filters, then capped at 4 and projected to a compact payload so the
+  // server→client size stays proportional to what's shown (mirrors visibleHistory).
+  const substitutes: Record<number, Substitute[]> = {};
+  for (const m of filteredWithListings) {
+    if (motorInStock(m)) continue;
+    const subs = findSubstitutes(m, motorsWithListings).slice(0, 4).map(toSubstitute);
+    if (subs.length > 0) substitutes[m.id] = subs;
+  }
+
   // Drop A/B/C-class entries from the unmatched section too (the same
   // MIN_CLASS gate applied to motors). Also drop AeroTech Q-Jet products —
   // they're a low-power model-rocketry line not in the ThrustCurve subset
@@ -206,6 +222,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         generatedAt={snapshot.generated_at}
         starredOnly={fStarredOnly}
         history={visibleHistory}
+        substitutes={substitutes}
       />
 
       {unmatched.length > 0 && (

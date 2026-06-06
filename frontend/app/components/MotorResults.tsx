@@ -13,7 +13,7 @@ import {
   thrustcurveUrl,
   safeHref,
 } from "@/lib/derive";
-import type { GroupedMotor } from "@/lib/derive";
+import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
 import { BestPriceTag } from "./BestPriceTag";
@@ -25,6 +25,7 @@ import { StaleBadge } from "./StaleBadge";
 import { NotifyButton } from "./NotifyButton";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
+import { Substitutes } from "./Substitutes";
 
 /** The interactive results area: a grouped desktop table and the mobile card
  * list, plus the watchlist overlay. It's a client component so the "starred
@@ -44,12 +45,14 @@ export function MotorResults({
   generatedAt,
   starredOnly,
   history,
+  substitutes,
 }: {
   motors: GroupedMotor[];
   showManufacturer: boolean;
   generatedAt: string;
   starredOnly: boolean;
   history: HistorySummary;
+  substitutes: Record<number, Substitute[]>;
 }) {
   const { starred, hydrated, count } = useWatchlist();
   const now = new Date(generatedAt);
@@ -211,6 +214,17 @@ export function MotorResults({
                     );
                   });
                 }
+                // Sold-out motor: offer same-mount, same-cert in-stock swaps.
+                const subs = substitutes[m.id];
+                if (subs && subs.length > 0) {
+                  rows.push(
+                    <tr key={`${m.id}-subs`}>
+                      <td colSpan={6} className="px-3 pb-2 pl-6">
+                        <Substitutes subs={subs} />
+                      </td>
+                    </tr>,
+                  );
+                }
                 return rows;
               })
             )}
@@ -233,6 +247,7 @@ export function MotorResults({
               showManufacturer={showManufacturer}
               snapshotTime={now}
               history={history}
+              substitutes={substitutes[m.id]}
             />
           ))
         )}
