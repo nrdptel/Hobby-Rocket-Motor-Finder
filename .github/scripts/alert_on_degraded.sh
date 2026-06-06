@@ -71,6 +71,14 @@ durations=$(jq -r '
 ' "$REPORT")
 no_finished=$(jq -r '.no_finished_run // [] | join(", ") | if . == "" then "none" else . end' "$REPORT")
 
+# Per-vendor last scrape error, categorized (failed runs only; old reports lack it).
+scrape_errors=$(jq -r '
+  (.scrape_errors // {}) | to_entries | sort_by(.key)
+  | if length == 0 then "none"
+    else map("- **\(.key)** [\(.value.category)]: \(.value.detail)") | join("\n")
+    end
+' "$REPORT")
+
 # Either sustained signal escalates to the single tracking issue.
 escalate=false
 [[ "$sustained" == "true" || "$anomaly_sustained" == "true" ]] && escalate=true
@@ -98,7 +106,10 @@ ${detail}
 ${anomalies}
 
 **Scrape duration** (max ${max_run}s · no finished run: ${no_finished}):
-${durations}"
+${durations}
+
+**Last scrape errors:**
+${scrape_errors}"
 
 # --- issue lifecycle: sustained staleness OR a sustained below-baseline anomaly ---
 # Tolerate a transient GitHub API hiccup: under `set -e` an un-guarded failure

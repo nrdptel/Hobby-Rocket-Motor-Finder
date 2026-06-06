@@ -57,6 +57,12 @@ crashed before `finish_run` — is absent from `run_durations` and listed under
 only** (rendered in the run summary), not yet an escalation signal: a creeping
 duration is a leading indicator that a vendor is getting flaky.
 
+For a vendor whose latest finished run *failed*, the report also carries a
+**categorized last error** (`.scrape_errors`, per vendor `{category, detail}`)
+so the run summary can say *why* it broke — `timeout`/`connection` (usually
+transient) vs `http`/`parse` (usually a real break: IP blocked, site HTML
+changed) — without opening the CI logs. Healthy runs record nothing here.
+
 ## Where each signal shows up
 
 | Signal | Surfaced |
