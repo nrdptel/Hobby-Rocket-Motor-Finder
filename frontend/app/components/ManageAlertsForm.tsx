@@ -56,41 +56,54 @@ export function ManageAlertsForm() {
     }
   };
 
+  // Persistent live region so screen readers reliably announce the outcome.
+  const liveMsg =
+    status === "sent"
+      ? `${message} The link works for about an hour.`
+      : status === "error"
+        ? message
+        : "";
+  const liveRegion = (
+    <span className="sr-only" role="status" aria-live="polite">
+      {liveMsg}
+    </span>
+  );
+
   if (status === "sent") {
     return (
-      <p
-        role="status"
-        aria-live="polite"
-        className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
-      >
-        ✓ {message} The link works for about an hour.
-      </p>
+      <>
+        {liveRegion}
+        <p className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+          ✓ {message} The link works for about an hour.
+        </p>
+      </>
     );
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-wrap items-center gap-2">
-      <input
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="you@email.com"
-        aria-label="Your email address"
-        className="w-56 rounded-md border border-zinc-300 bg-white px-2.5 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-      />
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="rounded-md border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-      >
-        {status === "sending" ? "Sending…" : "Email me a link"}
-      </button>
-      {status === "error" && (
-        <span role="alert" className="w-full text-sm text-red-600 dark:text-red-400">
-          {message}
-        </span>
-      )}
-    </form>
+    <>
+      {liveRegion}
+      <form onSubmit={submit} className="flex flex-wrap items-center gap-2">
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@email.com"
+          aria-label="Your email address"
+          className="w-56 rounded-md border border-zinc-300 bg-white px-2.5 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+        />
+        <button
+          type="submit"
+          disabled={status === "sending"}
+          className="rounded-md border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+        >
+          {status === "sending" ? "Sending…" : "Email me a link"}
+        </button>
+        {status === "error" && (
+          <span className="w-full text-sm text-red-600 dark:text-red-400">{message}</span>
+        )}
+      </form>
+    </>
   );
 }
