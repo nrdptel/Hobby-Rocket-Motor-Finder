@@ -3,22 +3,27 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export type SelectOption = {
+  // The value stored in the URL filter + passed to onToggle (e.g. a vendor slug,
+  // a case code, a propellant name).
   value: string;
-  // Heading this option is filed under in the dropdown (e.g. "54mm",
-  // "AeroTech"). Options are grouped by this, preserving first-seen order, so
-  // the caller controls group order via the order of the `options` array.
-  group: string;
+  // What the user sees in the dropdown row + chip. Defaults to `value` when the
+  // display text and the stored value are the same (cases, propellants).
+  label?: string;
+  // Heading this option is filed under (e.g. "54mm", "AeroTech"). Options are
+  // grouped by this, preserving first-seen order, so the caller controls group
+  // order via the order of the `options` array. Omit for a flat, ungrouped list.
+  group?: string;
   // Muted right-aligned label inside the dropdown row + on the chip (e.g. the
   // brand for a reload case). null hides it.
   sublabel?: string | null;
 };
 
-/** Searchable, grouped multi-select used for filter dimensions with too many
- * values to show as a flat pill row (reload cases ~90, propellants ~36). The
- * audience knows their hardware, so the primary path is type-to-find; the
- * grouped checklist is for browsing. Selected values show as removable chips so
- * the choice stays visible without reopening the panel. Caller owns the option
- * list, sort, and grouping label; this is purely presentational. */
+/** Searchable, optionally-grouped multi-select used for filter dimensions with
+ * too many values to show as a flat pill row (reload cases ~90, propellants ~36,
+ * vendors ~10). The audience knows their hardware, so the primary path is
+ * type-to-find; the checklist is for browsing. Selected values show as removable
+ * chips so the choice stays visible without reopening the panel. Caller owns the
+ * option list, sort, and grouping; this is purely presentational. */
 export function SearchableMultiSelect({
   options,
   active,
@@ -60,7 +65,12 @@ export function SearchableMultiSelect({
     };
   }, [open]);
 
-  // value → sublabel, so selected chips (rebuilt from raw URL values) can show it.
+  // value → display text + sublabel, so selected chips (rebuilt from raw URL
+  // values) can render their friendly label, not the stored value.
+  const labelOf = useMemo(
+    () => new Map(options.map((o) => [o.value, o.label ?? o.value])),
+    [options],
+  );
   const sublabelOf = useMemo(
     () => new Map(options.map((o) => [o.value, o.sublabel ?? null])),
     [options],
@@ -68,12 +78,15 @@ export function SearchableMultiSelect({
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const list = q ? options.filter((o) => o.value.toLowerCase().includes(q)) : options;
+    const list = q
+      ? options.filter((o) => (o.label ?? o.value).toLowerCase().includes(q))
+      : options;
     const m = new Map<string, SelectOption[]>();
     for (const o of list) {
-      const arr = m.get(o.group);
+      const key = o.group ?? "";
+      const arr = m.get(key);
       if (arr) arr.push(o);
-      else m.set(o.group, [o]);
+      else m.set(key, [o]);
     }
     return m;
   }, [options, query]);
@@ -101,7 +114,7 @@ export function SearchableMultiSelect({
           title={`Remove this ${noun}`}
           className="inline-flex items-center gap-1 rounded-full border border-zinc-900 bg-zinc-900 px-2.5 py-0.5 text-xs text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
         >
-          <span className={mono ? "font-mono" : undefined}>{v}</span>
+          <span className={mono ? "font-mono" : undefined}>{labelOf.get(v) ?? v}</span>
           {sublabelOf.get(v) && (
             <span className="font-normal opacity-50">{sublabelOf.get(v)}</span>
           )}
@@ -131,10 +144,12 @@ export function SearchableMultiSelect({
           />
           <div className="mt-2 space-y-2">
             {Array.from(groups.entries()).map(([group, opts]) => (
-              <div key={group}>
-                <div className="px-1 text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                  {group}
-                </div>
+              <div key={group || "_"}>
+                {group && (
+                  <div className="px-1 text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+                    {group}
+                  </div>
+                )}
                 {opts.map((o) => (
                   <label
                     key={o.value}
@@ -146,7 +161,9 @@ export function SearchableMultiSelect({
                       onChange={() => onToggle(o.value)}
                       className="accent-zinc-900 dark:accent-zinc-100"
                     />
-                    <span className={`${valueCls} text-zinc-800 dark:text-zinc-200`}>{o.value}</span>
+                    <span className={`${valueCls} text-zinc-800 dark:text-zinc-200`}>
+                      {o.label ?? o.value}
+                    </span>
                     {o.sublabel && (
                       <span className="ml-auto text-[10px] text-zinc-400 dark:text-zinc-500">
                         {o.sublabel}
