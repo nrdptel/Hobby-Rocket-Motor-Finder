@@ -1,7 +1,13 @@
 import { alertConfig, clientIp, motorKey, normalizeEmail } from "@/lib/alerts/config";
 import { sendEmail, confirmEmail } from "@/lib/alerts/email";
 import { manageLink } from "@/lib/alerts/manageLink";
-import { overDailyConfirmCap, overIpLimit, utcDay } from "@/lib/alerts/rateLimit";
+import {
+  confirmRecentlySent,
+  overGlobalConfirmCap,
+  overIpLimit,
+  releaseConfirmCooldown,
+  utcHour,
+} from "@/lib/alerts/rateLimit";
 import { signToken } from "@/lib/alerts/tokens";
 
 export const dynamic = "force-dynamic";
@@ -40,15 +46,20 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: "email, manufacturer and designation are required" }, 400);
   }
 
-  // Per-IP hourly cap + a global daily cap on confirmation sends. Both fail
-  // CLOSED (no email) if the store is down, so a flaky Upstash can't be used to
-  // bypass the limits and burn the Resend quota.
+  // Per-IP hourly cap, a global hourly cap, and a per-recipient cooldown. All
+  // fail CLOSED (no email) if the store is down, so a flaky Upstash can't be used
+  // to bypass the limits and email-bomb / burn the send quota.
   try {
     if (await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX)) {
       return json({ error: "rate limited; try again later" }, 429);
     }
-    if (await overDailyConfirmCap(cfg, utcDay())) {
+    if (await overGlobalConfirmCap(cfg, utcHour())) {
       return json({ error: "rate limited; try again later" }, 429);
+    }
+    // Already mailed this address recently → don't re-send (anti inbox-bomb), but
+    // return the SAME success message so we never reveal subscription state.
+    if (await confirmRecentlySent(cfg, email)) {
+      return json({ ok: true, message: "Check your email to confirm." });
     }
   } catch {
     return json({ error: "rate limited; try again later" }, 429);
@@ -74,6 +85,9 @@ export async function POST(request: Request): Promise<Response> {
       text: tmpl.text,
     });
   } catch {
+    // Send failed → release the per-recipient cooldown so a transient error
+    // doesn't lock this address out of retrying for the full window.
+    await releaseConfirmCooldown(cfg, email);
     return json({ error: "could not send confirmation email" }, 502);
   }
 

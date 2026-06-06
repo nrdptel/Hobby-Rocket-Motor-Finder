@@ -30,6 +30,7 @@ import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
 import { NotifyButton } from "@/app/components/NotifyButton";
 import { RestockBadge } from "@/app/components/RestockBadge";
 import { SnapshotTime } from "@/app/components/SnapshotTime";
+import { SiteHeader } from "@/app/components/SiteHeader";
 import { StaleBadge } from "@/app/components/StaleBadge";
 import { StarButton } from "@/app/components/StarButton";
 import { StatusBadge } from "@/app/components/StatusBadge";
@@ -161,7 +162,8 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-10">
-      <nav className="text-sm text-zinc-500 dark:text-zinc-400">
+      <SiteHeader />
+      <nav className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
         <Link href="/" className="hover:text-zinc-800 dark:hover:text-zinc-200">
           ← All motors
         </Link>

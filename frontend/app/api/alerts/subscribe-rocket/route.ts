@@ -1,7 +1,13 @@
 import { alertConfig, clientIp, normalizeEmail } from "@/lib/alerts/config";
 import { rocketConfirmEmail, sendEmail } from "@/lib/alerts/email";
 import { manageLink } from "@/lib/alerts/manageLink";
-import { overDailyConfirmCap, overIpLimit, utcDay } from "@/lib/alerts/rateLimit";
+import {
+  confirmRecentlySent,
+  overGlobalConfirmCap,
+  overIpLimit,
+  releaseConfirmCooldown,
+  utcHour,
+} from "@/lib/alerts/rateLimit";
 import {
   describeRocketFields,
   normalizeRocketFields,
@@ -40,14 +46,19 @@ export async function POST(request: Request): Promise<Response> {
   if (!email) return json({ error: "a valid email is required" }, 400);
   if (!fields) return json({ error: "a valid rocket (motor-mount diameter) is required" }, 400);
 
-  // Per-IP hourly cap + global daily confirm-send cap; fail CLOSED if the store
-  // is down so a flaky Upstash can't be used to bypass the limits.
+  // Per-IP hourly cap, global hourly cap, and a per-recipient cooldown; all fail
+  // CLOSED if the store is down so a flaky Upstash can't be used to bypass them.
   try {
     if (await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX)) {
       return json({ error: "rate limited; try again later" }, 429);
     }
-    if (await overDailyConfirmCap(cfg, utcDay())) {
+    if (await overGlobalConfirmCap(cfg, utcHour())) {
       return json({ error: "rate limited; try again later" }, 429);
+    }
+    // Already mailed this address recently → don't re-send (anti inbox-bomb), but
+    // return the SAME success message so we never reveal subscription state.
+    if (await confirmRecentlySent(cfg, email)) {
+      return json({ ok: true, message: "Check your email to confirm." });
     }
   } catch {
     return json({ error: "rate limited; try again later" }, 429);
@@ -77,6 +88,9 @@ export async function POST(request: Request): Promise<Response> {
       text: tmpl.text,
     });
   } catch {
+    // Send failed → release the per-recipient cooldown so a transient error
+    // doesn't lock this address out of retrying for the full window.
+    await releaseConfirmCooldown(cfg, email);
     return json({ error: "could not send confirmation email" }, 502);
   }
 

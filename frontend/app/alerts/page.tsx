@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ManageAlertsForm } from "../components/ManageAlertsForm";
+import { SiteHeader } from "../components/SiteHeader";
 
 const ALERTS_ON = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
 
@@ -13,7 +14,11 @@ export const metadata: Metadata = {
 export default function AlertsPage() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-12">
-      <Link href="/" className="text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200">
+      <SiteHeader />
+      <Link
+        href="/"
+        className="mt-4 inline-block text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
+      >
         ← Back to HPR Motor Finder
       </Link>
       <h1 className="mt-4 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
