@@ -63,6 +63,26 @@ export function confirmEmail(designation: string, confirmUrl: string): {
   };
 }
 
+export function manageEmail(manageUrl: string): {
+  subject: string;
+  html: string;
+  text: string;
+} {
+  return {
+    subject: `Manage your restock alerts`,
+    text:
+      `Here's your link to view and manage your motor restock alerts:\n\n` +
+      `${manageUrl}\n\n` +
+      `This link works for about an hour. If you didn't request it, ignore this email — ` +
+      `nothing changes and the link reveals nothing to anyone else.`,
+    html:
+      `<p>Here's your link to view and manage your motor restock alerts:</p>` +
+      `<p><a href="${esc(manageUrl)}">View &amp; manage my alerts →</a></p>` +
+      `<p style="color:#666;font-size:12px">This link works for about an hour. If you didn't ` +
+      `request it, ignore this email — nothing changes.</p>`,
+  };
+}
+
 export function restockEmail(
   designation: string,
   motorUrl: string,

@@ -1,4 +1,4 @@
-import { alertConfig } from "@/lib/alerts/config";
+import { alertConfig, subKey, userMotorsKey } from "@/lib/alerts/config";
 import { designationFromKey, resultPage } from "@/lib/alerts/resultPage";
 import { verifyToken } from "@/lib/alerts/tokens";
 import { srem } from "@/lib/alerts/upstash";
@@ -16,7 +16,8 @@ async function unsubscribe(request: Request): Promise<Response> {
   }
 
   try {
-    await srem(cfg, `sub:${payload.m}`, payload.e);
+    await srem(cfg, subKey(payload.m), payload.e); // motor → subscribers
+    await srem(cfg, userMotorsKey(payload.e), payload.m); // email → motors (manage page)
   } catch {
     return resultPage(
       "Something went wrong",

@@ -16,7 +16,19 @@ hourly scrape (GitHub Actions): export snapshot
         → POST /api/alerts/dispatch  (Bearer ALERTS_DISPATCH_SECRET)
         → for each restocked motor: look up subscribers in Upstash,
           email each via Resend (per-motor 6h cooldown to avoid dupes)
+
+self-serve manage (no restock needed): /alerts page → enter email
+        → POST /api/alerts/manage-request → magic link emailed (1h, signed "m" token)
+        → GET /api/alerts/manage?token=… → token-gated page lists this email's
+          subscriptions with per-motor + "unsubscribe from all" links
 ```
+
+A reverse index `umotors:<email>` (set of motorKeys) is kept in sync alongside
+the `sub:<motorKey>` sets on confirm/unsubscribe so the manage page can list a
+user's subscriptions. To prevent email enumeration, `/api/alerts/manage-request`
+always returns the same response and only emails the link if the address
+actually has alerts — the list itself is shown only after the magic link proves
+inbox ownership, so no one can view or change anyone else's subscriptions.
 
 All subscriber/email logic is TypeScript on Vercel (`frontend/lib/alerts`,
 `frontend/app/api/alerts/*`); the Python side only computes restocks
@@ -60,7 +72,9 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
 - **Cost:** restocks are rare and the audience is modest, so usage stays well
   within all free tiers.
 - **Privacy:** the only stored PII is subscriber emails (in Upstash). Every alert
-  email has a one-click unsubscribe (RFC 8058 + link).
+  email has a one-click unsubscribe (RFC 8058 + link), and the `/alerts` page lets
+  anyone view/cancel all their alerts via an emailed magic link — with no way to
+  probe whether a given address is subscribed.
 - **Disable:** remove `NEXT_PUBLIC_ALERTS_ENABLED` (hides the button) and/or the
   other env vars (routes 503). The scrape's dispatch step no-ops without its
   secrets.
