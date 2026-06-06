@@ -116,6 +116,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     diameter_mm: m.diameter_mm,
     impulse_class: m.impulse_class,
     total_impulse_ns: m.total_impulse_ns,
+    case_info: m.case_info ?? null,
+    motor_type: m.motor_type ?? null,
     inStock: m.listings.some((l) => listingInStock(l.status)),
   }));
 
@@ -223,6 +225,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       <MyRockets
         diameters={diameterOptions}
         certLevels={certOptions}
+        classes={classOptions}
+        cases={caseFilterOptions}
         motors={rocketMotors}
       />
 

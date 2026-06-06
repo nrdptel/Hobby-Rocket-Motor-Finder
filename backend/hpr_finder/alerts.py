@@ -23,8 +23,9 @@ def restocked_motors(prev: dict, current: dict) -> list[dict]:
 
     Returns one dict per restocked motor (deduped, input order preserved) with
     ``manufacturer``, ``designation``, ``common_name`` and the fit-relevant specs
-    ``diameter_mm``, ``impulse_class``, ``total_impulse_ns`` — the latter let the
-    dispatch route evaluate rocket-fit alerts ("anything that fits my rocket").
+    ``diameter_mm``, ``impulse_class``, ``total_impulse_ns``, ``case_info`` and
+    ``motor_type`` — which let the dispatch route evaluate rocket-fit alerts
+    ("anything that fits my rocket", now narrowable by class and reload case).
     """
     prev_status: dict[str, str] = {}
     for m in prev.get("motors", []):
@@ -54,6 +55,8 @@ def restocked_motors(prev: dict, current: dict) -> list[dict]:
                     "diameter_mm": m.get("diameter_mm"),
                     "impulse_class": m.get("impulse_class"),
                     "total_impulse_ns": m.get("total_impulse_ns"),
+                    "case_info": m.get("case_info"),
+                    "motor_type": m.get("motor_type"),
                 }
                 break
     return list(restocked.values())

@@ -9,10 +9,15 @@
 import type { RocketSpec } from "@/lib/rocketFit";
 
 /** Compact rocket-sub fields. Short keys keep tokens + members small.
- *  d=diameterMm, c=cert, mn=minImpulseNs, mx=maxImpulseNs, l=label, e=email. */
+ *  d=diameterMm (required), c=cert, k=impulseClass, cs=caseInfo, mn=minImpulseNs,
+ *  mx=maxImpulseNs, l=label, e=email. Only d is required; c/k/cs/mn/mx are
+ *  optional narrowings (null = unset). c was required on subs made before this
+ *  change — they still carry a cert string. */
 export type RocketFields = {
   d: number;
-  c: string;
+  c: string | null;
+  k: string | null;
+  cs: string | null;
   mn: number | null;
   mx: number | null;
   l: string;
@@ -24,10 +29,19 @@ function numOrNull(x: unknown): number | null {
   return typeof x === "number" && Number.isFinite(x) && x >= 0 ? x : null;
 }
 
-/** Validate + normalize raw subscribe input into canonical fields, or null. */
+function strOrNull(x: unknown): string | null {
+  return typeof x === "string" && x ? x : null;
+}
+
+/** Validate + normalize raw subscribe input into canonical fields, or null.
+ *  Only the mount diameter is required; cert/class/case/impulse-band are optional
+ *  narrowings. A reload case ("RMS-38/720", "Single use") just needs to be a
+ *  non-empty string; the dispatcher matches it against each motor's caseKey. */
 export function normalizeRocketFields(raw: {
   diameterMm?: unknown;
   cert?: unknown;
+  impulseClass?: unknown;
+  caseInfo?: unknown;
   minImpulseNs?: unknown;
   maxImpulseNs?: unknown;
   label?: unknown;
@@ -37,46 +51,62 @@ export function normalizeRocketFields(raw: {
       ? raw.diameterMm
       : null;
   if (d == null) return null;
-  const c = typeof raw.cert === "string" ? raw.cert : "";
-  if (!CERTS.has(c)) return null;
+  // cert optional: keep only if it's a known level, else drop it.
+  const certRaw = typeof raw.cert === "string" ? raw.cert : "";
+  const c = CERTS.has(certRaw) ? certRaw : null;
+  const k =
+    typeof raw.impulseClass === "string" && /^[A-O]$/i.test(raw.impulseClass)
+      ? raw.impulseClass.toUpperCase()
+      : null;
+  const cs =
+    typeof raw.caseInfo === "string" && raw.caseInfo.trim()
+      ? raw.caseInfo.trim().slice(0, 40)
+      : null;
   const mn = numOrNull(raw.minImpulseNs);
   const mx = numOrNull(raw.maxImpulseNs);
   if (mn != null && mx != null && mn > mx) return null;
   let l = typeof raw.label === "string" ? raw.label.trim() : "";
   if (l.length > 80 || /[\r\n]/.test(l)) l = l.slice(0, 80).replace(/[\r\n]/g, " ");
-  return { d, c, mn, mx, l };
+  return { d, c, k, cs, mn, mx, l };
 }
 
 /** Canonical token payload (the `m` field of an rc/ru token): the spec, no email.
  *  Fixed key order so the same sub always serializes identically. */
 export function rocketSpecField(f: RocketFields): string {
-  return JSON.stringify({ d: f.d, c: f.c, mn: f.mn, mx: f.mx, l: f.l });
+  return JSON.stringify({ d: f.d, c: f.c, k: f.k, cs: f.cs, mn: f.mn, mx: f.mx, l: f.l });
 }
 
 /** Canonical Upstash set member: the spec PLUS the email. Identical string in
  *  both `rocketsubs` and `urockets:<email>` so SREM removes from each. */
 export function rocketMember(email: string, f: RocketFields): string {
-  return JSON.stringify({ e: email, d: f.d, c: f.c, mn: f.mn, mx: f.mx, l: f.l });
+  return JSON.stringify({ e: email, d: f.d, c: f.c, k: f.k, cs: f.cs, mn: f.mn, mx: f.mx, l: f.l });
 }
 
-function isFields(v: unknown): v is RocketFields & { e?: string } {
-  if (typeof v !== "object" || v === null) return false;
+/** Pull the canonical fields out of a parsed member/spec object, tolerating the
+ *  older shape (no k/cs, c required) so subs made before this change still
+ *  resolve. Returns null when the required diameter/label are missing/invalid. */
+function readFields(v: unknown): RocketFields | null {
+  if (typeof v !== "object" || v === null) return null;
   const o = v as Record<string, unknown>;
-  return (
-    typeof o.d === "number" &&
-    typeof o.c === "string" &&
-    (o.mn === null || typeof o.mn === "number") &&
-    (o.mx === null || typeof o.mx === "number") &&
-    typeof o.l === "string"
-  );
+  if (typeof o.d !== "number") return null;
+  if (typeof o.l !== "string") return null;
+  if (!(o.mn === null || o.mn === undefined || typeof o.mn === "number")) return null;
+  if (!(o.mx === null || o.mx === undefined || typeof o.mx === "number")) return null;
+  return {
+    d: o.d,
+    c: strOrNull(o.c),
+    k: strOrNull(o.k),
+    cs: strOrNull(o.cs),
+    mn: typeof o.mn === "number" ? o.mn : null,
+    mx: typeof o.mx === "number" ? o.mx : null,
+    l: o.l,
+  };
 }
 
 /** Parse an rc/ru token's spec field back into fields (no email). */
 export function parseRocketSpecField(raw: string): RocketFields | null {
   try {
-    const v = JSON.parse(raw);
-    if (!isFields(v)) return null;
-    return { d: v.d, c: v.c, mn: v.mn, mx: v.mx, l: v.l };
+    return readFields(JSON.parse(raw));
   } catch {
     return null;
   }
@@ -86,8 +116,10 @@ export function parseRocketSpecField(raw: string): RocketFields | null {
 export function parseRocketMember(raw: string): { email: string; fields: RocketFields } | null {
   try {
     const v = JSON.parse(raw);
-    if (!isFields(v) || typeof v.e !== "string" || !v.e) return null;
-    return { email: v.e, fields: { d: v.d, c: v.c, mn: v.mn, mx: v.mx, l: v.l } };
+    const fields = readFields(v);
+    const email = (v as Record<string, unknown>)?.e;
+    if (!fields || typeof email !== "string" || !email) return null;
+    return { email, fields };
   } catch {
     return null;
   }
@@ -95,15 +127,26 @@ export function parseRocketMember(raw: string): { email: string; fields: RocketF
 
 /** Fields → the RocketSpec the fit function expects. */
 export function fieldsToSpec(f: RocketFields): RocketSpec {
-  return { diameterMm: f.d, cert: f.c, minImpulseNs: f.mn, maxImpulseNs: f.mx };
+  return {
+    diameterMm: f.d,
+    cert: f.c,
+    impulseClass: f.k,
+    caseInfo: f.cs,
+    minImpulseNs: f.mn,
+    maxImpulseNs: f.mx,
+  };
 }
 
 const CERT_LABEL: Record<string, string> = { mid: "Mid-power", l1: "L1", l2: "L2", l3: "L3" };
 
-/** Human one-liner for a rocket sub, e.g. "54mm · L2 · 1000–5120 N·s". Used in
- *  emails and the manage page. */
+/** Human one-liner for a rocket sub, e.g. "54mm · L2 · class J · Pro54-5G ·
+ *  1000–5120 N·s". Only the set fields appear (diameter always). Used in emails
+ *  and the manage page. */
 export function describeRocketFields(f: RocketFields): string {
-  const parts = [`${f.d}mm`, CERT_LABEL[f.c] ?? f.c];
+  const parts = [`${f.d}mm`];
+  if (f.c) parts.push(CERT_LABEL[f.c] ?? f.c);
+  if (f.k) parts.push(`class ${f.k}`);
+  if (f.cs) parts.push(f.cs);
   if (f.mn != null && f.mx != null) parts.push(`${f.mn}–${f.mx} N·s`);
   else if (f.mn != null) parts.push(`≥${f.mn} N·s`);
   else if (f.mx != null) parts.push(`≤${f.mx} N·s`);
