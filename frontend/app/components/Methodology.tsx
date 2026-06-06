@@ -3,13 +3,14 @@ import { SUBSTITUTE_IMPULSE_BAND, SUBSTITUTE_THRUST_BAND } from "@/lib/derive";
 const impulsePct = Math.round(SUBSTITUTE_IMPULSE_BAND * 100);
 const thrustPct = Math.round(SUBSTITUTE_THRUST_BAND * 100);
 
-/** "How the data is derived" — the methodology companion to How-it-works, parked
- * at the foot of the page. Explains where each number comes from and the rules
- * behind the derived signals (matching, restock timing, best price, and the
- * substitute criteria), so nothing on the page is a black box. The substitute
- * percentages are read from the same constants the matcher uses, so this copy
- * can never drift from the actual behavior. Native <details>, no client JS. */
+/** "How the data is derived" — the methodology companion shown directly below
+ * How-it-works. Explains where each number comes from and the rules behind the
+ * derived signals (matching, restock timing, best price, and the substitute
+ * criteria), so nothing on the page is a black box. The substitute percentages
+ * are read from the same constants the matcher uses, so this copy can never
+ * drift from the actual behavior. Native <details>, no client JS. */
 export function Methodology() {
+  const alertsEnabled = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
   return (
     <details className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <summary className="cursor-pointer select-none font-medium text-zinc-700 dark:text-zinc-300">
@@ -62,16 +63,18 @@ export function Methodology() {
             </dd>
           </div>
 
-          <div>
-            <dt className="font-medium text-zinc-800 dark:text-zinc-200">Restock reminders</dt>
-            <dd className="mt-0.5">
-              After each scrape we diff the new stock against the previous one. When a listing flips
-              from out-of-stock back to in-stock, anyone who set a 🔔 reminder on that motor &mdash; or
-              on a saved rocket the motor fits (matching diameter, cert level, and impulse band) &mdash;
-              gets a single email. Subscriptions are confirmed by a double opt-in and the only data
-              stored is your email; every alert has one-click unsubscribe.
-            </dd>
-          </div>
+          {alertsEnabled && (
+            <div>
+              <dt className="font-medium text-zinc-800 dark:text-zinc-200">Restock reminders</dt>
+              <dd className="mt-0.5">
+                After each scrape we diff the new stock against the previous one. When a listing flips
+                from out-of-stock back to in-stock, anyone who set a 🔔 reminder on that motor &mdash; or
+                on a saved rocket the motor fits (matching diameter, cert level, and impulse band) &mdash;
+                gets a single email. Subscriptions are confirmed by a double opt-in and the only data
+                stored is your email; every alert has one-click unsubscribe.
+              </dd>
+            </div>
+          )}
 
           <div>
             <dt className="font-medium text-zinc-800 dark:text-zinc-200">Similar motors in stock</dt>
