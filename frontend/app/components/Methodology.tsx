@@ -3,6 +3,8 @@ import { SUBSTITUTE_IMPULSE_BAND, SUBSTITUTE_THRUST_BAND } from "@/lib/derive";
 const impulsePct = Math.round(SUBSTITUTE_IMPULSE_BAND * 100);
 const thrustPct = Math.round(SUBSTITUTE_THRUST_BAND * 100);
 
+const alertsEnabled = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
+
 /** "How the data is derived" — the methodology companion to How-it-works, parked
  * at the foot of the page. Explains where each number comes from and the rules
  * behind the derived signals (matching, restock timing, best price, and the
@@ -62,6 +64,19 @@ export function Methodology() {
             </dd>
           </div>
 
+          {alertsEnabled && (
+            <div>
+              <dt className="font-medium text-zinc-800 dark:text-zinc-200">Restock reminders</dt>
+              <dd className="mt-0.5">
+                After each scrape we diff the new stock against the previous one. When a listing flips
+                from out-of-stock back to in-stock, anyone who set a 🔔 reminder on that motor &mdash; or
+                on a saved rocket the motor fits (matching diameter, cert level, and impulse band) &mdash;
+                gets a single email. Subscriptions are confirmed by a double opt-in and the only data
+                stored is your email; every alert has one-click unsubscribe.
+              </dd>
+            </div>
+          )}
+
           <div>
             <dt className="font-medium text-zinc-800 dark:text-zinc-200">Similar motors in stock</dt>
             <dd className="mt-0.5">
@@ -82,6 +97,16 @@ export function Methodology() {
               offered as a stand-in for a punchy one even when their total impulse matches. Results are
               ranked by closest fit, then by cheapest in-stock price. If nothing clears that bar, no
               suggestion is shown rather than a poor one.
+            </dd>
+          </div>
+
+          <div>
+            <dt className="font-medium text-zinc-800 dark:text-zinc-200">Certification level</dt>
+            <dd className="mt-0.5">
+              Derived from a motor&apos;s impulse class via the NAR/Tripoli ladder &mdash; L1 covers
+              H&ndash;I, L2 covers J&ndash;L, L3 covers M&ndash;O (D&ndash;G need no HPR cert). It powers
+              both the cert filter and the per-motor badge, so you can narrow to exactly what you&apos;re
+              rated to fly.
             </dd>
           </div>
 
