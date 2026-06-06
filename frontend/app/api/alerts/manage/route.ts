@@ -1,5 +1,12 @@
-import { alertConfig, subKey, userMotorsKey } from "@/lib/alerts/config";
+import {
+  alertConfig,
+  rocketSubsKey,
+  subKey,
+  userMotorsKey,
+  userRocketsKey,
+} from "@/lib/alerts/config";
 import { managePage, resultPage } from "@/lib/alerts/resultPage";
+import { describeRocketFields, parseRocketMember, rocketDisplayName } from "@/lib/alerts/rocketSub";
 import { verifyToken } from "@/lib/alerts/tokens";
 import { smembers, srem } from "@/lib/alerts/upstash";
 
@@ -26,6 +33,7 @@ export async function GET(request: Request): Promise<Response> {
 
   const email = payload.e;
   const unsub = url.searchParams.get("unsub");
+  const unsubrocket = url.searchParams.get("unsubrocket");
   const unsuball = url.searchParams.get("unsuball");
 
   try {
@@ -35,12 +43,33 @@ export async function GET(request: Request): Promise<Response> {
         await srem(cfg, subKey(k), email);
         await srem(cfg, userMotorsKey(email), k);
       }
+      const members = await smembers(cfg, userRocketsKey(email));
+      for (const mem of members) {
+        await srem(cfg, rocketSubsKey(), mem);
+        await srem(cfg, userRocketsKey(email), mem);
+      }
     } else if (unsub) {
       await srem(cfg, subKey(unsub), email);
       await srem(cfg, userMotorsKey(email), unsub);
+    } else if (unsubrocket) {
+      await srem(cfg, rocketSubsKey(), unsubrocket);
+      await srem(cfg, userRocketsKey(email), unsubrocket);
     }
+
     const remaining = await smembers(cfg, userMotorsKey(email));
-    return managePage(email, remaining, token, cfg.siteUrl);
+    const rocketMembers = await smembers(cfg, userRocketsKey(email));
+    const rockets = rocketMembers
+      .map((mem) => {
+        const parsed = parseRocketMember(mem);
+        if (!parsed) return null;
+        return {
+          member: mem,
+          name: rocketDisplayName(parsed.fields),
+          desc: describeRocketFields(parsed.fields),
+        };
+      })
+      .filter((r): r is { member: string; name: string; desc: string } => r !== null);
+    return managePage(email, remaining, rockets, token, cfg.siteUrl);
   } catch {
     return resultPage(
       "Something went wrong",

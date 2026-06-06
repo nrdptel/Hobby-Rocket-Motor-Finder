@@ -9,6 +9,7 @@ import {
   type Rocket,
   type RocketMotor,
 } from "@/lib/rockets";
+import { RocketNotifyButton } from "./RocketNotifyButton";
 
 type CertLevel = { key: string; label: string; sublabel: string };
 
@@ -206,6 +207,15 @@ export function MyRockets({
                 >
                   ×
                 </button>
+                <RocketNotifyButton
+                  name={r.name}
+                  displayLabel={label(r)}
+                  diameterMm={r.diameterMm}
+                  cert={r.cert}
+                  minImpulseNs={r.minImpulseNs}
+                  maxImpulseNs={r.maxImpulseNs}
+                  active={active}
+                />
               </span>
             );
           })}

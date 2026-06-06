@@ -4,11 +4,14 @@ from __future__ import annotations
 from hpr_finder.alerts import restocked_motors
 
 
-def _motor(mfr, des, listings, common_name=None):
+def _motor(mfr, des, listings, common_name=None, diameter_mm=None, impulse_class=None, total_impulse_ns=None):
     return {
         "manufacturer": mfr,
         "designation": des,
         "common_name": common_name or des,
+        "diameter_mm": diameter_mm,
+        "impulse_class": impulse_class,
+        "total_impulse_ns": total_impulse_ns,
         "listings": listings,
     }
 
@@ -23,9 +26,20 @@ def _snap(motors):
 
 def test_out_to_in_is_a_restock():
     prev = _snap([_motor("AeroTech", "J500G", [_listing("u1", "out_of_stock")])])
-    cur = _snap([_motor("AeroTech", "J500G", [_listing("u1", "in_stock")])])
+    cur = _snap([
+        _motor("AeroTech", "J500G", [_listing("u1", "in_stock")],
+               diameter_mm=54, impulse_class="J", total_impulse_ns=1000.0),
+    ])
     out = restocked_motors(prev, cur)
-    assert out == [{"manufacturer": "AeroTech", "designation": "J500G", "common_name": "J500G"}]
+    # The fit-relevant specs ride along so the dispatch route can match rockets.
+    assert out == [{
+        "manufacturer": "AeroTech",
+        "designation": "J500G",
+        "common_name": "J500G",
+        "diameter_mm": 54,
+        "impulse_class": "J",
+        "total_impulse_ns": 1000.0,
+    }]
 
 
 def test_in_stock_with_count_counts_as_in_stock():

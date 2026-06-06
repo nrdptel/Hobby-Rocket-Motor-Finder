@@ -48,17 +48,21 @@ export function splitKey(key: string): { manufacturer: string; designation: stri
     : { manufacturer: "", designation: key };
 }
 
-/** The token-gated "manage my alerts" page: lists a user's subscriptions, each
- * with an unsubscribe link, plus an unsubscribe-all link. Rendered only after a
- * valid magic-link token is verified, so it never exposes anyone else's data. */
+/** The token-gated "manage my alerts" page: lists a user's per-motor and
+ * per-rocket subscriptions, each with an unsubscribe link, plus an
+ * unsubscribe-all link. Rendered only after a valid magic-link token is
+ * verified, so it never exposes anyone else's data. */
 export function managePage(
   email: string,
   motorKeys: string[],
+  rockets: Array<{ member: string; name: string; desc: string }>,
   token: string,
   siteUrl: string,
 ): Response {
   const t = encodeURIComponent(token);
-  const rows = motorKeys
+  const total = motorKeys.length + rockets.length;
+
+  const motorRows = motorKeys
     .slice()
     .sort((a, b) => a.localeCompare(b))
     .map((k) => {
@@ -69,11 +73,37 @@ export function managePage(
     })
     .join("");
 
-  const body = motorKeys.length
-    ? `<p class="sub">${escape(email)} is subscribed to <strong>${motorKeys.length}</strong> motor${
+  const rocketRows = rockets
+    .map((r) => {
+      // Show the rocket's name with its spec as a muted suffix; if it has no
+      // name, the desc IS the label.
+      const named = r.name && r.name !== r.desc;
+      const label = named
+        ? `${escape(r.name)} <span class="meta">(${escape(r.desc)})</span>`
+        : escape(r.desc);
+      const link = `/api/alerts/manage?token=${t}&unsubrocket=${encodeURIComponent(r.member)}`;
+      return `<li><span>🚀 ${label}</span><a class="unsub" href="${escape(link)}">Unsubscribe</a></li>`;
+    })
+    .join("");
+
+  const sections: string[] = [];
+  if (motorKeys.length) {
+    sections.push(
+      `<p class="sub"><strong>${motorKeys.length}</strong> motor alert${
         motorKeys.length === 1 ? "" : "s"
-      }.</p>
-       <ul class="list">${rows}</ul>
+      }</p><ul class="list">${motorRows}</ul>`,
+    );
+  }
+  if (rockets.length) {
+    sections.push(
+      `<p class="sub"><strong>${rockets.length}</strong> rocket alert${
+        rockets.length === 1 ? "" : "s"
+      } <span class="meta">— any motor that fits restocks</span></p><ul class="list">${rocketRows}</ul>`,
+    );
+  }
+
+  const body = total
+    ? `${sections.join("")}
        <p><a class="unsuball" href="/api/alerts/manage?token=${t}&unsuball=1">Unsubscribe from all</a></p>`
     : `<p class="sub">${escape(email)} has no active restock alerts.</p>`;
 
@@ -89,7 +119,8 @@ export function managePage(
   @media (prefers-color-scheme: dark){ body{ background:#09090b; color:#fafafa; } }
   .card { width:min(34rem, 92vw); padding:2rem 1.5rem; }
   h1 { font-size:1.25rem; margin:0 0 .75rem; }
-  .sub { color:#71717a; line-height:1.5; }
+  .sub { color:#71717a; line-height:1.5; margin:1rem 0 .25rem; }
+  .meta { color:#a1a1aa; font-weight:400; }
   .list { list-style:none; margin:1rem 0; padding:0; border:1px solid #e4e4e7; border-radius:.5rem; }
   @media (prefers-color-scheme: dark){ .list{ border-color:#27272a; } }
   .list li { display:flex; align-items:center; justify-content:space-between; gap:1rem;

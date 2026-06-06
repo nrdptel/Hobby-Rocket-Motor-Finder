@@ -42,16 +42,16 @@ describe("splitKey", () => {
 });
 
 describe("managePage", () => {
-  it("lists subscriptions with per-motor + unsubscribe-all links", async () => {
+  it("lists motor subscriptions with per-motor + unsubscribe-all links", async () => {
     const tok = "tok123";
     const res = managePage(
       "flyer@example.com",
       ["AeroTech::J500G", "Cesaroni Technology::I445"],
+      [],
       tok,
       "https://x.test",
     );
     const html = await res.text();
-    expect(html).toContain("flyer@example.com");
     expect(html).toContain("J500G");
     expect(html).toContain("I445");
     expect(html).toContain("Cesaroni Technology");
@@ -60,15 +60,32 @@ describe("managePage", () => {
     expect(html).toContain("unsuball=1");
   });
 
+  it("lists rocket subscriptions with an unsubrocket link", async () => {
+    const member = '{"e":"a@b.com","d":54,"c":"l2","mn":null,"mx":null,"l":"Punisher"}';
+    const res = managePage(
+      "a@b.com",
+      [],
+      [{ member, name: "Punisher", desc: "54mm · L2" }],
+      "t",
+      "https://x.test",
+    );
+    const html = await res.text();
+    expect(html).toContain("Punisher");
+    expect(html).toContain("54mm · L2");
+    expect(html).toContain(`unsubrocket=${encodeURIComponent(member)}`);
+    expect(html).toContain("rocket alert");
+    expect(html).toContain("unsuball=1");
+  });
+
   it("shows an empty state with no unsubscribe-all link", async () => {
-    const res = managePage("flyer@example.com", [], "t", "https://x.test");
+    const res = managePage("flyer@example.com", [], [], "t", "https://x.test");
     const html = await res.text();
     expect(html).toContain("no active restock alerts");
     expect(html).not.toContain("unsuball=1");
   });
 
   it("escapes the email to avoid HTML injection", async () => {
-    const res = managePage("a<b>@x.com", [], "t", "https://x.test");
+    const res = managePage("a<b>@x.com", [], [], "t", "https://x.test");
     const html = await res.text();
     expect(html).not.toContain("<b>");
     expect(html).toContain("a&lt;b&gt;");

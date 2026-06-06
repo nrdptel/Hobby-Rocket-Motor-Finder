@@ -69,6 +69,70 @@ export function confirmEmail(
   };
 }
 
+export function rocketConfirmEmail(
+  name: string,
+  spec: string,
+  confirmUrl: string,
+  manageUrl: string,
+): { subject: string; html: string; text: string } {
+  const n = esc(name);
+  const s = esc(spec);
+  return {
+    subject: `Confirm restock alerts for ${name}`,
+    text:
+      `Confirm restock alerts for any motor that fits ${name} (${spec}).\n\n` +
+      `We'll email you when an out-of-stock motor matching it comes back.\n\n` +
+      `Confirm: ${confirmUrl}\n\n` +
+      `If you didn't request this, ignore this email — no alerts will be sent.\n\n` +
+      `Manage all your alerts anytime: ${manageUrl}`,
+    html:
+      `<p>Confirm <strong>restock alerts</strong> for any motor that fits ` +
+      `<strong>${n}</strong> <span style="color:#666">(${s})</span>.</p>` +
+      `<p>We'll email you when an out-of-stock motor matching it comes back.</p>` +
+      `<p><a href="${esc(confirmUrl)}">Confirm subscription</a></p>` +
+      `<p style="color:#666;font-size:12px">If you didn't request this, ignore this email — no alerts will be sent.</p>` +
+      `<p style="color:#666;font-size:12px"><a href="${esc(manageUrl)}">Manage all your alerts</a></p>`,
+  };
+}
+
+export function rocketRestockEmail(
+  name: string,
+  motors: ReadonlyArray<{ designation: string; manufacturer: string; url: string }>,
+  unsubscribeUrl: string,
+  manageUrl: string,
+): { subject: string; html: string; text: string } {
+  const n = esc(name);
+  const count = motors.length;
+  const noun = count === 1 ? "motor" : "motors";
+  const subject =
+    count === 1
+      ? `${motors[0].designation} fits ${name} and is back in stock`
+      : `${count} motors that fit ${name} are back in stock`;
+  const textList = motors.map((m) => `• ${m.manufacturer} ${m.designation}: ${m.url}`).join("\n");
+  const htmlList = motors
+    .map(
+      (m) =>
+        `<li><strong>${esc(m.manufacturer)} ${esc(m.designation)}</strong> — ` +
+        `<a href="${esc(m.url)}">see vendors &amp; prices →</a></li>`,
+    )
+    .join("");
+  return {
+    subject,
+    text:
+      `${count} ${noun} that fit ${name} just came back in stock:\n\n` +
+      `${textList}\n\n` +
+      `Stock is best-effort and may sell out fast — confirm on the vendor's site.\n\n` +
+      `Unsubscribe from ${name} alerts: ${unsubscribeUrl}\n` +
+      `Manage all your alerts: ${manageUrl}`,
+    html:
+      `<p><strong>${count} ${noun}</strong> that fit <strong>${n}</strong> just came back in stock:</p>` +
+      `<ul>${htmlList}</ul>` +
+      `<p style="color:#666;font-size:12px">Stock is best-effort and may sell out fast — confirm on the vendor's site before buying.</p>` +
+      `<p style="color:#666;font-size:12px"><a href="${esc(unsubscribeUrl)}">Unsubscribe from ${n} alerts</a> · ` +
+      `<a href="${esc(manageUrl)}">manage all your alerts</a></p>`,
+  };
+}
+
 export function manageEmail(manageUrl: string): {
   subject: string;
   html: string;

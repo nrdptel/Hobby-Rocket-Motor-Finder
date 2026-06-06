@@ -5,11 +5,15 @@
 // and in the test env).
 
 export type TokenPayload = {
-  t: "c" | "u" | "m"; // confirm | unsubscribe | manage
+  // c/u  = per-motor confirm/unsubscribe; m = manage; rc/ru = rocket-fit
+  // confirm/unsubscribe ("email me when anything that fits my rocket restocks").
+  t: "c" | "u" | "m" | "rc" | "ru";
   e: string; // email
-  m: string; // motorKey (unused/"" for manage tokens, which cover the whole email)
+  m: string; // motorKey; for rc/ru this carries the JSON rocket spec; "" for manage
   x: number; // expiry, epoch seconds (0 = no expiry, used for unsubscribe)
 };
+
+const TOKEN_TYPES = new Set(["c", "u", "m", "rc", "ru"]);
 
 function b64urlEncode(bytes: Uint8Array): string {
   let bin = "";
@@ -76,7 +80,7 @@ export async function verifyToken(secret: string, token: string): Promise<TokenP
   } catch {
     return null;
   }
-  if (payload.t !== "c" && payload.t !== "u" && payload.t !== "m") return null;
+  if (!TOKEN_TYPES.has(payload.t)) return null;
   if (typeof payload.e !== "string" || typeof payload.m !== "string") return null;
   if (typeof payload.x !== "number") return null;
   if (payload.x !== 0 && payload.x < Math.floor(Date.now() / 1000)) return null; // expired
