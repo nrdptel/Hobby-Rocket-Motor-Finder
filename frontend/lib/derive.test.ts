@@ -8,6 +8,7 @@ import {
   delayForRow,
   delaySortKey,
   extractDelay,
+  findSubstitutes,
   formatBurn,
   formatImpulse,
   formatPrice,
@@ -16,6 +17,7 @@ import {
   isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
+  motorInStock,
   numericParamValue,
   parseDir,
   parseOrder,
@@ -803,5 +805,109 @@ describe("restockLabel", () => {
       last_restock_at: "2026-06-04T11:45:00+00:00", // 15min before now
     });
     expect(restockLabel(h, now)).toBe("restocked 1h ago");
+  });
+});
+
+// In-stock substitutes for a sold-out motor.
+describe("findSubstitutes / motorInStock", () => {
+  // A sold-out 29mm H-class target: 237 N·s, 242 N avg thrust.
+  const target = makeMotor({
+    id: 1,
+    designation: "H242T-14A",
+    diameter_mm: 29,
+    impulse_class: "H",
+    total_impulse_ns: 237,
+    avg_thrust_n: 242,
+    listings: [makeListing({ status: "out_of_stock" })],
+  });
+
+  const inStock = (over: Partial<Motor>) =>
+    makeMotor({ listings: [makeListing({ status: "in_stock" })], ...over });
+
+  it("motorInStock reflects whether any listing is in stock", () => {
+    expect(motorInStock(target)).toBe(false);
+    expect(motorInStock(inStock({ id: 9 }))).toBe(true);
+  });
+
+  it("returns in-stock motors that fit (same dia + class, impulse/thrust in band)", () => {
+    const good = inStock({ id: 2, designation: "H250", total_impulse_ns: 250, avg_thrust_n: 250 });
+    const subs = findSubstitutes(target, [target, good]);
+    expect(subs.map((m) => m.id)).toEqual([2]);
+  });
+
+  it("excludes a different diameter (won't fit the mount) even if impulse matches", () => {
+    const wrongDia = inStock({ id: 3, diameter_mm: 38, total_impulse_ns: 237, avg_thrust_n: 242 });
+    expect(findSubstitutes(target, [target, wrongDia])).toEqual([]);
+  });
+
+  it("excludes a different impulse class (would need a higher cert)", () => {
+    const wrongClass = inStock({ id: 4, impulse_class: "I", total_impulse_ns: 240, avg_thrust_n: 240 });
+    expect(findSubstitutes(target, [target, wrongClass])).toEqual([]);
+  });
+
+  it("excludes out-of-stock candidates", () => {
+    const oos = makeMotor({
+      id: 5, total_impulse_ns: 240, avg_thrust_n: 240,
+      listings: [makeListing({ status: "out_of_stock" })],
+    });
+    expect(findSubstitutes(target, [target, oos])).toEqual([]);
+  });
+
+  it("excludes total impulse beyond ±15%", () => {
+    const tooBig = inStock({ id: 6, total_impulse_ns: 300, avg_thrust_n: 250 }); // +27%
+    expect(findSubstitutes(target, [target, tooBig])).toEqual([]);
+  });
+
+  it("excludes average thrust beyond ±35% when both are known", () => {
+    // Same impulse, but a very different (peaky) thrust profile.
+    const peaky = inStock({ id: 7, total_impulse_ns: 240, avg_thrust_n: 400 }); // +65%
+    expect(findSubstitutes(target, [target, peaky])).toEqual([]);
+  });
+
+  it("still matches on impulse when thrust data is missing", () => {
+    const noThrust = inStock({ id: 8, total_impulse_ns: 240, avg_thrust_n: null });
+    expect(findSubstitutes(target, [target, noThrust]).map((m) => m.id)).toEqual([8]);
+  });
+
+  it("ranks a verified-close-thrust candidate above an unknown-thrust one at equal impulse", () => {
+    // Both 240 N·s (same impulse fit). One has thrust ~3% off; the other's thrust
+    // is unknown — the verified-close one must win, not be tied as a perfect match.
+    const known = inStock({ id: 20, designation: "H241", total_impulse_ns: 240, avg_thrust_n: 250 });
+    const unknown = inStock({ id: 21, designation: "H241B", total_impulse_ns: 240, avg_thrust_n: null });
+    const subs = findSubstitutes(target, [target, unknown, known]);
+    expect(subs.map((m) => m.id)).toEqual([20, 21]);
+  });
+
+  it("ranks closest total impulse first, then cheapest", () => {
+    const close = inStock({
+      id: 10, designation: "H240", total_impulse_ns: 240, avg_thrust_n: 240,
+      listings: [makeListing({ status: "in_stock", price_cents: 5000 })],
+    });
+    const farther = inStock({
+      id: 11, designation: "H260", total_impulse_ns: 262, avg_thrust_n: 245,
+      listings: [makeListing({ status: "in_stock", price_cents: 1000 })],
+    });
+    const subs = findSubstitutes(target, [target, farther, close]);
+    expect(subs.map((m) => m.id)).toEqual([10, 11]); // closest impulse wins over cheaper
+  });
+
+  it("breaks ties on equal fit by cheapest in-stock price", () => {
+    const a = inStock({
+      id: 12, designation: "H230", total_impulse_ns: 230, avg_thrust_n: 242,
+      listings: [makeListing({ status: "in_stock", price_cents: 6000 })],
+    });
+    const b = inStock({
+      id: 13, designation: "H244", total_impulse_ns: 244, avg_thrust_n: 242,
+      listings: [makeListing({ status: "in_stock", price_cents: 3000 })],
+    });
+    // |230-237|=7 and |244-237|=7 → equal impulse fit, same thrust → cheaper (b) first.
+    const subs = findSubstitutes(target, [target, a, b]);
+    expect(subs.map((m) => m.id)).toEqual([13, 12]);
+  });
+
+  it("returns [] when the target lacks impulse data (can't justify a swap)", () => {
+    const noData = makeMotor({ id: 14, total_impulse_ns: null, listings: [makeListing({ status: "out_of_stock" })] });
+    const good = inStock({ id: 15, total_impulse_ns: 240, avg_thrust_n: 240 });
+    expect(findSubstitutes(noData, [noData, good])).toEqual([]);
   });
 });
