@@ -4,7 +4,17 @@ from __future__ import annotations
 from hpr_finder.alerts import restocked_motors
 
 
-def _motor(mfr, des, listings, common_name=None, diameter_mm=None, impulse_class=None, total_impulse_ns=None):
+def _motor(
+    mfr,
+    des,
+    listings,
+    common_name=None,
+    diameter_mm=None,
+    impulse_class=None,
+    total_impulse_ns=None,
+    case_info=None,
+    motor_type=None,
+):
     return {
         "manufacturer": mfr,
         "designation": des,
@@ -12,6 +22,8 @@ def _motor(mfr, des, listings, common_name=None, diameter_mm=None, impulse_class
         "diameter_mm": diameter_mm,
         "impulse_class": impulse_class,
         "total_impulse_ns": total_impulse_ns,
+        "case_info": case_info,
+        "motor_type": motor_type,
         "listings": listings,
     }
 
@@ -28,10 +40,12 @@ def test_out_to_in_is_a_restock():
     prev = _snap([_motor("AeroTech", "J500G", [_listing("u1", "out_of_stock")])])
     cur = _snap([
         _motor("AeroTech", "J500G", [_listing("u1", "in_stock")],
-               diameter_mm=54, impulse_class="J", total_impulse_ns=1000.0),
+               diameter_mm=54, impulse_class="J", total_impulse_ns=1000.0,
+               case_info="RMS-54/852", motor_type="reload"),
     ])
     out = restocked_motors(prev, cur)
-    # The fit-relevant specs ride along so the dispatch route can match rockets.
+    # The fit-relevant specs ride along so the dispatch route can match rockets —
+    # including case_info + motor_type so it can match by reload case.
     assert out == [{
         "manufacturer": "AeroTech",
         "designation": "J500G",
@@ -39,6 +53,8 @@ def test_out_to_in_is_a_restock():
         "diameter_mm": 54,
         "impulse_class": "J",
         "total_impulse_ns": 1000.0,
+        "case_info": "RMS-54/852",
+        "motor_type": "reload",
     }]
 
 

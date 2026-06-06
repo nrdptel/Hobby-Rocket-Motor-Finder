@@ -19,6 +19,8 @@ export function RocketNotifyButton({
   displayLabel,
   diameterMm,
   cert,
+  impulseClass,
+  caseInfo,
   minImpulseNs,
   maxImpulseNs,
   active,
@@ -26,7 +28,9 @@ export function RocketNotifyButton({
   name: string;
   displayLabel: string;
   diameterMm: number;
-  cert: string;
+  cert: string | null;
+  impulseClass: string | null;
+  caseInfo: string | null;
   minImpulseNs: number | null;
   maxImpulseNs: number | null;
   active: boolean;
@@ -61,7 +65,16 @@ export function RocketNotifyButton({
       const res = await fetch("/api/alerts/subscribe-rocket", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: addr, label: name, diameterMm, cert, minImpulseNs, maxImpulseNs }),
+        body: JSON.stringify({
+          email: addr,
+          label: name,
+          diameterMm,
+          cert,
+          impulseClass,
+          caseInfo,
+          minImpulseNs,
+          maxImpulseNs,
+        }),
       });
       if (res.ok) {
         try {

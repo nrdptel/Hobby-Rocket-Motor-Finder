@@ -18,6 +18,8 @@ type RestockMotor = {
   diameter_mm: number;
   impulse_class: string;
   total_impulse_ns: number | null;
+  case_info: string | null;
+  motor_type: string | null;
 };
 
 export const dynamic = "force-dynamic";
@@ -138,6 +140,8 @@ export async function POST(request: Request): Promise<Response> {
       diameter_mm: diameter,
       impulse_class: typeof m.impulse_class === "string" ? m.impulse_class : "",
       total_impulse_ns: typeof m.total_impulse_ns === "number" ? m.total_impulse_ns : null,
+      case_info: typeof m.case_info === "string" ? m.case_info : null,
+      motor_type: typeof m.motor_type === "string" ? m.motor_type : null,
     });
   }
 

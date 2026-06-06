@@ -23,8 +23,8 @@ function json(body: unknown, status = 200): Response {
 }
 
 // "Email me when anything that fits this rocket restocks." Takes the rocket's
-// fit spec (diameter + cert + optional impulse band) and a label; double-opt-in
-// like the per-motor subscribe.
+// fit spec (diameter required; optional cert, impulse class, reload case, and
+// impulse band) and a label; double-opt-in like the per-motor subscribe.
 export async function POST(request: Request): Promise<Response> {
   const cfg = alertConfig();
   if (!cfg) return json({ error: "alerts not configured" }, 503);
@@ -38,7 +38,7 @@ export async function POST(request: Request): Promise<Response> {
   const email = normalizeEmail(body.email);
   const fields = normalizeRocketFields(body);
   if (!email) return json({ error: "a valid email is required" }, 400);
-  if (!fields) return json({ error: "a valid rocket (diameter + cert) is required" }, 400);
+  if (!fields) return json({ error: "a valid rocket (motor-mount diameter) is required" }, 400);
 
   // Per-IP hourly cap + global daily confirm-send cap; fail CLOSED if the store
   // is down so a flaky Upstash can't be used to bypass the limits.

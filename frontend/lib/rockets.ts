@@ -8,25 +8,43 @@ import { motorFitsRocket, type FitMotor, type RocketSpec } from "./rocketFit";
 // from "@/lib/rockets"; the implementation lives in rocketFit.ts (server-safe).
 export { motorFitsRocket, type RocketSpec } from "./rocketFit";
 
-// Browser-persisted "my rockets": each is a saved {motor-mount diameter + cert
-// level} the flyer owns, so one click filters the catalog to the motors that
-// physically fit AND they're rated to fly. Lives entirely client-side (like the
-// watchlist) and is shared via a module-level external store so every consumer
-// updates without a context Provider.
+// Browser-persisted "my rockets": each is a saved motor-mount the flyer owns.
+// The mount diameter is the only required field; cert, a specific impulse class,
+// a reload case, and an impulse band are all optional narrowings. One click
+// filters the catalog to the motors that fit. Lives entirely client-side (like
+// the watchlist) and is shared via a module-level external store so every
+// consumer updates without a context Provider.
 
 const STORAGE_KEY = "hpr.rockets.v1";
 
 export type Rocket = {
   id: string;
   name: string; // optional label; "" means show the spec instead
-  diameterMm: number;
-  cert: string; // a CERT_LEVELS key ("mid" | "l1" | "l2" | "l3")
-  // Optional preferred total-impulse window (N·s). null = open bound. Applying a
-  // rocket sets the imin/imax filters to these; absent on rockets saved before
-  // this field existed.
+  diameterMm: number; // the only required field
+  // All optional (null = unset). cert was required on rockets saved before this
+  // change; those simply keep their cert. impulseClass + caseInfo are new.
+  cert: string | null; // a CERT_LEVELS key ("mid" | "l1" | "l2" | "l3")
+  impulseClass: string | null; // a single class letter, e.g. "H"
+  caseInfo: string | null; // a case value, e.g. "RMS-38/720" or "Single use"
+  // Optional preferred total-impulse window (N·s). null = open bound.
   minImpulseNs: number | null;
   maxImpulseNs: number | null;
 };
+
+/** The mutable fields of a rocket, as accepted by add/update. */
+export type RocketInput = {
+  name?: string;
+  diameterMm: number;
+  cert?: string | null;
+  impulseClass?: string | null;
+  caseInfo?: string | null;
+  minImpulseNs?: number | null;
+  maxImpulseNs?: number | null;
+};
+
+function strOrNull(x: unknown): string | null {
+  return typeof x === "string" && x ? x : null;
+}
 
 function numOrNull(x: unknown): number | null {
   return typeof x === "number" && Number.isFinite(x) ? x : null;
@@ -60,15 +78,17 @@ export function parseRockets(raw: string | null): Rocket[] {
       if (typeof x !== "object" || x === null) return [];
       const r = x as Record<string, unknown>;
       if (typeof r.diameterMm !== "number" || !Number.isFinite(r.diameterMm)) return [];
-      if (typeof r.cert !== "string") return [];
-      const id = typeof r.id === "string" && r.id ? r.id : String(r.diameterMm) + r.cert;
+      const cert = strOrNull(r.cert);
+      const id = typeof r.id === "string" && r.id ? r.id : `${r.diameterMm}-${cert ?? ""}`;
       const name = typeof r.name === "string" ? r.name : "";
       return [
         {
           id,
           name,
           diameterMm: r.diameterMm,
-          cert: r.cert,
+          cert,
+          impulseClass: strOrNull(r.impulseClass),
+          caseInfo: strOrNull(r.caseInfo),
           minImpulseNs: numOrNull(r.minImpulseNs),
           maxImpulseNs: numOrNull(r.maxImpulseNs),
         },
@@ -143,23 +163,22 @@ function getServerSnapshot(): readonly Rocket[] {
   return EMPTY;
 }
 
-/** Add a rocket and persist; returns the created rocket. */
-export function addRocket(spec: {
-  name?: string;
-  diameterMm: number;
-  cert: string;
-  minImpulseNs?: number | null;
-  maxImpulseNs?: number | null;
-}): Rocket {
-  load();
-  const rocket: Rocket = {
-    id: newId(),
+function fromInput(spec: RocketInput): Omit<Rocket, "id"> {
+  return {
     name: (spec.name ?? "").trim(),
     diameterMm: spec.diameterMm,
-    cert: spec.cert,
+    cert: spec.cert ?? null,
+    impulseClass: spec.impulseClass ?? null,
+    caseInfo: spec.caseInfo ?? null,
     minImpulseNs: spec.minImpulseNs ?? null,
     maxImpulseNs: spec.maxImpulseNs ?? null,
   };
+}
+
+/** Add a rocket and persist; returns the created rocket. */
+export function addRocket(spec: RocketInput): Rocket {
+  load();
+  const rocket: Rocket = { id: newId(), ...fromInput(spec) };
   current = [...current, rocket];
   persist();
   emit();
@@ -167,29 +186,9 @@ export function addRocket(spec: {
 }
 
 /** Update an existing rocket in place (preserving id + position) and persist. */
-export function updateRocket(
-  id: string,
-  spec: {
-    name?: string;
-    diameterMm: number;
-    cert: string;
-    minImpulseNs?: number | null;
-    maxImpulseNs?: number | null;
-  },
-): void {
+export function updateRocket(id: string, spec: RocketInput): void {
   load();
-  current = current.map((r) =>
-    r.id === id
-      ? {
-          ...r,
-          name: (spec.name ?? "").trim(),
-          diameterMm: spec.diameterMm,
-          cert: spec.cert,
-          minImpulseNs: spec.minImpulseNs ?? null,
-          maxImpulseNs: spec.maxImpulseNs ?? null,
-        }
-      : r,
-  );
+  current = current.map((r) => (r.id === id ? { ...r, ...fromInput(spec) } : r));
   persist();
   emit();
 }
@@ -217,13 +216,7 @@ export function restoreRocket(rocket: Rocket, index: number): void {
 
 export type Rockets = {
   rockets: readonly Rocket[];
-  add: (spec: {
-    name?: string;
-    diameterMm: number;
-    cert: string;
-    minImpulseNs?: number | null;
-    maxImpulseNs?: number | null;
-  }) => Rocket;
+  add: (spec: RocketInput) => Rocket;
   update: typeof updateRocket;
   remove: (id: string) => void;
   restore: typeof restoreRocket;
