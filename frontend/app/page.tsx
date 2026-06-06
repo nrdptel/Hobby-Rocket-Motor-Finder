@@ -22,6 +22,7 @@ import type { Substitute } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
 import { MyRockets } from "./components/MyRockets";
 import { HowItWorks } from "./components/HowItWorks";
+import { Methodology } from "./components/Methodology";
 import { MotorResults } from "./components/MotorResults";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
@@ -309,6 +310,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           </ul>
         </section>
       )}
+
+      <Methodology />
 
       <footer className="mt-12 border-t border-zinc-200 pt-4 text-xs text-zinc-500 dark:border-zinc-800">
         <p>
