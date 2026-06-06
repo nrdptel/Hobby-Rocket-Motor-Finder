@@ -59,7 +59,7 @@ export default async function Image() {
             maxWidth: 980,
           }}
         >
-          AeroTech, Cesaroni & Loki motor stock + pricing aggregated across vendors, in one searchable view.
+          AeroTech, Cesaroni & Loki stock + pricing across vendors — with restock alerts and in-stock substitutes when a motor's sold out.
         </div>
         <div
           style={{

@@ -4,7 +4,18 @@ A web aggregator for U.S. high-power rocketry (HPR) motor availability across mu
 
 **Live at [motor.fusionspace.co](https://motor.fusionspace.co).**
 
-The U.S. hobby motor shortage makes finding a specific impulse / diameter / propellant motor difficult — flyers often check each vendor manually. This project scrapes a curated set of vendors on a schedule, normalizes their listings against a canonical motor catalog ([ThrustCurve.org](https://www.thrustcurve.org)), and presents a single searchable view of stock status by motor.
+The U.S. hobby motor shortage makes finding a specific impulse / diameter / propellant motor difficult — flyers often check each vendor manually. This project scrapes a curated set of vendors on a schedule, normalizes their listings against a canonical motor catalog ([ThrustCurve.org](https://www.thrustcurve.org)), and presents a single searchable view of stock status by motor — and when a motor is sold out everywhere, points you to comparable in-stock substitutes you could fly instead.
+
+## Features
+
+- **One searchable view** of live stock and pricing for AeroTech, Cesaroni, and Loki across 11 U.S. vendors, each listing matched to a canonical [ThrustCurve](https://www.thrustcurve.org) motor.
+- **Filter and sort** by impulse class, diameter, total-impulse range, certification level (L1–L3), manufacturer, and in-stock-only; sort by class, impulse, thrust, diameter, or price. Filters live in the URL, so any view is shareable.
+- **In-stock substitutes** — when a motor is sold out at every vendor, surfaces comparable in-stock motors you could fly instead: same diameter and impulse class, total impulse within ±15% and average thrust within ±35%, ranked by closest fit.
+- **My Rockets** — save a rocket's motor mount (diameter + the cert level you fly) and instantly see how many in-stock motors fit it.
+- **Restock email alerts** — get notified when a specific motor, or anything that fits a saved rocket, comes back in stock ([setup](docs/email-alerts.md)).
+- **Restock & last-in-stock history** plus **best-price-across-vendors**, derived from successive hourly snapshots.
+- **Scrape-health monitoring** — catches silent breakages (carry-forward, sustained staleness, and below-baseline count / in-stock / match-rate anomalies) and opens a single auto-closing tracking issue ([details](docs/scrape-health.md)).
+- Plus a ★ watchlist, dark mode, and an on-page explainer of exactly how every figure is derived.
 
 ## Disclaimer
 
