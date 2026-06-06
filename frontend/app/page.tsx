@@ -167,6 +167,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   // the full motor set — not the filtered view — so a usable swap isn't hidden by
   // the active filters, then capped at 4 and projected to a compact payload so the
   // server→client size stays proportional to what's shown (mirrors visibleHistory).
+  // This is O(sold-out × catalog), but the catalog is small and bounded (~hundreds;
+  // manufacturers locked, vendors exhausted) and the page is cached (revalidate=60),
+  // so a linear scan per target is cheaper than maintaining a diameter/class index.
   const substitutes: Record<number, Substitute[]> = {};
   for (const m of filteredWithListings) {
     if (motorInStock(m)) continue;

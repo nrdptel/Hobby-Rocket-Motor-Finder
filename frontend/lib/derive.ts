@@ -295,11 +295,16 @@ export function findSubstitutes(target: Motor, all: readonly Motor[]): Motor[] {
     const impulseDelta = Math.abs(cti - ti) / ti;
     if (impulseDelta > SUBSTITUTE_IMPULSE_BAND) continue;
 
-    let thrustDelta = 0;
+    let thrustDelta: number;
     const cth = c.avg_thrust_n;
     if (th != null && th > 0 && cth != null) {
       thrustDelta = Math.abs(cth - th) / th;
       if (thrustDelta > SUBSTITUTE_THRUST_BAND) continue;
+    } else {
+      // Thrust unknown for one side: still a real fit on diameter + class +
+      // impulse, so keep it — but score it as edge-of-band rather than a perfect
+      // match, so a candidate with verified-close thrust outranks it on a tie.
+      thrustDelta = SUBSTITUTE_THRUST_BAND;
     }
 
     // Impulse fit dominates; thrust is a secondary nudge.
@@ -345,6 +350,9 @@ export type Substitute = {
 /** Project a substitute Motor into the compact {@link Substitute} payload,
  * resolving the cheapest in-stock listing for the price/vendor/link. */
 export function toSubstitute(m: Motor): Substitute {
+  // One scan resolves the cheapest in-stock listing; its own price is the
+  // cheapest in-stock price (or null when nothing is priced), so we read it
+  // directly rather than re-deriving it with a second listings pass.
   const listing = cheapestInStockListing(m);
   return {
     manufacturer: m.manufacturer,
@@ -352,7 +360,7 @@ export function toSubstitute(m: Motor): Substitute {
     impulse_class: m.impulse_class,
     total_impulse_ns: m.total_impulse_ns,
     avg_thrust_n: m.avg_thrust_n,
-    bestPriceCents: cheapestInStockCents(m),
+    bestPriceCents: listing?.price_cents ?? null,
     currency: listing?.currency ?? "USD",
     vendorName: listing?.vendor_name ?? null,
     url: listing?.url ?? null,

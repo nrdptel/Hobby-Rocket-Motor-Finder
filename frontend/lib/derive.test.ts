@@ -869,6 +869,15 @@ describe("findSubstitutes / motorInStock", () => {
     expect(findSubstitutes(target, [target, noThrust]).map((m) => m.id)).toEqual([8]);
   });
 
+  it("ranks a verified-close-thrust candidate above an unknown-thrust one at equal impulse", () => {
+    // Both 240 N·s (same impulse fit). One has thrust ~3% off; the other's thrust
+    // is unknown — the verified-close one must win, not be tied as a perfect match.
+    const known = inStock({ id: 20, designation: "H241", total_impulse_ns: 240, avg_thrust_n: 250 });
+    const unknown = inStock({ id: 21, designation: "H241B", total_impulse_ns: 240, avg_thrust_n: null });
+    const subs = findSubstitutes(target, [target, unknown, known]);
+    expect(subs.map((m) => m.id)).toEqual([20, 21]);
+  });
+
   it("ranks closest total impulse first, then cheapest", () => {
     const close = inStock({
       id: 10, designation: "H240", total_impulse_ns: 240, avg_thrust_n: 240,
