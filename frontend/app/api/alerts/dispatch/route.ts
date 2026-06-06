@@ -65,7 +65,7 @@ export async function POST(request: Request): Promise<Response> {
           const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
             unsubToken,
           )}`;
-          const tmpl = restockEmail(designation, motorUrl, unsubscribeUrl);
+          const tmpl = restockEmail(designation, motorUrl, unsubscribeUrl, `${cfg.siteUrl}/alerts`);
           await sendEmail({
             apiKey: cfg.resendApiKey,
             from: cfg.from,
