@@ -1,7 +1,10 @@
-import { alertConfig, normalizeEmail, userMotorsKey, userRocketsKey } from "@/lib/alerts/config";
+import { after } from "next/server";
+
+import { alertConfig, clientIp, normalizeEmail, userMotorsKey, userRocketsKey } from "@/lib/alerts/config";
 import { manageEmail, sendEmail } from "@/lib/alerts/email";
+import { overIpLimit } from "@/lib/alerts/rateLimit";
 import { signToken } from "@/lib/alerts/tokens";
-import { incrWithTtl, smembers } from "@/lib/alerts/upstash";
+import { smembers } from "@/lib/alerts/upstash";
 
 export const dynamic = "force-dynamic";
 
@@ -36,23 +39,28 @@ export async function POST(request: Request): Promise<Response> {
   const email = normalizeEmail(body.email);
   if (!email) return json({ error: "a valid email is required" }, 400);
 
-  const ip = (request.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
   try {
-    const count = await incrWithTtl(cfg, `rl:mgr:${ip}`, 3600);
-    if (count > RL_MAX) return json({ error: "rate limited; try again later" }, 429);
+    if (await overIpLimit(cfg, "rl:mgr", clientIp(request), RL_MAX)) {
+      return json({ error: "rate limited; try again later" }, 429);
+    }
   } catch {
     // rate-limit store down — fall through; the work below is cheap + idempotent.
   }
 
-  try {
-    // Send a link if the email has ANY alerts — motor subscriptions OR rocket-fit
-    // subscriptions. (Checking only motors was a bug: rocket-only subscribers got
-    // no manage email even though the manage page lists their rocket alerts.)
-    const [motors, rockets] = await Promise.all([
-      smembers(cfg, userMotorsKey(email)),
-      smembers(cfg, userRocketsKey(email)),
-    ]);
-    if (motors.length > 0 || rockets.length > 0) {
+  // Do the lookup + send AFTER responding (next/server `after`), so the response
+  // latency is identical whether or not the address has alerts — closing the
+  // timing oracle that an awaited-only-when-subscribed send would open. The reply
+  // is always SAME_REPLY regardless.
+  after(async () => {
+    try {
+      // Send a link if the email has ANY alerts — motor subscriptions OR
+      // rocket-fit subscriptions. (Checking only motors was a bug: rocket-only
+      // subscribers got no manage email even though the manage page lists them.)
+      const [motors, rockets] = await Promise.all([
+        smembers(cfg, userMotorsKey(email)),
+        smembers(cfg, userRocketsKey(email)),
+      ]);
+      if (motors.length === 0 && rockets.length === 0) return;
       const token = await signToken(cfg.secret, {
         t: "m",
         e: email,
@@ -69,11 +77,10 @@ export async function POST(request: Request): Promise<Response> {
         html: tmpl.html,
         text: tmpl.text,
       });
+    } catch {
+      // Best-effort: a transient failure just means no email; the user retries.
     }
-  } catch {
-    // Swallow: still return the same reply so failures don't leak existence
-    // either. (A transient send failure just means no email; user can retry.)
-  }
+  });
 
   return json(SAME_REPLY);
 }

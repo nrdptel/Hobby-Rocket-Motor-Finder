@@ -7,6 +7,7 @@ import {
 } from "@/lib/alerts/config";
 import { managePage, resultPage } from "@/lib/alerts/resultPage";
 import { describeRocketFields, parseRocketMember, rocketDisplayName } from "@/lib/alerts/rocketSub";
+import { removeAllForEmail } from "@/lib/alerts/store";
 import { verifyToken } from "@/lib/alerts/tokens";
 import { smembers, srem } from "@/lib/alerts/upstash";
 
@@ -38,16 +39,7 @@ export async function GET(request: Request): Promise<Response> {
 
   try {
     if (unsuball) {
-      const keys = await smembers(cfg, userMotorsKey(email));
-      for (const k of keys) {
-        await srem(cfg, subKey(k), email);
-        await srem(cfg, userMotorsKey(email), k);
-      }
-      const members = await smembers(cfg, userRocketsKey(email));
-      for (const mem of members) {
-        await srem(cfg, rocketSubsKey(), mem);
-        await srem(cfg, userRocketsKey(email), mem);
-      }
+      await removeAllForEmail(cfg, email);
     } else if (unsub) {
       await srem(cfg, subKey(unsub), email);
       await srem(cfg, userMotorsKey(email), unsub);

@@ -53,3 +53,23 @@ export async function incrWithTtl(cfg: UpstashCfg, key: string, ttlSeconds: numb
   if (n === 1) await cmd(cfg, ["EXPIRE", key, ttlSeconds]);
   return n;
 }
+
+/** Delete a key. Used to roll back an alert-cooldown claim when the email send
+ * failed, so the next scrape run can retry instead of silently suppressing. */
+export async function del(cfg: UpstashCfg, key: string): Promise<void> {
+  await cmd(cfg, ["DEL", key]);
+}
+
+/** Iterate keys matching a glob with SCAN (cursor-based; never blocks Redis like
+ * KEYS). Returns all matches. Used by the one-time reverse-index backfill. */
+export async function scanKeys(cfg: UpstashCfg, match: string, count = 200): Promise<string[]> {
+  const out: string[] = [];
+  let cursor = "0";
+  do {
+    const r = (await cmd(cfg, ["SCAN", cursor, "MATCH", match, "COUNT", count])) as [string, string[]];
+    cursor = Array.isArray(r) ? r[0] : "0";
+    const batch = Array.isArray(r) && Array.isArray(r[1]) ? r[1] : [];
+    out.push(...batch);
+  } while (cursor !== "0");
+  return out;
+}

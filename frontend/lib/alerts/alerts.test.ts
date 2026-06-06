@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { motorKey, normalizeEmail, subKey, userMotorsKey } from "./config";
+import { clientIp, motorKey, normalizeEmail, subKey, userMotorsKey } from "./config";
 import { designationFromKey, managePage, splitKey } from "./resultPage";
 import { signToken, verifyToken, type TokenPayload } from "./tokens";
 
@@ -19,6 +19,18 @@ describe("designationFromKey", () => {
     expect(designationFromKey("AeroTech::J500G-14A")).toBe("J500G-14A");
     // CTI designations never contain '::', so the first split is correct.
     expect(designationFromKey("Cesaroni Technology::I445")).toBe("I445");
+  });
+});
+
+describe("clientIp", () => {
+  const req = (h: Record<string, string>) => new Request("https://x.test", { headers: h });
+  it("prefers Vercel-set headers over the spoofable x-forwarded-for", () => {
+    expect(clientIp(req({ "x-vercel-forwarded-for": "9.9.9.9", "x-forwarded-for": "1.2.3.4" }))).toBe("9.9.9.9");
+    expect(clientIp(req({ "x-real-ip": "8.8.8.8", "x-forwarded-for": "1.2.3.4" }))).toBe("8.8.8.8");
+  });
+  it("falls back to x-forwarded-for off-platform", () => {
+    expect(clientIp(req({ "x-forwarded-for": "1.2.3.4, 5.6.7.8" }))).toBe("1.2.3.4");
+    expect(clientIp(req({}))).toBe("unknown");
   });
 });
 
