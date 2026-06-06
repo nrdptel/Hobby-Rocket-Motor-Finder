@@ -92,6 +92,11 @@ describe("formatPrice", () => {
     expect(formatPrice(null, "USD")).toBe("—");
   });
 
+  it("suppresses the four-nines placeholder price as 'no price'", () => {
+    expect(formatPrice(999999, "USD")).toBe("—"); // $9,999.99 sentinel
+    expect(formatPrice(150000, "USD")).toBe("$1,500.00"); // a real (high) motor still shows
+  });
+
   it("falls back to a dollar string on an invalid scraped currency (no crash)", () => {
     // Intl.NumberFormat throws RangeError on a bad ISO code; a poisoned scraped
     // currency must not take down the whole SSR page.
@@ -666,6 +671,48 @@ describe("groupByDelay", () => {
     const ten = g.delayGroups.find((d) => d.delay === "10s adj");
     expect(fourteen?.listings).toHaveLength(2);
     expect(ten?.listings).toHaveLength(1);
+  });
+
+  it("de-dupes listings that would render identically (same vendor/status/price)", () => {
+    // A vendor lists the same motor twice (e.g. two pack sizes at the same price)
+    // — same delay, vendor, status and price differ only by SKU/url, so they'd
+    // render as a confusing duplicate row. Keep one.
+    const motor = makeMotor({
+      listings: [
+        makeListing({
+          raw_designation: "H242T-14A",
+          vendor_slug: "sirius",
+          vendor_name: "Sirius",
+          price_cents: 4499,
+          status: "in_stock",
+          url: "https://sirius.example/3pack",
+        }),
+        makeListing({
+          raw_designation: "H242T-14A",
+          vendor_slug: "sirius",
+          vendor_name: "Sirius",
+          price_cents: 4499,
+          status: "in_stock",
+          url: "https://sirius.example/12pack",
+        }),
+        // Same vendor, same delay, but a DIFFERENT price → kept as a distinct row.
+        makeListing({
+          raw_designation: "H242T-14A",
+          vendor_slug: "sirius",
+          vendor_name: "Sirius",
+          price_cents: 5999,
+          status: "in_stock",
+          url: "https://sirius.example/single",
+        }),
+      ],
+    });
+    const g = groupByDelay(motor);
+    const group = g.delayGroups.find((d) => d.delay === "14s adj");
+    expect(group?.listings).toHaveLength(2); // two $44.99 rows collapsed to one
+    expect(group?.listings.map((l) => l.price_cents).sort()).toEqual([4499, 5999]);
+    expect(group?.listings.find((l) => l.price_cents === 4499)?.url).toBe(
+      "https://sirius.example/3pack",
+    ); // first (best-ranked) kept
   });
 
   it("sorts delay groups by their numeric sort key (low → high)", () => {

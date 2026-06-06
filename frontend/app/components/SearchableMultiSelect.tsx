@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 export type SelectOption = {
   // The value stored in the URL filter + passed to onToggle (e.g. a vendor slug,
@@ -47,15 +47,21 @@ export function SearchableMultiSelect({
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelId = useId();
 
-  // Close on outside click or Escape.
+  // Close on outside click or Escape. Escape returns focus to the trigger so
+  // keyboard focus isn't stranded in the (now-hidden) panel.
   useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        triggerRef.current?.focus();
+      }
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -96,10 +102,11 @@ export function SearchableMultiSelect({
   return (
     <div ref={ref} className="relative flex flex-wrap items-center gap-1.5">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        aria-haspopup="listbox"
+        aria-controls={panelId}
         className="inline-flex items-center gap-1 rounded-full border border-zinc-300 bg-white px-2.5 py-0.5 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
       >
         {active.size > 0 ? `${active.size} ${noun}${active.size > 1 ? "s" : ""}` : `Any ${noun}`}
@@ -132,7 +139,12 @@ export function SearchableMultiSelect({
       )}
 
       {open && (
-        <div className="absolute left-0 top-full z-20 mt-1 max-h-80 w-72 overflow-auto rounded-md border border-zinc-200 bg-white p-2 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+        <div
+          id={panelId}
+          role="group"
+          aria-label={`${noun} filter`}
+          className="absolute left-0 top-full z-20 mt-1 max-h-80 w-72 overflow-auto rounded-md border border-zinc-200 bg-white p-2 shadow-lg dark:border-zinc-700 dark:bg-zinc-900"
+        >
           <input
             autoFocus
             type="search"

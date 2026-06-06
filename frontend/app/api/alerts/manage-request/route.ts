@@ -44,7 +44,10 @@ export async function POST(request: Request): Promise<Response> {
       return json({ error: "rate limited; try again later" }, 429);
     }
   } catch {
-    // rate-limit store down — fall through; the work below is cheap + idempotent.
+    // Fail CLOSED if the store is down — consistent with the subscribe endpoints,
+    // so a transient Upstash outage can't be used to fire unthrottled magic-link
+    // emails (each carries a live 1h management token) at a subscriber.
+    return json({ error: "rate limited; try again later" }, 429);
   }
 
   // Do the lookup + send AFTER responding (next/server `after`), so the response
