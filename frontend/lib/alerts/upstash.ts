@@ -46,11 +46,15 @@ export async function setNxEx(cfg: UpstashCfg, key: string, ttlSeconds: number):
   return r === "OK";
 }
 
-/** Increment a counter, setting a TTL on first use; returns the new value.
- * Used for a simple per-IP subscribe rate limit. */
+/** Increment a counter and (re)set its TTL; returns the new value. Used for the
+ * per-IP rate limit and the daily confirm-send cap. The EXPIRE runs on EVERY
+ * call (not just the first) so a key can never get stuck without a TTL if an
+ * earlier EXPIRE was missed — which would otherwise lock one IP out forever. The
+ * window becomes sliding rather than fixed, which is only ever more restrictive
+ * for an over-limit caller, so it's fine for a rate limit. */
 export async function incrWithTtl(cfg: UpstashCfg, key: string, ttlSeconds: number): Promise<number> {
   const n = (await cmd(cfg, ["INCR", key])) as number;
-  if (n === 1) await cmd(cfg, ["EXPIRE", key, ttlSeconds]);
+  await cmd(cfg, ["EXPIRE", key, ttlSeconds]);
   return n;
 }
 

@@ -21,6 +21,10 @@ type RestockMotor = {
 };
 
 export const dynamic = "force-dynamic";
+// Sends are sequential and a throttled batch can hit the 429 retry's backoff;
+// give the function headroom so it isn't cut off mid-batch (which would skip the
+// cooldown rollback below and strand those motors).
+export const maxDuration = 60;
 
 // Don't re-alert a motor's subscribers more than once per window, even if the
 // scrape flaps or the job retries. The out→in transition detection upstream is
@@ -99,10 +103,12 @@ export async function POST(request: Request): Promise<Response> {
           // Skip a single bad recipient; keep going.
         }
       }
-      // If NOT ONE recipient got the email (e.g. a total Resend outage), roll
-      // back the cooldown so the next hourly run retries instead of silently
-      // suppressing this restock for 6h. A successful send keeps the claim, so
-      // the dedupe guarantee is preserved.
+      // If NOT ONE recipient got the email, release the cooldown claim. Note
+      // this only enables a retry when the fresh snapshot ALSO fails to commit
+      // this run (so the next run still diffs the same out→in transition); on
+      // the normal path the committed snapshot means the restock won't be
+      // re-detected, so a total send outage remains a rare best-effort miss.
+      // A successful send keeps the claim, preserving the dedupe guarantee.
       if (sentForMotor === 0) {
         try {
           await del(cfg, `alerted:${key}`);
@@ -199,9 +205,10 @@ export async function POST(request: Request): Promise<Response> {
         });
         rocketEmailsSent++;
       } catch {
-        // The digest send failed — roll back the cooldown claims for this digest
-        // so the next hourly run retries instead of suppressing these motors for
-        // 6h with no email delivered.
+        // The digest send failed — release the cooldown claims. As with the
+        // per-motor path this only enables a retry if the fresh snapshot also
+        // fails to commit this run; otherwise the restock isn't re-detected next
+        // run. Best-effort.
         for (const ck of claimedKeys) {
           try {
             await del(cfg, ck);

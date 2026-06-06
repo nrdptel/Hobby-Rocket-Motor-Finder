@@ -69,79 +69,92 @@ export function NotifyButton({
     }
   };
 
+  // A persistent, always-mounted live region so screen readers reliably announce
+  // the outcome. (A role=status added only on the success element wouldn't
+  // announce — a live region must exist before its text changes.)
+  const liveMsg =
+    status === "sent" ? "Check your email to confirm." : status === "error" ? message : "";
+  const liveRegion = (
+    <span className="sr-only" role="status" aria-live="polite">
+      {liveMsg}
+    </span>
+  );
+
   if (!open) {
     return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label={`Email me when ${designation} is back in stock`}
-        aria-expanded={open}
-        title="Email me when this is back in stock"
-        className="shrink-0 cursor-pointer p-1.5 -m-1.5 text-sm leading-none text-zinc-400 transition hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
-      >
-        🔔
-      </button>
+      <>
+        {liveRegion}
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label={`Email me when ${designation} is back in stock`}
+          title="Email me when this is back in stock"
+          className="shrink-0 cursor-pointer p-1.5 -m-1.5 text-sm leading-none text-zinc-400 transition hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
+        >
+          🔔
+        </button>
+      </>
     );
   }
 
   if (status === "sent") {
     return (
-      <span
-        role="status"
-        aria-live="polite"
-        className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400"
-      >
-        ✓ Check your email to confirm
+      <>
+        {liveRegion}
+        <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+          ✓ Check your email to confirm
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
+              setStatus("idle");
+            }}
+            aria-label="Close"
+            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+          >
+            ×
+          </button>
+        </span>
+      </>
+    );
+  }
+
+  return (
+    <>
+      {liveRegion}
+      <form onSubmit={submit} className="inline-flex items-center gap-1">
+        <input
+          ref={inputRef}
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@email.com"
+          aria-label={`Email for ${designation} restock alert`}
+          className="w-40 rounded-md border border-zinc-300 bg-white px-2 py-0.5 text-xs text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+        />
+        <button
+          type="submit"
+          disabled={status === "sending"}
+          className="rounded-md border border-zinc-900 bg-zinc-900 px-2 py-0.5 text-xs font-medium text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+        >
+          {status === "sending" ? "…" : "Notify me"}
+        </button>
         <button
           type="button"
           onClick={() => {
             setOpen(false);
             setStatus("idle");
           }}
-          aria-label="Close"
+          aria-label="Cancel"
           className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
         >
           ×
         </button>
-      </span>
-    );
-  }
-
-  return (
-    <form onSubmit={submit} className="inline-flex items-center gap-1">
-      <input
-        ref={inputRef}
-        type="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="you@email.com"
-        aria-label={`Email for ${designation} restock alert`}
-        className="w-40 rounded-md border border-zinc-300 bg-white px-2 py-0.5 text-xs text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
-      />
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="rounded-md border border-zinc-900 bg-zinc-900 px-2 py-0.5 text-xs font-medium text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
-      >
-        {status === "sending" ? "…" : "Notify me"}
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          setOpen(false);
-          setStatus("idle");
-        }}
-        aria-label="Cancel"
-        className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
-      >
-        ×
-      </button>
-      {status === "error" && (
-        <span role="alert" className="text-xs text-red-600 dark:text-red-400">
-          {message}
-        </span>
-      )}
-    </form>
+        {status === "error" && (
+          <span className="text-xs text-red-600 dark:text-red-400">{message}</span>
+        )}
+      </form>
+    </>
   );
 }
