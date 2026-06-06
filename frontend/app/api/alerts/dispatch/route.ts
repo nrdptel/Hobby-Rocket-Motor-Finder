@@ -89,7 +89,7 @@ export async function POST(request: Request): Promise<Response> {
           )}`;
           const tmpl = restockEmail(designation, motorUrl, unsubscribeUrl, await manageLink(cfg, email));
           await sendEmail({
-            apiKey: cfg.resendApiKey,
+            ses: cfg.ses,
             from: cfg.from,
             to: email,
             subject: tmpl.subject,
@@ -195,7 +195,7 @@ export async function POST(request: Request): Promise<Response> {
           await manageLink(cfg, parsed.email),
         );
         await sendEmail({
-          apiKey: cfg.resendApiKey,
+          ses: cfg.ses,
           from: cfg.from,
           to: parsed.email,
           subject: tmpl.subject,

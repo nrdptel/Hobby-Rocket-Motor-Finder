@@ -8,7 +8,9 @@
 // as before with zero setup.
 
 export type AlertConfig = {
-  resendApiKey: string;
+  // Amazon SES sending credentials. Env vars use an SES_ prefix (not AWS_) because
+  // Vercel runs functions on Lambda, which reserves the AWS_ prefix.
+  ses: { region: string; accessKeyId: string; secretAccessKey: string };
   from: string; // e.g. "HPR Motor Finder <alerts@fusionspace.co>"
   upstashUrl: string;
   upstashToken: string;
@@ -20,17 +22,25 @@ export type AlertConfig = {
 /** Resolve the full alert config from env, or null if any required piece is
  * missing (→ alerts disabled). */
 export function alertConfig(): AlertConfig | null {
-  const resendApiKey = process.env.RESEND_API_KEY;
+  const region = process.env.SES_REGION;
+  const accessKeyId = process.env.SES_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.SES_SECRET_ACCESS_KEY;
   const from = process.env.ALERTS_FROM;
   const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
   const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
   const secret = process.env.ALERTS_SECRET;
   const dispatchSecret = process.env.ALERTS_DISPATCH_SECRET;
-  if (!resendApiKey || !from || !upstashUrl || !upstashToken || !secret || !dispatchSecret) {
+  if (
+    !region || !accessKeyId || !secretAccessKey ||
+    !from || !upstashUrl || !upstashToken || !secret || !dispatchSecret
+  ) {
     return null;
   }
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
-  return { resendApiKey, from, upstashUrl, upstashToken, secret, dispatchSecret, siteUrl };
+  return {
+    ses: { region, accessKeyId, secretAccessKey },
+    from, upstashUrl, upstashToken, secret, dispatchSecret, siteUrl,
+  };
 }
 
 /** Stable identity for a motor across scrape runs (ids are rebuilt every run).

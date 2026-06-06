@@ -66,7 +66,7 @@ export async function POST(request: Request): Promise<Response> {
 
   try {
     await sendEmail({
-      apiKey: cfg.resendApiKey,
+      ses: cfg.ses,
       from: cfg.from,
       to: email,
       subject: tmpl.subject,
