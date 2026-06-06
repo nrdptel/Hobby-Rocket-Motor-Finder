@@ -19,8 +19,9 @@ const geistMono = Geist_Mono({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
 
 const description =
-  "U.S. high-power rocketry motor availability aggregated across vendors. " +
-  "AeroTech, Cesaroni & Loki stock + pricing in one searchable view.";
+  "U.S. high-power rocketry motor availability across vendors — AeroTech, Cesaroni " +
+  "& Loki stock + pricing in one searchable view, with restock email alerts and " +
+  "in-stock substitutes when a motor is sold out everywhere.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
