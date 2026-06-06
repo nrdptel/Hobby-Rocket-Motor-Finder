@@ -25,7 +25,7 @@ carry-forward stays quiet (that's the safety net working).
 
 ## 3. Below-baseline anomaly → tracking issue (the quiet failures)
 
-Layers 1–2 miss two cases where a vendor looks "healthy" (above floor) and fresh
+Layers 1–2 miss three cases where a vendor looks "healthy" (above floor) and fresh
 (low stale-hours):
 
 - **Partial degradation** — normally ~600 listings, now 300. Above floor, but
@@ -33,18 +33,34 @@ Layers 1–2 miss two cases where a vendor looks "healthy" (above floor) and fre
 - **In-stock collapse** — a parsing regression returns the normal listing *count*
   but flips (almost) everything to out-of-stock. Fresh + above floor, so nothing
   in layers 1–2 fires — yet the site shows that vendor as sold out.
+- **Match-rate erosion** — a normalizer regression leaves a chunk of a vendor's
+  catalog **unmatched** (a new product-naming variant the regex no longer maps to
+  a ThrustCurve motor). Those listings move into the snapshot's separate
+  `unmatched[]` bucket, so the matched count can dip without crossing the 50%
+  floor while the vendor's motors silently drop out of the user-facing list. The
+  unmatched count for that vendor spikes — that's the signal we watch.
 
 `hpr_finder/health.py` tracks a slow **EWMA baseline** of each vendor's fresh
-listing count and in-stock count in `data/health-baseline.json` (committed each
-run). A run is **anomalous** when listings fall below 50% of baseline, or in-stock
-below ~⅓ of baseline (for vendors that normally hold ≥5 in stock). The baseline
-only learns from healthy, non-anomalous runs, so a gradual break can't drag it
-down to match itself (no boiling-frog). A per-vendor **consecutive-anomaly
-streak** (default 3 runs) gates escalation, so one slow run doesn't cry wolf.
+listing count, in-stock count, **and unmatched count** in `data/health-baseline.json`
+(committed each run). A run is **anomalous** when listings fall below 50% of
+baseline, in-stock below ~⅓ of baseline (for vendors that normally hold ≥5 in
+stock), or unmatched spikes above 2× baseline (only for vendors whose unmatched
+baseline is ≥8, and only when the absolute jump is ≥15, so a tiny vendor's noise
+can't cry wolf). The baseline only learns from healthy, non-anomalous runs, so a
+gradual break can't drag it down to match itself (no boiling-frog). A per-vendor
+**consecutive-anomaly streak** (default 3 runs) gates escalation, so one slow run
+doesn't cry wolf.
 
-Anomalies appear in `scrape-status.json` (`.anomalies`, `.anomaly_sustained`),
-are shown in the run summary immediately, and a *sustained* anomaly escalates to
-the same single tracking issue as staleness. Tunables live in `health.DEFAULTS`.
+The unmatched metric is **backward-compatible** with existing baselines: a vendor
+with no recorded `unmatched` value is never flagged until the metric seeds on its
+next healthy run (independent of the count/stock sample counter), so the worst a
+real erosion costs after a deploy is one seed run plus the 3-run streak before it
+escalates.
+
+Anomalies appear in `scrape-status.json` (`.anomalies`, `.anomaly_sustained`, with
+per-vendor fresh unmatched counts under `.fresh_unmatched`), are shown in the run
+summary immediately, and a *sustained* anomaly escalates to the same single
+tracking issue as staleness. Tunables live in `health.DEFAULTS`.
 
 ## Scrape duration (visibility)
 
