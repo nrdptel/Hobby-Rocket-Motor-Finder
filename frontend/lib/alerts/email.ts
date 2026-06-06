@@ -1,51 +1,58 @@
-// Resend email sender (plain fetch against their REST API) + the two email
-// templates the alert system sends: a double-opt-in confirmation and a restock
-// notification. Kept text-light and inbox-friendly.
+// Amazon SES email sender (via the SES v2 API) + the email templates the alert
+// system sends: a double-opt-in confirmation and a restock notification. Kept
+// text-light and inbox-friendly.
+
+import { SendEmailCommand, SESv2Client } from "@aws-sdk/client-sesv2";
 
 type SendArgs = {
-  apiKey: string;
+  ses: { region: string; accessKeyId: string; secretAccessKey: string };
   from: string;
   to: string;
   subject: string;
   html: string;
   text: string;
   // RFC 8058 one-click unsubscribe header (helps deliverability + gives the
-  // mail client a native unsubscribe button).
+  // mail client a native unsubscribe button). Passed through SES's Simple-content
+  // Headers field, which supports List-Unsubscribe / List-Unsubscribe-Post.
   listUnsubscribe?: string;
 };
 
 export async function sendEmail(args: SendArgs): Promise<void> {
-  const headers: Record<string, string> = {};
-  if (args.listUnsubscribe) {
-    headers["List-Unsubscribe"] = `<${args.listUnsubscribe}>`;
-    headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
-  }
-  const body = JSON.stringify({
-    from: args.from,
-    to: args.to,
-    subject: args.subject,
-    html: args.html,
-    text: args.text,
-    headers,
+  const client = new SESv2Client({
+    region: args.ses.region,
+    credentials: {
+      accessKeyId: args.ses.accessKeyId,
+      secretAccessKey: args.ses.secretAccessKey,
+    },
   });
 
-  // Resend free tier throttles at ~2 req/s. A burst of restock emails can get a
-  // 429; retry once after a short backoff before giving up (the caller treats a
-  // throw as "not sent" and rolls back the cooldown so the next run retries).
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${args.apiKey}`, "Content-Type": "application/json" },
-      body,
-      cache: "no-store",
-    });
-    if (res.ok) return;
-    if (res.status === 429 && attempt === 0) {
-      await new Promise((r) => setTimeout(r, 600));
-      continue;
-    }
-    throw new Error(`resend send failed: ${res.status} ${await res.text().catch(() => "")}`);
-  }
+  const headers = args.listUnsubscribe
+    ? [
+        { Name: "List-Unsubscribe", Value: `<${args.listUnsubscribe}>` },
+        { Name: "List-Unsubscribe-Post", Value: "List-Unsubscribe=One-Click" },
+      ]
+    : undefined;
+
+  // The SDK throws on any non-success (auth, throttling, rejected recipient). The
+  // caller treats a throw as "not sent" and rolls back the cooldown so the next
+  // run retries — so we deliberately don't swallow errors here. The SDK already
+  // retries transient/throttling errors internally with backoff.
+  await client.send(
+    new SendEmailCommand({
+      FromEmailAddress: args.from,
+      Destination: { ToAddresses: [args.to] },
+      Content: {
+        Simple: {
+          Subject: { Data: args.subject, Charset: "UTF-8" },
+          Body: {
+            Text: { Data: args.text, Charset: "UTF-8" },
+            Html: { Data: args.html, Charset: "UTF-8" },
+          },
+          ...(headers ? { Headers: headers } : {}),
+        },
+      },
+    }),
+  );
 }
 
 const esc = (s: string) =>
