@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Link from "next/link";
 import {
   bestInStockPriceCents,
   formatBurn,
@@ -10,7 +11,7 @@ import {
   isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
-  thrustcurveUrl,
+  motorPath,
   safeHref,
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
@@ -130,15 +131,13 @@ export function MotorResults({
                         <span className="flex items-center gap-1.5">
                           <StarButton motorId={m.id} designation={m.designation} />
                           <NotifyButton manufacturer={m.manufacturer} designation={m.designation} />
-                          <a
-                            href={thrustcurveUrl(m)}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <Link
+                            href={motorPath(m)}
                             className="font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
-                            title={`View ${m.designation} on ThrustCurve.org`}
+                            title={`${m.designation} details, specs & all vendors`}
                           >
                             {m.designation}
-                          </a>
+                          </Link>
                           <CertBadge impulseClass={m.impulse_class} />
                           <DiscontinuedBadge discontinued={m.discontinued} />
                         </span>

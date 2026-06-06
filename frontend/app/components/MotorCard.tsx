@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   bestInStockPriceCents,
   formatBurn,
@@ -6,7 +7,7 @@ import {
   formatThrust,
   isBestInStockPrice,
   manufacturerLabel,
-  thrustcurveUrl,
+  motorPath,
   safeHref,
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
@@ -49,15 +50,13 @@ export function MotorCard({
         <div className="flex min-w-0 items-center gap-1.5">
           <StarButton motorId={motor.id} designation={motor.designation} />
           <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
-          <a
-            href={thrustcurveUrl(motor)}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={motorPath(motor)}
             className="font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
-            title={`View ${motor.designation} on ThrustCurve.org`}
+            title={`${motor.designation} details, specs & all vendors`}
           >
             {motor.designation}
-          </a>
+          </Link>
           <CertBadge impulseClass={motor.impulse_class} />
           <DiscontinuedBadge discontinued={motor.discontinued} />
         </div>

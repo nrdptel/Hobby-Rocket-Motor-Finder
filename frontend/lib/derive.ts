@@ -216,6 +216,34 @@ export function manufacturerLabel(manufacturer: string): string {
   return manufacturer;
 }
 
+/** Lowercase URL slug for a manufacturer — "aerotech" / "cesaroni" / "loki".
+ * Derived from the display label so the detail-page URL matches what the user
+ * sees, and stays stable as ThrustCurve's verbose names ("Cesaroni Technology")
+ * change underneath. */
+export function manufacturerSlug(manufacturer: string): string {
+  return manufacturerLabel(manufacturer).toLowerCase();
+}
+
+// A handful of AeroTech designations contain a "/" (e.g. "F20W/L"), which can't
+// live in a single URL path segment. "~" never appears in any designation, so we
+// swap "/"↔"~" for the URL. Every other designation character (alnum . _ -) is
+// URL-safe and passes through untouched.
+export function designationToSlug(designation: string): string {
+  return designation.replaceAll("/", "~");
+}
+export function designationFromSlug(slug: string): string {
+  return slug.replaceAll("~", "/");
+}
+
+/** Internal detail-page path for a motor, e.g. "/motor/aerotech/J90W".
+ * (manufacturer, designation) is unique across the catalog, so this is a stable,
+ * human-readable permalink. */
+export function motorPath(m: Pick<Motor, "manufacturer" | "designation">): string {
+  return `/motor/${manufacturerSlug(m.manufacturer)}/${encodeURIComponent(
+    designationToSlug(m.designation),
+  )}`;
+}
+
 /** User-selectable motor-list orderings (the ``?order=`` URL param). "class" is
  * the default natural ordering (impulse class → diameter → designation). */
 export type MotorOrder = "class" | "impulse" | "thrust" | "diameter" | "price";

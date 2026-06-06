@@ -18,9 +18,13 @@ import {
   formatThrust,
   groupByDelay,
   isBestInStockPrice,
+  designationFromSlug,
+  designationToSlug,
   listingInStock,
   manufacturerLabel,
+  manufacturerSlug,
   motorInStock,
+  motorPath,
   numericParamValue,
   parseDir,
   parseOrder,
@@ -212,6 +216,35 @@ describe("manufacturerLabel", () => {
 
   it("passes other manufacturers through verbatim", () => {
     expect(manufacturerLabel("AeroTech")).toBe("AeroTech");
+  });
+});
+
+// --- manufacturerSlug / motorPath ------------------------------------------
+
+describe("manufacturerSlug / motorPath", () => {
+  it("slugs the manufacturer to a lowercase label", () => {
+    expect(manufacturerSlug("AeroTech")).toBe("aerotech");
+    expect(manufacturerSlug("Cesaroni Technology")).toBe("cesaroni");
+    expect(manufacturerSlug("Loki Research")).toBe("loki");
+  });
+
+  it("builds a stable detail-page path", () => {
+    expect(motorPath(makeMotor({ manufacturer: "AeroTech", designation: "J90W" }))).toBe(
+      "/motor/aerotech/J90W",
+    );
+    expect(
+      motorPath(makeMotor({ manufacturer: "Cesaroni Technology", designation: "K530-IM" })),
+    ).toBe("/motor/cesaroni/K530-IM");
+  });
+
+  it("maps a slash-containing designation to a single safe segment", () => {
+    // A few AeroTech designations carry a "/" (e.g. "F20W/L"); "/"→"~" keeps it
+    // in one URL path segment, reversed on the detail page.
+    expect(motorPath(makeMotor({ manufacturer: "AeroTech", designation: "F20W/L" }))).toBe(
+      "/motor/aerotech/F20W~L",
+    );
+    expect(designationFromSlug("F20W~L")).toBe("F20W/L");
+    expect(designationFromSlug(designationToSlug("F20W/L"))).toBe("F20W/L");
   });
 });
 
