@@ -68,7 +68,7 @@ export function HowItWorks() {
             </li>
             {alertsEnabled && (
               <li>
-                <strong className="font-medium text-zinc-800 dark:text-zinc-200">🔔 Restock reminders</strong>{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">Restock reminders</strong>{" "}
                 &mdash; tap the bell on any motor to get an email when it&apos;s back in stock, or set one on a
                 saved rocket to be told when <em>anything</em>{" "}that fits it restocks. Double
                 opt-in, one-click unsubscribe, manage anytime &mdash; no account needed.

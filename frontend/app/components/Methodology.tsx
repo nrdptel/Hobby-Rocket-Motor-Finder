@@ -68,7 +68,7 @@ export function Methodology() {
               <dt className="font-medium text-zinc-800 dark:text-zinc-200">Restock reminders</dt>
               <dd className="mt-0.5">
                 After each scrape we diff the new stock against the previous one. When a listing flips
-                from out-of-stock back to in-stock, anyone who set a 🔔 reminder on that motor &mdash; or
+                from out-of-stock back to in-stock, anyone who set a reminder on that motor &mdash; or
                 on a saved rocket the motor fits (matching diameter, cert level, and impulse band) &mdash;
                 gets a single email. Subscriptions are confirmed by a double opt-in and the only data
                 stored is your email; every alert has one-click unsubscribe.

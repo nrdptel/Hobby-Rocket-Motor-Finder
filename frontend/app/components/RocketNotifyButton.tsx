@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { BellIcon } from "./BellIcon";
 
 // Per-rocket "email me when ANYTHING that fits this rocket comes back in stock".
 // One subscription covers every compatible motor, present and future — no need
@@ -102,9 +103,9 @@ export function RocketNotifyButton({
           onClick={() => setOpen(true)}
           aria-label={`Email me when anything that fits ${displayLabel} is back in stock`}
           title="Email me when anything that fits this rocket restocks"
-          className={`ml-1 shrink-0 cursor-pointer p-1 text-xs leading-none transition ${edge}`}
+          className={`ml-1 shrink-0 cursor-pointer p-1 leading-none transition ${edge}`}
         >
-          🔔
+          <BellIcon className="h-4 w-4" />
         </button>
       </>
     );
