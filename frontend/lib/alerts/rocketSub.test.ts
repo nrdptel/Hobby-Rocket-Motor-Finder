@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { SINGLE_USE_CASE } from "../derive";
 import { motorFitsRocket } from "../rocketFit";
 import {
   describeRocketFields,
@@ -172,6 +173,43 @@ describe("fieldsToSpec drives the fit function", () => {
         total_impulse_ns: 1700,
         case_info: "RMS-54/852",
         motor_type: "reload",
+      }),
+    ).toBe(false);
+  });
+
+  it("a 'Single use' case pin matches an SU motor (depends on motor_type, not case_info)", () => {
+    // Single-use motors carry no case_info, so the fit resolves the "Single use"
+    // pseudo-case via motor_type === "SU". This guards the one alert path that
+    // relies on motor_type: a future caseKey change here must not silently stop
+    // SU-pinned rocket alerts from firing.
+    const spec = fieldsToSpec({ d: 29, c: null, k: null, cs: SINGLE_USE_CASE, mn: null, mx: null, l: "" });
+    expect(
+      motorFitsRocket(spec, {
+        diameter_mm: 29,
+        impulse_class: "G",
+        total_impulse_ns: 120,
+        case_info: null,
+        motor_type: "SU",
+      }),
+    ).toBe(true);
+    // A reload of the same size is NOT single-use → no match.
+    expect(
+      motorFitsRocket(spec, {
+        diameter_mm: 29,
+        impulse_class: "G",
+        total_impulse_ns: 120,
+        case_info: "RMS-29/40",
+        motor_type: "reload",
+      }),
+    ).toBe(false);
+    // motor_type missing → SU pin can't resolve → no match (fail-closed).
+    expect(
+      motorFitsRocket(spec, {
+        diameter_mm: 29,
+        impulse_class: "G",
+        total_impulse_ns: 120,
+        case_info: null,
+        motor_type: null,
       }),
     ).toBe(false);
   });
