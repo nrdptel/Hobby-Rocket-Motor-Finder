@@ -70,6 +70,16 @@ jobs:
         # (refuse-to-publish), so the alert still fires on a total failure.
         run: hpr snapshot export --floor 200 --report-json data/scrape-status.json
 
+      - name: Validate snapshot before publishing
+        # Belt-and-suspenders on top of --floor: never commit a snapshot that
+        # isn't parseable JSON with a non-empty motors array. A truncated/corrupt
+        # file (partial write, disk hiccup) would otherwise auto-deploy and 500
+        # every page (loadSnapshot throws on malformed JSON). Failing here skips
+        # the commit; the previously-published snapshot stays live.
+        working-directory: ${{ github.workspace }}
+        run: |
+          python -c "import json,sys; d=json.load(open('data/snapshot.json')); n=len(d.get('motors') or []); print(f'snapshot OK: {n} motors'); sys.exit(0 if n>0 else 1)"
+
       - name: Report scrape health
         # always() so it runs even when the export step exited non-zero. Writes a
         # one-line health note to the run summary every time, and opens a single

@@ -39,11 +39,21 @@ _DEFAULT_HISTORY_SUMMARY = _REPO_ROOT / "data" / "history" / "summary.json"
 _DEFAULT_HEALTH_BASELINE = _REPO_ROOT / "data" / "health-baseline.json"
 
 # Per-vendor carry-forward floor overrides (slug -> floor). Small-catalog vendors
-# sit permanently below the global --floor (sized for the big AeroTech/CTI
-# vendors), so they get a lower threshold matched to their catalog size. Loki
-# lists ~60 reloads total from a single page (all-or-nothing), so anything in the
-# low tens signals a degraded scrape.
-_VENDOR_FLOORS = {"loki": 10}
+# sit permanently below — or uncomfortably close to — the global --floor (sized
+# for the big AeroTech/CTI vendors), so they get a lower threshold matched to
+# their catalog size: roughly 60% of the vendor's healthy listing count, low
+# enough that normal churn uses the fresh scrape, high enough that a real
+# collapse (parse break → near-zero) trips carry-forward. Without these, a
+# full-catalog single-page vendor like Balsa (~204 listings, only ~4 above the
+# global 200) would silently roll back to stale data after selling through a
+# handful of motors. Loki lists ~60 reloads from one page (all-or-nothing), so
+# the low tens already signal a degraded scrape.
+_VENDOR_FLOORS = {
+    "loki": 10,
+    "balsa_machining": 120,  # healthy ~204, single-page all-or-nothing
+    "amw": 150,  # healthy ~247
+    "aerotechdirect": 150,  # healthy ~252, full-catalog backorder vendor
+}
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
