@@ -7,6 +7,7 @@ import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
 import { CaseFilter } from "./CaseFilter";
 import { PropellantFilter } from "./PropellantFilter";
+import { VendorFilter } from "./VendorFilter";
 
 type Props = {
   manufacturers: string[];
@@ -241,18 +242,12 @@ export function FilterBar({
 
       {vendors.length > 1 && (
         <FilterRow label="Vendor">
-          {vendors.map((v) => (
-            <button
-              key={v.slug}
-              type="button"
-              onClick={() => toggleVendor(v.slug)}
-              aria-pressed={activeVendors.has(v.slug)}
-              className={pill(activeVendors.has(v.slug))}
-              title={`Show motors carried by ${v.name}`}
-            >
-              {v.name}
-            </button>
-          ))}
+          <VendorFilter
+            options={vendors}
+            active={activeVendors}
+            onToggle={toggleVendor}
+            onClear={() => update("vendor", null)}
+          />
         </FilterRow>
       )}
 
