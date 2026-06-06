@@ -352,6 +352,90 @@ def test_report_flags_below_baseline_anomaly(tmp_db, tmp_path):
     assert b["csrocketry"]["count"] == 600.0
 
 
+def _seed_matched_plus_unmatched(db_path: Path, n_unmatched: int) -> None:
+    """csrocketry with one matched in-stock listing and ``n_unmatched`` listings
+    whose designation has no catalog match. Lets a test drive the unmatched-spike
+    rule while the matched count stays healthy."""
+    with db.connect(db_path) as conn:
+        db.init_schema(conn)
+        v_id = upsert_vendor(conn, slug="csrocketry", name="Chris' Rocket Supplies",
+                             homepage="https://www.csrocketry.com", state="GA")
+        upsert_motors(conn, [
+            Motor(
+                manufacturer="AeroTech", designation="H242T-14A", common_name="H242",
+                diameter_mm=29, length_mm=124, total_impulse_ns=237.0, avg_thrust_n=242.0,
+                burn_time_s=0.98, propellant="Blue Thunder", impulse_class="H",
+                delays="6,10,14", delay_adjustable=True, thrustcurve_id="abc123",
+            ),
+        ])
+        seen = datetime(2026, 5, 31, 12, 0, 0, tzinfo=UTC)
+        listings = [
+            Listing(
+                vendor_slug="csrocketry", motor_designation="H242T-14A", motor_id=None,
+                url="https://www.csrocketry.com/product/h242t", sku="AT-H242T-14A",
+                price_cents=4499, currency="USD", status=StockStatus.IN_STOCK_WITH_COUNT,
+                stock_count=3, raw_title="AeroTech H242T-14A Blue Thunder Rocket Motor",
+                seen_at=seen,
+            ),
+        ]
+        for i in range(n_unmatched):
+            listings.append(Listing(
+                vendor_slug="csrocketry", motor_designation=f"Z{9000 + i}X-99", motor_id=None,
+                url=f"https://www.csrocketry.com/product/mystery-{i}", sku=None,
+                price_cents=None, currency="USD", status=StockStatus.UNKNOWN,
+                stock_count=None, raw_title=f"Mystery Item Z{9000 + i}X-99", seen_at=seen,
+            ))
+        upsert_listings(conn, v_id, listings)
+
+
+def test_report_flags_unmatched_spike_anomaly(tmp_db, tmp_path):
+    """Match-rate erosion: the matched count stays healthy (count/in-stock rules
+    silent) but unmatched spikes far above baseline → flagged, and with a primed
+    streak it escalates to anomaly_sustained."""
+    _seed_matched_plus_unmatched(tmp_db, n_unmatched=25)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+    # Low matched baseline (so 1 matched listing is fine) + a low unmatched baseline
+    # (8) and a streak of 2, so 25 unmatched tips the streak to escalation (3).
+    baseline.write_text(json.dumps({
+        "csrocketry": {"count": 1.0, "stock": 1.0, "unmatched": 8.0, "samples": 10, "streak": 2}
+    }))
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert status["fresh_unmatched"]["csrocketry"] == 25
+    assert len(status["anomalies"]) == 1
+    an = status["anomalies"][0]
+    assert an["vendor"] == "csrocketry"
+    assert any("unmatched" in r for r in an["reasons"])
+    assert not any("listings" in r or "in-stock" in r for r in an["reasons"])
+    assert an["streak"] == 3
+    assert status["anomaly_sustained"] is True
+    # The unmatched baseline must NOT be dragged up by the anomalous run.
+    b = json.loads(baseline.read_text())
+    assert b["csrocketry"]["unmatched"] == 8.0
+
+
+def test_report_healthy_run_seeds_unmatched_baseline(tmp_db, tmp_path):
+    """A healthy run records the per-vendor unmatched count into the baseline so the
+    metric warms up alongside count/stock."""
+    _seed_matched_plus_unmatched(tmp_db, n_unmatched=4)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    b = json.loads(baseline.read_text())
+    assert b["csrocketry"]["unmatched"] == 4.0
+    assert b["csrocketry"]["samples"] == 1
+    status = json.loads(report.read_text())
+    assert status["fresh_unmatched"]["csrocketry"] == 4
+    assert status["anomalies"] == []  # no baseline yet to spike against
+
+
 def test_parse_iso_normalizes_naive_to_utc():
     # A naive timestamp (carried forward from an early archived snapshot) must
     # become tz-aware so the stale-hours subtraction can't raise TypeError.
