@@ -130,7 +130,7 @@ For OpenGraph / Twitter share cards, the site origin defaults to the production 
 This project scrapes vendors without prior permission. The bar we hold ourselves to:
 
 - **Identify ourselves.** The `User-Agent` includes the project URL and a contact channel ([GitHub Issues](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/issues)).
-- **Honor `robots.txt`.** Vendors that disallow generic crawlers are not scraped.
+- **Honor `robots.txt`.** Each vendor's `robots.txt` is reviewed before the vendor is added; those that disallow generic crawlers are excluded (e.g. Apogee Components, Miller Motor Works — see [the vendor report](docs/HPR_Vendor_Report.md)). This is a manual check at onboarding, not a runtime fetch.
 - **Rate limit.** Per-host concurrency cap (typically 2-4) and minimum interval between request starts (0.25-1s) — see each scraper's class attributes.
 - **Honor `Retry-After`.** On 429/503 we sleep the full duration before continuing.
 - **No evasion.** No rotating User-Agents, no residential proxies, no captcha solvers. If a vendor blocks us, we stop.

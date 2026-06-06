@@ -69,8 +69,15 @@ export type GroupedMotor = Motor & { delayGroups: DelayGroup[] };
  * A single bad value would otherwise crash the whole server-rendered page, so we
  * fall back to a plain dollar string rather than let one poisoned listing take
  * the site down. */
+// Some vendors use a four-nines placeholder ($9,999.99) as a "price on request"
+// / not-really-for-sale sentinel on special-order or unavailable items. No real
+// HPR motor is anywhere near this, so we render such a price as "no price" rather
+// than a real-looking number. (Best-price + price sorting are in-stock-only and
+// use the raw cents, so suppressing the *display* doesn't affect them.)
+const SENTINEL_PRICE_CENTS = 900_000;
+
 export function formatPrice(cents: number | null, currency: string): string {
-  if (cents == null) return "—";
+  if (cents == null || cents >= SENTINEL_PRICE_CENTS) return "—";
   try {
     return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(
       cents / 100,
@@ -647,14 +654,36 @@ export function groupByDelay(motor: Motor, sort: ListingSort = "stock"): Grouped
   const delayGroups = Array.from(byDelay.values())
     .map((g) => ({
       ...g,
-      // In-stock first, then the chosen tiebreak.
-      listings: [...g.listings].sort((a, b) => {
-        const ai = listingInStock(a.status) ? 0 : 1;
-        const bi = listingInStock(b.status) ? 0 : 1;
-        if (ai !== bi) return ai - bi;
-        return listingTiebreak(a, b, sort);
-      }),
+      // In-stock first, then the chosen tiebreak; finally drop rows that would
+      // render identically (de-dupe after sort so the kept one is the best-ranked).
+      listings: dedupeRenderedListings(
+        [...g.listings].sort((a, b) => {
+          const ai = listingInStock(a.status) ? 0 : 1;
+          const bi = listingInStock(b.status) ? 0 : 1;
+          if (ai !== bi) return ai - bi;
+          return listingTiebreak(a, b, sort);
+        }),
+      ),
     }))
     .sort((a, b) => a.delaySortKey - b.delaySortKey);
   return { ...motor, delayGroups };
+}
+
+/** Drop listings that would render as an identical row within a delay group —
+ * same vendor, stock state, and price are the only visible columns. A few
+ * vendors list the same motor twice (e.g. different pack sizes at the same
+ * price), which otherwise shows as a confusing duplicate / double-count row. The
+ * duplicates differ only by SKU/URL, so the first (best-ranked) one is kept. */
+function dedupeRenderedListings(listings: Listing[]): Listing[] {
+  const seen = new Set<string>();
+  const out: Listing[] = [];
+  for (const l of listings) {
+    // Key on the VISIBLE columns (vendor name, stock state, price) — that's what
+    // makes two rows indistinguishable. vendor_name ↔ vendor_slug is 1:1.
+    const key = `${l.vendor_name}|${l.status}|${l.stock_count ?? ""}|${l.lead_time ?? ""}|${l.price_cents ?? ""}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(l);
+  }
+  return out;
 }
