@@ -40,40 +40,41 @@ export function HowItWorks() {
           <p className="font-medium text-zinc-700 dark:text-zinc-300">What you can do</p>
           <ul className="mt-2 space-y-2">
             <li>
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Search</strong> by typing a
-              designation, common name, or the exact vendor variety (e.g.{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Search</strong>{" "}
+              by typing a designation, common name, or the exact vendor variety (e.g.{" "}
               <span className="font-mono text-xs">H242T-14A</span>).
             </li>
             <li>
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Filter</strong> by impulse
-              class, diameter, total-impulse range, certification level (L1&ndash;L3), manufacturer,
-              in-stock-only, and ★ starred-only &mdash; then{" "}
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">sort</strong> by class,
-              total impulse, thrust, diameter, or price (either direction). Filters live in the URL, so a
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Filter</strong>{" "}
+              by impulse class, diameter, total-impulse range, certification level (L1&ndash;L3),
+              manufacturer, in-stock-only, and ★ starred-only &mdash; then{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">sort</strong>{" "}
+              by class, total impulse, thrust, diameter, or price (either direction). Filters live in
+              the URL, so a
               search is shareable and survives a refresh.
             </li>
             <li>
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">My Rockets</strong> &mdash;
-              save a rocket&apos;s motor mount (diameter + the cert level you fly, optionally a
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">My Rockets</strong>{" "}
+              &mdash; save a rocket&apos;s motor mount (diameter + the cert level you fly, optionally a
               total-impulse band) and instantly see how many in-stock motors fit each one; a tap applies it
               as a filter. You can also save your current filtered view as a rocket.
             </li>
             <li>
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Star</strong> motors to a
-              watchlist kept in this browser, then use the{" "}
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Starred</strong> filter to
-              show only those.
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Star</strong>{" "}
+              motors to a watchlist kept in this browser, then use the{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Starred</strong>{" "}filter
+              to show only those.
             </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">🔔 Restock reminders</strong>{" "}
               &mdash; tap the bell on any motor to get an email when it&apos;s back in stock, or set one on a
-              saved rocket to be told when <em>anything</em> that fits it restocks. Double opt-in,
-              one-click unsubscribe, manage anytime &mdash; no account needed.
+              saved rocket to be told when <em>anything</em>{" "}that fits it restocks. Double
+              opt-in, one-click unsubscribe, manage anytime &mdash; no account needed.
             </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">Similar in stock</strong>{" "}
               &mdash; when a motor is sold out at every vendor, we surface comparable motors that{" "}
-              <em>are</em> in stock and would fly in its place. (How a substitute is chosen is explained
+              <em>are</em>{" "}in stock and would fly in its place. (How a substitute is chosen is explained
               at the foot of the page.)
             </li>
             <li>
@@ -98,8 +99,8 @@ export function HowItWorks() {
               </span>
               <span>
                 Stock status; the number is the vendor&apos;s on-hand count when they publish one.{" "}
-                <span className="text-amber-600 dark:text-amber-500/80">Xh old</span> next to it means that
-                vendor&apos;s data was carried forward from an earlier scrape &mdash; staler than the rest.
+                <span className="text-amber-600 dark:text-amber-500/80">Xh old</span>{" "}next to it means
+                that vendor&apos;s data was carried forward from an earlier scrape &mdash; staler than the rest.
               </span>
             </li>
             <li className="flex items-start gap-2.5">
@@ -146,8 +147,8 @@ export function HowItWorks() {
             <li className="flex items-start gap-2.5">
               <span className="shrink-0 pt-0.5 font-mono text-xs text-zinc-500">SKU</span>
               <span>
-                <strong className="font-medium text-zinc-800 dark:text-zinc-200">Variety</strong> and{" "}
-                <strong className="font-medium text-zinc-800 dark:text-zinc-200">Delay</strong> are the
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">Variety</strong>{" "}and{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">Delay</strong>{" "}are the
                 exact vendor designation (e.g. H242T-14A) and its ejection-charge delay &mdash;
                 &ldquo;adj&rdquo; means it&apos;s drilled to length at the field. A motor&apos;s
                 designation links to its ThrustCurve page.

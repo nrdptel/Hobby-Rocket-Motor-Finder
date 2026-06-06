@@ -36,17 +36,17 @@ export function Methodology() {
                 ThrustCurve
               </a>{" "}
               motor by normalizing the vendor&apos;s product title (e.g. a listing of{" "}
-              <span className="font-mono text-xs">D13-10W</span> resolves to the catalog&apos;s{" "}
+              <span className="font-mono text-xs">D13-10W</span>{" "}resolves to the catalog&apos;s{" "}
               <span className="font-mono text-xs">D13W</span>). It is a point-in-time snapshot; an{" "}
-              <span className="text-amber-600 dark:text-amber-500/80">Xh old</span> note means a vendor
-              was briefly unreachable and we carried its last-known data forward.
+              <span className="text-amber-600 dark:text-amber-500/80">Xh old</span>{" "}note means a
+              vendor was briefly unreachable and we carried its last-known data forward.
             </dd>
           </div>
 
           <div>
             <dt className="font-medium text-zinc-800 dark:text-zinc-200">Best price</dt>
             <dd className="mt-0.5">
-              The lowest price among the <em>in-stock</em> listings of the same variety (same
+              The lowest price among the <em>in-stock</em>{" "}listings of the same variety (same
               designation and delay) &mdash; not across different delays, which can be genuinely
               different products.
             </dd>
@@ -110,7 +110,7 @@ export function Methodology() {
             <dt className="font-medium text-zinc-800 dark:text-zinc-200">Special order &amp; lead time</dt>
             <dd className="mt-0.5">
               Some sources (e.g. AeroTech-direct) backorder rather than hold stock, so their listings
-              show as <em>special order</em> with the fulfillment lead time published on their site,
+              show as <em>special order</em>{" "}with the fulfillment lead time published on their site,
               rather than as &ldquo;in stock.&rdquo;
             </dd>
           </div>
