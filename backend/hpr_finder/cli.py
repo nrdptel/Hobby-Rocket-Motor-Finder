@@ -16,6 +16,7 @@ from . import catalog, db, health, history
 from .alerts import restocked_motors
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
+from .normalize import is_out_of_scope
 from .scrapers import REGISTRY
 from .snapshot import carry_forward, vendor_counts
 
@@ -308,6 +309,11 @@ def snapshot_export(
             for m in motors
             if m["id"] in by_motor
         ],
+        # Out-of-scope product lines (Q-Jet, Quest) are dropped here rather than
+        # carried as "unmatched": they have no catalog entry by design, so they'd
+        # otherwise inflate the couldn't-identify count and the per-vendor
+        # unmatched-spike health metric forever. The remaining unmatched are
+        # genuine in-scope products we failed to identify — the actionable signal.
         "unmatched": [
             {
                 "raw_designation": r["raw_designation"],
@@ -323,6 +329,7 @@ def snapshot_export(
                 "seen_at": r["seen_at"],
             }
             for r in unmatched_listings
+            if not is_out_of_scope(r["raw_title"], r["raw_designation"])
         ],
     }
     # Capture the FRESH per-vendor counts (total + in-stock + unmatched) BEFORE

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import sqlite3
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -20,6 +21,8 @@ from .normalize import (
 from .normalize import (
     common_name as title_common_name,
 )
+
+logger = logging.getLogger(__name__)
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS motors (
@@ -325,9 +328,18 @@ def _find_cti_motor_id(
                 for r in rows:
                     if r["diameter_mm"] == diameter_mm:
                         return r["id"]
-            # Ambiguous and no diameter hint — pick the first deterministically
-            # (only the lone H123-Skidmark case ever reaches here).
-            return rows[0]["id"]
+            # Ambiguous (the lone H123-Skidmark 29mm/38mm collision) with no
+            # diameter hint to break it. Refuse to guess: a coin-flip pick would
+            # show a flyer the wrong specs half the time, which is worse than an
+            # honest "unidentified". Mirrors the commonName-only ambiguity path
+            # below, which also returns None. Surface it so a new collision (e.g.
+            # if the catalog ever grows another) doesn't stay silent.
+            logger.warning(
+                "CTI match ambiguous for common_name=%s propellant=%s (%d candidates, "
+                "no diameter hint) — leaving unmatched",
+                common, propinfo, len(rows),
+            )
+            return None
     # Fallback: commonName alone, only when it identifies exactly one motor.
     rows = conn.execute(
         "SELECT id FROM motors WHERE manufacturer = ? COLLATE NOCASE AND common_name = ? COLLATE NOCASE"

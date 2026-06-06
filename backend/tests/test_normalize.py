@@ -1,13 +1,46 @@
+import pytest
+
 from hpr_finder.normalize import (
     base_designation,
     common_name,
     extract_designation,
     extract_loki_designation,
     infer_propellant_from_title,
+    is_out_of_scope,
     lp_base_designation,
     strip_internal_hyphens,
     strip_plug_suffix,
 )
+
+# --- is_out_of_scope -------------------------------------------------------
+
+@pytest.mark.parametrize("title", [
+    "B6-4 Q-JET 2-pk",
+    "C18-4W Q-JET 12 PACK",
+    "E35-5W Q-JET",
+    "qjet sampler",                 # no-hyphen spelling
+    "F41-5W Quest (2 pack)",
+    "F41-8W Quest (2-pack)",
+])
+def test_is_out_of_scope_true(title):
+    assert is_out_of_scope(title) is True
+
+
+@pytest.mark.parametrize("title", [
+    "AeroTech H242T-14A Blue Thunder Rocket Motor",
+    "Cesaroni I297-14A Skidmark Rocket Motor",   # in-scope, just absent from ThrustCurve
+    "AeroTech O5280X-PS 98mm DMS",
+    "",
+    "Conquest payload bay",        # 'quest' as a substring must NOT trigger (\b guard)
+])
+def test_is_out_of_scope_false(title):
+    assert is_out_of_scope(title) is False
+
+
+def test_is_out_of_scope_checks_designation_too():
+    assert is_out_of_scope(None, "B14-3T") is False
+    assert is_out_of_scope("", "Q-JET-SAMPLER") is True
+
 
 # --- extract_loki_designation ----------------------------------------------
 

@@ -48,6 +48,26 @@ PROPELLANT_NAME_TO_INFO = [
 ]
 
 
+# Product lines that look like motors but are out of the project's scope, so a
+# failure to match them is NOT a normalizer gap — they have no entry in our
+# ThrustCurve catalog subset and never will. Keeping them in the "unmatched"
+# bucket inflates the couldn't-identify count and pollutes the per-vendor
+# unmatched-spike health metric (a vendor's pile of these would mask a real
+# match-rate regression). Detected by their product naming:
+#   - AeroTech **Q-Jet**: a low/mid-power composite line (A-F class model motors),
+#     not in the HPR ThrustCurve data and already hidden in the UI.
+#   - **Quest** Aerospace motors: a manufacturer outside the locked AeroTech /
+#     Cesaroni / Loki scope.
+_OUT_OF_SCOPE_RE = re.compile(r"q-?jet|\bquest\b", re.IGNORECASE)
+
+
+def is_out_of_scope(raw_title: str | None, raw_designation: str | None = None) -> bool:
+    """True if a listing belongs to a product line we deliberately don't cover
+    (see ``_OUT_OF_SCOPE_RE``). Such a listing should be dropped from the
+    ``unmatched`` bucket rather than counted as an unidentified motor."""
+    return bool(_OUT_OF_SCOPE_RE.search(f"{raw_title or ''} {raw_designation or ''}"))
+
+
 def extract_designation(title: str) -> str | None:
     """Return the first AeroTech-style designation found in a title, or None.
 
