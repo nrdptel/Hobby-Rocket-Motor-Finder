@@ -41,17 +41,19 @@ export function NotifyButton({
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (status === "sending") return; // guard Enter-key re-submit (disabled blocks only clicks)
+    const addr = email.trim();
     setStatus("sending");
     setMessage("");
     try {
       const res = await fetch("/api/alerts/subscribe", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, manufacturer, designation }),
+        body: JSON.stringify({ email: addr, manufacturer, designation }),
       });
       if (res.ok) {
         try {
-          localStorage.setItem(EMAIL_KEY, email.trim());
+          localStorage.setItem(EMAIL_KEY, addr);
         } catch {
           /* ignore */
         }
@@ -73,6 +75,7 @@ export function NotifyButton({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Email me when ${designation} is back in stock`}
+        aria-expanded={open}
         title="Email me when this is back in stock"
         className="shrink-0 cursor-pointer p-1.5 -m-1.5 text-sm leading-none text-zinc-400 transition hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
       >
@@ -83,7 +86,11 @@ export function NotifyButton({
 
   if (status === "sent") {
     return (
-      <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+      <span
+        role="status"
+        aria-live="polite"
+        className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400"
+      >
         ✓ Check your email to confirm
         <button
           type="button"
@@ -131,7 +138,9 @@ export function NotifyButton({
         ×
       </button>
       {status === "error" && (
-        <span className="text-xs text-red-600 dark:text-red-400">{message}</span>
+        <span role="alert" className="text-xs text-red-600 dark:text-red-400">
+          {message}
+        </span>
       )}
     </form>
   );

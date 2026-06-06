@@ -8,9 +8,10 @@ import type { AlertConfig } from "./config";
 import { signToken } from "./tokens";
 
 // Longer-lived than a freshly-requested magic link (1h) since an email may be
-// opened days later, but still bounded so a stale forwarded email can't manage
-// alerts forever.
-const EMAIL_MANAGE_TTL_S = 30 * 24 * 3600; // 30 days
+// opened a day or two later, but short enough that a stale forwarded email can't
+// manage someone's alerts for long. If it has expired, the recipient just
+// re-requests a fresh link from /alerts.
+const EMAIL_MANAGE_TTL_S = 72 * 3600; // 72 hours
 
 /** A `/api/alerts/manage?token=…` URL that opens this email's subscription list. */
 export async function manageLink(cfg: AlertConfig, email: string): Promise<string> {

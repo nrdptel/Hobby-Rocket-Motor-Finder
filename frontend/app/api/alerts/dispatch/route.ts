@@ -10,7 +10,7 @@ import {
   shortHash,
 } from "@/lib/alerts/rocketSub";
 import { signToken } from "@/lib/alerts/tokens";
-import { setNxEx, smembers } from "@/lib/alerts/upstash";
+import { del, setNxEx, smembers } from "@/lib/alerts/upstash";
 
 type RestockMotor = {
   manufacturer: string;
@@ -76,6 +76,7 @@ export async function POST(request: Request): Promise<Response> {
       if (!(await setNxEx(cfg, `alerted:${key}`, COOLDOWN_S))) continue;
       notified++;
       const motorUrl = `${cfg.siteUrl}/?q=${encodeURIComponent(designation)}`;
+      let sentForMotor = 0;
       for (const email of subs) {
         try {
           const unsubToken = await signToken(cfg.secret, { t: "u", e: email, m: key, x: 0 });
@@ -93,8 +94,20 @@ export async function POST(request: Request): Promise<Response> {
             listUnsubscribe: unsubscribeUrl,
           });
           sent++;
+          sentForMotor++;
         } catch {
           // Skip a single bad recipient; keep going.
+        }
+      }
+      // If NOT ONE recipient got the email (e.g. a total Resend outage), roll
+      // back the cooldown so the next hourly run retries instead of silently
+      // suppressing this restock for 6h. A successful send keeps the claim, so
+      // the dedupe guarantee is preserved.
+      if (sentForMotor === 0) {
+        try {
+          await del(cfg, `alerted:${key}`);
+        } catch {
+          /* best-effort */
         }
       }
     } catch {
@@ -139,10 +152,13 @@ export async function POST(request: Request): Promise<Response> {
       // Claim a per-(sub, motor) cooldown; skip any already alerted this window.
       const h = shortHash(raw);
       const fresh: RestockMotor[] = [];
+      const claimedKeys: string[] = [];
       for (const mo of fits) {
+        const ck = `alerted-r:${h}:${motorKey(mo.manufacturer, mo.designation)}`;
         try {
-          if (await setNxEx(cfg, `alerted-r:${h}:${motorKey(mo.manufacturer, mo.designation)}`, COOLDOWN_S)) {
+          if (await setNxEx(cfg, ck, COOLDOWN_S)) {
             fresh.push(mo);
+            claimedKeys.push(ck);
           }
         } catch {
           // cooldown store down — skip (fail closed) to avoid dupe spam.
@@ -183,7 +199,16 @@ export async function POST(request: Request): Promise<Response> {
         });
         rocketEmailsSent++;
       } catch {
-        // Skip a single failed rocket email; keep going.
+        // The digest send failed — roll back the cooldown claims for this digest
+        // so the next hourly run retries instead of suppressing these motors for
+        // 6h with no email delivered.
+        for (const ck of claimedKeys) {
+          try {
+            await del(cfg, ck);
+          } catch {
+            /* best-effort */
+          }
+        }
       }
     }
   }

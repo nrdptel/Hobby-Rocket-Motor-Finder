@@ -76,6 +76,43 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
 - Dry-run the restock diff locally without sending:
   `hpr alerts dispatch --prev <old-snapshot.json> --current data/snapshot.json --dry-run`
 
+## Bounce / complaint handling (optional but recommended)
+
+A hard bounce or spam complaint should remove the address so it's never emailed
+again (protects sender reputation). This is handled by a Svix-verified Resend
+webhook at `/api/alerts/resend-webhook`, inert unless its secret is set:
+
+1. Resend → **Webhooks** → add endpoint `https://motor.fusionspace.co/api/alerts/resend-webhook`,
+   subscribe to **`email.bounced`** and **`email.complained`**.
+2. Copy the endpoint's **Signing Secret** (`whsec_…`) and set it in Vercel as
+   `RESEND_WEBHOOK_SECRET` (Production), then redeploy.
+
+On a verified hard-bounce/complaint event the route scrubs the recipient from
+every motor and rocket subscription (via the reverse indexes). Soft/transient
+bounces are ignored. Without the secret the route returns 503 and nothing breaks.
+
+## One-time backfill (legacy subscriptions)
+
+Subscriptions made before the manage page existed (PR #50) were written only to
+the forward set (`sub:<motorKey>`), not the per-email reverse index, so they
+don't show on the manage page. To repair, POST once with the dispatch bearer:
+
+```
+curl -X POST https://motor.fusionspace.co/api/alerts/admin/backfill \
+  -H "Authorization: Bearer $ALERTS_DISPATCH_SECRET"
+```
+
+It scans `sub:*` and re-adds each member to `umotors:<email>` (idempotent; rocket
+subs need no backfill). Returns `{keysScanned, backfilled}`.
+
+## Abuse / cost protection
+
+- Rate limits key off the **trusted** Vercel client IP (`x-vercel-forwarded-for` /
+  `x-real-ip`), not the spoofable leftmost `x-forwarded-for`.
+- Public endpoints fail **closed** (no send) if the rate-limit store is down.
+- A global **daily cap** on confirmation-email sends bounds Resend-quota abuse
+  even if per-IP limiting is somehow evaded (restock dispatch sends are separate).
+
 ## Notes
 
 - **Cost:** restocks are rare and the audience is modest, so usage stays well

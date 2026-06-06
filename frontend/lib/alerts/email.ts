@@ -20,23 +20,30 @@ export async function sendEmail(args: SendArgs): Promise<void> {
     headers["List-Unsubscribe"] = `<${args.listUnsubscribe}>`;
     headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
   }
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${args.apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: args.from,
-      to: args.to,
-      subject: args.subject,
-      html: args.html,
-      text: args.text,
-      headers,
-    }),
-    cache: "no-store",
+  const body = JSON.stringify({
+    from: args.from,
+    to: args.to,
+    subject: args.subject,
+    html: args.html,
+    text: args.text,
+    headers,
   });
-  if (!res.ok) {
+
+  // Resend free tier throttles at ~2 req/s. A burst of restock emails can get a
+  // 429; retry once after a short backoff before giving up (the caller treats a
+  // throw as "not sent" and rolls back the cooldown so the next run retries).
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${args.apiKey}`, "Content-Type": "application/json" },
+      body,
+      cache: "no-store",
+    });
+    if (res.ok) return;
+    if (res.status === 429 && attempt === 0) {
+      await new Promise((r) => setTimeout(r, 600));
+      continue;
+    }
     throw new Error(`resend send failed: ${res.status} ${await res.text().catch(() => "")}`);
   }
 }

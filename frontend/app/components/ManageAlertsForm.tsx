@@ -27,18 +27,20 @@ export function ManageAlertsForm() {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (status === "sending") return; // guard Enter-key re-submit
+    const addr = email.trim();
     setStatus("sending");
     setMessage("");
     try {
       const res = await fetch("/api/alerts/manage-request", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: addr }),
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
         try {
-          localStorage.setItem(EMAIL_KEY, email.trim());
+          localStorage.setItem(EMAIL_KEY, addr);
         } catch {
           /* ignore */
         }
@@ -56,7 +58,11 @@ export function ManageAlertsForm() {
 
   if (status === "sent") {
     return (
-      <p className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+      <p
+        role="status"
+        aria-live="polite"
+        className="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
+      >
         ✓ {message} The link works for about an hour.
       </p>
     );
@@ -81,7 +87,9 @@ export function ManageAlertsForm() {
         {status === "sending" ? "Sending…" : "Email me a link"}
       </button>
       {status === "error" && (
-        <span className="w-full text-sm text-red-600 dark:text-red-400">{message}</span>
+        <span role="alert" className="w-full text-sm text-red-600 dark:text-red-400">
+          {message}
+        </span>
       )}
     </form>
   );

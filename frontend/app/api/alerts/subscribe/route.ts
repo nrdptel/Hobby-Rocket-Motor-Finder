@@ -1,8 +1,8 @@
-import { alertConfig, motorKey, normalizeEmail } from "@/lib/alerts/config";
+import { alertConfig, clientIp, motorKey, normalizeEmail } from "@/lib/alerts/config";
 import { sendEmail, confirmEmail } from "@/lib/alerts/email";
 import { manageLink } from "@/lib/alerts/manageLink";
+import { overDailyConfirmCap, overIpLimit, utcDay } from "@/lib/alerts/rateLimit";
 import { signToken } from "@/lib/alerts/tokens";
-import { incrWithTtl } from "@/lib/alerts/upstash";
 
 export const dynamic = "force-dynamic";
 
@@ -40,13 +40,18 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: "email, manufacturer and designation are required" }, 400);
   }
 
-  // Simple per-IP rate limit so the public endpoint can't be hammered.
-  const ip = (request.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
+  // Per-IP hourly cap + a global daily cap on confirmation sends. Both fail
+  // CLOSED (no email) if the store is down, so a flaky Upstash can't be used to
+  // bypass the limits and burn the Resend quota.
   try {
-    const count = await incrWithTtl(cfg, `rl:sub:${ip}`, 3600);
-    if (count > RL_MAX) return json({ error: "rate limited; try again later" }, 429);
+    if (await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX)) {
+      return json({ error: "rate limited; try again later" }, 429);
+    }
+    if (await overDailyConfirmCap(cfg, utcDay())) {
+      return json({ error: "rate limited; try again later" }, 429);
+    }
   } catch {
-    // If the rate-limit store is unavailable, fail closed on sending below.
+    return json({ error: "rate limited; try again later" }, 429);
   }
 
   const key = motorKey(manufacturer, designation);

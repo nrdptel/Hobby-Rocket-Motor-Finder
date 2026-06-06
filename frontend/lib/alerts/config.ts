@@ -65,6 +65,20 @@ export function userRocketsKey(email: string): string {
   return `urockets:${email}`;
 }
 
+/** The trusted client IP for rate limiting. The leftmost `x-forwarded-for`
+ * entry is client-supplied and spoofable on Vercel (the platform appends the
+ * real edge IP rather than replacing the header), so a per-request spoof would
+ * defeat the limiter. Prefer the Vercel-set headers, which the client can't
+ * forge; fall back to XFF only off-platform (local/dev). */
+export function clientIp(request: Request): string {
+  const vercel = request.headers.get("x-vercel-forwarded-for");
+  if (vercel) return vercel.split(",")[0].trim();
+  const real = request.headers.get("x-real-ip");
+  if (real) return real.trim();
+  const xff = request.headers.get("x-forwarded-for");
+  return xff ? xff.split(",")[0].trim() : "unknown";
+}
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Normalize + validate an email; returns the lowercased address or null. */

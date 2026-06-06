@@ -1,6 +1,7 @@
-import { alertConfig, normalizeEmail } from "@/lib/alerts/config";
+import { alertConfig, clientIp, normalizeEmail } from "@/lib/alerts/config";
 import { rocketConfirmEmail, sendEmail } from "@/lib/alerts/email";
 import { manageLink } from "@/lib/alerts/manageLink";
+import { overDailyConfirmCap, overIpLimit, utcDay } from "@/lib/alerts/rateLimit";
 import {
   describeRocketFields,
   normalizeRocketFields,
@@ -8,7 +9,6 @@ import {
   rocketSpecField,
 } from "@/lib/alerts/rocketSub";
 import { signToken } from "@/lib/alerts/tokens";
-import { incrWithTtl } from "@/lib/alerts/upstash";
 
 export const dynamic = "force-dynamic";
 
@@ -40,12 +40,17 @@ export async function POST(request: Request): Promise<Response> {
   if (!email) return json({ error: "a valid email is required" }, 400);
   if (!fields) return json({ error: "a valid rocket (diameter + cert) is required" }, 400);
 
-  const ip = (request.headers.get("x-forwarded-for") || "unknown").split(",")[0].trim();
+  // Per-IP hourly cap + global daily confirm-send cap; fail CLOSED if the store
+  // is down so a flaky Upstash can't be used to bypass the limits.
   try {
-    const count = await incrWithTtl(cfg, `rl:sub:${ip}`, 3600);
-    if (count > RL_MAX) return json({ error: "rate limited; try again later" }, 429);
+    if (await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX)) {
+      return json({ error: "rate limited; try again later" }, 429);
+    }
+    if (await overDailyConfirmCap(cfg, utcDay())) {
+      return json({ error: "rate limited; try again later" }, 429);
+    }
   } catch {
-    // rate-limit store down — fall through to send.
+    return json({ error: "rate limited; try again later" }, 429);
   }
 
   const token = await signToken(cfg.secret, {

@@ -52,17 +52,19 @@ export function RocketNotifyButton({
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
+    if (status === "sending") return; // guard Enter-key re-submit
+    const addr = email.trim();
     setStatus("sending");
     setMessage("");
     try {
       const res = await fetch("/api/alerts/subscribe-rocket", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email, label: name, diameterMm, cert, minImpulseNs, maxImpulseNs }),
+        body: JSON.stringify({ email: addr, label: name, diameterMm, cert, minImpulseNs, maxImpulseNs }),
       });
       if (res.ok) {
         try {
-          localStorage.setItem(EMAIL_KEY, email.trim());
+          localStorage.setItem(EMAIL_KEY, addr);
         } catch {
           /* ignore */
         }
@@ -88,6 +90,7 @@ export function RocketNotifyButton({
         type="button"
         onClick={() => setOpen(true)}
         aria-label={`Email me when anything that fits ${displayLabel} is back in stock`}
+        aria-expanded={open}
         title="Email me when anything that fits this rocket restocks"
         className={`ml-1 shrink-0 cursor-pointer p-1 text-xs leading-none transition ${edge}`}
       >
@@ -98,7 +101,11 @@ export function RocketNotifyButton({
 
   if (status === "sent") {
     return (
-      <span className="ml-1 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+      <span
+        role="status"
+        aria-live="polite"
+        className="ml-1 inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400"
+      >
         ✓ Check your email
         <button
           type="button"
@@ -146,7 +153,9 @@ export function RocketNotifyButton({
         ×
       </button>
       {status === "error" && (
-        <span className="text-xs text-red-600 dark:text-red-400">{message}</span>
+        <span role="alert" className="text-xs text-red-600 dark:text-red-400">
+          {message}
+        </span>
       )}
     </form>
   );
