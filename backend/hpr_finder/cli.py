@@ -12,7 +12,7 @@ from pathlib import Path
 import httpx
 import typer
 
-from . import catalog, db, history
+from . import catalog, db, health, history
 from .alerts import restocked_motors
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
@@ -35,6 +35,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 _DEFAULT_SNAPSHOT = _REPO_ROOT / "data" / "snapshot.json"
 _DEFAULT_HISTORY_LOG = _REPO_ROOT / "data" / "history" / "log.json"
 _DEFAULT_HISTORY_SUMMARY = _REPO_ROOT / "data" / "history" / "summary.json"
+_DEFAULT_HEALTH_BASELINE = _REPO_ROOT / "data" / "health-baseline.json"
 
 # Per-vendor carry-forward floor overrides (slug -> floor). Small-catalog vendors
 # sit permanently below the global --floor (sized for the big AeroTech/CTI
@@ -193,6 +194,14 @@ def snapshot_export(
             "alerting step can see what degraded."
         ),
     ),
+    baseline_json: Path = typer.Option(
+        _DEFAULT_HEALTH_BASELINE,
+        help=(
+            "Rolling per-vendor count/in-stock baseline file (read + rewritten). "
+            "Powers anomaly detection: a vendor that's above floor but well below "
+            "its own normal counts. Only used when --report-json is set."
+        ),
+    ),
 ) -> None:
     """Dump every motor with its per-vendor listings into one JSON file.
 
@@ -211,6 +220,10 @@ def snapshot_export(
         floor = 0
     if not isinstance(report_json, Path):
         report_json = None
+    # Unresolved (called as a function in tests) → no baseline tracking, so tests
+    # never touch the real data/health-baseline.json. The CLI resolves the default.
+    if not isinstance(baseline_json, Path):
+        baseline_json = None
 
     # Read the previous snapshot BEFORE we overwrite ``out``.
     prev = None
@@ -308,6 +321,11 @@ def snapshot_export(
             for r in unmatched_listings
         ],
     }
+    # Capture the FRESH per-vendor counts (total + in-stock) BEFORE carry_forward
+    # merges in last-good data, so anomaly detection judges what the scraper
+    # actually returned this run, not carried-forward listings.
+    fresh_stock = health.vendor_stock_counts(payload)
+
     failed: list[str] = []
     carried: list[str] = []
     if floor > 0:
@@ -342,6 +360,27 @@ def snapshot_export(
     if report_json is not None:
         stale_hours = _vendor_stale_hours(payload, decision)
         ages = [h for h in stale_hours.values() if h is not None]
+
+        # Baseline-relative anomaly detection: catch a vendor that's above floor
+        # (so "healthy" + fresh) but well below its own normal listing/in-stock
+        # counts — partial degradation or an in-stock-collapse parsing regression
+        # that the floor + staleness checks miss. The baseline is a slow EWMA that
+        # only learns from healthy, non-anomalous runs (no boiling-frog), and a
+        # consecutive-run streak gates escalation. Skipped when no baseline path
+        # is set (e.g. tests calling this function directly).
+        anomalies: list[dict] = []
+        sustained: list[dict] = []
+        if baseline_json is not None:
+            baseline = _load_json(baseline_json) or {}
+            anomalies_now = health.detect_anomalies(fresh_stock, baseline, decision)
+            baseline = health.update_baseline(
+                baseline, fresh_stock, decision, anomalies_now, payload["generated_at"]
+            )
+            anomalies = health.annotate_streaks(anomalies_now, baseline)
+            sustained = health.sustained_anomalies(anomalies_now, baseline)
+            baseline_json.parent.mkdir(parents=True, exist_ok=True)
+            baseline_json.write_text(json.dumps(baseline, indent=2, sort_keys=True))
+
         status = {
             "generated_at": payload["generated_at"],
             "floor": floor,
@@ -355,12 +394,17 @@ def snapshot_export(
             # listings (a failed vendor) or unparseable timestamps.
             "stale_hours": stale_hours,
             "max_stale_hours": max(ages) if ages else 0.0,
+            # Vendors above floor but well below their own baseline this run, and
+            # the subset whose anomaly has persisted long enough to escalate.
+            "anomalies": anomalies,
+            "anomaly_sustained": bool(sustained),
         }
         report_json.parent.mkdir(parents=True, exist_ok=True)
         report_json.write_text(json.dumps(status, indent=2))
         typer.echo(
             f"wrote health report {report_json} "
-            f"(degraded={status['degraded']}, max_stale_hours={status['max_stale_hours']})"
+            f"(degraded={status['degraded']}, max_stale_hours={status['max_stale_hours']}, "
+            f"anomalies={len(anomalies)}, anomaly_sustained={status['anomaly_sustained']})"
         )
 
     out.parent.mkdir(parents=True, exist_ok=True)

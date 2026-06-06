@@ -117,8 +117,12 @@ jobs:
           # rewritten by `catalog refresh` and is the stale-cache fallback if
           # ThrustCurve is down; omitting cesaroni/loki let those rot (and once
           # corrupted the Loki cache). The glob also covers future manufacturers.
+          # health-baseline.json is the rolling per-vendor count/in-stock
+          # baseline that powers below-baseline anomaly detection; it's rewritten
+          # each run and must persist across runs to learn.
           git add data/snapshot.json data/thrustcurve_*.json \
-                  data/history/log.json data/history/summary.json
+                  data/history/log.json data/history/summary.json \
+                  data/health-baseline.json
           # No-op when scrape produced no changes (e.g. all vendors quiet).
           # [skip ci] keeps the regular test workflow from running on these
           # data-only commits — saves Actions minutes and avoids noise.

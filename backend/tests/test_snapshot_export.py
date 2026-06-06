@@ -310,6 +310,48 @@ def test_below_floor_new_vendor_publishes_but_is_flagged(tmp_db, tmp_path):
     assert any(m["listings"] for m in snap["motors"])
 
 
+def test_report_records_baseline_and_no_anomaly_on_healthy_run(tmp_db, tmp_path):
+    """A healthy run warms the per-vendor baseline and reports no anomalies."""
+    _seed_minimal(tmp_db)  # csrocketry: 1 matched in-stock listing
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert status["anomalies"] == []
+    assert status["anomaly_sustained"] is False
+    b = json.loads(baseline.read_text())
+    assert b["csrocketry"]["samples"] == 1
+    assert b["csrocketry"]["count"] == 1.0
+
+
+def test_report_flags_below_baseline_anomaly(tmp_db, tmp_path):
+    """A vendor far below its established baseline is flagged — and with a primed
+    streak it escalates to anomaly_sustained, even though it's 'healthy' (floor 0)."""
+    _seed_minimal(tmp_db)  # fresh csrocketry = 1 listing
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+    # Pre-seed a high, mature baseline + a streak of 2, so this 1-listing run is
+    # well below baseline and tips the streak to the escalation threshold (3).
+    baseline.write_text(
+        json.dumps({"csrocketry": {"count": 600.0, "stock": 200.0, "samples": 10, "streak": 2}})
+    )
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert len(status["anomalies"]) == 1
+    assert status["anomalies"][0]["vendor"] == "csrocketry"
+    assert status["anomalies"][0]["streak"] == 3
+    assert status["anomaly_sustained"] is True
+    # The baseline value must NOT be dragged down by the anomalous run.
+    b = json.loads(baseline.read_text())
+    assert b["csrocketry"]["count"] == 600.0
+
+
 def test_parse_iso_normalizes_naive_to_utc():
     # A naive timestamp (carried forward from an early archived snapshot) must
     # become tz-aware so the stale-hours subtraction can't raise TypeError.
