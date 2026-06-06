@@ -62,14 +62,32 @@ per-vendor fresh unmatched counts under `.fresh_unmatched`), are shown in the ru
 summary immediately, and a *sustained* anomaly escalates to the same single
 tracking issue as staleness. Tunables live in `health.DEFAULTS`.
 
+## Scrape duration (visibility)
+
+The `scrape_runs` table records each vendor run's `started_at`/`finished_at`, so
+`--report-json` also emits per-vendor scrape **duration** (`.run_durations`, in
+seconds, plus `.max_run_seconds`) from each vendor's latest *finished* run. A
+vendor that was attempted this run but never recorded a finished run — hung, or
+crashed before `finish_run` — is absent from `run_durations` and listed under
+`.no_finished_run` instead of being given a bogus duration. This is **visibility
+only** (rendered in the run summary), not yet an escalation signal: a creeping
+duration is a leading indicator that a vendor is getting flaky.
+
+For a vendor whose latest finished run *failed*, the report also carries a
+**categorized last error** (`.scrape_errors`, per vendor `{category, detail}`)
+so the run summary can say *why* it broke — `timeout`/`connection` (usually
+transient) vs `http`/`parse` (usually a real break: IP blocked, site HTML
+changed) — without opening the CI logs. Healthy runs record nothing here.
+
 ## Where each signal shows up
 
 | Signal | Surfaced |
 |---|---|
-| Every run | Actions run summary (✅/⚠️/🚨 + per-vendor detail) |
+| Every run | Actions run summary (✅/⚠️/🚨 + per-vendor detail + scrape durations) |
 | Total scrape failure | Workflow fails → GitHub native email |
 | Sustained staleness | One auto-closing GitHub issue |
 | Sustained below-baseline anomaly | Same GitHub issue |
+| Slow scrape / hung vendor | Run summary only (duration + no-finished-run list) |
 
 The baseline warms up over the first several runs (needs ≥5 healthy samples per
 vendor before it will flag that vendor), so anomaly detection becomes active a few

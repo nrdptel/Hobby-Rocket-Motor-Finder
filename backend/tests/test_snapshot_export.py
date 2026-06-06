@@ -15,8 +15,19 @@ import pytest
 import typer
 
 from hpr_finder import db
-from hpr_finder.cli import _parse_iso, _vendor_stale_hours, snapshot_export
-from hpr_finder.db import upsert_listings, upsert_motors, upsert_vendor
+from hpr_finder.cli import (
+    _categorize_scrape_error,
+    _parse_iso,
+    _vendor_stale_hours,
+    snapshot_export,
+)
+from hpr_finder.db import (
+    finish_run,
+    start_run,
+    upsert_listings,
+    upsert_motors,
+    upsert_vendor,
+)
 from hpr_finder.models import Listing, Motor, StockStatus
 
 
@@ -350,6 +361,97 @@ def test_report_flags_below_baseline_anomaly(tmp_db, tmp_path):
     # The baseline value must NOT be dragged down by the anomalous run.
     b = json.loads(baseline.read_text())
     assert b["csrocketry"]["count"] == 600.0
+
+
+def _record_finished_run(
+    db_path: Path, slug: str, started: str, finished: str,
+    ok: bool = True, error: str | None = None,
+) -> None:
+    """Record one finished scrape_runs row for an already-seeded vendor."""
+    with db.connect(db_path) as conn:
+        v_id = upsert_vendor(conn, slug=slug, name=slug, homepage=f"https://{slug}", state=None)
+        run_id = start_run(conn, v_id, started)
+        finish_run(conn, run_id, finished, ok=ok, listings_seen=1, error=error)
+
+
+def test_report_includes_run_durations(tmp_db, tmp_path):
+    """A vendor with a finished scrape run gets a per-vendor duration in the report."""
+    _seed_minimal(tmp_db)  # creates the csrocketry vendor + listings
+    _record_finished_run(tmp_db, "csrocketry", "2026-05-31T12:00:00", "2026-05-31T12:00:42")
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["run_durations"]["csrocketry"] == 42.0
+    assert status["max_run_seconds"] == 42.0
+    assert status["no_finished_run"] == []  # nothing hung
+
+
+def test_report_flags_vendor_with_no_finished_run(tmp_db, tmp_path):
+    """A vendor present this run but with no finished scrape run (hung/crashed
+    before finish_run) is absent from run_durations and listed in no_finished_run,
+    not given a bogus duration."""
+    _seed_minimal(tmp_db)  # csrocketry has listings but no scrape_runs row
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert "csrocketry" not in status["run_durations"]
+    assert status["no_finished_run"] == ["csrocketry"]
+    assert status["max_run_seconds"] == 0.0
+
+
+@pytest.mark.parametrize(
+    "err, expected",
+    [
+        (None, "none"),
+        ("", "none"),
+        ("ReadTimeout('timed out')", "timeout"),
+        ("ConnectError('Connection reset by peer')", "connection"),
+        ("SSLError('handshake failed')", "connection"),
+        ("HTTPStatusError('429 Too Many Requests')", "http"),
+        ("RuntimeError('blocked from CI data-center IP')", "http"),
+        ("KeyError('price')", "parse"),
+        ("JSONDecodeError('Expecting value')", "parse"),
+        ("ValueError('something weird')", "other"),
+    ],
+)
+def test_categorize_scrape_error(err, expected):
+    assert _categorize_scrape_error(err) == expected
+
+
+def test_report_includes_categorized_scrape_error(tmp_db, tmp_path):
+    """A vendor whose latest finished run FAILED surfaces a categorized last error."""
+    _seed_minimal(tmp_db)
+    _record_finished_run(
+        tmp_db, "csrocketry", "2026-05-31T12:00:00", "2026-05-31T12:00:05",
+        ok=False, error="ConnectTimeout('timed out')",
+    )
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["scrape_errors"]["csrocketry"]["category"] == "timeout"
+    assert "timed out" in status["scrape_errors"]["csrocketry"]["detail"]
+
+
+def test_report_no_scrape_error_on_successful_run(tmp_db, tmp_path):
+    """A healthy (ok) finished run records no entry in scrape_errors."""
+    _seed_minimal(tmp_db)
+    _record_finished_run(tmp_db, "csrocketry", "2026-05-31T12:00:00", "2026-05-31T12:00:05")
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["scrape_errors"] == {}
 
 
 def _seed_matched_plus_unmatched(db_path: Path, n_unmatched: int) -> None:
