@@ -56,7 +56,7 @@ export async function POST(request: Request): Promise<Response> {
     x: Math.floor(Date.now() / 1000) + CONFIRM_TTL_S,
   });
   const confirmUrl = `${cfg.siteUrl}/api/alerts/confirm?token=${encodeURIComponent(token)}`;
-  const tmpl = confirmEmail(designation, confirmUrl);
+  const tmpl = confirmEmail(designation, confirmUrl, `${cfg.siteUrl}/alerts`);
 
   try {
     await sendEmail({
