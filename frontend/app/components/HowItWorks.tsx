@@ -11,7 +11,6 @@ import { StatusBadge } from "./StatusBadge";
  * table/cards. The companion "How the data is derived" section at the foot of the
  * page covers the methodology (matching, restock timing, substitute rules). */
 export function HowItWorks() {
-  const alertsEnabled = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
   return (
     <details className="mt-4 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <summary className="cursor-pointer select-none font-medium text-zinc-700 dark:text-zinc-300">
@@ -65,14 +64,12 @@ export function HowItWorks() {
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Starred</strong> filter to
               show only those.
             </li>
-            {alertsEnabled && (
-              <li>
-                <strong className="font-medium text-zinc-800 dark:text-zinc-200">🔔 Restock reminders</strong>{" "}
-                &mdash; tap the bell on any motor to get an email when it&apos;s back in stock, or set one on a
-                saved rocket to be told when <em>anything</em> that fits it restocks. Double opt-in,
-                one-click unsubscribe, manage anytime &mdash; no account needed.
-              </li>
-            )}
+            <li>
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">🔔 Restock reminders</strong>{" "}
+              &mdash; tap the bell on any motor to get an email when it&apos;s back in stock, or set one on a
+              saved rocket to be told when <em>anything</em> that fits it restocks. Double opt-in,
+              one-click unsubscribe, manage anytime &mdash; no account needed.
+            </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">Similar in stock</strong>{" "}
               &mdash; when a motor is sold out at every vendor, we surface comparable motors that{" "}
