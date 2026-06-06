@@ -5,9 +5,9 @@
 // and in the test env).
 
 export type TokenPayload = {
-  t: "c" | "u"; // confirm | unsubscribe
+  t: "c" | "u" | "m"; // confirm | unsubscribe | manage
   e: string; // email
-  m: string; // motorKey
+  m: string; // motorKey (unused/"" for manage tokens, which cover the whole email)
   x: number; // expiry, epoch seconds (0 = no expiry, used for unsubscribe)
 };
 
@@ -76,7 +76,7 @@ export async function verifyToken(secret: string, token: string): Promise<TokenP
   } catch {
     return null;
   }
-  if (payload.t !== "c" && payload.t !== "u") return null;
+  if (payload.t !== "c" && payload.t !== "u" && payload.t !== "m") return null;
   if (typeof payload.e !== "string" || typeof payload.m !== "string") return null;
   if (typeof payload.x !== "number") return null;
   if (payload.x !== 0 && payload.x < Math.floor(Date.now() / 1000)) return null; // expired

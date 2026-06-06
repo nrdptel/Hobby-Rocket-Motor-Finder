@@ -39,6 +39,19 @@ export function motorKey(manufacturer: string, designation: string): string {
   return `${manufacturer.trim()}::${designation.trim()}`;
 }
 
+/** Redis key for a motor's subscriber set (email members). */
+export function subKey(motorKey: string): string {
+  return `sub:${motorKey}`;
+}
+
+/** Redis key for the reverse index: the set of motorKeys an email subscribed to.
+ * Lets the magic-link manage page list a user's subscriptions. Emails already
+ * live in Upstash (as subscriber-set members), so keying on email adds no leak —
+ * and the store is private behind a token. */
+export function userMotorsKey(email: string): string {
+  return `umotors:${email}`;
+}
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Normalize + validate an email; returns the lowercased address or null. */

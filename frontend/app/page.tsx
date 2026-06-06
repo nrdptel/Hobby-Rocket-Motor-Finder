@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
 import type { HistorySummary } from "@/lib/snapshot";
 import {
@@ -298,6 +299,15 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             <span className="ml-1">🏳️‍🌈 Happy Pride Month — fly high. 🚀</span>
           )}
         </p>
+        {process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1" && (
+          <p className="mt-2">
+            Get restock alerts with the 🔔 on any motor.{" "}
+            <Link href="/alerts" className="underline hover:text-zinc-700 dark:hover:text-zinc-300">
+              Manage your email alerts
+            </Link>
+            .
+          </p>
+        )}
         <div className="mt-3 flex items-center gap-1.5">
           <span>Built by</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}

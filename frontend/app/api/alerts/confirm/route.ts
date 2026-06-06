@@ -1,4 +1,4 @@
-import { alertConfig } from "@/lib/alerts/config";
+import { alertConfig, subKey, userMotorsKey } from "@/lib/alerts/config";
 import { designationFromKey, resultPage } from "@/lib/alerts/resultPage";
 import { verifyToken } from "@/lib/alerts/tokens";
 import { sadd } from "@/lib/alerts/upstash";
@@ -21,7 +21,8 @@ export async function GET(request: Request): Promise<Response> {
   }
 
   try {
-    await sadd(cfg, `sub:${payload.m}`, payload.e);
+    await sadd(cfg, subKey(payload.m), payload.e); // motor → subscribers (dispatch)
+    await sadd(cfg, userMotorsKey(payload.e), payload.m); // email → motors (manage page)
   } catch {
     return resultPage(
       "Something went wrong",
