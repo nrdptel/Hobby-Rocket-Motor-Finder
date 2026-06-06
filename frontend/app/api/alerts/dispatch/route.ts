@@ -1,5 +1,6 @@
 import { alertConfig, motorKey, rocketSubsKey, subKey } from "@/lib/alerts/config";
 import { restockEmail, rocketRestockEmail, sendEmail } from "@/lib/alerts/email";
+import { manageLink } from "@/lib/alerts/manageLink";
 import { motorFitsRocket } from "@/lib/rocketFit";
 import {
   fieldsToSpec,
@@ -81,7 +82,7 @@ export async function POST(request: Request): Promise<Response> {
           const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
             unsubToken,
           )}`;
-          const tmpl = restockEmail(designation, motorUrl, unsubscribeUrl, `${cfg.siteUrl}/alerts`);
+          const tmpl = restockEmail(designation, motorUrl, unsubscribeUrl, await manageLink(cfg, email));
           await sendEmail({
             apiKey: cfg.resendApiKey,
             from: cfg.from,
@@ -169,7 +170,7 @@ export async function POST(request: Request): Promise<Response> {
           rocketDisplayName(parsed.fields),
           items,
           unsubscribeUrl,
-          `${cfg.siteUrl}/alerts`,
+          await manageLink(cfg, parsed.email),
         );
         await sendEmail({
           apiKey: cfg.resendApiKey,

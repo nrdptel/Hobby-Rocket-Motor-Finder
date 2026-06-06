@@ -1,5 +1,6 @@
 import { alertConfig, normalizeEmail } from "@/lib/alerts/config";
 import { rocketConfirmEmail, sendEmail } from "@/lib/alerts/email";
+import { manageLink } from "@/lib/alerts/manageLink";
 import {
   describeRocketFields,
   normalizeRocketFields,
@@ -58,7 +59,7 @@ export async function POST(request: Request): Promise<Response> {
     rocketDisplayName(fields),
     describeRocketFields(fields),
     confirmUrl,
-    `${cfg.siteUrl}/alerts`,
+    await manageLink(cfg, email),
   );
 
   try {

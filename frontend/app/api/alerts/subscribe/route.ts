@@ -1,5 +1,6 @@
 import { alertConfig, motorKey, normalizeEmail } from "@/lib/alerts/config";
 import { sendEmail, confirmEmail } from "@/lib/alerts/email";
+import { manageLink } from "@/lib/alerts/manageLink";
 import { signToken } from "@/lib/alerts/tokens";
 import { incrWithTtl } from "@/lib/alerts/upstash";
 
@@ -56,7 +57,7 @@ export async function POST(request: Request): Promise<Response> {
     x: Math.floor(Date.now() / 1000) + CONFIRM_TTL_S,
   });
   const confirmUrl = `${cfg.siteUrl}/api/alerts/confirm?token=${encodeURIComponent(token)}`;
-  const tmpl = confirmEmail(designation, confirmUrl, `${cfg.siteUrl}/alerts`);
+  const tmpl = confirmEmail(designation, confirmUrl, await manageLink(cfg, email));
 
   try {
     await sendEmail({
