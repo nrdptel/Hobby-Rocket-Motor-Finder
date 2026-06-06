@@ -381,6 +381,49 @@ export function caseKey(m: Pick<Motor, "case_info" | "motor_type">): string | nu
   return null;
 }
 
+export type PropellantOption = {
+  value: string; // the propellant name, e.g. "Blue Thunder"
+  brand: string; // grouping label: the manufacturer, or "Other" if it spans brands
+};
+
+/** Distinct propellants present in ``motors``, each tagged with the brand that
+ * makes it (for grouping in the searchable filter). A propellant used by more
+ * than one manufacturer (e.g. "Classic") is grouped under "Other". Sorted by
+ * brand then name, so groups read AeroTech → Cesaroni → Loki → Other. */
+export function propellantOptions(motors: readonly Motor[]): PropellantOption[] {
+  const brands = new Map<string, Set<string>>(); // propellant -> manufacturer labels
+  for (const m of motors) {
+    const p = m.propellant;
+    if (!p) continue;
+    const set = brands.get(p) ?? new Set<string>();
+    set.add(manufacturerLabel(m.manufacturer));
+    brands.set(p, set);
+  }
+  return Array.from(brands, ([value, mfrs]) => ({
+    value,
+    brand: mfrs.size === 1 ? [...mfrs][0] : "Other",
+  })).sort((a, b) => (a.brand !== b.brand ? a.brand.localeCompare(b.brand) : a.value.localeCompare(b.value)));
+}
+
+export type VendorOption = {
+  slug: string; // stable URL-filter value
+  name: string; // display name, e.g. "Wildman Rocketry"
+};
+
+/** Distinct vendors that have at least one listing among ``motors``, sorted by
+ * display name. Powers the vendor filter ("what does <vendor> carry"). */
+export function vendorOptions(motors: readonly Motor[]): VendorOption[] {
+  const names = new Map<string, string>(); // slug -> name
+  for (const m of motors) {
+    for (const l of m.listings) {
+      if (l.vendor_slug && !names.has(l.vendor_slug)) names.set(l.vendor_slug, l.vendor_name);
+    }
+  }
+  return Array.from(names, ([slug, name]) => ({ slug, name })).sort((a, b) =>
+    a.name.localeCompare(b.name),
+  );
+}
+
 export type CaseOption = {
   value: string;
   diameter: number | null;

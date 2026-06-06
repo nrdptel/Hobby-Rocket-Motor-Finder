@@ -16,9 +16,11 @@ import {
   parseDir,
   parseOrder,
   parseSetParam,
+  propellantOptions,
   safeHref,
   sortedMotors,
   toSubstitute,
+  vendorOptions,
 } from "@/lib/derive";
 import type { Substitute } from "@/lib/derive";
 import { FilterBar } from "./components/FilterBar";
@@ -63,6 +65,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const fDia = parseSetParam(params.dia);
   const fCertClasses = certClasses(parseSetParam(params.cert));
   const fCase = parseSetParam(params.case);
+  const fProp = parseSetParam(params.prop);
+  const fVendor = parseSetParam(params.vendor);
   const fInStock = params.in_stock === "1";
   const fSort = params.sort === "price" ? "price" : "stock";
   const fOrder = parseOrder(params.order);
@@ -104,6 +108,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   // searchable case filter. Empty on a snapshot written before case data existed,
   // which hides the Case row entirely.
   const caseFilterOptions = caseOptions(motorsWithListings);
+  // Propellants present (searchable, brand-grouped) and vendors present (pills).
+  const propellantFilterOptions = propellantOptions(motorsWithListings);
+  const vendorFilterOptions = vendorOptions(motorsWithListings);
   // Only offer cert levels that actually have motors with listings.
   const presentClasses = new Set(motorsWithListings.map((m) => m.impulse_class));
   const certOptions = CERT_LEVELS.filter((lvl) =>
@@ -132,6 +139,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         const k = caseKey(m);
         if (k == null || !fCase.has(k)) return false;
       }
+      if (fProp.size > 0 && !(m.propellant && fProp.has(m.propellant))) return false;
+      if (fVendor.size > 0 && !m.listings.some((l) => fVendor.has(l.vendor_slug))) return false;
       if (fMinImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < fMinImpulse))
         return false;
       if (fMaxImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns > fMaxImpulse))
@@ -236,6 +245,8 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         diameters={diameterOptions}
         certLevels={certOptions}
         cases={caseFilterOptions}
+        propellants={propellantFilterOptions}
+        vendors={vendorFilterOptions}
       />
 
       <MotorResults
