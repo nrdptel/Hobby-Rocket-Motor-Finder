@@ -3,9 +3,10 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { numericParamValue, searchParamValue } from "@/lib/derive";
-import type { CaseOption } from "@/lib/derive";
+import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
 import { CaseFilter } from "./CaseFilter";
+import { PropellantFilter } from "./PropellantFilter";
 
 type Props = {
   manufacturers: string[];
@@ -13,6 +14,8 @@ type Props = {
   diameters: number[];
   certLevels: { key: string; label: string; sublabel: string }[];
   cases: CaseOption[];
+  propellants: PropellantOption[];
+  vendors: VendorOption[];
 };
 
 function parseList(value: string | null): Set<string> {
@@ -62,6 +65,8 @@ export function FilterBar({
   diameters,
   certLevels,
   cases,
+  propellants,
+  vendors,
 }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -73,6 +78,8 @@ export function FilterBar({
   const activeDiameters = parseList(sp.get("dia"));
   const activeCert = parseList(sp.get("cert"));
   const activeCases = parseList(sp.get("case"));
+  const activePropellants = parseList(sp.get("prop"));
+  const activeVendors = parseList(sp.get("vendor"));
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
   const sortOrder = sp.get("order") ?? "class";
@@ -115,6 +122,8 @@ export function FilterBar({
     update("dia", toggleInList(activeDiameters, String(d)));
   const toggleCert = (key: string) => update("cert", toggleInList(activeCert, key));
   const toggleCase = (v: string) => update("case", toggleInList(activeCases, v));
+  const togglePropellant = (v: string) => update("prop", toggleInList(activePropellants, v));
+  const toggleVendor = (slug: string) => update("vendor", toggleInList(activeVendors, slug));
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
   const toggleSort = () => update("sort", cheapestFirst ? null : "price");
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
@@ -125,6 +134,8 @@ export function FilterBar({
     activeDiameters.size > 0 ||
     activeCert.size > 0 ||
     activeCases.size > 0 ||
+    activePropellants.size > 0 ||
+    activeVendors.size > 0 ||
     inStockOnly ||
     cheapestFirst ||
     sortOrder !== "class" ||
@@ -228,6 +239,23 @@ export function FilterBar({
         </FilterRow>
       )}
 
+      {vendors.length > 1 && (
+        <FilterRow label="Vendor">
+          {vendors.map((v) => (
+            <button
+              key={v.slug}
+              type="button"
+              onClick={() => toggleVendor(v.slug)}
+              aria-pressed={activeVendors.has(v.slug)}
+              className={pill(activeVendors.has(v.slug))}
+              title={`Show motors carried by ${v.name}`}
+            >
+              {v.name}
+            </button>
+          ))}
+        </FilterRow>
+      )}
+
       {certLevels.length > 0 && (
         <FilterRow label="Cert">
           {certLevels.map((lvl) => (
@@ -281,6 +309,17 @@ export function FilterBar({
             active={activeCases}
             onToggle={toggleCase}
             onClear={() => update("case", null)}
+          />
+        </FilterRow>
+      )}
+
+      {propellants.length > 0 && (
+        <FilterRow label="Propellant">
+          <PropellantFilter
+            options={propellants}
+            active={activePropellants}
+            onToggle={togglePropellant}
+            onClear={() => update("prop", null)}
           />
         </FilterRow>
       )}

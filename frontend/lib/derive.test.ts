@@ -25,6 +25,7 @@ import {
   parseDir,
   parseOrder,
   parseSetParam,
+  propellantOptions,
   rankMotor,
   restockLabel,
   safeHref,
@@ -32,6 +33,7 @@ import {
   sortedMotors,
   staleLabel,
   thrustcurveUrl,
+  vendorOptions,
 } from "./derive";
 import type { Listing, ListingHistory, Motor } from "./snapshot";
 
@@ -943,5 +945,69 @@ describe("caseKey / caseOptions", () => {
       { value: "RMS-38/720", diameter: 38, manufacturer: "AeroTech" },
       { value: SINGLE_USE_CASE, diameter: null, manufacturer: null },
     ]);
+  });
+});
+
+describe("propellantOptions", () => {
+  it("dedupes, tags each by its brand, and sorts by brand then name", () => {
+    const motors = [
+      makeMotor({ id: 1, manufacturer: "AeroTech", propellant: "Blue Thunder" }),
+      makeMotor({ id: 2, manufacturer: "AeroTech", propellant: "Blue Thunder" }), // dup
+      makeMotor({ id: 3, manufacturer: "AeroTech", propellant: "White Lightning" }),
+      makeMotor({ id: 4, manufacturer: "Cesaroni Technology", propellant: "Blue Streak" }),
+      makeMotor({ id: 5, manufacturer: "Loki Research", propellant: "Loki White" }),
+    ];
+    expect(propellantOptions(motors)).toEqual([
+      { value: "Blue Thunder", brand: "AeroTech" },
+      { value: "White Lightning", brand: "AeroTech" },
+      { value: "Blue Streak", brand: "Cesaroni" },
+      { value: "Loki White", brand: "Loki" },
+    ]);
+  });
+
+  it("groups a propellant used by more than one brand under 'Other'", () => {
+    const motors = [
+      makeMotor({ id: 1, manufacturer: "AeroTech", propellant: "Classic" }),
+      makeMotor({ id: 2, manufacturer: "Cesaroni Technology", propellant: "Classic" }),
+    ];
+    expect(propellantOptions(motors)).toEqual([{ value: "Classic", brand: "Other" }]);
+  });
+
+  it("skips motors with no propellant", () => {
+    const motors = [
+      makeMotor({ id: 1, propellant: null }),
+      makeMotor({ id: 2, manufacturer: "AeroTech", propellant: "Redline" }),
+    ];
+    expect(propellantOptions(motors)).toEqual([{ value: "Redline", brand: "AeroTech" }]);
+  });
+});
+
+describe("vendorOptions", () => {
+  it("collects distinct vendors across listings, sorted by display name", () => {
+    const motors = [
+      makeMotor({
+        id: 1,
+        listings: [
+          makeListing({ vendor_slug: "wildman", vendor_name: "Wildman Rocketry" }),
+          makeListing({ vendor_slug: "csrocketry", vendor_name: "Chris' Rocket Supplies" }),
+        ],
+      }),
+      makeMotor({
+        id: 2,
+        listings: [
+          makeListing({ vendor_slug: "wildman", vendor_name: "Wildman Rocketry" }), // dup
+          makeListing({ vendor_slug: "sirius", vendor_name: "Sirius Rocketry" }),
+        ],
+      }),
+    ];
+    expect(vendorOptions(motors)).toEqual([
+      { slug: "csrocketry", name: "Chris' Rocket Supplies" },
+      { slug: "sirius", name: "Sirius Rocketry" },
+      { slug: "wildman", name: "Wildman Rocketry" },
+    ]);
+  });
+
+  it("returns [] when no motor has a listing", () => {
+    expect(vendorOptions([makeMotor({ listings: [] })])).toEqual([]);
   });
 });
