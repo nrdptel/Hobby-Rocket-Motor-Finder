@@ -11,7 +11,7 @@ const thrustPct = Math.round(SUBSTITUTE_THRUST_BAND * 100);
  * can never drift from the actual behavior. Native <details>, no client JS. */
 export function Methodology() {
   return (
-    <details className="mt-10 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
+    <details className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <summary className="cursor-pointer select-none font-medium text-zinc-700 dark:text-zinc-300">
         How the data is derived
       </summary>
