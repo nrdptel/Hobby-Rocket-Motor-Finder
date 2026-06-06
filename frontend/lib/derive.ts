@@ -381,19 +381,30 @@ export function caseKey(m: Pick<Motor, "case_info" | "motor_type">): string | nu
   return null;
 }
 
-export type CaseOption = { value: string; diameter: number | null };
+export type CaseOption = {
+  value: string;
+  diameter: number | null;
+  // Brand label (e.g. "AeroTech", "Cesaroni"), shown muted in the filter — each
+  // case belongs to one hardware family. null for Single use, which spans brands.
+  manufacturer: string | null;
+};
 
 /** Distinct case options present in ``motors``, each with a representative
- * diameter for grouping (``null`` for Single use). Sorted by diameter then value,
- * with Single use last. Powers the searchable case filter. */
+ * diameter (for grouping) and brand. Sorted by diameter then value, with Single
+ * use last. Powers the searchable case filter. */
 export function caseOptions(motors: readonly Motor[]): CaseOption[] {
-  const dia = new Map<string, number | null>();
+  const meta = new Map<string, { diameter: number | null; manufacturer: string | null }>();
   for (const m of motors) {
     const k = caseKey(m);
-    if (k == null) continue;
-    if (!dia.has(k)) dia.set(k, k === SINGLE_USE_CASE ? null : m.diameter_mm);
+    if (k == null || meta.has(k)) continue;
+    meta.set(
+      k,
+      k === SINGLE_USE_CASE
+        ? { diameter: null, manufacturer: null }
+        : { diameter: m.diameter_mm, manufacturer: manufacturerLabel(m.manufacturer) },
+    );
   }
-  return Array.from(dia, ([value, diameter]) => ({ value, diameter })).sort((a, b) => {
+  return Array.from(meta, ([value, m]) => ({ value, ...m })).sort((a, b) => {
     const ad = a.diameter ?? Number.POSITIVE_INFINITY;
     const bd = b.diameter ?? Number.POSITIVE_INFINITY;
     if (ad !== bd) return ad - bd;

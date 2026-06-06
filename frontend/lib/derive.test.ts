@@ -930,18 +930,18 @@ describe("caseKey / caseOptions", () => {
     expect(caseKey(makeMotor({ motor_type: "hybrid", case_info: null }))).toBeNull();
   });
 
-  it("caseOptions: distinct cases w/ diameter, sorted by diameter then value, Single use last", () => {
+  it("caseOptions: distinct cases w/ diameter + brand, sorted by diameter then value, Single use last", () => {
     const motors = [
-      makeMotor({ id: 1, diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }),
-      makeMotor({ id: 2, diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }), // dup
-      makeMotor({ id: 3, diameter_mm: 29, motor_type: "reload", case_info: "Pro29-3G" }),
-      makeMotor({ id: 4, diameter_mm: 24, motor_type: "SU", case_info: null }),
+      makeMotor({ id: 1, manufacturer: "AeroTech", diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }),
+      makeMotor({ id: 2, manufacturer: "AeroTech", diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }), // dup
+      makeMotor({ id: 3, manufacturer: "Cesaroni Technology", diameter_mm: 29, motor_type: "reload", case_info: "Pro29-3G" }),
+      makeMotor({ id: 4, manufacturer: "AeroTech", diameter_mm: 24, motor_type: "SU", case_info: null }),
       makeMotor({ id: 5, diameter_mm: 38, motor_type: undefined, case_info: undefined }), // no case → skipped
     ];
     expect(caseOptions(motors)).toEqual([
-      { value: "Pro29-3G", diameter: 29 },
-      { value: "RMS-38/720", diameter: 38 },
-      { value: SINGLE_USE_CASE, diameter: null },
+      { value: "Pro29-3G", diameter: 29, manufacturer: "Cesaroni" },
+      { value: "RMS-38/720", diameter: 38, manufacturer: "AeroTech" },
+      { value: SINGLE_USE_CASE, diameter: null, manufacturer: null },
     ]);
   });
 });

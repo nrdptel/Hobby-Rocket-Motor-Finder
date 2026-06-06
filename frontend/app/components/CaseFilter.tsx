@@ -41,6 +41,12 @@ export function CaseFilter({
     };
   }, [open]);
 
+  // case value → brand, so selected chips (built from URL values) can show it.
+  const brandOf = useMemo(
+    () => new Map(options.map((o) => [o.value, o.manufacturer])),
+    [options],
+  );
+
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     const list = q ? options.filter((o) => o.value.toLowerCase().includes(q)) : options;
@@ -76,6 +82,9 @@ export function CaseFilter({
           className="inline-flex items-center gap-1 rounded-full border border-zinc-900 bg-zinc-900 px-2.5 py-0.5 font-mono text-xs text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
         >
           {v}
+          {brandOf.get(v) && (
+            <span className="font-sans font-normal opacity-50">{brandOf.get(v)}</span>
+          )}
           <span aria-hidden className="opacity-70">×</span>
         </button>
       ))}
@@ -118,6 +127,11 @@ export function CaseFilter({
                       className="accent-zinc-900 dark:accent-zinc-100"
                     />
                     <span className="font-mono text-xs text-zinc-800 dark:text-zinc-200">{o.value}</span>
+                    {o.manufacturer && (
+                      <span className="ml-auto text-[10px] text-zinc-400 dark:text-zinc-500">
+                        {o.manufacturer}
+                      </span>
+                    )}
                   </label>
                 ))}
               </div>
