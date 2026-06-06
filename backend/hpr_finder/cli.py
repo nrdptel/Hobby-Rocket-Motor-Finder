@@ -321,10 +321,11 @@ def snapshot_export(
             for r in unmatched_listings
         ],
     }
-    # Capture the FRESH per-vendor counts (total + in-stock) BEFORE carry_forward
-    # merges in last-good data, so anomaly detection judges what the scraper
-    # actually returned this run, not carried-forward listings.
+    # Capture the FRESH per-vendor counts (total + in-stock + unmatched) BEFORE
+    # carry_forward merges in last-good data, so anomaly detection judges what the
+    # scraper actually returned this run, not carried-forward listings.
     fresh_stock = health.vendor_stock_counts(payload)
+    fresh_unmatched = health.vendor_unmatched_counts(payload)
 
     failed: list[str] = []
     carried: list[str] = []
@@ -372,9 +373,12 @@ def snapshot_export(
         sustained: list[dict] = []
         if baseline_json is not None:
             baseline = _load_json(baseline_json) or {}
-            anomalies_now = health.detect_anomalies(fresh_stock, baseline, decision)
+            anomalies_now = health.detect_anomalies(
+                fresh_stock, baseline, decision, fresh_unmatched=fresh_unmatched
+            )
             baseline = health.update_baseline(
-                baseline, fresh_stock, decision, anomalies_now, payload["generated_at"]
+                baseline, fresh_stock, decision, anomalies_now, payload["generated_at"],
+                fresh_unmatched=fresh_unmatched,
             )
             anomalies = health.annotate_streaks(anomalies_now, baseline)
             sustained = health.sustained_anomalies(anomalies_now, baseline)
@@ -389,6 +393,7 @@ def snapshot_export(
             "failed": failed,
             "decision": decision,
             "fresh_counts": fresh_counts,
+            "fresh_unmatched": fresh_unmatched,
             "prev_counts": prev_counts,
             # Per-vendor age of published data, hours. None = no published
             # listings (a failed vendor) or unparseable timestamps.
