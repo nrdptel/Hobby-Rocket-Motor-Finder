@@ -151,6 +151,32 @@ def test_snapshot_shape_matches_frontend_contract(tmp_db, tmp_path):
     assert um["raw_title"] == "Mystery Item Z9999X-99"
 
 
+def test_snapshot_drops_out_of_scope_from_unmatched(tmp_db, tmp_path):
+    """Out-of-scope lines (Q-Jet) must not land in the unmatched bucket — that
+    would inflate the couldn't-identify count and the per-vendor unmatched-spike
+    health metric forever — while a genuine unidentified motor still appears."""
+    _seed_minimal(tmp_db)  # seeds one genuine unmatched listing (Z9999X-99)
+    with db.connect(tmp_db) as conn:
+        v_id = upsert_vendor(conn, slug="wildman", name="Wildman Rocketry",
+                             homepage="https://wildmanrocketry.com", state="IL")
+        upsert_listings(conn, v_id, [
+            Listing(
+                vendor_slug="wildman", motor_designation="B6-4", motor_id=None,
+                url="https://wildmanrocketry.com/p/qjet-b6", sku=None, price_cents=1299,
+                currency="USD", status=StockStatus.IN_STOCK, stock_count=None,
+                raw_title="B6-4 Q-JET 2-pk", seen_at=datetime(2026, 5, 31, 12, 0, 0, tzinfo=UTC),
+            ),
+        ])
+    out = tmp_path / "snap.json"
+    snapshot_export(out=out)
+    snap = json.loads(out.read_text())
+
+    raws = {u["raw_designation"] for u in snap["unmatched"]}
+    assert "Z9999X-99" in raws  # genuine unidentified motor is kept
+    assert "B6-4" not in raws   # Q-Jet dropped
+    assert not any("Q-JET" in (u["raw_title"] or "").upper() for u in snap["unmatched"])
+
+
 def test_snapshot_status_enum_values(tmp_db, tmp_path):
     """Every StockStatus enum value must serialize to a string the frontend
     knows. frontend/lib/snapshot.ts only declares these 5 — if we add one

@@ -76,15 +76,16 @@ def test_cti_diameter_breaks_common_name_flavor_collision(conn):
     assert m29 is not None and m38 is not None and m29 != m38
 
 
-def test_cti_collision_without_diameter_is_deterministic(conn):
-    """No diameter hint on a collision -> stable pick (doesn't error or flap)."""
+def test_cti_collision_without_diameter_returns_none(conn):
+    """A commonName+flavor collision with no diameter hint to break it must NOT
+    guess: a coin-flip pick would show wrong specs half the time, so leaving it
+    unmatched (honest) is correct. Mirrors the commonName-only ambiguity path."""
     upsert_motors(conn, [
         _cti("176H123-12A", "H123", "Skidmark", diameter_mm=29, impulse_class="H"),
         _cti("232H123-14A", "H123", "Skidmark", diameter_mm=38, impulse_class="H"),
     ])
-    a = find_motor_id(conn, MFR, "H123", "H123 Skidmark")
-    b = find_motor_id(conn, MFR, "H123", "H123 Skidmark")
-    assert a is not None and a == b
+    assert find_motor_id(conn, MFR, "H123", "H123 Skidmark") is None
+    # …but a diameter hint still resolves it (see the test above).
 
 
 # --- commonName-only fallback ----------------------------------------------
