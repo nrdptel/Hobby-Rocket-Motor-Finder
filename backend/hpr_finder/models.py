@@ -39,6 +39,12 @@ class Motor:
     # motors are carried so vendors' old-stock listings still match; the matcher
     # prefers a current motor over an OOP one on any common-name ambiguity.
     availability: str | None = None
+    # ThrustCurve motor type: "reload" / "SU" (single-use) / "hybrid". Powers the
+    # case filter — reloads need hardware, single-use don't.
+    motor_type: str | None = None
+    # The reload hardware the motor uses, verbatim from ThrustCurve, e.g.
+    # "RMS-38/720", "Pro38-3G", "38/480". None for single-use motors.
+    case_info: str | None = None
 
 
 @dataclass(slots=True)

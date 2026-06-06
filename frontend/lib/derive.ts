@@ -367,6 +367,40 @@ export function toSubstitute(m: Motor): Substitute {
   };
 }
 
+// The label/value for single-use motors in the case filter — they need no
+// reload hardware, so they're their own "case".
+export const SINGLE_USE_CASE = "Single use";
+
+/** The hardware a motor maps to for the case filter: its reload case (e.g.
+ * "RMS-38/720", "Pro38-3G"), or the "Single use" pseudo-case for single-use
+ * motors. ``null`` when unknown — a hybrid with no case, or a snapshot written
+ * before case data existed — so such a motor matches no case selection. */
+export function caseKey(m: Pick<Motor, "case_info" | "motor_type">): string | null {
+  if (m.case_info) return m.case_info;
+  if (m.motor_type === "SU") return SINGLE_USE_CASE;
+  return null;
+}
+
+export type CaseOption = { value: string; diameter: number | null };
+
+/** Distinct case options present in ``motors``, each with a representative
+ * diameter for grouping (``null`` for Single use). Sorted by diameter then value,
+ * with Single use last. Powers the searchable case filter. */
+export function caseOptions(motors: readonly Motor[]): CaseOption[] {
+  const dia = new Map<string, number | null>();
+  for (const m of motors) {
+    const k = caseKey(m);
+    if (k == null) continue;
+    if (!dia.has(k)) dia.set(k, k === SINGLE_USE_CASE ? null : m.diameter_mm);
+  }
+  return Array.from(dia, ([value, diameter]) => ({ value, diameter })).sort((a, b) => {
+    const ad = a.diameter ?? Number.POSITIVE_INFINITY;
+    const bd = b.diameter ?? Number.POSITIVE_INFINITY;
+    if (ad !== bd) return ad - bd;
+    return a.value.localeCompare(b.value);
+  });
+}
+
 // Natural ordering: impulse class → diameter → designation.
 function compareByClass(a: Motor, b: Motor): number {
   const [ac, ad, an] = rankMotor(a);

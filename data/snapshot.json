@@ -52,7 +52,9 @@
           "seen_at": "2026-06-06T13:01:08+00:00",
           "raw_designation": "C3"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-18/20"
     },
     {
       "id": 5,
@@ -105,7 +107,9 @@
           "seen_at": "2026-06-06T13:00:32+00:00",
           "raw_designation": "D10-7W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 8,
@@ -293,7 +297,9 @@
           "seen_at": "2026-06-06T13:01:11+00:00",
           "raw_designation": "D13-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-18/20"
     },
     {
       "id": 7,
@@ -443,7 +449,9 @@
           "seen_at": "2026-06-06T13:01:13+00:00",
           "raw_designation": "D15-7T"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 2,
@@ -496,7 +504,9 @@
           "seen_at": "2026-06-06T13:01:15+00:00",
           "raw_designation": "D2"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-18/20"
     },
     {
       "id": 10,
@@ -537,7 +547,9 @@
           "seen_at": "2026-06-06T13:01:17+00:00",
           "raw_designation": "D21-7T"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 9,
@@ -578,7 +590,9 @@
           "seen_at": "2026-06-06T13:01:57+00:00",
           "raw_designation": "D22-7W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 3,
@@ -778,7 +792,9 @@
           "seen_at": "2026-06-06T13:01:20+00:00",
           "raw_designation": "D24-7T"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-18/20"
     },
     {
       "id": 4,
@@ -831,7 +847,9 @@
           "seen_at": "2026-06-06T13:01:21+00:00",
           "raw_designation": "D7-RCT"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-24/20-40"
     },
     {
       "id": 6,
@@ -944,7 +962,9 @@
           "seen_at": "2026-06-06T13:01:23+00:00",
           "raw_designation": "D9-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 308,
@@ -1009,7 +1029,9 @@
           "seen_at": "2026-06-06T13:08:04+00:00",
           "raw_designation": "E22"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-1G"
     },
     {
       "id": 310,
@@ -1074,7 +1096,9 @@
           "seen_at": "2026-06-06T13:08:05+00:00",
           "raw_designation": "E31"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-1G"
     },
     {
       "id": 13,
@@ -1139,7 +1163,9 @@
           "seen_at": "2026-06-06T13:01:24+00:00",
           "raw_designation": "E11-3J"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 15,
@@ -1180,7 +1206,9 @@
           "seen_at": "2026-06-06T13:00:28+00:00",
           "raw_designation": "E12-RCJ"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-24/20-40"
     },
     {
       "id": 16,
@@ -1233,7 +1261,9 @@
           "seen_at": "2026-06-06T13:01:59+00:00",
           "raw_designation": "E15-PW"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 22,
@@ -1432,7 +1462,9 @@
           "seen_at": "2026-06-06T13:02:01+00:00",
           "raw_designation": "E16-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 20,
@@ -1619,7 +1651,9 @@
           "seen_at": "2026-06-06T13:02:03+00:00",
           "raw_designation": "E18-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 17,
@@ -1830,7 +1864,9 @@
           "seen_at": "2026-06-06T13:02:05+00:00",
           "raw_designation": "E20-7W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 18,
@@ -2029,7 +2065,9 @@
           "seen_at": "2026-06-06T13:02:07+00:00",
           "raw_designation": "E23-8T"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 19,
@@ -2253,7 +2291,9 @@
           "seen_at": "2026-06-06T13:02:10+00:00",
           "raw_designation": "E24C-7"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 11,
@@ -2306,7 +2346,9 @@
           "seen_at": "2026-06-06T13:02:12+00:00",
           "raw_designation": "E26-7W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 23,
@@ -2493,7 +2535,9 @@
           "seen_at": "2026-06-06T13:02:14+00:00",
           "raw_designation": "E28-7T"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 14,
@@ -2692,7 +2736,9 @@
           "seen_at": "2026-06-06T13:02:16+00:00",
           "raw_designation": "E30-7T"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 21,
@@ -2745,7 +2791,9 @@
           "seen_at": "2026-06-06T13:00:34+00:00",
           "raw_designation": "E6-RCT"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-24/20-40"
     },
     {
       "id": 12,
@@ -2799,7 +2847,9 @@
           "seen_at": "2026-06-06T13:00:35+00:00",
           "raw_designation": "E7-RCT"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-24/20-40"
     },
     {
       "id": 311,
@@ -2864,7 +2914,9 @@
           "seen_at": "2026-06-06T13:08:21+00:00",
           "raw_designation": "F36"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 312,
@@ -2929,7 +2981,9 @@
           "seen_at": "2026-06-06T13:08:06+00:00",
           "raw_designation": "F51"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-2G"
     },
     {
       "id": 313,
@@ -2994,7 +3048,9 @@
           "seen_at": "2026-06-06T13:08:18+00:00",
           "raw_designation": "F36"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 314,
@@ -3059,7 +3115,9 @@
           "seen_at": "2026-06-06T13:08:22+00:00",
           "raw_designation": "F32"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 315,
@@ -3124,7 +3182,9 @@
           "seen_at": "2026-06-06T13:08:07+00:00",
           "raw_designation": "F70"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-2G"
     },
     {
       "id": 316,
@@ -3189,7 +3249,9 @@
           "seen_at": "2026-06-06T13:08:20+00:00",
           "raw_designation": "F29"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 318,
@@ -3218,7 +3280,9 @@
           "seen_at": "2026-06-06T13:00:35+00:00",
           "raw_designation": "F120"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 317,
@@ -3283,7 +3347,9 @@
           "seen_at": "2026-06-06T13:08:19+00:00",
           "raw_designation": "F31"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 319,
@@ -3348,7 +3414,9 @@
           "seen_at": "2026-06-06T13:08:23+00:00",
           "raw_designation": "F59"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-1G"
     },
     {
       "id": 320,
@@ -3413,7 +3481,9 @@
           "seen_at": "2026-06-06T13:08:09+00:00",
           "raw_designation": "F50"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-3G"
     },
     {
       "id": 321,
@@ -3478,7 +3548,9 @@
           "seen_at": "2026-06-06T13:08:10+00:00",
           "raw_designation": "F79"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-3G"
     },
     {
       "id": 323,
@@ -3543,7 +3615,9 @@
           "seen_at": "2026-06-06T13:08:11+00:00",
           "raw_designation": "F30"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-3G"
     },
     {
       "id": 324,
@@ -3608,7 +3682,9 @@
           "seen_at": "2026-06-06T13:08:12+00:00",
           "raw_designation": "F85"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-3G"
     },
     {
       "id": 325,
@@ -3673,7 +3749,9 @@
           "seen_at": "2026-06-06T13:08:08+00:00",
           "raw_designation": "F51"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-3G"
     },
     {
       "id": 57,
@@ -3763,7 +3841,9 @@
           "seen_at": "2026-06-06T13:02:23+00:00",
           "raw_designation": "F115SN-12A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 27,
@@ -3913,7 +3993,9 @@
           "seen_at": "2026-06-06T13:02:25+00:00",
           "raw_designation": "F12-5J"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 44,
@@ -3966,7 +4048,9 @@
           "seen_at": "2026-06-06T13:01:48+00:00",
           "raw_designation": "F13RCT"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-32/60-100"
     },
     {
       "id": 51,
@@ -4007,7 +4091,9 @@
           "seen_at": "2026-06-06T13:00:37+00:00",
           "raw_designation": "F16-RCJ"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-32/60-100"
     },
     {
       "id": 36,
@@ -4218,7 +4304,9 @@
           "seen_at": "2026-06-06T13:02:26+00:00",
           "raw_designation": "F20-7W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 46,
@@ -4405,7 +4493,9 @@
           "seen_at": "2026-06-06T13:01:52+00:00",
           "raw_designation": "F22-7J"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 48,
@@ -4446,7 +4536,9 @@
           "seen_at": "2026-06-06T13:00:40+00:00",
           "raw_designation": "F23-RCW-SK"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-32/60-100"
     },
     {
       "id": 25,
@@ -4620,7 +4712,9 @@
           "seen_at": "2026-06-06T13:01:54+00:00",
           "raw_designation": "F23-7FJ"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 29,
@@ -4807,7 +4901,9 @@
           "seen_at": "2026-06-06T13:02:32+00:00",
           "raw_designation": "F24-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 55,
@@ -5103,7 +5199,9 @@
           "seen_at": "2026-06-06T13:02:34+00:00",
           "raw_designation": "F25-6W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 45,
@@ -5302,7 +5400,9 @@
           "seen_at": "2026-06-06T13:02:36+00:00",
           "raw_designation": "F26-6FJ"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 32,
@@ -5513,7 +5613,9 @@
           "seen_at": "2026-06-06T13:02:39+00:00",
           "raw_designation": "F27-8R"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 28,
@@ -5821,7 +5923,9 @@
           "seen_at": "2026-06-06T13:02:42+00:00",
           "raw_designation": "F30-8"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 41,
@@ -6129,7 +6233,9 @@
           "seen_at": "2026-06-06T13:02:45+00:00",
           "raw_designation": "F32-8"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 42,
@@ -6401,7 +6507,9 @@
           "seen_at": "2026-06-06T13:02:48+00:00",
           "raw_designation": "F35-8W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/60"
     },
     {
       "id": 34,
@@ -6478,7 +6586,9 @@
           "seen_at": "2026-06-06T13:02:13+00:00",
           "raw_designation": "F37W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/60"
     },
     {
       "id": 33,
@@ -6689,7 +6799,9 @@
           "seen_at": "2026-06-06T13:02:50+00:00",
           "raw_designation": "F39-9T"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/40"
     },
     {
       "id": 56,
@@ -6997,7 +7109,9 @@
           "seen_at": "2026-06-06T13:02:53+00:00",
           "raw_designation": "F40-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 38,
@@ -7208,7 +7322,9 @@
           "seen_at": "2026-06-06T13:02:56+00:00",
           "raw_designation": "F42-8T"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 26,
@@ -7419,7 +7535,9 @@
           "seen_at": "2026-06-06T13:02:59+00:00",
           "raw_designation": "F44-8W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 53,
@@ -7727,7 +7845,9 @@
           "seen_at": "2026-06-06T13:03:01+00:00",
           "raw_designation": "F50-9T"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 40,
@@ -7829,7 +7949,9 @@
           "seen_at": "2026-06-06T13:03:03+00:00",
           "raw_designation": "F51-10NT"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/60"
     },
     {
       "id": 47,
@@ -8089,7 +8211,9 @@
           "seen_at": "2026-06-06T13:03:08+00:00",
           "raw_designation": "F52-8C"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 49,
@@ -8397,7 +8521,9 @@
           "seen_at": "2026-06-06T13:03:09+00:00",
           "raw_designation": "F52-8T"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 30,
@@ -8462,7 +8588,9 @@
           "seen_at": "2026-06-06T13:02:31+00:00",
           "raw_designation": "F62-10FJ"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/60"
     },
     {
       "id": 35,
@@ -8576,7 +8704,9 @@
           "seen_at": "2026-06-06T13:03:11+00:00",
           "raw_designation": "F62T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/60"
     },
     {
       "id": 31,
@@ -8666,7 +8796,9 @@
           "seen_at": "2026-06-06T13:03:12+00:00",
           "raw_designation": "F63-10R"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-24/60"
     },
     {
       "id": 54,
@@ -8878,7 +9010,9 @@
           "seen_at": "2026-06-06T13:03:16+00:00",
           "raw_designation": "F67C-6"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 43,
@@ -9150,7 +9284,9 @@
           "seen_at": "2026-06-06T13:03:15+00:00",
           "raw_designation": "F67-9W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 328,
@@ -9215,7 +9351,9 @@
           "seen_at": "2026-06-06T13:08:24+00:00",
           "raw_designation": "G83"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 329,
@@ -9280,7 +9418,9 @@
           "seen_at": "2026-06-06T13:08:25+00:00",
           "raw_designation": "G57"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 330,
@@ -9345,7 +9485,9 @@
           "seen_at": "2026-06-06T13:08:28+00:00",
           "raw_designation": "G68"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 331,
@@ -9374,7 +9516,9 @@
           "seen_at": "2026-06-06T13:00:35+00:00",
           "raw_designation": "G250"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 332,
@@ -9439,7 +9583,9 @@
           "seen_at": "2026-06-06T13:08:17+00:00",
           "raw_designation": "G100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 333,
@@ -9504,7 +9650,9 @@
           "seen_at": "2026-06-06T13:08:29+00:00",
           "raw_designation": "G126"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 334,
@@ -9569,7 +9717,9 @@
           "seen_at": "2026-06-06T13:09:11+00:00",
           "raw_designation": "G69"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 335,
@@ -9634,7 +9784,9 @@
           "seen_at": "2026-06-06T13:08:38+00:00",
           "raw_designation": "G131"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 336,
@@ -9699,7 +9851,9 @@
           "seen_at": "2026-06-06T13:09:08+00:00",
           "raw_designation": "G46"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 337,
@@ -9728,7 +9882,9 @@
           "seen_at": "2026-06-06T13:00:36+00:00",
           "raw_designation": "G185"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 338,
@@ -9781,7 +9937,9 @@
           "seen_at": "2026-06-06T13:09:12+00:00",
           "raw_designation": "G79"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 339,
@@ -9846,7 +10004,9 @@
           "seen_at": "2026-06-06T13:08:14+00:00",
           "raw_designation": "G84"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 340,
@@ -9911,7 +10071,9 @@
           "seen_at": "2026-06-06T13:09:11+00:00",
           "raw_designation": "G60"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 342,
@@ -9976,7 +10138,9 @@
           "seen_at": "2026-06-06T13:08:16+00:00",
           "raw_designation": "G127"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 341,
@@ -10041,7 +10205,9 @@
           "seen_at": "2026-06-06T13:09:13+00:00",
           "raw_designation": "G58"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 343,
@@ -10106,7 +10272,9 @@
           "seen_at": "2026-06-06T13:08:37+00:00",
           "raw_designation": "G106"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 344,
@@ -10159,7 +10327,9 @@
           "seen_at": "2026-06-06T13:02:58+00:00",
           "raw_designation": "G107"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 345,
@@ -10224,7 +10394,9 @@
           "seen_at": "2026-06-06T13:08:15+00:00",
           "raw_designation": "G145"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 346,
@@ -10289,7 +10461,9 @@
           "seen_at": "2026-06-06T13:09:14+00:00",
           "raw_designation": "G115"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 347,
@@ -10354,7 +10528,9 @@
           "seen_at": "2026-06-06T13:09:07+00:00",
           "raw_designation": "G78"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 348,
@@ -10407,7 +10583,9 @@
           "seen_at": "2026-06-06T13:02:59+00:00",
           "raw_designation": "G117"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 349,
@@ -10472,7 +10650,9 @@
           "seen_at": "2026-06-06T13:08:13+00:00",
           "raw_designation": "G150"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 350,
@@ -10525,7 +10705,9 @@
           "seen_at": "2026-06-06T13:08:34+00:00",
           "raw_designation": "G33"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 351,
@@ -10578,7 +10760,9 @@
           "seen_at": "2026-06-06T13:03:07+00:00",
           "raw_designation": "G65"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro24-6G"
     },
     {
       "id": 352,
@@ -10643,7 +10827,9 @@
           "seen_at": "2026-06-06T13:09:09+00:00",
           "raw_designation": "G50"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-1G"
     },
     {
       "id": 353,
@@ -10708,7 +10894,9 @@
           "seen_at": "2026-06-06T13:08:31+00:00",
           "raw_designation": "G118"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 355,
@@ -10773,7 +10961,9 @@
           "seen_at": "2026-06-06T13:08:35+00:00",
           "raw_designation": "G125"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 354,
@@ -10838,7 +11028,9 @@
           "seen_at": "2026-06-06T13:08:36+00:00",
           "raw_designation": "G54"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 326,
@@ -10903,7 +11095,9 @@
           "seen_at": "2026-06-06T13:08:27+00:00",
           "raw_designation": "G88"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 327,
@@ -10968,7 +11162,9 @@
           "seen_at": "2026-06-06T13:08:26+00:00",
           "raw_designation": "G80"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-2G"
     },
     {
       "id": 60,
@@ -11094,7 +11290,9 @@
           "seen_at": "2026-06-06T13:03:54+00:00",
           "raw_designation": "G104T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/100"
     },
     {
       "id": 64,
@@ -11159,7 +11357,9 @@
           "seen_at": "2026-06-06T13:04:13+00:00",
           "raw_designation": "G12-RCT"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-R/C-32/60-100"
     },
     {
       "id": 87,
@@ -11285,7 +11485,9 @@
           "seen_at": "2026-06-06T13:04:14+00:00",
           "raw_designation": "G125T-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 94,
@@ -11387,7 +11589,9 @@
           "seen_at": "2026-06-06T13:04:30+00:00",
           "raw_designation": "G12ST-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 82,
@@ -11501,7 +11705,9 @@
           "seen_at": "2026-06-06T13:04:32+00:00",
           "raw_designation": "G25W-10A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/120"
     },
     {
       "id": 77,
@@ -11578,7 +11784,9 @@
           "seen_at": "2026-06-06T13:01:06+00:00",
           "raw_designation": "G339N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/120"
     },
     {
       "id": 65,
@@ -11739,7 +11947,9 @@
           "seen_at": "2026-06-06T13:02:47+00:00",
           "raw_designation": "G38-7FJ"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 68,
@@ -12047,7 +12257,9 @@
           "seen_at": "2026-06-06T13:04:37+00:00",
           "raw_designation": "G40-7W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 67,
@@ -12355,7 +12567,9 @@
           "seen_at": "2026-06-06T13:04:41+00:00",
           "raw_designation": "G53-7FJ"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 59,
@@ -12481,7 +12695,9 @@
           "seen_at": "2026-06-06T13:04:42+00:00",
           "raw_designation": "G54W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/100"
     },
     {
       "id": 80,
@@ -12607,7 +12823,9 @@
           "seen_at": "2026-06-06T13:04:43+00:00",
           "raw_designation": "G61W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/120"
     },
     {
       "id": 84,
@@ -12915,7 +13133,9 @@
           "seen_at": "2026-06-06T13:04:46+00:00",
           "raw_designation": "G64-7W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 608,
@@ -12956,7 +13176,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "G66"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/120"
     },
     {
       "id": 79,
@@ -13082,7 +13304,9 @@
           "seen_at": "2026-06-06T13:04:47+00:00",
           "raw_designation": "G67R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/120"
     },
     {
       "id": 92,
@@ -13171,7 +13395,9 @@
           "seen_at": "2026-06-06T13:03:00+00:00",
           "raw_designation": "G69N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/120"
     },
     {
       "id": 605,
@@ -13212,7 +13438,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "G70"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/120"
     },
     {
       "id": 73,
@@ -13326,7 +13554,9 @@
           "seen_at": "2026-06-06T13:04:48+00:00",
           "raw_designation": "G72DM-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 88,
@@ -13392,7 +13622,9 @@
           "seen_at": "2026-06-06T13:01:57+00:00",
           "raw_designation": "G73-7C"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 61,
@@ -13688,7 +13920,9 @@
           "seen_at": "2026-06-06T13:04:51+00:00",
           "raw_designation": "G74-9"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 90,
@@ -13789,7 +14023,9 @@
           "seen_at": "2026-06-06T13:03:01+00:00",
           "raw_designation": "G75J-10A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/180"
     },
     {
       "id": 81,
@@ -13890,7 +14126,9 @@
           "seen_at": "2026-06-06T13:01:16+00:00",
           "raw_designation": "G75-13A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 83,
@@ -14198,7 +14436,9 @@
           "seen_at": "2026-06-06T13:04:56+00:00",
           "raw_designation": "G76-7G"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 72,
@@ -14604,7 +14844,9 @@
           "seen_at": "2026-06-06T13:04:59+00:00",
           "raw_designation": "G77-7R"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/120"
     },
     {
       "id": 78,
@@ -14960,7 +15202,9 @@
           "seen_at": "2026-06-06T13:05:03+00:00",
           "raw_designation": "G78-7G"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 76,
@@ -15327,7 +15571,9 @@
           "seen_at": "2026-06-06T13:05:08+00:00",
           "raw_designation": "G79W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/120"
     },
     {
       "id": 607,
@@ -15368,7 +15614,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "G80"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/120"
     },
     {
       "id": 91,
@@ -15785,7 +16033,9 @@
           "seen_at": "2026-06-06T13:05:12+00:00",
           "raw_designation": "G80T-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 89,
@@ -15850,7 +16100,9 @@
           "seen_at": "2026-06-06T13:01:24+00:00",
           "raw_designation": "G8"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 95,
@@ -15976,7 +16228,9 @@
           "seen_at": "2026-06-06T13:04:31+00:00",
           "raw_designation": "G138"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/40-120"
     },
     {
       "id": 604,
@@ -16017,7 +16271,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "G69SK"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/120"
     },
     {
       "id": 606,
@@ -16058,7 +16314,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "G94"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/120"
     },
     {
       "id": 356,
@@ -16123,7 +16381,9 @@
           "seen_at": "2026-06-06T13:08:30+00:00",
           "raw_designation": "H133"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 357,
@@ -16188,7 +16448,9 @@
           "seen_at": "2026-06-06T13:08:32+00:00",
           "raw_designation": "H90"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 359,
@@ -16253,7 +16515,9 @@
           "seen_at": "2026-06-06T13:08:40+00:00",
           "raw_designation": "H163"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 358,
@@ -16318,7 +16582,9 @@
           "seen_at": "2026-06-06T13:08:46+00:00",
           "raw_designation": "H175"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 360,
@@ -16347,7 +16613,9 @@
           "seen_at": "2026-06-06T13:00:35+00:00",
           "raw_designation": "H410"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 361,
@@ -16412,7 +16680,9 @@
           "seen_at": "2026-06-06T13:08:39+00:00",
           "raw_designation": "H54"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 362,
@@ -16477,7 +16747,9 @@
           "seen_at": "2026-06-06T13:08:33+00:00",
           "raw_designation": "H87"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-3G"
     },
     {
       "id": 363,
@@ -16542,7 +16814,9 @@
           "seen_at": "2026-06-06T13:08:45+00:00",
           "raw_designation": "H123"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 364,
@@ -16595,7 +16869,9 @@
           "seen_at": "2026-06-06T13:08:43+00:00",
           "raw_designation": "H42"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 365,
@@ -16660,7 +16936,9 @@
           "seen_at": "2026-06-06T13:08:54+00:00",
           "raw_designation": "H237"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-5G"
     },
     {
       "id": 366,
@@ -16725,7 +17003,9 @@
           "seen_at": "2026-06-06T13:08:44+00:00",
           "raw_designation": "H151"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 367,
@@ -16790,7 +17070,9 @@
           "seen_at": "2026-06-06T13:08:42+00:00",
           "raw_designation": "H118"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 368,
@@ -16855,7 +17137,9 @@
           "seen_at": "2026-06-06T13:08:47+00:00",
           "raw_designation": "H135"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 369,
@@ -16920,7 +17204,9 @@
           "seen_at": "2026-06-06T13:08:41+00:00",
           "raw_designation": "H170"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 370,
@@ -16985,7 +17271,9 @@
           "seen_at": "2026-06-06T13:08:53+00:00",
           "raw_designation": "H160"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-5G"
     },
     {
       "id": 371,
@@ -17050,7 +17338,9 @@
           "seen_at": "2026-06-06T13:08:48+00:00",
           "raw_designation": "H255"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-4G"
     },
     {
       "id": 372,
@@ -17115,7 +17405,9 @@
           "seen_at": "2026-06-06T13:09:19+00:00",
           "raw_designation": "H123"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 373,
@@ -17180,7 +17472,9 @@
           "seen_at": "2026-06-06T13:08:51+00:00",
           "raw_designation": "H53"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-5G"
     },
     {
       "id": 374,
@@ -17233,7 +17527,9 @@
           "seen_at": "2026-06-06T13:09:20+00:00",
           "raw_designation": "H143"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 375,
@@ -17298,7 +17594,9 @@
           "seen_at": "2026-06-06T13:09:01+00:00",
           "raw_designation": "H295"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 376,
@@ -17327,7 +17625,9 @@
           "seen_at": "2026-06-06T13:00:36+00:00",
           "raw_designation": "H400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 377,
@@ -17380,7 +17680,9 @@
           "seen_at": "2026-06-06T13:03:21+00:00",
           "raw_designation": "H180"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 379,
@@ -17445,7 +17747,9 @@
           "seen_at": "2026-06-06T13:08:52+00:00",
           "raw_designation": "H194"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-5G"
     },
     {
       "id": 380,
@@ -17510,7 +17814,9 @@
           "seen_at": "2026-06-06T13:09:18+00:00",
           "raw_designation": "H120"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 381,
@@ -17575,7 +17881,9 @@
           "seen_at": "2026-06-06T13:08:49+00:00",
           "raw_designation": "H200"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-5G"
     },
     {
       "id": 387,
@@ -17640,7 +17948,9 @@
           "seen_at": "2026-06-06T13:09:16+00:00",
           "raw_designation": "H125"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 382,
@@ -17705,7 +18015,9 @@
           "seen_at": "2026-06-06T13:08:50+00:00",
           "raw_designation": "H140"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-5G"
     },
     {
       "id": 383,
@@ -17770,7 +18082,9 @@
           "seen_at": "2026-06-06T13:09:21+00:00",
           "raw_designation": "H110"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 384,
@@ -17835,7 +18149,9 @@
           "seen_at": "2026-06-06T13:09:22+00:00",
           "raw_designation": "H225"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 385,
@@ -17900,7 +18216,9 @@
           "seen_at": "2026-06-06T13:09:15+00:00",
           "raw_designation": "H152"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 386,
@@ -17965,7 +18283,9 @@
           "seen_at": "2026-06-06T13:09:02+00:00",
           "raw_designation": "H399"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 388,
@@ -18030,7 +18350,9 @@
           "seen_at": "2026-06-06T13:09:17+00:00",
           "raw_designation": "H100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-2G"
     },
     {
       "id": 389,
@@ -18095,7 +18417,9 @@
           "seen_at": "2026-06-06T13:09:05+00:00",
           "raw_designation": "H340"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6GXL"
     },
     {
       "id": 390,
@@ -18160,7 +18484,9 @@
           "seen_at": "2026-06-06T13:08:57+00:00",
           "raw_designation": "H159"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 391,
@@ -18225,7 +18551,9 @@
           "seen_at": "2026-06-06T13:09:03+00:00",
           "raw_designation": "H226"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6GXL"
     },
     {
       "id": 392,
@@ -18278,7 +18606,9 @@
           "seen_at": "2026-06-06T13:08:59+00:00",
           "raw_designation": "H233"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 393,
@@ -18343,7 +18673,9 @@
           "seen_at": "2026-06-06T13:08:56+00:00",
           "raw_designation": "H160"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 394,
@@ -18396,7 +18728,9 @@
           "seen_at": "2026-06-06T13:08:55+00:00",
           "raw_designation": "H255"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 395,
@@ -18425,7 +18759,9 @@
           "seen_at": "2026-06-06T13:00:36+00:00",
           "raw_designation": "H565"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 609,
@@ -18466,7 +18802,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "H100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/240"
     },
     {
       "id": 115,
@@ -18592,7 +18930,9 @@
           "seen_at": "2026-06-06T13:05:14+00:00",
           "raw_designation": "H100W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": "DMS"
     },
     {
       "id": 122,
@@ -18669,7 +19009,9 @@
           "seen_at": "2026-06-06T13:03:25+00:00",
           "raw_designation": "H112J"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 113,
@@ -18795,7 +19137,9 @@
           "seen_at": "2026-06-06T13:05:16+00:00",
           "raw_designation": "H123W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/240"
     },
     {
       "id": 612,
@@ -18836,7 +19180,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "H125"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/240"
     },
     {
       "id": 100,
@@ -18962,7 +19308,9 @@
           "seen_at": "2026-06-06T13:05:17+00:00",
           "raw_designation": "H128W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/180"
     },
     {
       "id": 105,
@@ -19051,7 +19399,9 @@
           "seen_at": "2026-06-06T13:03:29+00:00",
           "raw_designation": "H130W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/240"
     },
     {
       "id": 106,
@@ -19201,7 +19551,9 @@
           "seen_at": "2026-06-06T13:03:32+00:00",
           "raw_designation": "H13ST-P-NTR"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 611,
@@ -19242,7 +19594,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "H144"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/240"
     },
     {
       "id": 104,
@@ -19368,7 +19722,9 @@
           "seen_at": "2026-06-06T13:05:22+00:00",
           "raw_designation": "H148R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/240"
     },
     {
       "id": 121,
@@ -19494,7 +19850,9 @@
           "seen_at": "2026-06-06T13:01:38+00:00",
           "raw_designation": "H14ST-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 613,
@@ -19535,7 +19893,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "H160"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/240"
     },
     {
       "id": 97,
@@ -19661,7 +20021,9 @@
           "seen_at": "2026-06-06T13:05:23+00:00",
           "raw_designation": "H165R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/180"
     },
     {
       "id": 118,
@@ -19775,7 +20137,9 @@
           "seen_at": "2026-06-06T13:05:24+00:00",
           "raw_designation": "H169WS-13A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 127,
@@ -19901,7 +20265,9 @@
           "seen_at": "2026-06-06T13:05:25+00:00",
           "raw_designation": "H170M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 123,
@@ -20027,7 +20393,9 @@
           "seen_at": "2026-06-06T13:05:26+00:00",
           "raw_designation": "H178DM"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 109,
@@ -20153,7 +20521,9 @@
           "seen_at": "2026-06-06T13:05:27+00:00",
           "raw_designation": "H180W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/240"
     },
     {
       "id": 108,
@@ -20279,7 +20649,9 @@
           "seen_at": "2026-06-06T13:05:30+00:00",
           "raw_designation": "H210R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/240"
     },
     {
       "id": 119,
@@ -20405,7 +20777,9 @@
           "seen_at": "2026-06-06T13:05:31+00:00",
           "raw_designation": "H219T-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 111,
@@ -20531,7 +20905,9 @@
           "seen_at": "2026-06-06T13:05:32+00:00",
           "raw_designation": "H220T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/240"
     },
     {
       "id": 98,
@@ -20657,7 +21033,9 @@
           "seen_at": "2026-06-06T13:05:33+00:00",
           "raw_designation": "H238T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/180"
     },
     {
       "id": 117,
@@ -20783,7 +21161,9 @@
           "seen_at": "2026-06-06T13:05:34+00:00",
           "raw_designation": "H242T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/240"
     },
     {
       "id": 116,
@@ -20909,7 +21289,9 @@
           "seen_at": "2026-06-06T13:05:35+00:00",
           "raw_designation": "H250G-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/240"
     },
     {
       "id": 129,
@@ -21023,7 +21405,9 @@
           "seen_at": "2026-06-06T13:05:36+00:00",
           "raw_designation": "H268R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/360"
     },
     {
       "id": 103,
@@ -21149,7 +21533,9 @@
           "seen_at": "2026-06-06T13:05:37+00:00",
           "raw_designation": "H283ST-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": "DMS"
     },
     {
       "id": 130,
@@ -21311,7 +21697,9 @@
           "seen_at": "2026-06-06T13:05:39+00:00",
           "raw_designation": "H550-ST-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 112,
@@ -21388,7 +21776,9 @@
           "seen_at": "2026-06-06T13:03:52+00:00",
           "raw_designation": "H669N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/240"
     },
     {
       "id": 102,
@@ -21501,7 +21891,9 @@
           "seen_at": "2026-06-06T13:03:54+00:00",
           "raw_designation": "H73J"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/240"
     },
     {
       "id": 610,
@@ -21542,7 +21934,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "H90"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/240"
     },
     {
       "id": 101,
@@ -21643,7 +22037,9 @@
           "seen_at": "2026-06-06T13:03:55+00:00",
           "raw_designation": "H97J-10A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/240"
     },
     {
       "id": 128,
@@ -21720,7 +22116,9 @@
           "seen_at": "2026-06-06T13:03:56+00:00",
           "raw_designation": "H999N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 99,
@@ -21846,7 +22244,9 @@
           "seen_at": "2026-06-06T13:05:16+00:00",
           "raw_designation": "H115DM-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 114,
@@ -21972,7 +22372,9 @@
           "seen_at": "2026-06-06T13:05:19+00:00",
           "raw_designation": "H135W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 110,
@@ -22098,7 +22500,9 @@
           "seen_at": "2026-06-06T13:05:28+00:00",
           "raw_designation": "H182R-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 120,
@@ -22224,7 +22628,9 @@
           "seen_at": "2026-06-06T13:05:29+00:00",
           "raw_designation": "H195NT-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 131,
@@ -22350,7 +22756,9 @@
           "seen_at": "2026-06-06T13:05:38+00:00",
           "raw_designation": "H45W-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 126,
@@ -22415,7 +22823,9 @@
           "seen_at": "2026-06-06T13:01:56+00:00",
           "raw_designation": "H550-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": "38 DMS"
     },
     {
       "id": 396,
@@ -22480,7 +22890,9 @@
           "seen_at": "2026-06-06T13:09:27+00:00",
           "raw_designation": "I180"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 397,
@@ -22545,7 +22957,9 @@
           "seen_at": "2026-06-06T13:08:58+00:00",
           "raw_designation": "I204"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6G"
     },
     {
       "id": 398,
@@ -22598,7 +23012,9 @@
           "seen_at": "2026-06-06T13:09:28+00:00",
           "raw_designation": "I212"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 402,
@@ -22663,7 +23079,9 @@
           "seen_at": "2026-06-06T13:09:04+00:00",
           "raw_designation": "I224"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6GXL"
     },
     {
       "id": 404,
@@ -22728,7 +23146,9 @@
           "seen_at": "2026-06-06T13:09:24+00:00",
           "raw_designation": "I170"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 403,
@@ -22781,7 +23201,9 @@
           "seen_at": "2026-06-06T13:09:06+00:00",
           "raw_designation": "I243"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro29-6GXL"
     },
     {
       "id": 405,
@@ -22846,7 +23268,9 @@
           "seen_at": "2026-06-06T13:09:25+00:00",
           "raw_designation": "I55"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 406,
@@ -22911,7 +23335,9 @@
           "seen_at": "2026-06-06T13:10:08+00:00",
           "raw_designation": "I140"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-1G"
     },
     {
       "id": 399,
@@ -22976,7 +23402,9 @@
           "seen_at": "2026-06-06T13:09:26+00:00",
           "raw_designation": "I195"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 407,
@@ -23041,7 +23469,9 @@
           "seen_at": "2026-06-06T13:09:30+00:00",
           "raw_designation": "I345"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 408,
@@ -23106,7 +23536,9 @@
           "seen_at": "2026-06-06T13:09:29+00:00",
           "raw_designation": "I175"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 409,
@@ -23171,7 +23603,9 @@
           "seen_at": "2026-06-06T13:09:23+00:00",
           "raw_designation": "I236"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-3G"
     },
     {
       "id": 410,
@@ -23200,7 +23634,9 @@
           "seen_at": "2026-06-06T13:00:36+00:00",
           "raw_designation": "I800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 411,
@@ -23265,7 +23701,9 @@
           "seen_at": "2026-06-06T13:09:34+00:00",
           "raw_designation": "I223"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 412,
@@ -23330,7 +23768,9 @@
           "seen_at": "2026-06-06T13:10:05+00:00",
           "raw_designation": "I150"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-1G"
     },
     {
       "id": 414,
@@ -23383,7 +23823,9 @@
           "seen_at": "2026-06-06T13:09:35+00:00",
           "raw_designation": "I287"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 415,
@@ -23436,7 +23878,9 @@
           "seen_at": "2026-06-06T13:10:09+00:00",
           "raw_designation": "I218"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-1G"
     },
     {
       "id": 416,
@@ -23501,7 +23945,9 @@
           "seen_at": "2026-06-06T13:10:07+00:00",
           "raw_designation": "I120"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-1G"
     },
     {
       "id": 417,
@@ -23566,7 +24012,9 @@
           "seen_at": "2026-06-06T13:09:32+00:00",
           "raw_designation": "I285"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 419,
@@ -23631,7 +24079,9 @@
           "seen_at": "2026-06-06T13:09:33+00:00",
           "raw_designation": "I255"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 418,
@@ -23684,7 +24134,9 @@
           "seen_at": "2026-06-06T13:10:06+00:00",
           "raw_designation": "I165"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-1G"
     },
     {
       "id": 420,
@@ -23749,7 +24201,9 @@
           "seen_at": "2026-06-06T13:09:31+00:00",
           "raw_designation": "I303"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 421,
@@ -23814,7 +24268,9 @@
           "seen_at": "2026-06-06T13:09:37+00:00",
           "raw_designation": "I470"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 422,
@@ -23879,7 +24335,9 @@
           "seen_at": "2026-06-06T13:09:36+00:00",
           "raw_designation": "I242"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-4G"
     },
     {
       "id": 424,
@@ -23944,7 +24402,9 @@
           "seen_at": "2026-06-06T13:09:48+00:00",
           "raw_designation": "I125"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 425,
@@ -23997,7 +24457,9 @@
           "seen_at": "2026-06-06T13:09:46+00:00",
           "raw_designation": "I350"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 426,
@@ -24062,7 +24524,9 @@
           "seen_at": "2026-06-06T13:10:13+00:00",
           "raw_designation": "I100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 428,
@@ -24127,7 +24591,9 @@
           "seen_at": "2026-06-06T13:09:49+00:00",
           "raw_designation": "I540"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 429,
@@ -24192,7 +24658,9 @@
           "seen_at": "2026-06-06T13:09:40+00:00",
           "raw_designation": "I216"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 137,
@@ -24318,7 +24786,9 @@
           "seen_at": "2026-06-06T13:05:45+00:00",
           "raw_designation": "I140W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 139,
@@ -24432,7 +24902,9 @@
           "seen_at": "2026-06-06T13:05:51+00:00",
           "raw_designation": "I205W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 160,
@@ -24546,7 +25018,9 @@
           "seen_at": "2026-06-06T13:05:57+00:00",
           "raw_designation": "I280DM-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 166,
@@ -24672,7 +25146,9 @@
           "seen_at": "2026-06-06T13:06:09+00:00",
           "raw_designation": "I500T-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 169,
@@ -24786,7 +25262,9 @@
           "seen_at": "2026-06-06T13:04:33+00:00",
           "raw_designation": "I65W-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 616,
@@ -24815,7 +25293,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "I110"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 149,
@@ -24916,7 +25396,9 @@
           "seen_at": "2026-06-06T13:03:59+00:00",
           "raw_designation": "I115W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/426"
     },
     {
       "id": 141,
@@ -24993,7 +25475,9 @@
           "seen_at": "2026-06-06T13:04:00+00:00",
           "raw_designation": "I117FJ"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/426"
     },
     {
       "id": 152,
@@ -25119,7 +25603,9 @@
           "seen_at": "2026-06-06T13:05:44+00:00",
           "raw_designation": "I1299N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 144,
@@ -25196,7 +25682,9 @@
           "seen_at": "2026-06-06T13:04:03+00:00",
           "raw_designation": "I154J-10A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 134,
@@ -25322,7 +25810,9 @@
           "seen_at": "2026-06-06T13:05:46+00:00",
           "raw_designation": "I161W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 150,
@@ -25423,7 +25913,9 @@
           "seen_at": "2026-06-06T13:04:05+00:00",
           "raw_designation": "I170G-10A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/426"
     },
     {
       "id": 136,
@@ -25549,7 +26041,9 @@
           "seen_at": "2026-06-06T13:05:48+00:00",
           "raw_designation": "I175WS-13A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 133,
@@ -25650,7 +26144,9 @@
           "seen_at": "2026-06-06T13:04:07+00:00",
           "raw_designation": "I180W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 153,
@@ -25715,7 +26211,9 @@
           "seen_at": "2026-06-06T13:04:08+00:00",
           "raw_designation": "I195J-10A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/600"
     },
     {
       "id": 132,
@@ -25829,7 +26327,9 @@
           "seen_at": "2026-06-06T13:05:50+00:00",
           "raw_designation": "I200W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-29/360"
     },
     {
       "id": 617,
@@ -25870,7 +26370,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "I210"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 155,
@@ -25996,7 +26498,9 @@
           "seen_at": "2026-06-06T13:05:52+00:00",
           "raw_designation": "I211W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 146,
@@ -26122,7 +26626,9 @@
           "seen_at": "2026-06-06T13:05:53+00:00",
           "raw_designation": "I215R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/426"
     },
     {
       "id": 135,
@@ -26248,7 +26754,9 @@
           "seen_at": "2026-06-06T13:05:54+00:00",
           "raw_designation": "I218R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 142,
@@ -26325,7 +26833,9 @@
           "seen_at": "2026-06-06T13:04:14+00:00",
           "raw_designation": "I225FJ-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 148,
@@ -26451,7 +26961,9 @@
           "seen_at": "2026-06-06T13:05:55+00:00",
           "raw_designation": "I229T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/426"
     },
     {
       "id": 140,
@@ -26577,7 +27089,9 @@
           "seen_at": "2026-06-06T13:05:56+00:00",
           "raw_designation": "I245G-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 164,
@@ -26703,7 +27217,9 @@
           "seen_at": "2026-06-06T13:05:58+00:00",
           "raw_designation": "I284W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/600"
     },
     {
       "id": 151,
@@ -26829,7 +27345,9 @@
           "seen_at": "2026-06-06T13:05:59+00:00",
           "raw_designation": "I285R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 154,
@@ -26955,7 +27473,9 @@
           "seen_at": "2026-06-06T13:06:00+00:00",
           "raw_designation": "I300T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 156,
@@ -27020,7 +27540,9 @@
           "seen_at": "2026-06-06T13:04:21+00:00",
           "raw_designation": "I305FJ-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/600"
     },
     {
       "id": 615,
@@ -27061,7 +27583,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "I316"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 158,
@@ -27187,7 +27711,9 @@
           "seen_at": "2026-06-06T13:06:01+00:00",
           "raw_designation": "I327DM"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 168,
@@ -27216,7 +27742,9 @@
           "seen_at": "2026-06-06T13:01:50+00:00",
           "raw_designation": "I350-10R"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 138,
@@ -27342,7 +27870,9 @@
           "seen_at": "2026-06-06T13:06:02+00:00",
           "raw_designation": "I357T-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 162,
@@ -27419,7 +27949,9 @@
           "seen_at": "2026-06-06T13:04:24+00:00",
           "raw_designation": "I364FJ-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 159,
@@ -27545,7 +28077,9 @@
           "seen_at": "2026-06-06T13:06:03+00:00",
           "raw_designation": "I366R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/600"
     },
     {
       "id": 620,
@@ -27586,7 +28120,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "I377"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 618,
@@ -27627,7 +28163,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "I405"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 143,
@@ -27692,7 +28230,9 @@
           "seen_at": "2026-06-06T13:04:26+00:00",
           "raw_designation": "I40N-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 619,
@@ -27721,7 +28261,9 @@
           "seen_at": "2026-06-06T13:00:22+00:00",
           "raw_designation": "I426-LB"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 621,
@@ -27762,7 +28304,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "I430"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/480"
     },
     {
       "id": 161,
@@ -27888,7 +28432,9 @@
           "seen_at": "2026-06-06T13:06:08+00:00",
           "raw_designation": "I435T-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/600"
     },
     {
       "id": 145,
@@ -27953,7 +28499,9 @@
           "seen_at": "2026-06-06T13:02:27+00:00",
           "raw_designation": "I49N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/360"
     },
     {
       "id": 147,
@@ -28079,7 +28627,9 @@
           "seen_at": "2026-06-06T13:06:10+00:00",
           "raw_designation": "I599N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/426"
     },
     {
       "id": 157,
@@ -28205,7 +28755,9 @@
           "seen_at": "2026-06-06T13:06:12+00:00",
           "raw_designation": "I59WN-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/480"
     },
     {
       "id": 163,
@@ -28343,7 +28895,9 @@
           "seen_at": "2026-06-06T13:06:13+00:00",
           "raw_designation": "I600R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 460,
@@ -28408,7 +28962,9 @@
           "seen_at": "2026-06-06T13:09:57+00:00",
           "raw_designation": "J420"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 461,
@@ -28473,7 +29029,9 @@
           "seen_at": "2026-06-06T13:10:04+00:00",
           "raw_designation": "J453"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 462,
@@ -28538,7 +29096,9 @@
           "seen_at": "2026-06-06T13:10:22+00:00",
           "raw_designation": "J360"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 463,
@@ -28591,7 +29151,9 @@
           "seen_at": "2026-06-06T13:10:23+00:00",
           "raw_designation": "J380"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 464,
@@ -28620,7 +29182,9 @@
           "seen_at": "2026-06-06T13:00:37+00:00",
           "raw_designation": "J1520"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 465,
@@ -28685,7 +29249,9 @@
           "seen_at": "2026-06-06T13:09:59+00:00",
           "raw_designation": "J530"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 466,
@@ -28750,7 +29316,9 @@
           "seen_at": "2026-06-06T13:10:21+00:00",
           "raw_designation": "J355"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 467,
@@ -28815,7 +29383,9 @@
           "seen_at": "2026-06-06T13:10:20+00:00",
           "raw_designation": "J295"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 468,
@@ -28880,7 +29450,9 @@
           "seen_at": "2026-06-06T13:10:25+00:00",
           "raw_designation": "J140"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 469,
@@ -28945,7 +29517,9 @@
           "seen_at": "2026-06-06T13:10:19+00:00",
           "raw_designation": "J449"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 470,
@@ -29010,7 +29584,9 @@
           "seen_at": "2026-06-06T13:10:26+00:00",
           "raw_designation": "J760"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 430,
@@ -29063,7 +29639,9 @@
           "seen_at": "2026-06-06T13:09:42+00:00",
           "raw_designation": "J94"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 431,
@@ -29128,7 +29706,9 @@
           "seen_at": "2026-06-06T13:09:39+00:00",
           "raw_designation": "J285"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 432,
@@ -29193,7 +29773,9 @@
           "seen_at": "2026-06-06T13:09:44+00:00",
           "raw_designation": "J335"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 433,
@@ -29258,7 +29840,9 @@
           "seen_at": "2026-06-06T13:09:41+00:00",
           "raw_designation": "J270"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 434,
@@ -29323,7 +29907,9 @@
           "seen_at": "2026-06-06T13:09:43+00:00",
           "raw_designation": "J316"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 435,
@@ -29388,7 +29974,9 @@
           "seen_at": "2026-06-06T13:09:38+00:00",
           "raw_designation": "J357"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 436,
@@ -29453,7 +30041,9 @@
           "seen_at": "2026-06-06T13:09:53+00:00",
           "raw_designation": "J381"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6G"
     },
     {
       "id": 437,
@@ -29518,7 +30108,9 @@
           "seen_at": "2026-06-06T13:10:14+00:00",
           "raw_designation": "J250"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 438,
@@ -29583,7 +30175,9 @@
           "seen_at": "2026-06-06T13:09:47+00:00",
           "raw_designation": "J290"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-5G"
     },
     {
       "id": 440,
@@ -29648,7 +30242,9 @@
           "seen_at": "2026-06-06T13:10:15+00:00",
           "raw_designation": "J145"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 441,
@@ -29701,7 +30297,9 @@
           "seen_at": "2026-06-06T13:09:54+00:00",
           "raw_designation": "J400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6G"
     },
     {
       "id": 442,
@@ -29754,7 +30352,9 @@
           "seen_at": "2026-06-06T13:10:16+00:00",
           "raw_designation": "J280"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 444,
@@ -29819,7 +30419,9 @@
           "seen_at": "2026-06-06T13:09:51+00:00",
           "raw_designation": "J330"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6G"
     },
     {
       "id": 445,
@@ -29884,7 +30486,9 @@
           "seen_at": "2026-06-06T13:09:52+00:00",
           "raw_designation": "J410"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6G"
     },
     {
       "id": 446,
@@ -29949,7 +30553,9 @@
           "seen_at": "2026-06-06T13:09:51+00:00",
           "raw_designation": "J425"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6G"
     },
     {
       "id": 447,
@@ -30014,7 +30620,9 @@
           "seen_at": "2026-06-06T13:10:12+00:00",
           "raw_designation": "J240"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 448,
@@ -30079,7 +30687,9 @@
           "seen_at": "2026-06-06T13:09:55+00:00",
           "raw_designation": "J354"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6G"
     },
     {
       "id": 449,
@@ -30144,7 +30754,9 @@
           "seen_at": "2026-06-06T13:10:18+00:00",
           "raw_designation": "J430"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 451,
@@ -30209,7 +30821,9 @@
           "seen_at": "2026-06-06T13:10:11+00:00",
           "raw_designation": "J210"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 452,
@@ -30274,7 +30888,9 @@
           "seen_at": "2026-06-06T13:10:10+00:00",
           "raw_designation": "J293"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 453,
@@ -30339,7 +30955,9 @@
           "seen_at": "2026-06-06T13:10:02+00:00",
           "raw_designation": "J520"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 454,
@@ -30404,7 +31022,9 @@
           "seen_at": "2026-06-06T13:10:17+00:00",
           "raw_designation": "J244"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-2G"
     },
     {
       "id": 455,
@@ -30469,7 +31089,9 @@
           "seen_at": "2026-06-06T13:10:03+00:00",
           "raw_designation": "J580"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 456,
@@ -30522,7 +31144,9 @@
           "seen_at": "2026-06-06T13:10:00+00:00",
           "raw_designation": "J150"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 457,
@@ -30587,7 +31211,9 @@
           "seen_at": "2026-06-06T13:09:58+00:00",
           "raw_designation": "J394"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 458,
@@ -30652,7 +31278,9 @@
           "seen_at": "2026-06-06T13:09:56+00:00",
           "raw_designation": "J595"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 459,
@@ -30717,7 +31345,9 @@
           "seen_at": "2026-06-06T13:10:01+00:00",
           "raw_designation": "J600"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro38-6GXL"
     },
     {
       "id": 176,
@@ -30843,7 +31473,9 @@
           "seen_at": "2026-06-06T13:06:21+00:00",
           "raw_designation": "J270W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 173,
@@ -30969,7 +31601,9 @@
           "seen_at": "2026-06-06T13:06:28+00:00",
           "raw_designation": "J425R-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 625,
@@ -31010,7 +31644,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J326"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/740"
     },
     {
       "id": 634,
@@ -31051,7 +31687,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J1000"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/1200"
     },
     {
       "id": 635,
@@ -31092,7 +31730,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J1026"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/1200"
     },
     {
       "id": 191,
@@ -31218,7 +31858,9 @@
           "seen_at": "2026-06-06T13:06:15+00:00",
           "raw_designation": "J1299N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 197,
@@ -31344,7 +31986,9 @@
           "seen_at": "2026-06-06T13:06:16+00:00",
           "raw_designation": "J135W-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1280"
     },
     {
       "id": 632,
@@ -31373,7 +32017,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J175"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/1200"
     },
     {
       "id": 204,
@@ -31499,7 +32145,9 @@
           "seen_at": "2026-06-06T13:06:17+00:00",
           "raw_designation": "J1799N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1280"
     },
     {
       "id": 186,
@@ -31625,7 +32273,9 @@
           "seen_at": "2026-06-06T13:06:18+00:00",
           "raw_designation": "J180T-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 180,
@@ -31726,7 +32376,9 @@
           "seen_at": "2026-06-06T13:04:38+00:00",
           "raw_designation": "J250FJ-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 177,
@@ -31852,7 +32504,9 @@
           "seen_at": "2026-06-06T13:06:20+00:00",
           "raw_designation": "J250W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": "DMS"
     },
     {
       "id": 187,
@@ -31978,7 +32632,9 @@
           "seen_at": "2026-06-06T13:06:22+00:00",
           "raw_designation": "J275W-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 633,
@@ -32007,7 +32663,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J300"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/1200"
     },
     {
       "id": 185,
@@ -32133,7 +32791,9 @@
           "seen_at": "2026-06-06T13:06:23+00:00",
           "raw_designation": "J315R-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 170,
@@ -32259,7 +32919,9 @@
           "seen_at": "2026-06-06T13:06:24+00:00",
           "raw_designation": "J340M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 628,
@@ -32300,7 +32962,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J350"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/1200"
     },
     {
       "id": 175,
@@ -32426,7 +33090,9 @@
           "seen_at": "2026-06-06T13:06:25+00:00",
           "raw_designation": "J350W-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 622,
@@ -32467,7 +33133,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J396"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/740"
     },
     {
       "id": 199,
@@ -32532,7 +33200,9 @@
           "seen_at": "2026-06-06T13:04:46+00:00",
           "raw_designation": "J401FJ-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1280"
     },
     {
       "id": 206,
@@ -32658,7 +33328,9 @@
           "seen_at": "2026-06-06T13:06:27+00:00",
           "raw_designation": "J415W-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1280"
     },
     {
       "id": 171,
@@ -32784,7 +33456,9 @@
           "seen_at": "2026-06-06T13:06:27+00:00",
           "raw_designation": "J420R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 183,
@@ -32910,7 +33584,9 @@
           "seen_at": "2026-06-06T13:06:29+00:00",
           "raw_designation": "J435WS-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 196,
@@ -33036,7 +33712,9 @@
           "seen_at": "2026-06-06T13:07:02+00:00",
           "raw_designation": "J450DM-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 189,
@@ -33162,7 +33840,9 @@
           "seen_at": "2026-06-06T13:06:31+00:00",
           "raw_designation": "J460T-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 623,
@@ -33203,7 +33883,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J474"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/740"
     },
     {
       "id": 179,
@@ -33329,7 +34011,9 @@
           "seen_at": "2026-06-06T13:06:32+00:00",
           "raw_designation": "J500G-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/720"
     },
     {
       "id": 201,
@@ -33455,7 +34139,9 @@
           "seen_at": "2026-06-06T13:06:33+00:00",
           "raw_designation": "J510W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/1320"
     },
     {
       "id": 172,
@@ -33544,7 +34230,9 @@
           "seen_at": "2026-06-06T13:04:54+00:00",
           "raw_designation": "J520W-13A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/1080"
     },
     {
       "id": 631,
@@ -33585,7 +34273,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J525"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/1200"
     },
     {
       "id": 626,
@@ -33626,7 +34316,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J528"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/740"
     },
     {
       "id": 200,
@@ -33752,7 +34444,9 @@
           "seen_at": "2026-06-06T13:06:34+00:00",
           "raw_designation": "J540R-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1280"
     },
     {
       "id": 181,
@@ -33854,7 +34548,9 @@
           "seen_at": "2026-06-06T13:06:35+00:00",
           "raw_designation": "J550ST-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 194,
@@ -33980,7 +34676,9 @@
           "seen_at": "2026-06-06T13:06:36+00:00",
           "raw_designation": "J570W-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/1080"
     },
     {
       "id": 188,
@@ -34057,7 +34755,9 @@
           "seen_at": "2026-06-06T13:04:58+00:00",
           "raw_designation": "J575FJ-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/1080"
     },
     {
       "id": 184,
@@ -34098,7 +34798,9 @@
           "seen_at": "2026-06-06T13:00:52+00:00",
           "raw_designation": "J615ST-20A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 629,
@@ -34139,7 +34841,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J650"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/1200"
     },
     {
       "id": 627,
@@ -34168,7 +34872,9 @@
           "seen_at": "2026-06-06T13:00:22+00:00",
           "raw_designation": "J712-LB"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/740"
     },
     {
       "id": 205,
@@ -34294,7 +35000,9 @@
           "seen_at": "2026-06-06T13:06:37+00:00",
           "raw_designation": "J800T-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1280"
     },
     {
       "id": 630,
@@ -34335,7 +35043,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "J820"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/1200"
     },
     {
       "id": 195,
@@ -34461,7 +35171,9 @@
           "seen_at": "2026-06-06T13:06:38+00:00",
           "raw_designation": "J825R-M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-38/1080"
     },
     {
       "id": 178,
@@ -34587,7 +35299,9 @@
           "seen_at": "2026-06-06T13:06:39+00:00",
           "raw_designation": "J90W-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 193,
@@ -34652,7 +35366,9 @@
           "seen_at": "2026-06-06T13:03:52+00:00",
           "raw_designation": "J99N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/852"
     },
     {
       "id": 471,
@@ -34717,7 +35433,9 @@
           "seen_at": "2026-06-06T13:10:24+00:00",
           "raw_designation": "K360"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-3G"
     },
     {
       "id": 472,
@@ -34782,7 +35500,9 @@
           "seen_at": "2026-06-06T13:10:33+00:00",
           "raw_designation": "K454"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 473,
@@ -34811,7 +35531,9 @@
           "seen_at": "2026-06-06T13:00:37+00:00",
           "raw_designation": "K2045"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 474,
@@ -34864,7 +35586,9 @@
           "seen_at": "2026-06-06T13:10:34+00:00",
           "raw_designation": "K530"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 475,
@@ -34929,7 +35653,9 @@
           "seen_at": "2026-06-06T13:10:29+00:00",
           "raw_designation": "K160"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 476,
@@ -34994,7 +35720,9 @@
           "seen_at": "2026-06-06T13:10:32+00:00",
           "raw_designation": "K500"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 477,
@@ -35059,7 +35787,9 @@
           "seen_at": "2026-06-06T13:10:31+00:00",
           "raw_designation": "K400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 478,
@@ -35124,7 +35854,9 @@
           "seen_at": "2026-06-06T13:10:36+00:00",
           "raw_designation": "K940"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 479,
@@ -35189,7 +35921,9 @@
           "seen_at": "2026-06-06T13:10:28+00:00",
           "raw_designation": "K445"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 480,
@@ -35254,7 +35988,9 @@
           "seen_at": "2026-06-06T13:10:42+00:00",
           "raw_designation": "K515"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 481,
@@ -35319,7 +36055,9 @@
           "seen_at": "2026-06-06T13:10:27+00:00",
           "raw_designation": "K630"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 482,
@@ -35384,7 +36122,9 @@
           "seen_at": "2026-06-06T13:10:35+00:00",
           "raw_designation": "K520"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 483,
@@ -35437,7 +36177,9 @@
           "seen_at": "2026-06-06T13:10:43+00:00",
           "raw_designation": "K650"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 484,
@@ -35502,7 +36244,9 @@
           "seen_at": "2026-06-06T13:10:30+00:00",
           "raw_designation": "K740"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-4G"
     },
     {
       "id": 485,
@@ -35567,7 +36311,9 @@
           "seen_at": "2026-06-06T13:11:05+00:00",
           "raw_designation": "K735"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 486,
@@ -35632,7 +36378,9 @@
           "seen_at": "2026-06-06T13:10:39+00:00",
           "raw_designation": "K490"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 487,
@@ -35697,7 +36445,9 @@
           "seen_at": "2026-06-06T13:10:41+00:00",
           "raw_designation": "K635"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 488,
@@ -35762,7 +36512,9 @@
           "seen_at": "2026-06-06T13:10:40+00:00",
           "raw_designation": "K650"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 489,
@@ -35827,7 +36579,9 @@
           "seen_at": "2026-06-06T13:10:50+00:00",
           "raw_designation": "K675"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 490,
@@ -35892,7 +36646,9 @@
           "seen_at": "2026-06-06T13:10:45+00:00",
           "raw_designation": "K1200"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 491,
@@ -35957,7 +36713,9 @@
           "seen_at": "2026-06-06T13:06:50+00:00",
           "raw_designation": "K261"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 492,
@@ -36022,7 +36780,9 @@
           "seen_at": "2026-06-06T13:10:38+00:00",
           "raw_designation": "K570"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 493,
@@ -36075,7 +36835,9 @@
           "seen_at": "2026-06-06T13:10:37+00:00",
           "raw_designation": "K780"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 494,
@@ -36140,7 +36902,9 @@
           "seen_at": "2026-06-06T13:10:44+00:00",
           "raw_designation": "K600"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-5G"
     },
     {
       "id": 495,
@@ -36205,7 +36969,9 @@
           "seen_at": "2026-06-06T13:10:48+00:00",
           "raw_designation": "K260"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 496,
@@ -36270,7 +37036,9 @@
           "seen_at": "2026-06-06T13:10:59+00:00",
           "raw_designation": "K815"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 497,
@@ -36299,7 +37067,9 @@
           "seen_at": "2026-06-06T13:00:38+00:00",
           "raw_designation": "K2000"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 498,
@@ -36364,7 +37134,9 @@
           "seen_at": "2026-06-06T13:10:49+00:00",
           "raw_designation": "K750"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 499,
@@ -36429,7 +37201,9 @@
           "seen_at": "2026-06-06T13:10:52+00:00",
           "raw_designation": "K1440"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 500,
@@ -36494,7 +37268,9 @@
           "seen_at": "2026-06-06T13:10:51+00:00",
           "raw_designation": "K711"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 501,
@@ -36559,7 +37335,9 @@
           "seen_at": "2026-06-06T13:10:46+00:00",
           "raw_designation": "K820"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 503,
@@ -36624,7 +37402,9 @@
           "seen_at": "2026-06-06T13:11:06+00:00",
           "raw_designation": "K555"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 504,
@@ -36689,7 +37469,9 @@
           "seen_at": "2026-06-06T13:11:07+00:00",
           "raw_designation": "K1085"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 505,
@@ -36754,7 +37536,9 @@
           "seen_at": "2026-06-06T13:11:01+00:00",
           "raw_designation": "K661"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 506,
@@ -36819,7 +37603,9 @@
           "seen_at": "2026-06-06T13:10:47+00:00",
           "raw_designation": "K660"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6G"
     },
     {
       "id": 507,
@@ -36848,7 +37634,9 @@
           "seen_at": "2026-06-06T13:00:39+00:00",
           "raw_designation": "K1620"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-1G"
     },
     {
       "id": 508,
@@ -36913,7 +37701,9 @@
           "seen_at": "2026-06-06T13:11:02+00:00",
           "raw_designation": "K510"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 510,
@@ -36978,7 +37768,9 @@
           "seen_at": "2026-06-06T13:10:55+00:00",
           "raw_designation": "K300"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 215,
@@ -37104,7 +37896,9 @@
           "seen_at": "2026-06-06T13:06:58+00:00",
           "raw_designation": "K535W-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 242,
@@ -37230,7 +38024,9 @@
           "seen_at": "2026-06-06T13:06:41+00:00",
           "raw_designation": "K1000T-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/2560"
     },
     {
       "id": 239,
@@ -37307,7 +38103,9 @@
           "seen_at": "2026-06-06T13:05:03+00:00",
           "raw_designation": "K1050W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2800"
     },
     {
       "id": 217,
@@ -37433,7 +38231,9 @@
           "seen_at": "2026-06-06T13:06:42+00:00",
           "raw_designation": "K1100T-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 224,
@@ -37559,7 +38359,9 @@
           "seen_at": "2026-06-06T13:06:43+00:00",
           "raw_designation": "K1103X"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 637,
@@ -37600,7 +38402,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K1127"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/1200"
     },
     {
       "id": 229,
@@ -37726,7 +38530,9 @@
           "seen_at": "2026-06-06T13:06:44+00:00",
           "raw_designation": "K1275R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2560"
     },
     {
       "id": 211,
@@ -37791,7 +38597,9 @@
           "seen_at": "2026-06-06T13:03:29+00:00",
           "raw_designation": "K1499N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/1280"
     },
     {
       "id": 240,
@@ -37893,7 +38701,9 @@
           "seen_at": "2026-06-06T13:06:45+00:00",
           "raw_designation": "K1800ST-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/2560"
     },
     {
       "id": 214,
@@ -38019,7 +38829,9 @@
           "seen_at": "2026-06-06T13:06:46+00:00",
           "raw_designation": "K185W-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 244,
@@ -38145,7 +38957,9 @@
           "seen_at": "2026-06-06T13:06:47+00:00",
           "raw_designation": "K1999N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/2560"
     },
     {
       "id": 213,
@@ -38259,7 +39073,9 @@
           "seen_at": "2026-06-06T13:06:48+00:00",
           "raw_designation": "K2050ST-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 639,
@@ -38288,7 +39104,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K250"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2000"
     },
     {
       "id": 234,
@@ -38390,7 +39208,9 @@
           "seen_at": "2026-06-06T13:06:49+00:00",
           "raw_designation": "K250W-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 227,
@@ -38516,7 +39336,9 @@
           "seen_at": "2026-06-06T13:06:51+00:00",
           "raw_designation": "K270W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2560"
     },
     {
       "id": 644,
@@ -38557,7 +39379,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K350"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2800"
     },
     {
       "id": 230,
@@ -38683,7 +39507,9 @@
           "seen_at": "2026-06-06T13:06:52+00:00",
           "raw_designation": "K375NW-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2560"
     },
     {
       "id": 210,
@@ -38809,7 +39635,9 @@
           "seen_at": "2026-06-06T13:06:53+00:00",
           "raw_designation": "K400C-14A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 233,
@@ -38923,7 +39751,9 @@
           "seen_at": "2026-06-06T13:06:54+00:00",
           "raw_designation": "K455"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 208,
@@ -39049,7 +39879,9 @@
           "seen_at": "2026-06-06T13:06:55+00:00",
           "raw_designation": "K456DM"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 241,
@@ -39102,7 +39934,9 @@
           "seen_at": "2026-06-06T13:02:16+00:00",
           "raw_designation": "K458W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/2560"
     },
     {
       "id": 232,
@@ -39228,7 +40062,9 @@
           "seen_at": "2026-06-06T13:06:56+00:00",
           "raw_designation": "K480W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2560"
     },
     {
       "id": 218,
@@ -39329,7 +40165,9 @@
           "seen_at": "2026-06-06T13:05:18+00:00",
           "raw_designation": "K513FJ-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 642,
@@ -39370,7 +40208,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K527"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2000"
     },
     {
       "id": 221,
@@ -39496,7 +40336,9 @@
           "seen_at": "2026-06-06T13:06:59+00:00",
           "raw_designation": "K540M"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 220,
@@ -39610,7 +40452,9 @@
           "seen_at": "2026-06-06T13:05:21+00:00",
           "raw_designation": "K550W-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 238,
@@ -39736,7 +40580,9 @@
           "seen_at": "2026-06-06T13:07:01+00:00",
           "raw_designation": "K560W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/2560"
     },
     {
       "id": 638,
@@ -39777,7 +40623,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K627"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "38/1200"
     },
     {
       "id": 237,
@@ -39842,7 +40690,9 @@
           "seen_at": "2026-06-06T13:02:20+00:00",
           "raw_designation": "K650T-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/2560"
     },
     {
       "id": 235,
@@ -39907,7 +40757,9 @@
           "seen_at": "2026-06-06T13:02:20+00:00",
           "raw_designation": "K680R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/2560"
     },
     {
       "id": 640,
@@ -39936,7 +40788,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K690"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2000"
     },
     {
       "id": 219,
@@ -40062,7 +40916,9 @@
           "seen_at": "2026-06-06T13:07:03+00:00",
           "raw_designation": "K695R-L"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 231,
@@ -40200,7 +41056,9 @@
           "seen_at": "2026-06-06T13:07:04+00:00",
           "raw_designation": "K700W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2560"
     },
     {
       "id": 209,
@@ -40314,7 +41172,9 @@
           "seen_at": "2026-06-06T13:07:05+00:00",
           "raw_designation": "K750ST-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/1280"
     },
     {
       "id": 236,
@@ -40440,7 +41300,9 @@
           "seen_at": "2026-06-06T13:07:06+00:00",
           "raw_designation": "K780R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/2560"
     },
     {
       "id": 223,
@@ -40566,7 +41428,9 @@
           "seen_at": "2026-06-06T13:07:07+00:00",
           "raw_designation": "K805G-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/1706"
     },
     {
       "id": 228,
@@ -40643,7 +41507,9 @@
           "seen_at": "2026-06-06T13:05:28+00:00",
           "raw_designation": "K828FJ-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2560"
     },
     {
       "id": 643,
@@ -40684,7 +41550,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K830"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2800"
     },
     {
       "id": 226,
@@ -40810,7 +41678,9 @@
           "seen_at": "2026-06-06T13:07:08+00:00",
           "raw_designation": "K850DM-16A"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 641,
@@ -40851,7 +41721,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "K960"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2000"
     },
     {
       "id": 225,
@@ -40965,7 +41837,9 @@
           "seen_at": "2026-06-06T13:07:09+00:00",
           "raw_designation": "K990DM-14A"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2800"
     },
     {
       "id": 511,
@@ -41030,7 +41904,9 @@
           "seen_at": "2026-06-06T13:10:57+00:00",
           "raw_designation": "L265"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 512,
@@ -41095,7 +41971,9 @@
           "seen_at": "2026-06-06T13:11:04+00:00",
           "raw_designation": "L585"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 513,
@@ -41160,7 +42038,9 @@
           "seen_at": "2026-06-06T13:10:54+00:00",
           "raw_designation": "L730"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 514,
@@ -41225,7 +42105,9 @@
           "seen_at": "2026-06-06T13:10:53+00:00",
           "raw_designation": "L990"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 516,
@@ -41290,7 +42172,9 @@
           "seen_at": "2026-06-06T13:10:58+00:00",
           "raw_designation": "L1030"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 517,
@@ -41343,7 +42227,9 @@
           "seen_at": "2026-06-06T13:04:27+00:00",
           "raw_designation": "L805"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 518,
@@ -41408,7 +42294,9 @@
           "seen_at": "2026-06-06T13:11:03+00:00",
           "raw_designation": "L910"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-2G"
     },
     {
       "id": 519,
@@ -41473,7 +42361,9 @@
           "seen_at": "2026-06-06T13:11:13+00:00",
           "raw_designation": "L820"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 520,
@@ -41538,7 +42428,9 @@
           "seen_at": "2026-06-06T13:10:56+00:00",
           "raw_designation": "L935"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro54-6GXL"
     },
     {
       "id": 521,
@@ -41567,7 +42459,9 @@
           "seen_at": "2026-06-06T13:00:38+00:00",
           "raw_designation": "L3200"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 522,
@@ -41632,7 +42526,9 @@
           "seen_at": "2026-06-06T13:11:11+00:00",
           "raw_designation": "L645"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 523,
@@ -41697,7 +42593,9 @@
           "seen_at": "2026-06-06T13:11:12+00:00",
           "raw_designation": "L995"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 524,
@@ -41762,7 +42660,9 @@
           "seen_at": "2026-06-06T13:11:15+00:00",
           "raw_designation": "L1720"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 525,
@@ -41827,7 +42727,9 @@
           "seen_at": "2026-06-06T13:11:14+00:00",
           "raw_designation": "L851"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 526,
@@ -41892,7 +42794,9 @@
           "seen_at": "2026-06-06T13:11:08+00:00",
           "raw_designation": "L1050"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 527,
@@ -41957,7 +42861,9 @@
           "seen_at": "2026-06-06T13:11:09+00:00",
           "raw_designation": "L800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 529,
@@ -42022,7 +42928,9 @@
           "seen_at": "2026-06-06T13:11:20+00:00",
           "raw_designation": "L1355"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 530,
@@ -42087,7 +42995,9 @@
           "seen_at": "2026-06-06T13:11:10+00:00",
           "raw_designation": "L1350"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-3G"
     },
     {
       "id": 533,
@@ -42152,7 +43062,9 @@
           "seen_at": "2026-06-06T13:11:30+00:00",
           "raw_designation": "L1410"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 534,
@@ -42193,7 +43105,9 @@
           "seen_at": "2026-06-06T13:11:45+00:00",
           "raw_designation": "L610"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-2G"
     },
     {
       "id": 535,
@@ -42258,7 +43172,9 @@
           "seen_at": "2026-06-06T13:11:22+00:00",
           "raw_designation": "L2375"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 536,
@@ -42323,7 +43239,9 @@
           "seen_at": "2026-06-06T13:11:16+00:00",
           "raw_designation": "L1395"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 537,
@@ -42376,7 +43294,9 @@
           "seen_at": "2026-06-06T13:11:27+00:00",
           "raw_designation": "L395"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 538,
@@ -42429,7 +43349,9 @@
           "seen_at": "2026-06-06T13:11:17+00:00",
           "raw_designation": "L1115"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 539,
@@ -42494,7 +43416,9 @@
           "seen_at": "2026-06-06T13:11:31+00:00",
           "raw_designation": "L1685"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 246,
@@ -42620,7 +43544,9 @@
           "seen_at": "2026-06-06T13:07:10+00:00",
           "raw_designation": "L1000W-P"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 252,
@@ -42685,7 +43611,9 @@
           "seen_at": "2026-06-06T13:05:32+00:00",
           "raw_designation": "L1040DM-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 649,
@@ -42714,7 +43642,9 @@
           "seen_at": "2026-06-06T13:00:22+00:00",
           "raw_designation": "L1040-LR"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2800"
     },
     {
       "id": 245,
@@ -42828,7 +43758,9 @@
           "seen_at": "2026-06-06T13:07:11+00:00",
           "raw_designation": "L1090W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-54/2800"
     },
     {
       "id": 249,
@@ -42954,7 +43886,9 @@
           "seen_at": "2026-06-06T13:07:12+00:00",
           "raw_designation": "L1150R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/3840"
     },
     {
       "id": 257,
@@ -43007,7 +43941,9 @@
           "seen_at": "2026-06-06T13:04:11+00:00",
           "raw_designation": "L1170FJ-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 259,
@@ -43108,7 +44044,9 @@
           "seen_at": "2026-06-06T13:05:35+00:00",
           "raw_designation": "L1250DM-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/6400"
     },
     {
       "id": 253,
@@ -43210,7 +44148,9 @@
           "seen_at": "2026-06-06T13:07:14+00:00",
           "raw_designation": "L1256"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/3840"
     },
     {
       "id": 260,
@@ -43275,7 +44215,9 @@
           "seen_at": "2026-06-06T13:02:27+00:00",
           "raw_designation": "L1300R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/5120"
     },
     {
       "id": 265,
@@ -43340,7 +44282,9 @@
           "seen_at": "2026-06-06T13:04:14+00:00",
           "raw_designation": "L1365M-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 256,
@@ -43454,7 +44398,9 @@
           "seen_at": "2026-06-06T13:07:15+00:00",
           "raw_designation": "L1390G-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/3840"
     },
     {
       "id": 645,
@@ -43495,7 +44441,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L1400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/2800"
     },
     {
       "id": 261,
@@ -43621,7 +44569,9 @@
           "seen_at": "2026-06-06T13:07:16+00:00",
           "raw_designation": "L1420R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 650,
@@ -43662,7 +44612,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L1482"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/3600"
     },
     {
       "id": 267,
@@ -43727,7 +44679,9 @@
           "seen_at": "2026-06-06T13:02:29+00:00",
           "raw_designation": "L1500T-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/5120"
     },
     {
       "id": 251,
@@ -43853,7 +44807,9 @@
           "seen_at": "2026-06-06T13:07:17+00:00",
           "raw_designation": "L1520T-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/3840"
     },
     {
       "id": 258,
@@ -43967,7 +44923,9 @@
           "seen_at": "2026-06-06T13:07:18+00:00",
           "raw_designation": "L1940X-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/3840"
     },
     {
       "id": 652,
@@ -44008,7 +44966,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L2050"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/4000"
     },
     {
       "id": 268,
@@ -44134,7 +45094,9 @@
           "seen_at": "2026-06-06T13:07:19+00:00",
           "raw_designation": "L2200G-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 264,
@@ -44248,7 +45210,9 @@
           "seen_at": "2026-06-06T13:07:20+00:00",
           "raw_designation": "L2500ST-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/5120"
     },
     {
       "id": 247,
@@ -44313,7 +45277,9 @@
           "seen_at": "2026-06-06T13:02:31+00:00",
           "raw_designation": "L339N-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/2560"
     },
     {
       "id": 262,
@@ -44402,7 +45368,9 @@
           "seen_at": "2026-06-06T13:05:44+00:00",
           "raw_designation": "L400W-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/5120"
     },
     {
       "id": 647,
@@ -44431,7 +45399,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L480"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/3600"
     },
     {
       "id": 646,
@@ -44472,7 +45442,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L780"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/3600"
     },
     {
       "id": 651,
@@ -44501,7 +45473,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L840"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/3600"
     },
     {
       "id": 250,
@@ -44627,7 +45601,9 @@
           "seen_at": "2026-06-06T13:07:22+00:00",
           "raw_designation": "L850W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/3840"
     },
     {
       "id": 255,
@@ -44741,7 +45717,9 @@
           "seen_at": "2026-06-06T13:05:47+00:00",
           "raw_designation": "L875DM-PS"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": "DMS"
     },
     {
       "id": 254,
@@ -44867,7 +45845,9 @@
           "seen_at": "2026-06-06T13:07:24+00:00",
           "raw_designation": "L900DM"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 648,
@@ -44908,7 +45888,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "L930"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/3600"
     },
     {
       "id": 263,
@@ -44985,7 +45967,9 @@
           "seen_at": "2026-06-06T13:05:48+00:00",
           "raw_designation": "L952W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/5120"
     },
     {
       "id": 577,
@@ -45038,7 +46022,9 @@
           "seen_at": "2026-06-06T13:11:54+00:00",
           "raw_designation": "M795"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 540,
@@ -45103,7 +46089,9 @@
           "seen_at": "2026-06-06T13:11:21+00:00",
           "raw_designation": "M1101"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 541,
@@ -45168,7 +46156,9 @@
           "seen_at": "2026-06-06T13:11:46+00:00",
           "raw_designation": "M1560"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-2G"
     },
     {
       "id": 542,
@@ -45197,7 +46187,9 @@
           "seen_at": "2026-06-06T13:04:45+00:00",
           "raw_designation": "M2250"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 543,
@@ -45262,7 +46254,9 @@
           "seen_at": "2026-06-06T13:11:19+00:00",
           "raw_designation": "M1230"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 544,
@@ -45327,7 +46321,9 @@
           "seen_at": "2026-06-06T13:11:18+00:00",
           "raw_designation": "M1830"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-4G"
     },
     {
       "id": 545,
@@ -45380,7 +46376,9 @@
           "seen_at": "2026-06-06T13:11:25+00:00",
           "raw_designation": "M1160"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 546,
@@ -45445,7 +46443,9 @@
           "seen_at": "2026-06-06T13:11:38+00:00",
           "raw_designation": "M1770"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 547,
@@ -45510,7 +46510,9 @@
           "seen_at": "2026-06-06T13:11:23+00:00",
           "raw_designation": "M1670"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 548,
@@ -45575,7 +46577,9 @@
           "seen_at": "2026-06-06T13:11:33+00:00",
           "raw_designation": "M3100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 549,
@@ -45640,7 +46644,9 @@
           "seen_at": "2026-06-06T13:11:29+00:00",
           "raw_designation": "M1810"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 550,
@@ -45705,7 +46711,9 @@
           "seen_at": "2026-06-06T13:11:28+00:00",
           "raw_designation": "M1675"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 551,
@@ -45770,7 +46778,9 @@
           "seen_at": "2026-06-06T13:11:24+00:00",
           "raw_designation": "M1400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 552,
@@ -45835,7 +46845,9 @@
           "seen_at": "2026-06-06T13:11:32+00:00",
           "raw_designation": "M1401"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 553,
@@ -45900,7 +46912,9 @@
           "seen_at": "2026-06-06T13:11:39+00:00",
           "raw_designation": "M2075"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 554,
@@ -45941,7 +46955,9 @@
           "seen_at": "2026-06-06T13:04:33+00:00",
           "raw_designation": "M1300"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 555,
@@ -46006,7 +47022,9 @@
           "seen_at": "2026-06-06T13:11:41+00:00",
           "raw_designation": "M3700"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 556,
@@ -46071,7 +47089,9 @@
           "seen_at": "2026-06-06T13:11:26+00:00",
           "raw_designation": "M1540"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-5G"
     },
     {
       "id": 557,
@@ -46136,7 +47156,9 @@
           "seen_at": "2026-06-06T13:11:44+00:00",
           "raw_designation": "M2080"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6GXL"
     },
     {
       "id": 559,
@@ -46201,7 +47223,9 @@
           "seen_at": "2026-06-06T13:11:34+00:00",
           "raw_designation": "M2045"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 560,
@@ -46266,7 +47290,9 @@
           "seen_at": "2026-06-06T13:11:49+00:00",
           "raw_designation": "M520"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-3G"
     },
     {
       "id": 561,
@@ -46331,7 +47357,9 @@
           "seen_at": "2026-06-06T13:11:48+00:00",
           "raw_designation": "M1060"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-3G"
     },
     {
       "id": 562,
@@ -46396,7 +47424,9 @@
           "seen_at": "2026-06-06T13:11:51+00:00",
           "raw_designation": "M2505"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-3G"
     },
     {
       "id": 563,
@@ -46461,7 +47491,9 @@
           "seen_at": "2026-06-06T13:11:37+00:00",
           "raw_designation": "M2150"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 564,
@@ -46526,7 +47558,9 @@
           "seen_at": "2026-06-06T13:11:40+00:00",
           "raw_designation": "M840"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 565,
@@ -46591,7 +47625,9 @@
           "seen_at": "2026-06-06T13:11:35+00:00",
           "raw_designation": "M1590"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 566,
@@ -46656,7 +47692,9 @@
           "seen_at": "2026-06-06T13:11:47+00:00",
           "raw_designation": "M1520"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-3G"
     },
     {
       "id": 567,
@@ -46709,7 +47747,9 @@
           "seen_at": "2026-06-06T13:11:50+00:00",
           "raw_designation": "M1290"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-3G"
     },
     {
       "id": 568,
@@ -46762,7 +47802,9 @@
           "seen_at": "2026-06-06T13:11:56+00:00",
           "raw_designation": "M1790"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 569,
@@ -46827,7 +47869,9 @@
           "seen_at": "2026-06-06T13:11:42+00:00",
           "raw_designation": "M1545"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6GXL"
     },
     {
       "id": 570,
@@ -46892,7 +47936,9 @@
           "seen_at": "2026-06-06T13:11:36+00:00",
           "raw_designation": "M2020"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6G"
     },
     {
       "id": 572,
@@ -46945,7 +47991,9 @@
           "seen_at": "2026-06-06T13:11:52+00:00",
           "raw_designation": "M1800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 573,
@@ -47010,7 +48058,9 @@
           "seen_at": "2026-06-06T13:11:55+00:00",
           "raw_designation": "M1890"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 574,
@@ -47075,7 +48125,9 @@
           "seen_at": "2026-06-06T13:11:53+00:00",
           "raw_designation": "M1450"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 575,
@@ -47128,7 +48180,9 @@
           "seen_at": "2026-06-06T13:11:43+00:00",
           "raw_designation": "M2245"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro75-6GXL"
     },
     {
       "id": 576,
@@ -47193,7 +48247,9 @@
           "seen_at": "2026-06-06T13:11:58+00:00",
           "raw_designation": "M3400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 275,
@@ -47270,7 +48326,9 @@
           "seen_at": "2026-06-06T13:02:34+00:00",
           "raw_designation": "M1075DM-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 653,
@@ -47311,7 +48369,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M1200"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/6000"
     },
     {
       "id": 272,
@@ -47437,7 +48497,9 @@
           "seen_at": "2026-06-06T13:07:26+00:00",
           "raw_designation": "M1297W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 281,
@@ -47502,7 +48564,9 @@
           "seen_at": "2026-06-06T13:02:35+00:00",
           "raw_designation": "M1305M-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 280,
@@ -47628,7 +48692,9 @@
           "seen_at": "2026-06-06T13:07:27+00:00",
           "raw_designation": "M1315W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/6400"
     },
     {
       "id": 284,
@@ -47766,7 +48832,9 @@
           "seen_at": "2026-06-06T13:07:28+00:00",
           "raw_designation": "M1340W-PS"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 269,
@@ -47904,7 +48972,9 @@
           "seen_at": "2026-06-06T13:07:29+00:00",
           "raw_designation": "M1350W"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 654,
@@ -47945,7 +49015,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M1378"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "54/4000"
     },
     {
       "id": 288,
@@ -48059,7 +49131,9 @@
           "seen_at": "2026-06-06T13:07:30+00:00",
           "raw_designation": "M1419W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 271,
@@ -48160,7 +49234,9 @@
           "seen_at": "2026-06-06T13:05:58+00:00",
           "raw_designation": "M1500G-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 276,
@@ -48286,7 +49362,9 @@
           "seen_at": "2026-06-06T13:07:32+00:00",
           "raw_designation": "M1550R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/6400"
     },
     {
       "id": 282,
@@ -48363,7 +49441,9 @@
           "seen_at": "2026-06-06T13:02:39+00:00",
           "raw_designation": "M1600R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 658,
@@ -48404,7 +49484,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M1650"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/6000"
     },
     {
       "id": 277,
@@ -48530,7 +49612,9 @@
           "seen_at": "2026-06-06T13:07:35+00:00",
           "raw_designation": "M1780NT-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 290,
@@ -48619,7 +49703,9 @@
           "seen_at": "2026-06-06T13:06:00+00:00",
           "raw_designation": "M1800FJ-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/10240"
     },
     {
       "id": 292,
@@ -48733,7 +49819,9 @@
           "seen_at": "2026-06-06T13:07:36+00:00",
           "raw_designation": "M1845NT-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 286,
@@ -48859,7 +49947,9 @@
           "seen_at": "2026-06-06T13:07:37+00:00",
           "raw_designation": "M1850W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/7680"
     },
     {
       "id": 656,
@@ -48900,7 +49990,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M1882"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/6000"
     },
     {
       "id": 297,
@@ -49026,7 +50118,9 @@
           "seen_at": "2026-06-06T13:07:38+00:00",
           "raw_designation": "M1939W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/10240"
     },
     {
       "id": 659,
@@ -49055,7 +50149,9 @@
           "seen_at": "2026-06-06T13:00:22+00:00",
           "raw_designation": "M1969-SF"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/8000"
     },
     {
       "id": 293,
@@ -49120,7 +50216,9 @@
           "seen_at": "2026-06-06T13:02:42+00:00",
           "raw_designation": "M2000R-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/10240"
     },
     {
       "id": 274,
@@ -49222,7 +50320,9 @@
           "seen_at": "2026-06-06T13:07:40+00:00",
           "raw_designation": "M2050X-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 289,
@@ -49299,7 +50399,9 @@
           "seen_at": "2026-06-06T13:02:42+00:00",
           "raw_designation": "M2100G-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 270,
@@ -49388,7 +50490,9 @@
           "seen_at": "2026-06-06T13:06:06+00:00",
           "raw_designation": "M2225WS-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/5120"
     },
     {
       "id": 287,
@@ -49514,7 +50618,9 @@
           "seen_at": "2026-06-06T13:07:43+00:00",
           "raw_designation": "M2400T-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 295,
@@ -49640,7 +50746,9 @@
           "seen_at": "2026-06-06T13:07:44+00:00",
           "raw_designation": "M2500T-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/10240"
     },
     {
       "id": 657,
@@ -49681,7 +50789,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M2550"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/6000"
     },
     {
       "id": 660,
@@ -49722,7 +50832,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M3000"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/8000"
     },
     {
       "id": 661,
@@ -49763,7 +50875,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M3464"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/8000"
     },
     {
       "id": 283,
@@ -49877,7 +50991,9 @@
           "seen_at": "2026-06-06T13:07:47+00:00",
           "raw_designation": "M4500ST-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/7680"
     },
     {
       "id": 291,
@@ -50003,7 +51119,9 @@
           "seen_at": "2026-06-06T13:07:49+00:00",
           "raw_designation": "M6000ST-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/10240"
     },
     {
       "id": 278,
@@ -50129,7 +51247,9 @@
           "seen_at": "2026-06-06T13:07:50+00:00",
           "raw_designation": "M650W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/6400"
     },
     {
       "id": 285,
@@ -50255,7 +51375,9 @@
           "seen_at": "2026-06-06T13:07:51+00:00",
           "raw_designation": "M685W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/7680"
     },
     {
       "id": 294,
@@ -50308,7 +51430,9 @@
           "seen_at": "2026-06-06T13:02:46+00:00",
           "raw_designation": "M750W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/10240"
     },
     {
       "id": 655,
@@ -50349,7 +51473,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "M900"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "76/6000"
     },
     {
       "id": 579,
@@ -50402,7 +51528,9 @@
           "seen_at": "2026-06-06T13:11:57+00:00",
           "raw_designation": "N1800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-4G"
     },
     {
       "id": 580,
@@ -50455,7 +51583,9 @@
           "seen_at": "2026-06-06T13:12:05+00:00",
           "raw_designation": "N2600"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 581,
@@ -50508,7 +51638,9 @@
           "seen_at": "2026-06-06T13:11:59+00:00",
           "raw_designation": "N2200"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-5G"
     },
     {
       "id": 582,
@@ -50561,7 +51693,9 @@
           "seen_at": "2026-06-06T13:12:07+00:00",
           "raw_designation": "N5600"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 583,
@@ -50626,7 +51760,9 @@
           "seen_at": "2026-06-06T13:12:01+00:00",
           "raw_designation": "N2500"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 584,
@@ -50679,7 +51815,9 @@
           "seen_at": "2026-06-06T13:12:00+00:00",
           "raw_designation": "N2850"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 585,
@@ -50744,7 +51882,9 @@
           "seen_at": "2026-06-06T13:12:02+00:00",
           "raw_designation": "N1100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 586,
@@ -50809,7 +51949,9 @@
           "seen_at": "2026-06-06T13:12:04+00:00",
           "raw_designation": "N3180"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 587,
@@ -50862,7 +52004,9 @@
           "seen_at": "2026-06-06T13:12:14+00:00",
           "raw_designation": "N3400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 588,
@@ -50915,7 +52059,9 @@
           "seen_at": "2026-06-06T13:12:03+00:00",
           "raw_designation": "N1975"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 589,
@@ -50968,7 +52114,9 @@
           "seen_at": "2026-06-06T13:12:06+00:00",
           "raw_designation": "N2501"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6G"
     },
     {
       "id": 590,
@@ -51021,7 +52169,9 @@
           "seen_at": "2026-06-06T13:12:16+00:00",
           "raw_designation": "N1560"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 591,
@@ -51074,7 +52224,9 @@
           "seen_at": "2026-06-06T13:12:09+00:00",
           "raw_designation": "N2900"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 592,
@@ -51127,7 +52279,9 @@
           "seen_at": "2026-06-06T13:12:08+00:00",
           "raw_designation": "N3800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 593,
@@ -51180,7 +52334,9 @@
           "seen_at": "2026-06-06T13:12:13+00:00",
           "raw_designation": "N4100"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 594,
@@ -51233,7 +52389,9 @@
           "seen_at": "2026-06-06T13:12:11+00:00",
           "raw_designation": "N2540"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 595,
@@ -51286,7 +52444,9 @@
           "seen_at": "2026-06-06T13:12:15+00:00",
           "raw_designation": "N3301"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 596,
@@ -51351,7 +52511,9 @@
           "seen_at": "2026-06-06T13:12:10+00:00",
           "raw_designation": "N5800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 303,
@@ -51477,7 +52639,9 @@
           "seen_at": "2026-06-06T13:07:54+00:00",
           "raw_designation": "N1000W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/15360"
     },
     {
       "id": 300,
@@ -51603,7 +52767,9 @@
           "seen_at": "2026-06-06T13:07:55+00:00",
           "raw_designation": "N2000W-P"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/15360"
     },
     {
       "id": 299,
@@ -51680,7 +52846,9 @@
           "seen_at": "2026-06-06T13:06:20+00:00",
           "raw_designation": "N2220DM-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/15360"
     },
     {
       "id": 298,
@@ -51770,7 +52938,9 @@
           "seen_at": "2026-06-06T13:07:57+00:00",
           "raw_designation": "N2700-W"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-75/10240"
     },
     {
       "id": 296,
@@ -51824,7 +52994,9 @@
           "seen_at": "2026-06-06T13:07:58+00:00",
           "raw_designation": "N3120X-PS"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 302,
@@ -51950,7 +53122,9 @@
           "seen_at": "2026-06-06T13:07:59+00:00",
           "raw_designation": "N3300R-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/15360"
     },
     {
       "id": 662,
@@ -51991,7 +53165,9 @@
           "seen_at": "2026-06-06T13:00:41+00:00",
           "raw_designation": "N3800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "98/12500"
     },
     {
       "id": 304,
@@ -52068,7 +53244,9 @@
           "seen_at": "2026-06-06T13:08:00+00:00",
           "raw_designation": "N4000W-PS"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "RMS-98/20480"
     },
     {
       "id": 663,
@@ -52097,7 +53275,9 @@
           "seen_at": "2026-06-06T13:00:22+00:00",
           "raw_designation": "N5500-LW"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro-98 6g XL"
     },
     {
       "id": 597,
@@ -52162,7 +53342,9 @@
           "seen_at": "2026-06-06T13:12:12+00:00",
           "raw_designation": "O3400"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro98-6GXL"
     },
     {
       "id": 598,
@@ -52203,7 +53385,9 @@
           "seen_at": "2026-06-06T13:04:58+00:00",
           "raw_designation": "O3700"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro150-40k"
     },
     {
       "id": 600,
@@ -52244,7 +53428,9 @@
           "seen_at": "2026-06-06T13:04:59+00:00",
           "raw_designation": "O5800"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro150-30K"
     },
     {
       "id": 602,
@@ -52285,7 +53471,9 @@
           "seen_at": "2026-06-06T13:04:59+00:00",
           "raw_designation": "O4900"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro150-40k"
     },
     {
       "id": 603,
@@ -52326,7 +53514,9 @@
           "seen_at": "2026-06-06T13:05:00+00:00",
           "raw_designation": "O8000"
         }
-      ]
+      ],
+      "motor_type": "reload",
+      "case_info": "Pro150-40k"
     },
     {
       "id": 306,
@@ -52416,7 +53606,9 @@
           "seen_at": "2026-06-06T13:08:02+00:00",
           "raw_designation": "O5500X-PS"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     },
     {
       "id": 307,
@@ -52470,7 +53662,9 @@
           "seen_at": "2026-06-06T13:08:03+00:00",
           "raw_designation": "O6000"
         }
-      ]
+      ],
+      "motor_type": "SU",
+      "case_info": null
     }
   ],
   "unmatched": [

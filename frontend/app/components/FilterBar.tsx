@@ -3,13 +3,16 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { numericParamValue, searchParamValue } from "@/lib/derive";
+import type { CaseOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
+import { CaseFilter } from "./CaseFilter";
 
 type Props = {
   manufacturers: string[];
   classes: string[];
   diameters: number[];
   certLevels: { key: string; label: string; sublabel: string }[];
+  cases: CaseOption[];
 };
 
 function parseList(value: string | null): Set<string> {
@@ -58,6 +61,7 @@ export function FilterBar({
   classes,
   diameters,
   certLevels,
+  cases,
 }: Props) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -68,6 +72,7 @@ export function FilterBar({
   const activeClasses = parseList(sp.get("class"));
   const activeDiameters = parseList(sp.get("dia"));
   const activeCert = parseList(sp.get("cert"));
+  const activeCases = parseList(sp.get("case"));
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
   const sortOrder = sp.get("order") ?? "class";
@@ -109,6 +114,7 @@ export function FilterBar({
   const toggleDia = (d: number) =>
     update("dia", toggleInList(activeDiameters, String(d)));
   const toggleCert = (key: string) => update("cert", toggleInList(activeCert, key));
+  const toggleCase = (v: string) => update("case", toggleInList(activeCases, v));
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
   const toggleSort = () => update("sort", cheapestFirst ? null : "price");
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
@@ -118,6 +124,7 @@ export function FilterBar({
     activeClasses.size > 0 ||
     activeDiameters.size > 0 ||
     activeCert.size > 0 ||
+    activeCases.size > 0 ||
     inStockOnly ||
     cheapestFirst ||
     sortOrder !== "class" ||
@@ -266,6 +273,17 @@ export function FilterBar({
           </button>
         ))}
       </FilterRow>
+
+      {cases.length > 0 && (
+        <FilterRow label="Case">
+          <CaseFilter
+            options={cases}
+            active={activeCases}
+            onToggle={toggleCase}
+            onClear={() => update("case", null)}
+          />
+        </FilterRow>
+      )}
 
       <FilterRow label="Impulse">
         <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
