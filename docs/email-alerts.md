@@ -11,11 +11,20 @@ visitor clicks 🔔 → POST /api/alerts/subscribe (Vercel fn)
         → double-opt-in email (Resend) → click confirm → GET /api/alerts/confirm
         → email added to Upstash set  sub:<manufacturer::designation>
 
+rocket-fit subscribe: My Rockets 🔔 → POST /api/alerts/subscribe-rocket
+        → double-opt-in (signed "rc" token carrying the rocket's fit spec)
+        → confirm → SADD rocketsubs + urockets:<email>  (member = rocket-sub JSON)
+   "email me when ANYTHING that fits <rocket> (diameter + cert + impulse band)
+    comes back in stock" — one subscription covers every compatible motor.
+
 hourly scrape (GitHub Actions): export snapshot
-        → hpr alerts dispatch  (diff prev vs new snapshot for out→in restocks)
+        → hpr alerts dispatch  (diff prev vs new snapshot for out→in restocks,
+          carrying each restocked motor's diameter/impulse_class/total_impulse)
         → POST /api/alerts/dispatch  (Bearer ALERTS_DISPATCH_SECRET)
-        → for each restocked motor: look up subscribers in Upstash,
-          email each via Resend (per-motor 6h cooldown to avoid dupes)
+        → per-motor: look up sub:<motorKey> subscribers, email each
+        → rocket-fit: for each rocketsubs member, find restocked motors that fit
+          it and send one digest email (per-(rocket,motor) 6h cooldown)
+        → all sends via Resend
 
 self-serve manage (no restock needed): /alerts page → enter email
         → POST /api/alerts/manage-request → magic link emailed (1h, signed "m" token)

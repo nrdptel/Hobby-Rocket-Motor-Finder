@@ -52,6 +52,19 @@ export function userMotorsKey(email: string): string {
   return `umotors:${email}`;
 }
 
+/** Redis key for the global set of every confirmed rocket-fit subscription
+ * (member = canonical rocket-sub JSON). The dispatch route iterates these to
+ * find which subscribers a restocked motor fits. */
+export function rocketSubsKey(): string {
+  return "rocketsubs";
+}
+
+/** Redis key for one email's rocket-fit subscriptions (same members as the
+ * global set) — powers the manage page's rocket section. */
+export function userRocketsKey(email: string): string {
+  return `urockets:${email}`;
+}
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /** Normalize + validate an email; returns the lowercased address or null. */

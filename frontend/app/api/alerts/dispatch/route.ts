@@ -1,7 +1,23 @@
-import { alertConfig, motorKey } from "@/lib/alerts/config";
-import { restockEmail, sendEmail } from "@/lib/alerts/email";
+import { alertConfig, motorKey, rocketSubsKey, subKey } from "@/lib/alerts/config";
+import { restockEmail, rocketRestockEmail, sendEmail } from "@/lib/alerts/email";
+import { motorFitsRocket } from "@/lib/rocketFit";
+import {
+  fieldsToSpec,
+  parseRocketMember,
+  rocketDisplayName,
+  rocketSpecField,
+  shortHash,
+} from "@/lib/alerts/rocketSub";
 import { signToken } from "@/lib/alerts/tokens";
 import { setNxEx, smembers } from "@/lib/alerts/upstash";
+
+type RestockMotor = {
+  manufacturer: string;
+  designation: string;
+  diameter_mm: number;
+  impulse_class: string;
+  total_impulse_ns: number | null;
+};
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +53,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: "unauthorized" }, 401);
   }
 
-  let body: { motors?: Array<{ manufacturer?: unknown; designation?: unknown }> };
+  let body: { motors?: Array<Record<string, unknown>> };
   try {
     body = await request.json();
   } catch {
@@ -53,7 +69,7 @@ export async function POST(request: Request): Promise<Response> {
     if (!manufacturer || !designation) continue;
     const key = motorKey(manufacturer, designation);
     try {
-      const subs = await smembers(cfg, `sub:${key}`);
+      const subs = await smembers(cfg, subKey(key));
       if (subs.length === 0) continue;
       // Claim the cooldown; if already claimed this window, skip (avoids dupes).
       if (!(await setNxEx(cfg, `alerted:${key}`, COOLDOWN_S))) continue;
@@ -85,5 +101,98 @@ export async function POST(request: Request): Promise<Response> {
     }
   }
 
-  return json({ ok: true, motorsRestocked: motors.length, motorsNotified: notified, emailsSent: sent });
+  // --- Rocket-fit alerts: "email me when anything that fits my rocket restocks"
+  // For each confirmed rocket sub, find which restocked motors fit it and send
+  // one digest email, de-duped by a per-(rocket, motor) cooldown.
+  let rocketsNotified = 0;
+  let rocketEmailsSent = 0;
+  const restocked: RestockMotor[] = [];
+  for (const m of motors) {
+    const manufacturer = typeof m.manufacturer === "string" ? m.manufacturer.trim() : "";
+    const designation = typeof m.designation === "string" ? m.designation.trim() : "";
+    const diameter = typeof m.diameter_mm === "number" ? m.diameter_mm : Number(m.diameter_mm);
+    if (!manufacturer || !designation || !Number.isFinite(diameter)) continue;
+    restocked.push({
+      manufacturer,
+      designation,
+      diameter_mm: diameter,
+      impulse_class: typeof m.impulse_class === "string" ? m.impulse_class : "",
+      total_impulse_ns: typeof m.total_impulse_ns === "number" ? m.total_impulse_ns : null,
+    });
+  }
+
+  if (restocked.length > 0) {
+    let members: string[] = [];
+    try {
+      members = await smembers(cfg, rocketSubsKey());
+    } catch {
+      members = [];
+    }
+    for (const raw of members) {
+      const parsed = parseRocketMember(raw);
+      if (!parsed) continue;
+      const spec = fieldsToSpec(parsed.fields);
+      const fits = restocked.filter((mo) => motorFitsRocket(spec, mo));
+      if (fits.length === 0) continue;
+
+      // Claim a per-(sub, motor) cooldown; skip any already alerted this window.
+      const h = shortHash(raw);
+      const fresh: RestockMotor[] = [];
+      for (const mo of fits) {
+        try {
+          if (await setNxEx(cfg, `alerted-r:${h}:${motorKey(mo.manufacturer, mo.designation)}`, COOLDOWN_S)) {
+            fresh.push(mo);
+          }
+        } catch {
+          // cooldown store down — skip (fail closed) to avoid dupe spam.
+        }
+      }
+      if (fresh.length === 0) continue;
+
+      rocketsNotified++;
+      try {
+        const unsubToken = await signToken(cfg.secret, {
+          t: "ru",
+          e: parsed.email,
+          m: rocketSpecField(parsed.fields),
+          x: 0,
+        });
+        const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
+          unsubToken,
+        )}`;
+        const items = fresh.map((mo) => ({
+          designation: mo.designation,
+          manufacturer: mo.manufacturer,
+          url: `${cfg.siteUrl}/?q=${encodeURIComponent(mo.designation)}`,
+        }));
+        const tmpl = rocketRestockEmail(
+          rocketDisplayName(parsed.fields),
+          items,
+          unsubscribeUrl,
+          `${cfg.siteUrl}/alerts`,
+        );
+        await sendEmail({
+          apiKey: cfg.resendApiKey,
+          from: cfg.from,
+          to: parsed.email,
+          subject: tmpl.subject,
+          html: tmpl.html,
+          text: tmpl.text,
+          listUnsubscribe: unsubscribeUrl,
+        });
+        rocketEmailsSent++;
+      } catch {
+        // Skip a single failed rocket email; keep going.
+      }
+    }
+  }
+
+  return json({
+    ok: true,
+    motorsRestocked: motors.length,
+    motorsNotified: notified,
+    emailsSent: sent,
+    rocketsNotified,
+    rocketEmailsSent,
+  });
 }

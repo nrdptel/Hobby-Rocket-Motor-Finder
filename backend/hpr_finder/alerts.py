@@ -21,8 +21,10 @@ def restocked_motors(prev: dict, current: dict) -> list[dict]:
     republishes identical statuses, so carried vendors never trigger a false
     restock.
 
-    Returns one ``{manufacturer, designation, common_name}`` dict per restocked
-    motor (deduped, input order preserved).
+    Returns one dict per restocked motor (deduped, input order preserved) with
+    ``manufacturer``, ``designation``, ``common_name`` and the fit-relevant specs
+    ``diameter_mm``, ``impulse_class``, ``total_impulse_ns`` — the latter let the
+    dispatch route evaluate rocket-fit alerts ("anything that fits my rocket").
     """
     prev_status: dict[str, str] = {}
     for m in prev.get("motors", []):
@@ -49,6 +51,9 @@ def restocked_motors(prev: dict, current: dict) -> list[dict]:
                     "manufacturer": manufacturer,
                     "designation": designation,
                     "common_name": m.get("common_name"),
+                    "diameter_mm": m.get("diameter_mm"),
+                    "impulse_class": m.get("impulse_class"),
+                    "total_impulse_ns": m.get("total_impulse_ns"),
                 }
                 break
     return list(restocked.values())
