@@ -23,7 +23,7 @@ jobs:
       - name: Lint
         run: ruff check .
       - name: Test
-        run: pytest -q --cov --cov-fail-under=45
+        run: pytest -q --cov --cov-fail-under=70
 
   frontend:
     runs-on: ubuntu-latest
