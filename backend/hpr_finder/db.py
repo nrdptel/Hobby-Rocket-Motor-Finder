@@ -422,3 +422,27 @@ def finish_run(conn: sqlite3.Connection, run_id: int, finished_at: str, ok: bool
         "UPDATE scrape_runs SET finished_at=?, ok=?, listings_seen=?, error=? WHERE id=?",
         (finished_at, 1 if ok else 0, listings_seen, error, run_id),
     )
+
+
+def latest_finished_runs(conn: sqlite3.Connection) -> list[sqlite3.Row]:
+    """The most recent FINISHED run per vendor — one row each, latest by
+    ``started_at``. Rows carry ``vendor_slug, started_at, finished_at, ok, error,
+    listings_seen`` so the caller can derive per-vendor scrape duration. A run
+    still in flight (or crashed before ``finish_run``) has ``finished_at IS NULL``
+    and is excluded, so a hung scraper shows up as an ABSENT vendor here rather
+    than a bogus duration."""
+    return conn.execute(
+        """
+        SELECT v.slug AS vendor_slug, r.started_at, r.finished_at,
+               r.ok, r.error, r.listings_seen
+        FROM scrape_runs r
+        JOIN vendors v ON v.id = r.vendor_id
+        JOIN (
+            SELECT vendor_id, MAX(started_at) AS m
+            FROM scrape_runs
+            WHERE finished_at IS NOT NULL
+            GROUP BY vendor_id
+        ) latest ON latest.vendor_id = r.vendor_id AND latest.m = r.started_at
+        WHERE r.finished_at IS NOT NULL
+        """
+    ).fetchall()

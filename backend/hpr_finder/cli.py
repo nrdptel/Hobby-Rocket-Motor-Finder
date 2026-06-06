@@ -255,6 +255,10 @@ def snapshot_export(
             "WHERE l.motor_id IS NULL "
             "ORDER BY l.raw_designation"
         ).fetchall()
+        # Latest finished run per vendor — for per-vendor scrape duration in the
+        # health report. A still-running/crashed run (finished_at IS NULL) is
+        # excluded, so a hung scraper surfaces as an absent vendor, not a bogus time.
+        latest_runs = db.latest_finished_runs(conn)
 
     by_motor: dict[int, list[dict]] = {}
     for r in matched_listings:
@@ -381,6 +385,19 @@ def snapshot_export(
             baseline_json.parent.mkdir(parents=True, exist_ok=True)
             baseline_json.write_text(json.dumps(baseline, indent=2, sort_keys=True))
 
+        # Per-vendor scrape duration (seconds) from the latest finished run. Pure
+        # visibility for now (not yet an escalation signal): a slow scrape is a
+        # leading indicator of a vendor getting flaky. A vendor that was attempted
+        # this run but has no finished run (hung/crashed before finish_run) is
+        # absent from run_durations — surfaced separately as no_finished_run.
+        run_durations: dict[str, float] = {}
+        for row in latest_runs:
+            start = _parse_iso(row["started_at"])
+            end = _parse_iso(row["finished_at"])
+            if start is not None and end is not None:
+                run_durations[row["vendor_slug"]] = round((end - start).total_seconds(), 1)
+        no_finished_run = sorted(v for v in decision if v not in run_durations)
+
         status = {
             "generated_at": payload["generated_at"],
             "floor": floor,
@@ -394,6 +411,11 @@ def snapshot_export(
             # listings (a failed vendor) or unparseable timestamps.
             "stale_hours": stale_hours,
             "max_stale_hours": max(ages) if ages else 0.0,
+            # Per-vendor latest scrape duration (s) + the slowest, plus any vendor
+            # this run that never recorded a finished run (a likely hang).
+            "run_durations": run_durations,
+            "max_run_seconds": max(run_durations.values()) if run_durations else 0.0,
+            "no_finished_run": no_finished_run,
             # Vendors above floor but well below their own baseline this run, and
             # the subset whose anomaly has persisted long enough to escalate.
             "anomalies": anomalies,
@@ -404,6 +426,7 @@ def snapshot_export(
         typer.echo(
             f"wrote health report {report_json} "
             f"(degraded={status['degraded']}, max_stale_hours={status['max_stale_hours']}, "
+            f"max_run_seconds={status['max_run_seconds']}, "
             f"anomalies={len(anomalies)}, anomaly_sustained={status['anomaly_sustained']})"
         )
 

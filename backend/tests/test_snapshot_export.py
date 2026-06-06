@@ -16,7 +16,13 @@ import typer
 
 from hpr_finder import db
 from hpr_finder.cli import _parse_iso, _vendor_stale_hours, snapshot_export
-from hpr_finder.db import upsert_listings, upsert_motors, upsert_vendor
+from hpr_finder.db import (
+    finish_run,
+    start_run,
+    upsert_listings,
+    upsert_motors,
+    upsert_vendor,
+)
 from hpr_finder.models import Listing, Motor, StockStatus
 
 
@@ -350,6 +356,45 @@ def test_report_flags_below_baseline_anomaly(tmp_db, tmp_path):
     # The baseline value must NOT be dragged down by the anomalous run.
     b = json.loads(baseline.read_text())
     assert b["csrocketry"]["count"] == 600.0
+
+
+def _record_finished_run(db_path: Path, slug: str, started: str, finished: str) -> None:
+    """Record one finished scrape_runs row for an already-seeded vendor."""
+    with db.connect(db_path) as conn:
+        v_id = upsert_vendor(conn, slug=slug, name=slug, homepage=f"https://{slug}", state=None)
+        run_id = start_run(conn, v_id, started)
+        finish_run(conn, run_id, finished, ok=True, listings_seen=1)
+
+
+def test_report_includes_run_durations(tmp_db, tmp_path):
+    """A vendor with a finished scrape run gets a per-vendor duration in the report."""
+    _seed_minimal(tmp_db)  # creates the csrocketry vendor + listings
+    _record_finished_run(tmp_db, "csrocketry", "2026-05-31T12:00:00", "2026-05-31T12:00:42")
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert status["run_durations"]["csrocketry"] == 42.0
+    assert status["max_run_seconds"] == 42.0
+    assert status["no_finished_run"] == []  # nothing hung
+
+
+def test_report_flags_vendor_with_no_finished_run(tmp_db, tmp_path):
+    """A vendor present this run but with no finished scrape run (hung/crashed
+    before finish_run) is absent from run_durations and listed in no_finished_run,
+    not given a bogus duration."""
+    _seed_minimal(tmp_db)  # csrocketry has listings but no scrape_runs row
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    assert "csrocketry" not in status["run_durations"]
+    assert status["no_finished_run"] == ["csrocketry"]
+    assert status["max_run_seconds"] == 0.0
 
 
 def test_parse_iso_normalizes_naive_to_utc():
