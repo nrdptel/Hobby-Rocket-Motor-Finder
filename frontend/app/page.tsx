@@ -1,33 +1,20 @@
 import Link from "next/link";
 import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
-import type { HistorySummary } from "@/lib/snapshot";
 import {
   CERT_LEVELS,
   MIN_CLASS,
-  caseKey,
   caseOptions,
-  certClasses,
-  findSubstitutes,
   formatPrice,
-  groupByDelay,
   listingInStock,
   manufacturerLabel,
-  motorInStock,
-  parseDir,
-  parseOrder,
-  parseSetParam,
   propellantOptions,
   safeHref,
-  sortedMotors,
-  toSubstitute,
   vendorOptions,
 } from "@/lib/derive";
-import type { Substitute } from "@/lib/derive";
-import { FilterBar } from "./components/FilterBar";
-import { MyRockets } from "./components/MyRockets";
+import { CatalogFilterProvider } from "./components/CatalogFilters";
+import { CatalogView } from "./components/CatalogView";
 import { HowItWorks } from "./components/HowItWorks";
 import { Methodology } from "./components/Methodology";
-import { MotorResults } from "./components/MotorResults";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ThemeToggle } from "./components/ThemeToggle";
@@ -59,29 +46,18 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     );
   }
 
+  // Reconstruct the filter query string from the request URL so the client
+  // filter store (CatalogFilterProvider) seeds from it and the SSR-rendered view
+  // matches the URL exactly — no flash on a shared filtered link. The filtering
+  // itself runs client-side in CatalogView, so changing a filter re-renders the
+  // in-memory catalog instantly with no navigation / server round-trip.
   const params = await searchParams;
-  const fMfr = parseSetParam(params.mfr);
-  const fClass = parseSetParam(params.class);
-  const fDia = parseSetParam(params.dia);
-  const fCertClasses = certClasses(parseSetParam(params.cert));
-  const fCase = parseSetParam(params.case);
-  const fProp = parseSetParam(params.prop);
-  const fVendor = parseSetParam(params.vendor);
-  const fInStock = params.in_stock === "1";
-  const fSort = params.sort === "price" ? "price" : "stock";
-  const fOrder = parseOrder(params.order);
-  const fDir = parseDir(params.dir);
-  const fStarredOnly = params.starred === "1";
-  const fQueryRaw = Array.isArray(params.q) ? params.q[0] : params.q;
-  const fQuery = (fQueryRaw ?? "").trim().toLowerCase();
-  // Total-impulse bounds (N·s). Non-numeric/absent params leave the bound open.
-  const parseNum = (v: string | string[] | undefined): number | null => {
-    const raw = Array.isArray(v) ? v[0] : v;
-    const n = raw != null && raw.trim() !== "" ? Number(raw) : NaN;
-    return Number.isFinite(n) ? n : null;
-  };
-  const fMinImpulse = parseNum(params.imin);
-  const fMaxImpulse = parseNum(params.imax);
+  const initialFilters = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    const v = Array.isArray(value) ? value[0] : value;
+    if (typeof v === "string" && v) initialFilters.set(key, v);
+  }
+  const initialQuery = initialFilters.toString();
 
   // All motors that have any listing (before filtering).
   // MIN_CLASS hides A/B/C-class Estes-style model rocket motors — this tool
@@ -128,77 +104,9 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     inStock: m.listings.some((l) => listingInStock(l.status)),
   }));
 
-  // Apply filters, then order by the user's chosen sort.
-  const filtered = sortedMotors(
-    motorsWithListings.filter((m) => {
-      if (fMfr.size > 0 && !fMfr.has(manufacturerLabel(m.manufacturer))) return false;
-      if (fClass.size > 0 && !fClass.has(m.impulse_class)) return false;
-      if (fCertClasses.size > 0 && !fCertClasses.has(m.impulse_class)) return false;
-      if (fDia.size > 0 && !fDia.has(String(m.diameter_mm))) return false;
-      if (fCase.size > 0) {
-        const k = caseKey(m);
-        if (k == null || !fCase.has(k)) return false;
-      }
-      if (fProp.size > 0 && !(m.propellant && fProp.has(m.propellant))) return false;
-      if (fVendor.size > 0 && !m.listings.some((l) => fVendor.has(l.vendor_slug))) return false;
-      if (fMinImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < fMinImpulse))
-        return false;
-      if (fMaxImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns > fMaxImpulse))
-        return false;
-      if (fInStock && !m.listings.some((l) => listingInStock(l.status))) return false;
-      if (fQuery) {
-        const designationHit = m.designation.toLowerCase().includes(fQuery);
-        const commonHit = (m.common_name ?? "").toLowerCase().includes(fQuery);
-        const varietyHit = m.listings.some((l) =>
-          (l.raw_designation ?? "").toLowerCase().includes(fQuery)
-        );
-        if (!designationHit && !commonHit && !varietyHit) return false;
-      }
-      return true;
-    }),
-    fOrder,
-    fDir,
-  );
-
-  // For the in-stock toggle: also visually hide the OOS listing rows when active,
-  // so each motor only shows the listings that match.
-  const filteredWithListings = filtered
-    .map((m) =>
-      fInStock
-        ? { ...m, listings: m.listings.filter((l) => listingInStock(l.status)) }
-        : m,
-    )
-    .map((m) => groupByDelay(m, fSort));
-
-  // History is looked up per listing by URL inside the (client) results
-  // component, so only the rendered motors' listings need it. Ship just those
-  // entries instead of the whole summary — this keeps the server→client payload
-  // proportional to what's shown, not the full catalog (which grows with every
-  // manufacturer added).
-  const visibleHistory: HistorySummary = {};
-  for (const m of filteredWithListings) {
-    for (const g of m.delayGroups) {
-      for (const l of g.listings) {
-        const h = history[l.url];
-        if (h) visibleHistory[l.url] = h;
-      }
-    }
-  }
-
-  // For each visible motor that's sold out everywhere, the best in-stock swaps
-  // (same diameter + impulse class, close total impulse/thrust). Computed against
-  // the full motor set — not the filtered view — so a usable swap isn't hidden by
-  // the active filters, then capped at 4 and projected to a compact payload so the
-  // server→client size stays proportional to what's shown (mirrors visibleHistory).
-  // This is O(sold-out × catalog), but the catalog is small and bounded (~hundreds;
-  // manufacturers locked, vendors exhausted) and the page is cached (revalidate=60),
-  // so a linear scan per target is cheaper than maintaining a diameter/class index.
-  const substitutes: Record<number, Substitute[]> = {};
-  for (const m of filteredWithListings) {
-    if (motorInStock(m)) continue;
-    const subs = findSubstitutes(m, motorsWithListings).slice(0, 4).map(toSubstitute);
-    if (subs.length > 0) substitutes[m.id] = subs;
-  }
+  // Filtering, sorting, grouping, substitutes, and the per-listing history lookup
+  // now run client-side in CatalogView (instant, no round-trip). The server ships
+  // the full motors-with-listings set + the whole history summary once.
 
   // Drop A/B/C-class entries from the unmatched section too (the same
   // MIN_CLASS gate applied to motors). Also drop AeroTech Q-Jet products —
@@ -231,32 +139,22 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
       <Methodology />
 
-      <MyRockets
-        diameters={diameterOptions}
-        certLevels={certOptions}
-        classes={classOptions}
-        cases={caseFilterOptions}
-        motors={rocketMotors}
-      />
-
-      <FilterBar
-        manufacturers={manufacturerOptions}
-        classes={classOptions}
-        diameters={diameterOptions}
-        certLevels={certOptions}
-        cases={caseFilterOptions}
-        propellants={propellantFilterOptions}
-        vendors={vendorFilterOptions}
-      />
-
-      <MotorResults
-        motors={filteredWithListings}
-        showManufacturer={showManufacturer}
-        generatedAt={snapshot.generated_at}
-        starredOnly={fStarredOnly}
-        history={visibleHistory}
-        substitutes={substitutes}
-      />
+      <CatalogFilterProvider initialQuery={initialQuery}>
+        <CatalogView
+          allMotors={motorsWithListings}
+          history={history}
+          generatedAt={snapshot.generated_at}
+          showManufacturer={showManufacturer}
+          manufacturers={manufacturerOptions}
+          classes={classOptions}
+          diameters={diameterOptions}
+          certLevels={certOptions}
+          cases={caseFilterOptions}
+          propellants={propellantFilterOptions}
+          vendors={vendorFilterOptions}
+          rocketMotors={rocketMotors}
+        />
+      </CatalogFilterProvider>
 
       {unmatched.length > 0 && (
         <section className="mt-10 border-t border-zinc-200 pt-6 dark:border-zinc-800">
