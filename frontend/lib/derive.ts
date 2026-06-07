@@ -453,7 +453,8 @@ export function toSubstitute(m: Motor): Substitute {
     impulse_class: m.impulse_class,
     total_impulse_ns: m.total_impulse_ns,
     avg_thrust_n: m.avg_thrust_n,
-    bestPriceCents: listing?.price_cents ?? null,
+    // Per-motor (pack-aware), to match the price shown everywhere else.
+    bestPriceCents: listing ? unitPriceCents(listing.price_cents, listing.url) : null,
     currency: listing?.currency ?? "USD",
     vendorName: listing?.vendor_name ?? null,
     url: listing?.url ?? null,

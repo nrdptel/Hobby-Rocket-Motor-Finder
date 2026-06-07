@@ -4,13 +4,35 @@
 // shipments (each shipment = one HAZMAT fee). Pure + unit-tested; no React/DOM.
 
 import { findSubstitutes, listingInStock } from "./derive";
+import { packSize } from "./pack";
 import type { Motor } from "./snapshot";
 
 export type PlanItem = { motor: Motor; qty: number };
 
-type Offer = { vendorSlug: string; vendorName: string; unitPriceCents: number; url: string };
+// An offer is the cheapest way to get the wanted quantity of one motor from one
+// vendor. Pack-aware: some (low/mid-power) listings are sold only in N-packs, so
+// you buy `packsToBuy = ceil(qty / packSizeUnits)` whole packs. `unitPriceCents`
+// is the per-motor price (for comparison/display); `lineCostCents` is what you
+// actually pay (the real basis for the cheapest-vendor optimisation).
+type Offer = {
+  vendorSlug: string;
+  vendorName: string;
+  unitPriceCents: number;
+  packSizeUnits: number;
+  packsToBuy: number;
+  lineCostCents: number;
+  url: string;
+};
 
-export type AssignmentLine = { motor: Motor; qty: number; unitPriceCents: number; url: string };
+export type AssignmentLine = {
+  motor: Motor;
+  qty: number;
+  unitPriceCents: number;
+  packSizeUnits: number;
+  packsToBuy: number;
+  lineCostCents: number;
+  url: string;
+};
 export type VendorAssignment = {
   vendorSlug: string;
   vendorName: string;
@@ -46,15 +68,22 @@ export function vendorOffers(item: PlanItem): Offer[] {
   for (const l of item.motor.listings) {
     if (!listingInStock(l.status) || l.price_cents == null) continue;
     if (l.stock_count != null && l.stock_count < item.qty) continue;
+    const packSizeUnits = packSize(l.url);
+    const packsToBuy = Math.max(1, Math.ceil(item.qty / packSizeUnits));
+    const lineCostCents = packsToBuy * l.price_cents;
+    const offer: Offer = {
+      vendorSlug: l.vendor_slug,
+      vendorName: l.vendor_name,
+      unitPriceCents: Math.round(l.price_cents / packSizeUnits),
+      packSizeUnits,
+      packsToBuy,
+      lineCostCents,
+      url: l.url,
+    };
+    // Cheapest *actual cost* for the wanted qty at this vendor (a pack can beat a
+    // single, or vice-versa, depending on the quantity).
     const cur = best.get(l.vendor_slug);
-    if (!cur || l.price_cents < cur.unitPriceCents) {
-      best.set(l.vendor_slug, {
-        vendorSlug: l.vendor_slug,
-        vendorName: l.vendor_name,
-        unitPriceCents: l.price_cents,
-        url: l.url,
-      });
-    }
+    if (!cur || lineCostCents < cur.lineCostCents) best.set(l.vendor_slug, offer);
   }
   return [...best.values()];
 }
@@ -97,8 +126,8 @@ export function buildOrderPlan(items: PlanItem[], shippingCents: number): OrderP
       let min = Infinity;
       for (const slug of inMask) {
         const o = offerBySlug[c].get(slug);
-        if (o && o.unitPriceCents < min) {
-          min = o.unitPriceCents;
+        if (o && o.lineCostCents < min) {
+          min = o.lineCostCents;
           minSlug = slug;
         }
       }
@@ -106,7 +135,7 @@ export function buildOrderPlan(items: PlanItem[], shippingCents: number): OrderP
         covered = false;
         break;
       }
-      motorCost += min * wanted[coverable[c]].qty;
+      motorCost += min; // lineCostCents already accounts for qty + whole packs
       used.add(minSlug);
     }
     if (!covered) continue;
@@ -126,7 +155,7 @@ export function buildOrderPlan(items: PlanItem[], shippingCents: number): OrderP
       let chosen: Offer | undefined;
       for (const slug of bestUsed) {
         const o = offerBySlug[c].get(slug);
-        if (o && o.unitPriceCents < (chosen?.unitPriceCents ?? Infinity)) chosen = o;
+        if (o && o.lineCostCents < (chosen?.lineCostCents ?? Infinity)) chosen = o;
       }
       if (!chosen) continue;
       const it = wanted[coverable[c]];
@@ -134,13 +163,16 @@ export function buildOrderPlan(items: PlanItem[], shippingCents: number): OrderP
         motor: it.motor,
         qty: it.qty,
         unitPriceCents: chosen.unitPriceCents,
+        packSizeUnits: chosen.packSizeUnits,
+        packsToBuy: chosen.packsToBuy,
+        lineCostCents: chosen.lineCostCents,
         url: chosen.url,
       };
       const slug = chosen.vendorSlug;
       (byVendor.get(slug) ?? byVendor.set(slug, []).get(slug)!).push(line);
     }
     for (const [slug, lines] of byVendor) {
-      const subtotal = lines.reduce((s, l) => s + l.unitPriceCents * l.qty, 0);
+      const subtotal = lines.reduce((s, l) => s + l.lineCostCents, 0);
       assignments.push({
         vendorSlug: slug,
         vendorName: vendorName.get(slug) ?? slug,
@@ -184,7 +216,7 @@ export function bestSingleVendor(items: PlanItem[]): SingleVendorOption | null {
       const o = offers[i].find((x) => x.vendorSlug === slug);
       if (o) {
         covers += 1;
-        cost += o.unitPriceCents * it.qty;
+        cost += o.lineCostCents; // pack-aware actual cost for the wanted qty
       } else {
         missing.push(it.motor);
       }

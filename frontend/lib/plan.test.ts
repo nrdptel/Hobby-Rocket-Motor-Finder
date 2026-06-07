@@ -54,7 +54,15 @@ describe("vendorOffers", () => {
       L("v3", "V3", null), // no price → dropped
     ]);
     expect(vendorOffers({ motor: m, qty: 1 })).toEqual([
-      { vendorSlug: "v1", vendorName: "V1", unitPriceCents: 4500, url: "https://x/p" },
+      {
+        vendorSlug: "v1",
+        vendorName: "V1",
+        unitPriceCents: 4500,
+        packSizeUnits: 1,
+        packsToBuy: 1,
+        lineCostCents: 4500,
+        url: "https://x/p",
+      },
     ]);
   });
 
@@ -63,6 +71,44 @@ describe("vendorOffers", () => {
     expect(vendorOffers({ motor: m, qty: 5 }).map((o) => o.vendorSlug)).toEqual(["v2"]);
     // qty within count → v1 allowed (and cheaper)
     expect(vendorOffers({ motor: m, qty: 2 }).map((o) => o.vendorSlug).sort()).toEqual(["v1", "v2"]);
+  });
+});
+
+describe("pack-aware planning", () => {
+  // A motor sold as a 3-pack ($21 = $7/ea) at v1, and as a single ($12) at v2.
+  function packMotor(id: number, des: string): Motor {
+    const m = M(id, des, [
+      { ...L("v1", "V1", 2100), url: "https://v/d13-3-pack" }, // $7/ea as a 3-pack
+      { ...L("v2", "V2", 1200), url: "https://v/d13-single" }, // $12 single
+    ]);
+    return m;
+  }
+
+  it("offers per-unit price but charges whole packs (ceil(qty/N) × pack price)", () => {
+    const m = packMotor(20, "D13W");
+    // qty 1: buy one 3-pack = $21 (cheaper actual cost than the $12 single? no —
+    // $21 > $12, so the single wins for qty 1).
+    const [o1] = vendorOffers({ motor: m, qty: 1 }).filter((o) => o.vendorSlug === "v1");
+    expect(o1).toMatchObject({ unitPriceCents: 700, packSizeUnits: 3, packsToBuy: 1, lineCostCents: 2100 });
+    // qty 3: the 3-pack ($21) beats 3× single ($36).
+    const o3 = vendorOffers({ motor: m, qty: 3 }).find((o) => o.vendorSlug === "v1")!;
+    expect(o3.lineCostCents).toBe(2100);
+  });
+
+  it("the planner buys the cheapest ACTUAL cost, pack-aware", () => {
+    const m = packMotor(21, "D13W");
+    // Want 3: cheapest is the v1 3-pack at $21 (vs 3× $12 single = $36 at v2).
+    const plan = buildOrderPlan([{ motor: m, qty: 3 }], 0);
+    expect(plan.totalCents).toBe(2100);
+    const line = plan.assignments[0].lines[0];
+    expect(line).toMatchObject({ packSizeUnits: 3, packsToBuy: 1, lineCostCents: 2100 });
+  });
+
+  it("rounds up to whole packs when qty isn't a multiple", () => {
+    // Only a 3-pack available; want 4 → buy 2 packs = $42.
+    const m = M(22, "E", [{ ...L("v1", "V1", 2100), url: "https://v/e-3-pack" }]);
+    const plan = buildOrderPlan([{ motor: m, qty: 4 }], 0);
+    expect(plan.assignments[0].lines[0]).toMatchObject({ packsToBuy: 2, lineCostCents: 4200 });
   });
 });
 
