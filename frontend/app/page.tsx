@@ -13,6 +13,7 @@ import {
 } from "@/lib/derive";
 import { CatalogFilterProvider } from "./components/CatalogFilters";
 import { CatalogView } from "./components/CatalogView";
+import { PlanOrderButton } from "./components/PlanOrderButton";
 import { HowItWorks } from "./components/HowItWorks";
 import { Methodology } from "./components/Methodology";
 import { SnapshotTime } from "./components/SnapshotTime";
@@ -132,7 +133,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             snapshot generated <SnapshotTime iso={snapshot.generated_at} />
           </p>
         </div>
-        <ThemeToggle />
+        <div className="flex shrink-0 items-center gap-2">
+          <PlanOrderButton />
+          <ThemeToggle />
+        </div>
       </header>
 
       <HowItWorks />
@@ -261,10 +265,6 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             >
               Motor data from ThrustCurve
             </a>
-            <span aria-hidden className="text-zinc-300 dark:text-zinc-700">·</span>
-            <Link href="/plan" className="hover:text-zinc-800 dark:hover:text-zinc-200">
-              Plan an order
-            </Link>
             <span aria-hidden className="text-zinc-300 dark:text-zinc-700">·</span>
             <Link href="/privacy" className="hover:text-zinc-800 dark:hover:text-zinc-200">
               Privacy
