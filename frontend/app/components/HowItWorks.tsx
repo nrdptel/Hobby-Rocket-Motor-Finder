@@ -24,8 +24,8 @@ export function HowItWorks() {
           <strong className="font-medium text-zinc-800 dark:text-zinc-200">
             AeroTech, Cesaroni &amp; Loki
           </strong>{" "}
-          motor stock and pricing, aggregated across 11 U.S. vendors, refreshed on a schedule and
-          matched against{" "}
+          motor stock and pricing, aggregated across the major U.S. vendors, refreshed on a schedule
+          and matched against{" "}
           <a
             href="https://www.thrustcurve.org"
             target="_blank"
@@ -48,23 +48,39 @@ export function HowItWorks() {
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">Filter</strong>{" "}
               by impulse class, diameter, total-impulse range, certification level (L1&ndash;L3),
-              manufacturer, in-stock-only, and ★ starred-only &mdash; then{" "}
+              manufacturer, vendor, propellant, reload case, in-stock-only, and ★ starred-only &mdash;
+              then{" "}
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">sort</strong>{" "}
-              by class, total impulse, thrust, diameter, or price (either direction). Filters live in
-              the URL, so a
-              search is shareable and survives a refresh.
+              by class, total impulse, thrust, diameter, or cheapest in-stock price (either direction).
+              Filtering is instant (it happens in your browser), and every filter lives in the URL, so
+              any view is shareable and survives a refresh.
+            </li>
+            <li>
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Open a motor</strong>{" "}
+              &mdash; click its designation for a detail page with the full specs, every vendor&apos;s
+              price and stock side by side, restock history, similar in-stock motors, and a link to its
+              ThrustCurve thrust curve.
             </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">My Rockets</strong>{" "}
-              &mdash; save a rocket&apos;s motor mount (diameter + the cert level you fly, optionally a
-              total-impulse band) and instantly see how many in-stock motors fit each one; a tap applies it
-              as a filter. You can also save your current filtered view as a rocket.
+              &mdash; save a rocket by its motor-mount diameter (the only required field) and optionally
+              pin the cert level you fly, an impulse class, a reload case, and/or a total-impulse band.
+              Each rocket shows how many in-stock motors fit it, and a tap applies it as a filter. You
+              can also save your current filtered view as a rocket.
             </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Star</strong>{" "}
-              motors to a watchlist kept in this browser, then use the{" "}
+              motors to a watchlist kept in this browser &mdash; use the{" "}
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">★ Starred</strong>{" "}filter
-              to show only those.
+              to show only those, and as the basis for planning an order (below).
+            </li>
+            <li>
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">🛒 Plan your order</strong>{" "}
+              &mdash; once you&apos;ve starred a few motors, a <em>Plan order</em>{" "}button appears next to
+              ★ Starred. It finds the cheapest way to buy your whole list across vendors: set a quantity
+              per motor and your estimated shipping/HAZMAT cost per order, and it trades motor price
+              against the number of shipments (since each shipment is its own HAZMAT fee). Share the
+              plan as a link or copy it as plain text for an email.
             </li>
             {alertsEnabled && (
               <li>
@@ -154,7 +170,7 @@ export function HowItWorks() {
                 <strong className="font-medium text-zinc-800 dark:text-zinc-200">Delay</strong>{" "}are the
                 exact vendor designation (e.g. H242T-14A) and its ejection-charge delay &mdash;
                 &ldquo;adj&rdquo; means it&apos;s drilled to length at the field. A motor&apos;s
-                designation links to its ThrustCurve page.
+                designation links to its detail page.
               </span>
             </li>
           </ul>
