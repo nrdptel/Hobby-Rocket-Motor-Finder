@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 
 import {
+  ROCKET_PARAMS,
   rocketInStockCount,
+  rocketMatchesParams,
   useRockets,
   type Rocket,
   type RocketInput,
@@ -53,20 +55,7 @@ export function MyRockets({
   const certLabel = (key: string) =>
     certLevels.find((c) => c.key === key)?.label ?? key;
 
-  const ROCKET_PARAMS = ["cert", "dia", "class", "case", "imin", "imax"] as const;
-
-  const numParamEq = (param: string, val: number | null) =>
-    val == null ? !sp.get(param) : sp.get(param) === String(val);
-  const strParamEq = (param: string, val: string | null) =>
-    val == null ? !sp.get(param) : sp.get(param) === val;
-
-  const isActive = (r: Rocket) =>
-    sp.get("dia") === String(r.diameterMm) &&
-    strParamEq("cert", r.cert) &&
-    strParamEq("class", r.impulseClass) &&
-    strParamEq("case", r.caseInfo) &&
-    numParamEq("imin", r.minImpulseNs) &&
-    numParamEq("imax", r.maxImpulseNs);
+  const isActive = (r: Rocket) => rocketMatchesParams(r, (k) => sp.get(k));
 
   // Apply a wholesale filter change through the client store (instant, no
   // navigation; URL kept in sync for sharing).

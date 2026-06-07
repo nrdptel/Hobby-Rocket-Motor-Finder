@@ -5,12 +5,13 @@ import { useMemo } from "react";
 import { buildCatalogView, parseCatalogParams } from "@/lib/catalog";
 import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
-import type { RocketMotor } from "@/lib/rockets";
+import { rocketMatchesParams, useRockets, type RocketMotor } from "@/lib/rockets";
 import type { HistorySummary, Motor } from "@/lib/snapshot";
 import { useCatalogFilters } from "./CatalogFilters";
 import { FilterBar } from "./FilterBar";
 import { MotorResults } from "./MotorResults";
 import { MyRockets } from "./MyRockets";
+import { RocketLoadout } from "./RocketLoadout";
 
 type CertLevel = { key: string; label: string; sublabel: string };
 
@@ -54,6 +55,16 @@ export function CatalogView({
     [allMotors, parsed],
   );
 
+  // The "active" rocket — when the current filters exactly describe a saved
+  // rocket — drives the loadout ("what can I fly in this airframe right now").
+  // Empty during SSR/first paint (rockets are client-only), so it appears after
+  // hydration; no flash because the catalog below already shows the same motors.
+  const { rockets, hydrated } = useRockets();
+  const activeRocket = useMemo(
+    () => (hydrated ? rockets.find((r) => rocketMatchesParams(r, (k) => params.get(k))) : undefined),
+    [hydrated, rockets, params],
+  );
+
   return (
     <>
       <MyRockets
@@ -63,6 +74,17 @@ export function CatalogView({
         cases={cases}
         motors={rocketMotors}
       />
+
+      {activeRocket && (
+        <RocketLoadout
+          key={activeRocket.id}
+          rocket={activeRocket}
+          allMotors={allMotors}
+          availability={availability}
+          certLevels={certLevels}
+          showManufacturer={showManufacturer}
+        />
+      )}
 
       <FilterBar
         manufacturers={manufacturers}
