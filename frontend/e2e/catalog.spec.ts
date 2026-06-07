@@ -86,23 +86,21 @@ test("a shared filtered link is server-rendered directly", async ({ page }) => {
   );
 });
 
-test("results are windowed: a subset renders with a Show more control", async ({ page }) => {
+test("results auto-fill: the whole list renders with no scroll and no button", async ({ page }) => {
   await page.goto("/"); // the full catalog (hundreds of motors)
   await expect(motorLinks(page).first()).toBeVisible();
-  const total = await matchCount(page);
-  expect(total).toBeGreaterThan(100); // enough to exceed the window
+  const total = await matchCount(page); // full filtered match count
+  expect(total).toBeGreaterThan(100); // enough to exceed the initial window
 
-  // Far fewer rows are in the DOM than the full catalog (windowed). Each motor
-  // renders a desktop + a mobile link, so DOM links ≈ 2× the window, still well
-  // under 2× the full set.
-  const initialRendered = await motorLinks(page).count();
-  expect(initialRendered).toBeLessThan(total); // not everything is rendered
+  // There is no "Show more" control — the window auto-grows itself.
+  await expect(page.getByRole("button", { name: /Show \d+ more/ })).toHaveCount(0);
 
-  // The Show more fallback grows the window.
-  const showMore = page.getByRole("button", { name: /Show \d+ more/ });
-  await expect(showMore).toBeVisible();
-  await showMore.click();
-  await expect.poll(() => motorLinks(page).count()).toBeGreaterThan(initialRendered);
+  // Without scrolling or clicking, the window grows to cover the whole list. Each
+  // motor renders a desktop + a mobile link (~2× total), so the link count ends
+  // up well past `total` (vs the first batch of ~2×50).
+  await expect
+    .poll(() => motorLinks(page).count(), { timeout: 8000 })
+    .toBeGreaterThan(total);
 });
 
 test("loads with no console or page errors (clean hydration)", async ({ page }) => {

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { numericParamValue, searchParamValue } from "@/lib/derive";
 import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
@@ -362,23 +361,14 @@ export function FilterBar({
           ★ Starred{hydrated && starredCount > 0 ? ` (${starredCount})` : ""}
         </button>
         {hydrated && starredCount > 0 && (
-          <>
-            <Link
-              href="/plan"
-              className="inline-flex items-center rounded-full border border-emerald-400 bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700/60 dark:bg-emerald-950 dark:text-emerald-300 dark:hover:bg-emerald-900/60"
-              title="Find the cheapest way to buy your starred motors"
-            >
-              🛒 Plan order ({starredCount})
-            </Link>
-            <button
-              type="button"
-              onClick={clearWatch}
-              className="text-xs text-zinc-500 underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300"
-              title="Remove all motors from your watchlist"
-            >
-              clear watchlist
-            </button>
-          </>
+          <button
+            type="button"
+            onClick={clearWatch}
+            className="text-xs text-zinc-500 underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300"
+            title="Remove all motors from your watchlist"
+          >
+            clear watchlist
+          </button>
         )}
       </FilterRow>
 

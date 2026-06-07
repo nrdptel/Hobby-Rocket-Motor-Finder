@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   bestInStockPriceCents,
@@ -67,38 +67,24 @@ export function MotorResults({
     m.listings.some((l) => listingInStock(l.status)),
   ).length;
 
-  // Progressively render the (up to ~600-motor) list so the initial paint +
-  // hydration stay light on mobile: render a window and grow it as the viewer
-  // nears the bottom (IntersectionObserver), with a "show more" fallback. The
-  // full filtered set is already in memory — this only bounds how many rows are
-  // in the DOM at once. Reset to the first batch whenever the filtered/starred
-  // set changes, so a new filter starts from the top. SSR renders the first
-  // batch (BATCH), so the server HTML and first client paint match.
+  // Render the (up to ~600-motor) list without making the initial paint + hydrate
+  // it all in one heavy task. SSR and the first client paint emit only the first
+  // BATCH, so the page is fast and interactive instantly; then we auto-grow the
+  // window — a chunk PER ANIMATION FRAME — until the whole list is rendered. The
+  // viewer never has to scroll or click to load the rest, and the fill never
+  // blocks the main thread (and adds no download — the full set is already in
+  // memory). Reset to the first batch whenever the filtered/starred set changes.
   const BATCH = 50;
   const [shown, setShown] = useState(BATCH);
   useEffect(() => {
     setShown(BATCH);
   }, [motors, applyStarred]);
-  const windowed = visible.slice(0, shown);
-  const remaining = visible.length - windowed.length;
-  const loadMore = useCallback(
-    () => setShown((s) => Math.min(s + BATCH, visible.length)),
-    [visible.length],
-  );
-  const sentinelRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (remaining <= 0) return;
-    const el = sentinelRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        if (entries[0]?.isIntersecting) loadMore();
-      },
-      { rootMargin: "800px" }, // start loading well before the user reaches it
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [remaining, loadMore]);
+    if (shown >= visible.length) return;
+    const id = requestAnimationFrame(() => setShown((s) => Math.min(s + BATCH, visible.length)));
+    return () => cancelAnimationFrame(id);
+  }, [shown, visible.length]);
+  const windowed = visible.slice(0, shown);
 
   // Empty-state copy depends on *why* it's empty.
   let emptyMessage = "No motors match the current filters.";
@@ -289,20 +275,6 @@ export function MotorResults({
           ))
         )}
       </div>
-
-      {/* Load-more: the IntersectionObserver auto-grows the window as this nears
-          the viewport; the button is the accessible / no-observer fallback. */}
-      {remaining > 0 && (
-        <div ref={sentinelRef} className="mt-6 flex justify-center">
-          <button
-            type="button"
-            onClick={loadMore}
-            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
-          >
-            Show {Math.min(BATCH, remaining)} more ({remaining} not shown)
-          </button>
-        </div>
-      )}
     </>
   );
 }
