@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 252.0,
-    "samples": 48,
+    "samples": 49,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "updated_at": "2026-06-07T21:11:43+00:00"
   },
   "amw": {
     "count": 247.0,
@@ -17,35 +17,35 @@
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 47,
+    "samples": 48,
     "stock": 86.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "updated_at": "2026-06-07T21:11:43+00:00"
   },
   "buyrocketmotors": {
-    "count": 279.49904550340136,
-    "samples": 48,
-    "stock": 115.67333125990788,
+    "count": 279.37428412755105,
+    "samples": 49,
+    "stock": 115.75499844493092,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "updated_at": "2026-06-07T21:11:43+00:00"
   },
   "csrocketry": {
     "count": 558.0,
-    "samples": 48,
+    "samples": 49,
     "stock": 251.0,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "updated_at": "2026-06-07T21:11:43+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 48,
+    "samples": 49,
     "stock": 28.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "updated_at": "2026-06-07T21:11:43+00:00"
   },
   "moto_joe": {
     "count": 528.0,
@@ -57,11 +57,11 @@
   },
   "performancehobbies": {
     "count": 594.0,
-    "samples": 48,
+    "samples": 49,
     "stock": 117.0,
     "streak": 0,
-    "unmatched": 6.000003579712199,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "unmatched": 6.000002684784149,
+    "updated_at": "2026-06-07T21:11:43+00:00"
   },
   "sirius": {
     "count": 311.0,
@@ -72,11 +72,11 @@
     "updated_at": "2026-06-07T19:12:38+00:00"
   },
   "wildman": {
-    "count": 483.16826652632346,
-    "samples": 48,
-    "stock": 170.16149118149056,
+    "count": 482.8761998947426,
+    "samples": 49,
+    "stock": 169.87111838611793,
     "streak": 0,
-    "unmatched": 2.0000680145317746,
-    "updated_at": "2026-06-07T20:12:50+00:00"
+    "unmatched": 2.000051010898831,
+    "updated_at": "2026-06-07T21:11:43+00:00"
   }
 }
