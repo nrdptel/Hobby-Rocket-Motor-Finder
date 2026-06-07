@@ -251,6 +251,52 @@ export function motorPath(m: Pick<Motor, "manufacturer" | "designation">): strin
   )}`;
 }
 
+const SCHEMA_IN_STOCK = "https://schema.org/InStock";
+const SCHEMA_OUT_OF_STOCK = "https://schema.org/OutOfStock";
+
+/** schema.org Product + AggregateOffer JSON-LD for a motor's detail page, so
+ * Google can surface price + availability in results (the core "is the J350 in
+ * stock" intent). Uses only real prices — sentinel placeholders (>= the
+ * formatPrice cutoff) and null prices are excluded so we never advertise a fake
+ * number. `absoluteUrl` is the canonical detail-page URL. */
+export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, unknown> {
+  const brand = manufacturerLabel(m.manufacturer);
+  const product: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${brand} ${m.designation}`,
+    sku: m.designation,
+    category: "Rocket motor",
+    brand: { "@type": "Brand", name: brand },
+    url: absoluteUrl,
+  };
+
+  const priced = m.listings.filter(
+    (l) => l.price_cents != null && l.price_cents < SENTINEL_PRICE_CENTS,
+  );
+  if (priced.length > 0) {
+    const cents = priced.map((l) => l.price_cents as number);
+    const anyInStock = m.listings.some((l) => listingInStock(l.status));
+    product.offers = {
+      "@type": "AggregateOffer",
+      priceCurrency: priced[0].currency,
+      lowPrice: (Math.min(...cents) / 100).toFixed(2),
+      highPrice: (Math.max(...cents) / 100).toFixed(2),
+      offerCount: m.listings.length,
+      availability: anyInStock ? SCHEMA_IN_STOCK : SCHEMA_OUT_OF_STOCK,
+      offers: priced.map((l) => ({
+        "@type": "Offer",
+        price: ((l.price_cents as number) / 100).toFixed(2),
+        priceCurrency: l.currency,
+        availability: listingInStock(l.status) ? SCHEMA_IN_STOCK : SCHEMA_OUT_OF_STOCK,
+        url: safeHref(l.url),
+        seller: { "@type": "Organization", name: l.vendor_name },
+      })),
+    };
+  }
+  return product;
+}
+
 /** User-selectable motor-list orderings (the ``?order=`` URL param). "class" is
  * the default natural ordering (impulse class → diameter → designation). */
 export type MotorOrder = "class" | "impulse" | "thrust" | "diameter" | "price";

@@ -18,6 +18,7 @@ import {
   formatThrust,
   groupByDelay,
   isBestInStockPrice,
+  buildMotorJsonLd,
   designationFromSlug,
   designationToSlug,
   listingInStock,
@@ -240,6 +241,44 @@ describe("manufacturerSlug / motorPath", () => {
     expect(
       motorPath(makeMotor({ manufacturer: "Cesaroni Technology", designation: "K530-IM" })),
     ).toBe("/motor/cesaroni/K530-IM");
+  });
+
+  it("builds Product + AggregateOffer JSON-LD, excluding sentinel/null prices", () => {
+    const motor = makeMotor({
+      manufacturer: "Cesaroni Technology",
+      designation: "K530-IM",
+      listings: [
+        makeListing({ vendor_name: "Wildman", price_cents: 7499, status: "in_stock", currency: "USD" }),
+        makeListing({ vendor_name: "Sirius", price_cents: 8100, status: "out_of_stock" }),
+        makeListing({ vendor_name: "AeroTech-direct", price_cents: 999999, status: "special_order" }), // sentinel
+        makeListing({ vendor_name: "Moto-Joe", price_cents: null, status: "out_of_stock" }), // no price
+      ],
+    });
+    const ld = buildMotorJsonLd(motor, "https://motor.example/motor/cesaroni/K530-IM") as Record<
+      string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any
+    >;
+    expect(ld["@type"]).toBe("Product");
+    expect(ld.name).toBe("Cesaroni K530-IM");
+    expect(ld.brand).toEqual({ "@type": "Brand", name: "Cesaroni" });
+    expect(ld.url).toBe("https://motor.example/motor/cesaroni/K530-IM");
+    const offers = ld.offers;
+    expect(offers["@type"]).toBe("AggregateOffer");
+    expect(offers.lowPrice).toBe("74.99"); // cheapest real price
+    expect(offers.highPrice).toBe("81.00"); // sentinel 9999.99 excluded
+    expect(offers.offerCount).toBe(4); // all listings counted as offers
+    expect(offers.offers).toHaveLength(2); // only the two real-priced ones
+    expect(offers.availability).toBe("https://schema.org/InStock"); // one is in stock
+  });
+
+  it("omits offers when no listing has a real price", () => {
+    const motor = makeMotor({
+      listings: [makeListing({ price_cents: null, status: "out_of_stock" })],
+    });
+    const ld = buildMotorJsonLd(motor, "https://x/y") as Record<string, unknown>;
+    expect(ld["@type"]).toBe("Product");
+    expect(ld.offers).toBeUndefined();
   });
 
   it("maps a slash-containing designation to a single safe segment", () => {
