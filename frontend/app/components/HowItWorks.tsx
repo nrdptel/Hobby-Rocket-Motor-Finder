@@ -66,7 +66,10 @@ export function HowItWorks() {
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">My Rockets</strong>{" "}
               &mdash; save a rocket by its motor-mount diameter (the only required field) and optionally
               pin the cert level you fly, an impulse class, a reload case, and/or a total-impulse band.
-              Each rocket shows how many in-stock motors fit it, and a tap applies it as a filter. You
+              Each rocket shows how many in-stock motors fit it, and a tap opens a{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">&ldquo;fly it&rdquo;</strong>{" "}
+              loadout: the in-stock motors that fit, cheapest first, with one tap to add them all to a
+              Plan order &mdash; and when nothing that fits is in stock, the closest buyable swaps. You
               can also save your current filtered view as a rocket.
             </li>
             <li>

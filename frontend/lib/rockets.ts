@@ -54,6 +54,29 @@ function numOrNull(x: unknown): number | null {
  * passes down, rather than the full Motor objects). */
 export type RocketMotor = FitMotor & { inStock: boolean };
 
+// The catalog URL params a rocket maps onto when applied as a filter.
+export const ROCKET_PARAMS = ["dia", "cert", "class", "case", "imin", "imax"] as const;
+
+/** True when the current catalog filter params exactly describe this rocket —
+ * i.e. it's the "active" rocket. `get` reads a param (null/undefined = absent).
+ * Pure (no React/URL types) so the chip row and the loadout agree on which
+ * rocket, if any, is in focus. */
+export function rocketMatchesParams(
+  r: Pick<Rocket, "diameterMm" | "cert" | "impulseClass" | "caseInfo" | "minImpulseNs" | "maxImpulseNs">,
+  get: (key: string) => string | null | undefined,
+): boolean {
+  const strEq = (p: string, v: string | null) => (v == null ? !get(p) : get(p) === v);
+  const numEq = (p: string, v: number | null) => (v == null ? !get(p) : get(p) === String(v));
+  return (
+    get("dia") === String(r.diameterMm) &&
+    strEq("cert", r.cert) &&
+    strEq("class", r.impulseClass) &&
+    strEq("case", r.caseInfo) &&
+    numEq("imin", r.minImpulseNs) &&
+    numEq("imax", r.maxImpulseNs)
+  );
+}
+
 /** Count the in-stock motors that fit a rocket — powers the per-rocket "(N)"
  * availability badge. */
 export function rocketInStockCount(

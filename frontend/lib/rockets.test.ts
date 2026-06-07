@@ -4,6 +4,7 @@ import {
   motorFitsRocket,
   parseRockets,
   rocketInStockCount,
+  rocketMatchesParams,
   serializeRockets,
   type Rocket,
   type RocketMotor,
@@ -180,6 +181,33 @@ describe("motorFitsRocket", () => {
     expect(motorFitsRocket(banded, m(54, "J", 800))).toBe(false); // below min
     expect(motorFitsRocket(banded, m(54, "L", 3000))).toBe(false); // above max
     expect(motorFitsRocket(banded, m(54, "K", null))).toBe(false); // no impulse value
+  });
+});
+
+describe("rocketMatchesParams", () => {
+  // A param getter backed by a plain map (null = absent), like URLSearchParams.get.
+  const getter = (m: Record<string, string>) => (k: string) => m[k] ?? null;
+
+  it("matches when every param exactly describes the rocket", () => {
+    const get = getter({ dia: "54", cert: "l2", imin: "1000", imax: "2560" });
+    expect(rocketMatchesParams(ROCKET, get)).toBe(true);
+  });
+
+  it("requires unset rocket fields to be ABSENT from the params", () => {
+    // ROCKET has no impulseClass; a class param present means it's not this rocket.
+    const get = getter({ dia: "54", cert: "l2", imin: "1000", imax: "2560", class: "K" });
+    expect(rocketMatchesParams(ROCKET, get)).toBe(false);
+  });
+
+  it("fails when a set field differs or is missing", () => {
+    expect(rocketMatchesParams(ROCKET, getter({ dia: "38", cert: "l2", imin: "1000", imax: "2560" }))).toBe(false);
+    expect(rocketMatchesParams(ROCKET, getter({ dia: "54", cert: "l2", imin: "1000" }))).toBe(false);
+  });
+
+  it("matches a diameter-only rocket only when no other rocket params are set", () => {
+    const diaOnly: Rocket = { ...ROCKET, cert: null, minImpulseNs: null, maxImpulseNs: null };
+    expect(rocketMatchesParams(diaOnly, getter({ dia: "54" }))).toBe(true);
+    expect(rocketMatchesParams(diaOnly, getter({ dia: "54", cert: "l2" }))).toBe(false);
   });
 });
 
