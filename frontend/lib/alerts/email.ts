@@ -1,0 +1,192 @@
+// Amazon SES email sender (via the SES v2 API) + the email templates the alert
+// system sends: a double-opt-in confirmation and a restock notification. Kept
+// text-light and inbox-friendly.
+
+import { SendEmailCommand, SESv2Client } from "@aws-sdk/client-sesv2";
+
+type SendArgs = {
+  ses: { region: string; accessKeyId: string; secretAccessKey: string };
+  from: string;
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+  // RFC 8058 one-click unsubscribe header (helps deliverability + gives the
+  // mail client a native unsubscribe button). Passed through SES's Simple-content
+  // Headers field, which supports List-Unsubscribe / List-Unsubscribe-Post.
+  listUnsubscribe?: string;
+};
+
+export async function sendEmail(args: SendArgs): Promise<void> {
+  const client = new SESv2Client({
+    region: args.ses.region,
+    credentials: {
+      accessKeyId: args.ses.accessKeyId,
+      secretAccessKey: args.ses.secretAccessKey,
+    },
+  });
+
+  const headers = args.listUnsubscribe
+    ? [
+        { Name: "List-Unsubscribe", Value: `<${args.listUnsubscribe}>` },
+        { Name: "List-Unsubscribe-Post", Value: "List-Unsubscribe=One-Click" },
+      ]
+    : undefined;
+
+  // The SDK throws on any non-success (auth, throttling, rejected recipient). The
+  // caller treats a throw as "not sent" and rolls back the cooldown so the next
+  // run retries — so we deliberately don't swallow errors here. The SDK already
+  // retries transient/throttling errors internally with backoff.
+  await client.send(
+    new SendEmailCommand({
+      FromEmailAddress: args.from,
+      Destination: { ToAddresses: [args.to] },
+      Content: {
+        Simple: {
+          Subject: { Data: args.subject, Charset: "UTF-8" },
+          Body: {
+            Text: { Data: args.text, Charset: "UTF-8" },
+            Html: { Data: args.html, Charset: "UTF-8" },
+          },
+          ...(headers ? { Headers: headers } : {}),
+        },
+      },
+    }),
+  );
+}
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+export function confirmEmail(
+  designation: string,
+  confirmUrl: string,
+  manageUrl: string,
+): {
+  subject: string;
+  html: string;
+  text: string;
+} {
+  const d = esc(designation);
+  return {
+    subject: `Confirm restock alerts for ${designation}`,
+    text:
+      `Confirm you want restock alerts for ${designation}.\n\n` +
+      `Confirm: ${confirmUrl}\n\n` +
+      `If you didn't request this, ignore this email — no alerts will be sent.\n\n` +
+      `Manage all your alerts anytime: ${manageUrl}`,
+    html:
+      `<p>Confirm you want <strong>restock alerts</strong> for <strong>${d}</strong>.</p>` +
+      `<p><a href="${esc(confirmUrl)}">Confirm subscription</a></p>` +
+      `<p style="color:#666;font-size:12px">If you didn't request this, ignore this email — no alerts will be sent.</p>` +
+      `<p style="color:#666;font-size:12px"><a href="${esc(manageUrl)}">Manage all your alerts</a></p>`,
+  };
+}
+
+export function rocketConfirmEmail(
+  name: string,
+  spec: string,
+  confirmUrl: string,
+  manageUrl: string,
+): { subject: string; html: string; text: string } {
+  const n = esc(name);
+  const s = esc(spec);
+  return {
+    subject: `Confirm restock alerts for ${name}`,
+    text:
+      `Confirm restock alerts for any motor that fits ${name} (${spec}).\n\n` +
+      `We'll email you when an out-of-stock motor matching it comes back.\n\n` +
+      `Confirm: ${confirmUrl}\n\n` +
+      `If you didn't request this, ignore this email — no alerts will be sent.\n\n` +
+      `Manage all your alerts anytime: ${manageUrl}`,
+    html:
+      `<p>Confirm <strong>restock alerts</strong> for any motor that fits ` +
+      `<strong>${n}</strong> <span style="color:#666">(${s})</span>.</p>` +
+      `<p>We'll email you when an out-of-stock motor matching it comes back.</p>` +
+      `<p><a href="${esc(confirmUrl)}">Confirm subscription</a></p>` +
+      `<p style="color:#666;font-size:12px">If you didn't request this, ignore this email — no alerts will be sent.</p>` +
+      `<p style="color:#666;font-size:12px"><a href="${esc(manageUrl)}">Manage all your alerts</a></p>`,
+  };
+}
+
+export function rocketRestockEmail(
+  name: string,
+  motors: ReadonlyArray<{ designation: string; manufacturer: string; url: string }>,
+  unsubscribeUrl: string,
+  manageUrl: string,
+): { subject: string; html: string; text: string } {
+  const n = esc(name);
+  const count = motors.length;
+  const noun = count === 1 ? "motor" : "motors";
+  const subject =
+    count === 1
+      ? `${motors[0].designation} fits ${name} and is back in stock`
+      : `${count} motors that fit ${name} are back in stock`;
+  const textList = motors.map((m) => `• ${m.manufacturer} ${m.designation}: ${m.url}`).join("\n");
+  const htmlList = motors
+    .map(
+      (m) =>
+        `<li><strong>${esc(m.manufacturer)} ${esc(m.designation)}</strong> — ` +
+        `<a href="${esc(m.url)}">see vendors &amp; prices →</a></li>`,
+    )
+    .join("");
+  return {
+    subject,
+    text:
+      `${count} ${noun} that fit ${name} just came back in stock:\n\n` +
+      `${textList}\n\n` +
+      `Stock is best-effort and may sell out fast — confirm on the vendor's site.\n\n` +
+      `Unsubscribe from ${name} alerts: ${unsubscribeUrl}\n` +
+      `Manage all your alerts: ${manageUrl}`,
+    html:
+      `<p><strong>${count} ${noun}</strong> that fit <strong>${n}</strong> just came back in stock:</p>` +
+      `<ul>${htmlList}</ul>` +
+      `<p style="color:#666;font-size:12px">Stock is best-effort and may sell out fast — confirm on the vendor's site before buying.</p>` +
+      `<p style="color:#666;font-size:12px"><a href="${esc(unsubscribeUrl)}">Unsubscribe from ${n} alerts</a> · ` +
+      `<a href="${esc(manageUrl)}">manage all your alerts</a></p>`,
+  };
+}
+
+export function manageEmail(manageUrl: string): {
+  subject: string;
+  html: string;
+  text: string;
+} {
+  return {
+    subject: `Manage your restock alerts`,
+    text:
+      `Here's your link to view and manage your motor restock alerts:\n\n` +
+      `${manageUrl}\n\n` +
+      `This link works for about an hour. If you didn't request it, ignore this email — ` +
+      `nothing changes and the link reveals nothing to anyone else.`,
+    html:
+      `<p>Here's your link to view and manage your motor restock alerts:</p>` +
+      `<p><a href="${esc(manageUrl)}">View &amp; manage my alerts →</a></p>` +
+      `<p style="color:#666;font-size:12px">This link works for about an hour. If you didn't ` +
+      `request it, ignore this email — nothing changes.</p>`,
+  };
+}
+
+export function restockEmail(
+  designation: string,
+  motorUrl: string,
+  unsubscribeUrl: string,
+  manageUrl: string,
+): { subject: string; html: string; text: string } {
+  const d = esc(designation);
+  return {
+    subject: `${designation} is back in stock`,
+    text:
+      `${designation} just came back in stock.\n\n` +
+      `See vendors & prices: ${motorUrl}\n\n` +
+      `Stock is best-effort and may sell out fast — confirm on the vendor's site.\n\n` +
+      `Unsubscribe from ${designation} alerts: ${unsubscribeUrl}\n` +
+      `Manage all your alerts: ${manageUrl}`,
+    html:
+      `<p><strong>${d}</strong> just came back in stock.</p>` +
+      `<p><a href="${esc(motorUrl)}">See vendors &amp; prices →</a></p>` +
+      `<p style="color:#666;font-size:12px">Stock is best-effort and may sell out fast — confirm on the vendor's site before buying.</p>` +
+      `<p style="color:#666;font-size:12px"><a href="${esc(unsubscribeUrl)}">Unsubscribe from ${d} alerts</a> · ` +
+      `<a href="${esc(manageUrl)}">manage all your alerts</a></p>`,
+  };
+}

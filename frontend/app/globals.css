@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Manual (class-based) dark mode: `dark:` utilities apply when an ancestor has
+   the `.dark` class, which an inline script in layout.tsx sets before paint
+   from the persisted theme / system preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Background lives on <html> (not just <body>) so the whole document — and the
+   reload canvas — is themed before any content paints. It's driven by a CSS
+   media query, NOT the JS theme script, so it's correct on the very first paint
+   with no script-timing dependency (the previous version hardcoded a white
+   background that covered the canvas and flashed white until JS ran).
+
+   The default is DARK: a brief flash of dark on reload is preferable to white,
+   and dark-OS users (the common dark-mode case) never see white. Light-OS users
+   get the light background via the media query; an explicit Dark choice (the
+   `.dark` class the script sets) keeps it dark on a light OS too. */
+html {
+  color-scheme: light dark;
+  background-color: #09090b; /* zinc-950 — matches the body's dark background */
+}
+@media (prefers-color-scheme: light) {
+  html:not(.dark) {
+    background-color: #ffffff;
+  }
+}
+html.dark {
+  color-scheme: dark;
+  background-color: #09090b;
+}
+
+/* Visible keyboard focus for every interactive control (WCAG 2.4.7). The filter
+   inputs use Tailwind `focus:outline-none`; an element-level `:focus-visible`
+   selector outranks that class, so the ring shows on keyboard focus while mouse
+   focus stays clean. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #71717a; /* zinc-500 — visible on both themes */
+  outline-offset: 2px;
+  border-radius: 3px;
+}
