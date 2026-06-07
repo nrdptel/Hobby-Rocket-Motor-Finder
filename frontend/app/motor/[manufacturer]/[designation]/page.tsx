@@ -7,6 +7,7 @@ import type { Motor, Snapshot } from "@/lib/snapshot";
 import {
   MIN_CLASS,
   bestInStockPriceCents,
+  buildMotorJsonLd,
   cheapestInStockListing,
   designationFromSlug,
   designationToSlug,
@@ -160,8 +161,17 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
       : []),
   ];
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
+  const jsonLd = buildMotorJsonLd(motor, `${siteUrl}${motorPath(motor)}`);
+
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-10">
+      {/* Product/Offer structured data for search engines. Escape "<" so a
+          scraped vendor name/URL containing "</script>" can't break out. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
       <SiteHeader />
       <nav className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
         <Link href="/" className="hover:text-zinc-800 dark:hover:text-zinc-200">
