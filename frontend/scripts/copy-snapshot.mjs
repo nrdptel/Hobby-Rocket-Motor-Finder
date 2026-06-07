@@ -21,6 +21,7 @@ const files = [
   { src: "snapshot.json", dst: "snapshot.json" },
   { src: "snapshot.example.json", dst: "snapshot.example.json" },
   { src: "history/summary.json", dst: "history-summary.json" },
+  { src: "history/log.json", dst: "history-log.json" },
 ];
 
 await mkdir(targetDir, { recursive: true });

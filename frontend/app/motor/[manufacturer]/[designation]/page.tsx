@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
+import { loadHistoryLog, loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
 import type { Motor, Snapshot } from "@/lib/snapshot";
+import { buildMotorAvailability } from "@/lib/history";
 import {
   MIN_CLASS,
   bestInStockPriceCents,
@@ -25,6 +26,7 @@ import {
   safeHref,
   thrustcurveUrl,
 } from "@/lib/derive";
+import { AvailabilityHistory } from "@/app/components/AvailabilityHistory";
 import { BestPriceTag } from "@/app/components/BestPriceTag";
 import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
@@ -125,6 +127,14 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
   const now = new Date(snapshot.generated_at);
 
   const history = await loadHistorySummary();
+  // Per-listing event log, sliced to just this motor's vendors → availability
+  // history. Loaded only here (it's the big file); falls back to null when no
+  // log is present (fresh clone / pre-backfill deploy).
+  const availability = buildMotorAvailability(
+    motor.listings,
+    await loadHistoryLog(),
+    snapshot.generated_at,
+  );
   const grouped = groupByDelay(motor, "price"); // cheapest vendor first within a delay
   const inStock = motor.listings.filter((l) => listingInStock(l.status)).length;
   const soldOut = inStock === 0;
@@ -304,6 +314,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           </table>
         </div>
       </section>
+
+      {/* Availability over time — buyable-% + per-vendor stock timeline. */}
+      {availability && <AvailabilityHistory availability={availability} now={now} />}
 
       {/* Similar in-stock motors */}
       {similar.length > 0 && (
