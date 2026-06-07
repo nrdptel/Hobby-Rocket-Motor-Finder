@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
+import { loadHistoryLog, loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
+import { catalogAvailability } from "@/lib/history";
 import {
   CERT_LEVELS,
   MIN_CLASS,
@@ -28,7 +29,11 @@ export const revalidate = 60;
 type SearchParamsRaw = Promise<{ [k: string]: string | string[] | undefined }>;
 
 export default async function Home({ searchParams }: { searchParams: SearchParamsRaw }) {
-  const [snapshot, history] = await Promise.all([loadSnapshot(), loadHistorySummary()]);
+  const [snapshot, history, historyLog] = await Promise.all([
+    loadSnapshot(),
+    loadHistorySummary(),
+    loadHistoryLog(),
+  ]);
   if (!snapshot) {
     return (
       <main className="mx-auto max-w-6xl px-6 py-12">
@@ -66,6 +71,12 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   const motorsWithListings = snapshot.motors.filter(
     (m) => m.listings.length > 0 && m.impulse_class >= MIN_CLASS,
   );
+
+  // Compact per-motor availability (buyable-% over the reliable-cadence window)
+  // for the catalog badges. Computed once server-side from the event log and
+  // shipped as one small record per motor — the 1.1MB log never reaches the
+  // client.
+  const availability = catalogAvailability(motorsWithListings, historyLog, snapshot.generated_at);
 
   // Available filter options derived from motors-with-listings (so we don't
   // offer pills that yield zero results).
@@ -147,6 +158,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         <CatalogView
           allMotors={motorsWithListings}
           history={history}
+          availability={availability}
           generatedAt={snapshot.generated_at}
           showManufacturer={showManufacturer}
           manufacturers={manufacturerOptions}

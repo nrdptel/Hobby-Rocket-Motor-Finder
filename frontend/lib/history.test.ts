@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   HISTORY_EPOCH,
   buildMotorAvailability,
+  catalogAvailability,
   formatAgo,
   formatWindow,
   isInStock,
@@ -188,6 +189,52 @@ describe("buildMotorAvailability", () => {
     const a = buildMotorAvailability(listings, log, NOW)!;
     expect(a.currentlyInStock).toBe(false);
     expect(a.lastBuyableAtMs).toBe(Date.parse("2026-06-06T18:00:00Z"));
+  });
+});
+
+describe("catalogAvailability", () => {
+  it("keys a compact summary by motor id and matches the full builder's fraction", () => {
+    const url = "https://v/p";
+    const log: HistoryLog = {
+      [url]: {
+        vendor_slug: "v",
+        events: [
+          { t: EPOCH, status: "out_of_stock", price_cents: 1000 },
+          { t: "2026-06-06T18:00:00Z", status: "in_stock", price_cents: 1000 },
+        ],
+      },
+    };
+    const listings = [{ url, vendor_name: "V", vendor_slug: "v" }];
+    const motors = [{ id: 42, listings: [{ url }] }];
+
+    const cat = catalogAvailability(motors, log, NOW);
+    const full = buildMotorAvailability(listings, log, NOW)!;
+
+    expect(cat[42].fraction).toBeCloseTo(full.fraction, 6);
+    expect(cat[42].currentlyInStock).toBe(full.currentlyInStock);
+    expect(cat[42].meaningful).toBe(true);
+  });
+
+  it("omits motors with no history", () => {
+    const motors = [{ id: 1, listings: [{ url: "https://nope/p" }] }];
+    expect(catalogAvailability(motors, {}, NOW)).toEqual({});
+  });
+
+  it("flags a currently-in-stock-but-mostly-out motor as low fraction", () => {
+    // Out for ~75% of the window, in only the last quarter, in stock now.
+    const url = "https://v/p";
+    const log: HistoryLog = {
+      [url]: {
+        vendor_slug: "v",
+        events: [
+          { t: EPOCH, status: "out_of_stock", price_cents: 1000 },
+          { t: "2026-06-07T06:00:00Z", status: "in_stock", price_cents: 1000 },
+        ],
+      },
+    };
+    const cat = catalogAvailability([{ id: 7, listings: [{ url }] }], log, NOW);
+    expect(cat[7].currentlyInStock).toBe(true);
+    expect(cat[7].fraction).toBeLessThan(0.4);
   });
 });
 
