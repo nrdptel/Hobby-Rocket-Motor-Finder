@@ -4,8 +4,13 @@
 // the cost, so the catalog compares and displays by PER-UNIT price. The pack
 // size lives in the URL (slug or fragment), consistently across vendors.
 
-// Matches "3-pack" / "3 pack" / "12-pack" / "3pk" / "2-pk" / "pack of 3".
-const PACK_RE = /(\d+)\s*[- ]?pack\b|(\d+)\s*[- ]?pk\b|pack\s*of\s*(\d+)/i;
+// Matches the digit-led forms: "3-pack" / "3 pack" / "3 packs" / "12-pack" /
+// "3pk" / "2-pk" / "2 - pack" / "2-motor-pack" / "pack of 3". Separators are
+// hyphen/space (any run), an optional "motor" word is allowed before "pack(s)".
+const PACK_RE = /(\d+)[-\s]*(?:motor[-\s]*)?packs?\b|(\d+)[-\s]*pks?\b|pack\s*of\s*(\d+)/i;
+// And the spelled-out forms vendors actually use: "two pack", "three-pack".
+const WORD_PACK_RE = /\b(two|three|four|six|twelve)[-\s]*(?:motor[-\s]*)?packs?\b/i;
+const WORD_TO_N: Record<string, number> = { two: 2, three: 3, four: 4, six: 6, twelve: 12 };
 // A single SKU isn't a 24-pack of motors; a bigger number is almost certainly
 // something else in the URL, so don't trust it as a pack count.
 const MAX_PACK = 24;
@@ -21,9 +26,12 @@ export function packSize(url: string): number {
     u = url; // malformed %-escapes — fall back to the raw string
   }
   const m = PACK_RE.exec(u);
-  if (!m) return 1;
-  const n = Number(m[1] ?? m[2] ?? m[3]);
-  return Number.isInteger(n) && n >= 2 && n <= MAX_PACK ? n : 1;
+  if (m) {
+    const n = Number(m[1] ?? m[2] ?? m[3]);
+    return Number.isInteger(n) && n >= 2 && n <= MAX_PACK ? n : 1;
+  }
+  const w = WORD_PACK_RE.exec(u);
+  return w ? (WORD_TO_N[w[1].toLowerCase()] ?? 1) : 1;
 }
 
 /** The per-motor price for a listing: the pack price divided by the pack size

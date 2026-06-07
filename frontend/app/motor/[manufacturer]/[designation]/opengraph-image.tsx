@@ -12,6 +12,7 @@ import {
   manufacturerLabel,
   manufacturerSlug,
 } from "@/lib/derive";
+import { unitPriceCents } from "@/lib/pack";
 import { OG_LOGO_PNG } from "@/lib/og-logo";
 
 // Per-motor social card: shared links to /motor/<mfr>/<designation> unfurl with
@@ -61,7 +62,7 @@ export default async function Image({
       const cheapest = cheapestInStockListing(motor);
       const price =
         cheapest?.price_cents != null
-          ? ` — from ${formatPrice(cheapest.price_cents, cheapest.currency)}`
+          ? ` — from ${formatPrice(unitPriceCents(cheapest.price_cents, cheapest.url), cheapest.currency)}`
           : "";
       stockLine = `In stock at ${n} of ${vendors} vendor${vendors === 1 ? "" : "s"}${price}`;
     } else {

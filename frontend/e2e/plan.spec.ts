@@ -3,8 +3,8 @@ import { expect, test, type Page } from "@playwright/test";
 // "Plan your order": star a few in-stock motors, then the /plan page computes the
 // cheapest cross-vendor order. All client-side over the in-memory catalog.
 
-async function starFirstInStock(page: Page, n: number) {
-  await page.goto("/?in_stock=1");
+async function starFirstInStock(page: Page, n: number, query = "in_stock=1") {
+  await page.goto(`/?${query}`);
   await expect(page.locator('a[href^="/motor/"]').first()).toBeVisible();
   // Clicking the first "Add … to watchlist" stars that motor (its button flips to
   // "Remove"), so the next .first() is the next un-starred motor → n distinct.
@@ -28,7 +28,9 @@ test("planner builds a cheapest order from starred motors", async ({ page }) => 
 });
 
 test("changing quantity updates the total", async ({ page }) => {
-  await starFirstInStock(page, 2);
+  // Filter to HPR (H–I): no multipacks there, so a single motor's qty change
+  // always moves the total (a 3-pack would absorb +1 with no cost change).
+  await starFirstInStock(page, 2, "in_stock=1&cert=l1");
   await page.goto("/plan");
   await expect(page.getByText("Cheapest total")).toBeVisible();
 

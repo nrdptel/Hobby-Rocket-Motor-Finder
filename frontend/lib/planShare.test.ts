@@ -58,8 +58,8 @@ describe("orderPlanToText", () => {
           vendorSlug: "wildman",
           vendorName: "Wildman Rocketry",
           lines: [
-            { motor: motor("J90W"), qty: 2, unitPriceCents: 7500, url: "u" },
-            { motor: motor("K530"), qty: 1, unitPriceCents: 6400, url: "u" },
+            { motor: motor("J90W"), qty: 2, unitPriceCents: 7500, packSizeUnits: 1, packsToBuy: 2, lineCostCents: 15000, url: "u" },
+            { motor: motor("K530"), qty: 1, unitPriceCents: 6400, packSizeUnits: 1, packsToBuy: 1, lineCostCents: 6400, url: "u" },
           ],
           subtotalCents: 21400,
         },

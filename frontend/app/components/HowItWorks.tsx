@@ -83,10 +83,11 @@ export function HowItWorks() {
               &mdash; once you&apos;ve starred a few motors, a <em>Plan order</em>{" "}button appears next to
               ★ Starred. It finds the cheapest way to buy your whole list across vendors: set a quantity
               per motor and your estimated shipping/HAZMAT cost per order, and it trades motor price
-              against the number of shipments (since each shipment is its own HAZMAT fee). If any motor
-              on your list is sold out everywhere, it suggests in-stock swaps you can add in one
-              tap to keep the order buyable. Share the plan as a link or copy it as plain text for
-              an email.
+              against the number of shipments (since each shipment is its own HAZMAT fee). It&apos;s
+              pack-aware &mdash; where a motor is sold only in a multipack, it buys whole packs and
+              prices per motor. If any motor on your list is sold out everywhere, it suggests in-stock
+              swaps you can add in one tap to keep the order buyable. Share the plan as a link or copy
+              it as plain text for an email.
             </li>
             {alertsEnabled && (
               <li>
