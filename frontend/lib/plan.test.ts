@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { bestSingleVendor, buildOrderPlan, vendorOffers } from "./plan";
+import { bestSingleVendor, buildOrderPlan, buildSwapSuggestions, vendorOffers } from "./plan";
 import type { Listing, Motor } from "./snapshot";
 
 function L(
@@ -63,6 +63,39 @@ describe("vendorOffers", () => {
     expect(vendorOffers({ motor: m, qty: 5 }).map((o) => o.vendorSlug)).toEqual(["v2"]);
     // qty within count → v1 allowed (and cheaper)
     expect(vendorOffers({ motor: m, qty: 2 }).map((o) => o.vendorSlug).sort()).toEqual(["v1", "v2"]);
+  });
+});
+
+describe("buildSwapSuggestions", () => {
+  // All M() motors are 54mm/J/2000 N·s/90 N → substitutes of each other.
+  const soldOut = M(10, "SOLD", [L("v1", "V1", 5000, "out_of_stock")]);
+  const swapA = M(11, "SWAPA", [L("v1", "V1", 4000)]);
+  const swapB = M(12, "SWAPB", [L("v2", "V2", 4200)]);
+  const wrongDia: Motor = { ...M(13, "WRONG", [L("v1", "V1", 3000)]), diameter_mm: 38 };
+
+  it("offers in-stock substitutes for a sold-out motor", () => {
+    const res = buildSwapSuggestions([soldOut], [soldOut, swapA, swapB, wrongDia], new Set());
+    expect(res).toHaveLength(1);
+    expect(res[0].soldOut.id).toBe(10);
+    expect(res[0].swaps.map((s) => s.id).sort()).toEqual([11, 12]); // wrong diameter excluded
+  });
+
+  it("excludes swaps already on the order", () => {
+    const res = buildSwapSuggestions([soldOut], [soldOut, swapA, swapB], new Set([11]));
+    expect(res[0].swaps.map((s) => s.id)).toEqual([12]);
+  });
+
+  it("keeps a sold-out motor with no swaps (so a restock alert can still show)", () => {
+    const noData: Motor = { ...soldOut, total_impulse_ns: null }; // can't justify a swap
+    const res = buildSwapSuggestions([noData], [noData, swapA], new Set());
+    expect(res).toHaveLength(1);
+    expect(res[0].swaps).toHaveLength(0);
+  });
+
+  it("respects the per-motor limit", () => {
+    const extra = [14, 15, 16].map((i) => M(i, `S${i}`, [L("v1", "V1", 4100 + i)]));
+    const res = buildSwapSuggestions([soldOut], [soldOut, swapA, swapB, ...extra], new Set(), 2);
+    expect(res[0].swaps).toHaveLength(2);
   });
 });
 
