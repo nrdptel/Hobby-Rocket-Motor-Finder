@@ -71,6 +71,10 @@ durations=$(jq -r '
 ' "$REPORT")
 no_finished=$(jq -r '.no_finished_run // [] | join(", ") | if . == "" then "none" else . end' "$REPORT")
 
+# Registered vendors that published 0 listings this run (blocked / no-match) —
+# visibility only; older reports lack the field.
+zero_coverage=$(jq -r '.zero_coverage // [] | join(", ") | if . == "" then "none" else . end' "$REPORT")
+
 # Per-vendor last scrape error, categorized (failed runs only; old reports lack it).
 scrape_errors=$(jq -r '
   (.scrape_errors // {}) | to_entries | sort_by(.key)
@@ -107,6 +111,8 @@ ${anomalies}
 
 **Scrape duration** (max ${max_run}s · no finished run: ${no_finished}):
 ${durations}
+
+**Zero-coverage vendors** (registered, 0 published listings): ${zero_coverage}
 
 **Last scrape errors:**
 ${scrape_errors}"

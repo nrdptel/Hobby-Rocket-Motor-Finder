@@ -14,6 +14,7 @@ import typer
 
 from . import catalog, db, health, history
 from .alerts import restocked_motors
+from .scrapers import REGISTRY
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
 from .normalize import is_out_of_scope
@@ -433,6 +434,17 @@ def snapshot_export(
                 }
         no_finished_run = sorted(v for v in decision if v not in run_durations)
 
+        # Vendors in the scraper REGISTRY that published ZERO listings this
+        # snapshot — neither fresh nor carried-forward. These are a structural
+        # blind spot: the count/staleness/anomaly checks all key on vendors that
+        # HAVE listings, so a vendor that's silently blocked (e.g. erockets is
+        # blocked from CI data-center IPs while working from residential ones) or
+        # whose listings stopped matching the catalog would simply vanish with no
+        # signal at all. Surface it so a "registered but contributing nothing"
+        # vendor is visible in the run summary.
+        published_vendors = set(vendor_counts(payload))
+        zero_coverage = sorted(set(REGISTRY) - published_vendors)
+
         status = {
             "generated_at": payload["generated_at"],
             "floor": floor,
@@ -458,6 +470,8 @@ def snapshot_export(
             # the subset whose anomaly has persisted long enough to escalate.
             "anomalies": anomalies,
             "anomaly_sustained": bool(sustained),
+            # Registered vendors contributing zero published listings this run.
+            "zero_coverage": zero_coverage,
         }
         report_json.parent.mkdir(parents=True, exist_ok=True)
         report_json.write_text(json.dumps(status, indent=2))
@@ -467,6 +481,10 @@ def snapshot_export(
             f"max_run_seconds={status['max_run_seconds']}, "
             f"anomalies={len(anomalies)}, anomaly_sustained={status['anomaly_sustained']})"
         )
+        if zero_coverage:
+            typer.echo(
+                f"  zero-coverage (registered, 0 published listings): {', '.join(zero_coverage)}"
+            )
 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2))
