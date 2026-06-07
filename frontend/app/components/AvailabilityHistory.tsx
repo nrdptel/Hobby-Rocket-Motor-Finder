@@ -11,10 +11,8 @@ import { formatAgo, formatWindow, type MotorAvailability, type Segment } from "@
  * trend). */
 export function AvailabilityHistory({
   availability,
-  now,
 }: {
   availability: MotorAvailability;
-  now: Date;
 }) {
   const a = availability;
   const startLabel = new Date(a.trackStartMs).toLocaleDateString("en-US", {
@@ -48,7 +46,7 @@ export function AvailabilityHistory({
               <span className="font-medium text-emerald-700 dark:text-emerald-400">In stock now</span>
             ) : a.lastBuyableAtMs ? (
               <span className="text-zinc-500 dark:text-zinc-400">
-                Out everywhere · last buyable {formatAgo(now.getTime() - a.lastBuyableAtMs)} ago
+                Out everywhere · last buyable {formatAgo(a.nowMs - a.lastBuyableAtMs)} ago
               </span>
             ) : (
               <span className="text-zinc-500 dark:text-zinc-400">

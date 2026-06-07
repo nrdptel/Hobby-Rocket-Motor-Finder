@@ -66,7 +66,7 @@ export function MotorCard({
           </Link>
           <CertBadge impulseClass={motor.impulse_class} />
           <DiscontinuedBadge discontinued={motor.discontinued} />
-          {!motor.discontinued && <MotorAvailabilityBadge availability={availability} />}
+          <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
         </div>
         <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">
           {showManufacturer && (
@@ -105,9 +105,7 @@ export function MotorCard({
               <ul className="mt-1.5 space-y-1.5">
                 {g.listings.map((l, i) => {
                   const isBestPrice = isBestInStockPrice(l, bestCents);
-                  const sig = listingInStock(l.status)
-                    ? priceSignal(history[l.url], l.price_cents)
-                    : null;
+                  const sig = priceSignal(history[l.url], l.price_cents, listingInStock(l.status));
                   return (
                     <li
                       key={`${l.vendor_slug}-${i}`}
