@@ -58,8 +58,9 @@ export function HowItWorks() {
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">Open a motor</strong>{" "}
               &mdash; click its designation for a detail page with the full specs, every vendor&apos;s
-              price and stock side by side, restock history, similar in-stock motors, and a link to its
-              ThrustCurve thrust curve.
+              price and stock side by side, an <strong className="font-medium text-zinc-800 dark:text-zinc-200">availability
+              history</strong> (how often it&apos;s been buyable, with a per-vendor stock timeline),
+              similar in-stock motors, and a link to its ThrustCurve thrust curve.
             </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">My Rockets</strong>{" "}
