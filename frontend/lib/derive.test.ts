@@ -506,6 +506,24 @@ describe("cheapestInStockCents", () => {
   });
 });
 
+describe("pack-aware pricing (per-unit comparison)", () => {
+  const single = makeListing({ price_cents: 1200, status: "in_stock", url: "https://v/d13-single" });
+  const pack3 = makeListing({ price_cents: 2100, status: "in_stock", url: "https://v/d13-3-pack" }); // $7/ea
+
+  it("ranks a multipack by per-unit price, not the pack total", () => {
+    // The $21 3-pack ($7/ea) is cheaper per motor than the $12 single, even
+    // though $21 > $12.
+    expect(cheapestInStockCents(makeMotor({ listings: [single, pack3] }))).toBe(700);
+  });
+
+  it("gives the 'best' marker to the per-unit-cheapest listing", () => {
+    const best = bestInStockPriceCents([single, pack3]);
+    expect(best).toBe(700);
+    expect(isBestInStockPrice(pack3, best)).toBe(true);
+    expect(isBestInStockPrice(single, best)).toBe(false);
+  });
+});
+
 // --- thrustcurveUrl --------------------------------------------------------
 
 describe("thrustcurveUrl", () => {

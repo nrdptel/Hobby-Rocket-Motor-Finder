@@ -49,7 +49,9 @@ export function Methodology() {
             <dd className="mt-0.5">
               The lowest price among the <em>in-stock</em>{" "}listings of the same variety (same
               designation and delay) &mdash; not across different delays, which can be genuinely
-              different products.
+              different products. Multipacks (some vendors sell small motors in 2/3/12-packs) are
+              compared and shown <em>per motor</em>, with the pack total noted, so a pack&apos;s real
+              per-unit price isn&apos;t mistaken for a single.
             </dd>
           </div>
 

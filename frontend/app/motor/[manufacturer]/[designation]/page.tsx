@@ -26,9 +26,11 @@ import {
   safeHref,
   thrustcurveUrl,
 } from "@/lib/derive";
+import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { AvailabilityHistory } from "@/app/components/AvailabilityHistory";
 import { BestPriceTag } from "@/app/components/BestPriceTag";
+import { PackNote } from "@/app/components/PackNote";
 import { PriceSignalTag } from "@/app/components/PriceSignalTag";
 import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
@@ -85,7 +87,7 @@ function stockSummary(motor: Motor): string {
   const cheapest = cheapestInStockListing(motor);
   const price =
     cheapest?.price_cents != null
-      ? `, from ${formatPrice(cheapest.price_cents, cheapest.currency)}`
+      ? `, from ${formatPrice(unitPriceCents(cheapest.price_cents, cheapest.url), cheapest.currency)}`
       : "";
   return `In stock at ${inStock} of ${vendors} ${vendorWord}${price}`;
 }
@@ -296,8 +298,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                             isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : ""
                           }
                         >
-                          {formatPrice(l.price_cents, l.currency)}
+                          {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
                         </span>
+                        <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
                         {sig && <PriceSignalTag signal={sig} />}
                       </td>
                       <td className="px-3 py-2">
