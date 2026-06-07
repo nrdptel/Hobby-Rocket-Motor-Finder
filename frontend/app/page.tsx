@@ -363,6 +363,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             >
               Motor data from ThrustCurve
             </a>
+            <span aria-hidden className="text-zinc-300 dark:text-zinc-700">·</span>
+            <Link href="/privacy" className="hover:text-zinc-800 dark:hover:text-zinc-200">
+              Privacy
+            </Link>
             {process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1" && (
               <>
                 <span aria-hidden className="text-zinc-300 dark:text-zinc-700">·</span>

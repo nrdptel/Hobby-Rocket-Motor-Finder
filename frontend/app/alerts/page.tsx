@@ -34,7 +34,14 @@ export default function AlertsPage() {
           </p>
           <p className="mt-2 max-w-prose text-xs leading-relaxed text-zinc-500 dark:text-zinc-500">
             For your privacy, we always show the same message and never reveal whether an
-            address is subscribed — your list opens only from the link we email you.
+            address is subscribed — your list opens only from the link we email you. See our{" "}
+            <Link
+              href="/privacy"
+              className="underline underline-offset-2 hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              privacy page
+            </Link>{" "}
+            for what we collect and how to delete it.
           </p>
           <div className="mt-5">
             <ManageAlertsForm />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { BellIcon } from "./BellIcon";
 
 // Per-rocket "email me when ANYTHING that fits this rocket comes back in stock".
@@ -149,7 +150,7 @@ export function RocketNotifyButton({
   return (
     <>
       {liveRegion}
-      <form onSubmit={submit} className="ml-1 inline-flex items-center gap-1">
+      <form onSubmit={submit} className="ml-1 inline-flex flex-wrap items-center gap-1">
         <input
           ref={inputRef}
           type="email"
@@ -181,6 +182,15 @@ export function RocketNotifyButton({
         {status === "error" && (
           <span className="text-xs text-red-600 dark:text-red-400">{message}</span>
         )}
+        <span className="basis-full text-[10px] leading-tight text-zinc-400 dark:text-zinc-500">
+          Double opt-in — we&apos;ll email a confirmation, address used only for restock alerts.{" "}
+          <Link
+            href="/privacy"
+            className="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300"
+          >
+            Privacy
+          </Link>
+        </span>
       </form>
     </>
   );
