@@ -267,7 +267,7 @@ describe("manufacturerSlug / motorPath", () => {
     expect(offers["@type"]).toBe("AggregateOffer");
     expect(offers.lowPrice).toBe("74.99"); // cheapest real price
     expect(offers.highPrice).toBe("81.00"); // sentinel 9999.99 excluded
-    expect(offers.offerCount).toBe(4); // all listings counted as offers
+    expect(offers.offerCount).toBe(2); // matches the real-priced offers array
     expect(offers.offers).toHaveLength(2); // only the two real-priced ones
     expect(offers.availability).toBe("https://schema.org/InStock"); // one is in stock
   });
