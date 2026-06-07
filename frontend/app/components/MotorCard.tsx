@@ -12,8 +12,10 @@ import {
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
+import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
 import { CertBadge } from "./CertBadge";
+import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
@@ -97,6 +99,7 @@ export function MotorCard({
               <ul className="mt-1.5 space-y-1.5">
                 {g.listings.map((l, i) => {
                   const isBestPrice = isBestInStockPrice(l, bestCents);
+                  const sig = priceSignal(history[l.url], l.price_cents);
                   return (
                     <li
                       key={`${l.vendor_slug}-${i}`}
@@ -119,6 +122,7 @@ export function MotorCard({
                           {isBestPrice && <BestPriceTag />}
                           {formatPrice(l.price_cents, l.currency)}
                         </div>
+                        {sig && <PriceSignalTag signal={sig} />}
                         <a
                           href={safeHref(l.url)}
                           target="_blank"

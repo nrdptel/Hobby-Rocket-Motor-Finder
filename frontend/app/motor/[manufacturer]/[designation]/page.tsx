@@ -26,8 +26,10 @@ import {
   safeHref,
   thrustcurveUrl,
 } from "@/lib/derive";
+import { priceSignal } from "@/lib/priceSignal";
 import { AvailabilityHistory } from "@/app/components/AvailabilityHistory";
 import { BestPriceTag } from "@/app/components/BestPriceTag";
+import { PriceSignalTag } from "@/app/components/PriceSignalTag";
 import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
 import { NotifyButton } from "@/app/components/NotifyButton";
@@ -259,6 +261,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                 const bestCents = bestInStockPriceCents(g.listings);
                 return g.listings.map((l, i) => {
                   const isBestPrice = isBestInStockPrice(l, bestCents);
+                  const sig = priceSignal(history[l.url], l.price_cents);
                   return (
                     <tr
                       key={`${g.delay}-${l.vendor_slug}-${i}`}
@@ -295,6 +298,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                         >
                           {formatPrice(l.price_cents, l.currency)}
                         </span>
+                        {sig && <PriceSignalTag signal={sig} />}
                       </td>
                       <td className="px-3 py-2">
                         <a
