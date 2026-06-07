@@ -46,7 +46,7 @@ _DEFAULT_HEALTH_BASELINE = _REPO_ROOT / "data" / "health-baseline.json"
 # collapse (parse break → near-zero) trips carry-forward. Without these, a
 # full-catalog single-page vendor like Balsa (~204 listings, only ~4 above the
 # global 200) would silently roll back to stale data after selling through a
-# handful of motors. Loki lists ~60 reloads from one page (all-or-nothing), so
+# handful of motors. Loki lists ~50 reloads from one page (all-or-nothing), so
 # the low tens already signal a degraded scrape.
 _VENDOR_FLOORS = {
     "loki": 10,

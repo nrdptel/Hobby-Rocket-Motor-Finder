@@ -20,9 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const snapshot = await loadSnapshot();
   const lastModified = snapshot ? new Date(snapshot.generated_at) : new Date();
 
+  // /alerts is intentionally omitted — it's noindex (a private management page),
+  // so advertising it in the sitemap would be a mixed signal to crawlers.
   const entries: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified, changeFrequency: "hourly", priority: 1 },
-    { url: `${siteUrl}/alerts`, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${siteUrl}/privacy`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
   if (!snapshot) return entries;

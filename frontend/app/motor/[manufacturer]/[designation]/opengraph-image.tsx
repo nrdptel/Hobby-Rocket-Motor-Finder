@@ -2,6 +2,7 @@ import { ImageResponse } from "next/og";
 
 import { loadSnapshot } from "@/lib/snapshot";
 import {
+  MIN_CLASS,
   cheapestInStockListing,
   designationFromSlug,
   formatImpulse,
@@ -34,6 +35,7 @@ export default async function Image({
   const motor = snapshot?.motors.find(
     (m) =>
       m.listings.length > 0 &&
+      m.impulse_class >= MIN_CLASS &&
       manufacturerSlug(m.manufacturer) === mfr &&
       m.designation === designation,
   );
