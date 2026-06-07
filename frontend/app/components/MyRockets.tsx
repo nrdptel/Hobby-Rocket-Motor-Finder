@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 
 import {
   rocketInStockCount,
@@ -10,6 +9,7 @@ import {
   type RocketInput,
   type RocketMotor,
 } from "@/lib/rockets";
+import { useCatalogFilters } from "./CatalogFilters";
 import type { CaseOption } from "@/lib/derive";
 import { RocketNotifyButton } from "./RocketNotifyButton";
 
@@ -34,8 +34,7 @@ export function MyRockets({
   cases: CaseOption[];
   motors: RocketMotor[];
 }) {
-  const router = useRouter();
-  const sp = useSearchParams();
+  const { params: sp, replace } = useCatalogFilters();
   const { rockets, add, update, remove, restore, hydrated } = useRockets();
   const [showAdd, setShowAdd] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -69,10 +68,9 @@ export function MyRockets({
     numParamEq("imin", r.minImpulseNs) &&
     numParamEq("imax", r.maxImpulseNs);
 
-  const pushParams = (next: URLSearchParams) => {
-    const qs = next.toString();
-    router.push(qs ? `/?${qs}` : "/", { scroll: false });
-  };
+  // Apply a wholesale filter change through the client store (instant, no
+  // navigation; URL kept in sync for sharing).
+  const pushParams = (next: URLSearchParams) => replace(next);
 
   type Spec = Pick<
     Rocket,

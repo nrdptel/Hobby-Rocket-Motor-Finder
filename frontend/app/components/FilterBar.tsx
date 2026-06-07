@@ -1,10 +1,10 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { numericParamValue, searchParamValue } from "@/lib/derive";
 import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
+import { useCatalogFilters } from "./CatalogFilters";
 import { CaseFilter } from "./CaseFilter";
 import { PropellantFilter } from "./PropellantFilter";
 import { VendorFilter } from "./VendorFilter";
@@ -69,8 +69,7 @@ export function FilterBar({
   propellants,
   vendors,
 }: Props) {
-  const router = useRouter();
-  const sp = useSearchParams();
+  const { params: sp, update, clearAll } = useCatalogFilters();
   const { count: starredCount, clear: clearWatchlist, hydrated } = useWatchlist();
   const [copied, setCopied] = useState(false);
 
@@ -89,17 +88,6 @@ export function FilterBar({
   const urlQuery = sp.get("q") ?? "";
   const urlMinImpulse = sp.get("imin") ?? "";
   const urlMaxImpulse = sp.get("imax") ?? "";
-
-  const update = useCallback(
-    (key: string, value: string | null) => {
-      const next = new URLSearchParams(sp.toString());
-      if (value == null) next.delete(key);
-      else next.set(key, value);
-      const qs = next.toString();
-      router.push(qs ? `/?${qs}` : "/", { scroll: false });
-    },
-    [router, sp],
-  );
 
   // Free-text inputs: instant local typing, debounced URL writes. The hook also
   // mirrors external URL changes (e.g. "clear all") back into the input.
@@ -145,7 +133,6 @@ export function FilterBar({
     urlQuery.length > 0 ||
     urlMinImpulse.length > 0 ||
     urlMaxImpulse.length > 0;
-  const clearAll = () => router.push("/", { scroll: false });
 
   // Copy a shareable link to the current filtered view — the filters all live
   // in the URL, so the address itself is the share payload.
