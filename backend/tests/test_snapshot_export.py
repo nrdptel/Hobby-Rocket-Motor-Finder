@@ -308,6 +308,23 @@ def test_report_json_healthy_when_no_floor(tmp_db, tmp_path):
     assert status["decision"]["csrocketry"] == "healthy"
 
 
+def test_report_json_flags_zero_coverage_vendors(tmp_db, tmp_path):
+    """A registered vendor that published no listings shows up in zero_coverage,
+    while a vendor that did publish does not. Guards the silent blind spot where a
+    blocked/non-matching vendor (e.g. erockets from CI IPs) would otherwise vanish
+    from every count/staleness/anomaly check with no signal."""
+    _seed_minimal(tmp_db)  # seeds csrocketry listings
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    snapshot_export(out=out, report_json=report)
+
+    status = json.loads(report.read_text())
+    # erockets is in the scraper REGISTRY but was never seeded → zero coverage.
+    assert "erockets" in status["zero_coverage"]
+    # csrocketry published listings → not flagged.
+    assert "csrocketry" not in status["zero_coverage"]
+
+
 def test_report_json_flags_carried_vendor(tmp_db, tmp_path):
     """A vendor below floor but with prior data is 'carried' → degraded=True,
     and the snapshot still publishes (no exit)."""
