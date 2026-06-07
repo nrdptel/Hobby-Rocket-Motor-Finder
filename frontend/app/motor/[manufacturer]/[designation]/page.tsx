@@ -261,9 +261,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                 const bestCents = bestInStockPriceCents(g.listings);
                 return g.listings.map((l, i) => {
                   const isBestPrice = isBestInStockPrice(l, bestCents);
-                  const sig = listingInStock(l.status)
-                    ? priceSignal(history[l.url], l.price_cents)
-                    : null;
+                  const sig = priceSignal(history[l.url], l.price_cents, listingInStock(l.status));
                   return (
                     <tr
                       key={`${g.delay}-${l.vendor_slug}-${i}`}
@@ -322,7 +320,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
       </section>
 
       {/* Availability over time — buyable-% + per-vendor stock timeline. */}
-      {availability && <AvailabilityHistory availability={availability} now={now} />}
+      {availability && <AvailabilityHistory availability={availability} />}
 
       {/* Similar in-stock motors */}
       {similar.length > 0 && (
