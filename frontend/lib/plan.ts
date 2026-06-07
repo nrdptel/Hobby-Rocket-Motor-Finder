@@ -3,7 +3,7 @@
 // across the tracked vendors — trading motor price against the number of separate
 // shipments (each shipment = one HAZMAT fee). Pure + unit-tested; no React/DOM.
 
-import { listingInStock } from "./derive";
+import { findSubstitutes, listingInStock } from "./derive";
 import type { Motor } from "./snapshot";
 
 export type PlanItem = { motor: Motor; qty: number };
@@ -202,4 +202,25 @@ export function bestSingleVendor(items: PlanItem[]): SingleVendorOption | null {
     }
   }
   return best;
+}
+
+export type SwapSuggestion = { soldOut: Motor; swaps: Motor[] };
+
+/** For each sold-out-everywhere motor on the order, the best IN-STOCK substitutes
+ * to buy instead — same mount + impulse class, within the substitute bands — so
+ * the order is actually completable during a shortage. Excludes anything already
+ * on the order (`excludeIds`), and keeps every sold-out motor in the result (even
+ * with no swaps) so the caller can still offer a restock alert. */
+export function buildSwapSuggestions(
+  unavailable: readonly Motor[],
+  allMotors: readonly Motor[],
+  excludeIds: ReadonlySet<number>,
+  perMotor = 3,
+): SwapSuggestion[] {
+  return unavailable.map((soldOut) => ({
+    soldOut,
+    swaps: findSubstitutes(soldOut, allMotors)
+      .filter((s) => !excludeIds.has(s.id))
+      .slice(0, perMotor),
+  }));
 }

@@ -3,8 +3,21 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-import { formatPrice, manufacturerLabel, manufacturerSlug, motorPath, safeHref } from "@/lib/derive";
-import { bestSingleVendor, buildOrderPlan, vendorOffers, type PlanItem } from "@/lib/plan";
+import {
+  cheapestInStockCents,
+  formatPrice,
+  manufacturerLabel,
+  manufacturerSlug,
+  motorPath,
+  safeHref,
+} from "@/lib/derive";
+import {
+  bestSingleVendor,
+  buildOrderPlan,
+  buildSwapSuggestions,
+  vendorOffers,
+  type PlanItem,
+} from "@/lib/plan";
 import { decodeSharedOrder, encodeSharedOrder, orderPlanToText } from "@/lib/planShare";
 import type { Motor } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
@@ -129,6 +142,14 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
   );
   const plan = useMemo(() => buildOrderPlan(items, effShipping), [items, effShipping]);
   const single = useMemo(() => bestSingleVendor(items), [items]);
+
+  // For each sold-out-everywhere motor, in-stock swaps to keep the order
+  // buyable. Only on your own list (not a shared-order preview), and excluding
+  // anything already starred so a swap you've added drops off the suggestions.
+  const swapSuggestions = useMemo(
+    () => (previewing ? [] : buildSwapSuggestions(plan.unavailable, allMotors, starred)),
+    [previewing, plan.unavailable, allMotors, starred],
+  );
 
   const exitPreview = () => {
     setDismissed(true);
@@ -375,22 +396,71 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
             </section>
           )}
 
-          {/* Out of stock everywhere */}
+          {/* Out of stock everywhere — offer in-stock swaps to keep the order
+              buyable, plus a restock-alert fallback. */}
           {plan.unavailable.length > 0 && (
             <section className="mt-8">
               <h2 className="text-lg font-semibold tracking-tight">Not in stock anywhere</h2>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                {previewing
+                  ? "Sold out everywhere right now."
+                  : "Sold out everywhere — add an in-stock swap to keep your order buyable, or set a restock alert."}
+              </p>
               <ul className="mt-3 divide-y divide-zinc-200 rounded-md border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
-                {plan.unavailable.map((m) => (
-                  <li key={m.id} className="flex items-center justify-between gap-3 px-3 py-2 text-sm">
-                    <Link href={motorPath(m)} className="font-mono text-zinc-900 hover:underline dark:text-zinc-100">
-                      {m.designation}
-                    </Link>
-                    <Link
-                      href={motorPath(m)}
-                      className="shrink-0 text-xs text-zinc-500 underline hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
-                    >
-                      set a restock alert →
-                    </Link>
+                {(previewing
+                  ? plan.unavailable.map((m) => ({ soldOut: m, swaps: [] as Motor[] }))
+                  : swapSuggestions
+                ).map(({ soldOut: m, swaps }) => (
+                  <li key={m.id} className="px-3 py-2 text-sm">
+                    <div className="flex items-center justify-between gap-3">
+                      <Link
+                        href={motorPath(m)}
+                        className="font-mono text-zinc-900 hover:underline dark:text-zinc-100"
+                      >
+                        {m.designation}
+                      </Link>
+                      <Link
+                        href={motorPath(m)}
+                        className="shrink-0 text-xs text-zinc-500 underline hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
+                      >
+                        set a restock alert →
+                      </Link>
+                    </div>
+                    {swaps.length > 0 && (
+                      <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">In stock instead:</span>
+                        {swaps.map((s) => {
+                          const price = cheapestInStockCents(s);
+                          return (
+                            <span
+                              key={s.id}
+                              className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-50 py-0.5 pl-2 pr-1 text-xs dark:border-emerald-800/60 dark:bg-emerald-950/40"
+                            >
+                              <Link
+                                href={motorPath(s)}
+                                className="font-mono text-emerald-800 hover:underline dark:text-emerald-300"
+                              >
+                                {s.designation}
+                              </Link>
+                              {price != null && (
+                                <span className="tabular-nums text-emerald-700/80 dark:text-emerald-400/80">
+                                  {usd(price)}
+                                </span>
+                              )}
+                              <button
+                                type="button"
+                                onClick={() => toggle(s.id)}
+                                aria-label={`Add ${s.designation} to your order instead of ${m.designation}`}
+                                title={`Add ${s.designation} to your order`}
+                                className="ml-0.5 rounded-full bg-emerald-600 px-1.5 font-medium text-white hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600"
+                              >
+                                + add
+                              </button>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
