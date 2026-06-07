@@ -14,7 +14,6 @@ import typer
 
 from . import catalog, db, health, history
 from .alerts import restocked_motors
-from .scrapers import REGISTRY
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
 from .normalize import is_out_of_scope
