@@ -15,6 +15,7 @@ import {
   safeHref,
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
+import type { CatalogAvailability } from "@/lib/history";
 import type { HistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
 import { priceSignal } from "@/lib/priceSignal";
@@ -22,6 +23,7 @@ import { BestPriceTag } from "./BestPriceTag";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
+import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
@@ -48,6 +50,7 @@ export function MotorResults({
   generatedAt,
   starredOnly,
   history,
+  availability,
   substitutes,
 }: {
   motors: GroupedMotor[];
@@ -55,6 +58,7 @@ export function MotorResults({
   generatedAt: string;
   starredOnly: boolean;
   history: HistorySummary;
+  availability: Record<number, CatalogAvailability>;
   substitutes: Record<number, Substitute[]>;
 }) {
   const { starred, hydrated, count } = useWatchlist();
@@ -161,6 +165,7 @@ export function MotorResults({
                           </Link>
                           <CertBadge impulseClass={m.impulse_class} />
                           <DiscontinuedBadge discontinued={m.discontinued} />
+                          <MotorAvailabilityBadge availability={availability[m.id]} />
                         </span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">
                           {showManufacturer ? `${manufacturerLabel(m.manufacturer)} · ` : ""}
@@ -274,6 +279,7 @@ export function MotorResults({
               showManufacturer={showManufacturer}
               snapshotTime={now}
               history={history}
+              availability={availability[m.id]}
               substitutes={substitutes[m.id]}
             />
           ))

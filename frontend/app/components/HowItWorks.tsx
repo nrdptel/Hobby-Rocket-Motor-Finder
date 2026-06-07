@@ -145,6 +145,33 @@ export function HowItWorks() {
             </li>
             <li className="flex items-start gap-2.5">
               <span className="shrink-0 pt-0.5">
+                <span className="rounded border border-amber-400/70 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-700 dark:border-amber-500/50 dark:text-amber-500">
+                  rarely in stock
+                </span>
+              </span>
+              <span>
+                Availability from history:{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">rarely in stock</strong>{" "}
+                means it&apos;s in stock right now but usually isn&apos;t &mdash; grab it;{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">often out</strong>{" "}
+                means it comes and goes. Reliably-stocked motors show neither.
+              </span>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <span className="shrink-0 pt-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+                ↓ lowest tracked
+              </span>
+              <span>
+                How a price compares to its own history:{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">↓ lowest tracked</strong> /{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">↓ price dropped</strong>{" "}
+                (green) flag a good time to buy;{" "}
+                <strong className="font-medium text-zinc-800 dark:text-zinc-200">↑ above its low</strong>{" "}
+                means it&apos;s been cheaper before.
+              </span>
+            </li>
+            <li className="flex items-start gap-2.5">
+              <span className="shrink-0 pt-0.5">
                 <CertBadge impulseClass="J" />
               </span>
               <span>

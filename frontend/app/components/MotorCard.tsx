@@ -11,12 +11,14 @@ import {
   safeHref,
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
+import type { CatalogAvailability } from "@/lib/history";
 import type { HistorySummary } from "@/lib/snapshot";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
+import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
 import { NotifyButton } from "./NotifyButton";
@@ -38,12 +40,14 @@ export function MotorCard({
   showManufacturer,
   snapshotTime,
   history,
+  availability,
   substitutes,
 }: {
   motor: GroupedMotor;
   showManufacturer: boolean;
   snapshotTime: Date;
   history: HistorySummary;
+  availability: CatalogAvailability | undefined;
   substitutes?: Substitute[];
 }) {
   return (
@@ -61,6 +65,7 @@ export function MotorCard({
           </Link>
           <CertBadge impulseClass={motor.impulse_class} />
           <DiscontinuedBadge discontinued={motor.discontinued} />
+          <MotorAvailabilityBadge availability={availability} />
         </div>
         <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">
           {showManufacturer && (

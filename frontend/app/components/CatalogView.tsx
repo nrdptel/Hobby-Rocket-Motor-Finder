@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { buildCatalogView, parseCatalogParams } from "@/lib/catalog";
 import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
+import type { CatalogAvailability } from "@/lib/history";
 import type { RocketMotor } from "@/lib/rockets";
 import type { HistorySummary, Motor } from "@/lib/snapshot";
 import { useCatalogFilters } from "./CatalogFilters";
@@ -20,6 +21,7 @@ type CertLevel = { key: string; label: string; sublabel: string };
 export function CatalogView({
   allMotors,
   history,
+  availability,
   generatedAt,
   showManufacturer,
   manufacturers,
@@ -33,6 +35,7 @@ export function CatalogView({
 }: {
   allMotors: Motor[];
   history: HistorySummary;
+  availability: Record<number, CatalogAvailability>;
   generatedAt: string;
   showManufacturer: boolean;
   manufacturers: string[];
@@ -77,6 +80,7 @@ export function CatalogView({
         generatedAt={generatedAt}
         starredOnly={parsed.starredOnly}
         history={history}
+        availability={availability}
         substitutes={substitutes}
       />
     </>
