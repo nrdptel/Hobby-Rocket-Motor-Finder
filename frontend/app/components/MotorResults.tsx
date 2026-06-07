@@ -17,8 +17,10 @@ import {
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { HistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
+import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
 import { CertBadge } from "./CertBadge";
+import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
@@ -183,6 +185,7 @@ export function MotorResults({
                   g.listings.forEach((l, i) => {
                     const isBestPrice = isBestInStockPrice(l, bestCents);
                     const isDelayFirst = i === 0;
+                    const sig = priceSignal(history[l.url], l.price_cents);
                     rows.push(
                       <tr
                         key={`${m.id}-${g.delay}-${l.vendor_slug}-${i}`}
@@ -222,6 +225,7 @@ export function MotorResults({
                           >
                             {formatPrice(l.price_cents, l.currency)}
                           </span>
+                          {sig && <PriceSignalTag signal={sig} />}
                         </td>
                         <td className="px-3 py-2">
                           <a
