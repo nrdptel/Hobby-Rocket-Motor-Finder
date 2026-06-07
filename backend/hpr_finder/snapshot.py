@@ -60,7 +60,7 @@ def carry_forward(
 
     ``floor`` is the default applied to every vendor; ``vendor_floors`` overrides
     it per-vendor slug. The override exists for small-catalog vendors (e.g. Loki
-    has only ~60 reloads) that would otherwise sit permanently below the global
+    has only ~50 reloads) that would otherwise sit permanently below the global
     floor sized for the big AeroTech/CTI vendors.
 
     Returns ``(merged_snapshot, report)``. ``report`` carries the per-vendor

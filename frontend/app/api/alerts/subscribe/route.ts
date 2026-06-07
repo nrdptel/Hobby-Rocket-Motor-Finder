@@ -53,13 +53,18 @@ export async function POST(request: Request): Promise<Response> {
     if (await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX)) {
       return json({ error: "rate limited; try again later" }, 429);
     }
-    if (await overGlobalConfirmCap(cfg, utcHour())) {
-      return json({ error: "rate limited; try again later" }, 429);
-    }
-    // Already mailed this address recently → don't re-send (anti inbox-bomb), but
-    // return the SAME success message so we never reveal subscription state.
+    // Per-recipient cooldown BEFORE the global cap, so a request we're going to
+    // suppress (no email) doesn't burn the global hourly budget — the global cap
+    // then counts only would-be sends. Suppressed → SAME success message so we
+    // never reveal subscription state.
     if (await confirmRecentlySent(cfg, email)) {
       return json({ ok: true, message: "Check your email to confirm." });
+    }
+    if (await overGlobalConfirmCap(cfg, utcHour())) {
+      // Over the global cap after claiming the cooldown → release it so this
+      // address isn't locked out of retrying once the window resets.
+      await releaseConfirmCooldown(cfg, email);
+      return json({ error: "rate limited; try again later" }, 429);
     }
   } catch {
     return json({ error: "rate limited; try again later" }, 429);
