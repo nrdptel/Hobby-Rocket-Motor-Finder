@@ -165,7 +165,9 @@ export function MotorResults({
                           </Link>
                           <CertBadge impulseClass={m.impulse_class} />
                           <DiscontinuedBadge discontinued={m.discontinued} />
-                          <MotorAvailabilityBadge availability={availability[m.id]} />
+                          {!m.discontinued && (
+                            <MotorAvailabilityBadge availability={availability[m.id]} />
+                          )}
                         </span>
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">
                           {showManufacturer ? `${manufacturerLabel(m.manufacturer)} · ` : ""}
@@ -190,7 +192,10 @@ export function MotorResults({
                   g.listings.forEach((l, i) => {
                     const isBestPrice = isBestInStockPrice(l, bestCents);
                     const isDelayFirst = i === 0;
-                    const sig = priceSignal(history[l.url], l.price_cents);
+                    // Only a buy-cue for listings you can actually buy.
+                    const sig = listingInStock(l.status)
+                      ? priceSignal(history[l.url], l.price_cents)
+                      : null;
                     rows.push(
                       <tr
                         key={`${m.id}-${g.delay}-${l.vendor_slug}-${i}`}

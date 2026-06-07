@@ -1,3 +1,4 @@
+import { plausiblePair } from "./priceSignal";
 import type { StockStatus } from "./snapshot";
 
 // The hourly scrape only became cadence-reliable when an external cron took over
@@ -73,7 +74,20 @@ export type MotorAvailability = {
 };
 
 function parseMs(t: string | null | undefined): number {
-  return t ? Date.parse(t) : NaN;
+  if (!t) return NaN;
+  // Some event timestamps are stored timezone-naive (e.g. "2026-05-30T18:37:08").
+  // Date.parse would read those in the HOST's local zone, while our epoch + `now`
+  // are UTC — so on any non-UTC host the window would skew by the host offset.
+  // The backend treats naive timestamps as UTC (history.py `_parse`), so we must
+  // too: append a 'Z' when there's no zone designator.
+  const zoned = /[zZ]$|[+-]\d\d:?\d\d$/.test(t) ? t : `${t}Z`;
+  return Date.parse(zoned);
+}
+
+// Defensive: the backend appends events in chronological order, but the interval
+// and segment math depends on it, so never trust the input — sort a copy by time.
+function sortedEvents(events: HistoryEvent[]): HistoryEvent[] {
+  return [...events].sort((a, b) => parseMs(a.t) - parseMs(b.t));
 }
 
 /** In-stock intervals for one listing's events, clipped to [windowStart, now].
@@ -136,7 +150,9 @@ function vendorSegments(events: HistoryEvent[], trackStart: number, now: number)
 
   const firstMs = events.length ? parseMs(events[0].t) : NaN;
   // Before the first event (or for an event-less listing) the state is unknown.
-  const knownFrom = Number.isNaN(firstMs) ? now : Math.max(firstMs, trackStart);
+  // Clamp to `now` so a future-dated first event can't make the unknown segment
+  // exceed the axis (widthFrac > 1).
+  const knownFrom = Number.isNaN(firstMs) ? now : Math.min(now, Math.max(firstMs, trackStart));
   if (knownFrom > trackStart) raw.push({ kind: "unknown", start: trackStart, end: knownFrom });
 
   for (let i = 0; i < events.length; i++) {
@@ -205,7 +221,7 @@ export function buildMotorAvailability(
   if (Number.isNaN(now) || Number.isNaN(epoch)) return null;
 
   const withEvents = listings
-    .map((l) => ({ ...l, events: log[l.url]?.events ?? [] }))
+    .map((l) => ({ ...l, events: sortedEvents(log[l.url]?.events ?? []) }))
     .filter((l) => l.events.length > 0);
   if (withEvents.length === 0) return null;
 
@@ -227,6 +243,13 @@ export function buildMotorAvailability(
       priceLow = priceLow == null ? e.price_cents : Math.min(priceLow, e.price_cents);
       priceHigh = priceHigh == null ? e.price_cents : Math.max(priceHigh, e.price_cents);
     }
+  }
+
+  // Drop the range if low/high aren't a trustworthy pair — same noise guard the
+  // price signal uses, so a misparsed reading can't print "$29.74–$277.19".
+  if (priceLow != null && priceHigh != null && !plausiblePair(priceLow, priceHigh)) {
+    priceLow = null;
+    priceHigh = null;
   }
 
   const vendors: VendorTimeline[] = withEvents.map((l) => ({
@@ -254,11 +277,13 @@ export function buildMotorAvailability(
 
 // Compact per-motor availability for the catalog list — just enough to drive a
 // badge, computed server-side and shipped as one small record per motor (no
-// timelines). `meaningful` gates display until the tracked window is long enough
-// to mean something.
+// timelines). `windowMs` lets the badge withhold an assertive scarcity claim
+// until enough time has been tracked (a 12h `meaningful` floor is fine for a
+// neutral %, but "rarely in stock" needs a longer window to be honest).
 export type CatalogAvailability = {
   fraction: number;
   meaningful: boolean;
+  windowMs: number;
   currentlyInStock: boolean;
 };
 
@@ -277,7 +302,7 @@ export function catalogAvailability(
   if (Number.isNaN(now) || Number.isNaN(epoch)) return out;
   for (const m of motors) {
     const core = buyableWindow(
-      m.listings.map((l) => log[l.url]?.events ?? []),
+      m.listings.map((l) => sortedEvents(log[l.url]?.events ?? [])),
       epoch,
       now,
     );
@@ -285,6 +310,7 @@ export function catalogAvailability(
     out[m.id] = {
       fraction: core.windowMs > 0 ? Math.min(1, core.buyableMs / core.windowMs) : 0,
       meaningful: core.windowMs >= MIN_MEANINGFUL_WINDOW_MS,
+      windowMs: core.windowMs,
       currentlyInStock: core.currentlyInStock,
     };
   }

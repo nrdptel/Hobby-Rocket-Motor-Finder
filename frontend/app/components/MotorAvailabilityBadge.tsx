@@ -5,6 +5,11 @@ import type { CatalogAvailability } from "@/lib/history";
 const RARE = 0.4;
 const INTERMITTENT = 0.85;
 
+// A scarcity verdict is a claim about a long-run pattern, so it needs a longer
+// tracked window than a neutral buyable-% does — don't brand a motor "rarely in
+// stock" off a day or two of data, even though the math is valid for the window.
+const BADGE_MIN_WINDOW_MS = 5 * 24 * 60 * 60 * 1000;
+
 /** A motor-level availability badge for the catalog, derived from history. It
  * only speaks up when it changes a buying decision:
  *  - amber "rarely in stock" — in stock now but usually NOT, so grab it;
@@ -17,7 +22,8 @@ export function MotorAvailabilityBadge({
 }: {
   availability: CatalogAvailability | undefined;
 }) {
-  if (!availability || !availability.meaningful || !availability.currentlyInStock) return null;
+  if (!availability || availability.windowMs < BADGE_MIN_WINDOW_MS || !availability.currentlyInStock)
+    return null;
   const { fraction } = availability;
   if (fraction >= INTERMITTENT) return null;
   const pct = Math.round(fraction * 100);
