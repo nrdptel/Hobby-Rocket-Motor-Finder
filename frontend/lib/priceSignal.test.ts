@@ -86,6 +86,12 @@ describe("priceSignal", () => {
     expect(s?.kind).toBe("lowest"); // also the low → strongest signal
   });
 
+  it("returns null for an out-of-stock listing (no buy-cue on what you can't buy)", () => {
+    const moved = h({ price_low_cents: 1500, price_high_cents: 2000 });
+    expect(priceSignal(moved, 1500, true)?.kind).toBe("lowest"); // in stock → shows
+    expect(priceSignal(moved, 1500, false)).toBeNull(); // out of stock → suppressed
+  });
+
   it("suppresses the 'above its low' signal when the high end is noisy", () => {
     // low $10, high $30 (3x → noisy), current $20: don't claim "above its low"
     // off an untrustworthy spread.

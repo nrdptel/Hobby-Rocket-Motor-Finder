@@ -178,7 +178,7 @@ function LoadoutRow({
           {showManufacturer ? `${manufacturerLabel(m.manufacturer)} · ` : ""}
           {m.impulse_class} · {formatImpulse(m.total_impulse_ns)}
         </span>
-        <MotorAvailabilityBadge availability={availability} />
+        <MotorAvailabilityBadge availability={availability} discontinued={m.discontinued} />
       </div>
       <div className="shrink-0 text-right text-xs tabular-nums">
         {entry.cheapestCents != null ? (

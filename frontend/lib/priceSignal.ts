@@ -44,8 +44,11 @@ export function plausiblePair(a: number | null, b: number | null): boolean {
 export function priceSignal(
   h: ListingHistory | undefined,
   currentCents: number | null,
+  inStock = true,
 ): PriceSignal | null {
-  if (!h || currentCents == null) return null;
+  // A price marker is a buy-cue — pointless (and misleading) on a listing you
+  // can't actually buy, so suppress it when the listing is out of stock.
+  if (!inStock || !h || currentCents == null) return null;
   const low = h.price_low_cents;
   const high = h.price_high_cents;
   const prev = h.price_prev_cents;
