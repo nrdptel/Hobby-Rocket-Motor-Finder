@@ -51,3 +51,37 @@ test("empty list shows the 'star motors' prompt", async ({ page }) => {
   await page.goto("/plan");
   await expect(page.getByText(/Your list is empty/)).toBeVisible();
 });
+
+test("a share link opens the order as a preview for a recipient", async ({ page, context, browser }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await starFirstInStock(page, 2);
+  await page.goto("/plan");
+  await expect(page.getByRole("heading", { name: /Your list \(2\)/ })).toBeVisible();
+
+  await page.getByRole("button", { name: /Copy share link/ }).click();
+  await expect(page.getByRole("button", { name: "Copied!" })).toBeVisible();
+  const link = await page.evaluate(() => navigator.clipboard.readText());
+  expect(link).toContain("/plan?order=");
+
+  // A fresh recipient (empty watchlist) opens the link → preview mode.
+  const ctx2 = await browser.newContext();
+  const p2 = await ctx2.newPage();
+  await p2.goto(link);
+  await expect(p2.getByText(/viewing a/)).toBeVisible(); // "shared order" banner
+  await expect(p2.getByRole("heading", { name: /Shared list \(2\)/ })).toBeVisible();
+
+  // Saving it adopts the order into their own watchlist.
+  await p2.getByRole("button", { name: "Save to my list" }).click();
+  await expect(p2.getByRole("heading", { name: /Your list \(2\)/ })).toBeVisible();
+  await ctx2.close();
+});
+
+test("copy as text yields a readable order summary", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await starFirstInStock(page, 2);
+  await page.goto("/plan");
+  await page.getByRole("button", { name: /Copy as text/ }).click();
+  const text = await page.evaluate(() => navigator.clipboard.readText());
+  expect(text).toContain("HPR motor order");
+  expect(text).toContain("Total:");
+});
