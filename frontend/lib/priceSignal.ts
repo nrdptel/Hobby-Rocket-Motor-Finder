@@ -27,8 +27,9 @@ function dollars(cents: number): string {
 }
 
 /** Two prices are a trustworthy pair only if neither is wildly larger than the
- * other — otherwise one of them is noise and the comparison is meaningless. */
-function plausiblePair(a: number | null, b: number | null): boolean {
+ * other — otherwise one of them is noise and the comparison is meaningless.
+ * Exported so the availability-history price range can apply the SAME guard. */
+export function plausiblePair(a: number | null, b: number | null): boolean {
   if (a == null || b == null || a <= 0 || b <= 0) return false;
   const hi = Math.max(a, b);
   const lo = Math.min(a, b);
