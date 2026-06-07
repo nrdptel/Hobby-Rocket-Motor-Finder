@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   bestInStockPriceCents,
@@ -67,6 +67,39 @@ export function MotorResults({
     m.listings.some((l) => listingInStock(l.status)),
   ).length;
 
+  // Progressively render the (up to ~600-motor) list so the initial paint +
+  // hydration stay light on mobile: render a window and grow it as the viewer
+  // nears the bottom (IntersectionObserver), with a "show more" fallback. The
+  // full filtered set is already in memory — this only bounds how many rows are
+  // in the DOM at once. Reset to the first batch whenever the filtered/starred
+  // set changes, so a new filter starts from the top. SSR renders the first
+  // batch (BATCH), so the server HTML and first client paint match.
+  const BATCH = 50;
+  const [shown, setShown] = useState(BATCH);
+  useEffect(() => {
+    setShown(BATCH);
+  }, [motors, applyStarred]);
+  const windowed = visible.slice(0, shown);
+  const remaining = visible.length - windowed.length;
+  const loadMore = useCallback(
+    () => setShown((s) => Math.min(s + BATCH, visible.length)),
+    [visible.length],
+  );
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (remaining <= 0) return;
+    const el = sentinelRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) loadMore();
+      },
+      { rootMargin: "800px" }, // start loading well before the user reaches it
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [remaining, loadMore]);
+
   // Empty-state copy depends on *why* it's empty.
   let emptyMessage = "No motors match the current filters.";
   if (applyStarred && count === 0) {
@@ -78,8 +111,8 @@ export function MotorResults({
   return (
     <>
       <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
-        {visible.length} {applyStarred ? "starred " : ""}motors shown ·{" "}
-        {inStockCount} with stock somewhere
+        {visible.length} {applyStarred ? "starred " : ""}
+        {visible.length === 1 ? "motor" : "motors"} · {inStockCount} with stock somewhere
       </p>
 
       <div className="mt-3 hidden overflow-x-auto md:block">
@@ -117,7 +150,7 @@ export function MotorResults({
                 </td>
               </tr>
             ) : (
-              visible.flatMap((m) => {
+              windowed.flatMap((m) => {
                 const rows: ReactNode[] = [];
                 // Motor header row — full width, the section divider that holds
                 // the spec + performance data instead of per-column rowSpans.
@@ -244,7 +277,7 @@ export function MotorResults({
             {emptyMessage}
           </p>
         ) : (
-          visible.map((m) => (
+          windowed.map((m) => (
             <MotorCard
               key={m.id}
               motor={m}
@@ -256,6 +289,20 @@ export function MotorResults({
           ))
         )}
       </div>
+
+      {/* Load-more: the IntersectionObserver auto-grows the window as this nears
+          the viewport; the button is the accessible / no-observer fallback. */}
+      {remaining > 0 && (
+        <div ref={sentinelRef} className="mt-6 flex justify-center">
+          <button
+            type="button"
+            onClick={loadMore}
+            className="rounded-full border border-zinc-300 bg-white px-4 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+          >
+            Show {Math.min(BATCH, remaining)} more ({remaining} not shown)
+          </button>
+        </div>
+      )}
     </>
   );
 }
