@@ -238,6 +238,73 @@ describe("catalogAvailability", () => {
   });
 });
 
+describe("evaluation follow-ups (hardening)", () => {
+  it("treats timezone-naive event timestamps as UTC (matches the backend)", () => {
+    // Naive timestamps (no 'Z'/offset) must be read as UTC, not host-local, or
+    // the window skews by the host offset. Out for the first day, in for the
+    // second → 0.5 regardless of the machine's timezone.
+    const { log, listings } = oneVendor([
+      { t: "2026-06-05T18:00:00", status: "out_of_stock", price_cents: 1000 }, // == epoch, naive
+      { t: "2026-06-06T18:00:00", status: "in_stock", price_cents: 1000 }, // +24h, naive
+    ]);
+    const a = buildMotorAvailability(listings, log, NOW)!;
+    expect(a.fraction).toBeCloseTo(0.5, 5);
+  });
+
+  it("suppresses an implausible price range (same noise guard as priceSignal)", () => {
+    // The exact real-data garbage: $29.74 .. $277.19 (9x) → no range shown.
+    const { log, listings } = oneVendor([
+      { t: EPOCH, status: "in_stock", price_cents: 2974 },
+      { t: "2026-06-06T18:00:00Z", status: "in_stock", price_cents: 27719 },
+    ]);
+    const a = buildMotorAvailability(listings, log, NOW)!;
+    expect(a.priceLowCents).toBeNull();
+    expect(a.priceHighCents).toBeNull();
+  });
+
+  it("keeps a plausible price range", () => {
+    const { log, listings } = oneVendor([
+      { t: EPOCH, status: "in_stock", price_cents: 2974 },
+      { t: "2026-06-06T18:00:00Z", status: "in_stock", price_cents: 4000 },
+    ]);
+    const a = buildMotorAvailability(listings, log, NOW)!;
+    expect(a.priceLowCents).toBe(2974);
+    expect(a.priceHighCents).toBe(4000);
+  });
+
+  it("sorts out-of-order events before computing intervals/segments", () => {
+    // Same as the 50% case but events supplied newest-first.
+    const { log, listings } = oneVendor([
+      { t: "2026-06-06T18:00:00Z", status: "in_stock", price_cents: 1000 },
+      { t: EPOCH, status: "out_of_stock", price_cents: 1000 },
+    ]);
+    const a = buildMotorAvailability(listings, log, NOW)!;
+    expect(a.fraction).toBeCloseTo(0.5, 5);
+    const v = a.vendors[0];
+    expect(v.segments.map((s) => s.kind)).toEqual(["out", "in"]);
+    expect(v.segments.reduce((s, seg) => s + seg.widthFrac, 0)).toBeCloseTo(1, 5);
+  });
+
+  it("never lets a vendor timeline segment exceed the axis (future-dated event)", () => {
+    const { log, listings } = oneVendor([
+      { t: EPOCH, status: "out_of_stock", price_cents: 1000 },
+      { t: "2026-06-09T18:00:00Z", status: "in_stock", price_cents: 1000 }, // after NOW
+    ]);
+    const a = buildMotorAvailability(listings, log, NOW)!;
+    for (const v of a.vendors) {
+      for (const seg of v.segments) expect(seg.widthFrac).toBeLessThanOrEqual(1.0001);
+      expect(v.segments.reduce((s, seg) => s + seg.widthFrac, 0)).toBeLessThanOrEqual(1.0001);
+    }
+  });
+
+  it("catalogAvailability carries windowMs for the badge's scarcity gate", () => {
+    const url = "https://v/p";
+    const log: HistoryLog = { [url]: { vendor_slug: "v", events: [{ t: EPOCH, status: "in_stock", price_cents: 1 }] } };
+    const cat = catalogAvailability([{ id: 9, listings: [{ url }] }], log, NOW);
+    expect(cat[9].windowMs).toBe(48 * 3_600_000);
+  });
+});
+
 describe("format helpers", () => {
   it("formatWindow pluralises hours and days", () => {
     expect(formatWindow(hours(1))).toBe("1 hour");

@@ -86,6 +86,12 @@ describe("priceSignal", () => {
     expect(s?.kind).toBe("lowest"); // also the low → strongest signal
   });
 
+  it("suppresses the 'above its low' signal when the high end is noisy", () => {
+    // low $10, high $30 (3x → noisy), current $20: don't claim "above its low"
+    // off an untrustworthy spread.
+    expect(priceSignal(h({ price_low_cents: 1000, price_high_cents: 3000 }), 2000)).toBeNull();
+  });
+
   it("includes the comparison price in the tooltip", () => {
     const s = priceSignal(
       h({ price_low_cents: 1500, price_high_cents: 2200, price_prev_cents: 2000 }),

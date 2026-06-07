@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import {
@@ -43,6 +43,10 @@ export function RocketLoadout({
   const lo = useMemo(() => buildRocketLoadout(rocket, allMotors), [rocket, allMotors]);
   const { addMany } = useWatchlist();
   const [added, setAdded] = useState(false);
+  // The component is keyed by rocket id (so switching rockets remounts), but
+  // EDITING the same rocket keeps the id — reset the "Added" affordance when the
+  // computed loadout changes so a now-different motor set is offered for adding.
+  useEffect(() => setAdded(false), [lo]);
 
   const certLabel = (key: string) => certLevels.find((c) => c.key === key)?.label ?? key;
   const band =

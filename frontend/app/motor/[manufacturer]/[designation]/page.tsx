@@ -261,7 +261,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                 const bestCents = bestInStockPriceCents(g.listings);
                 return g.listings.map((l, i) => {
                   const isBestPrice = isBestInStockPrice(l, bestCents);
-                  const sig = priceSignal(history[l.url], l.price_cents);
+                  const sig = listingInStock(l.status)
+                    ? priceSignal(history[l.url], l.price_cents)
+                    : null;
                   return (
                     <tr
                       key={`${g.delay}-${l.vendor_slug}-${i}`}

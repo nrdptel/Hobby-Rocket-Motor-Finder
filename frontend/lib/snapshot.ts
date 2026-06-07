@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
+import { cache } from "react";
+
 import type { HistoryLog } from "./history";
 
 export type StockStatus =
@@ -125,7 +127,7 @@ export class SnapshotParseError extends Error {
   }
 }
 
-export async function loadSnapshot(): Promise<Snapshot | null> {
+async function loadSnapshotImpl(): Promise<Snapshot | null> {
   for (const candidate of [SNAPSHOT_PATH, EXAMPLE_SNAPSHOT_PATH]) {
     let raw: string;
     try {
@@ -149,7 +151,7 @@ export async function loadSnapshot(): Promise<Snapshot | null> {
 /** Load the per-listing history summary, keyed by listing `url`. History is a
  * nice-to-have overlay on top of the snapshot, so a missing OR malformed file
  * degrades gracefully to "no history" ({}) rather than taking down the page. */
-export async function loadHistorySummary(): Promise<HistorySummary> {
+async function loadHistorySummaryImpl(): Promise<HistorySummary> {
   let raw: string;
   try {
     raw = await readFile(HISTORY_SUMMARY_PATH, "utf-8");
@@ -168,7 +170,7 @@ export async function loadHistorySummary(): Promise<HistorySummary> {
  * summary, a missing OR malformed file degrades gracefully to "no history"
  * ({}). The on-disk file wraps the map in `{version, updated_at, listings}`; we
  * return just the `listings` map (the shape `lib/history.ts` consumes). */
-export async function loadHistoryLog(): Promise<HistoryLog> {
+async function loadHistoryLogImpl(): Promise<HistoryLog> {
   let raw: string;
   try {
     raw = await readFile(HISTORY_LOG_PATH, "utf-8");
@@ -183,3 +185,10 @@ export async function loadHistoryLog(): Promise<HistoryLog> {
     return {};
   }
 }
+
+// Wrapped in React cache() so multiple calls within one server render parse each
+// file once, not 2–3× — e.g. the detail page reads the snapshot in
+// generateMetadata AND in the page body (both via findMotor).
+export const loadSnapshot = cache(loadSnapshotImpl);
+export const loadHistorySummary = cache(loadHistorySummaryImpl);
+export const loadHistoryLog = cache(loadHistoryLogImpl);
