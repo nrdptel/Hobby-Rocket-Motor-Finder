@@ -373,11 +373,13 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
                               {l.qty}× {l.motor.designation}
                             </span>
                             <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
-                              {usd(l.unitPriceCents)} ea
+                              {l.packSizeUnits > 1
+                                ? `${usd(l.unitPriceCents)}/ea · ${l.packsToBuy}× ${l.packSizeUnits}-pack`
+                                : `${usd(l.unitPriceCents)} ea`}
                             </span>
                           </span>
                           <span className="shrink-0 tabular-nums text-zinc-700 dark:text-zinc-300">
-                            {usd(l.unitPriceCents * l.qty)}{" "}
+                            {usd(l.lineCostCents)}{" "}
                             <a
                               href={safeHref(l.url)}
                               target="_blank"

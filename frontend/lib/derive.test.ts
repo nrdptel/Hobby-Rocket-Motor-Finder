@@ -8,6 +8,7 @@ import {
   certClasses,
   certForClass,
   cheapestInStockCents,
+  cheapestInStockListing,
   delayForRow,
   delaySortKey,
   extractDelay,
@@ -521,6 +522,10 @@ describe("pack-aware pricing (per-unit comparison)", () => {
     expect(best).toBe(700);
     expect(isBestInStockPrice(pack3, best)).toBe(true);
     expect(isBestInStockPrice(single, best)).toBe(false);
+  });
+
+  it("cheapestInStockListing picks the per-unit-cheapest listing (the 3-pack)", () => {
+    expect(cheapestInStockListing(makeMotor({ listings: [single, pack3] }))).toBe(pack3);
   });
 });
 

@@ -13,6 +13,14 @@ describe("packSize", () => {
     expect(packSize("https://v/store.aspx?groupid=72#D13-4W%203%20Pack")).toBe(3);
   });
 
+  it("catches the looser real-world forms too", () => {
+    expect(packSize("https://v/store#E20-4W%20%28two%20pack%29")).toBe(2); // "two pack"
+    expect(packSize("https://v/store#F24-7W%20%283%20packs%29")).toBe(3); // plural "3 packs"
+    expect(packSize("https://v/store#G80%20White%20Reload%20%282%20-%20pack%29")).toBe(2); // "2 - pack"
+    expect(packSize("https://v/enerjet-by-aerotech-e24-4c-2-motor-pack-52407")).toBe(2); // "2-motor-pack"
+    expect(packSize("https://v/aerotech-three-pack-something")).toBe(3); // "three-pack"
+  });
+
   it("treats singles and explicit 1-packs as 1", () => {
     expect(packSize("https://v/aerotech-h128w-rms-29-180")).toBe(1);
     expect(packSize("https://v/k750st-ps-rms-75-1280-reload-kit-1-pack-11750p")).toBe(1);
