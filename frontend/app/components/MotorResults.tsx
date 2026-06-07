@@ -18,8 +18,10 @@ import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import type { HistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
+import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
+import { PackNote } from "./PackNote";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
@@ -231,8 +233,9 @@ export function MotorResults({
                           <span
                             className={isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : ""}
                           >
-                            {formatPrice(l.price_cents, l.currency)}
+                            {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
                           </span>
+                          <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
                           {sig && <PriceSignalTag signal={sig} />}
                         </td>
                         <td className="px-3 py-2">

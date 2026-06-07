@@ -3,6 +3,7 @@
 // to exercise. If the table renders something garbled, the bug is almost
 // always in here, not in the JSX.
 
+import { unitPriceCents } from "./pack";
 import type { ListingHistory, Listing, Motor } from "./snapshot";
 
 /** Lower bound on impulse class shown by the UI — D and up. Hides A/B/C
@@ -332,8 +333,10 @@ export function parseDir(raw: string | string[] | undefined): SortDir {
 export function cheapestInStockCents(m: Motor): number | null {
   let best: number | null = null;
   for (const l of m.listings) {
-    if (!listingInStock(l.status) || l.price_cents == null) continue;
-    if (best == null || l.price_cents < best) best = l.price_cents;
+    if (!listingInStock(l.status)) continue;
+    const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
+    if (unit == null) continue;
+    if (best == null || unit < best) best = unit;
   }
   return best;
 }
@@ -409,9 +412,15 @@ export function findSubstitutes(target: Motor, all: readonly Motor[]): Motor[] {
  * with a price, falling back to any in-stock listing when none is priced. */
 export function cheapestInStockListing(m: Motor): Listing | null {
   let best: Listing | null = null;
+  let bestUnit = Number.POSITIVE_INFINITY;
   for (const l of m.listings) {
-    if (!listingInStock(l.status) || l.price_cents == null) continue;
-    if (best == null || l.price_cents < (best.price_cents as number)) best = l;
+    if (!listingInStock(l.status)) continue;
+    const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
+    if (unit == null) continue;
+    if (unit < bestUnit) {
+      best = l;
+      bestUnit = unit;
+    }
   }
   return best ?? m.listings.find((l) => listingInStock(l.status)) ?? null;
 }
@@ -637,8 +646,9 @@ export function listingInStock(status: string): boolean {
  * different delays can be genuinely different products. */
 export function bestInStockPriceCents(listings: Listing[]): number | null {
   const priced = listings
-    .filter((l) => listingInStock(l.status) && l.price_cents != null)
-    .map((l) => l.price_cents as number);
+    .filter((l) => listingInStock(l.status))
+    .map((l) => unitPriceCents(l.price_cents, l.url)) // per-motor (pack-aware)
+    .filter((p): p is number => p != null);
   if (priced.length < 2) return null;
   return Math.min(...priced);
 }
@@ -650,7 +660,7 @@ export function isBestInStockPrice(listing: Listing, bestCents: number | null): 
   return (
     bestCents != null &&
     listingInStock(listing.status) &&
-    listing.price_cents === bestCents
+    unitPriceCents(listing.price_cents, listing.url) === bestCents
   );
 }
 

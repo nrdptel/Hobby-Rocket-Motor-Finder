@@ -14,8 +14,10 @@ import {
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import type { HistorySummary } from "@/lib/snapshot";
+import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
+import { PackNote } from "./PackNote";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
@@ -126,8 +128,9 @@ export function MotorCard({
                           className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
                         >
                           {isBestPrice && <BestPriceTag />}
-                          {formatPrice(l.price_cents, l.currency)}
+                          {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
                         </div>
+                        <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
                         {sig && <PriceSignalTag signal={sig} />}
                         <a
                           href={safeHref(l.url)}
