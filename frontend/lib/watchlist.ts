@@ -102,6 +102,31 @@ export function toggleStar(id: number): void {
   emit();
 }
 
+/** Add several motors to the watchlist at once (a union — never removes), and
+ * persist. No-op if every id is already starred, so it won't churn the store.
+ * Powers "add all in-stock to order" from a rocket loadout. */
+export function addStars(ids: Iterable<number>): void {
+  load();
+  const next = new Set(current);
+  let changed = false;
+  for (const id of ids) {
+    if (!next.has(id)) {
+      next.add(id);
+      changed = true;
+    }
+  }
+  if (!changed) return;
+  current = next;
+  if (typeof window !== "undefined") {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, serializeWatchlist(current));
+    } catch {
+      /* ignore — see toggleStar */
+    }
+  }
+  emit();
+}
+
 /** Empty the watchlist entirely and persist. */
 export function clearWatchlist(): void {
   loaded = true;
@@ -120,6 +145,7 @@ export type Watchlist = {
   starred: ReadonlySet<number>;
   isStarred: (id: number) => boolean;
   toggle: (id: number) => void;
+  addMany: (ids: Iterable<number>) => void;
   clear: () => void;
   /** False during SSR and the first client paint; true after mount. Gate any
    * starred-dependent UI on this so the first render matches the server. */
@@ -135,6 +161,7 @@ export function useWatchlist(): Watchlist {
     starred,
     isStarred: (id) => starred.has(id),
     toggle: toggleStar,
+    addMany: addStars,
     clear: clearWatchlist,
     hydrated,
     count: starred.size,
