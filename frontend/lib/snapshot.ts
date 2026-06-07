@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
+import type { HistoryLog } from "./history";
+
 export type StockStatus =
   | "in_stock_with_count"
   | "in_stock"
@@ -109,6 +111,11 @@ const EXAMPLE_SNAPSHOT_PATH = path.resolve(
 const HISTORY_SUMMARY_PATH = path.resolve(
   process.cwd(), "data", "history-summary.json"
 );
+// Full change-only event log — copied in from `<repo>/data/history/log.json`.
+// Larger than the summary, so it's loaded ONLY where a per-listing timeline is
+// drawn (the motor detail page); the caller slices out just the listings it
+// needs. Optional, and degrades to "no history" exactly like the summary.
+const HISTORY_LOG_PATH = path.resolve(process.cwd(), "data", "history-log.json");
 
 export class SnapshotParseError extends Error {
   constructor(path: string, cause: unknown) {
@@ -152,6 +159,26 @@ export async function loadHistorySummary(): Promise<HistorySummary> {
   }
   try {
     return JSON.parse(raw) as HistorySummary;
+  } catch {
+    return {};
+  }
+}
+
+/** Load the full change-only event log, keyed by listing `url`. Like the
+ * summary, a missing OR malformed file degrades gracefully to "no history"
+ * ({}). The on-disk file wraps the map in `{version, updated_at, listings}`; we
+ * return just the `listings` map (the shape `lib/history.ts` consumes). */
+export async function loadHistoryLog(): Promise<HistoryLog> {
+  let raw: string;
+  try {
+    raw = await readFile(HISTORY_LOG_PATH, "utf-8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") return {};
+    throw err;
+  }
+  try {
+    const parsed = JSON.parse(raw) as { listings?: HistoryLog };
+    return parsed.listings ?? {};
   } catch {
     return {};
   }
