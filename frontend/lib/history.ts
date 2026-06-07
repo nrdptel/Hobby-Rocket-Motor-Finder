@@ -160,6 +160,34 @@ function vendorSegments(events: HistoryEvent[], trackStart: number, now: number)
   return collapsed.map((s) => ({ kind: s.kind, widthFrac: (s.end - s.start) / span }));
 }
 
+type BuyableWindow = {
+  trackStart: number;
+  windowMs: number;
+  buyable: Interval[];
+  buyableMs: number;
+  currentlyInStock: boolean;
+};
+
+/** Core motor-level availability over [max(epoch, earliest event), now] for a
+ * set of per-listing event lists — the "buyable somewhere" union. Returns null
+ * when there's no history at all. Shared by buildMotorAvailability (detail page)
+ * and catalogAvailability (catalog badges) so they can never disagree. */
+function buyableWindow(eventLists: HistoryEvent[][], epoch: number, now: number): BuyableWindow | null {
+  const withEvents = eventLists.filter((e) => e.length > 0);
+  if (withEvents.length === 0) return null;
+  let earliest = Infinity;
+  for (const evs of withEvents) {
+    const f = parseMs(evs[0].t);
+    if (!Number.isNaN(f)) earliest = Math.min(earliest, f);
+  }
+  const trackStart = Math.max(epoch, Number.isFinite(earliest) ? earliest : epoch);
+  const windowMs = Math.max(0, now - trackStart);
+  const buyable = mergeIntervals(withEvents.flatMap((evs) => inStockIntervals(evs, trackStart, now)));
+  const buyableMs = buyable.reduce((sum, iv) => sum + (iv.end - iv.start), 0);
+  const currentlyInStock = withEvents.some((evs) => isInStock(evs[evs.length - 1].status));
+  return { trackStart, windowMs, buyable, buyableMs, currentlyInStock };
+}
+
 /** Build the motor-level availability summary + per-vendor timelines from the
  * raw event log, clipped to the reliable-cadence epoch.
  *
@@ -181,19 +209,13 @@ export function buildMotorAvailability(
     .filter((l) => l.events.length > 0);
   if (withEvents.length === 0) return null;
 
-  // Track from the epoch, or the earliest event if the listing is newer.
-  let earliest = Infinity;
-  for (const l of withEvents) {
-    const f = parseMs(l.events[0].t);
-    if (!Number.isNaN(f)) earliest = Math.min(earliest, f);
-  }
-  const trackStart = Math.max(epoch, Number.isFinite(earliest) ? earliest : epoch);
-  const windowMs = Math.max(0, now - trackStart);
-
-  const buyable = mergeIntervals(
-    withEvents.flatMap((l) => inStockIntervals(l.events, trackStart, now)),
-  );
-  const buyableMs = buyable.reduce((sum, iv) => sum + (iv.end - iv.start), 0);
+  // Core availability window — shared with catalogAvailability so the two can't
+  // drift. Non-null here because withEvents is non-empty.
+  const { trackStart, windowMs, buyable, buyableMs, currentlyInStock } = buyableWindow(
+    withEvents.map((l) => l.events),
+    epoch,
+    now,
+  )!;
   const lastBuyableAtMs = buyable.length ? buyable[buyable.length - 1].end : null;
 
   let priceLow: number | null = null;
@@ -214,8 +236,6 @@ export function buildMotorAvailability(
     segments: vendorSegments(l.events, trackStart, now),
   }));
 
-  const currentlyInStock = vendors.some((v) => v.currentlyInStock);
-
   return {
     trackStartMs: trackStart,
     nowMs: now,
@@ -230,6 +250,45 @@ export function buildMotorAvailability(
     timeline: intervalsToSegments(buyable, trackStart, now),
     vendors,
   };
+}
+
+// Compact per-motor availability for the catalog list — just enough to drive a
+// badge, computed server-side and shipped as one small record per motor (no
+// timelines). `meaningful` gates display until the tracked window is long enough
+// to mean something.
+export type CatalogAvailability = {
+  fraction: number;
+  meaningful: boolean;
+  currentlyInStock: boolean;
+};
+
+/** Compute a compact availability summary for every motor that has history,
+ * keyed by motor id. Reuses the same buyable-window core as the detail page, so
+ * a catalog badge and the detail page can't tell different stories. */
+export function catalogAvailability(
+  motors: { id: number; listings: { url: string }[] }[],
+  log: HistoryLog,
+  nowIso: string,
+  epochIso: string = HISTORY_EPOCH,
+): Record<number, CatalogAvailability> {
+  const now = parseMs(nowIso);
+  const epoch = parseMs(epochIso);
+  const out: Record<number, CatalogAvailability> = {};
+  if (Number.isNaN(now) || Number.isNaN(epoch)) return out;
+  for (const m of motors) {
+    const core = buyableWindow(
+      m.listings.map((l) => log[l.url]?.events ?? []),
+      epoch,
+      now,
+    );
+    if (!core) continue;
+    out[m.id] = {
+      fraction: core.windowMs > 0 ? Math.min(1, core.buyableMs / core.windowMs) : 0,
+      meaningful: core.windowMs >= MIN_MEANINGFUL_WINDOW_MS,
+      currentlyInStock: core.currentlyInStock,
+    };
+  }
+  return out;
 }
 
 /** Compact human duration like ``5 hours`` / ``3 days`` (min ``1 hour``). For
