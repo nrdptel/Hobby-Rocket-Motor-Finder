@@ -282,7 +282,10 @@ export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, 
       priceCurrency: priced[0].currency,
       lowPrice: (Math.min(...cents) / 100).toFixed(2),
       highPrice: (Math.max(...cents) / 100).toFixed(2),
-      offerCount: m.listings.length,
+      // Count of the offers we actually list (real-priced) — kept consistent with
+      // the `offers` array below rather than total listings, some of which have
+      // no parseable price and so can't be a schema.org Offer.
+      offerCount: priced.length,
       availability: anyInStock ? SCHEMA_IN_STOCK : SCHEMA_OUT_OF_STOCK,
       offers: priced.map((l) => ({
         "@type": "Offer",
