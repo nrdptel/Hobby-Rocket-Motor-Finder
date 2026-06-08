@@ -67,17 +67,16 @@ export function buildRocketLoadout(
   const soldOutFit = entries.length - inStock.length;
 
   // Swaps only matter when nothing that fits is actually buyable. Relax to the
-  // same mount + cert (cert is a hard limit — never suggest above the flyer's
-  // rating), dropping the class/case/impulse narrowings, and rank by closeness
-  // to the rocket's target impulse (then price).
+  // same mount, dropping the class/case/impulse narrowings, and rank by closeness
+  // to the rocket's target impulse (then price). (Cert — formerly kept as a hard
+  // limit — is carried only by legacy alert subs, which don't build loadouts.)
   let swaps: LoadoutEntry[] = [];
   if (inStock.length === 0) {
     const exactIds = new Set(fitting.map((m) => m.id));
     const relaxed: RocketSpec = {
       diameterMm: rocket.diameterMm,
-      cert: rocket.cert,
-      impulseClass: null,
-      caseInfo: null,
+      impulseClasses: [],
+      caseInfos: [],
       minImpulseNs: null,
       maxImpulseNs: null,
     };
