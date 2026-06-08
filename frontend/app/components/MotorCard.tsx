@@ -67,7 +67,7 @@ export function MotorCard({
             {motor.designation}
           </Link>
           <CertBadge impulseClass={motor.impulse_class} />
-          <DiscontinuedBadge discontinued={motor.discontinued} />
+          {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
           <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
         </div>
         <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">
@@ -94,6 +94,12 @@ export function MotorCard({
           {formatThrust(motor.avg_thrust_n)} · {formatBurn(motor.burn_time_s)}
         </span>
       </div>
+
+      {motor.listings.length === 0 && (
+        <p className="mt-2 border-t border-zinc-200 pt-2 text-xs italic text-zinc-500 dark:border-zinc-800/80 dark:text-zinc-400">
+          Not sold by any tracked vendor{motor.discontinued ? " · out of production" : ""}.
+        </p>
+      )}
 
       <div className="mt-3 divide-y divide-zinc-200 border-t border-zinc-200 dark:divide-zinc-800/80 dark:border-zinc-800/80">
         {motor.delayGroups.map((g) => {

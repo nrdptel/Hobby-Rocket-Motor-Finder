@@ -53,7 +53,10 @@ export function HowItWorks() {
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">sort</strong>{" "}
               by class, total impulse, thrust, diameter, or cheapest in-stock price (either direction).
               Filtering is instant (it happens in your browser), and every filter lives in the URL, so
-              any view is shareable and survives a refresh.
+              any view is shareable and survives a refresh. The list covers the <em>whole</em>{" "}
+              AeroTech/Cesaroni/Loki D+ catalog &mdash; motors no tracked vendor stocks appear too,
+              clearly marked &ldquo;not sold by any tracked vendor,&rdquo; with the closest in-stock
+              swap, so a search never dead-ends.
             </li>
             <li>
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">Open a motor</strong>{" "}

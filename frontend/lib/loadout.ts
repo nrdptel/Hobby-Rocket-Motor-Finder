@@ -59,7 +59,9 @@ export function buildRocketLoadout(
 ): RocketLoadout {
   const swapLimit = opts.swapLimit ?? 6;
 
-  const fitting = allMotors.filter((m) => motorFitsRocket(rocket, m));
+  // Only motors a vendor actually sells — "phantom" catalog motors (no listings)
+  // can't be flown, so they never count toward fits or the sold-out tally.
+  const fitting = allMotors.filter((m) => m.listings.length > 0 && motorFitsRocket(rocket, m));
   const entries = fitting.map((m) => entry(m, true));
   const inStock = entries.filter((e) => e.inStock).sort(byPrice);
   const soldOutFit = entries.length - inStock.length;
