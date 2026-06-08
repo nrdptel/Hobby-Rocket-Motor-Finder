@@ -12467,10 +12467,10 @@
     "price_high_cents": 35814
   },
   "https://www.buyrocketmotors.com/products/aerotech-l1250dm-ps-metalstorm-dark-matter?variant=50855321174313": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:27",
-    "last_change_at": "2026-05-31T02:24:27",
+    "last_change_at": "2026-06-08T22:05:23+00:00",
     "last_in_stock_at": "2026-05-31T02:24:27",
     "last_restock_at": null,
     "restock_count": 0,
