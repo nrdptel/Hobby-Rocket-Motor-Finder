@@ -272,15 +272,19 @@ export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, 
     url: absoluteUrl,
   };
 
-  const priced = m.listings.filter(
-    (l) => l.price_cents != null && l.price_cents < SENTINEL_PRICE_CENTS,
-  );
+  // Structured-data prices are PER-MOTOR (pack-aware), matching the visible page
+  // — the Product is one motor, so a multipack's per-unit price is the honest,
+  // consistent figure (a raw pack price here would mismatch the page and mislead
+  // rich results).
+  const priced = m.listings
+    .map((l) => ({ l, unit: unitPriceCents(l.price_cents, l.url) }))
+    .filter(({ l, unit }) => unit != null && (l.price_cents as number) < SENTINEL_PRICE_CENTS);
   if (priced.length > 0) {
-    const cents = priced.map((l) => l.price_cents as number);
+    const cents = priced.map((p) => p.unit as number);
     const anyInStock = m.listings.some((l) => listingInStock(l.status));
     product.offers = {
       "@type": "AggregateOffer",
-      priceCurrency: priced[0].currency,
+      priceCurrency: priced[0].l.currency,
       lowPrice: (Math.min(...cents) / 100).toFixed(2),
       highPrice: (Math.max(...cents) / 100).toFixed(2),
       // Count of the offers we actually list (real-priced) — kept consistent with
@@ -288,9 +292,9 @@ export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, 
       // no parseable price and so can't be a schema.org Offer.
       offerCount: priced.length,
       availability: anyInStock ? SCHEMA_IN_STOCK : SCHEMA_OUT_OF_STOCK,
-      offers: priced.map((l) => ({
+      offers: priced.map(({ l, unit }) => ({
         "@type": "Offer",
-        price: ((l.price_cents as number) / 100).toFixed(2),
+        price: ((unit as number) / 100).toFixed(2),
         priceCurrency: l.currency,
         availability: listingInStock(l.status) ? SCHEMA_IN_STOCK : SCHEMA_OUT_OF_STOCK,
         url: safeHref(l.url),
@@ -684,8 +688,9 @@ export type ListingSort = "stock" | "price";
 /** Tiebreak comparator for listings already known to share stock state. */
 function listingTiebreak(a: Listing, b: Listing, sort: ListingSort): number {
   if (sort === "price") {
-    const ap = a.price_cents ?? Number.POSITIVE_INFINITY;
-    const bp = b.price_cents ?? Number.POSITIVE_INFINITY;
+    // Per-unit (pack-aware), to match the per-motor price the row displays.
+    const ap = unitPriceCents(a.price_cents, a.url) ?? Number.POSITIVE_INFINITY;
+    const bp = unitPriceCents(b.price_cents, b.url) ?? Number.POSITIVE_INFINITY;
     if (ap !== bp) return ap - bp;
   }
   return a.vendor_name.localeCompare(b.vendor_name);
@@ -738,9 +743,11 @@ function dedupeRenderedListings(listings: Listing[]): Listing[] {
   const seen = new Set<string>();
   const out: Listing[] = [];
   for (const l of listings) {
-    // Key on the VISIBLE columns (vendor name, stock state, price) — that's what
-    // makes two rows indistinguishable. vendor_name ↔ vendor_slug is 1:1.
-    const key = `${l.vendor_name}|${l.status}|${l.stock_count ?? ""}|${l.lead_time ?? ""}|${l.price_cents ?? ""}`;
+    // Key on the VISIBLE columns (vendor name, stock state, per-unit price) —
+    // that's what makes two rows indistinguishable. Per-unit, so a single and a
+    // multipack at the same RAW price (different per-motor prices) aren't merged.
+    const unit = unitPriceCents(l.price_cents, l.url);
+    const key = `${l.vendor_name}|${l.status}|${l.stock_count ?? ""}|${l.lead_time ?? ""}|${unit ?? ""}`;
     if (seen.has(key)) continue;
     seen.add(key);
     out.push(l);

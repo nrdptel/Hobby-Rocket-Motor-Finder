@@ -15,6 +15,7 @@ import type { Rocket } from "@/lib/rockets";
 import type { Motor } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
+import { PackHint } from "./PackHint";
 import { StarButton } from "./StarButton";
 
 type CertLevel = { key: string; label: string; sublabel: string };
@@ -184,6 +185,7 @@ function LoadoutRow({
         {entry.cheapestCents != null ? (
           <span className="font-medium text-emerald-700 dark:text-emerald-400">
             {formatPrice(entry.cheapestCents, entry.cheapestListing?.currency ?? "USD")}
+            <PackHint url={entry.cheapestListing?.url} />
           </span>
         ) : (
           <span className="text-zinc-400">in stock</span>
