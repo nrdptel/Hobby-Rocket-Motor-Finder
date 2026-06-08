@@ -48,15 +48,56 @@ def restocked_motors(prev: dict, current: dict) -> list[dict]:
                 continue
             ps = prev_status.get(listing.get("url"))
             if ps is not None and ps not in _IN_STOCK:
-                restocked[key] = {
-                    "manufacturer": manufacturer,
-                    "designation": designation,
-                    "common_name": m.get("common_name"),
-                    "diameter_mm": m.get("diameter_mm"),
-                    "impulse_class": m.get("impulse_class"),
-                    "total_impulse_ns": m.get("total_impulse_ns"),
-                    "case_info": m.get("case_info"),
-                    "motor_type": m.get("motor_type"),
-                }
+                restocked[key] = _motor_payload(m)
                 break
     return list(restocked.values())
+
+
+def _motor_payload(m: dict) -> dict:
+    """The fit-relevant fields the dispatch route needs (per-motor + rocket-fit)."""
+    return {
+        "manufacturer": m.get("manufacturer"),
+        "designation": m.get("designation"),
+        "common_name": m.get("common_name"),
+        "diameter_mm": m.get("diameter_mm"),
+        "impulse_class": m.get("impulse_class"),
+        "total_impulse_ns": m.get("total_impulse_ns"),
+        "case_info": m.get("case_info"),
+        "motor_type": m.get("motor_type"),
+    }
+
+
+def newly_available_motors(prev: dict, current: dict) -> list[dict]:
+    """Motors appearing in stock for the FIRST time: in stock in ``current`` but
+    absent from ``prev`` entirely (no listing at all).
+
+    This is the "phantom" case — a real catalog motor no vendor stocked, now
+    listed — which :func:`restocked_motors` deliberately ignores (it requires a
+    prior out-of-stock listing on the same URL). The two are complementary and
+    mutually exclusive: restocked = a known listing came back; newly-available =
+    a motor we'd never seen listed shows up. Each result is tagged
+    ``first_available: True`` so the dispatch can use first-appearance copy.
+
+    Guarded against an empty/first-run ``prev`` (which would otherwise flag the
+    entire catalog as "new" and flood every subscriber).
+    """
+    prev_keys = {
+        (m.get("manufacturer"), m.get("designation"))
+        for m in prev.get("motors", [])
+        if m.get("manufacturer") and m.get("designation")
+    }
+    if not prev_keys:
+        return []  # no baseline → can't tell what's genuinely new; never flood
+
+    out: dict[tuple[str, str], dict] = {}
+    for m in current.get("motors", []):
+        manufacturer = m.get("manufacturer")
+        designation = m.get("designation")
+        if not manufacturer or not designation:
+            continue
+        key = (manufacturer, designation)
+        if key in prev_keys or key in out:
+            continue
+        if any(listing.get("status") in _IN_STOCK for listing in m.get("listings", [])):
+            out[key] = {**_motor_payload(m), "first_available": True}
+    return list(out.values())

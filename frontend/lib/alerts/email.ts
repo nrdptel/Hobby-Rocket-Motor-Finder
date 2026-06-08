@@ -172,18 +172,30 @@ export function restockEmail(
   motorUrl: string,
   unsubscribeUrl: string,
   manageUrl: string,
+  // True for a "phantom" first appearance (a motor no tracked vendor stocked,
+  // now listed) — reads "now in stock" rather than "back in stock".
+  firstAvailable = false,
 ): { subject: string; html: string; text: string } {
   const d = esc(designation);
+  const subject = firstAvailable
+    ? `${designation} is now in stock`
+    : `${designation} is back in stock`;
+  const leadText = firstAvailable
+    ? `${designation} just showed up in stock — no tracked vendor was carrying it before.`
+    : `${designation} just came back in stock.`;
+  const leadHtml = firstAvailable
+    ? `<p><strong>${d}</strong> just showed up in stock — no tracked vendor was carrying it before.</p>`
+    : `<p><strong>${d}</strong> just came back in stock.</p>`;
   return {
-    subject: `${designation} is back in stock`,
+    subject,
     text:
-      `${designation} just came back in stock.\n\n` +
+      `${leadText}\n\n` +
       `See vendors & prices: ${motorUrl}\n\n` +
       `Stock is best-effort and may sell out fast — confirm on the vendor's site.\n\n` +
       `Unsubscribe from ${designation} alerts: ${unsubscribeUrl}\n` +
       `Manage all your alerts: ${manageUrl}`,
     html:
-      `<p><strong>${d}</strong> just came back in stock.</p>` +
+      leadHtml +
       `<p><a href="${esc(motorUrl)}">See vendors &amp; prices →</a></p>` +
       `<p style="color:#666;font-size:12px">Stock is best-effort and may sell out fast — confirm on the vendor's site before buying.</p>` +
       `<p style="color:#666;font-size:12px"><a href="${esc(unsubscribeUrl)}">Unsubscribe from ${d} alerts</a> · ` +
