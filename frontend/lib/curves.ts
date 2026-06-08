@@ -66,3 +66,32 @@ export function curvePath(
     .map((p, i) => `${i === 0 ? "M" : "L"}${x(p[0]).toFixed(2)} ${y(p[1]).toFixed(2)}`)
     .join(" ");
 }
+
+/** Evenly thin a point series to at most ``max`` points, always keeping the
+ * first and last, so a catalog-row sparkline path stays short regardless of how
+ * finely sampled the source curve is. */
+function downsample(points: ThrustCurve, max: number): ThrustCurve {
+  if (points.length <= max) return points;
+  const step = (points.length - 1) / (max - 1);
+  const out: ThrustCurve = [];
+  for (let i = 0; i < max; i++) out.push(points[Math.round(i * step)]);
+  return out;
+}
+
+/** A compact SVG path for a row sparkline: the curve self-scaled to a small box
+ * (each glyph normalized to its own peak/burn — it's a shape, not a comparison),
+ * downsampled and rounded so the per-motor string shipped to the catalog client
+ * stays tiny. A 1px inset keeps the stroke from clipping at the edges. Returns ""
+ * for an unusable curve. */
+export function sparkPath(points: ThrustCurve, width = 56, height = 16): string {
+  const pts = downsample(points, 20);
+  const { maxT, maxF } = curveExtent([pts]);
+  if (pts.length < 2 || maxT <= 0 || maxF <= 0) return "";
+  const inset = 1;
+  const h = height - inset * 2;
+  const x = (t: number) => (t / maxT) * width;
+  const y = (f: number) => inset + (h - (f / maxF) * h);
+  return pts
+    .map((p, i) => `${i === 0 ? "M" : "L"}${x(p[0]).toFixed(1)} ${y(p[1]).toFixed(1)}`)
+    .join(" ");
+}

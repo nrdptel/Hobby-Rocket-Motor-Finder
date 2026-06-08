@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { curveExtent, curveKey, curvePath, type ThrustCurve } from "./curves";
+import { curveExtent, curveKey, curvePath, sparkPath, type ThrustCurve } from "./curves";
 
 describe("curveKey", () => {
   it("joins manufacturer and designation, mirroring the backend", () => {
@@ -45,5 +45,36 @@ describe("curvePath", () => {
     expect(curvePath([[0, 0]], opts)).toBe("");
     expect(curvePath([[0, 0], [1, 50]], { ...opts, maxT: 0 })).toBe("");
     expect(curvePath([[0, 0], [1, 50]], { ...opts, maxF: 0 })).toBe("");
+  });
+});
+
+describe("sparkPath", () => {
+  it("self-scales a curve into the box with a 1px inset", () => {
+    // peak (t=1) → top inset (y=1); zero thrust → bottom inset (height-1=15).
+    const d = sparkPath(
+      [
+        [0, 0],
+        [1, 100],
+        [2, 0],
+      ],
+      56,
+      16,
+    );
+    expect(d).toBe("M0.0 15.0 L28.0 1.0 L56.0 15.0");
+  });
+
+  it("downsamples to at most 20 points, keeping first and last", () => {
+    // Monotonic ramp: peak is the last point. First point (zero thrust) sits at
+    // the bottom inset (y=15), the last (peak) at the top inset (y≈1).
+    const many: ThrustCurve = Array.from({ length: 100 }, (_, i) => [i / 99, i]);
+    const d = sparkPath(many);
+    expect((d.match(/[ML]/g) ?? []).length).toBe(20); // capped to 20 points
+    expect(d.startsWith("M0.0 15.0")).toBe(true); // first point kept (t=0, F=0)
+    expect(d.endsWith(" 1.0")).toBe(true); // last point is the peak
+  });
+
+  it("returns '' for an unusable curve", () => {
+    expect(sparkPath([[0, 0]])).toBe("");
+    expect(sparkPath([])).toBe("");
   });
 });
