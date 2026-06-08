@@ -27,6 +27,9 @@ const files = [
   { src: "thrustcurve_aerotech.json", dst: "thrustcurve_aerotech.json" },
   { src: "thrustcurve_cesaroni.json", dst: "thrustcurve_cesaroni.json" },
   { src: "thrustcurve_loki.json", dst: "thrustcurve_loki.json" },
+  // Thrust-curve sample data (one representative curve per motor), keyed by
+  // manufacturer|designation. Drives the detail-page thrust-curve chart.
+  { src: "curves.json", dst: "curves.json" },
 ];
 
 await mkdir(targetDir, { recursive: true });
