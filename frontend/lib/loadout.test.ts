@@ -102,6 +102,15 @@ describe("buildRocketLoadout", () => {
     expect(lo.swaps).toHaveLength(0);
   });
 
+  it("excludes phantom motors (no listings) from fits and the sold-out tally", () => {
+    const inStk = motor({ diameter_mm: 38, listings: [listing({ status: "in_stock" })] });
+    const phantom = motor({ diameter_mm: 38, listings: [] }); // catalog motor, no vendor stocks it
+    const lo = buildRocketLoadout(rocket(), [inStk, phantom]);
+    expect(lo.totalFit).toBe(1); // the phantom is not a "fit you could buy"
+    expect(lo.soldOutFit).toBe(0); // and it is NOT counted as sold out
+    expect(lo.inStock.map((e) => e.motor.id)).toEqual([inStk.id]);
+  });
+
   it("a diameter-only rocket with nothing in stock has no swaps (relaxed == exact)", () => {
     const sold = motor({ diameter_mm: 38, listings: [listing({ status: "out_of_stock" })] });
     const lo = buildRocketLoadout(rocket(), [sold]);

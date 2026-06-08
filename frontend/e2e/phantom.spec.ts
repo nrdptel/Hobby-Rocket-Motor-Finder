@@ -19,3 +19,15 @@ test("searching the catalog finds a phantom and marks it unsold", async ({ page 
   await expect(page.locator('a[href$="/F21W"]').first()).toBeVisible();
   await expect(page.getByText(/Not sold by any tracked vendor/).first()).toBeVisible();
 });
+
+test("starring a phantom shows it in the planner with a buyable swap (not vanished)", async ({ page }) => {
+  await page.goto("/motor/aerotech/F21W");
+  await page.getByRole("button", { name: /Add F21W to watchlist/ }).click();
+  await page.goto("/plan");
+  // The phantom lands in "Not in stock anywhere" — with an in-stock swap to add.
+  const section = page.locator("section", {
+    has: page.getByRole("heading", { name: "Not in stock anywhere" }),
+  });
+  await expect(section.getByText("F21W")).toBeVisible();
+  await expect(section.getByText(/In stock instead/)).toBeVisible();
+});

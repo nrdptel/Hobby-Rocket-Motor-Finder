@@ -74,6 +74,8 @@ export function MotorResults({
   const inStockCount = visible.filter((m) =>
     m.listings.some((l) => listingInStock(l.status)),
   ).length;
+  // "Phantom" motors: in the catalog but sold by no tracked vendor.
+  const phantomCount = visible.filter((m) => m.listings.length === 0).length;
 
   // Render the (up to ~600-motor) list without making the initial paint + hydrate
   // it all in one heavy task. SSR and the first client paint emit only the first
@@ -107,6 +109,7 @@ export function MotorResults({
       <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
         {visible.length} {applyStarred ? "starred " : ""}
         {visible.length === 1 ? "motor" : "motors"} · {inStockCount} with stock somewhere
+        {phantomCount > 0 ? ` · ${phantomCount} not sold anywhere` : ""}
       </p>
 
       <div className="mt-3 hidden overflow-x-auto md:block">

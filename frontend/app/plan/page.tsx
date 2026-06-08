@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { loadSnapshot } from "@/lib/snapshot";
+import { loadCatalogMotors, loadSnapshot } from "@/lib/snapshot";
+import { mergedCatalog } from "@/lib/catalogMotors";
 import { MIN_CLASS } from "@/lib/derive";
 import { PlanView } from "../components/PlanView";
 
@@ -16,10 +17,10 @@ export const metadata: Metadata = {
 };
 
 export default async function PlanPage() {
-  const snapshot = await loadSnapshot();
-  // Same universe as the catalog: motors with a listing, mid-power and up.
-  const allMotors = snapshot
-    ? snapshot.motors.filter((m) => m.listings.length > 0 && m.impulse_class >= MIN_CLASS)
-    : [];
+  const [snapshot, catalog] = await Promise.all([loadSnapshot(), loadCatalogMotors()]);
+  // The SAME universe as the catalog (incl. "phantom" motors no vendor stocks),
+  // so a phantom you starred shows here as "not in stock anywhere" with a buyable
+  // swap, instead of silently vanishing from your order.
+  const allMotors = snapshot ? mergedCatalog(snapshot.motors, catalog, MIN_CLASS) : [];
   return <PlanView allMotors={allMotors} />;
 }
