@@ -1,3 +1,4 @@
+import { unitPriceCents } from "./pack";
 import { plausiblePair } from "./priceSignal";
 import type { StockStatus } from "./snapshot";
 
@@ -238,10 +239,13 @@ export function buildMotorAvailability(
   let priceHigh: number | null = null;
   for (const l of withEvents) {
     for (const e of l.events) {
-      if (e.price_cents == null) continue;
+      // Per-motor (pack-aware), so the range matches the per-unit prices shown
+      // elsewhere on the page rather than a multipack's pack total.
+      const p = unitPriceCents(e.price_cents, l.url);
+      if (p == null) continue;
       if (Number.isNaN(parseMs(e.t)) || parseMs(e.t) < trackStart) continue;
-      priceLow = priceLow == null ? e.price_cents : Math.min(priceLow, e.price_cents);
-      priceHigh = priceHigh == null ? e.price_cents : Math.max(priceHigh, e.price_cents);
+      priceLow = priceLow == null ? p : Math.min(priceLow, p);
+      priceHigh = priceHigh == null ? p : Math.max(priceHigh, p);
     }
   }
 
