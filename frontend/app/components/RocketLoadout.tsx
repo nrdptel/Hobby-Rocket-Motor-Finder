@@ -18,8 +18,6 @@ import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { PackHint } from "./PackHint";
 import { StarButton } from "./StarButton";
 
-type CertLevel = { key: string; label: string; sublabel: string };
-
 // Cap the curated "top picks" list; the full filtered catalog sits right below.
 const TOP = 8;
 
@@ -32,13 +30,11 @@ export function RocketLoadout({
   rocket,
   allMotors,
   availability,
-  certLevels,
   showManufacturer,
 }: {
   rocket: Rocket;
   allMotors: Motor[];
   availability: Record<number, CatalogAvailability>;
-  certLevels: CertLevel[];
   showManufacturer: boolean;
 }) {
   const lo = useMemo(() => buildRocketLoadout(rocket, allMotors), [rocket, allMotors]);
@@ -49,7 +45,6 @@ export function RocketLoadout({
   // computed loadout changes so a now-different motor set is offered for adding.
   useEffect(() => setAdded(false), [lo]);
 
-  const certLabel = (key: string) => certLevels.find((c) => c.key === key)?.label ?? key;
   const band =
     rocket.minImpulseNs != null && rocket.maxImpulseNs != null
       ? `${rocket.minImpulseNs}–${rocket.maxImpulseNs} N·s`
@@ -59,9 +54,8 @@ export function RocketLoadout({
           ? `≤${rocket.maxImpulseNs} N·s`
           : null;
   const specParts = [`${rocket.diameterMm}mm`];
-  if (rocket.cert) specParts.push(certLabel(rocket.cert));
-  if (rocket.impulseClass) specParts.push(`${rocket.impulseClass}-class`);
-  if (rocket.caseInfo) specParts.push(rocket.caseInfo);
+  if (rocket.impulseClasses.length) specParts.push(`${rocket.impulseClasses.join("/")}-class`);
+  if (rocket.caseInfos.length) specParts.push(rocket.caseInfos.join(", "));
   if (band) specParts.push(band);
   const title = rocket.name || `${rocket.diameterMm}mm rocket`;
 
@@ -130,7 +124,7 @@ export function RocketLoadout({
           {lo.swaps.length > 0 ? (
             <>
               <p className="mt-2 font-medium text-zinc-700 dark:text-zinc-200">
-                Closest buyable swaps — same mount{rocket.cert ? " & cert" : ""}, nearest size:
+                Closest buyable swaps — same mount, nearest size:
               </p>
               <ul className="mt-1 divide-y divide-emerald-200/60 dark:divide-emerald-900/40">
                 {lo.swaps.map((e) => (
