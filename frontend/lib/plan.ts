@@ -62,14 +62,16 @@ export type SingleVendorOption = {
 
 /** Per-vendor cheapest in-stock unit price for one wanted item. A listing only
  * counts if it's in stock, has a price, and (when the vendor reports an exact
- * count) has at least the wanted quantity. */
+ * count) has enough on hand to cover the order. */
 export function vendorOffers(item: PlanItem): Offer[] {
   const best = new Map<string, Offer>();
   for (const l of item.motor.listings) {
     if (!listingInStock(l.status) || l.price_cents == null) continue;
-    if (l.stock_count != null && l.stock_count < item.qty) continue;
     const packSizeUnits = packSize(l.url);
     const packsToBuy = Math.max(1, Math.ceil(item.qty / packSizeUnits));
+    // A vendor's stock_count is the count of THIS SKU — i.e. packs for a
+    // multipack — so check it against the packs we need, not the motor qty.
+    if (l.stock_count != null && l.stock_count < packsToBuy) continue;
     const lineCostCents = packsToBuy * l.price_cents;
     const offer: Offer = {
       vendorSlug: l.vendor_slug,

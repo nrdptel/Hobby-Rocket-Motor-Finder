@@ -76,4 +76,41 @@ describe("orderPlanToText", () => {
     expect(text).toContain("  2× J90W — $75.00 ea");
     expect(text).toContain("Not in stock anywhere: L1234");
   });
+
+  it("spells out a multipack line: per-unit, packs, the over-buy, and pack total", () => {
+    const motor: Motor = {
+      id: 2,
+      manufacturer: "AeroTech",
+      designation: "E26W",
+      diameter_mm: 29,
+      impulse_class: "E",
+      total_impulse_ns: 40,
+      avg_thrust_n: 26,
+      burn_time_s: 1.5,
+      propellant: "W",
+      delays: "4",
+      delay_adjustable: false,
+      listings: [],
+    };
+    // Want 1; sold only as a 2-pack at $19.99 → buy 1 pack, get 2 motors.
+    const plan: OrderPlan = {
+      assignments: [
+        {
+          vendorSlug: "wildman",
+          vendorName: "Wildman",
+          lines: [
+            { motor, qty: 1, unitPriceCents: 1000, packSizeUnits: 2, packsToBuy: 1, lineCostCents: 1999, url: "u" },
+          ],
+          subtotalCents: 1999,
+        },
+      ],
+      ordersCount: 1,
+      motorCostCents: 1999,
+      shippingCents: 0,
+      totalCents: 1999,
+      unavailable: [],
+    };
+    const text = orderPlanToText(plan, 0);
+    expect(text).toContain("1× E26W — $10.00/ea, 1× 2-pack (2 motors) = $19.99");
+  });
 });
