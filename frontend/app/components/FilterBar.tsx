@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { numericParamValue, searchParamValue } from "@/lib/derive";
-import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
+import { BURN_LABEL, numericParamValue, searchParamValue } from "@/lib/derive";
+import type { BurnCharacter, CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
 import { useCatalogFilters } from "./CatalogFilters";
 import { CaseFilter } from "./CaseFilter";
@@ -18,6 +18,9 @@ type Props = {
   propellants: PropellantOption[];
   vendors: VendorOption[];
 };
+
+// Burn-character keys in display order (low → high duration).
+const BURN_KEYS: readonly BurnCharacter[] = ["punchy", "standard", "long"];
 
 function parseList(value: string | null): Set<string> {
   if (!value) return new Set();
@@ -80,6 +83,8 @@ export function FilterBar({
   const activeCases = parseList(sp.get("case"));
   const activePropellants = parseList(sp.get("prop"));
   const activeVendors = parseList(sp.get("vendor"));
+  const activeBurn = parseList(sp.get("burn"));
+  const sparkyOnly = sp.get("sparky") === "1";
   const inStockOnly = sp.get("in_stock") === "1";
   const cheapestFirst = sp.get("sort") === "price";
   const sortOrder = sp.get("order") ?? "class";
@@ -113,6 +118,8 @@ export function FilterBar({
   const toggleCase = (v: string) => update("case", toggleInList(activeCases, v));
   const togglePropellant = (v: string) => update("prop", toggleInList(activePropellants, v));
   const toggleVendor = (slug: string) => update("vendor", toggleInList(activeVendors, slug));
+  const toggleBurn = (k: string) => update("burn", toggleInList(activeBurn, k));
+  const toggleSparky = () => update("sparky", sparkyOnly ? null : "1");
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
   const toggleSort = () => update("sort", cheapestFirst ? null : "price");
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
@@ -125,6 +132,8 @@ export function FilterBar({
     activeCases.size > 0 ||
     activePropellants.size > 0 ||
     activeVendors.size > 0 ||
+    activeBurn.size > 0 ||
+    sparkyOnly ||
     inStockOnly ||
     cheapestFirst ||
     sortOrder !== "class" ||
@@ -306,6 +315,36 @@ export function FilterBar({
         </FilterRow>
       )}
 
+      <FilterRow label="Character">
+        {BURN_KEYS.map((k) => (
+          <button
+            key={k}
+            type="button"
+            onClick={() => toggleBurn(k)}
+            aria-pressed={activeBurn.has(k)}
+            className={pill(activeBurn.has(k))}
+            title={
+              k === "punchy"
+                ? "Short, snappy burn (under 1.5 s)"
+                : k === "long"
+                  ? "Long, sustained burn (3 s or more)"
+                  : "Standard burn (1.5–3 s)"
+            }
+          >
+            {BURN_LABEL[k]}
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={toggleSparky}
+          aria-pressed={sparkyOnly}
+          className={pill(sparkyOnly)}
+          title="Sparky propellant — throws gold sparks (great at night; often restricted under fire bans)"
+        >
+          ✨ Sparky
+        </button>
+      </FilterRow>
+
       <FilterRow label="Impulse">
         <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
           <input
@@ -387,6 +426,7 @@ export function FilterBar({
           <option value="thrust">Avg thrust</option>
           <option value="diameter">Diameter</option>
           <option value="price">Cheapest in stock</option>
+          <option value="isp">Specific impulse</option>
         </select>
         <button
           type="button"

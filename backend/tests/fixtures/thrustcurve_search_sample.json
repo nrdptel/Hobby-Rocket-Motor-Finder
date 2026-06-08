@@ -13,7 +13,8 @@
     "delays": "6,10,14",
     "delayAdjustable": true,
     "motorId": "abc123",
-    "availability": "regular"
+    "availability": "regular",
+    "propWeightG": 130.0
   },
   {
     "manufacturer": "AeroTech",
@@ -28,7 +29,9 @@
     "delays": "P",
     "delayAdjustable": false,
     "motorId": "m1500",
-    "availability": "regular"
+    "availability": "regular",
+    "sparky": true,
+    "propWeightG": 3500.0
   },
   {
     "manufacturer": "AeroTech",

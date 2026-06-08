@@ -6,6 +6,7 @@ import {
   bestInStockPriceCents,
   formatBurn,
   formatImpulse,
+  formatIsp,
   formatPrice,
   formatThrust,
   isBestInStockPrice,
@@ -13,6 +14,7 @@ import {
   manufacturerLabel,
   motorPath,
   safeHref,
+  specificImpulseS,
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
@@ -25,6 +27,8 @@ import { PackNote } from "./PackNote";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
+import { BurnBadge } from "./BurnBadge";
+import { SparkyBadge } from "./SparkyBadge";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
@@ -170,6 +174,8 @@ export function MotorResults({
                           </Link>
                           <CertBadge impulseClass={m.impulse_class} />
                           {m.listings.length > 0 && <DiscontinuedBadge discontinued={m.discontinued} />}
+                          <SparkyBadge sparky={m.sparky} />
+                          <BurnBadge motor={m} />
                           <MotorAvailabilityBadge
                             availability={availability[m.id]}
                             discontinued={m.discontinued}
@@ -188,6 +194,12 @@ export function MotorResults({
                         <span className="text-xs tabular-nums text-zinc-500">
                           {formatImpulse(m.total_impulse_ns)} · {formatThrust(m.avg_thrust_n)} ·{" "}
                           {formatBurn(m.burn_time_s)}
+                          {specificImpulseS(m) != null && (
+                            <span title="Specific impulse — propellant efficiency (total impulse per unit propellant weight). Higher is more efficient.">
+                              {" · "}
+                              {formatIsp(specificImpulseS(m))} Isp
+                            </span>
+                          )}
                         </span>
                       </div>
                     </td>

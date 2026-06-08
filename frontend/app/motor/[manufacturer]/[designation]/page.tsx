@@ -19,12 +19,16 @@ import {
   cheapestInStockListing,
   designationFromSlug,
   designationToSlug,
+  burnCharacter,
+  BURN_LABEL,
   findSubstitutes,
   formatBurn,
   formatImpulse,
+  formatIsp,
   formatPrice,
   formatThrust,
   groupByDelay,
+  specificImpulseS,
   isBestInStockPrice,
   listingInStock,
   manufacturerLabel,
@@ -42,6 +46,8 @@ import { PackNote } from "@/app/components/PackNote";
 import { PriceSignalTag } from "@/app/components/PriceSignalTag";
 import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
+import { BurnBadge } from "@/app/components/BurnBadge";
+import { SparkyBadge } from "@/app/components/SparkyBadge";
 import { NotifyButton } from "@/app/components/NotifyButton";
 import { RestockBadge } from "@/app/components/RestockBadge";
 import { SnapshotTime } from "@/app/components/SnapshotTime";
@@ -158,12 +164,16 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
       ? "Single use"
       : null;
 
+  const isp = specificImpulseS(motor);
+  const burn = burnCharacter(motor);
   const specs: { label: string; value: string }[] = [
     { label: "Impulse class", value: motor.impulse_class },
     { label: "Diameter", value: `${motor.diameter_mm} mm` },
     { label: "Total impulse", value: formatImpulse(motor.total_impulse_ns) },
     { label: "Avg thrust", value: formatThrust(motor.avg_thrust_n) },
     { label: "Burn time", value: formatBurn(motor.burn_time_s) },
+    ...(burn ? [{ label: "Burn character", value: BURN_LABEL[burn] }] : []),
+    ...(isp != null ? [{ label: "Specific impulse", value: formatIsp(isp) }] : []),
     { label: "Propellant", value: motor.propellant ?? "—" },
     {
       label: "Delays",
@@ -206,6 +216,8 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           </h1>
           <CertBadge impulseClass={motor.impulse_class} />
           {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
+          <SparkyBadge sparky={motor.sparky} />
+          <BurnBadge motor={motor} />
         </div>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
           {manufacturerLabel(motor.manufacturer)} · {motor.impulse_class}-class · {motor.diameter_mm}mm

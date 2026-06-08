@@ -52,6 +52,16 @@ def test_to_motor_normal_hpr(sample_records):
     assert m.delays == "6,10,14"
     assert m.delay_adjustable is True
     assert m.thrustcurve_id == "abc123"
+    assert m.prop_weight_g == pytest.approx(130.0)
+    assert m.sparky is False  # absent flag → not sparky
+
+
+# --- to_motor: sparky flag + propellant mass map through --------------------
+
+def test_to_motor_maps_sparky_and_prop_weight(sample_records):
+    m = to_motor(sample_records[1])  # M1500: sparky + propWeightG set
+    assert m.sparky is True
+    assert m.prop_weight_g == pytest.approx(3500.0)
 
 
 # --- to_motor: missing commonName falls back to designation ----------------
@@ -77,6 +87,8 @@ def test_to_motor_handles_sparse_record(sample_records):
     assert m.propellant is None
     assert m.delays is None
     assert m.delay_adjustable is False
+    assert m.prop_weight_g is None
+    assert m.sparky is False
 
 
 # --- to_motor: regression on integer/float coercion ------------------------
