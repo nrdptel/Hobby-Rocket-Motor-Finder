@@ -66,7 +66,9 @@ export type SingleVendorOption = {
 export function vendorOffers(item: PlanItem): Offer[] {
   const best = new Map<string, Offer>();
   for (const l of item.motor.listings) {
-    if (!listingInStock(l.status) || l.price_cents == null) continue;
+    // A non-positive price is a placeholder/scrape glitch, not a free motor —
+    // never let it win the plan as "$0".
+    if (!listingInStock(l.status) || l.price_cents == null || l.price_cents <= 0) continue;
     const packSizeUnits = packSize(l.url);
     const packsToBuy = Math.max(1, Math.ceil(item.qty / packSizeUnits));
     // A vendor's stock_count is the count of THIS SKU — i.e. packs for a

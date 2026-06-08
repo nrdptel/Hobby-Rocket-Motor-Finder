@@ -111,6 +111,11 @@ describe("pack-aware planning", () => {
     expect(plan.assignments[0].lines[0]).toMatchObject({ packsToBuy: 2, lineCostCents: 4200 });
   });
 
+  it("ignores a non-positive ($0) price — never wins the plan as 'free'", () => {
+    const m = M(24, "E", [L("v1", "V1", 0, "in_stock"), L("v2", "V2", 1500, "in_stock")]);
+    expect(vendorOffers({ motor: m, qty: 1 }).map((o) => o.vendorSlug)).toEqual(["v2"]);
+  });
+
   it("checks stock_count against PACKS needed, not motors wanted", () => {
     // A 2-pack with only 1 pack in stock covers 2 motors, but not 4.
     const m = M(23, "E", [{ ...L("v1", "V1", 2000, "in_stock_with_count", 1), url: "https://v/e-2-pack" }]);
