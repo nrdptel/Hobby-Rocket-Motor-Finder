@@ -3,6 +3,7 @@ import path from "node:path";
 
 import { cache } from "react";
 
+import type { CatalogRecord } from "./catalogMotors";
 import type { HistoryLog } from "./history";
 
 export type StockStatus =
@@ -118,6 +119,13 @@ const HISTORY_SUMMARY_PATH = path.resolve(
 // drawn (the motor detail page); the caller slices out just the listings it
 // needs. Optional, and degrades to "no history" exactly like the summary.
 const HISTORY_LOG_PATH = path.resolve(process.cwd(), "data", "history-log.json");
+// The ThrustCurve catalog files (copied in by copy-snapshot.mjs), used to build
+// the "phantom" motors no tracked vendor stocks. Optional like the snapshot.
+const CATALOG_PATHS = [
+  "thrustcurve_aerotech.json",
+  "thrustcurve_cesaroni.json",
+  "thrustcurve_loki.json",
+].map((f) => path.resolve(process.cwd(), "data", f));
 
 export class SnapshotParseError extends Error {
   constructor(path: string, cause: unknown) {
@@ -186,9 +194,32 @@ async function loadHistoryLogImpl(): Promise<HistoryLog> {
   }
 }
 
+/** Load the merged ThrustCurve catalog (AeroTech/Cesaroni/Loki). A missing or
+ * malformed file is skipped, so the catalog degrades to "fewer phantoms" rather
+ * than taking down the page. */
+async function loadCatalogMotorsImpl(): Promise<CatalogRecord[]> {
+  const out: CatalogRecord[] = [];
+  for (const p of CATALOG_PATHS) {
+    let raw: string;
+    try {
+      raw = await readFile(p, "utf-8");
+    } catch (err) {
+      if ((err as NodeJS.ErrnoException).code === "ENOENT") continue;
+      throw err;
+    }
+    try {
+      out.push(...(JSON.parse(raw) as CatalogRecord[]));
+    } catch {
+      /* skip a malformed catalog file */
+    }
+  }
+  return out;
+}
+
 // Wrapped in React cache() so multiple calls within one server render parse each
 // file once, not 2–3× — e.g. the detail page reads the snapshot in
 // generateMetadata AND in the page body (both via findMotor).
 export const loadSnapshot = cache(loadSnapshotImpl);
 export const loadHistorySummary = cache(loadHistorySummaryImpl);
 export const loadHistoryLog = cache(loadHistoryLogImpl);
+export const loadCatalogMotors = cache(loadCatalogMotorsImpl);

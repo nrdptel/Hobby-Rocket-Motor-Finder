@@ -2,8 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { loadHistoryLog, loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
+import {
+  loadCatalogMotors,
+  loadHistoryLog,
+  loadHistorySummary,
+  loadSnapshot,
+} from "@/lib/snapshot";
 import type { Motor, Snapshot } from "@/lib/snapshot";
+import { mergedCatalog } from "@/lib/catalogMotors";
 import { buildMotorAvailability } from "@/lib/history";
 import {
   MIN_CLASS,
@@ -52,29 +58,24 @@ type Params = { manufacturer: string; designation: string };
 
 // Resolve the motor for a set of route params. Params arrive URL-decoded from
 // Next; the designation slug maps "~"→"/" (a few AeroTech designations contain a
-// slash). Only motors that the catalog actually shows are routable — they must
-// have a listing and clear MIN_CLASS (A/B/C model-rocket motors are out of scope
-// here), so the detail pages exactly mirror the catalog's universe.
+// slash). Routable motors mirror the catalog's universe: every stocked motor AND
+// every D+ "phantom" (in the catalog, stocked nowhere) — so a search for a real
+// motor always resolves to a page, even an honest "not sold anywhere" one.
 async function findMotor(p: Params): Promise<{ motor: Motor; snapshot: Snapshot } | null> {
-  const snapshot = await loadSnapshot();
+  const [snapshot, catalog] = await Promise.all([loadSnapshot(), loadCatalogMotors()]);
   if (!snapshot) return null;
   const mfr = p.manufacturer.toLowerCase();
   const designation = designationFromSlug(p.designation);
-  const motor = snapshot.motors.find(
-    (m) =>
-      m.listings.length > 0 &&
-      m.impulse_class >= MIN_CLASS &&
-      manufacturerSlug(m.manufacturer) === mfr &&
-      m.designation === designation,
+  const motor = mergedCatalog(snapshot.motors, catalog, MIN_CLASS).find(
+    (m) => manufacturerSlug(m.manufacturer) === mfr && m.designation === designation,
   );
   return motor ? { motor, snapshot } : null;
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  const snapshot = await loadSnapshot();
+  const [snapshot, catalog] = await Promise.all([loadSnapshot(), loadCatalogMotors()]);
   if (!snapshot) return [];
-  return snapshot.motors
-    .filter((m) => m.listings.length > 0 && m.impulse_class >= MIN_CLASS)
+  return mergedCatalog(snapshot.motors, catalog, MIN_CLASS)
     .map((m) => ({
       manufacturer: manufacturerSlug(m.manufacturer),
       designation: designationToSlug(m.designation),
@@ -83,6 +84,7 @@ export async function generateStaticParams(): Promise<Params[]> {
 
 function stockSummary(motor: Motor): string {
   const vendors = motor.listings.length;
+  if (vendors === 0) return "Not sold by any tracked vendor";
   const inStock = motor.listings.filter((l) => listingInStock(l.status)).length;
   const vendorWord = vendors === 1 ? "vendor" : "vendors";
   if (inStock === 0) return `Sold out at all ${vendors} tracked ${vendorWord}`;
@@ -203,7 +205,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
             {motor.designation}
           </h1>
           <CertBadge impulseClass={motor.impulse_class} />
-          <DiscontinuedBadge discontinued={motor.discontinued} />
+          {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
         </div>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
           {manufacturerLabel(motor.manufacturer)} · {motor.impulse_class}-class · {motor.diameter_mm}mm
@@ -245,9 +247,20 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
         </p>
       </section>
 
-      {/* Vendor availability */}
+      {/* Vendor availability — or, for a phantom, an honest "nobody stocks it". */}
       <section className="mt-8">
         <h2 className="text-lg font-semibold tracking-tight">Availability by vendor</h2>
+        {motor.listings.length === 0 ? (
+          <p className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-4 text-sm text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900/40 dark:text-zinc-300">
+            <strong className="font-medium text-zinc-800 dark:text-zinc-200">
+              Not sold by any tracked vendor.
+            </strong>{" "}
+            This is a real {manufacturerLabel(motor.manufacturer)} motor in the ThrustCurve catalog,
+            but none of the vendors we watch list it
+            {motor.discontinued ? " (it's out of production)" : ""}. If you need it now, the closest
+            in-stock motors are below.
+          </p>
+        ) : (
         <div className="mt-3 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
           <table className="min-w-full text-sm">
             <thead className="bg-zinc-100 dark:bg-zinc-900">
@@ -322,6 +335,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
             </tbody>
           </table>
         </div>
+        )}
       </section>
 
       {/* Availability over time — buyable-% + per-vendor stock timeline. */}

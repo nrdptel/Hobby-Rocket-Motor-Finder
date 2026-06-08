@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { loadHistoryLog, loadHistorySummary, loadSnapshot } from "@/lib/snapshot";
+import {
+  loadCatalogMotors,
+  loadHistoryLog,
+  loadHistorySummary,
+  loadSnapshot,
+} from "@/lib/snapshot";
+import { mergedCatalog } from "@/lib/catalogMotors";
 import { catalogAvailability } from "@/lib/history";
 import {
   CERT_LEVELS,
@@ -29,10 +35,11 @@ export const revalidate = 60;
 type SearchParamsRaw = Promise<{ [k: string]: string | string[] | undefined }>;
 
 export default async function Home({ searchParams }: { searchParams: SearchParamsRaw }) {
-  const [snapshot, history, historyLog] = await Promise.all([
+  const [snapshot, history, historyLog, catalog] = await Promise.all([
     loadSnapshot(),
     loadHistorySummary(),
     loadHistoryLog(),
+    loadCatalogMotors(),
   ]);
   if (!snapshot) {
     return (
@@ -68,9 +75,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   // All motors that have any listing (before filtering).
   // MIN_CLASS hides A/B/C-class Estes-style model rocket motors — this tool
   // is for mid-power and HPR builders.
-  const motorsWithListings = snapshot.motors.filter(
-    (m) => m.listings.length > 0 && m.impulse_class >= MIN_CLASS,
-  );
+  // The full catalog universe: every stocked motor (D+, with a listing) PLUS the
+  // "phantom" AeroTech/Cesaroni/Loki D+ motors no tracked vendor stocks — so a
+  // search for a real motor always lands somewhere honest.
+  const motorsWithListings = mergedCatalog(snapshot.motors, catalog, MIN_CLASS);
 
   // Compact per-motor availability (buyable-% over the reliable-cadence window)
   // for the catalog badges. Computed once server-side from the event log and

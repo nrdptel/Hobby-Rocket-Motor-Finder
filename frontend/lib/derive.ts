@@ -601,14 +601,20 @@ export function sortedMotors(
   order: MotorOrder = "class",
   dir: SortDir = "asc",
 ): Motor[] {
-  if (order === "class") {
-    const cmp =
-      dir === "desc"
+  const base =
+    order === "class"
+      ? dir === "desc"
         ? (a: Motor, b: Motor) => -compareByClass(a, b)
-        : compareByClass;
-    return [...motors].sort(cmp);
-  }
-  return [...motors].sort(compareByKey(ORDER_KEYS[order], dir));
+        : compareByClass
+      : compareByKey(ORDER_KEYS[order], dir);
+  // "Phantom" motors (in the catalog but stocked by no tracked vendor — no
+  // listings) always sink below real motors, so the buyable catalog comes first
+  // and they form a clearly-separated tail. Real motors are unaffected.
+  return [...motors].sort((a, b) => {
+    const pa = a.listings.length === 0 ? 1 : 0;
+    const pb = b.listings.length === 0 ? 1 : 0;
+    return pa - pb || base(a, b);
+  });
 }
 
 /** Read a comma-separated multi-value query parameter into a Set. */

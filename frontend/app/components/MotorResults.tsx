@@ -166,7 +166,7 @@ export function MotorResults({
                             {m.designation}
                           </Link>
                           <CertBadge impulseClass={m.impulse_class} />
-                          <DiscontinuedBadge discontinued={m.discontinued} />
+                          {m.listings.length > 0 && <DiscontinuedBadge discontinued={m.discontinued} />}
                           <MotorAvailabilityBadge
                             availability={availability[m.id]}
                             discontinued={m.discontinued}
@@ -252,7 +252,17 @@ export function MotorResults({
                     );
                   });
                 }
-                // Sold-out motor: offer same-mount, same-cert in-stock swaps.
+                // Phantom: a real catalog motor no tracked vendor stocks.
+                if (m.listings.length === 0) {
+                  rows.push(
+                    <tr key={`${m.id}-phantom`}>
+                      <td colSpan={6} className="px-3 py-1.5 text-xs italic text-zinc-500 dark:text-zinc-400">
+                        Not sold by any tracked vendor{m.discontinued ? " · out of production" : ""}.
+                      </td>
+                    </tr>,
+                  );
+                }
+                // Sold-out (or phantom) motor: offer same-mount, same-cert in-stock swaps.
                 const subs = substitutes[m.id];
                 if (subs && subs.length > 0) {
                   rows.push(
