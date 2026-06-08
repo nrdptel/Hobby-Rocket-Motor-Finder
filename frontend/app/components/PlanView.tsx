@@ -374,7 +374,11 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
                             </span>
                             <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
                               {l.packSizeUnits > 1
-                                ? `${usd(l.unitPriceCents)}/ea · ${l.packsToBuy}× ${l.packSizeUnits}-pack`
+                                ? `${usd(l.unitPriceCents)}/ea · ${l.packsToBuy}× ${l.packSizeUnits}-pack${
+                                    l.packsToBuy * l.packSizeUnits > l.qty
+                                      ? ` → ${l.packsToBuy * l.packSizeUnits} motors`
+                                      : ""
+                                  }`
                                 : `${usd(l.unitPriceCents)} ea`}
                             </span>
                           </span>

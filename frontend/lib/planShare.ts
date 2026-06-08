@@ -64,9 +64,12 @@ export function orderPlanToText(plan: OrderPlan, shippingCents: number): string 
   for (const a of plan.assignments) {
     lines.push(`${a.vendorName} — ${dollars(a.subtotalCents)}:`);
     for (const l of a.lines) {
+      const received = l.packsToBuy * l.packSizeUnits;
       const detail =
         l.packSizeUnits > 1
-          ? `${dollars(l.unitPriceCents)}/ea, ${l.packsToBuy}× ${l.packSizeUnits}-pack = ${dollars(l.lineCostCents)}`
+          ? `${dollars(l.unitPriceCents)}/ea, ${l.packsToBuy}× ${l.packSizeUnits}-pack${
+              received > l.qty ? ` (${received} motors)` : ""
+            } = ${dollars(l.lineCostCents)}`
           : `${dollars(l.unitPriceCents)} ea`;
       lines.push(`  ${l.qty}× ${l.motor.designation} — ${detail}`);
     }
