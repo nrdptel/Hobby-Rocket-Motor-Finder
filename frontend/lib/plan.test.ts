@@ -110,6 +110,13 @@ describe("pack-aware planning", () => {
     const plan = buildOrderPlan([{ motor: m, qty: 4 }], 0);
     expect(plan.assignments[0].lines[0]).toMatchObject({ packsToBuy: 2, lineCostCents: 4200 });
   });
+
+  it("checks stock_count against PACKS needed, not motors wanted", () => {
+    // A 2-pack with only 1 pack in stock covers 2 motors, but not 4.
+    const m = M(23, "E", [{ ...L("v1", "V1", 2000, "in_stock_with_count", 1), url: "https://v/e-2-pack" }]);
+    expect(vendorOffers({ motor: m, qty: 2 }).map((o) => o.vendorSlug)).toEqual(["v1"]); // 1 pack = 2 motors
+    expect(vendorOffers({ motor: m, qty: 4 })).toEqual([]); // needs 2 packs, only 1 in stock
+  });
 });
 
 describe("buildSwapSuggestions", () => {

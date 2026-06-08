@@ -6,6 +6,7 @@ import {
   safeHref,
 } from "@/lib/derive";
 import type { Substitute } from "@/lib/derive";
+import { packSize } from "@/lib/pack";
 
 /** "N similar motors in stock" disclosure shown under a motor that's sold out
  * everywhere. Each entry is a same-mount (diameter), same-cert (impulse class)
@@ -34,6 +35,9 @@ export function Substitutes({ subs }: { subs: Substitute[] | undefined }) {
             </span>
             <span className="shrink-0 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
               {formatPrice(s.bestPriceCents, s.currency)}
+              {s.url && packSize(s.url) > 1 && (
+                <span className="text-zinc-400 dark:text-zinc-500"> · {packSize(s.url)}-pack</span>
+              )}
               {s.url && (
                 <>
                   {" "}
