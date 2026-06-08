@@ -75,6 +75,9 @@ export async function POST(request: Request): Promise<Response> {
     const designation = typeof m.designation === "string" ? m.designation.trim() : "";
     if (!manufacturer || !designation) continue;
     const key = motorKey(manufacturer, designation);
+    // "Phantom" first appearance (a motor no vendor stocked, now listed) → the
+    // email reads "now in stock" instead of "back in stock".
+    const firstAvailable = m.first_available === true;
     try {
       const subs = await smembers(cfg, subKey(key));
       if (subs.length === 0) continue;
@@ -89,7 +92,13 @@ export async function POST(request: Request): Promise<Response> {
           const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
             unsubToken,
           )}`;
-          const tmpl = restockEmail(designation, motorUrl, unsubscribeUrl, await manageLink(cfg, email));
+          const tmpl = restockEmail(
+            designation,
+            motorUrl,
+            unsubscribeUrl,
+            await manageLink(cfg, email),
+            firstAvailable,
+          );
           await sendEmail({
             ses: cfg.ses,
             from: cfg.from,
