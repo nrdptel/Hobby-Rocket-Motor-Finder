@@ -22,6 +22,11 @@ const files = [
   { src: "snapshot.example.json", dst: "snapshot.example.json" },
   { src: "history/summary.json", dst: "history-summary.json" },
   { src: "history/log.json", dst: "history-log.json" },
+  // ThrustCurve catalog (the full AeroTech/Cesaroni/Loki motor list), so the UI
+  // can surface "phantom" motors no tracked vendor stocks.
+  { src: "thrustcurve_aerotech.json", dst: "thrustcurve_aerotech.json" },
+  { src: "thrustcurve_cesaroni.json", dst: "thrustcurve_cesaroni.json" },
+  { src: "thrustcurve_loki.json", dst: "thrustcurve_loki.json" },
 ];
 
 await mkdir(targetDir, { recursive: true });
