@@ -29,6 +29,7 @@ import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { BurnBadge } from "./BurnBadge";
 import { SparkyBadge } from "./SparkyBadge";
+import { ThrustSparkline } from "./ThrustSparkline";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
@@ -58,6 +59,7 @@ export function MotorResults({
   history,
   availability,
   substitutes,
+  sparklines,
 }: {
   motors: GroupedMotor[];
   showManufacturer: boolean;
@@ -66,6 +68,8 @@ export function MotorResults({
   history: HistorySummary;
   availability: Record<number, CatalogAvailability>;
   substitutes: Record<number, Substitute[]>;
+  /** Per-motor thrust-curve sparkline path, keyed by motor id. */
+  sparklines: Record<number, string>;
 }) {
   const { starred, hydrated, count } = useWatchlist();
   const now = new Date(generatedAt);
@@ -201,6 +205,15 @@ export function MotorResults({
                             </span>
                           )}
                         </span>
+                        {sparklines[m.id] && (
+                          <Link
+                            href={motorPath(m)}
+                            title="Thrust curve — open the detail page for the full chart"
+                            className="inline-flex items-center self-center"
+                          >
+                            <ThrustSparkline d={sparklines[m.id]} />
+                          </Link>
+                        )}
                       </div>
                     </td>
                   </tr>,
@@ -312,6 +325,7 @@ export function MotorResults({
               history={history}
               availability={availability[m.id]}
               substitutes={substitutes[m.id]}
+              sparkline={sparklines[m.id]}
             />
           ))
         )}
