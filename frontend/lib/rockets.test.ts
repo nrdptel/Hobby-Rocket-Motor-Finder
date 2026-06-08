@@ -18,7 +18,6 @@ const ROCKET: Rocket = {
   id: "abc",
   name: "Punisher",
   diameterMm: 54,
-  cert: "l2",
   impulseClasses: [],
   caseInfos: [],
   minImpulseNs: 1000,
@@ -35,7 +34,6 @@ describe("parseRockets", () => {
       id: "j",
       name: "",
       diameterMm: 54,
-      cert: null,
       impulseClasses: ["J", "K"],
       caseInfos: ["RMS-54/1706", "RMS-54/2560"],
       minImpulseNs: null,
@@ -46,11 +44,18 @@ describe("parseRockets", () => {
 
   it("migrates a legacy single class/case (string) to a one-element list", () => {
     const raw = JSON.stringify([
-      { id: "old", name: "", diameterMm: 54, cert: null, impulseClass: "J", caseInfo: "RMS-54/1706" },
+      { id: "old", name: "", diameterMm: 54, impulseClass: "J", caseInfo: "RMS-54/1706" },
     ]);
     const [r] = parseRockets(raw);
     expect(r.impulseClasses).toEqual(["J"]);
     expect(r.caseInfos).toEqual(["RMS-54/1706"]);
+  });
+
+  it("drops a legacy persisted cert (the field no longer exists)", () => {
+    const raw = JSON.stringify([{ id: "old", diameterMm: 54, cert: "l2" }]);
+    const [r] = parseRockets(raw);
+    expect(r).not.toHaveProperty("cert");
+    expect(r.diameterMm).toBe(54);
   });
 
   it("drops non-string / empty / duplicate entries in a class/case list", () => {
@@ -73,38 +78,36 @@ describe("parseRockets", () => {
     expect(parseRockets("42")).toEqual([]);
   });
 
-  it("drops only entries missing a valid diameter (cert is optional)", () => {
+  it("drops only entries missing a valid diameter", () => {
     const raw = JSON.stringify([
       ROCKET,
-      { id: "x", diameterMm: "54", cert: "l1" }, // diameter not a number → dropped
-      { id: "z", cert: "l1" }, // no diameter → dropped
+      { id: "x", diameterMm: "54" }, // diameter not a number → dropped
+      { id: "z" }, // no diameter → dropped
       null,
       "nope",
     ]);
     expect(parseRockets(raw)).toEqual([ROCKET]);
   });
 
-  it("keeps a diameter-only rocket (cert null, class/case empty)", () => {
+  it("keeps a diameter-only rocket (class/case empty)", () => {
     const raw = JSON.stringify([{ id: "y", diameterMm: 38 }]);
     const [r] = parseRockets(raw);
     expect(r.diameterMm).toBe(38);
-    expect(r.cert).toBeNull();
     expect(r.impulseClasses).toEqual([]);
     expect(r.caseInfos).toEqual([]);
   });
 
   it("fills defaults for a missing id/name", () => {
-    const raw = JSON.stringify([{ diameterMm: 38, cert: "l1" }]);
+    const raw = JSON.stringify([{ diameterMm: 38 }]);
     const [r] = parseRockets(raw);
     expect(r.diameterMm).toBe(38);
-    expect(r.cert).toBe("l1");
     expect(typeof r.id).toBe("string");
     expect(r.id.length).toBeGreaterThan(0);
     expect(r.name).toBe("");
   });
 
   it("defaults class/case to empty + band to null for rockets saved before those fields (back-compat)", () => {
-    const raw = JSON.stringify([{ id: "old", name: "Legacy", diameterMm: 38, cert: "l1" }]);
+    const raw = JSON.stringify([{ id: "old", name: "Legacy", diameterMm: 38 }]);
     const [r] = parseRockets(raw);
     expect(r.impulseClasses).toEqual([]);
     expect(r.caseInfos).toEqual([]);
@@ -114,7 +117,7 @@ describe("parseRockets", () => {
 
   it("parses and coerces an invalid impulse bound to null", () => {
     const raw = JSON.stringify([
-      { id: "a", name: "", diameterMm: 54, cert: "l2", minImpulseNs: 1000, maxImpulseNs: "x" },
+      { id: "a", name: "", diameterMm: 54, minImpulseNs: 1000, maxImpulseNs: "x" },
     ]);
     const [r] = parseRockets(raw);
     expect(r.minImpulseNs).toBe(1000);
@@ -128,7 +131,6 @@ describe("parseRockets", () => {
         id: "d2",
         name: "",
         diameterMm: 75,
-        cert: "l3",
         impulseClasses: [],
         caseInfos: [],
         minImpulseNs: null,
@@ -150,7 +152,6 @@ const m = (
 
 const spec = (over: Partial<RocketSpec>): RocketSpec => ({
   diameterMm: 54,
-  cert: null,
   impulseClasses: [],
   caseInfos: [],
   minImpulseNs: null,
@@ -159,12 +160,10 @@ const spec = (over: Partial<RocketSpec>): RocketSpec => ({
 });
 
 describe("motorFitsRocket", () => {
-  const r54L2 = spec({ cert: "l2" });
-
-  it("matches by diameter + cert's impulse classes", () => {
-    expect(motorFitsRocket(r54L2, m(54, "J", 800))).toBe(true); // J ∈ L2
-    expect(motorFitsRocket(r54L2, m(54, "H", 200))).toBe(false); // H ∉ L2
-    expect(motorFitsRocket(r54L2, m(38, "K", 1500))).toBe(false); // wrong diameter
+  it("matches by diameter", () => {
+    const r = spec({});
+    expect(motorFitsRocket(r, m(54, "J", 800))).toBe(true);
+    expect(motorFitsRocket(r, m(38, "K", 1500))).toBe(false); // wrong diameter
   });
 
   it("matches a diameter-only rocket against any class at that diameter", () => {
@@ -195,8 +194,16 @@ describe("motorFitsRocket", () => {
     expect(motorFitsRocket(r, { ...fits, case_info: "RMS-54/852" })).toBe(false); // unlisted case
   });
 
+  it("still honors a legacy cert when present (the alert-sub path)", () => {
+    // The My Rockets UI no longer sets cert, but rocket-fit alert subscriptions
+    // made before its removal still carry one, so the fit function keeps it.
+    const r54L2 = spec({ cert: "l2" });
+    expect(motorFitsRocket(r54L2, m(54, "J", 800))).toBe(true); // J ∈ L2
+    expect(motorFitsRocket(r54L2, m(54, "H", 200))).toBe(false); // H ∉ L2
+  });
+
   it("respects the impulse band when set (nulls excluded)", () => {
-    const banded = spec({ cert: "l2", minImpulseNs: 1000, maxImpulseNs: 2560 });
+    const banded = spec({ minImpulseNs: 1000, maxImpulseNs: 2560 });
     expect(motorFitsRocket(banded, m(54, "K", 1500))).toBe(true);
     expect(motorFitsRocket(banded, m(54, "J", 800))).toBe(false); // below min
     expect(motorFitsRocket(banded, m(54, "L", 3000))).toBe(false); // above max
@@ -208,32 +215,34 @@ describe("rocketMatchesParams", () => {
   // A param getter backed by a plain map (null = absent), like URLSearchParams.get.
   const getter = (m: Record<string, string>) => (k: string) => m[k] ?? null;
 
-  it("matches when every param exactly describes the rocket", () => {
-    const get = getter({ dia: "54", cert: "l2", imin: "1000", imax: "2560" });
+  it("matches when every rocket param exactly describes the rocket", () => {
+    const get = getter({ dia: "54", imin: "1000", imax: "2560" });
     expect(rocketMatchesParams(ROCKET, get)).toBe(true);
   });
 
   it("requires unset rocket fields to be ABSENT from the params", () => {
-    // ROCKET has no impulseClass; a class param present means it's not this rocket.
-    const get = getter({ dia: "54", cert: "l2", imin: "1000", imax: "2560", class: "K" });
+    // ROCKET pins no class; a class param present means it's not this rocket.
+    const get = getter({ dia: "54", imin: "1000", imax: "2560", class: "K" });
     expect(rocketMatchesParams(ROCKET, get)).toBe(false);
   });
 
   it("fails when a set field differs or is missing", () => {
-    expect(rocketMatchesParams(ROCKET, getter({ dia: "38", cert: "l2", imin: "1000", imax: "2560" }))).toBe(false);
-    expect(rocketMatchesParams(ROCKET, getter({ dia: "54", cert: "l2", imin: "1000" }))).toBe(false);
+    expect(rocketMatchesParams(ROCKET, getter({ dia: "38", imin: "1000", imax: "2560" }))).toBe(false);
+    expect(rocketMatchesParams(ROCKET, getter({ dia: "54", imin: "1000" }))).toBe(false);
   });
 
-  it("matches a diameter-only rocket only when no other rocket params are set", () => {
-    const diaOnly: Rocket = { ...ROCKET, cert: null, minImpulseNs: null, maxImpulseNs: null };
+  it("ignores the cert param — a rocket no longer pins a cert", () => {
+    const diaOnly: Rocket = { ...ROCKET, minImpulseNs: null, maxImpulseNs: null };
     expect(rocketMatchesParams(diaOnly, getter({ dia: "54" }))).toBe(true);
-    expect(rocketMatchesParams(diaOnly, getter({ dia: "54", cert: "l2" }))).toBe(false);
+    // An independent cert filter doesn't change whether this rocket is active.
+    expect(rocketMatchesParams(diaOnly, getter({ dia: "54", cert: "l2" }))).toBe(true);
+    // But a class param the rocket doesn't pin does.
+    expect(rocketMatchesParams(diaOnly, getter({ dia: "54", class: "K" }))).toBe(false);
   });
 
   it("matches a multi-class/case rocket regardless of param order (set equality)", () => {
     const multi: Rocket = {
       ...ROCKET,
-      cert: null,
       minImpulseNs: null,
       maxImpulseNs: null,
       impulseClasses: ["H", "I"],
@@ -255,12 +264,12 @@ describe("rocketMatchesParams", () => {
 
 describe("rocketInStockCount", () => {
   it("counts only in-stock motors that fit", () => {
-    const rocket = spec({ cert: "l2" });
+    const rocket = spec({ impulseClasses: ["J", "K"] });
     const motors = [
       m(54, "J", 800, true), // fits, in stock ✓
       m(54, "K", 1500, true), // fits, in stock ✓
       m(54, "K", 1600, false), // fits but OUT of stock ✗
-      m(54, "H", 200, true), // wrong cert ✗
+      m(54, "H", 200, true), // wrong class ✗
       m(38, "J", 800, true), // wrong diameter ✗
     ];
     expect(rocketInStockCount(rocket, motors)).toBe(2);

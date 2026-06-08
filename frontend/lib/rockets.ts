@@ -21,11 +21,9 @@ export type Rocket = {
   id: string;
   name: string; // optional label; "" means show the spec instead
   diameterMm: number; // the only required field
-  // cert was required on rockets saved before it became optional; those simply
-  // keep their cert. impulseClasses + caseInfos are multi-value: a rocket can
-  // pin several classes and/or several reload cases (e.g. all the cases it can
-  // fly). An empty list = unconstrained.
-  cert: string | null; // a CERT_LEVELS key ("mid" | "l1" | "l2" | "l3")
+  // impulseClasses + caseInfos are multi-value: a rocket can pin several classes
+  // and/or several reload cases (e.g. all the cases it can fly). An empty list =
+  // unconstrained.
   impulseClasses: string[]; // class letters, e.g. ["H", "I"]
   caseInfos: string[]; // case values, e.g. ["RMS-38/720", "RMS-38/360"]
   // Optional preferred total-impulse window (N·s). null = open bound.
@@ -37,16 +35,11 @@ export type Rocket = {
 export type RocketInput = {
   name?: string;
   diameterMm: number;
-  cert?: string | null;
   impulseClasses?: string[];
   caseInfos?: string[];
   minImpulseNs?: number | null;
   maxImpulseNs?: number | null;
 };
-
-function strOrNull(x: unknown): string | null {
-  return typeof x === "string" && x ? x : null;
-}
 
 function numOrNull(x: unknown): number | null {
   return typeof x === "number" && Number.isFinite(x) ? x : null;
@@ -79,18 +72,19 @@ function strArr(...candidates: unknown[]): string[] {
  * passes down, rather than the full Motor objects). */
 export type RocketMotor = FitMotor & { inStock: boolean };
 
-// The catalog URL params a rocket maps onto when applied as a filter.
-export const ROCKET_PARAMS = ["dia", "cert", "class", "case", "imin", "imax"] as const;
+// The catalog URL params a rocket maps onto when applied as a filter. (Cert is
+// deliberately NOT here: a rocket no longer pins a cert, so applying or clearing
+// one leaves the catalog's own cert filter untouched.)
+export const ROCKET_PARAMS = ["dia", "class", "case", "imin", "imax"] as const;
 
 /** True when the current catalog filter params exactly describe this rocket —
  * i.e. it's the "active" rocket. `get` reads a param (null/undefined = absent).
  * Pure (no React/URL types) so the chip row and the loadout agree on which
  * rocket, if any, is in focus. */
 export function rocketMatchesParams(
-  r: Pick<Rocket, "diameterMm" | "cert" | "impulseClasses" | "caseInfos" | "minImpulseNs" | "maxImpulseNs">,
+  r: Pick<Rocket, "diameterMm" | "impulseClasses" | "caseInfos" | "minImpulseNs" | "maxImpulseNs">,
   get: (key: string) => string | null | undefined,
 ): boolean {
-  const strEq = (p: string, v: string | null) => (v == null ? !get(p) : get(p) === v);
   const numEq = (p: string, v: number | null) => (v == null ? !get(p) : get(p) === String(v));
   // A multi-value param (comma list) equals the rocket's list as a SET — order-
   // and duplicate-insensitive — so a rocket whose cases the URL lists in any
@@ -104,7 +98,6 @@ export function rocketMatchesParams(
   };
   return (
     get("dia") === String(r.diameterMm) &&
-    strEq("cert", r.cert) &&
     setEq("class", r.impulseClasses) &&
     setEq("case", r.caseInfos) &&
     numEq("imin", r.minImpulseNs) &&
@@ -136,15 +129,15 @@ export function parseRockets(raw: string | null): Rocket[] {
       if (typeof x !== "object" || x === null) return [];
       const r = x as Record<string, unknown>;
       if (typeof r.diameterMm !== "number" || !Number.isFinite(r.diameterMm)) return [];
-      const cert = strOrNull(r.cert);
-      const id = typeof r.id === "string" && r.id ? r.id : `${r.diameterMm}-${cert ?? ""}`;
+      const id = typeof r.id === "string" && r.id ? r.id : `${r.diameterMm}-${Date.now()}`;
       const name = typeof r.name === "string" ? r.name : "";
+      // Any persisted `cert` from rockets saved before cert was removed is simply
+      // dropped here — the field no longer exists on the model.
       return [
         {
           id,
           name,
           diameterMm: r.diameterMm,
-          cert,
           // Read the multi-value form, falling back to the legacy single-string
           // keys (impulseClass / caseInfo) for rockets saved before they went
           // multi-value.
@@ -228,7 +221,6 @@ function fromInput(spec: RocketInput): Omit<Rocket, "id"> {
   return {
     name: (spec.name ?? "").trim(),
     diameterMm: spec.diameterMm,
-    cert: spec.cert ?? null,
     impulseClasses: strArr(spec.impulseClasses),
     caseInfos: strArr(spec.caseInfos),
     minImpulseNs: spec.minImpulseNs ?? null,

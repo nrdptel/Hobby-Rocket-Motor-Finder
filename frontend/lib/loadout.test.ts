@@ -40,7 +40,6 @@ function motor(over: Partial<Motor> = {}): Motor {
 
 const rocket = (over: Partial<RocketSpec> = {}): RocketSpec => ({
   diameterMm: 38,
-  cert: null,
   impulseClasses: [],
   caseInfos: [],
   minImpulseNs: null,

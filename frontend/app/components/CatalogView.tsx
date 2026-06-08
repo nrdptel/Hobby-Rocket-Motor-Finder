@@ -69,7 +69,6 @@ export function CatalogView({
     <>
       <MyRockets
         diameters={diameters}
-        certLevels={certLevels}
         classes={classes}
         cases={cases}
         motors={rocketMotors}
@@ -81,7 +80,6 @@ export function CatalogView({
           rocket={activeRocket}
           allMotors={allMotors}
           availability={availability}
-          certLevels={certLevels}
           showManufacturer={showManufacturer}
         />
       )}

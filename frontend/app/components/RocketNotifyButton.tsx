@@ -19,7 +19,6 @@ export function RocketNotifyButton({
   name,
   displayLabel,
   diameterMm,
-  cert,
   impulseClasses,
   caseInfos,
   minImpulseNs,
@@ -29,7 +28,6 @@ export function RocketNotifyButton({
   name: string;
   displayLabel: string;
   diameterMm: number;
-  cert: string | null;
   impulseClasses: string[];
   caseInfos: string[];
   minImpulseNs: number | null;
@@ -70,7 +68,6 @@ export function RocketNotifyButton({
           email: addr,
           label: name,
           diameterMm,
-          cert,
           impulseClasses,
           caseInfos,
           minImpulseNs,

@@ -7,14 +7,18 @@ import { caseKey, certClasses } from "./derive";
 
 /** The fit-relevant fields of a saved rocket. The motor-mount diameter is the
  * only required dimension; every other field is an optional narrowing — a rocket
- * may pin a cert level, one or more impulse classes, one or more reload cases
- * (e.g. every case it can fly), and/or an impulse band, or none of them. The
- * class and case lists are OR-matched: a motor fits if its class is any of the
- * pinned classes and its case is any of the pinned cases. An empty list means
- * that dimension is unconstrained. */
+ * may pin one or more impulse classes, one or more reload cases (e.g. every case
+ * it can fly), and/or an impulse band, or none of them. The class and case lists
+ * are OR-matched: a motor fits if its class is any of the pinned classes and its
+ * case is any of the pinned cases. An empty list means that dimension is
+ * unconstrained.
+ *
+ * `cert` is optional + legacy: the My Rockets UI no longer sets it, but rocket-
+ * fit alert subscriptions made before it was removed still carry one, so the fit
+ * function keeps honoring it when present. */
 export type RocketSpec = {
   diameterMm: number;
-  cert: string | null; // a CERT_LEVELS key ("mid" | "l1" | "l2" | "l3"), or null
+  cert?: string | null; // legacy cert key ("mid" | "l1" | "l2" | "l3"); usually unset
   impulseClasses: string[]; // class letters ("H", "I"); empty = any
   caseInfos: string[]; // case values ("RMS-38/720", "Single use"); empty = any
   minImpulseNs: number | null;
