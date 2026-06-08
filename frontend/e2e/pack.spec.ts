@@ -19,6 +19,32 @@ test("a multipack listing shows a per-unit price with a pack note", async ({ pag
   await expect(page.getByText(/\d+-pack · \$\d/).first()).toBeVisible();
 });
 
+// A 29mm rocket's loadout surfaces mid-power motors, some sold only in packs —
+// each must show the "· N-pack" hint next to its per-unit price (so "$16.50"
+// isn't mistaken for a single when the minimum buy is a 2-pack).
+test("the rocket loadout pairs a multipack's per-unit price with a pack hint", async ({ page }) => {
+  await page.addInitScript(() =>
+    window.localStorage.setItem(
+      "hpr.rockets.v1",
+      JSON.stringify([
+        {
+          id: "r1",
+          name: "29mm",
+          diameterMm: 29,
+          cert: null,
+          impulseClass: null,
+          caseInfo: null,
+          minImpulseNs: null,
+          maxImpulseNs: null,
+        },
+      ]),
+    ),
+  );
+  await page.goto("/?dia=29&in_stock=1");
+  const loadout = page.locator("section", { hasText: "Fly it:" }).first();
+  await expect(loadout.getByText(/· \d+-pack/).first()).toBeVisible();
+});
+
 // E26W is sold only as a 2-pack (Wildman) — a stable multipack-only motor. The
 // planner must price it per-unit but bill the whole pack, and say so.
 test("the planner prices a multipack per-unit but bills the whole pack", async ({ page }) => {

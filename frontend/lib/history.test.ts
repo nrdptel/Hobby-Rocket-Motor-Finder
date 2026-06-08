@@ -262,6 +262,22 @@ describe("evaluation follow-ups (hardening)", () => {
     expect(a.priceHighCents).toBeNull();
   });
 
+  it("reports the price range PER-MOTOR for a multipack listing", () => {
+    const url = "https://v/d13-3-pack";
+    const log: HistoryLog = {
+      [url]: {
+        vendor_slug: "v",
+        events: [
+          { t: EPOCH, status: "in_stock", price_cents: 2100 }, // $21 pack = $7.00/ea
+          { t: "2026-06-06T18:00:00Z", status: "in_stock", price_cents: 2400 }, // $24 pack = $8.00/ea
+        ],
+      },
+    };
+    const a = buildMotorAvailability([{ url, vendor_name: "V", vendor_slug: "v" }], log, NOW)!;
+    expect(a.priceLowCents).toBe(700);
+    expect(a.priceHighCents).toBe(800);
+  });
+
   it("keeps a plausible price range", () => {
     const { log, listings } = oneVendor([
       { t: EPOCH, status: "in_stock", price_cents: 2974 },
