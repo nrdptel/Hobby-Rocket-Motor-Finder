@@ -31,9 +31,12 @@ echo "[session-start] installing backend (editable, with dev extras)"
 "$VENV/bin/pip" install -q --upgrade pip
 "$VENV/bin/pip" install -q -e "$PROJECT_DIR/backend[dev]"
 
-# --- Frontend: npm deps (install, not ci, to reuse the cached container) ----
+# --- Frontend: npm deps -----------------------------------------------------
+# Use `npm ci` (not `npm install`): it installs strictly from the lockfile and
+# never rewrites it, so the web container's npm doesn't churn package-lock.json
+# on every session. Matches CI.
 echo "[session-start] installing frontend npm deps"
-( cd "$PROJECT_DIR/frontend" && npm install --no-fund --no-audit )
+( cd "$PROJECT_DIR/frontend" && npm ci --no-fund --no-audit )
 
 # --- Playwright browser for the e2e suite ----------------------------------
 echo "[session-start] installing Playwright Chromium"
