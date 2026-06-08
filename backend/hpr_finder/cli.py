@@ -13,7 +13,7 @@ import httpx
 import typer
 
 from . import catalog, db, health, history
-from .alerts import restocked_motors
+from .alerts import newly_available_motors, restocked_motors
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
 from .normalize import is_out_of_scope
@@ -538,13 +538,24 @@ def alerts_dispatch(
     """
     url = url or os.environ.get("ALERTS_DISPATCH_URL", "")
     secret = secret or os.environ.get("ALERTS_DISPATCH_SECRET", "")
-    motors = restocked_motors(_load_json(prev), _load_json(current))
-    typer.echo(f"alerts: {len(motors)} motor(s) restocked this run")
+    prev_json, current_json = _load_json(prev), _load_json(current)
+    restocked = restocked_motors(prev_json, current_json)
+    newly = newly_available_motors(prev_json, current_json)
+    # Merge (the two are mutually exclusive by construction; dedup defensively,
+    # preferring the restock entry on the off chance of a collision).
+    by_key: dict[tuple[str, str], dict] = {}
+    for m in restocked + newly:
+        by_key.setdefault((m["manufacturer"], m["designation"]), m)
+    motors = list(by_key.values())
+    typer.echo(
+        f"alerts: {len(restocked)} restocked, {len(newly)} newly available this run"
+    )
     if not motors:
         return
     if dry_run:
         for m in motors:
-            typer.echo(f"  restocked: {m['manufacturer']} {m['designation']}")
+            tag = "newly available" if m.get("first_available") else "restocked"
+            typer.echo(f"  {tag}: {m['manufacturer']} {m['designation']}")
         return
     if not url or not secret:
         typer.echo("alerts: dispatch not configured (ALERTS_DISPATCH_URL/SECRET unset) — skipping")
