@@ -14,6 +14,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 5.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -68,6 +70,8 @@
       "propellant": "White Lightning",
       "delays": "3,5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 9.799999999999999,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -85,6 +89,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 9.799999999999999,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -211,6 +217,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 8.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -301,6 +309,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 10.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -355,6 +365,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 9.6,
       "listings": [
         {
           "vendor_slug": "sirius",
@@ -397,6 +409,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 12.0,
       "listings": [
         {
           "vendor_slug": "wildman",
@@ -439,6 +453,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,5,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 8.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -565,6 +581,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 10.5,
       "listings": [
         {
           "vendor_slug": "sirius",
@@ -595,6 +613,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 10.1,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -661,6 +681,8 @@
       "propellant": "Blackjack",
       "delays": "3",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 25.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -703,6 +725,8 @@
       "propellant": "Blackjack",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.3,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-R/C-24/20-40"
@@ -720,6 +744,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 19.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -858,6 +884,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 20.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -972,6 +1000,8 @@
       "propellant": "White Lightning",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 16.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1110,6 +1140,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,5,6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 17.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1248,6 +1280,8 @@
       "propellant": "Classic",
       "delays": "4,7,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 18.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1398,6 +1432,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 18.3,
       "listings": [
         {
           "vendor_slug": "wildman",
@@ -1452,6 +1488,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 18.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1566,6 +1604,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 17.8,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1704,6 +1744,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 21.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1734,6 +1776,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 17.1,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-R/C-24/20-40"
@@ -1751,6 +1795,8 @@
       "propellant": "Slo Nine",
       "delays": "4,6,8,10,12",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 38.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1817,6 +1863,8 @@
       "propellant": "Blackjack",
       "delays": "3,5",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -1907,6 +1955,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 32.3,
       "listings": [
         {
           "vendor_slug": "sirius",
@@ -1937,6 +1987,8 @@
       "propellant": "Blackjack",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.5,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-R/C-32/60-100"
@@ -1954,6 +2006,8 @@
       "propellant": "White Lightning",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2092,6 +2146,8 @@
       "propellant": "Blackjack",
       "delays": "5,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 46.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2206,6 +2262,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 37.8,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-R/C-32/60-100"
@@ -2223,6 +2281,8 @@
       "propellant": "Black Max",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2337,6 +2397,8 @@
       "propellant": "White Lightning",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 19.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2451,6 +2513,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,7,9",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 35.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2637,6 +2701,8 @@
       "propellant": "Black Max",
       "delays": "6,7,9",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 43.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2763,6 +2829,8 @@
       "propellant": "Redline",
       "delays": "4,6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 28.400000000000002,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -2901,6 +2969,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 31.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -3099,6 +3169,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 31.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -3297,6 +3369,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,6,7,8,9,11",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -3459,6 +3533,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 28.2,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -3501,6 +3577,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,5,6,7,9",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 22.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -3639,6 +3717,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 40.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -3837,6 +3917,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 27.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -3975,6 +4057,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 19.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4113,6 +4197,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,7,9",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 37.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4311,6 +4397,8 @@
       "propellant": "New Blue Thunder",
       "delays": "5,7,9",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 26.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4389,6 +4477,8 @@
       "propellant": "Classic",
       "delays": "5,6,8,10,12",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4575,6 +4665,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,5,6,7,8,9,11",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 36.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4773,6 +4865,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 32.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4827,6 +4921,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4893,6 +4989,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 27.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -4959,6 +5057,8 @@
       "propellant": "Classic",
       "delays": "6,9,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 36.8,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5097,6 +5197,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,7,9",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 30.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5295,6 +5397,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 43.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5373,6 +5477,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 82.0,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -5390,6 +5496,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 51.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5432,6 +5540,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 59.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5510,6 +5620,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 82.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5588,6 +5700,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5654,6 +5768,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 49.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5696,6 +5812,8 @@
       "propellant": "Black Max",
       "delays": "4,7",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 55.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -5810,6 +5928,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 53.8,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6008,6 +6128,8 @@
       "propellant": "Black Max",
       "delays": "4,5,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 60.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6206,6 +6328,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 46.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6284,6 +6408,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6362,6 +6488,8 @@
       "propellant": "White Lightning",
       "delays": "4,5,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6560,6 +6688,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 60.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6638,6 +6768,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.199999999999996,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6692,6 +6824,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": true,
+      "prop_weight_g": 62.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6770,6 +6904,8 @@
       "propellant": "Classic",
       "delays": "7,11,15",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -6824,6 +6960,8 @@
       "propellant": "White Lightning",
       "delays": "6,8",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 39.300000000000004,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -7022,6 +7160,8 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 104.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -7088,6 +7228,8 @@
       "propellant": "Metalstorm",
       "delays": "7,9,11,13",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 67.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -7142,6 +7284,8 @@
       "propellant": "Mojave Green",
       "delays": "4,5,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 60.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -7340,6 +7484,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 58.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -7562,6 +7708,8 @@
       "propellant": "Redline",
       "delays": "4,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 64.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -7616,6 +7764,8 @@
       "propellant": "Mojave Green",
       "delays": "4,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 59.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -7826,6 +7976,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8000,6 +8152,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,7,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 65.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -8054,6 +8208,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,7,8,9,10,11,12,13,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 62.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8312,6 +8468,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 83.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8378,6 +8536,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 70.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8456,6 +8616,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 121.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8534,6 +8696,8 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 191.2,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -8576,6 +8740,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 128.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8654,6 +8820,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 94.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8732,6 +8900,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 120.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8798,6 +8968,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 116.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8912,6 +9084,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 122.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -8990,6 +9164,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 134.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9080,6 +9256,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 90.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9158,6 +9336,8 @@
       "propellant": "Super White Lightning",
       "delays": "5,7,9,11,13",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 112.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9236,6 +9416,8 @@
       "propellant": "Metalstorm",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 182.5,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9314,6 +9496,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 177.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9392,6 +9576,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 123.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9470,6 +9656,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 106.39999999999999,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9548,6 +9736,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 109.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9626,6 +9816,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 106.39999999999999,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9704,6 +9896,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 83.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9782,6 +9976,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 114.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9860,6 +10056,8 @@
       "propellant": "Mojave Green",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 116.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -9938,6 +10136,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 166.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10004,6 +10204,8 @@
       "propellant": "Super Thunder",
       "delays": "7,9,11,13,15",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 97.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10082,6 +10284,8 @@
       "propellant": "Super Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 145.0,
       "listings": [
         {
           "vendor_slug": "wildman",
@@ -10160,6 +10364,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 98.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -10202,6 +10408,8 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 142.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10280,6 +10488,8 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 137.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10346,6 +10556,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 147.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10400,6 +10612,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": true,
+      "prop_weight_g": 113.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10478,6 +10692,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 82.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10556,6 +10772,8 @@
       "propellant": "Redline",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 115.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10634,6 +10852,8 @@
       "propellant": "New Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 115.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10712,6 +10932,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 180.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10790,6 +11012,8 @@
       "propellant": "Super Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 176.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10856,6 +11080,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 183.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -10934,6 +11160,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 188.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11012,6 +11240,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": true,
+      "prop_weight_g": 355.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11090,6 +11320,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 312.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11168,6 +11400,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 377.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11234,6 +11468,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 219.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11300,6 +11536,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 243.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -11342,6 +11580,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 192.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11420,6 +11660,8 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 252.8,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -11462,6 +11704,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 193.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11540,6 +11784,8 @@
       "propellant": "Mojave Green",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 227.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11606,6 +11852,8 @@
       "propellant": "Super White Lightning",
       "delays": "5,7,9,11,13",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 168.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11684,6 +11932,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 180.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11750,6 +12000,8 @@
       "propellant": "Blackjack",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 301.0,
       "listings": [
         {
           "vendor_slug": "sirius",
@@ -11780,6 +12032,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 187.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11846,6 +12100,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 251.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -11924,6 +12180,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 208.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12002,6 +12260,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 172.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12080,6 +12340,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 264.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -12122,6 +12384,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 196.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12200,6 +12464,8 @@
       "propellant": "Mojave Green",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 181.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12278,6 +12544,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 315.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12356,6 +12624,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 230.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12434,6 +12704,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 221.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12512,6 +12784,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 330.0,
       "listings": [
         {
           "vendor_slug": "sirius",
@@ -12542,6 +12816,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 354.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12620,6 +12896,8 @@
       "propellant": "Redline",
       "delays": "6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 348.0,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -12637,6 +12915,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 174.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12715,6 +12995,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 396.0,
       "listings": [
         {
           "vendor_slug": "sirius",
@@ -12745,6 +13027,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 300.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12823,6 +13107,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 197.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12877,6 +13163,8 @@
       "propellant": "Blue Thunder",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 269.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -12955,6 +13243,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 205.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -12985,6 +13275,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 195.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13063,6 +13355,8 @@
       "propellant": "White Lightning/Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 272.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13141,6 +13435,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 324.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13231,6 +13527,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 381.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13309,6 +13607,8 @@
       "propellant": "Redline",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 364.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13387,6 +13687,8 @@
       "propellant": "Super Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 507.0,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -13404,6 +13706,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 371.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13482,6 +13786,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 633.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13560,6 +13866,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 591.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13638,6 +13946,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 437.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13716,6 +14026,8 @@
       "propellant": "Black Max",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 487.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13782,6 +14094,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 363.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13860,6 +14174,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 472.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -13938,6 +14254,8 @@
       "propellant": "Redline",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 438.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14016,6 +14334,8 @@
       "propellant": "Metalstorm",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 365.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14094,6 +14414,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 375.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14172,6 +14494,8 @@
       "propellant": "Black Max",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 511.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -14214,6 +14538,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 693.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14292,6 +14618,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 345.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14370,6 +14698,8 @@
       "propellant": "Super White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 352.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14448,6 +14778,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": true,
+      "prop_weight_g": 510.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14526,6 +14858,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 415.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14604,6 +14938,8 @@
       "propellant": "Mojave Green",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 362.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14682,6 +15018,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 662.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14760,6 +15098,8 @@
       "propellant": "White Lightning",
       "delays": "5,7,9,11,13",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 381.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14826,6 +15166,8 @@
       "propellant": "Redline",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 679.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14904,6 +15246,8 @@
       "propellant": "Super Thunder",
       "delays": "14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 371.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -14982,6 +15326,8 @@
       "propellant": "White Lightning",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 535.8,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15060,6 +15406,8 @@
       "propellant": "Black Max",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 576.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -15102,6 +15450,8 @@
       "propellant": "Super Thunder",
       "delays": "4,8,12,16,20",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 370.5,
       "listings": [
         {
           "vendor_slug": "amw",
@@ -15132,6 +15482,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 618.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15210,6 +15562,8 @@
       "propellant": "Redline",
       "delays": "4,6,8,10",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 500.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15288,6 +15642,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 426.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15366,6 +15722,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 556.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15420,6 +15778,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 745.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15498,6 +15858,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1234.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15576,6 +15938,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1265.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -15618,6 +15982,8 @@
       "propellant": "Blue Thunder",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 773.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15696,6 +16062,8 @@
       "propellant": "Propellant X",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 830.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15774,6 +16142,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1222.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15852,6 +16222,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 604.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15894,6 +16266,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1113.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -15972,6 +16346,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 836.8,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16050,6 +16426,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1225.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16128,6 +16506,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 674.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16206,6 +16586,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1434.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16272,6 +16654,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1188.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16350,6 +16734,8 @@
       "propellant": "White Lightning/Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1318.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16428,6 +16814,8 @@
       "propellant": "Classic",
       "delays": "6,8,10,12,14",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 493.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16506,6 +16894,8 @@
       "propellant": "White Lightning/Warp 9",
       "delays": "7,9,11,13,15,17",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 1456.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16584,6 +16974,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 866.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16662,6 +17054,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1425.0,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-98/2560"
@@ -16679,6 +17073,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1292.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16757,6 +17153,8 @@
       "propellant": "Black Max",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 974.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16823,6 +17221,8 @@
       "propellant": "Metalstorm",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 876.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16901,6 +17301,8 @@
       "propellant": "White Lightning",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 889.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -16979,6 +17381,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1424.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17057,6 +17461,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 831.0,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -17074,6 +17480,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1280.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17104,6 +17512,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1316.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17134,6 +17544,8 @@
       "propellant": "Redline",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 903.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17212,6 +17624,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1303.3,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17290,6 +17704,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 595.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17368,6 +17784,8 @@
       "propellant": "White Lightning/Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 840.0,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -17385,6 +17803,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1268.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17463,6 +17883,8 @@
       "propellant": "Mojave Green",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 871.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17541,6 +17963,8 @@
       "propellant": "Black Max",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1373.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -17583,6 +18007,8 @@
       "propellant": "Dark Matter",
       "delays": "8,10,12,14,16",
       "delay_adjustable": true,
+      "sparky": true,
+      "prop_weight_g": 1224.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17661,6 +18087,8 @@
       "propellant": "Dark Matter",
       "delays": "6,8,10,12,14",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 1224.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17739,6 +18167,8 @@
       "propellant": "White Lightning",
       "delays": "10,12,14,16,18",
       "delay_adjustable": true,
+      "sparky": false,
+      "prop_weight_g": 1400.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17817,6 +18247,8 @@
       "propellant": "Dark Matter",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 2602.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -17859,6 +18291,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1400.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -17937,6 +18371,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1902.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18015,6 +18451,8 @@
       "propellant": "Black Max",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2800.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -18045,6 +18483,8 @@
       "propellant": "Dark Matter",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 2565.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18111,6 +18551,8 @@
       "propellant": "Super White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1964.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18189,6 +18631,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2632.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18219,6 +18663,8 @@
       "propellant": "Metalstorm",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 2648.0,
       "listings": [
         {
           "vendor_slug": "buyrocketmotors",
@@ -18249,6 +18695,8 @@
       "propellant": "Mojave Green",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1973.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18327,6 +18775,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2560.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18405,6 +18855,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2490.9,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18435,6 +18887,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1854.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18513,6 +18967,8 @@
       "propellant": "Propellant X",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1825.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18591,6 +19047,8 @@
       "propellant": "Mojave Green",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2518.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18669,6 +19127,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2313.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18747,6 +19207,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1418.0,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-75/3840"
@@ -18764,6 +19226,8 @@
       "propellant": "Warp 9",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 1796.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18794,6 +19258,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2696.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18848,6 +19314,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2094.8,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18926,6 +19394,8 @@
       "propellant": "Dark Matter",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 2472.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -18992,6 +19462,8 @@
       "propellant": "Dark Matter",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 2472.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19070,6 +19542,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2749.7,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19112,6 +19586,8 @@
       "propellant": "Dark Matter",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 3846.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19154,6 +19630,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2722.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19232,6 +19710,8 @@
       "propellant": "Metalstorm",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 4080.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19262,6 +19742,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3499.4,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19340,6 +19822,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4035.9999999999995,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19430,6 +19914,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2690.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19520,6 +20006,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4077.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19586,6 +20074,8 @@
       "propellant": "Mojave Green",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2631.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19652,6 +20142,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3170.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19730,6 +20222,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4026.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19772,6 +20266,8 @@
       "propellant": "New Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2560.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19850,6 +20346,8 @@
       "propellant": "Black Max",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 5599.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19904,6 +20402,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3772.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -19970,6 +20470,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4122.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20048,6 +20550,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 5719.1,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20126,6 +20630,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 5368.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20156,6 +20662,8 @@
       "propellant": "Propellant X",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2268.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20234,6 +20742,8 @@
       "propellant": "Mojave Green",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3948.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20276,6 +20786,8 @@
       "propellant": "Super White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 2331.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20342,6 +20854,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3692.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20420,6 +20934,8 @@
       "propellant": "Blue Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4711.2,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20498,6 +21014,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3425.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20564,6 +21082,8 @@
       "propellant": "Super Thunder",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3868.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20642,6 +21162,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 3351.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20720,6 +21242,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4320.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20798,6 +21322,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 5540.0,
       "listings": [],
       "motor_type": "reload",
       "case_info": "RMS-98/10240"
@@ -20815,6 +21341,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 8293.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20893,6 +21421,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 7676.0,
       "listings": [],
       "motor_type": "SU",
       "case_info": null
@@ -20910,6 +21440,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 7752.6,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -20988,6 +21520,8 @@
       "propellant": "Dark Matter",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": true,
+      "prop_weight_g": 7183.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -21042,6 +21576,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 5275.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -21108,6 +21644,8 @@
       "propellant": "Propellant X",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 4546.0,
       "listings": [
         {
           "vendor_slug": "wildman",
@@ -21138,6 +21676,8 @@
       "propellant": "Redline",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 7512.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -21216,6 +21756,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 9800.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -21270,6 +21812,8 @@
       "propellant": "Propellant X",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 9779.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",
@@ -21336,6 +21880,8 @@
       "propellant": "White Lightning",
       "delays": "P",
       "delay_adjustable": false,
+      "sparky": false,
+      "prop_weight_g": 22000.0,
       "listings": [
         {
           "vendor_slug": "csrocketry",

@@ -6,6 +6,7 @@
 // that happens inside filterCatalog) so the same struct round-trips to the URL.
 
 import {
+  burnCharacter,
   caseKey,
   certClasses,
   findSubstitutes,
@@ -33,6 +34,8 @@ export type CatalogParams = {
   cases: Set<string>;
   props: Set<string>;
   vendors: Set<string>;
+  burn: Set<string>; // burn-character keys: "punchy" | "standard" | "long"
+  sparky: boolean; // only sparky (metal-additive) propellant motors
   inStock: boolean;
   listingSort: ListingSort; // ?sort=price → cheapest listing first within a motor
   order: MotorOrder;
@@ -65,6 +68,8 @@ export function parseCatalogParams(get: (key: string) => string | undefined): Ca
     cases: setParam(get("case")),
     props: setParam(get("prop")),
     vendors: setParam(get("vendor")),
+    burn: setParam(get("burn")),
+    sparky: get("sparky") === "1",
     inStock: get("in_stock") === "1",
     listingSort: get("sort") === "price" ? "price" : "stock",
     order: parseOrder(get("order")),
@@ -90,6 +95,11 @@ export function filterCatalog(motors: readonly Motor[], p: CatalogParams): Motor
         if (k == null || !p.cases.has(k)) return false;
       }
       if (p.props.size > 0 && !(m.propellant && p.props.has(m.propellant))) return false;
+      if (p.sparky && !m.sparky) return false;
+      if (p.burn.size > 0) {
+        const bc = burnCharacter(m);
+        if (bc == null || !p.burn.has(bc)) return false;
+      }
       if (p.vendors.size > 0 && !m.listings.some((l) => p.vendors.has(l.vendor_slug))) return false;
       if (p.minImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns < p.minImpulse))
         return false;

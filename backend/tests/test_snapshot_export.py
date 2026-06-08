@@ -63,6 +63,8 @@ def _seed_minimal(db_path: Path) -> None:
                 thrustcurve_id="abc123",
                 motor_type="reload",
                 case_info="RMS-29/240",
+                sparky=True,
+                prop_weight_g=130.0,
             ),
         ])
         seen = datetime(2026, 5, 31, 12, 0, 0, tzinfo=UTC)
@@ -117,7 +119,7 @@ def test_snapshot_shape_matches_frontend_contract(tmp_db, tmp_path):
         "id", "manufacturer", "designation", "common_name", "diameter_mm",
         "impulse_class", "total_impulse_ns", "avg_thrust_n", "burn_time_s",
         "propellant", "delays", "delay_adjustable", "discontinued",
-        "motor_type", "case_info", "listings",
+        "motor_type", "case_info", "sparky", "prop_weight_g", "listings",
     }
     assert set(motor.keys()) >= expected_motor_keys
     assert motor["designation"] == "H242T-14A"
@@ -128,6 +130,8 @@ def test_snapshot_shape_matches_frontend_contract(tmp_db, tmp_path):
     assert motor["propellant"] == "Blue Thunder"
     assert motor["motor_type"] == "reload"
     assert motor["case_info"] == "RMS-29/240"
+    assert motor["sparky"] is True  # critical — frontend reads as bool, not int
+    assert motor["prop_weight_g"] == 130.0
 
     # Listings nested under motor
     assert len(motor["listings"]) == 1

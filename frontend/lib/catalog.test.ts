@@ -65,6 +65,8 @@ describe("parseCatalogParams", () => {
       case: "RMS-54/852",
       prop: "White Lightning",
       vendor: "wildman",
+      burn: "punchy,long",
+      sparky: "1",
       in_stock: "1",
       sort: "price",
       order: "impulse",
@@ -82,6 +84,8 @@ describe("parseCatalogParams", () => {
     expect(p.cases).toEqual(new Set(["RMS-54/852"]));
     expect(p.props).toEqual(new Set(["White Lightning"]));
     expect(p.vendors).toEqual(new Set(["wildman"]));
+    expect(p.burn).toEqual(new Set(["punchy", "long"]));
+    expect(p.sparky).toBe(true);
     expect(p.inStock).toBe(true);
     expect(p.listingSort).toBe("price");
     expect(p.order).toBe("impulse");
@@ -100,6 +104,8 @@ describe("parseCatalogParams", () => {
     expect(EMPTY.dir).toBe("asc");
     expect(EMPTY.query).toBe("");
     expect(EMPTY.minImpulse).toBeNull();
+    expect(EMPTY.burn.size).toBe(0);
+    expect(EMPTY.sparky).toBe(false);
   });
 });
 
@@ -124,6 +130,27 @@ describe("filterCatalog — each dimension narrows like the original page", () =
     expect(ids({ ...EMPTY, minImpulse: 1000, maxImpulse: 2200 })).toEqual([1]));
   it("query matches designation/common/variety", () =>
     expect(ids({ ...EMPTY, query: "k530" })).toEqual([2]));
+
+  it("sparky-only keeps just metal-additive motors", () => {
+    const cat = [
+      motor({ id: 1, sparky: true }),
+      motor({ id: 2, sparky: false }),
+      motor({ id: 3 }), // sparky undefined → not sparky
+    ];
+    expect(filterCatalog(cat, { ...EMPTY, sparky: true }).map((m) => m.id)).toEqual([1]);
+  });
+
+  it("burn character narrows by duration bucket", () => {
+    const cat = [
+      motor({ id: 1, burn_time_s: 1.0 }), // punchy (<1.5)
+      motor({ id: 2, burn_time_s: 2.0 }), // standard
+      motor({ id: 3, burn_time_s: 4.0 }), // long (>=3)
+    ];
+    expect(filterCatalog(cat, { ...EMPTY, burn: new Set(["punchy"]) }).map((m) => m.id)).toEqual([1]);
+    expect(
+      filterCatalog(cat, { ...EMPTY, burn: new Set(["punchy", "long"]) }).map((m) => m.id).sort(),
+    ).toEqual([1, 3]);
+  });
 });
 
 describe("buildCatalogView", () => {

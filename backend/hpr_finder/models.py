@@ -45,6 +45,12 @@ class Motor:
     # The reload hardware the motor uses, verbatim from ThrustCurve, e.g.
     # "RMS-38/720", "Pro38-3G", "38/480". None for single-use motors.
     case_info: str | None = None
+    # Sparky propellant (titanium/metal-additive — throws gold sparks), from
+    # ThrustCurve's `sparky` flag. Powers the sparky filter/badge.
+    sparky: bool = False
+    # Propellant grain mass in grams (ThrustCurve `propWeightG`); the basis for
+    # the derived specific-impulse figure. None when unknown.
+    prop_weight_g: float | None = None
 
 
 @dataclass(slots=True)

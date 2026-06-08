@@ -1,4 +1,9 @@
-import { SUBSTITUTE_IMPULSE_BAND, SUBSTITUTE_THRUST_BAND } from "@/lib/derive";
+import {
+  BURN_LONG_MIN_S,
+  BURN_PUNCHY_MAX_S,
+  SUBSTITUTE_IMPULSE_BAND,
+  SUBSTITUTE_THRUST_BAND,
+} from "@/lib/derive";
 
 const impulsePct = Math.round(SUBSTITUTE_IMPULSE_BAND * 100);
 const thrustPct = Math.round(SUBSTITUTE_THRUST_BAND * 100);
@@ -108,6 +113,25 @@ export function Methodology() {
               H&ndash;I, L2 covers J&ndash;L, L3 covers M&ndash;O (D&ndash;G need no HPR cert). It powers
               both the cert filter and the per-motor badge, so you can narrow to exactly what you&apos;re
               rated to fly.
+            </dd>
+          </div>
+
+          <div>
+            <dt className="font-medium text-zinc-800 dark:text-zinc-200">Burn character, sparky &amp; specific impulse</dt>
+            <dd className="mt-0.5">
+              From ThrustCurve&apos;s catalog data.{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Burn character</strong>{" "}
+              is the burn duration bucketed into{" "}
+              <em>punchy</em>{" "}(under {BURN_PUNCHY_MAX_S}s, a hard fast kick),{" "}
+              <em>long burn</em>{" "}({BURN_LONG_MIN_S}s or more, a slow lofting push), or{" "}
+              <em>standard</em>{" "}in between.{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Sparky</strong>{" "}
+              flags metal-additive propellants that throw gold sparks (great at night, and often
+              restricted under fire bans).{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">Specific impulse</strong>{" "}
+              (Isp, in seconds) is total impulse &divide; (propellant weight &times; g) &mdash; a
+              propellant-efficiency figure; we hide it when the underlying grain weight looks wrong
+              rather than print a number we don&apos;t trust.
             </dd>
           </div>
 

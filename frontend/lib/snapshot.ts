@@ -51,6 +51,11 @@ export type Motor = {
   // single-use motors. Both optional for back-compat with older snapshots.
   motor_type?: string | null;
   case_info?: string | null;
+  // Sparky (metal-additive) propellant flag, and propellant grain mass in grams
+  // (the basis for derived specific impulse). Both optional for back-compat with
+  // snapshots written before these fields existed.
+  sparky?: boolean;
+  prop_weight_g?: number | null;
   listings: Listing[];
 };
 
