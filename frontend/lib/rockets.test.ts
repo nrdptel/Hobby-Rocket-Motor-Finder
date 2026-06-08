@@ -19,8 +19,8 @@ const ROCKET: Rocket = {
   name: "Punisher",
   diameterMm: 54,
   cert: "l2",
-  impulseClass: null,
-  caseInfo: null,
+  impulseClasses: [],
+  caseInfos: [],
   minImpulseNs: 1000,
   maxImpulseNs: 2560,
 };
@@ -30,18 +30,36 @@ describe("parseRockets", () => {
     expect(parseRockets(JSON.stringify([ROCKET]))).toEqual([ROCKET]);
   });
 
-  it("round-trips a rocket with class + case", () => {
+  it("round-trips a rocket with multiple classes + cases", () => {
     const r: Rocket = {
       id: "j",
       name: "",
       diameterMm: 54,
       cert: null,
-      impulseClass: "J",
-      caseInfo: "RMS-54/1706",
+      impulseClasses: ["J", "K"],
+      caseInfos: ["RMS-54/1706", "RMS-54/2560"],
       minImpulseNs: null,
       maxImpulseNs: null,
     };
     expect(parseRockets(serializeRockets([r]))).toEqual([r]);
+  });
+
+  it("migrates a legacy single class/case (string) to a one-element list", () => {
+    const raw = JSON.stringify([
+      { id: "old", name: "", diameterMm: 54, cert: null, impulseClass: "J", caseInfo: "RMS-54/1706" },
+    ]);
+    const [r] = parseRockets(raw);
+    expect(r.impulseClasses).toEqual(["J"]);
+    expect(r.caseInfos).toEqual(["RMS-54/1706"]);
+  });
+
+  it("drops non-string / empty / duplicate entries in a class/case list", () => {
+    const raw = JSON.stringify([
+      { id: "x", diameterMm: 54, impulseClasses: ["J", "J", "", 7, "K"], caseInfos: ["A", "A"] },
+    ]);
+    const [r] = parseRockets(raw);
+    expect(r.impulseClasses).toEqual(["J", "K"]);
+    expect(r.caseInfos).toEqual(["A"]);
   });
 
   it("returns [] for null/empty (nothing saved yet)", () => {
@@ -66,13 +84,13 @@ describe("parseRockets", () => {
     expect(parseRockets(raw)).toEqual([ROCKET]);
   });
 
-  it("keeps a diameter-only rocket (cert/class/case all null)", () => {
+  it("keeps a diameter-only rocket (cert null, class/case empty)", () => {
     const raw = JSON.stringify([{ id: "y", diameterMm: 38 }]);
     const [r] = parseRockets(raw);
     expect(r.diameterMm).toBe(38);
     expect(r.cert).toBeNull();
-    expect(r.impulseClass).toBeNull();
-    expect(r.caseInfo).toBeNull();
+    expect(r.impulseClasses).toEqual([]);
+    expect(r.caseInfos).toEqual([]);
   });
 
   it("fills defaults for a missing id/name", () => {
@@ -85,11 +103,11 @@ describe("parseRockets", () => {
     expect(r.name).toBe("");
   });
 
-  it("defaults class/case/band to null for rockets saved before those fields (back-compat)", () => {
+  it("defaults class/case to empty + band to null for rockets saved before those fields (back-compat)", () => {
     const raw = JSON.stringify([{ id: "old", name: "Legacy", diameterMm: 38, cert: "l1" }]);
     const [r] = parseRockets(raw);
-    expect(r.impulseClass).toBeNull();
-    expect(r.caseInfo).toBeNull();
+    expect(r.impulseClasses).toEqual([]);
+    expect(r.caseInfos).toEqual([]);
     expect(r.minImpulseNs).toBeNull();
     expect(r.maxImpulseNs).toBeNull();
   });
@@ -111,8 +129,8 @@ describe("parseRockets", () => {
         name: "",
         diameterMm: 75,
         cert: "l3",
-        impulseClass: null,
-        caseInfo: null,
+        impulseClasses: [],
+        caseInfos: [],
         minImpulseNs: null,
         maxImpulseNs: null,
       },
@@ -133,8 +151,8 @@ const m = (
 const spec = (over: Partial<RocketSpec>): RocketSpec => ({
   diameterMm: 54,
   cert: null,
-  impulseClass: null,
-  caseInfo: null,
+  impulseClasses: [],
+  caseInfos: [],
   minImpulseNs: null,
   maxImpulseNs: null,
   ...over,
@@ -156,14 +174,15 @@ describe("motorFitsRocket", () => {
     expect(motorFitsRocket(r, m(38, "H", 200))).toBe(false);
   });
 
-  it("narrows by a single impulse class when set", () => {
-    const r = spec({ impulseClass: "J" });
+  it("narrows by an impulse-class list (OR), matching any listed class", () => {
+    const r = spec({ impulseClasses: ["J", "L"] });
     expect(motorFitsRocket(r, m(54, "J", 1200))).toBe(true);
-    expect(motorFitsRocket(r, m(54, "K", 1600))).toBe(false);
+    expect(motorFitsRocket(r, m(54, "L", 3200))).toBe(true);
+    expect(motorFitsRocket(r, m(54, "K", 1600))).toBe(false); // K not in the list
   });
 
-  it("narrows by reload case when set (via caseKey)", () => {
-    const r = spec({ caseInfo: "RMS-54/1706" });
+  it("narrows by a reload-case list (OR, via caseKey)", () => {
+    const r = spec({ caseInfos: ["RMS-54/1706", "RMS-54/2560"] });
     const fits = {
       diameter_mm: 54,
       impulse_class: "J",
@@ -172,7 +191,8 @@ describe("motorFitsRocket", () => {
       motor_type: "reload",
     };
     expect(motorFitsRocket(r, fits)).toBe(true);
-    expect(motorFitsRocket(r, { ...fits, case_info: "RMS-54/852" })).toBe(false);
+    expect(motorFitsRocket(r, { ...fits, case_info: "RMS-54/2560" })).toBe(true); // other listed case
+    expect(motorFitsRocket(r, { ...fits, case_info: "RMS-54/852" })).toBe(false); // unlisted case
   });
 
   it("respects the impulse band when set (nulls excluded)", () => {
@@ -208,6 +228,28 @@ describe("rocketMatchesParams", () => {
     const diaOnly: Rocket = { ...ROCKET, cert: null, minImpulseNs: null, maxImpulseNs: null };
     expect(rocketMatchesParams(diaOnly, getter({ dia: "54" }))).toBe(true);
     expect(rocketMatchesParams(diaOnly, getter({ dia: "54", cert: "l2" }))).toBe(false);
+  });
+
+  it("matches a multi-class/case rocket regardless of param order (set equality)", () => {
+    const multi: Rocket = {
+      ...ROCKET,
+      cert: null,
+      minImpulseNs: null,
+      maxImpulseNs: null,
+      impulseClasses: ["H", "I"],
+      caseInfos: ["RMS-38/720", "RMS-38/360"],
+    };
+    expect(
+      rocketMatchesParams(multi, getter({ dia: "54", class: "H,I", case: "RMS-38/720,RMS-38/360" })),
+    ).toBe(true);
+    // Reordered comma lists still describe the same rocket.
+    expect(
+      rocketMatchesParams(multi, getter({ dia: "54", class: "I,H", case: "RMS-38/360,RMS-38/720" })),
+    ).toBe(true);
+    // A different-sized class list is not this rocket.
+    expect(rocketMatchesParams(multi, getter({ dia: "54", class: "H", case: "RMS-38/720,RMS-38/360" }))).toBe(
+      false,
+    );
   });
 });
 

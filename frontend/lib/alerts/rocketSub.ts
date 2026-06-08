@@ -9,15 +9,19 @@
 import type { RocketSpec } from "@/lib/rocketFit";
 
 /** Compact rocket-sub fields. Short keys keep tokens + members small.
- *  d=diameterMm (required), c=cert, k=impulseClass, cs=caseInfo, mn=minImpulseNs,
- *  mx=maxImpulseNs, l=label, e=email. Only d is required; c/k/cs/mn/mx are
- *  optional narrowings (null = unset). c was required on subs made before this
- *  change — they still carry a cert string. */
+ *  d=diameterMm (required), c=cert, k=impulseClasses, cs=caseInfos,
+ *  mn=minImpulseNs, mx=maxImpulseNs, l=label, e=email. Only d is required;
+ *  c/k/cs/mn/mx are optional narrowings. k and cs are multi-value lists (OR-
+ *  matched; empty = unset) — a rocket may pin several classes and/or cases.
+ *  In the serialized form (see {@link encodeMulti}) a single value collapses to
+ *  a bare string and none to null, so subs written before k/cs went multi-value
+ *  stay byte-identical and SREM still matches them. c was required on subs made
+ *  before cert became optional — they still carry a cert string. */
 export type RocketFields = {
   d: number;
   c: string | null;
-  k: string | null;
-  cs: string | null;
+  k: string[];
+  cs: string[];
   mn: number | null;
   mx: number | null;
   l: string;
@@ -25,12 +29,63 @@ export type RocketFields = {
 
 const CERTS = new Set(["mid", "l1", "l2", "l3"]);
 
+// Cap each multi-value list so a crafted request can't bloat a token/member.
+const MAX_MULTI = 16;
+
 function numOrNull(x: unknown): number | null {
   return typeof x === "number" && Number.isFinite(x) && x >= 0 ? x : null;
 }
 
-function strOrNull(x: unknown): string | null {
-  return typeof x === "string" && x ? x : null;
+/** Validate + canonicalize impulse-class candidates (each a bare A–O letter)
+ *  into a sorted, de-duped, upper-cased list. Accepts a single value or a list,
+ *  across several candidate sources (e.g. the new `impulseClasses` array and the
+ *  legacy `impulseClass` string). */
+function normClasses(...cands: unknown[]): string[] {
+  const seen = new Set<string>();
+  for (const x of cands) {
+    const arr = Array.isArray(x) ? x : x == null ? [] : [x];
+    for (const v of arr) {
+      if (typeof v === "string" && /^[A-O]$/i.test(v)) seen.add(v.toUpperCase());
+    }
+  }
+  return [...seen].sort().slice(0, MAX_MULTI);
+}
+
+/** Validate + canonicalize reload-case candidates (trimmed, length-capped) into
+ *  a sorted, de-duped list. Accepts a single value or a list. */
+function normCases(...cands: unknown[]): string[] {
+  const seen = new Set<string>();
+  for (const x of cands) {
+    const arr = Array.isArray(x) ? x : x == null ? [] : [x];
+    for (const v of arr) {
+      if (typeof v === "string") {
+        const t = v.trim().slice(0, 40);
+        if (t) seen.add(t);
+      }
+    }
+  }
+  return [...seen].sort().slice(0, MAX_MULTI);
+}
+
+/** Serialize a canonical multi-value list compactly: none → null, one → the bare
+ *  string, many → the (already sorted) array. The scalar/null collapse keeps a
+ *  single- or no-value sub byte-identical to the pre-multi format, so existing
+ *  stored members + in-flight tokens still parse and SREM by exact string. */
+function encodeMulti(vals: string[]): string | string[] | null {
+  if (vals.length === 0) return null;
+  if (vals.length === 1) return vals[0];
+  return vals;
+}
+
+/** Parse a serialized multi-value field back to a canonical list, tolerating the
+ *  legacy scalar (a single string) and null/absent forms. Arrays are de-duped +
+ *  sorted so equality + re-serialization stay stable regardless of stored order. */
+function decodeMulti(x: unknown): string[] {
+  if (Array.isArray(x)) {
+    return [...new Set(x.filter((v): v is string => typeof v === "string" && v !== ""))].sort();
+  }
+  if (typeof x === "string" && x) return [x];
+  return [];
 }
 
 /** Validate + normalize raw subscribe input into canonical fields, or null.
@@ -41,7 +96,9 @@ export function normalizeRocketFields(raw: {
   diameterMm?: unknown;
   cert?: unknown;
   impulseClass?: unknown;
+  impulseClasses?: unknown;
   caseInfo?: unknown;
+  caseInfos?: unknown;
   minImpulseNs?: unknown;
   maxImpulseNs?: unknown;
   label?: unknown;
@@ -54,14 +111,10 @@ export function normalizeRocketFields(raw: {
   // cert optional: keep only if it's a known level, else drop it.
   const certRaw = typeof raw.cert === "string" ? raw.cert : "";
   const c = CERTS.has(certRaw) ? certRaw : null;
-  const k =
-    typeof raw.impulseClass === "string" && /^[A-O]$/i.test(raw.impulseClass)
-      ? raw.impulseClass.toUpperCase()
-      : null;
-  const cs =
-    typeof raw.caseInfo === "string" && raw.caseInfo.trim()
-      ? raw.caseInfo.trim().slice(0, 40)
-      : null;
+  // class + case are multi-value; accept the new arrays and the legacy singular
+  // keys (impulseClass / caseInfo) from older clients.
+  const k = normClasses(raw.impulseClasses, raw.impulseClass);
+  const cs = normCases(raw.caseInfos, raw.caseInfo);
   const mn = numOrNull(raw.minImpulseNs);
   const mx = numOrNull(raw.maxImpulseNs);
   if (mn != null && mx != null && mn > mx) return null;
@@ -73,13 +126,30 @@ export function normalizeRocketFields(raw: {
 /** Canonical token payload (the `m` field of an rc/ru token): the spec, no email.
  *  Fixed key order so the same sub always serializes identically. */
 export function rocketSpecField(f: RocketFields): string {
-  return JSON.stringify({ d: f.d, c: f.c, k: f.k, cs: f.cs, mn: f.mn, mx: f.mx, l: f.l });
+  return JSON.stringify({
+    d: f.d,
+    c: f.c,
+    k: encodeMulti(f.k),
+    cs: encodeMulti(f.cs),
+    mn: f.mn,
+    mx: f.mx,
+    l: f.l,
+  });
 }
 
 /** Canonical Upstash set member: the spec PLUS the email. Identical string in
  *  both `rocketsubs` and `urockets:<email>` so SREM removes from each. */
 export function rocketMember(email: string, f: RocketFields): string {
-  return JSON.stringify({ e: email, d: f.d, c: f.c, k: f.k, cs: f.cs, mn: f.mn, mx: f.mx, l: f.l });
+  return JSON.stringify({
+    e: email,
+    d: f.d,
+    c: f.c,
+    k: encodeMulti(f.k),
+    cs: encodeMulti(f.cs),
+    mn: f.mn,
+    mx: f.mx,
+    l: f.l,
+  });
 }
 
 /** Pull the canonical fields out of a parsed member/spec object, tolerating the
@@ -94,9 +164,9 @@ function readFields(v: unknown): RocketFields | null {
   if (!(o.mx === null || o.mx === undefined || typeof o.mx === "number")) return null;
   return {
     d: o.d,
-    c: strOrNull(o.c),
-    k: strOrNull(o.k),
-    cs: strOrNull(o.cs),
+    c: typeof o.c === "string" && o.c ? o.c : null,
+    k: decodeMulti(o.k),
+    cs: decodeMulti(o.cs),
     mn: typeof o.mn === "number" ? o.mn : null,
     mx: typeof o.mx === "number" ? o.mx : null,
     l: o.l,
@@ -130,8 +200,8 @@ export function fieldsToSpec(f: RocketFields): RocketSpec {
   return {
     diameterMm: f.d,
     cert: f.c,
-    impulseClass: f.k,
-    caseInfo: f.cs,
+    impulseClasses: f.k,
+    caseInfos: f.cs,
     minImpulseNs: f.mn,
     maxImpulseNs: f.mx,
   };
@@ -145,8 +215,8 @@ const CERT_LABEL: Record<string, string> = { mid: "Mid-power", l1: "L1", l2: "L2
 export function describeRocketFields(f: RocketFields): string {
   const parts = [`${f.d}mm`];
   if (f.c) parts.push(CERT_LABEL[f.c] ?? f.c);
-  if (f.k) parts.push(`class ${f.k}`);
-  if (f.cs) parts.push(f.cs);
+  if (f.k.length) parts.push(`class ${f.k.join("/")}`);
+  if (f.cs.length) parts.push(f.cs.join(", "));
   if (f.mn != null && f.mx != null) parts.push(`${f.mn}–${f.mx} N·s`);
   else if (f.mn != null) parts.push(`≥${f.mn} N·s`);
   else if (f.mx != null) parts.push(`≤${f.mx} N·s`);

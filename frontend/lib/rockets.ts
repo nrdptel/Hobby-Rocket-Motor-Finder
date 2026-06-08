@@ -21,11 +21,13 @@ export type Rocket = {
   id: string;
   name: string; // optional label; "" means show the spec instead
   diameterMm: number; // the only required field
-  // All optional (null = unset). cert was required on rockets saved before this
-  // change; those simply keep their cert. impulseClass + caseInfo are new.
+  // cert was required on rockets saved before it became optional; those simply
+  // keep their cert. impulseClasses + caseInfos are multi-value: a rocket can
+  // pin several classes and/or several reload cases (e.g. all the cases it can
+  // fly). An empty list = unconstrained.
   cert: string | null; // a CERT_LEVELS key ("mid" | "l1" | "l2" | "l3")
-  impulseClass: string | null; // a single class letter, e.g. "H"
-  caseInfo: string | null; // a case value, e.g. "RMS-38/720" or "Single use"
+  impulseClasses: string[]; // class letters, e.g. ["H", "I"]
+  caseInfos: string[]; // case values, e.g. ["RMS-38/720", "RMS-38/360"]
   // Optional preferred total-impulse window (N·s). null = open bound.
   minImpulseNs: number | null;
   maxImpulseNs: number | null;
@@ -36,8 +38,8 @@ export type RocketInput = {
   name?: string;
   diameterMm: number;
   cert?: string | null;
-  impulseClass?: string | null;
-  caseInfo?: string | null;
+  impulseClasses?: string[];
+  caseInfos?: string[];
   minImpulseNs?: number | null;
   maxImpulseNs?: number | null;
 };
@@ -48,6 +50,29 @@ function strOrNull(x: unknown): string | null {
 
 function numOrNull(x: unknown): number | null {
   return typeof x === "number" && Number.isFinite(x) ? x : null;
+}
+
+/** Coerce a persisted multi-value field into a clean string list, tolerating the
+ * legacy single-string form (a rocket saved before the field went multi-value)
+ * by lifting it into a one-element list. Drops non-string / empty entries and
+ * de-dupes, preserving order. */
+function strArr(...candidates: unknown[]): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  const push = (s: string) => {
+    if (s && !seen.has(s)) {
+      seen.add(s);
+      out.push(s);
+    }
+  };
+  for (const x of candidates) {
+    if (Array.isArray(x)) {
+      for (const v of x) if (typeof v === "string") push(v);
+    } else if (typeof x === "string") {
+      push(x);
+    }
+  }
+  return out;
 }
 
 /** Minimal motor shape the rocket match-count needs (a compact summary the page
@@ -62,16 +87,26 @@ export const ROCKET_PARAMS = ["dia", "cert", "class", "case", "imin", "imax"] as
  * Pure (no React/URL types) so the chip row and the loadout agree on which
  * rocket, if any, is in focus. */
 export function rocketMatchesParams(
-  r: Pick<Rocket, "diameterMm" | "cert" | "impulseClass" | "caseInfo" | "minImpulseNs" | "maxImpulseNs">,
+  r: Pick<Rocket, "diameterMm" | "cert" | "impulseClasses" | "caseInfos" | "minImpulseNs" | "maxImpulseNs">,
   get: (key: string) => string | null | undefined,
 ): boolean {
   const strEq = (p: string, v: string | null) => (v == null ? !get(p) : get(p) === v);
   const numEq = (p: string, v: number | null) => (v == null ? !get(p) : get(p) === String(v));
+  // A multi-value param (comma list) equals the rocket's list as a SET — order-
+  // and duplicate-insensitive — so a rocket whose cases the URL lists in any
+  // order still reads as the active one. An empty list ⇒ the param is absent.
+  const setEq = (p: string, vals: string[]) => {
+    const raw = get(p);
+    if (vals.length === 0) return !raw;
+    if (!raw) return false;
+    const got = new Set(raw.split(",").filter(Boolean));
+    return got.size === vals.length && vals.every((v) => got.has(v));
+  };
   return (
     get("dia") === String(r.diameterMm) &&
     strEq("cert", r.cert) &&
-    strEq("class", r.impulseClass) &&
-    strEq("case", r.caseInfo) &&
+    setEq("class", r.impulseClasses) &&
+    setEq("case", r.caseInfos) &&
     numEq("imin", r.minImpulseNs) &&
     numEq("imax", r.maxImpulseNs)
   );
@@ -110,8 +145,11 @@ export function parseRockets(raw: string | null): Rocket[] {
           name,
           diameterMm: r.diameterMm,
           cert,
-          impulseClass: strOrNull(r.impulseClass),
-          caseInfo: strOrNull(r.caseInfo),
+          // Read the multi-value form, falling back to the legacy single-string
+          // keys (impulseClass / caseInfo) for rockets saved before they went
+          // multi-value.
+          impulseClasses: strArr(r.impulseClasses, r.impulseClass),
+          caseInfos: strArr(r.caseInfos, r.caseInfo),
           minImpulseNs: numOrNull(r.minImpulseNs),
           maxImpulseNs: numOrNull(r.maxImpulseNs),
         },
@@ -191,8 +229,8 @@ function fromInput(spec: RocketInput): Omit<Rocket, "id"> {
     name: (spec.name ?? "").trim(),
     diameterMm: spec.diameterMm,
     cert: spec.cert ?? null,
-    impulseClass: spec.impulseClass ?? null,
-    caseInfo: spec.caseInfo ?? null,
+    impulseClasses: strArr(spec.impulseClasses),
+    caseInfos: strArr(spec.caseInfos),
     minImpulseNs: spec.minImpulseNs ?? null,
     maxImpulseNs: spec.maxImpulseNs ?? null,
   };

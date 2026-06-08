@@ -76,8 +76,8 @@ export function buildRocketLoadout(
     const relaxed: RocketSpec = {
       diameterMm: rocket.diameterMm,
       cert: rocket.cert,
-      impulseClass: null,
-      caseInfo: null,
+      impulseClasses: [],
+      caseInfos: [],
       minImpulseNs: null,
       maxImpulseNs: null,
     };

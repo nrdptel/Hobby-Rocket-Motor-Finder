@@ -60,8 +60,8 @@ export function RocketLoadout({
           : null;
   const specParts = [`${rocket.diameterMm}mm`];
   if (rocket.cert) specParts.push(certLabel(rocket.cert));
-  if (rocket.impulseClass) specParts.push(`${rocket.impulseClass}-class`);
-  if (rocket.caseInfo) specParts.push(rocket.caseInfo);
+  if (rocket.impulseClasses.length) specParts.push(`${rocket.impulseClasses.join("/")}-class`);
+  if (rocket.caseInfos.length) specParts.push(rocket.caseInfos.join(", "));
   if (band) specParts.push(band);
   const title = rocket.name || `${rocket.diameterMm}mm rocket`;
 

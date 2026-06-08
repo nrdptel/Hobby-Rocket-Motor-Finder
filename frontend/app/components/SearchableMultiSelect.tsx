@@ -30,6 +30,7 @@ export function SearchableMultiSelect({
   onToggle,
   onClear,
   noun,
+  nounPlural,
   placeholder,
   mono = false,
 }: {
@@ -37,13 +38,17 @@ export function SearchableMultiSelect({
   active: Set<string>;
   onToggle: (value: string) => void;
   onClear: () => void;
-  /** Singular noun for the trigger label — "Any {noun}" / "{n} {noun}s". */
+  /** Singular noun for the trigger label — "Any {noun}" / "1 {noun}". */
   noun: string;
+  /** Plural for the count label / search aria — "{n} {nounPlural}". Defaults to
+   * `{noun}s`; pass it for irregulars (e.g. "class" → "classes"). */
+  nounPlural?: string;
   /** Search-box placeholder, e.g. "type a case — 38/720, pro38…". */
   placeholder: string;
   /** Render option values + chips in a monospaced font (case codes). */
   mono?: boolean;
 }) {
+  const plural = nounPlural ?? `${noun}s`;
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
@@ -109,7 +114,7 @@ export function SearchableMultiSelect({
         aria-controls={open ? panelId : undefined}
         className="inline-flex items-center gap-1 rounded-full border border-zinc-300 bg-white px-2.5 py-0.5 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
       >
-        {active.size > 0 ? `${active.size} ${noun}${active.size > 1 ? "s" : ""}` : `Any ${noun}`}
+        {active.size > 0 ? `${active.size} ${active.size > 1 ? plural : noun}` : `Any ${noun}`}
         <span aria-hidden className="opacity-60">▾</span>
       </button>
 
@@ -151,7 +156,7 @@ export function SearchableMultiSelect({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder={placeholder}
-            aria-label={`Search ${noun}s`}
+            aria-label={`Search ${plural}`}
             className="w-full rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100 dark:placeholder:text-zinc-500"
           />
           <div className="mt-2 space-y-2">
@@ -186,7 +191,7 @@ export function SearchableMultiSelect({
               </div>
             ))}
             {groups.size === 0 && (
-              <div className="px-1 py-2 text-xs text-zinc-400">No matching {noun}s</div>
+              <div className="px-1 py-2 text-xs text-zinc-400">No matching {plural}</div>
             )}
           </div>
         </div>

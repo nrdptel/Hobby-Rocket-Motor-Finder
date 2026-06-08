@@ -13,13 +13,16 @@ import {
 } from "@/lib/rockets";
 import { useCatalogFilters } from "./CatalogFilters";
 import type { CaseOption } from "@/lib/derive";
+import { CaseFilter } from "./CaseFilter";
 import { RocketNotifyButton } from "./RocketNotifyButton";
+import { SearchableMultiSelect, type SelectOption } from "./SearchableMultiSelect";
 
 type CertLevel = { key: string; label: string; sublabel: string };
 
 /** "My rockets": browser-saved motor-mount profiles. The mount diameter is the
- * only required field; a rocket may also pin a cert level, a single impulse
- * class, a reload case, and/or an impulse band. Clicking one filters the catalog
+ * only required field; a rocket may also pin a cert level, one or more impulse
+ * classes, one or more reload cases (e.g. every case it can fly), and/or an
+ * impulse band. Clicking one filters the catalog
  * to the motors that fit — the heart of the finder. Sits above the filter bar;
  * applying a rocket sets the matching URL params (`cert`/`dia`/`class`/`case`/
  * `imin`/`imax`) so the filter bar reflects it automatically. */
@@ -63,7 +66,7 @@ export function MyRockets({
 
   type Spec = Pick<
     Rocket,
-    "cert" | "diameterMm" | "impulseClass" | "caseInfo" | "minImpulseNs" | "maxImpulseNs"
+    "cert" | "diameterMm" | "impulseClasses" | "caseInfos" | "minImpulseNs" | "maxImpulseNs"
   >;
 
   // Set the filters from a rocket spec: each optional field is set when present
@@ -74,8 +77,8 @@ export function MyRockets({
     const put = (param: string, val: string | null) =>
       val ? next.set(param, val) : next.delete(param);
     put("cert", s.cert);
-    put("class", s.impulseClass);
-    put("case", s.caseInfo);
+    put("class", s.impulseClasses.length ? s.impulseClasses.join(",") : null);
+    put("case", s.caseInfos.length ? s.caseInfos.join(",") : null);
     put("imin", s.minImpulseNs != null ? String(s.minImpulseNs) : null);
     put("imax", s.maxImpulseNs != null ? String(s.maxImpulseNs) : null);
     pushParams(next);
@@ -104,8 +107,8 @@ export function MyRockets({
   const specSummary = (r: Rocket): string => {
     const parts = [`${r.diameterMm}mm`];
     if (r.cert) parts.push(certLabel(r.cert));
-    if (r.impulseClass) parts.push(`${r.impulseClass}-class`);
-    if (r.caseInfo) parts.push(r.caseInfo);
+    if (r.impulseClasses.length) parts.push(`${r.impulseClasses.join("/")}-class`);
+    if (r.caseInfos.length) parts.push(r.caseInfos.join(", "));
     return parts.join(" · ");
   };
 
@@ -132,6 +135,11 @@ export function MyRockets({
     const v = sp.get(p);
     return v && !v.includes(",") ? v : null;
   };
+  // A multi-value param read as a list (comma-separated), or [] when absent.
+  const multiParam = (p: string): string[] => (sp.get(p) ?? "").split(",").filter(Boolean);
+  // Two string lists equal as sets (order/dup-insensitive).
+  const sameList = (a: string[], b: string[]) =>
+    a.length === b.length && [...a].sort().join(",") === [...b].sort().join(",");
   const curDia = singleParam("dia");
   const curCert = singleParam("cert");
   const curSpec: RocketInput | null =
@@ -139,8 +147,8 @@ export function MyRockets({
       ? {
           diameterMm: Number(curDia),
           cert: curCert && certLevels.some((c) => c.key === curCert) ? curCert : null,
-          impulseClass: singleParam("class"),
-          caseInfo: singleParam("case"),
+          impulseClasses: multiParam("class"),
+          caseInfos: multiParam("case"),
           minImpulseNs: numParam("imin"),
           maxImpulseNs: numParam("imax"),
         }
@@ -151,8 +159,8 @@ export function MyRockets({
       (r) =>
         r.cert === (curSpec.cert ?? null) &&
         r.diameterMm === curSpec.diameterMm &&
-        r.impulseClass === (curSpec.impulseClass ?? null) &&
-        r.caseInfo === (curSpec.caseInfo ?? null) &&
+        sameList(r.impulseClasses, curSpec.impulseClasses ?? []) &&
+        sameList(r.caseInfos, curSpec.caseInfos ?? []) &&
         r.minImpulseNs === (curSpec.minImpulseNs ?? null) &&
         r.maxImpulseNs === (curSpec.maxImpulseNs ?? null),
     );
@@ -230,8 +238,8 @@ export function MyRockets({
                   displayLabel={label(r)}
                   diameterMm={r.diameterMm}
                   cert={r.cert}
-                  impulseClass={r.impulseClass}
-                  caseInfo={r.caseInfo}
+                  impulseClasses={r.impulseClasses}
+                  caseInfos={r.caseInfos}
                   minImpulseNs={r.minImpulseNs}
                   maxImpulseNs={r.maxImpulseNs}
                   active={active}
@@ -332,8 +340,8 @@ function RocketForm({
     name?: string;
     diameterMm: number;
     cert: string | null;
-    impulseClass: string | null;
-    caseInfo: string | null;
+    impulseClasses: string[];
+    caseInfos: string[];
     minImpulseNs: number | null;
     maxImpulseNs: number | null;
   }) => void;
@@ -342,10 +350,22 @@ function RocketForm({
   const [diameter, setDiameter] = useState(
     String(initial?.diameterMm ?? diameters[0]),
   );
-  // All narrowings are optional ("" = Any). Diameter is the only required field.
+  // All narrowings are optional. Diameter is the only required field. Cert is a
+  // single value (""=Any); class + case are multi-select (a rocket can fly
+  // several classes / own several cases), held as Sets.
   const [cert, setCert] = useState(initial?.cert ?? "");
-  const [impulseClass, setImpulseClass] = useState(initial?.impulseClass ?? "");
-  const [caseInfo, setCaseInfo] = useState(initial?.caseInfo ?? "");
+  const [impulseClasses, setImpulseClasses] = useState<Set<string>>(
+    () => new Set(initial?.impulseClasses ?? []),
+  );
+  const [caseInfos, setCaseInfos] = useState<Set<string>>(
+    () => new Set(initial?.caseInfos ?? []),
+  );
+  const toggleIn = (set: Set<string>, setSet: (s: Set<string>) => void, value: string) => {
+    const next = new Set(set);
+    if (next.has(value)) next.delete(value);
+    else next.add(value);
+    setSet(next);
+  };
   const [imin, setImin] = useState(
     initial?.minImpulseNs != null ? String(initial.minImpulseNs) : "",
   );
@@ -362,11 +382,13 @@ function RocketForm({
   };
 
   // Cases offered for the selected mount: that diameter's hardware, plus "Single
-  // use" (diameter null), which spans diameters. If the chosen case no longer
-  // belongs after a diameter change, it's dropped on submit (see caseValue).
+  // use" (diameter null), which spans diameters. Selected cases that don't belong
+  // to the current diameter are hidden + excluded on submit (but kept in state,
+  // so toggling the diameter back restores them).
   const dnum = Number(diameter);
   const caseChoices = cases.filter((c) => c.diameter == null || c.diameter === dnum);
-  const caseValue = caseChoices.some((c) => c.value === caseInfo) ? caseInfo : "";
+  const caseActive = new Set([...caseInfos].filter((v) => caseChoices.some((c) => c.value === v)));
+  const classOptions: SelectOption[] = classes.map((c) => ({ value: c }));
 
   const selectCls =
     "rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300";
@@ -381,8 +403,8 @@ function RocketForm({
           name,
           diameterMm: dnum,
           cert: cert || null,
-          impulseClass: impulseClass || null,
-          caseInfo: caseValue || null,
+          impulseClasses: [...impulseClasses],
+          caseInfos: [...caseActive],
           minImpulseNs: bound(imin),
           maxImpulseNs: bound(imax),
         });
@@ -422,39 +444,33 @@ function RocketForm({
         </label>
       )}
       {classes.length > 0 && (
-        <label className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-          Class <span className="opacity-60">(optional)</span>
-          <select
-            value={impulseClass}
-            onChange={(e) => setImpulseClass(e.target.value)}
-            className={selectCls}
-          >
-            <option value="">Any</option>
-            {classes.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <span>
+            Class <span className="opacity-60">(optional, pick any)</span>
+          </span>
+          <SearchableMultiSelect
+            options={classOptions}
+            active={impulseClasses}
+            onToggle={(v) => toggleIn(impulseClasses, setImpulseClasses, v)}
+            onClear={() => setImpulseClasses(new Set())}
+            noun="class"
+            nounPlural="classes"
+            placeholder="type a class — H, J…"
+          />
+        </div>
       )}
       {caseChoices.length > 0 && (
-        <label className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-          Case <span className="opacity-60">(optional)</span>
-          <select
-            value={caseValue}
-            onChange={(e) => setCaseInfo(e.target.value)}
-            className={selectCls}
-          >
-            <option value="">Any</option>
-            {caseChoices.map((c) => (
-              <option key={c.value} value={c.value}>
-                {c.value}
-                {c.manufacturer ? ` · ${c.manufacturer}` : ""}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <span>
+            Cases <span className="opacity-60">(optional, pick any you own)</span>
+          </span>
+          <CaseFilter
+            options={caseChoices}
+            active={caseActive}
+            onToggle={(v) => toggleIn(caseInfos, setCaseInfos, v)}
+            onClear={() => setCaseInfos(new Set())}
+          />
+        </div>
       )}
       <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
         Impulse <span className="opacity-60">N·s (optional)</span>
