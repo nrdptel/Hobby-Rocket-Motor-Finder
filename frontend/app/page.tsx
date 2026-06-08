@@ -6,6 +6,7 @@ import {
   loadSnapshot,
 } from "@/lib/snapshot";
 import { mergedCatalog } from "@/lib/catalogMotors";
+import { curveKey, loadCurves, sparkPath } from "@/lib/curves";
 import { catalogAvailability } from "@/lib/history";
 import {
   CERT_LEVELS,
@@ -85,6 +86,19 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
   // shipped as one small record per motor — the 1.1MB log never reaches the
   // client.
   const availability = catalogAvailability(motorsWithListings, historyLog, snapshot.generated_at);
+
+  // Per-motor thrust-curve sparkline paths, precomputed server-side and keyed by
+  // motor id. Only a tiny path string per motor reaches the client (no raw curve
+  // points, no client geometry) so the catalog row can show the burn shape.
+  const curveMap = await loadCurves();
+  const sparklines: Record<number, string> = {};
+  for (const m of motorsWithListings) {
+    const pts = curveMap[curveKey(m.manufacturer, m.designation)];
+    if (pts) {
+      const d = sparkPath(pts);
+      if (d) sparklines[m.id] = d;
+    }
+  }
 
   // Available filter options derived from motors-with-listings (so we don't
   // offer pills that yield zero results).
@@ -177,6 +191,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           propellants={propellantFilterOptions}
           vendors={vendorFilterOptions}
           rocketMotors={rocketMotors}
+          sparklines={sparklines}
         />
       </CatalogFilterProvider>
 

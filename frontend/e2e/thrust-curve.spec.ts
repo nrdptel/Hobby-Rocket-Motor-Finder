@@ -18,3 +18,9 @@ test("a motor detail page renders its thrust curve chart", async ({ page }) => {
   // And the section heading is present.
   await expect(page.getByRole("heading", { name: /Thrust curve/ })).toBeVisible();
 });
+
+test("the catalog rows show thrust-curve sparklines", async ({ page }) => {
+  await page.goto("/");
+  // Each motor with a curve gets a small sparkline glyph in its row.
+  await expect(page.getByRole("img", { name: "thrust curve shape" }).first()).toBeVisible();
+});

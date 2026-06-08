@@ -33,6 +33,7 @@ export function CatalogView({
   propellants,
   vendors,
   rocketMotors,
+  sparklines,
 }: {
   allMotors: Motor[];
   history: HistorySummary;
@@ -47,6 +48,8 @@ export function CatalogView({
   propellants: PropellantOption[];
   vendors: VendorOption[];
   rocketMotors: RocketMotor[];
+  /** Per-motor thrust-curve sparkline path, keyed by motor id. */
+  sparklines: Record<number, string>;
 }) {
   const { params } = useCatalogFilters();
   const parsed = useMemo(() => parseCatalogParams((k) => params.get(k) ?? undefined), [params]);
@@ -102,6 +105,7 @@ export function CatalogView({
         history={history}
         availability={availability}
         substitutes={substitutes}
+        sparklines={sparklines}
       />
     </>
   );

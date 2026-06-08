@@ -25,6 +25,7 @@ import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { BurnBadge } from "./BurnBadge";
 import { SparkyBadge } from "./SparkyBadge";
+import { ThrustSparkline } from "./ThrustSparkline";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
@@ -49,6 +50,7 @@ export function MotorCard({
   history,
   availability,
   substitutes,
+  sparkline,
 }: {
   motor: GroupedMotor;
   showManufacturer: boolean;
@@ -56,6 +58,8 @@ export function MotorCard({
   history: HistorySummary;
   availability: CatalogAvailability | undefined;
   substitutes?: Substitute[];
+  /** Precomputed thrust-curve sparkline path for this motor, if any. */
+  sparkline?: string;
 }) {
   return (
     <article className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
@@ -103,6 +107,11 @@ export function MotorCard({
           <span title="Specific impulse — propellant efficiency (total impulse per unit propellant weight). Higher is more efficient.">
             {formatIsp(specificImpulseS(motor))} Isp
           </span>
+        )}
+        {sparkline && (
+          <Link href={motorPath(motor)} title="Thrust curve — open for the full chart" className="inline-flex items-center">
+            <ThrustSparkline d={sparkline} />
+          </Link>
         )}
       </div>
 
