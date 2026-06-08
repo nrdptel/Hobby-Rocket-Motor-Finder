@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 252.0,
-    "samples": 60,
+    "samples": 61,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-08T08:05:04+00:00"
+    "updated_at": "2026-06-08T09:13:31+00:00"
   },
   "amw": {
     "count": 247.0,
@@ -24,28 +24,28 @@
     "updated_at": "2026-06-08T08:05:04+00:00"
   },
   "buyrocketmotors": {
-    "count": 279.18632776983816,
-    "samples": 60,
-    "stock": 115.20058553445915,
+    "count": 279.38974582737865,
+    "samples": 61,
+    "stock": 115.40043915084436,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-08T08:05:04+00:00"
+    "updated_at": "2026-06-08T09:13:31+00:00"
   },
   "csrocketry": {
     "count": 558.0,
-    "samples": 60,
-    "stock": 250.31640625,
+    "samples": 61,
+    "stock": 250.2373046875,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-08T08:05:04+00:00"
+    "updated_at": "2026-06-08T09:13:31+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 60,
+    "samples": 61,
     "stock": 28.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-08T08:05:04+00:00"
+    "updated_at": "2026-06-08T09:13:31+00:00"
   },
   "moto_joe": {
     "count": 528.0,
@@ -57,11 +57,11 @@
   },
   "performancehobbies": {
     "count": 594.0,
-    "samples": 60,
+    "samples": 61,
     "stock": 117.0,
     "streak": 0,
-    "unmatched": 6.000000113392224,
-    "updated_at": "2026-06-08T08:05:04+00:00"
+    "unmatched": 6.000000085044167,
+    "updated_at": "2026-06-08T09:13:31+00:00"
   },
   "sirius": {
     "count": 311.0,
@@ -72,11 +72,11 @@
     "updated_at": "2026-06-08T08:05:04+00:00"
   },
   "wildman": {
-    "count": 483.26138357704974,
-    "samples": 60,
-    "stock": 167.4078145048012,
+    "count": 483.1960376827873,
+    "samples": 61,
+    "stock": 167.3058608786009,
     "streak": 0,
-    "unmatched": 2.0000021544522513,
-    "updated_at": "2026-06-08T08:05:04+00:00"
+    "unmatched": 2.0000016158391887,
+    "updated_at": "2026-06-08T09:13:31+00:00"
   }
 }
