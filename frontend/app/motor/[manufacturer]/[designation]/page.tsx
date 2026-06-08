@@ -9,6 +9,7 @@ import {
   MIN_CLASS,
   bestInStockPriceCents,
   buildMotorJsonLd,
+  cheapestInStockCents,
   cheapestInStockListing,
   designationFromSlug,
   designationToSlug,
@@ -30,6 +31,7 @@ import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { AvailabilityHistory } from "@/app/components/AvailabilityHistory";
 import { BestPriceTag } from "@/app/components/BestPriceTag";
+import { PackHint } from "@/app/components/PackHint";
 import { PackNote } from "@/app/components/PackNote";
 import { PriceSignalTag } from "@/app/components/PriceSignalTag";
 import { CertBadge } from "@/app/components/CertBadge";
@@ -333,8 +335,11 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           </h2>
           <ul className="mt-3 divide-y divide-zinc-200 rounded-md border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
             {similar.map((s) => {
-              const price = bestInStockPriceCents(s.listings);
-              const cur = s.listings.find((l) => listingInStock(l.status))?.currency ?? "USD";
+              // Per-motor (pack-aware) cheapest — works for a single-vendor
+              // substitute too (bestInStockPriceCents needs 2+ to compare).
+              const cheapestL = cheapestInStockListing(s);
+              const price = cheapestInStockCents(s);
+              const cur = cheapestL?.currency ?? "USD";
               return (
                 <li
                   key={s.id}
@@ -352,6 +357,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                   </Link>
                   <span className="shrink-0 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
                     {formatPrice(price, cur)}
+                    <PackHint url={cheapestL?.url} />
                   </span>
                 </li>
               );

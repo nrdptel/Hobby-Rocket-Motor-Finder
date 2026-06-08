@@ -273,6 +273,19 @@ describe("manufacturerSlug / motorPath", () => {
     expect(offers.availability).toBe("https://schema.org/InStock"); // one is in stock
   });
 
+  it("prices structured-data offers PER MOTOR (pack-aware), matching the page", () => {
+    const motor = makeMotor({
+      listings: [
+        makeListing({ vendor_name: "BRM", price_cents: 2100, status: "in_stock", url: "https://v/d13-3-pack" }), // $7/ea
+        makeListing({ vendor_name: "Chris", price_cents: 2799, status: "in_stock", url: "https://v/d13-single" }),
+      ],
+    });
+    const ld = buildMotorJsonLd(motor, "https://x/y") as Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+    expect(ld.offers.lowPrice).toBe("7.00"); // the 3-pack's per-unit, not $21.00
+    expect(ld.offers.highPrice).toBe("27.99");
+    expect(ld.offers.offers.map((o: { price: string }) => o.price).sort()).toEqual(["27.99", "7.00"]);
+  });
+
   it("omits offers when no listing has a real price", () => {
     const motor = makeMotor({
       listings: [makeListing({ price_cents: null, status: "out_of_stock" })],
@@ -735,46 +748,41 @@ describe("groupByDelay", () => {
     expect(ten?.listings).toHaveLength(1);
   });
 
-  it("de-dupes listings that would render identically (same vendor/status/price)", () => {
-    // A vendor lists the same motor twice (e.g. two pack sizes at the same price)
-    // — same delay, vendor, status and price differ only by SKU/url, so they'd
-    // render as a confusing duplicate row. Keep one.
+  const sirius = (over: Partial<Listing>): Listing =>
+    makeListing({
+      raw_designation: "H242T-14A",
+      vendor_slug: "sirius",
+      vendor_name: "Sirius",
+      status: "in_stock",
+      ...over,
+    });
+
+  it("de-dupes listings that would render identically (same vendor/status/per-unit price)", () => {
+    // A vendor lists the same motor twice (variant SKUs at the same price) — same
+    // delay, vendor, status and per-unit price, so they'd render as a confusing
+    // duplicate row. Keep one. A genuinely different price stays a distinct row.
     const motor = makeMotor({
       listings: [
-        makeListing({
-          raw_designation: "H242T-14A",
-          vendor_slug: "sirius",
-          vendor_name: "Sirius",
-          price_cents: 4499,
-          status: "in_stock",
-          url: "https://sirius.example/3pack",
-        }),
-        makeListing({
-          raw_designation: "H242T-14A",
-          vendor_slug: "sirius",
-          vendor_name: "Sirius",
-          price_cents: 4499,
-          status: "in_stock",
-          url: "https://sirius.example/12pack",
-        }),
-        // Same vendor, same delay, but a DIFFERENT price → kept as a distinct row.
-        makeListing({
-          raw_designation: "H242T-14A",
-          vendor_slug: "sirius",
-          vendor_name: "Sirius",
-          price_cents: 5999,
-          status: "in_stock",
-          url: "https://sirius.example/single",
-        }),
+        sirius({ price_cents: 4499, url: "https://sirius.example/a" }),
+        sirius({ price_cents: 4499, url: "https://sirius.example/b" }),
+        sirius({ price_cents: 5999, url: "https://sirius.example/single" }),
       ],
     });
-    const g = groupByDelay(motor);
-    const group = g.delayGroups.find((d) => d.delay === "14s adj");
-    expect(group?.listings).toHaveLength(2); // two $44.99 rows collapsed to one
+    const group = groupByDelay(motor).delayGroups.find((d) => d.delay === "14s adj");
+    expect(group?.listings).toHaveLength(2); // two identical $44.99 rows collapsed
     expect(group?.listings.map((l) => l.price_cents).sort()).toEqual([4499, 5999]);
-    expect(group?.listings.find((l) => l.price_cents === 4499)?.url).toBe(
-      "https://sirius.example/3pack",
-    ); // first (best-ranked) kept
+  });
+
+  it("keeps a single and a multipack at the same RAW price (they differ per-unit)", () => {
+    // $44.99 as a 3-pack is $15.00/ea — NOT the same row as a $44.99 single.
+    const motor = makeMotor({
+      listings: [
+        sirius({ price_cents: 4499, url: "https://sirius.example/3pack" }),
+        sirius({ price_cents: 4499, url: "https://sirius.example/single" }),
+      ],
+    });
+    const group = groupByDelay(motor).delayGroups.find((d) => d.delay === "14s adj");
+    expect(group?.listings).toHaveLength(2); // distinct per-unit prices → both kept
   });
 
   it("sorts delay groups by their numeric sort key (low → high)", () => {
@@ -830,6 +838,18 @@ describe("groupByDelay", () => {
       "Pricey",
       "Cheapest OOS",
     ]);
+  });
+
+  it("sorts price mode by PER-UNIT price (a cheaper-per-unit pack beats a single)", () => {
+    const motor = makeMotor({
+      listings: [
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Single", status: "in_stock", price_cents: 2000, url: "https://v/single" }),
+        makeListing({ raw_designation: "H242T-14A", vendor_name: "Pack", status: "in_stock", price_cents: 2100, url: "https://v/3-pack" }), // $7/ea
+      ],
+    });
+    const g = groupByDelay(motor, "price");
+    // $7/ea pack outranks the $20 single, even though its raw price is higher.
+    expect(g.delayGroups[0].listings.map((l) => l.vendor_name)).toEqual(["Pack", "Single"]);
   });
 
   it("sends listings without a price to the end in price mode", () => {

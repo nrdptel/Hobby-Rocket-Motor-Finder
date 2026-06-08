@@ -5,6 +5,12 @@ import { expect, test } from "@playwright/test";
 // D13W is reliably listed as a 3-pack by several vendors (the listing exists in
 // or out of stock, so the note renders regardless).
 
+test("the catalog table shows a multipack's per-unit price with a pack note", async ({ page }) => {
+  await page.goto("/?q=D13W"); // D13W is listed as a 3-pack by several vendors
+  await expect(page.locator('a[href^="/motor/"]').first()).toBeVisible();
+  await expect(page.getByText(/\d+-pack · \$\d/).first()).toBeVisible();
+});
+
 test("a multipack listing shows a per-unit price with a pack note", async ({ page }) => {
   await page.goto("/motor/aerotech/D13W");
   await expect(page.getByRole("heading", { name: "Availability by vendor" })).toBeVisible();

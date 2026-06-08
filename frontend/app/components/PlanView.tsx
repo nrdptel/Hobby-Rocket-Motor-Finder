@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import {
   cheapestInStockCents,
+  cheapestInStockListing,
   formatPrice,
   manufacturerLabel,
   manufacturerSlug,
@@ -21,6 +22,7 @@ import {
 import { decodeSharedOrder, encodeSharedOrder, orderPlanToText } from "@/lib/planShare";
 import type { Motor } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
+import { PackHint } from "./PackHint";
 import { SiteHeader } from "./SiteHeader";
 
 const QTY_KEY = "hpr.orderQty.v1";
@@ -437,6 +439,7 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">In stock instead:</span>
                         {swaps.map((s) => {
                           const price = cheapestInStockCents(s);
+                          const cheapestL = cheapestInStockListing(s);
                           return (
                             <span
                               key={s.id}
@@ -451,6 +454,7 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
                               {price != null && (
                                 <span className="tabular-nums text-emerald-700/80 dark:text-emerald-400/80">
                                   {usd(price)}
+                                  <PackHint url={cheapestL?.url} />
                                 </span>
                               )}
                               <button
