@@ -3,6 +3,7 @@ import {
   bestInStockPriceCents,
   formatBurn,
   formatImpulse,
+  formatIsp,
   formatPrice,
   formatThrust,
   isBestInStockPrice,
@@ -10,6 +11,7 @@ import {
   manufacturerLabel,
   motorPath,
   safeHref,
+  specificImpulseS,
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
@@ -21,6 +23,8 @@ import { PackNote } from "./PackNote";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
+import { BurnBadge } from "./BurnBadge";
+import { SparkyBadge } from "./SparkyBadge";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
@@ -68,6 +72,8 @@ export function MotorCard({
           </Link>
           <CertBadge impulseClass={motor.impulse_class} />
           {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
+          <SparkyBadge sparky={motor.sparky} />
+          <BurnBadge motor={motor} />
           <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
         </div>
         <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">
@@ -93,6 +99,11 @@ export function MotorCard({
         <span>
           {formatThrust(motor.avg_thrust_n)} · {formatBurn(motor.burn_time_s)}
         </span>
+        {specificImpulseS(motor) != null && (
+          <span title="Specific impulse — propellant efficiency (total impulse per unit propellant weight). Higher is more efficient.">
+            {formatIsp(specificImpulseS(motor))} Isp
+          </span>
+        )}
       </div>
 
       {motor.listings.length === 0 && (

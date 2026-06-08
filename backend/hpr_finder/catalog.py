@@ -129,6 +129,8 @@ def to_motor(record: dict) -> Motor | None:
         availability=record.get("availability"),
         motor_type=record.get("type"),
         case_info=record.get("caseInfo"),
+        sparky=bool(record.get("sparky")),
+        prop_weight_g=_maybe_float(record.get("propWeightG")),
     )
 
 

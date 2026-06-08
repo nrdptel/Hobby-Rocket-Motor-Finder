@@ -40,6 +40,10 @@ import {
   staleLabel,
   thrustcurveUrl,
   vendorOptions,
+  specificImpulseS,
+  formatIsp,
+  burnCharacter,
+  BURN_LABEL,
 } from "./derive";
 import type { Listing, ListingHistory, Motor } from "./snapshot";
 
@@ -1171,5 +1175,64 @@ describe("vendorOptions", () => {
 
   it("returns [] when no motor has a listing", () => {
     expect(vendorOptions([makeMotor({ listings: [] })])).toEqual([]);
+  });
+});
+
+describe("specificImpulseS", () => {
+  it("computes Isp = total impulse / (prop weight × g)", () => {
+    // 237 N·s over 130 g grain → 237 / (0.130 × 9.80665) ≈ 185.9 s
+    const isp = specificImpulseS(makeMotor({ total_impulse_ns: 237, prop_weight_g: 130 }));
+    expect(isp).toBeCloseTo(185.9, 0);
+  });
+
+  it("returns null when total impulse or prop weight is missing/zero", () => {
+    expect(specificImpulseS(makeMotor({ total_impulse_ns: null, prop_weight_g: 130 }))).toBeNull();
+    expect(specificImpulseS(makeMotor({ total_impulse_ns: 237, prop_weight_g: null }))).toBeNull();
+    expect(specificImpulseS(makeMotor({ total_impulse_ns: 237, prop_weight_g: 0 }))).toBeNull();
+  });
+
+  it("guards an implausible result (bad upstream prop weight) by returning null", () => {
+    // A grain weight far too small → absurdly high Isp → treated as unknown.
+    expect(specificImpulseS(makeMotor({ total_impulse_ns: 5000, prop_weight_g: 1 }))).toBeNull();
+    // ...and far too large → absurdly low Isp.
+    expect(specificImpulseS(makeMotor({ total_impulse_ns: 100, prop_weight_g: 5000 }))).toBeNull();
+  });
+
+  it("formatIsp rounds to whole seconds, dash for null", () => {
+    expect(formatIsp(185.9)).toBe("186 s");
+    expect(formatIsp(null)).toBe("—");
+  });
+});
+
+describe("burnCharacter", () => {
+  it("classifies by burn duration", () => {
+    expect(burnCharacter(makeMotor({ burn_time_s: 0.9 }))).toBe("punchy"); // < 1.5
+    expect(burnCharacter(makeMotor({ burn_time_s: 1.5 }))).toBe("standard"); // boundary → standard
+    expect(burnCharacter(makeMotor({ burn_time_s: 2.5 }))).toBe("standard");
+    expect(burnCharacter(makeMotor({ burn_time_s: 3.0 }))).toBe("long"); // boundary → long
+    expect(burnCharacter(makeMotor({ burn_time_s: 12 }))).toBe("long");
+  });
+
+  it("returns null when burn time is unknown or non-positive", () => {
+    expect(burnCharacter(makeMotor({ burn_time_s: null }))).toBeNull();
+    expect(burnCharacter(makeMotor({ burn_time_s: 0 }))).toBeNull();
+  });
+
+  it("has a label for every character", () => {
+    expect(BURN_LABEL.punchy).toBe("Punchy");
+    expect(BURN_LABEL.standard).toBe("Standard");
+    expect(BURN_LABEL.long).toBe("Long burn");
+  });
+});
+
+describe("sortedMotors — isp order", () => {
+  it("orders by specific impulse, motors without Isp last", () => {
+    const a = makeMotor({ id: 1, designation: "A", total_impulse_ns: 1000, prop_weight_g: 600 }); // ~170s
+    const b = makeMotor({ id: 2, designation: "B", total_impulse_ns: 1000, prop_weight_g: 450 }); // ~226s
+    const none = makeMotor({ id: 3, designation: "C", total_impulse_ns: 1000, prop_weight_g: null });
+    const asc = sortedMotors([none, b, a], "isp", "asc").map((m) => m.id);
+    expect(asc[0]).toBe(1); // lower Isp first
+    expect(asc[1]).toBe(2);
+    expect(asc[2]).toBe(3); // unknown Isp sinks last
   });
 });

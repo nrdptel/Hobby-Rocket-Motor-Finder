@@ -248,7 +248,8 @@ def snapshot_export(
         motors = conn.execute(
             "SELECT id, manufacturer, designation, common_name, diameter_mm, impulse_class, "
             "       total_impulse_ns, avg_thrust_n, burn_time_s, propellant, "
-            "       delays, delay_adjustable, availability, motor_type, case_info "
+            "       delays, delay_adjustable, availability, motor_type, case_info, "
+            "       sparky, prop_weight_g "
             "FROM motors ORDER BY impulse_class, designation"
         ).fetchall()
         matched_listings = conn.execute(
@@ -316,6 +317,10 @@ def snapshot_export(
                 # is null for single-use motors.
                 "motor_type": m["motor_type"],
                 "case_info": m["case_info"],
+                # Sparky (metal-additive) propellant flag, and propellant grain
+                # mass (g) — the basis for the derived specific-impulse figure.
+                "sparky": bool(m["sparky"]),
+                "prop_weight_g": m["prop_weight_g"],
                 # Out-of-production: matched to a discontinued ThrustCurve motor,
                 # i.e. a vendor's old stock that won't be restocked once it sells.
                 "discontinued": (m["availability"] or "") == "OOP",

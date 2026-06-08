@@ -54,6 +54,63 @@ export function certForClass(
   return cert && cert.key !== "mid" ? cert : null;
 }
 
+// --- specific impulse (propellant efficiency) ------------------------------
+
+const STANDARD_GRAVITY = 9.80665; // m/s²
+
+// Plausible APCP specific-impulse band (seconds). Real hobby propellants land
+// ~150–230s; values outside this come from a bad propellant-mass figure
+// upstream, so we treat them as unknown rather than print a nonsense number.
+export const ISP_MIN_PLAUSIBLE = 100;
+export const ISP_MAX_PLAUSIBLE = 300;
+
+/** Specific impulse (Isp, in seconds) = total impulse ÷ (propellant weight × g).
+ * A propellant-efficiency figure: higher means more impulse per gram of grain.
+ * Returns null when the inputs are missing/zero or the result is implausible
+ * (so a bad upstream propellant mass never shows as a real-looking number). */
+export function specificImpulseS(
+  m: Pick<Motor, "total_impulse_ns" | "prop_weight_g">,
+): number | null {
+  const ti = m.total_impulse_ns;
+  const pw = m.prop_weight_g;
+  if (ti == null || ti <= 0 || pw == null || pw <= 0) return null;
+  const isp = ti / ((pw / 1000) * STANDARD_GRAVITY);
+  if (isp < ISP_MIN_PLAUSIBLE || isp > ISP_MAX_PLAUSIBLE) return null;
+  return isp;
+}
+
+/** Format specific impulse for display. ``192.3`` → ``192 s``. */
+export function formatIsp(isp: number | null): string {
+  return isp == null ? "—" : `${Math.round(isp)} s`;
+}
+
+// --- burn character (how the motor burns) ----------------------------------
+
+// Duration thresholds (seconds) splitting the catalog into a balanced three-way
+// view: a quick punch, a standard burn, or a long sustained burn. Chosen from
+// the live catalog distribution (≈25% / 38% / 37%).
+export const BURN_PUNCHY_MAX_S = 1.5; // below this: short, snappy
+export const BURN_LONG_MIN_S = 3.0; // at/above this: long, sustained
+
+export type BurnCharacter = "punchy" | "standard" | "long";
+
+/** Classify a motor's burn by duration: ``punchy`` (< 1.5 s), ``long`` (≥ 3 s),
+ * or ``standard`` in between. Null when burn time is unknown. */
+export function burnCharacter(m: Pick<Motor, "burn_time_s">): BurnCharacter | null {
+  const b = m.burn_time_s;
+  if (b == null || b <= 0) return null;
+  if (b < BURN_PUNCHY_MAX_S) return "punchy";
+  if (b >= BURN_LONG_MIN_S) return "long";
+  return "standard";
+}
+
+/** Human label for each burn character. */
+export const BURN_LABEL: Record<BurnCharacter, string> = {
+  punchy: "Punchy",
+  standard: "Standard",
+  long: "Long burn",
+};
+
 export type DelayGroup = {
   delay: string;
   delaySortKey: number;
@@ -307,7 +364,7 @@ export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, 
 
 /** User-selectable motor-list orderings (the ``?order=`` URL param). "class" is
  * the default natural ordering (impulse class → diameter → designation). */
-export type MotorOrder = "class" | "impulse" | "thrust" | "diameter" | "price";
+export type MotorOrder = "class" | "impulse" | "thrust" | "diameter" | "price" | "isp";
 
 const MOTOR_ORDERS: ReadonlySet<string> = new Set([
   "class",
@@ -315,6 +372,7 @@ const MOTOR_ORDERS: ReadonlySet<string> = new Set([
   "thrust",
   "diameter",
   "price",
+  "isp",
 ]);
 
 /** Parse the ``?order=`` param into a known MotorOrder, defaulting to "class". */
@@ -571,6 +629,7 @@ const ORDER_KEYS: Record<
   thrust: (m) => m.avg_thrust_n,
   diameter: (m) => m.diameter_mm,
   price: cheapestInStockCents,
+  isp: specificImpulseS,
 };
 
 // Compare by a numeric key in the given direction. Motors missing the value
