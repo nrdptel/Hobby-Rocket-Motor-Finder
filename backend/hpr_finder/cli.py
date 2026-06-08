@@ -12,7 +12,7 @@ from pathlib import Path
 import httpx
 import typer
 
-from . import catalog, db, health, history
+from . import catalog, curves, db, health, history
 from .alerts import newly_available_motors, restocked_motors
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
@@ -81,6 +81,17 @@ def catalog_refresh() -> None:
         db.init_schema(conn)
         n = db.upsert_motors(conn, motors)
     typer.echo(f"upserted {n} motors into catalog")
+
+
+@catalog_app.command("curves")
+def catalog_curves() -> None:
+    """Download each catalog motor's thrust curve from ThrustCurve and write the
+    ``data/curves.json`` sidecar (one representative curve per motor, keyed by
+    manufacturer|designation). Static per motor, so run this alongside ``refresh``,
+    not on the hourly scrape. Requires the per-manufacturer caches to exist.
+    """
+    n = curves.refresh_curves()
+    typer.echo(f"wrote {n} thrust curves to {curves.CURVES_PATH}")
 
 
 @catalog_app.command("rematch")

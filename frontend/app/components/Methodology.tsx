@@ -136,6 +136,25 @@ export function Methodology() {
           </div>
 
           <div>
+            <dt className="font-medium text-zinc-800 dark:text-zinc-200">Thrust curve</dt>
+            <dd className="mt-0.5">
+              The time/thrust trace on a motor&apos;s detail page is the measured curve from{" "}
+              <a
+                href="https://www.thrustcurve.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-zinc-900 dark:hover:text-zinc-100"
+              >
+                ThrustCurve
+              </a>{" "}
+              &mdash; we pick the most authoritative one available (certification data over
+              manufacturer over user-submitted). When the motor is sold out, its curve is overlaid
+              with its in-stock substitutes&apos;, so you can compare the burn <em>shape</em>, not
+              just the headline numbers.
+            </dd>
+          </div>
+
+          <div>
             <dt className="font-medium text-zinc-800 dark:text-zinc-200">Special order &amp; lead time</dt>
             <dd className="mt-0.5">
               Some sources (e.g. AeroTech-direct) backorder rather than hold stock, so their listings

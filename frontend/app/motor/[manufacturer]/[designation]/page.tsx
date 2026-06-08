@@ -9,6 +9,7 @@ import {
   loadSnapshot,
 } from "@/lib/snapshot";
 import type { Motor, Snapshot } from "@/lib/snapshot";
+import { curveKey, loadCurves } from "@/lib/curves";
 import { mergedCatalog } from "@/lib/catalogMotors";
 import { buildMotorAvailability } from "@/lib/history";
 import {
@@ -48,6 +49,7 @@ import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
 import { BurnBadge } from "@/app/components/BurnBadge";
 import { SparkyBadge } from "@/app/components/SparkyBadge";
+import { ThrustCurveChart, type CurveSeries } from "@/app/components/ThrustCurveChart";
 import { NotifyButton } from "@/app/components/NotifyButton";
 import { RestockBadge } from "@/app/components/RestockBadge";
 import { SnapshotTime } from "@/app/components/SnapshotTime";
@@ -157,6 +159,23 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
   // or not this motor is in stock. Cross-linked to their own detail pages.
   const similar = findSubstitutes(motor, snapshot.motors).slice(0, 6);
 
+  // Thrust curve(s): this motor's, plus — when it's sold out — an overlay of its
+  // top in-stock substitutes, so the burn *shape* of a swap is comparable, not
+  // just its headline numbers. Curves come from the static sidecar, joined by
+  // manufacturer|designation; missing curves are simply skipped.
+  const curveMap = await loadCurves();
+  const targetCurve = curveMap[curveKey(motor.manufacturer, motor.designation)];
+  const curveSeries: CurveSeries[] = [];
+  if (targetCurve) {
+    curveSeries.push({ label: motor.designation, points: targetCurve, emphasis: true });
+    if (soldOut) {
+      for (const s of similar.slice(0, 3)) {
+        const pts = curveMap[curveKey(s.manufacturer, s.designation)];
+        if (pts) curveSeries.push({ label: s.designation, points: pts });
+      }
+    }
+  }
+
   const name = `${manufacturerLabel(motor.manufacturer)} ${motor.designation}`;
   const caseLabel = motor.case_info
     ? motor.case_info
@@ -258,6 +277,17 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           </a>
         </p>
       </section>
+
+      {targetCurve && (
+        <section className="mt-6">
+          <h2 className="text-sm font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+            Thrust curve{curveSeries.length > 1 ? " — vs. in-stock substitutes" : ""}
+          </h2>
+          <div className="mt-2 rounded-md border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40">
+            <ThrustCurveChart series={curveSeries} />
+          </div>
+        </section>
+      )}
 
       {/* Vendor availability — or, for a phantom, an honest "nobody stocks it". */}
       <section className="mt-8">
