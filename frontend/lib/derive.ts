@@ -391,11 +391,24 @@ export function parseDir(raw: string | string[] | undefined): SortDir {
 }
 
 /** Cheapest *in-stock* price (cents) across a motor's listings, or null when
- * nothing is in stock with a price. Used by the "price" ordering. */
+ * nothing is in stock with a price. Used by the price filter and substitutes. */
 export function cheapestInStockCents(m: Motor): number | null {
   let best: number | null = null;
   for (const l of m.listings) {
     if (!listingInStock(l.status)) continue;
+    const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
+    if (unit == null) continue;
+    if (best == null || unit < best) best = unit;
+  }
+  return best;
+}
+
+/** Cheapest per-unit price (cents) across ALL of a motor's listings regardless
+ * of stock, or null when nothing is priced. Used by the "price" ordering; pair
+ * it with the in-stock filter to rank by cheapest *available* price instead. */
+export function cheapestCents(m: Motor): number | null {
+  let best: number | null = null;
+  for (const l of m.listings) {
     const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
     if (unit == null) continue;
     if (best == null || unit < best) best = unit;
@@ -672,7 +685,7 @@ const ORDER_KEYS: Record<
   impulse: (m) => m.total_impulse_ns,
   thrust: (m) => m.avg_thrust_n,
   diameter: (m) => m.diameter_mm,
-  price: cheapestInStockCents,
+  price: cheapestCents,
   isp: specificImpulseS,
 };
 

@@ -20,7 +20,6 @@ import {
   sortedMotors,
   toSubstitute,
   type GroupedMotor,
-  type ListingSort,
   type MotorOrder,
   type SortDir,
   type Substitute,
@@ -39,7 +38,6 @@ export type CatalogParams = {
   burn: Set<string>; // burn-character keys: "punchy" | "standard" | "long"
   sparky: boolean; // only sparky (metal-additive) propellant motors
   inStock: boolean;
-  listingSort: ListingSort; // ?sort=price → cheapest listing first within a motor
   order: MotorOrder;
   dir: SortDir;
   starredOnly: boolean;
@@ -84,7 +82,6 @@ export function parseCatalogParams(get: (key: string) => string | undefined): Ca
     burn: setParam(get("burn")),
     sparky: get("sparky") === "1",
     inStock: get("in_stock") === "1",
-    listingSort: get("sort") === "price" ? "price" : "stock",
     order: parseOrder(get("order")),
     dir: parseDir(get("dir")),
     starredOnly: get("starred") === "1",
@@ -163,7 +160,7 @@ export function buildCatalogView(
     .map((m) =>
       p.inStock ? { ...m, listings: m.listings.filter((l) => listingInStock(l.status)) } : m,
     )
-    .map((m) => groupByDelay(m, p.listingSort));
+    .map((m) => groupByDelay(m));
 
   const substitutes: Record<number, Substitute[]> = {};
   for (const m of motors) {

@@ -7,6 +7,7 @@ import {
   caseOptions,
   certClasses,
   certForClass,
+  cheapestCents,
   cheapestInStockCents,
   cheapestInStockListing,
   delayForRow,
@@ -460,20 +461,23 @@ describe("rankMotor + sortedMotors", () => {
     expect(sortedMotors(motors, "class", "desc").map((m) => m.id)).toEqual([2, 1]);
   });
 
-  it("orders by cheapest in-stock price (unpriced/OOS last) when order=price", () => {
+  it("orders by cheapest price across all listings (stock-agnostic) when order=price", () => {
     const motors = [
       makeMotor({ id: 1, listings: [makeListing({ price_cents: 5000, status: "in_stock" })] }),
-      // out of stock — its price doesn't count, so it sorts last.
+      // out of stock, but its price still counts for the price ordering — pair
+      // with the in-stock filter if you only want what's buyable.
       makeMotor({ id: 2, listings: [makeListing({ price_cents: 1000, status: "out_of_stock" })] }),
       makeMotor({
         id: 3,
         listings: [
           makeListing({ price_cents: 9000, status: "in_stock" }),
-          makeListing({ price_cents: 3000, status: "in_stock" }), // cheapest in-stock
+          makeListing({ price_cents: 3000, status: "in_stock" }), // cheapest of its own
         ],
       }),
+      // no priced listing → sorts last in both directions.
+      makeMotor({ id: 4, listings: [makeListing({ price_cents: null, status: "in_stock" })] }),
     ];
-    expect(sortedMotors(motors, "price").map((m) => m.id)).toEqual([3, 1, 2]);
+    expect(sortedMotors(motors, "price").map((m) => m.id)).toEqual([2, 3, 1, 4]);
   });
 });
 
@@ -521,6 +525,26 @@ describe("cheapestInStockCents", () => {
       ],
     });
     expect(cheapestInStockCents(m)).toBeNull();
+  });
+});
+
+// --- cheapestCents (stock-agnostic) ----------------------------------------
+
+describe("cheapestCents", () => {
+  it("returns the cheapest priced listing regardless of stock", () => {
+    const m = makeMotor({
+      listings: [
+        makeListing({ price_cents: 5000, status: "in_stock" }),
+        makeListing({ price_cents: 1000, status: "out_of_stock" }), // counted
+      ],
+    });
+    expect(cheapestCents(m)).toBe(1000);
+  });
+  it("returns null when no listing is priced", () => {
+    const m = makeMotor({
+      listings: [makeListing({ price_cents: null, status: "out_of_stock" })],
+    });
+    expect(cheapestCents(m)).toBeNull();
   });
 });
 
