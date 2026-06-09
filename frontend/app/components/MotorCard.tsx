@@ -31,6 +31,7 @@ import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
 import { NotifyButton } from "./NotifyButton";
+import { CompareButton } from "./CompareButton";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
 import { Substitutes } from "./Substitutes";
@@ -67,6 +68,7 @@ export function MotorCard({
       <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
         <StarButton motorId={motor.id} designation={motor.designation} />
         <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
+        <CompareButton motorId={motor.id} designation={motor.designation} />
         <Link
           href={motorPath(motor)}
           className="whitespace-nowrap font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
