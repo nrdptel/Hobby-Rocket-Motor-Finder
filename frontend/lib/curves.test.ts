@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { curveExtent, curveKey, curvePath, sparkPath, type ThrustCurve } from "./curves";
+import {
+  curveExtent,
+  curveKey,
+  curvePath,
+  curveStats,
+  sparkPath,
+  type ThrustCurve,
+} from "./curves";
 
 describe("curveKey", () => {
   it("joins manufacturer and designation, mirroring the backend", () => {
@@ -76,5 +83,32 @@ describe("sparkPath", () => {
   it("returns '' for an unusable curve", () => {
     expect(sparkPath([[0, 0]])).toBe("");
     expect(sparkPath([])).toBe("");
+  });
+});
+
+describe("curveStats", () => {
+  it("computes peak, initial (first ½ s), and a neutral centroid for a flat burn", () => {
+    // Constant 50 N for 2 s → centroid at the midpoint (0.5), initial = 50.
+    expect(curveStats([[0, 50], [2, 50]])).toEqual({ peakN: 50, initialN: 50, centroid: 0.5 });
+  });
+
+  it("a front-loaded (regressive) burn has centroid < 0.5 and high initial thrust", () => {
+    const s = curveStats([[0, 100], [1, 50], [2, 0]]);
+    expect(s!.peakN).toBe(100);
+    expect(s!.initialN).toBe(75); // strong early push
+    expect(s!.centroid).toBeCloseTo(0.375, 3); // mass of impulse up front
+  });
+
+  it("a back-loaded (progressive) burn has centroid > 0.5 and low initial thrust", () => {
+    const s = curveStats([[0, 0], [1, 50], [2, 100]]);
+    expect(s!.peakN).toBe(100);
+    expect(s!.initialN).toBe(25); // weak off the pad
+    expect(s!.centroid).toBeCloseTo(0.625, 3);
+  });
+
+  it("returns null for an unusable curve", () => {
+    expect(curveStats([[0, 0]])).toBeNull();
+    expect(curveStats([])).toBeNull();
+    expect(curveStats([[0, 0], [0, 50]])).toBeNull(); // zero burn time
   });
 });

@@ -1,12 +1,6 @@
-import {
-  BURN_LONG_MIN_S,
-  BURN_PUNCHY_MAX_S,
-  SUBSTITUTE_IMPULSE_BAND,
-  SUBSTITUTE_THRUST_BAND,
-} from "@/lib/derive";
+import { BURN_LONG_MIN_S, BURN_PUNCHY_MAX_S, SUBSTITUTE_IMPULSE_BAND } from "@/lib/derive";
 
 const impulsePct = Math.round(SUBSTITUTE_IMPULSE_BAND * 100);
-const thrustPct = Math.round(SUBSTITUTE_THRUST_BAND * 100);
 
 /** "How the data is derived" — the methodology companion shown directly below
  * How-it-works. Explains where each number comes from and the rules behind the
@@ -86,23 +80,23 @@ export function Methodology() {
           <div>
             <dt className="font-medium text-zinc-800 dark:text-zinc-200">Similar motors in stock</dt>
             <dd className="mt-0.5">
-              When a motor is sold out at every vendor, we suggest in-stock motors that could fly in its
-              place. A candidate qualifies only when it shares the{" "}
+              When a motor is sold out at every vendor, we suggest in-stock motors that would fly its
+              airframe similarly. A candidate must share the{" "}
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">same diameter</strong>{" "}
-              (it has to fit the same motor mount) and the{" "}
+              (it has to fit the same motor mount), the{" "}
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">same impulse class</strong>{" "}
-              (so the certification you already hold covers it), and its{" "}
+              (so the certification you already hold covers it), and{" "}
               <strong className="font-medium text-zinc-800 dark:text-zinc-200">
-                total impulse is within &plusmn;{impulsePct}%
+                total impulse within &plusmn;{impulsePct}%
               </strong>{" "}
-              and{" "}
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">
-                average thrust within &plusmn;{thrustPct}%
-              </strong>{" "}
-              of the original, so the flight is comparable &mdash; a gentle long-burn motor is never
-              offered as a stand-in for a punchy one even when their total impulse matches. Results are
-              ranked by closest fit, then by cheapest in-stock price. If nothing clears that bar, no
-              suggestion is shown rather than a poor one.
+              of the original (total impulse is the main altitude driver). Then we rank by how similarly
+              it&apos;ll <em>fly</em> &mdash; comparing the actual{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">thrust-curve shape</strong>{" "}
+              (a gentle long-burn is never offered for a punchy motor even when total impulse matches),
+              peak thrust, and liftoff thrust &mdash; and we drop swaps that would be{" "}
+              <strong className="font-medium text-zinc-800 dark:text-zinc-200">too weak off the rail</strong>{" "}
+              (a safety/stability issue) or dramatically punchier. Ties break to the cheapest in-stock
+              price. If nothing clears the bar, no suggestion is shown rather than a poor one.
             </dd>
           </div>
 

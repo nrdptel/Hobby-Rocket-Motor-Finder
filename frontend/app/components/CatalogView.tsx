@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 
 import { buildCatalogView, parseCatalogParams } from "@/lib/catalog";
-import type { CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
+import type { CaseOption, PropellantOption, SubstituteShape, VendorOption } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import { rocketMatchesParams, useRockets, type RocketMotor } from "@/lib/rockets";
 import type { HistorySummary, Motor } from "@/lib/snapshot";
@@ -34,6 +34,7 @@ export function CatalogView({
   vendors,
   rocketMotors,
   sparklines,
+  shapes,
 }: {
   allMotors: Motor[];
   history: HistorySummary;
@@ -50,12 +51,15 @@ export function CatalogView({
   rocketMotors: RocketMotor[];
   /** Per-motor thrust-curve sparkline path, keyed by motor id. */
   sparklines: Record<number, string>;
+  /** Per-motor thrust-curve shape stats (for substitute ranking), keyed by
+   * "manufacturer|designation". */
+  shapes: Record<string, SubstituteShape>;
 }) {
   const { params } = useCatalogFilters();
   const parsed = useMemo(() => parseCatalogParams((k) => params.get(k) ?? undefined), [params]);
   const { motors, substitutes } = useMemo(
-    () => buildCatalogView(allMotors, parsed),
-    [allMotors, parsed],
+    () => buildCatalogView(allMotors, parsed, shapes),
+    [allMotors, parsed, shapes],
   );
 
   // The "active" rocket — when the current filters exactly describe a saved

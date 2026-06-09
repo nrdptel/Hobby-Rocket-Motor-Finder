@@ -415,22 +415,50 @@ export function motorInStock(m: Motor): boolean {
 // live snapshot: tight enough that matches are genuinely interchangeable, loose
 // enough that ~2/3 of sold-out motors get at least one in-stock alternative.
 export const SUBSTITUTE_IMPULSE_BAND = 0.15; // ±15% total impulse
-export const SUBSTITUTE_THRUST_BAND = 0.35; // ±35% average thrust (when known)
+export const SUBSTITUTE_THRUST_BAND = 0.35; // ±35% average thrust (no-curve fallback)
+
+// Curve-aware safety guards (applied when thrust-curve shape data is available
+// for both motors). A swap must keep enough liftoff punch to clear the rail
+// safely, and must not be dramatically punchier (which would pull more G's and
+// fly very differently). Grounded in the ~5:1 thrust-to-weight / ~15 m/s
+// rail-exit rule of thumb in high-power practice.
+export const SUBSTITUTE_LIFTOFF_MIN = 0.7; // ≥70% of the original's initial (first-½s) thrust
+export const SUBSTITUTE_PEAK_MAX = 1.6; // ≤160% of the original's peak thrust
+
+/** Thrust-curve shape stats used to judge how *similarly* two motors fly:
+ * ``peakN`` (max thrust → max-G), ``initialN`` (avg thrust over the first ½ s →
+ * rail-exit/liftoff), and ``centroid`` (the impulse centroid as a fraction of
+ * burn time: ~0 = front-loaded/regressive, ~1 = back-loaded/progressive, ~0.5 =
+ * neutral). Keyed by ``"<manufacturer>|<designation>"`` and derived from the
+ * thrust-curve sidecar; ``undefined`` when no curve is available. */
+export type SubstituteShape = { peakN: number; initialN: number; centroid: number };
+
+const shapeKey = (m: Pick<Motor, "manufacturer" | "designation">) =>
+  `${m.manufacturer}|${m.designation}`;
 
 /** In-stock motors that can stand in for a sold-out ``target`` — same diameter
- * and impulse class, total impulse within ±15%, and (when both are known)
- * average thrust within ±35%. Ranked best-fit first: closest total impulse, then
- * closest thrust, then cheapest in-stock price, then designation.
+ * and impulse class, total impulse within ±15%. When thrust-curve ``shapes`` are
+ * provided, ranks by how similarly the swap will *fly* (impulse, then burn
+ * shape, peak thrust, and liftoff thrust), and drops swaps that would be unsafe
+ * off the rail (much weaker) or dramatically punchier (much higher peak). Without
+ * shape data it falls back to the impulse + average-thrust (±35%) heuristic.
+ * Ranked best-fit first, then cheapest in-stock price, then designation.
  *
  * Returns ``[]`` when the target lacks the impulse/diameter data needed to judge
  * (we never guess a substitute we can't justify). The caller decides when to ask
  * — typically only for a motor that is out of stock everywhere. ``all`` should be
  * the full motor set, not the filtered view, so a swap isn't hidden by the
  * current filters. */
-export function findSubstitutes(target: Motor, all: readonly Motor[]): Motor[] {
+export function findSubstitutes(
+  target: Motor,
+  all: readonly Motor[],
+  shapes?: Record<string, SubstituteShape>,
+): Motor[] {
   const ti = target.total_impulse_ns;
   if (ti == null || ti <= 0) return [];
   const th = target.avg_thrust_n;
+  const tBurn = target.burn_time_s;
+  const tShape = shapes?.[shapeKey(target)];
 
   const scored: { motor: Motor; score: number }[] = [];
   for (const c of all) {
@@ -444,20 +472,36 @@ export function findSubstitutes(target: Motor, all: readonly Motor[]): Motor[] {
     const impulseDelta = Math.abs(cti - ti) / ti;
     if (impulseDelta > SUBSTITUTE_IMPULSE_BAND) continue;
 
-    let thrustDelta: number;
-    const cth = c.avg_thrust_n;
-    if (th != null && th > 0 && cth != null) {
-      thrustDelta = Math.abs(cth - th) / th;
-      if (thrustDelta > SUBSTITUTE_THRUST_BAND) continue;
-    } else {
-      // Thrust unknown for one side: still a real fit on diameter + class +
-      // impulse, so keep it — but score it as edge-of-band rather than a perfect
-      // match, so a candidate with verified-close thrust outranks it on a tie.
-      thrustDelta = SUBSTITUTE_THRUST_BAND;
-    }
+    const cShape = shapes?.[shapeKey(c)];
 
-    // Impulse fit dominates; thrust is a secondary nudge.
-    scored.push({ motor: c, score: impulseDelta + thrustDelta * 0.5 });
+    if (tShape && cShape) {
+      // Curve-aware "best flight match": guard rail-exit safety + over-punchiness,
+      // then rank by how close the burn shape / peak / liftoff are.
+      if (tShape.initialN > 0 && cShape.initialN < tShape.initialN * SUBSTITUTE_LIFTOFF_MIN)
+        continue; // too weak off the rail
+      if (tShape.peakN > 0 && cShape.peakN > tShape.peakN * SUBSTITUTE_PEAK_MAX) continue; // much punchier
+
+      let score = impulseDelta;
+      score += Math.abs(cShape.centroid - tShape.centroid) * 1.2; // progressive vs regressive
+      if (tShape.peakN > 0) score += (Math.abs(cShape.peakN - tShape.peakN) / tShape.peakN) * 0.4;
+      if (tShape.initialN > 0)
+        score += (Math.abs(cShape.initialN - tShape.initialN) / tShape.initialN) * 0.4;
+      if (tBurn != null && tBurn > 0 && c.burn_time_s != null)
+        score += (Math.abs(c.burn_time_s - tBurn) / tBurn) * 0.4;
+      scored.push({ motor: c, score });
+    } else {
+      // Fallback (no curve for one side): the original impulse + average-thrust
+      // heuristic, so behavior is unchanged where shape data is unavailable.
+      let thrustDelta: number;
+      const cth = c.avg_thrust_n;
+      if (th != null && th > 0 && cth != null) {
+        thrustDelta = Math.abs(cth - th) / th;
+        if (thrustDelta > SUBSTITUTE_THRUST_BAND) continue;
+      } else {
+        thrustDelta = SUBSTITUTE_THRUST_BAND;
+      }
+      scored.push({ motor: c, score: impulseDelta + thrustDelta * 0.5 });
+    }
   }
 
   scored.sort((a, b) => {
