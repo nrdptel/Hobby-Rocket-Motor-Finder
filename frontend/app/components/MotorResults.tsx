@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   BURN_LABEL,
@@ -33,12 +33,10 @@ import { SparkyBadge } from "./SparkyBadge";
 import { ThrustSparkline } from "./ThrustSparkline";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
 import { MotorCard } from "./MotorCard";
-import { RestockBadge } from "./RestockBadge";
-import { StaleBadge } from "./StaleBadge";
+import { ListingStatus } from "./ListingStatus";
 import { NotifyButton } from "./NotifyButton";
 import { CompareButton } from "./CompareButton";
 import { StarButton } from "./StarButton";
-import { StatusBadge } from "./StatusBadge";
 import { Substitutes } from "./Substitutes";
 
 /** The interactive results area: a grouped desktop table and the mobile card
@@ -81,11 +79,16 @@ export function MotorResults({
   const applyStarred = starredOnly && hydrated;
   const visible = applyStarred ? motors.filter((m) => starred.has(m.id)) : motors;
 
-  const inStockCount = visible.filter((m) =>
-    m.listings.some((l) => listingInStock(l.status)),
-  ).length;
-  // "Phantom" motors: in the catalog but sold by no tracked vendor.
-  const phantomCount = visible.filter((m) => m.listings.length === 0).length;
+  // Counts feed the summary line; recompute only when the visible set changes
+  // (not on every keystroke elsewhere).
+  const { inStockCount, phantomCount } = useMemo(
+    () => ({
+      inStockCount: visible.filter((m) => m.listings.some((l) => listingInStock(l.status))).length,
+      // "Phantom" motors: in the catalog but sold by no tracked vendor.
+      phantomCount: visible.filter((m) => m.listings.length === 0).length,
+    }),
+    [visible],
+  );
 
   // Render the (up to ~600-motor) list without making the initial paint + hydrate
   // it all in one heavy task. SSR and the first client paint emit only the first
@@ -260,9 +263,7 @@ export function MotorResults({
                           {l.vendor_name}
                         </td>
                         <td className="px-3 py-2 whitespace-nowrap">
-                          <StatusBadge status={l.status} count={l.stock_count} leadTime={l.lead_time} />
-                          <RestockBadge history={history[l.url]} now={now} />
-                          <StaleBadge seenAt={l.seen_at} now={now} />
+                          <ListingStatus listing={l} history={history} now={now} />
                         </td>
                         <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
                           {isBestPrice && <BestPriceTag />}
@@ -279,7 +280,7 @@ export function MotorResults({
                             href={safeHref(l.url)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                            className="text-zinc-600 underline hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
                           >
                             view
                           </a>

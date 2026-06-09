@@ -28,12 +28,10 @@ import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { SparkyBadge } from "./SparkyBadge";
 import { ThrustSparkline } from "./ThrustSparkline";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
-import { RestockBadge } from "./RestockBadge";
-import { StaleBadge } from "./StaleBadge";
+import { ListingStatus } from "./ListingStatus";
 import { NotifyButton } from "./NotifyButton";
 import { CompareButton } from "./CompareButton";
 import { StarButton } from "./StarButton";
-import { StatusBadge } from "./StatusBadge";
 import { Substitutes } from "./Substitutes";
 
 /** Stacked, single-column rendering of one motor and its listings — the
@@ -143,9 +141,7 @@ export function MotorCard({
                           {l.vendor_name}
                         </div>
                         <div className="mt-0.5 flex flex-wrap items-center">
-                          <StatusBadge status={l.status} count={l.stock_count} leadTime={l.lead_time} />
-                          <RestockBadge history={history[l.url]} now={snapshotTime} />
-                          <StaleBadge seenAt={l.seen_at} now={snapshotTime} />
+                          <ListingStatus listing={l} history={history} now={snapshotTime} />
                         </div>
                       </div>
                       <div className="shrink-0 text-right">
@@ -161,7 +157,7 @@ export function MotorCard({
                           href={safeHref(l.url)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                          className="text-xs text-zinc-600 underline hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-zinc-100"
                         >
                           view
                         </a>
