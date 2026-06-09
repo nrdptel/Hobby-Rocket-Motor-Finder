@@ -86,7 +86,6 @@ export function FilterBar({
   const activeBurn = parseList(sp.get("burn"));
   const sparkyOnly = sp.get("sparky") === "1";
   const inStockOnly = sp.get("in_stock") === "1";
-  const cheapestFirst = sp.get("sort") === "price";
   const sortOrder = sp.get("order") ?? "class";
   const sortDir = sp.get("dir") === "desc" ? "desc" : "asc";
   const starredOnly = sp.get("starred") === "1";
@@ -125,7 +124,6 @@ export function FilterBar({
   const toggleBurn = (k: string) => update("burn", toggleInList(activeBurn, k));
   const toggleSparky = () => update("sparky", sparkyOnly ? null : "1");
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
-  const toggleSort = () => update("sort", cheapestFirst ? null : "price");
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
 
   const anyFilter =
@@ -139,7 +137,6 @@ export function FilterBar({
     activeBurn.size > 0 ||
     sparkyOnly ||
     inStockOnly ||
-    cheapestFirst ||
     sortOrder !== "class" ||
     sortDir !== "asc" ||
     starredOnly ||
@@ -417,15 +414,6 @@ export function FilterBar({
         </button>
         <button
           type="button"
-          onClick={toggleSort}
-          aria-pressed={cheapestFirst}
-          className={pill(cheapestFirst)}
-          title="Within each motor, list the cheapest vendor first instead of alphabetically"
-        >
-          Cheapest first
-        </button>
-        <button
-          type="button"
           onClick={toggleStarred}
           aria-pressed={starredOnly}
           className={pill(starredOnly)}
@@ -459,7 +447,7 @@ export function FilterBar({
           <option value="impulse">Total impulse</option>
           <option value="thrust">Avg thrust</option>
           <option value="diameter">Diameter</option>
-          <option value="price">Cheapest in stock</option>
+          <option value="price">Price</option>
           <option value="isp">Specific impulse</option>
         </select>
         <button
