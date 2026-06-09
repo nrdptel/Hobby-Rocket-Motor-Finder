@@ -9,7 +9,7 @@ import {
   loadSnapshot,
 } from "@/lib/snapshot";
 import type { Motor, Snapshot } from "@/lib/snapshot";
-import { curveKey, loadCurves } from "@/lib/curves";
+import { buildShapeMap, curveKey, loadCurves } from "@/lib/curves";
 import { mergedCatalog } from "@/lib/catalogMotors";
 import { buildMotorAvailability } from "@/lib/history";
 import {
@@ -154,15 +154,19 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
   const inStock = motor.listings.filter((l) => listingInStock(l.status)).length;
   const soldOut = inStock === 0;
 
-  // Same-mount, same-cert in-stock alternatives — useful on a detail page whether
-  // or not this motor is in stock. Cross-linked to their own detail pages.
-  const similar = findSubstitutes(motor, snapshot.motors).slice(0, 6);
-
-  // Thrust curve(s): this motor's, plus — when it's sold out — an overlay of its
-  // top in-stock substitutes, so the burn *shape* of a swap is comparable, not
-  // just its headline numbers. Curves come from the static sidecar, joined by
-  // manufacturer|designation; missing curves are simply skipped.
+  // Thrust curves + the shape stats that power the flight-similarity substitute
+  // ranking — both from the static sidecar, joined by manufacturer|designation.
   const curveMap = await loadCurves();
+  const shapes = buildShapeMap(curveMap);
+
+  // In-stock alternatives, ranked by how similarly they'll fly (impulse + burn
+  // shape + thrust), useful whether or not this motor is in stock. Cross-linked
+  // to their own detail pages.
+  const similar = findSubstitutes(motor, snapshot.motors, shapes).slice(0, 6);
+
+  // This motor's curve, plus — when it's sold out — an overlay of its top in-stock
+  // substitutes, so the burn *shape* of a swap is comparable, not just the
+  // headline numbers. Missing curves are simply skipped.
   const targetCurve = curveMap[curveKey(motor.manufacturer, motor.designation)];
   const curveSeries: CurveSeries[] = [];
   if (targetCurve) {

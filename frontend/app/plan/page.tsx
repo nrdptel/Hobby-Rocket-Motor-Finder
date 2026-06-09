@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { loadCatalogMotors, loadSnapshot } from "@/lib/snapshot";
 import { mergedCatalog } from "@/lib/catalogMotors";
+import { buildShapeMap, loadCurves } from "@/lib/curves";
 import { MIN_CLASS } from "@/lib/derive";
 import { PlanView } from "../components/PlanView";
 
@@ -17,10 +18,14 @@ export const metadata: Metadata = {
 };
 
 export default async function PlanPage() {
-  const [snapshot, catalog] = await Promise.all([loadSnapshot(), loadCatalogMotors()]);
+  const [snapshot, catalog, curves] = await Promise.all([
+    loadSnapshot(),
+    loadCatalogMotors(),
+    loadCurves(),
+  ]);
   // The SAME universe as the catalog (incl. "phantom" motors no vendor stocks),
   // so a phantom you starred shows here as "not in stock anywhere" with a buyable
   // swap, instead of silently vanishing from your order.
   const allMotors = snapshot ? mergedCatalog(snapshot.motors, catalog, MIN_CLASS) : [];
-  return <PlanView allMotors={allMotors} />;
+  return <PlanView allMotors={allMotors} shapes={buildShapeMap(curves)} />;
 }
