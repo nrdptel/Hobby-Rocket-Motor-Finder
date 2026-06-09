@@ -82,7 +82,7 @@ export function managePage(
         ? `${escape(r.name)} <span class="meta">(${escape(r.desc)})</span>`
         : escape(r.desc);
       const link = `/api/alerts/manage?token=${t}&unsubrocket=${encodeURIComponent(r.member)}`;
-      return `<li><span>🚀 ${label}</span><a class="unsub" href="${escape(link)}">Unsubscribe</a></li>`;
+      return `<li><span>${label}</span><a class="unsub" href="${escape(link)}">Unsubscribe</a></li>`;
     })
     .join("");
 

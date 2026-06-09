@@ -341,7 +341,7 @@ export function FilterBar({
           className={pill(sparkyOnly)}
           title="Sparky propellant — throws gold sparks (great at night; often restricted under fire bans)"
         >
-          ✨ Sparky
+          Sparky
         </button>
       </FilterRow>
 
