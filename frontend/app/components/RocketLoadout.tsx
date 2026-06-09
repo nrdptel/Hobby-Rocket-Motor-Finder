@@ -67,7 +67,7 @@ export function RocketLoadout({
     <section className="mt-4 rounded-lg border border-emerald-300 bg-emerald-50/60 p-4 dark:border-emerald-800/60 dark:bg-emerald-950/20">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h2 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
-          🚀 Fly it: <span className="font-mono">{title}</span>
+          Fly it: <span className="font-mono">{title}</span>
         </h2>
         <span className="text-xs text-zinc-500 dark:text-zinc-400">{specParts.join(" · ")}</span>
       </div>
@@ -139,7 +139,7 @@ export function RocketLoadout({
             </>
           ) : (
             <p className="mt-2">
-              No same-mount motors are in stock either — tap the 🔔 on the rocket above to get a
+              No same-mount motors are in stock either — tap the bell on the rocket above to get a
               restock alert.
             </p>
           )}

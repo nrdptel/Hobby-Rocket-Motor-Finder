@@ -333,7 +333,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           snapshot, and may be stale by the time you click through; always verify on the vendor&apos;s
           own page before buying.
           {new Date().getMonth() === 5 && (
-            <span className="ml-1">🏳️‍🌈 Happy Pride Month &mdash; fly high. 🚀</span>
+            <span className="ml-1">🏳️‍🌈 Happy Pride Month &mdash; fly high.</span>
           )}
         </p>
       </footer>

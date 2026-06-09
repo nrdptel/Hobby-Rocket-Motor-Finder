@@ -1219,8 +1219,8 @@ describe("burnCharacter", () => {
   });
 
   it("has a label for every character", () => {
-    expect(BURN_LABEL.punchy).toBe("Punchy");
-    expect(BURN_LABEL.standard).toBe("Standard");
+    expect(BURN_LABEL.punchy).toBe("Short burn");
+    expect(BURN_LABEL.standard).toBe("Standard burn");
     expect(BURN_LABEL.long).toBe("Long burn");
   });
 });

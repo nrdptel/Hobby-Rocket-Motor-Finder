@@ -9,7 +9,7 @@ export function SparkyBadge({ sparky }: { sparky?: boolean }) {
       className="rounded border border-amber-400/70 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-amber-700 dark:border-amber-500/50 dark:text-amber-400"
       title="Sparky propellant — throws gold sparks (great at night; often restricted under fire bans)."
     >
-      ✨ sparky
+      sparky
     </span>
   );
 }

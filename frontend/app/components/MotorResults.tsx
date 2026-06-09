@@ -3,7 +3,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
+  BURN_LABEL,
   bestInStockPriceCents,
+  burnCharacter,
   formatBurn,
   formatImpulse,
   formatIsp,
@@ -27,7 +29,6 @@ import { PackNote } from "./PackNote";
 import { CertBadge } from "./CertBadge";
 import { PriceSignalTag } from "./PriceSignalTag";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
-import { BurnBadge } from "./BurnBadge";
 import { SparkyBadge } from "./SparkyBadge";
 import { ThrustSparkline } from "./ThrustSparkline";
 import { MotorAvailabilityBadge } from "./MotorAvailabilityBadge";
@@ -179,7 +180,6 @@ export function MotorResults({
                           <CertBadge impulseClass={m.impulse_class} />
                           {m.listings.length > 0 && <DiscontinuedBadge discontinued={m.discontinued} />}
                           <SparkyBadge sparky={m.sparky} />
-                          <BurnBadge motor={m} />
                           <MotorAvailabilityBadge
                             availability={availability[m.id]}
                             discontinued={m.discontinued}
@@ -198,6 +198,12 @@ export function MotorResults({
                         <span className="text-xs tabular-nums text-zinc-500">
                           {formatImpulse(m.total_impulse_ns)} · {formatThrust(m.avg_thrust_n)} ·{" "}
                           {formatBurn(m.burn_time_s)}
+                          {burnCharacter(m) && (
+                            <span title="Burn character — derived from the burn duration.">
+                              {" · "}
+                              {BURN_LABEL[burnCharacter(m)!]}
+                            </span>
+                          )}
                           {specificImpulseS(m) != null && (
                             <span title="Specific impulse — propellant efficiency (total impulse per unit propellant weight). Higher is more efficient.">
                               {" · "}

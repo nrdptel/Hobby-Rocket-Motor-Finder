@@ -47,7 +47,6 @@ import { PackNote } from "@/app/components/PackNote";
 import { PriceSignalTag } from "@/app/components/PriceSignalTag";
 import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
-import { BurnBadge } from "@/app/components/BurnBadge";
 import { SparkyBadge } from "@/app/components/SparkyBadge";
 import { ThrustCurveChart, type CurveSeries } from "@/app/components/ThrustCurveChart";
 import { NotifyButton } from "@/app/components/NotifyButton";
@@ -236,7 +235,6 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           <CertBadge impulseClass={motor.impulse_class} />
           {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
           <SparkyBadge sparky={motor.sparky} />
-          <BurnBadge motor={motor} />
         </div>
         <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
           {manufacturerLabel(motor.manufacturer)} · {motor.impulse_class}-class · {motor.diameter_mm}mm
