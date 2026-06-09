@@ -36,6 +36,7 @@ import { MotorCard } from "./MotorCard";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
 import { NotifyButton } from "./NotifyButton";
+import { CompareButton } from "./CompareButton";
 import { StarButton } from "./StarButton";
 import { StatusBadge } from "./StatusBadge";
 import { Substitutes } from "./Substitutes";
@@ -170,6 +171,7 @@ export function MotorResults({
                         <span className="flex items-center gap-1.5">
                           <StarButton motorId={m.id} designation={m.designation} />
                           <NotifyButton manufacturer={m.manufacturer} designation={m.designation} />
+                          <CompareButton motorId={m.id} designation={m.designation} />
                           <Link
                             href={motorPath(m)}
                             className="font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"

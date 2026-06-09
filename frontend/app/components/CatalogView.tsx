@@ -8,6 +8,7 @@ import type { CatalogAvailability } from "@/lib/history";
 import { rocketMatchesParams, useRockets, type RocketMotor } from "@/lib/rockets";
 import type { HistorySummary, Motor } from "@/lib/snapshot";
 import { useCatalogFilters } from "./CatalogFilters";
+import { CompareTray } from "./CompareTray";
 import { FilterBar } from "./FilterBar";
 import { MotorResults } from "./MotorResults";
 import { MyRockets } from "./MyRockets";
@@ -72,6 +73,14 @@ export function CatalogView({
     [hydrated, rockets, params],
   );
 
+  // Designation labels for every motor, so the compare tray can name any selected
+  // id even when the current filters would hide it.
+  const compareLabels = useMemo(() => {
+    const out: Record<number, string> = {};
+    for (const m of allMotors) out[m.id] = m.designation;
+    return out;
+  }, [allMotors]);
+
   return (
     <>
       <MyRockets
@@ -111,6 +120,8 @@ export function CatalogView({
         substitutes={substitutes}
         sparklines={sparklines}
       />
+
+      <CompareTray labels={compareLabels} />
     </>
   );
 }
