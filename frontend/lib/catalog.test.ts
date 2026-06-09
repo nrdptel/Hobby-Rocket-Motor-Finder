@@ -68,7 +68,6 @@ describe("parseCatalogParams", () => {
       burn: "punchy,long",
       sparky: "1",
       in_stock: "1",
-      sort: "price",
       order: "impulse",
       dir: "desc",
       starred: "1",
@@ -89,7 +88,6 @@ describe("parseCatalogParams", () => {
     expect(p.burn).toEqual(new Set(["punchy", "long"]));
     expect(p.sparky).toBe(true);
     expect(p.inStock).toBe(true);
-    expect(p.listingSort).toBe("price");
     expect(p.order).toBe("impulse");
     expect(p.dir).toBe("desc");
     expect(p.starredOnly).toBe(true);
@@ -103,7 +101,6 @@ describe("parseCatalogParams", () => {
   it("defaults everything for an empty getter", () => {
     expect(EMPTY.mfr.size).toBe(0);
     expect(EMPTY.inStock).toBe(false);
-    expect(EMPTY.listingSort).toBe("stock");
     expect(EMPTY.order).toBe("class");
     expect(EMPTY.dir).toBe("asc");
     expect(EMPTY.query).toBe("");
