@@ -6,7 +6,7 @@ import {
   loadSnapshot,
 } from "@/lib/snapshot";
 import { mergedCatalog } from "@/lib/catalogMotors";
-import { curveKey, loadCurves, sparkPath } from "@/lib/curves";
+import { buildShapeMap, curveKey, loadCurves, sparkPath } from "@/lib/curves";
 import { catalogAvailability } from "@/lib/history";
 import {
   CERT_LEVELS,
@@ -99,6 +99,10 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       if (d) sparklines[m.id] = d;
     }
   }
+  // Thrust-curve shape stats (peak / initial thrust + impulse centroid) for the
+  // flight-similarity substitute ranking — computed once server-side, shipped as
+  // a compact map keyed by manufacturer|designation.
+  const shapes = buildShapeMap(curveMap);
 
   // Available filter options derived from motors-with-listings (so we don't
   // offer pills that yield zero results).
@@ -192,6 +196,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           vendors={vendorFilterOptions}
           rocketMotors={rocketMotors}
           sparklines={sparklines}
+          shapes={shapes}
         />
       </CatalogFilterProvider>
 

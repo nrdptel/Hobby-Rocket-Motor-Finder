@@ -23,6 +23,7 @@ import {
   type MotorOrder,
   type SortDir,
   type Substitute,
+  type SubstituteShape,
 } from "./derive";
 import type { Motor } from "./snapshot";
 
@@ -131,7 +132,11 @@ export type CatalogView = {
  * Verbatim from app/page.tsx (filteredWithListings + substitutes). `allMotors` is
  * the unfiltered motors-with-listings set (substitutes search the whole catalog,
  * not the filtered view, so a usable swap isn't hidden by the active filters). */
-export function buildCatalogView(allMotors: readonly Motor[], p: CatalogParams): CatalogView {
+export function buildCatalogView(
+  allMotors: readonly Motor[],
+  p: CatalogParams,
+  shapes?: Record<string, SubstituteShape>,
+): CatalogView {
   const motors = filterCatalog(allMotors, p)
     .map((m) =>
       p.inStock ? { ...m, listings: m.listings.filter((l) => listingInStock(l.status)) } : m,
@@ -141,7 +146,7 @@ export function buildCatalogView(allMotors: readonly Motor[], p: CatalogParams):
   const substitutes: Record<number, Substitute[]> = {};
   for (const m of motors) {
     if (motorInStock(m)) continue;
-    const subs = findSubstitutes(m, allMotors).slice(0, 4).map(toSubstitute);
+    const subs = findSubstitutes(m, allMotors, shapes).slice(0, 4).map(toSubstitute);
     if (subs.length > 0) substitutes[m.id] = subs;
   }
   return { motors, substitutes };

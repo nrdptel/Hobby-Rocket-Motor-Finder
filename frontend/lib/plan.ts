@@ -3,7 +3,7 @@
 // across the tracked vendors — trading motor price against the number of separate
 // shipments (each shipment = one HAZMAT fee). Pure + unit-tested; no React/DOM.
 
-import { findSubstitutes, listingInStock } from "./derive";
+import { findSubstitutes, listingInStock, type SubstituteShape } from "./derive";
 import { packSize } from "./pack";
 import type { Motor } from "./snapshot";
 
@@ -252,10 +252,11 @@ export function buildSwapSuggestions(
   allMotors: readonly Motor[],
   excludeIds: ReadonlySet<number>,
   perMotor = 3,
+  shapes?: Record<string, SubstituteShape>,
 ): SwapSuggestion[] {
   return unavailable.map((soldOut) => ({
     soldOut,
-    swaps: findSubstitutes(soldOut, allMotors)
+    swaps: findSubstitutes(soldOut, allMotors, shapes)
       .filter((s) => !excludeIds.has(s.id))
       .slice(0, perMotor),
   }));

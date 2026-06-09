@@ -1083,6 +1083,58 @@ describe("findSubstitutes / motorInStock", () => {
   });
 });
 
+describe("findSubstitutes — curve-aware (best flight match)", () => {
+  // A sold-out target with a front-loaded curve: strong off the pad, centroid 0.40.
+  const target = makeMotor({
+    id: 1,
+    designation: "TGT",
+    diameter_mm: 29,
+    impulse_class: "H",
+    total_impulse_ns: 237,
+    listings: [makeListing({ status: "out_of_stock" })],
+  });
+  const cand = (id: number, designation: string) =>
+    makeMotor({
+      id,
+      designation,
+      diameter_mm: 29,
+      impulse_class: "H",
+      total_impulse_ns: 240, // within the ±15% band
+      listings: [makeListing({ status: "in_stock" })],
+    });
+
+  // shapes keyed by "manufacturer|designation" (makeMotor uses "AeroTech").
+  const shapes = {
+    "AeroTech|TGT": { peakN: 400, initialN: 300, centroid: 0.4 },
+    "AeroTech|CLOSE": { peakN: 390, initialN: 295, centroid: 0.42 }, // flies like TGT
+    "AeroTech|FAR": { peakN: 390, initialN: 295, centroid: 0.75 }, // back-loaded, different
+    "AeroTech|WEAK": { peakN: 390, initialN: 150, centroid: 0.42 }, // <70% liftoff → unsafe
+    "AeroTech|PUNCHY": { peakN: 700, initialN: 295, centroid: 0.42 }, // >160% peak → much harder
+  };
+
+  it("ranks the closer burn-shape match first when impulse ties", () => {
+    const subs = findSubstitutes(target, [target, cand(3, "FAR"), cand(2, "CLOSE")], shapes);
+    expect(subs.map((m) => m.id)).toEqual([2, 3]); // CLOSE (centroid 0.42) over FAR (0.75)
+  });
+
+  it("drops a swap that's too weak off the rail (rail-exit safety)", () => {
+    const subs = findSubstitutes(target, [target, cand(2, "CLOSE"), cand(4, "WEAK")], shapes);
+    expect(subs.map((m) => m.id)).toEqual([2]); // WEAK excluded
+  });
+
+  it("drops a swap that's dramatically punchier (much higher peak thrust)", () => {
+    const subs = findSubstitutes(target, [target, cand(2, "CLOSE"), cand(5, "PUNCHY")], shapes);
+    expect(subs.map((m) => m.id)).toEqual([2]); // PUNCHY excluded
+  });
+
+  it("falls back to the impulse + avg-thrust heuristic when no shapes are given", () => {
+    // Same candidates, but without a shapes map → the original behavior (both fit).
+    const a = cand(2, "CLOSE");
+    const b = cand(3, "FAR");
+    expect(findSubstitutes(target, [target, a, b]).map((m) => m.id).sort()).toEqual([2, 3]);
+  });
+});
+
 // Reload-case filter helpers.
 describe("caseKey / caseOptions", () => {
   it("caseKey returns the reload case for a reload", () => {

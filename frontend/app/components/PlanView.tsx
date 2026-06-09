@@ -11,6 +11,7 @@ import {
   manufacturerSlug,
   motorPath,
   safeHref,
+  type SubstituteShape,
 } from "@/lib/derive";
 import {
   bestSingleVendor,
@@ -37,7 +38,15 @@ const byDesignation = (a: Motor, b: Motor) => a.designation.localeCompare(b.desi
  * across the tracked vendors. The list is your ★ watchlist — OR a shared order
  * opened via a ?order= link (preview mode), which you can save to your own list.
  * Shareable (link) + exportable (plain text). All client-side. */
-export function PlanView({ allMotors }: { allMotors: Motor[] }) {
+export function PlanView({
+  allMotors,
+  shapes = {},
+}: {
+  allMotors: Motor[];
+  /** Thrust-curve shape stats for ranking swap suggestions, keyed by
+   * "manufacturer|designation". */
+  shapes?: Record<string, SubstituteShape>;
+}) {
   const { starred, hydrated, toggle } = useWatchlist();
   const [qty, setQty] = useState<Record<number, number>>({});
   const [shippingCents, setShippingCents] = useState(DEFAULT_SHIPPING_CENTS);
@@ -149,8 +158,8 @@ export function PlanView({ allMotors }: { allMotors: Motor[] }) {
   // buyable. Only on your own list (not a shared-order preview), and excluding
   // anything already starred so a swap you've added drops off the suggestions.
   const swapSuggestions = useMemo(
-    () => (previewing ? [] : buildSwapSuggestions(plan.unavailable, allMotors, starred)),
-    [previewing, plan.unavailable, allMotors, starred],
+    () => (previewing ? [] : buildSwapSuggestions(plan.unavailable, allMotors, starred, 3, shapes)),
+    [previewing, plan.unavailable, allMotors, starred, shapes],
   );
 
   const exitPreview = () => {
