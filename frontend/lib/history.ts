@@ -321,6 +321,113 @@ export function catalogAvailability(
   return out;
 }
 
+// One point in the cheapest-in-stock price history (a step series: the price
+// holds until the next point).
+export type PricePoint = { tMs: number; cents: number };
+
+export type PriceHistory = {
+  // Best (cheapest) in-stock per-unit price over time — only the points where it
+  // changes (a step series). Always has >= 2 distinct prices (else null).
+  points: PricePoint[];
+  lowCents: number;
+  highCents: number;
+  // Cheapest in-stock per-unit price right now, or null if out of stock everywhere.
+  currentCents: number | null;
+  trackStartMs: number;
+  nowMs: number;
+};
+
+/** The motor's cheapest in-stock per-unit price over time — one buyer-relevant
+ * line aggregated across every vendor (the min across listings at each moment),
+ * not a tangle of per-vendor lines. Built from the raw event log.
+ *
+ * Unlike availability, price is NOT cadence-sensitive (an observed price is real
+ * regardless of scrape gaps), so this uses the FULL recorded history, not the
+ * reliable-cadence epoch. Prices are per-unit (pack-aware) to match what's shown
+ * elsewhere, and guarded against noise (a reading wildly off the median is
+ * dropped). Returns null unless the best price actually MOVED — a flat line says
+ * nothing, so the chart only appears once there's a real trend. */
+export function buildPriceHistory(
+  listings: { url: string }[],
+  log: HistoryLog,
+  nowIso: string,
+): PriceHistory | null {
+  const now = parseMs(nowIso);
+  if (Number.isNaN(now)) return null;
+
+  const series = listings
+    .map((l) => ({ url: l.url, events: sortedEvents(log[l.url]?.events ?? []) }))
+    .filter((s) => s.events.length > 0);
+  if (series.length === 0) return null;
+
+  // Reference median of all observed in-stock per-unit prices, for the noise
+  // guard: a price more than ~2.5x off the median is almost certainly a misparse.
+  const observed: number[] = [];
+  for (const s of series) {
+    for (const e of s.events) {
+      if (!isInStock(e.status)) continue;
+      const p = unitPriceCents(e.price_cents, s.url);
+      if (p != null) observed.push(p);
+    }
+  }
+  if (observed.length === 0) return null;
+  observed.sort((a, b) => a - b);
+  const median = observed[Math.floor(observed.length / 2)];
+  const plausible = (p: number) => plausiblePair(p, median);
+
+  let trackStart = Infinity;
+  for (const s of series) {
+    const f = parseMs(s.events[0].t);
+    if (!Number.isNaN(f)) trackStart = Math.min(trackStart, f);
+  }
+  if (!Number.isFinite(trackStart)) return null;
+
+  // Cheapest in-stock per-unit price across all listings at time t. Each listing
+  // carries its last-known price forward while it stays in stock; a listing
+  // that's out of stock (or whose price reads as noise) doesn't compete.
+  const bestAt = (t: number): number | null => {
+    let best: number | null = null;
+    for (const s of series) {
+      let price: number | null = null;
+      let inStock = false;
+      for (const e of s.events) {
+        const m = parseMs(e.t);
+        if (Number.isNaN(m) || m > t) break;
+        inStock = isInStock(e.status);
+        if (e.price_cents != null) {
+          const p = unitPriceCents(e.price_cents, s.url);
+          if (p != null && plausible(p)) price = p;
+        }
+      }
+      if (inStock && price != null) best = best == null ? price : Math.min(best, price);
+    }
+    return best;
+  };
+
+  const breakpoints = [
+    ...new Set(
+      series.flatMap((s) =>
+        s.events.map((e) => parseMs(e.t)).filter((m) => !Number.isNaN(m) && m >= trackStart),
+      ),
+    ),
+  ].sort((a, b) => a - b);
+
+  const points: PricePoint[] = [];
+  for (const t of breakpoints) {
+    const b = bestAt(t);
+    if (b == null) continue;
+    if (points.length === 0 || points[points.length - 1].cents !== b) points.push({ tMs: t, cents: b });
+  }
+  if (points.length === 0) return null;
+
+  const cents = points.map((p) => p.cents);
+  const lowCents = Math.min(...cents);
+  const highCents = Math.max(...cents);
+  if (lowCents === highCents) return null; // never moved → nothing to chart
+
+  return { points, lowCents, highCents, currentCents: bestAt(now), trackStartMs: trackStart, nowMs: now };
+}
+
 /** Compact human duration like ``5 hours`` / ``3 days`` (min ``1 hour``). For
  * the "since tracking began (N)" window label. */
 export function formatWindow(ms: number): string {
