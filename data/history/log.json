@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-06-09T22:11:47+00:00",
+  "updated_at": "2026-06-09T23:11:54+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -3204,6 +3204,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1699
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 1999
         }
       ]
     },
@@ -3214,6 +3219,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1699
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 1999
         }
       ]
     },
@@ -3304,6 +3314,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2889
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3399
         }
       ]
     },
@@ -3314,6 +3329,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2889
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3399
         }
       ]
     },
@@ -3364,6 +3384,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1699
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 1999
         }
       ]
     },
@@ -3374,6 +3399,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1699
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 1999
         }
       ]
     },
@@ -3544,6 +3574,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2889
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3399
         }
       ]
     },
@@ -3554,6 +3589,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2889
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3399
         }
       ]
     },
@@ -3584,6 +3624,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 2549
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2999
         }
       ]
     },
@@ -3664,6 +3709,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -3674,6 +3724,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -3704,6 +3759,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -3714,6 +3774,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -3744,6 +3809,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -3754,6 +3824,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "special_order",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "special_order",
+          "price_cents": 4399
         }
       ]
     },
@@ -3854,6 +3929,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -3864,6 +3944,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -3874,6 +3959,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -3914,6 +4004,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -3924,6 +4019,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "special_order",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "special_order",
+          "price_cents": 3599
         }
       ]
     },
@@ -3974,6 +4074,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -3984,6 +4089,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -4054,6 +4164,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2167
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2549
         }
       ]
     },
@@ -4064,6 +4179,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2167
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2549
         }
       ]
     },
@@ -4074,6 +4194,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2167
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2549
         }
       ]
     },
@@ -4144,6 +4269,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2167
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2549
         }
       ]
     },
@@ -4154,6 +4284,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2167
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2549
         }
       ]
     },
@@ -4164,6 +4299,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 2167
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2549
         }
       ]
     },
@@ -4284,6 +4424,11 @@
           "t": "2026-05-31T02:57:50",
           "status": "special_order",
           "price_cents": 3654
+        },
+        {
+          "t": "2026-06-09T23:00:46+00:00",
+          "status": "special_order",
+          "price_cents": 4299
         }
       ]
     },
@@ -4294,6 +4439,11 @@
           "t": "2026-05-31T02:57:50",
           "status": "special_order",
           "price_cents": 3654
+        },
+        {
+          "t": "2026-06-09T23:00:46+00:00",
+          "status": "special_order",
+          "price_cents": 4299
         }
       ]
     },
@@ -4364,6 +4514,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -4374,6 +4529,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -4384,6 +4544,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -4434,6 +4599,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -4444,6 +4614,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "special_order",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "special_order",
+          "price_cents": 4399
         }
       ]
     },
@@ -4494,6 +4669,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -4504,6 +4684,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -4574,6 +4759,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -4584,6 +4774,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -4594,6 +4789,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3059
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3599
         }
       ]
     },
@@ -4624,6 +4824,11 @@
           "t": "2026-05-31T02:57:51",
           "status": "special_order",
           "price_cents": 3229
+        },
+        {
+          "t": "2026-06-09T23:00:47+00:00",
+          "status": "special_order",
+          "price_cents": 3799
         }
       ]
     },
@@ -4684,6 +4889,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -4694,6 +4904,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -4704,6 +4919,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -4774,6 +4994,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -4784,6 +5009,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -4794,6 +5024,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 1954
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2299
         }
       ]
     },
@@ -4959,6 +5194,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -4969,6 +5209,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "special_order",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "special_order",
+          "price_cents": 4399
         }
       ]
     },
@@ -4979,6 +5224,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3739
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -5009,6 +5259,11 @@
           "t": "2026-05-31T02:57:53",
           "status": "special_order",
           "price_cents": 2379
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2799
         }
       ]
     },
@@ -5049,6 +5304,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5079,6 +5339,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3654
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 4299
         }
       ]
     },
@@ -5139,6 +5404,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5149,6 +5419,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5219,6 +5494,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5229,6 +5509,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5239,6 +5524,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5309,6 +5599,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5319,6 +5614,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5329,6 +5629,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5359,6 +5664,11 @@
           "t": "2026-05-31T02:57:53",
           "status": "special_order",
           "price_cents": 2379
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2799
         }
       ]
     },
@@ -5394,6 +5704,11 @@
           "t": "2026-06-01T18:53:00+00:00",
           "status": "special_order",
           "price_cents": 2974
+        },
+        {
+          "t": "2026-06-09T23:00:52+00:00",
+          "status": "special_order",
+          "price_cents": 3499
         }
       ]
     },
@@ -5464,6 +5779,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "in_stock_with_count",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2599
         }
       ]
     },
@@ -5474,6 +5794,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5484,6 +5809,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5519,6 +5849,11 @@
           "t": "2026-06-01T18:53:00+00:00",
           "status": "special_order",
           "price_cents": 2974
+        },
+        {
+          "t": "2026-06-09T23:00:52+00:00",
+          "status": "special_order",
+          "price_cents": 3499
         }
       ]
     },
@@ -5559,6 +5894,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 3899
         }
       ]
     },
@@ -5629,6 +5969,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 4929
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 5799
         }
       ]
     },
@@ -5639,6 +5984,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 4929
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 5799
         }
       ]
     },
@@ -5649,6 +5999,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 4929
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 5799
         }
       ]
     },
@@ -5669,6 +6024,11 @@
           "t": "2026-05-31T02:57:54",
           "status": "special_order",
           "price_cents": 2974
+        },
+        {
+          "t": "2026-06-09T23:00:50+00:00",
+          "status": "special_order",
+          "price_cents": 3499
         }
       ]
     },
@@ -5689,6 +6049,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 3899
         }
       ]
     },
@@ -5759,6 +6124,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5769,6 +6139,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5779,6 +6154,11 @@
           "t": "2026-05-31T02:57:52",
           "status": "special_order",
           "price_cents": 2209
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 2599
         }
       ]
     },
@@ -5839,6 +6219,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5849,6 +6234,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5859,6 +6249,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5959,6 +6354,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5969,6 +6369,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -5979,6 +6384,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6009,6 +6419,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6019,6 +6434,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6029,6 +6449,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6149,6 +6574,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6159,6 +6589,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6169,6 +6604,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6179,6 +6619,11 @@
           "t": "2026-05-31T02:57:35",
           "status": "in_stock_with_count",
           "price_cents": 3314
+        },
+        {
+          "t": "2026-06-09T23:00:32+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 3899
         }
       ]
     },
@@ -6199,6 +6644,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 3654
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4299
         }
       ]
     },
@@ -6234,6 +6684,11 @@
           "t": "2026-06-01T18:52:56+00:00",
           "status": "special_order",
           "price_cents": 2719
+        },
+        {
+          "t": "2026-06-09T23:00:49+00:00",
+          "status": "special_order",
+          "price_cents": 3199
         }
       ]
     },
@@ -6269,6 +6724,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 4674
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 5499
         }
       ]
     },
@@ -6309,6 +6769,11 @@
           "t": "2026-05-31T02:57:57",
           "status": "special_order",
           "price_cents": 3824
+        },
+        {
+          "t": "2026-06-09T23:00:53+00:00",
+          "status": "special_order",
+          "price_cents": 4499
         }
       ]
     },
@@ -6339,6 +6804,11 @@
           "t": "2026-05-31T02:57:54",
           "status": "special_order",
           "price_cents": 2974
+        },
+        {
+          "t": "2026-06-09T23:00:50+00:00",
+          "status": "special_order",
+          "price_cents": 3499
         }
       ]
     },
@@ -6359,6 +6829,11 @@
           "t": "2026-05-31T02:57:57",
           "status": "special_order",
           "price_cents": 3909
+        },
+        {
+          "t": "2026-06-09T23:00:53+00:00",
+          "status": "special_order",
+          "price_cents": 4599
         }
       ]
     },
@@ -6394,6 +6869,11 @@
           "t": "2026-06-01T18:52:38+00:00",
           "status": "special_order",
           "price_cents": 4929
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 5799
         }
       ]
     },
@@ -6404,6 +6884,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 4929
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 5799
         }
       ]
     },
@@ -6434,6 +6919,11 @@
           "t": "2026-05-31T02:57:57",
           "status": "special_order",
           "price_cents": 3824
+        },
+        {
+          "t": "2026-06-09T23:00:53+00:00",
+          "status": "special_order",
+          "price_cents": 4499
         }
       ]
     },
@@ -6464,6 +6954,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 5354
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6299
         }
       ]
     },
@@ -6474,6 +6969,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 5354
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6299
         }
       ]
     },
@@ -6504,6 +7004,11 @@
           "t": "2026-05-31T02:57:54",
           "status": "special_order",
           "price_cents": 2974
+        },
+        {
+          "t": "2026-06-09T23:00:50+00:00",
+          "status": "special_order",
+          "price_cents": 3499
         }
       ]
     },
@@ -6534,6 +7039,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3994
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 4699
         }
       ]
     },
@@ -6564,6 +7074,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "special_order",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "special_order",
+          "price_cents": 6199
         }
       ]
     },
@@ -6594,6 +7109,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "special_order",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "special_order",
+          "price_cents": 6199
         }
       ]
     },
@@ -6629,6 +7149,11 @@
           "t": "2026-06-03T02:26:07+00:00",
           "status": "special_order",
           "price_cents": 3569
+        },
+        {
+          "t": "2026-06-09T23:00:51+00:00",
+          "status": "special_order",
+          "price_cents": 4199
         }
       ]
     },
@@ -6664,6 +7189,11 @@
           "t": "2026-06-03T02:26:07+00:00",
           "status": "special_order",
           "price_cents": 3569
+        },
+        {
+          "t": "2026-06-09T23:00:51+00:00",
+          "status": "special_order",
+          "price_cents": 4199
         }
       ]
     },
@@ -6694,6 +7224,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 4674
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 5499
         }
       ]
     },
@@ -6729,6 +7264,11 @@
           "t": "2026-06-03T02:26:07+00:00",
           "status": "special_order",
           "price_cents": 3569
+        },
+        {
+          "t": "2026-06-09T23:00:51+00:00",
+          "status": "special_order",
+          "price_cents": 4199
         }
       ]
     },
@@ -6759,6 +7299,11 @@
           "t": "2026-05-31T02:57:54",
           "status": "special_order",
           "price_cents": 2974
+        },
+        {
+          "t": "2026-06-09T23:00:50+00:00",
+          "status": "special_order",
+          "price_cents": 3499
         }
       ]
     },
@@ -6789,6 +7334,11 @@
           "t": "2026-05-31T02:57:57",
           "status": "special_order",
           "price_cents": 3824
+        },
+        {
+          "t": "2026-06-09T23:00:53+00:00",
+          "status": "special_order",
+          "price_cents": 4499
         }
       ]
     },
@@ -6824,6 +7374,11 @@
           "t": "2026-06-01T18:52:59+00:00",
           "status": "special_order",
           "price_cents": 3569
+        },
+        {
+          "t": "2026-06-09T23:00:51+00:00",
+          "status": "special_order",
+          "price_cents": 4199
         }
       ]
     },
@@ -6874,6 +7429,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 4674
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 5499
         }
       ]
     },
@@ -6894,6 +7454,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 5354
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 6299
         }
       ]
     },
@@ -6904,6 +7469,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "special_order",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "special_order",
+          "price_cents": 6199
         }
       ]
     },
@@ -6934,6 +7504,11 @@
           "t": "2026-05-31T02:57:57",
           "status": "special_order",
           "price_cents": 3824
+        },
+        {
+          "t": "2026-06-09T23:00:53+00:00",
+          "status": "special_order",
+          "price_cents": 4499
         }
       ]
     },
@@ -6954,6 +7529,11 @@
           "t": "2026-05-31T02:57:55",
           "status": "special_order",
           "price_cents": 3569
+        },
+        {
+          "t": "2026-06-09T23:00:51+00:00",
+          "status": "special_order",
+          "price_cents": 4199
         }
       ]
     },
@@ -6994,6 +7574,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3994
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 4699
         }
       ]
     },
@@ -7024,6 +7609,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3994
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 4699
         }
       ]
     },
@@ -7054,6 +7644,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 3994
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 4699
         }
       ]
     },
@@ -7084,6 +7679,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 3994
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4699
         }
       ]
     },
@@ -7114,6 +7714,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 5354
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6299
         }
       ]
     },
@@ -7164,6 +7769,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 5524
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6499
         }
       ]
     },
@@ -7194,6 +7804,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 5439
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6399
         }
       ]
     },
@@ -7224,6 +7839,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 8244
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 9699
         }
       ]
     },
@@ -7254,6 +7874,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 8244
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 9699
         }
       ]
     },
@@ -7274,6 +7899,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 9859
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 11599
         }
       ]
     },
@@ -7294,6 +7924,11 @@
           "t": "2026-05-31T02:58:04",
           "status": "special_order",
           "price_cents": 6374
+        },
+        {
+          "t": "2026-06-09T23:01:00+00:00",
+          "status": "special_order",
+          "price_cents": 7499
         }
       ]
     },
@@ -7334,6 +7969,11 @@
           "t": "2026-05-31T02:57:59",
           "status": "special_order",
           "price_cents": 6544
+        },
+        {
+          "t": "2026-06-09T23:00:55+00:00",
+          "status": "special_order",
+          "price_cents": 7699
         }
       ]
     },
@@ -7374,6 +8014,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "special_order",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "special_order",
+          "price_cents": 6199
         }
       ]
     },
@@ -7394,6 +8039,11 @@
           "t": "2026-05-31T02:58:04",
           "status": "special_order",
           "price_cents": 6374
+        },
+        {
+          "t": "2026-06-09T23:01:00+00:00",
+          "status": "special_order",
+          "price_cents": 7499
         }
       ]
     },
@@ -7424,6 +8074,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 5524
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6499
         }
       ]
     },
@@ -7444,6 +8099,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "special_order",
           "price_cents": 5354
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "special_order",
+          "price_cents": 6299
         }
       ]
     },
@@ -7499,6 +8159,11 @@
           "t": "2026-05-31T02:57:59",
           "status": "special_order",
           "price_cents": 6204
+        },
+        {
+          "t": "2026-06-09T23:00:55+00:00",
+          "status": "special_order",
+          "price_cents": 7299
         }
       ]
     },
@@ -7529,6 +8194,11 @@
           "t": "2026-05-31T02:58:04",
           "status": "special_order",
           "price_cents": 6374
+        },
+        {
+          "t": "2026-06-09T23:01:00+00:00",
+          "status": "special_order",
+          "price_cents": 7499
         }
       ]
     },
@@ -7559,6 +8229,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "in_stock_with_count",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6199
         }
       ]
     },
@@ -7599,6 +8274,11 @@
           "t": "2026-05-31T02:58:04",
           "status": "special_order",
           "price_cents": 6374
+        },
+        {
+          "t": "2026-06-09T23:01:00+00:00",
+          "status": "special_order",
+          "price_cents": 7499
         }
       ]
     },
@@ -7629,6 +8309,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "special_order",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "special_order",
+          "price_cents": 6199
         }
       ]
     },
@@ -7659,6 +8344,11 @@
           "t": "2026-05-31T02:58:00",
           "status": "in_stock_with_count",
           "price_cents": 7054
+        },
+        {
+          "t": "2026-06-09T23:00:56+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 8299
         }
       ]
     },
@@ -7689,6 +8379,11 @@
           "t": "2026-05-31T02:57:59",
           "status": "in_stock_with_count",
           "price_cents": 6204
+        },
+        {
+          "t": "2026-06-09T23:00:55+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 7299
         }
       ]
     },
@@ -7719,6 +8414,11 @@
           "t": "2026-05-31T02:57:59",
           "status": "special_order",
           "price_cents": 6204
+        },
+        {
+          "t": "2026-06-09T23:00:55+00:00",
+          "status": "special_order",
+          "price_cents": 7299
         }
       ]
     },
@@ -7749,6 +8449,11 @@
           "t": "2026-05-31T02:58:01",
           "status": "special_order",
           "price_cents": 7649
+        },
+        {
+          "t": "2026-06-09T23:00:57+00:00",
+          "status": "special_order",
+          "price_cents": 8999
         }
       ]
     },
@@ -7779,6 +8484,11 @@
           "t": "2026-05-31T02:57:58",
           "status": "in_stock_with_count",
           "price_cents": 5269
+        },
+        {
+          "t": "2026-06-09T23:00:54+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6199
         }
       ]
     },
@@ -7809,6 +8519,11 @@
           "t": "2026-05-31T02:58:00",
           "status": "in_stock_with_count",
           "price_cents": 7054
+        },
+        {
+          "t": "2026-06-09T23:00:56+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 8299
         }
       ]
     },
@@ -7854,6 +8569,11 @@
           "t": "2026-05-31T02:58:00",
           "status": "in_stock_with_count",
           "price_cents": 7054
+        },
+        {
+          "t": "2026-06-09T23:00:56+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 8299
         }
       ]
     },
@@ -7894,6 +8614,11 @@
           "t": "2026-05-31T02:58:04",
           "status": "special_order",
           "price_cents": 6969
+        },
+        {
+          "t": "2026-06-09T23:01:00+00:00",
+          "status": "special_order",
+          "price_cents": 8199
         }
       ]
     },
@@ -7924,6 +8649,11 @@
           "t": "2026-05-31T02:57:59",
           "status": "special_order",
           "price_cents": 6544
+        },
+        {
+          "t": "2026-06-09T23:00:55+00:00",
+          "status": "special_order",
+          "price_cents": 7699
         }
       ]
     },
@@ -7954,6 +8684,11 @@
           "t": "2026-05-31T02:58:01",
           "status": "special_order",
           "price_cents": 7649
+        },
+        {
+          "t": "2026-06-09T23:00:57+00:00",
+          "status": "special_order",
+          "price_cents": 8999
         }
       ]
     },
@@ -7984,6 +8719,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 8754
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 10299
         }
       ]
     },
@@ -8014,6 +8754,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 8754
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 10299
         }
       ]
     },
@@ -8044,6 +8789,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "in_stock_with_count",
           "price_cents": 9859
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 11599
         }
       ]
     },
@@ -8074,6 +8824,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 11559
+        },
+        {
+          "t": "2026-06-09T23:01:03+00:00",
+          "status": "special_order",
+          "price_cents": 13599
         }
       ]
     },
@@ -8109,6 +8864,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "in_stock_with_count",
           "price_cents": 12664
+        },
+        {
+          "t": "2026-06-09T23:01:03+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 14899
         }
       ]
     },
@@ -8139,6 +8899,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8159,6 +8924,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8189,6 +8959,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 10964
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 12899
         }
       ]
     },
@@ -8219,6 +8994,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8249,6 +9029,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8279,6 +9064,11 @@
           "t": "2026-05-31T02:58:01",
           "status": "special_order",
           "price_cents": 8159
+        },
+        {
+          "t": "2026-06-09T23:00:57+00:00",
+          "status": "special_order",
+          "price_cents": 9599
         }
       ]
     },
@@ -8314,6 +9104,11 @@
           "t": "2026-05-31T02:58:01",
           "status": "special_order",
           "price_cents": 8159
+        },
+        {
+          "t": "2026-06-09T23:00:57+00:00",
+          "status": "special_order",
+          "price_cents": 9599
         }
       ]
     },
@@ -8354,6 +9149,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 11559
+        },
+        {
+          "t": "2026-06-09T23:01:03+00:00",
+          "status": "special_order",
+          "price_cents": 13599
         }
       ]
     },
@@ -8384,6 +9184,11 @@
           "t": "2026-05-31T02:58:01",
           "status": "special_order",
           "price_cents": 8159
+        },
+        {
+          "t": "2026-06-09T23:00:57+00:00",
+          "status": "special_order",
+          "price_cents": 9599
         }
       ]
     },
@@ -8414,6 +9219,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 8754
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 10299
         }
       ]
     },
@@ -8444,6 +9254,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 16799
         }
       ]
     },
@@ -8474,6 +9289,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8504,6 +9324,11 @@
           "t": "2026-05-31T02:58:01",
           "status": "special_order",
           "price_cents": 8159
+        },
+        {
+          "t": "2026-06-09T23:00:57+00:00",
+          "status": "special_order",
+          "price_cents": 9599
         }
       ]
     },
@@ -8539,6 +9364,11 @@
           "t": "2026-06-08T23:00:51+00:00",
           "status": "special_order",
           "price_cents": 10964
+        },
+        {
+          "t": "2026-06-09T23:00:59+00:00",
+          "status": "special_order",
+          "price_cents": 12899
         }
       ]
     },
@@ -8559,6 +9389,11 @@
           "t": "2026-05-31T02:58:02",
           "status": "special_order",
           "price_cents": 11050
+        },
+        {
+          "t": "2026-06-09T23:00:58+00:00",
+          "status": "special_order",
+          "price_cents": 13000
         }
       ]
     },
@@ -8589,6 +9424,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 11559
+        },
+        {
+          "t": "2026-06-09T23:01:03+00:00",
+          "status": "special_order",
+          "price_cents": 13599
         }
       ]
     },
@@ -8619,6 +9459,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8649,6 +9494,11 @@
           "t": "2026-05-31T02:58:02",
           "status": "special_order",
           "price_cents": 9859
+        },
+        {
+          "t": "2026-06-09T23:00:58+00:00",
+          "status": "special_order",
+          "price_cents": 11599
         }
       ]
     },
@@ -8669,6 +9519,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8704,6 +9559,11 @@
           "t": "2026-06-04T19:41:02+00:00",
           "status": "special_order",
           "price_cents": 11559
+        },
+        {
+          "t": "2026-06-09T23:01:03+00:00",
+          "status": "special_order",
+          "price_cents": 13599
         }
       ]
     },
@@ -8734,6 +9594,11 @@
           "t": "2026-05-31T02:58:02",
           "status": "special_order",
           "price_cents": 9859
+        },
+        {
+          "t": "2026-06-09T23:00:58+00:00",
+          "status": "special_order",
+          "price_cents": 11599
         }
       ]
     },
@@ -8764,6 +9629,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8784,6 +9654,11 @@
           "t": "2026-05-31T02:58:06",
           "status": "special_order",
           "price_cents": 9349
+        },
+        {
+          "t": "2026-06-09T23:01:02+00:00",
+          "status": "special_order",
+          "price_cents": 10999
         }
       ]
     },
@@ -8814,6 +9689,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 16404
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 19299
         }
       ]
     },
@@ -8844,6 +9724,11 @@
           "t": "2026-05-31T02:58:11",
           "status": "special_order",
           "price_cents": 17254
+        },
+        {
+          "t": "2026-06-09T23:01:07+00:00",
+          "status": "special_order",
+          "price_cents": 20299
         }
       ]
     },
@@ -8884,6 +9769,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -8914,6 +9804,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -8944,6 +9839,11 @@
           "t": "2026-05-31T02:58:08",
           "status": "in_stock_with_count",
           "price_cents": 19804
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 23299
         }
       ]
     },
@@ -8984,6 +9884,11 @@
           "t": "2026-05-31T02:58:11",
           "status": "special_order",
           "price_cents": 21249
+        },
+        {
+          "t": "2026-06-09T23:01:07+00:00",
+          "status": "special_order",
+          "price_cents": 24999
         }
       ]
     },
@@ -9019,6 +9924,11 @@
           "t": "2026-06-08T23:00:56+00:00",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9039,6 +9949,11 @@
           "t": "2026-05-31T02:58:16",
           "status": "special_order",
           "price_cents": 21844
+        },
+        {
+          "t": "2026-06-09T23:01:12+00:00",
+          "status": "special_order",
+          "price_cents": 25699
         }
       ]
     },
@@ -9069,6 +9984,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9089,6 +10009,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 29494
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 34699
         }
       ]
     },
@@ -9119,6 +10044,11 @@
           "t": "2026-05-31T02:58:08",
           "status": "special_order",
           "price_cents": 19804
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 23299
         }
       ]
     },
@@ -9149,6 +10079,11 @@
           "t": "2026-05-31T02:58:08",
           "status": "special_order",
           "price_cents": 19804
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 23299
         }
       ]
     },
@@ -9179,6 +10114,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 16404
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 19299
         }
       ]
     },
@@ -9209,6 +10149,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 25074
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 29499
         }
       ]
     },
@@ -9239,6 +10184,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9269,6 +10219,11 @@
           "t": "2026-05-31T02:58:08",
           "status": "in_stock_with_count",
           "price_cents": 19804
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 23299
         }
       ]
     },
@@ -9289,6 +10244,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9319,6 +10279,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9349,6 +10314,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "in_stock_with_count",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 16799
         }
       ]
     },
@@ -9379,6 +10349,11 @@
           "t": "2026-05-31T02:58:11",
           "status": "special_order",
           "price_cents": 17254
+        },
+        {
+          "t": "2026-06-09T23:01:07+00:00",
+          "status": "special_order",
+          "price_cents": 20299
         }
       ]
     },
@@ -9409,6 +10384,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9439,6 +10419,11 @@
           "t": "2026-05-31T02:58:08",
           "status": "in_stock_with_count",
           "price_cents": 19804
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 23299
         }
       ]
     },
@@ -9469,6 +10454,11 @@
           "t": "2026-05-31T02:58:11",
           "status": "in_stock_with_count",
           "price_cents": 14789
+        },
+        {
+          "t": "2026-06-09T23:01:06+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 17399
         }
       ]
     },
@@ -9499,6 +10489,11 @@
           "t": "2026-05-31T02:58:11",
           "status": "in_stock_with_count",
           "price_cents": 17254
+        },
+        {
+          "t": "2026-06-09T23:01:07+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 20299
         }
       ]
     },
@@ -9529,6 +10524,11 @@
           "t": "2026-05-31T02:58:07",
           "status": "special_order",
           "price_cents": 14279
+        },
+        {
+          "t": "2026-06-09T23:01:04+00:00",
+          "status": "special_order",
+          "price_cents": 16799
         }
       ]
     },
@@ -9574,6 +10574,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 25074
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 29499
         }
       ]
     },
@@ -9604,6 +10609,11 @@
           "t": "2026-05-31T02:58:09",
           "status": "in_stock_with_count",
           "price_cents": 21844
+        },
+        {
+          "t": "2026-06-09T23:01:05+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 25699
         }
       ]
     },
@@ -9639,6 +10649,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 30090
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 35400
         }
       ]
     },
@@ -9679,6 +10694,11 @@
           "t": "2026-05-31T02:58:09",
           "status": "special_order",
           "price_cents": 22949
+        },
+        {
+          "t": "2026-06-09T23:01:05+00:00",
+          "status": "special_order",
+          "price_cents": 26999
         }
       ]
     },
@@ -9714,6 +10734,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "in_stock_with_count",
           "price_cents": 24649
+        },
+        {
+          "t": "2026-06-09T23:01:08+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 28999
         }
       ]
     },
@@ -9749,6 +10774,11 @@
           "t": "2026-05-31T02:58:14",
           "status": "special_order",
           "price_cents": 38759
+        },
+        {
+          "t": "2026-06-09T23:01:10+00:00",
+          "status": "special_order",
+          "price_cents": 45599
         }
       ]
     },
@@ -9779,6 +10809,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 24649
+        },
+        {
+          "t": "2026-06-09T23:01:08+00:00",
+          "status": "special_order",
+          "price_cents": 28999
         }
       ]
     },
@@ -9819,6 +10854,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 24649
+        },
+        {
+          "t": "2026-06-09T23:01:08+00:00",
+          "status": "special_order",
+          "price_cents": 28999
         }
       ]
     },
@@ -9849,6 +10889,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 32044
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "special_order",
+          "price_cents": 37699
         }
       ]
     },
@@ -9879,6 +10924,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 24649
+        },
+        {
+          "t": "2026-06-09T23:01:08+00:00",
+          "status": "special_order",
+          "price_cents": 28999
         }
       ]
     },
@@ -9909,6 +10959,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 25839
+        },
+        {
+          "t": "2026-06-09T23:01:08+00:00",
+          "status": "special_order",
+          "price_cents": 30399
         }
       ]
     },
@@ -9939,6 +10994,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "in_stock_with_count",
           "price_cents": 32044
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 37699
         }
       ]
     },
@@ -9959,6 +11019,11 @@
           "t": "2026-05-31T02:58:17",
           "status": "special_order",
           "price_cents": 39269
+        },
+        {
+          "t": "2026-06-09T23:01:13+00:00",
+          "status": "special_order",
+          "price_cents": 46199
         }
       ]
     },
@@ -9969,6 +11034,11 @@
           "t": "2026-05-31T02:58:17",
           "status": "special_order",
           "price_cents": 36294
+        },
+        {
+          "t": "2026-06-09T23:01:13+00:00",
+          "status": "special_order",
+          "price_cents": 42699
         }
       ]
     },
@@ -9999,6 +11069,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 24649
+        },
+        {
+          "t": "2026-06-09T23:01:08+00:00",
+          "status": "special_order",
+          "price_cents": 28999
         }
       ]
     },
@@ -10019,6 +11094,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 64599
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 75999
         }
       ]
     },
@@ -10049,6 +11129,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 32044
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "special_order",
+          "price_cents": 37699
         }
       ]
     },
@@ -10059,6 +11144,11 @@
           "t": "2026-05-31T02:58:18",
           "status": "in_stock_with_count",
           "price_cents": 54569
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 64199
         }
       ]
     },
@@ -10089,6 +11179,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "in_stock_with_count",
           "price_cents": 32044
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 37699
         }
       ]
     },
@@ -10119,6 +11214,11 @@
           "t": "2026-05-31T02:58:14",
           "status": "special_order",
           "price_cents": 38725
+        },
+        {
+          "t": "2026-06-09T23:01:10+00:00",
+          "status": "special_order",
+          "price_cents": 45559
         }
       ]
     },
@@ -10149,6 +11249,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 60009
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 70599
         }
       ]
     },
@@ -10179,6 +11284,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "in_stock_with_count",
           "price_cents": 66299
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 77999
         }
       ]
     },
@@ -10199,6 +11309,11 @@
           "t": "2026-05-31T02:58:18",
           "status": "in_stock_with_count",
           "price_cents": 54569
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 64199
         }
       ]
     },
@@ -10219,6 +11334,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 32044
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "special_order",
+          "price_cents": 37699
         }
       ]
     },
@@ -10249,6 +11369,11 @@
           "t": "2026-05-31T02:58:14",
           "status": "special_order",
           "price_cents": 38759
+        },
+        {
+          "t": "2026-06-09T23:01:10+00:00",
+          "status": "special_order",
+          "price_cents": 45599
         }
       ]
     },
@@ -10259,6 +11384,11 @@
           "t": "2026-05-31T02:58:18",
           "status": "in_stock_with_count",
           "price_cents": 54569
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 64199
         }
       ]
     },
@@ -10289,6 +11419,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 32044
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "special_order",
+          "price_cents": 37699
         }
       ]
     },
@@ -10299,6 +11434,11 @@
           "t": "2026-05-31T02:58:19",
           "status": "in_stock_with_count",
           "price_cents": 80325
+        },
+        {
+          "t": "2026-06-09T23:01:15+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 94500
         }
       ]
     },
@@ -10319,6 +11459,11 @@
           "t": "2026-05-31T02:58:18",
           "status": "special_order",
           "price_cents": 54569
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "special_order",
+          "price_cents": 64199
         }
       ]
     },
@@ -10349,6 +11494,11 @@
           "t": "2026-05-31T02:58:15",
           "status": "special_order",
           "price_cents": 45814
+        },
+        {
+          "t": "2026-06-09T23:01:11+00:00",
+          "status": "special_order",
+          "price_cents": 53899
         }
       ]
     },
@@ -10369,6 +11519,11 @@
           "t": "2026-05-31T02:58:19",
           "status": "in_stock_with_count",
           "price_cents": 80325
+        },
+        {
+          "t": "2026-06-09T23:01:15+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 94500
         }
       ]
     },
@@ -10399,6 +11554,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 34509
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "special_order",
+          "price_cents": 40599
         }
       ]
     },
@@ -10409,6 +11569,11 @@
           "t": "2026-05-31T02:58:18",
           "status": "special_order",
           "price_cents": 54569
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "special_order",
+          "price_cents": 64199
         }
       ]
     },
@@ -10429,6 +11594,11 @@
           "t": "2026-05-31T02:58:13",
           "status": "special_order",
           "price_cents": 34509
+        },
+        {
+          "t": "2026-06-09T23:01:09+00:00",
+          "status": "special_order",
+          "price_cents": 40599
         }
       ]
     },
@@ -10449,6 +11619,11 @@
           "t": "2026-05-31T02:58:18",
           "status": "special_order",
           "price_cents": 54569
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "special_order",
+          "price_cents": 64199
         }
       ]
     },
@@ -10474,6 +11649,11 @@
           "t": "2026-06-04T19:41:14+00:00",
           "status": "special_order",
           "price_cents": 80325
+        },
+        {
+          "t": "2026-06-09T23:01:15+00:00",
+          "status": "special_order",
+          "price_cents": 94500
         }
       ]
     },
@@ -10499,6 +11679,11 @@
           "t": "2026-06-04T19:41:13+00:00",
           "status": "special_order",
           "price_cents": 58904
+        },
+        {
+          "t": "2026-06-09T23:01:14+00:00",
+          "status": "special_order",
+          "price_cents": 69299
         }
       ]
     },
@@ -10519,6 +11704,11 @@
           "t": "2026-05-31T02:58:19",
           "status": "special_order",
           "price_cents": 83895
+        },
+        {
+          "t": "2026-06-09T23:01:15+00:00",
+          "status": "special_order",
+          "price_cents": 98700
         }
       ]
     },
@@ -10549,6 +11739,11 @@
           "t": "2026-05-31T02:58:14",
           "status": "special_order",
           "price_cents": 40374
+        },
+        {
+          "t": "2026-06-09T23:01:10+00:00",
+          "status": "special_order",
+          "price_cents": 47499
         }
       ]
     },
@@ -10579,6 +11774,11 @@
           "t": "2026-05-31T02:58:15",
           "status": "special_order",
           "price_cents": 49129
+        },
+        {
+          "t": "2026-06-09T23:01:11+00:00",
+          "status": "special_order",
+          "price_cents": 57799
         }
       ]
     },
@@ -10664,6 +11864,11 @@
           "t": "2026-05-31T02:57:44",
           "status": "special_order",
           "price_cents": 77999
+        },
+        {
+          "t": "2026-06-09T23:00:40+00:00",
+          "status": "special_order",
+          "price_cents": 91763
         }
       ]
     },
@@ -11159,6 +12364,11 @@
           "t": "2026-05-31T02:57:34",
           "status": "special_order",
           "price_cents": 5949
+        },
+        {
+          "t": "2026-06-09T23:00:31+00:00",
+          "status": "special_order",
+          "price_cents": 6999
         }
       ]
     },
