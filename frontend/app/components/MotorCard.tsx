@@ -64,38 +64,30 @@ export function MotorCard({
 }) {
   return (
     <article className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
-      <div className="flex items-baseline justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-1.5">
-          <StarButton motorId={motor.id} designation={motor.designation} />
-          <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
-          <Link
-            href={motorPath(motor)}
-            className="font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
-            title={`${motor.designation} details, specs & all vendors`}
-          >
-            {motor.designation}
-          </Link>
-          <CertBadge impulseClass={motor.impulse_class} />
-          {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
-          <SparkyBadge sparky={motor.sparky} />
-          <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
-        </div>
-        <div className="text-right text-xs text-zinc-500 dark:text-zinc-400">
-          {showManufacturer && (
-            <div className="text-zinc-600 dark:text-zinc-300">
-              {manufacturerLabel(motor.manufacturer)}
-            </div>
-          )}
-          <div>
-            {motor.impulse_class} · {motor.diameter_mm}mm
-            {motor.propellant ? ` · ${motor.propellant}` : ""}
-            {motor.case_info
-              ? ` · ${motor.case_info}`
-              : motor.motor_type === "SU"
-                ? " · single use"
-                : ""}
-          </div>
-        </div>
+      <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+        <StarButton motorId={motor.id} designation={motor.designation} />
+        <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
+        <Link
+          href={motorPath(motor)}
+          className="whitespace-nowrap font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
+          title={`${motor.designation} details, specs & all vendors`}
+        >
+          {motor.designation}
+        </Link>
+        <CertBadge impulseClass={motor.impulse_class} />
+        {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
+        <SparkyBadge sparky={motor.sparky} />
+        <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
+      </div>
+      <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+        {showManufacturer ? `${manufacturerLabel(motor.manufacturer)} · ` : ""}
+        {motor.impulse_class} · {motor.diameter_mm}mm
+        {motor.propellant ? ` · ${motor.propellant}` : ""}
+        {motor.case_info
+          ? ` · ${motor.case_info}`
+          : motor.motor_type === "SU"
+            ? " · single use"
+            : ""}
       </div>
 
       <div className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-zinc-500 tabular-nums">
