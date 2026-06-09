@@ -48,3 +48,15 @@ summary:focus-visible,
   outline-offset: 2px;
   border-radius: 3px;
 }
+
+/* The page <main> is a flex child of <body> (a flex column) with `mx-auto` +
+   `max-w-*` and no explicit width, so it shrink-to-fits its content. A wide
+   child (e.g. the vendor table on a motor page) makes it grow past the viewport
+   — on mobile that means horizontal scroll, or the browser scaling the whole
+   layout down to fit (which left the top Pride bar short of the right edge).
+   Pinning width to 100% caps main at the viewport (still bounded by max-w-*);
+   wide children scroll inside their own overflow-x containers instead. */
+body > main {
+  width: 100%;
+  min-width: 0;
+}
