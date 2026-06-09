@@ -30,7 +30,7 @@ export default function PrivacyPage() {
           </h2>
           <p className="mt-2">
             Only your <strong>email address</strong>, and only if you choose to sign up for a restock
-            alert (the 🔔 on a motor, or an alert for a saved rocket). Nothing else — no name, no
+            alert (the bell on a motor, or an alert for a saved rocket). Nothing else — no name, no
             payment details, no account.
           </p>
         </section>

@@ -13,7 +13,7 @@ export function SiteHeader() {
         href="/"
         className="text-sm font-semibold tracking-tight text-zinc-900 transition hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-300"
       >
-        🚀 HPR Motor Finder
+        HPR Motor Finder
       </Link>
       <ThemeToggle />
     </div>

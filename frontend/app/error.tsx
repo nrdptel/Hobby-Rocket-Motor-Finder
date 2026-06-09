@@ -10,10 +10,7 @@ import Link from "next/link";
 export default function Error({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center px-6 text-center">
-      <p className="text-4xl" aria-hidden>
-        🚀
-      </p>
-      <h1 className="mt-4 text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
+      <h1 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
         Something went wrong loading the data
       </h1>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">

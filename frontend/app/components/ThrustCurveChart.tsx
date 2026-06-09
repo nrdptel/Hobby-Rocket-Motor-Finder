@@ -10,7 +10,8 @@ export type CurveSeries = {
 // Plot geometry (SVG user units; the chart scales responsively via viewBox).
 const W = 640;
 const H = 220;
-const PAD_L = 6; // small left inset so the y-max label isn't clipped
+const PAD_L = 40; // left gutter so the y-max (peak-thrust) label sits beside the
+// plot, never under the curve
 const PAD_B = 16; // room for the x-axis baseline + time label
 
 // Distinct, theme-legible colors for overlay (substitute) curves.
@@ -73,6 +74,15 @@ export function ThrustCurveChart({
         aria-label={ariaLabel}
         preserveAspectRatio="none"
       >
+        {/* peak-thrust (y max) label, in the left gutter beside the plot top */}
+        <text
+          x={PAD_L - 5}
+          y={11}
+          textAnchor="end"
+          className="fill-zinc-500 text-[10px] dark:fill-zinc-400"
+        >
+          {Math.round(maxF)} N
+        </text>
         <g transform={`translate(${PAD_L},0)`}>
           {/* x-axis baseline (thrust = 0) */}
           <line
@@ -98,10 +108,7 @@ export function ThrustCurveChart({
               />
             ) : null,
           )}
-          {/* peak-thrust (y max) + burn-time (x max) labels */}
-          <text x={2} y={11} className="fill-zinc-500 text-[10px] dark:fill-zinc-400">
-            {Math.round(maxF)} N
-          </text>
+          {/* burn-time (x max) label, below the baseline at the right edge */}
           <text
             x={plotW}
             y={H - 3}

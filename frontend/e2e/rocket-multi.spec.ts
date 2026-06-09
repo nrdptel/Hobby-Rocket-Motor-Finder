@@ -32,7 +32,8 @@ test("a rocket can pin multiple impulse classes via the multi-select", async ({ 
     .poll(() => new URL(page.url()).searchParams.get("class"))
     .toMatch(/^[A-O],[A-O]$/);
 
-  // ...and the saved rocket chip (the 🚀-prefixed one, vs. its edit/delete
-  // siblings) summarizes them as "X/Y-class".
-  await expect(page.getByRole("button", { name: /🚀.*[A-O]\/[A-O]-class/ })).toBeVisible();
+  // ...and the saved rocket chip summarizes them as "X/Y-class". Its accessible
+  // name starts with the diameter ("38mm · …"), which distinguishes it from the
+  // "Edit rocket …" / "Delete rocket …" sibling buttons.
+  await expect(page.getByRole("button", { name: /^\d+mm .*[A-O]\/[A-O]-class/ })).toBeVisible();
 });

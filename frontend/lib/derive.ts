@@ -106,8 +106,8 @@ export function burnCharacter(m: Pick<Motor, "burn_time_s">): BurnCharacter | nu
 
 /** Human label for each burn character. */
 export const BURN_LABEL: Record<BurnCharacter, string> = {
-  punchy: "Punchy",
-  standard: "Standard",
+  punchy: "Short burn",
+  standard: "Standard burn",
   long: "Long burn",
 };
 
