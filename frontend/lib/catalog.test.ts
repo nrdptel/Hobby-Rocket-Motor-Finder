@@ -75,6 +75,8 @@ describe("parseCatalogParams", () => {
       q: "  J90  ",
       imin: "1000",
       imax: "5000",
+      pmin: "50",
+      pmax: "200",
     };
     const p = parseCatalogParams((k) => q[k]);
     expect(p.mfr).toEqual(new Set(["AeroTech", "Cesaroni"]));
@@ -94,6 +96,8 @@ describe("parseCatalogParams", () => {
     expect(p.query).toBe("j90"); // trimmed + lowercased
     expect(p.minImpulse).toBe(1000);
     expect(p.maxImpulse).toBe(5000);
+    expect(p.minPriceCents).toBe(5000); // $50 → cents
+    expect(p.maxPriceCents).toBe(20000); // $200 → cents
   });
 
   it("defaults everything for an empty getter", () => {
@@ -106,6 +110,8 @@ describe("parseCatalogParams", () => {
     expect(EMPTY.minImpulse).toBeNull();
     expect(EMPTY.burn.size).toBe(0);
     expect(EMPTY.sparky).toBe(false);
+    expect(EMPTY.minPriceCents).toBeNull();
+    expect(EMPTY.maxPriceCents).toBeNull();
   });
 });
 
@@ -128,6 +134,14 @@ describe("filterCatalog — each dimension narrows like the original page", () =
   it("in-stock only", () => expect(ids({ ...EMPTY, inStock: true }).sort()).toEqual([1, 3]));
   it("impulse band", () =>
     expect(ids({ ...EMPTY, minImpulse: 1000, maxImpulse: 2200 })).toEqual([1]));
+  // CATALOG cheapest-in-stock prices: motor 1 = $70 (in stock), motor 3 = $30
+  // (in stock), motor 2 = none (out of stock).
+  it("price band filters on the cheapest in-stock price", () =>
+    expect(ids({ ...EMPTY, minPriceCents: 4000, maxPriceCents: 8000 })).toEqual([1]));
+  it("price max-only keeps the cheaper in-stock motor", () =>
+    expect(ids({ ...EMPTY, maxPriceCents: 5000 })).toEqual([3]));
+  it("a sold-out motor (no in-stock price) drops out when a price bound is set", () =>
+    expect(ids({ ...EMPTY, minPriceCents: 1 }).sort()).toEqual([1, 3]));
   it("query matches designation/common/variety", () =>
     expect(ids({ ...EMPTY, query: "k530" })).toEqual([2]));
 

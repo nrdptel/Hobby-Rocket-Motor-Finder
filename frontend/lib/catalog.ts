@@ -9,6 +9,7 @@ import {
   burnCharacter,
   caseKey,
   certClasses,
+  cheapestInStockCents,
   findSubstitutes,
   groupByDelay,
   listingInStock,
@@ -45,6 +46,10 @@ export type CatalogParams = {
   query: string; // already trimmed + lowercased
   minImpulse: number | null;
   maxImpulse: number | null;
+  // Cheapest-in-stock price band, in CENTS (the URL carries dollars). A motor
+  // with no in-stock price is excluded when either bound is set.
+  minPriceCents: number | null;
+  maxPriceCents: number | null;
 };
 
 function setParam(raw: string | undefined): Set<string> {
@@ -55,6 +60,13 @@ function setParam(raw: string | undefined): Set<string> {
 function numParam(raw: string | undefined): number | null {
   const n = raw != null && raw.trim() !== "" ? Number(raw) : NaN;
   return Number.isFinite(n) ? n : null;
+}
+
+// The price filter is entered + stored in dollars (what shoppers think in); the
+// catalog works in cents, so convert at parse time.
+function dollarsToCents(raw: string | undefined): number | null {
+  const dollars = numParam(raw);
+  return dollars == null ? null : Math.round(dollars * 100);
 }
 
 /** Parse catalog filter params from any single-value getter — `URLSearchParams.get`
@@ -79,6 +91,8 @@ export function parseCatalogParams(get: (key: string) => string | undefined): Ca
     query: (get("q") ?? "").trim().toLowerCase(),
     minImpulse: numParam(get("imin")),
     maxImpulse: numParam(get("imax")),
+    minPriceCents: dollarsToCents(get("pmin")),
+    maxPriceCents: dollarsToCents(get("pmax")),
   };
 }
 
@@ -106,6 +120,14 @@ export function filterCatalog(motors: readonly Motor[], p: CatalogParams): Motor
         return false;
       if (p.maxImpulse != null && (m.total_impulse_ns == null || m.total_impulse_ns > p.maxImpulse))
         return false;
+      if (p.minPriceCents != null || p.maxPriceCents != null) {
+        // Filter on the cheapest in-stock price (what you'd actually pay); a
+        // motor with no buyable price drops out when a price bound is set.
+        const c = cheapestInStockCents(m);
+        if (c == null) return false;
+        if (p.minPriceCents != null && c < p.minPriceCents) return false;
+        if (p.maxPriceCents != null && c > p.maxPriceCents) return false;
+      }
       if (p.inStock && !m.listings.some((l) => listingInStock(l.status))) return false;
       if (p.query) {
         const designationHit = m.designation.toLowerCase().includes(p.query);
