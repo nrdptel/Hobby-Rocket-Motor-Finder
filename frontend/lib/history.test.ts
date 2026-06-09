@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   HISTORY_EPOCH,
   buildMotorAvailability,
+  buildPriceHistory,
   catalogAvailability,
   formatAgo,
   formatWindow,
@@ -333,5 +334,76 @@ describe("format helpers", () => {
     expect(formatAgo(hours(3))).toBe("3h");
     expect(formatAgo(hours(48))).toBe("2d");
     expect(formatAgo(60_000)).toBe("1h");
+  });
+});
+
+describe("buildPriceHistory", () => {
+  const NOWP = "2026-06-10T00:00:00Z";
+
+  it("tracks the cheapest in-stock price across vendors over time, as a step series", () => {
+    // Vendor A starts cheaper ($20), then rises to $24; vendor B holds $22.
+    // Best = min(A,B): 20 → (A rises to 24) 22 → ...
+    const log: HistoryLog = {
+      "https://a/p": {
+        vendor_slug: "a",
+        events: [
+          { t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2000 },
+          { t: "2026-06-05T00:00:00Z", status: "in_stock", price_cents: 2400 },
+        ],
+      },
+      "https://b/p": {
+        vendor_slug: "b",
+        events: [{ t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2200 }],
+      },
+    };
+    const ph = buildPriceHistory([{ url: "https://a/p" }, { url: "https://b/p" }], log, NOWP)!;
+    expect(ph.lowCents).toBe(2000);
+    expect(ph.highCents).toBe(2200); // best rose from 20 to 22 (not 24 — B undercuts)
+    expect(ph.currentCents).toBe(2200);
+    expect(ph.points.map((p) => p.cents)).toEqual([2000, 2200]);
+  });
+
+  it("returns null when the price never moved (a flat line says nothing)", () => {
+    const { log, listings } = oneVendor([
+      { t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2000 },
+      { t: "2026-06-04T00:00:00Z", status: "in_stock", price_cents: 2000 },
+    ]);
+    expect(buildPriceHistory(listings, log, NOWP)).toBeNull();
+  });
+
+  it("ignores a noise spike far off the median rather than charting it", () => {
+    const { log, listings } = oneVendor([
+      { t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2000 },
+      { t: "2026-06-02T00:00:00Z", status: "in_stock", price_cents: 90000 }, // misparse
+      { t: "2026-06-03T00:00:00Z", status: "in_stock", price_cents: 2100 },
+    ]);
+    const ph = buildPriceHistory(listings, log, NOWP)!;
+    expect(ph.highCents).toBe(2100); // the 900x spike is dropped
+    expect(ph.points.some((p) => p.cents === 90000)).toBe(false);
+  });
+
+  it("doesn't count an out-of-stock listing's last price", () => {
+    // Cheap vendor goes out of stock; the line should reflect the dearer one
+    // that's still buyable, not the stale cheap price.
+    const log: HistoryLog = {
+      "https://a/p": {
+        vendor_slug: "a",
+        events: [
+          { t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2000 },
+          { t: "2026-06-06T00:00:00Z", status: "out_of_stock", price_cents: 2000 },
+        ],
+      },
+      "https://b/p": {
+        vendor_slug: "b",
+        events: [{ t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2500 }],
+      },
+    };
+    const ph = buildPriceHistory([{ url: "https://a/p" }, { url: "https://b/p" }], log, NOWP)!;
+    expect(ph.points.map((p) => p.cents)).toEqual([2000, 2500]); // 20 while A in stock, then 25
+    expect(ph.currentCents).toBe(2500);
+  });
+
+  it("returns null with no log / no events", () => {
+    expect(buildPriceHistory([{ url: "https://v/p" }], {}, NOWP)).toBeNull();
   });
 });
