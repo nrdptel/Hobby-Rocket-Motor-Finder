@@ -146,6 +146,25 @@ export function FilterBar({
     urlMinPrice.length > 0 ||
     urlMaxPrice.length > 0;
 
+  // Secondary filters live behind a "More filters" disclosure so the default
+  // panel stays short (the common path is search / brand / class / diameter /
+  // stock). It auto-opens whenever one of these is active — e.g. landing on a
+  // shared link with a price band — so an applied filter is never hidden.
+  const advancedActive =
+    activeVendors.size > 0 ||
+    activeCases.size > 0 ||
+    activePropellants.size > 0 ||
+    activeBurn.size > 0 ||
+    sparkyOnly ||
+    urlMinImpulse.length > 0 ||
+    urlMaxImpulse.length > 0 ||
+    urlMinPrice.length > 0 ||
+    urlMaxPrice.length > 0;
+  const [showAdvanced, setShowAdvanced] = useState(advancedActive);
+  useEffect(() => {
+    if (advancedActive) setShowAdvanced(true);
+  }, [advancedActive]);
+
   // Copy a shareable link to the current filtered view — the filters all live
   // in the URL, so the address itself is the share payload.
   const copyLink = async () => {
@@ -169,7 +188,7 @@ export function FilterBar({
   };
 
   const pill = (active: boolean) =>
-    `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer ${
+    `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:focus-visible:ring-offset-zinc-900 ${
       active
         ? "bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100"
         : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
@@ -239,17 +258,6 @@ export function FilterBar({
         </FilterRow>
       )}
 
-      {vendors.length > 1 && (
-        <FilterRow label="Vendor">
-          <VendorFilter
-            options={vendors}
-            active={activeVendors}
-            onToggle={toggleVendor}
-            onClear={() => update("vendor", null)}
-          />
-        </FilterRow>
-      )}
-
       {certLevels.length > 0 && (
         <FilterRow label="Cert">
           {certLevels.map((lvl) => (
@@ -296,29 +304,58 @@ export function FilterBar({
         ))}
       </FilterRow>
 
-      {cases.length > 0 && (
-        <FilterRow label="Case">
-          <CaseFilter
-            options={cases}
-            active={activeCases}
-            onToggle={toggleCase}
-            onClear={() => update("case", null)}
-          />
-        </FilterRow>
-      )}
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="w-20 shrink-0" aria-hidden />
+        <button
+          type="button"
+          onClick={() => setShowAdvanced((v) => !v)}
+          aria-expanded={showAdvanced}
+          className="inline-flex items-center gap-1 rounded-md px-1 text-xs font-medium text-zinc-600 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:text-zinc-300 dark:focus-visible:ring-offset-zinc-900"
+        >
+          <span aria-hidden="true">{showAdvanced ? "▾" : "▸"}</span>
+          {showAdvanced ? "Fewer filters" : "More filters"}
+          <span className="font-normal text-zinc-400 dark:text-zinc-500">
+            vendor · case · propellant · character · impulse · price
+          </span>
+        </button>
+      </div>
 
-      {propellants.length > 0 && (
-        <FilterRow label="Propellant">
-          <PropellantFilter
-            options={propellants}
-            active={activePropellants}
-            onToggle={togglePropellant}
-            onClear={() => update("prop", null)}
-          />
-        </FilterRow>
-      )}
+      {showAdvanced && (
+        <>
+          {vendors.length > 1 && (
+            <FilterRow label="Vendor">
+              <VendorFilter
+                options={vendors}
+                active={activeVendors}
+                onToggle={toggleVendor}
+                onClear={() => update("vendor", null)}
+              />
+            </FilterRow>
+          )}
 
-      <FilterRow label="Character">
+          {cases.length > 0 && (
+            <FilterRow label="Case">
+              <CaseFilter
+                options={cases}
+                active={activeCases}
+                onToggle={toggleCase}
+                onClear={() => update("case", null)}
+              />
+            </FilterRow>
+          )}
+
+          {propellants.length > 0 && (
+            <FilterRow label="Propellant">
+              <PropellantFilter
+                options={propellants}
+                active={activePropellants}
+                onToggle={togglePropellant}
+                onClear={() => update("prop", null)}
+              />
+            </FilterRow>
+          )}
+
+          <FilterRow label="Character">
         {BURN_KEYS.map((k) => (
           <button
             key={k}
@@ -402,6 +439,8 @@ export function FilterBar({
           <span className="text-zinc-500">cheapest in stock</span>
         </div>
       </FilterRow>
+        </>
+      )}
 
       <FilterRow label="Stock">
         <button
@@ -441,7 +480,7 @@ export function FilterBar({
           id="sort-order"
           value={sortOrder}
           onChange={(e) => update("order", e.target.value === "class" ? null : e.target.value)}
-          className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+          className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 focus-visible:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:focus-visible:ring-offset-zinc-900"
         >
           <option value="class">Class (default)</option>
           <option value="impulse">Total impulse</option>
@@ -461,6 +500,11 @@ export function FilterBar({
           <span aria-hidden="true">{sortDir === "desc" ? "↓" : "↑"}</span>{" "}
           {sortDir === "desc" ? "Desc" : "Asc"}
         </button>
+        {sortOrder === "price" && (
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            cheapest across all vendors — add &ldquo;In stock only&rdquo; for buyable prices
+          </span>
+        )}
       </FilterRow>
     </div>
   );
