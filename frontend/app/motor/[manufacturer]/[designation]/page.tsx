@@ -11,7 +11,7 @@ import {
 import type { Motor, Snapshot } from "@/lib/snapshot";
 import { buildShapeMap, curveKey, loadCurves } from "@/lib/curves";
 import { mergedCatalog } from "@/lib/catalogMotors";
-import { buildMotorAvailability } from "@/lib/history";
+import { buildMotorAvailability, buildPriceHistory } from "@/lib/history";
 import {
   MIN_CLASS,
   bestInStockPriceCents,
@@ -41,6 +41,7 @@ import {
 import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { AvailabilityHistory } from "@/app/components/AvailabilityHistory";
+import { PriceHistoryChart } from "@/app/components/PriceHistoryChart";
 import { BestPriceTag } from "@/app/components/BestPriceTag";
 import { PackHint } from "@/app/components/PackHint";
 import { PackNote } from "@/app/components/PackNote";
@@ -143,13 +144,11 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
 
   const history = await loadHistorySummary();
   // Per-listing event log, sliced to just this motor's vendors → availability
-  // history. Loaded only here (it's the big file); falls back to null when no
-  // log is present (fresh clone / pre-backfill deploy).
-  const availability = buildMotorAvailability(
-    motor.listings,
-    await loadHistoryLog(),
-    snapshot.generated_at,
-  );
+  // history + price history. Loaded only here (it's the big file); falls back to
+  // null when no log is present (fresh clone / pre-backfill deploy).
+  const historyLog = await loadHistoryLog();
+  const availability = buildMotorAvailability(motor.listings, historyLog, snapshot.generated_at);
+  const priceHistory = buildPriceHistory(motor.listings, historyLog, snapshot.generated_at);
   const grouped = groupByDelay(motor, "price"); // cheapest vendor first within a delay
   const inStock = motor.listings.filter((l) => listingInStock(l.status)).length;
   const soldOut = inStock === 0;
@@ -384,6 +383,15 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
 
       {/* Availability over time — buyable-% + per-vendor stock timeline. */}
       {availability && <AvailabilityHistory availability={availability} />}
+
+      {priceHistory && (
+        <section className="mt-8">
+          <h2 className="text-lg font-semibold tracking-tight">Price history</h2>
+          <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40">
+            <PriceHistoryChart history={priceHistory} />
+          </div>
+        </section>
+      )}
 
       {/* Similar in-stock motors */}
       {similar.length > 0 && (
