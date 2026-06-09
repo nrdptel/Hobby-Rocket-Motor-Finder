@@ -93,6 +93,8 @@ export function FilterBar({
   const urlQuery = sp.get("q") ?? "";
   const urlMinImpulse = sp.get("imin") ?? "";
   const urlMaxImpulse = sp.get("imax") ?? "";
+  const urlMinPrice = sp.get("pmin") ?? "";
+  const urlMaxPrice = sp.get("pmax") ?? "";
 
   // Free-text inputs: instant local typing, debounced URL writes. The hook also
   // mirrors external URL changes (e.g. "clear all") back into the input.
@@ -109,6 +111,8 @@ export function FilterBar({
     update,
     numericParamValue,
   );
+  const [minPrice, setMinPrice] = useDebouncedParam("pmin", urlMinPrice, update, numericParamValue);
+  const [maxPrice, setMaxPrice] = useDebouncedParam("pmax", urlMaxPrice, update, numericParamValue);
 
   const toggleMfr = (m: string) => update("mfr", toggleInList(activeManufacturers, m));
   const toggleClass = (c: string) => update("class", toggleInList(activeClasses, c));
@@ -141,7 +145,9 @@ export function FilterBar({
     starredOnly ||
     urlQuery.length > 0 ||
     urlMinImpulse.length > 0 ||
-    urlMaxImpulse.length > 0;
+    urlMaxImpulse.length > 0 ||
+    urlMinPrice.length > 0 ||
+    urlMaxPrice.length > 0;
 
   // Copy a shareable link to the current filtered view — the filters all live
   // in the URL, so the address itself is the share payload.
@@ -369,6 +375,34 @@ export function FilterBar({
             aria-label="Maximum total impulse in newton-seconds"
           />
           <span className="text-zinc-500">N·s</span>
+        </div>
+      </FilterRow>
+
+      <FilterRow label="Price">
+        <div className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="text-zinc-500">$</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            placeholder="min"
+            className="w-20 rounded-md border border-zinc-300 bg-white px-2 py-1 text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+            aria-label="Minimum price in dollars (cheapest in stock)"
+          />
+          <span>–</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            placeholder="max"
+            className="w-20 rounded-md border border-zinc-300 bg-white px-2 py-1 text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+            aria-label="Maximum price in dollars (cheapest in stock)"
+          />
+          <span className="text-zinc-500">cheapest in stock</span>
         </div>
       </FilterRow>
 
