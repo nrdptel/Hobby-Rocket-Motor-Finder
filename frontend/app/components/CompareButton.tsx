@@ -1,11 +1,13 @@
 "use client";
 
 import { useCompare } from "@/lib/compareSelection";
+import { CompareIcon } from "./CompareIcon";
 
-/** Toggle a motor in/out of the side-by-side comparison set. A compact pill that
- * fills in once selected. Stays neutral until hydration so the first client paint
- * matches the server HTML. Disabled (with a hint) when the set is full and this
- * motor isn't already in it. */
+/** Toggle a motor in/out of the side-by-side comparison set. An icon-sized
+ * control that matches the star + bell beside it (outline → filled when
+ * selected), rather than a heavy text pill. Stays neutral until hydration so the
+ * first client paint matches the server HTML. Disabled (with a hint) when the set
+ * is full and this motor isn't already in it. */
 export function CompareButton({
   motorId,
   designation,
@@ -34,13 +36,13 @@ export function CompareButton({
             ? "Remove from comparison"
             : "Add to comparison"
       }
-      className={`shrink-0 cursor-pointer rounded border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide leading-none transition disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`-m-1.5 shrink-0 cursor-pointer rounded p-1.5 leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 disabled:cursor-not-allowed disabled:opacity-40 dark:focus-visible:ring-offset-zinc-900 ${
         selected
-          ? "border-indigo-500 bg-indigo-500 text-white dark:border-indigo-400 dark:bg-indigo-400 dark:text-zinc-900"
-          : "border-zinc-300 text-zinc-500 hover:border-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-200"
+          ? "text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
+          : "text-zinc-400 hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
       }`}
     >
-      Compare
+      <CompareIcon className="h-[1.05rem] w-[1.05rem]" filled={selected} />
     </button>
   );
 }
