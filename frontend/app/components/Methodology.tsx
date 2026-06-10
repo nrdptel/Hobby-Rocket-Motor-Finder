@@ -38,7 +38,7 @@ export function Methodology() {
               motor by normalizing the vendor&apos;s product title (e.g. a listing of{" "}
               <span className="font-mono text-xs">D13-10W</span>{" "}resolves to the catalog&apos;s{" "}
               <span className="font-mono text-xs">D13W</span>). It is a point-in-time snapshot; an{" "}
-              <span className="text-amber-600 dark:text-amber-500/80">Xh old</span>{" "}note means a
+              <span className="text-amber-700 dark:text-amber-500">Xh old</span>{" "}note means a
               vendor was briefly unreachable and we carried its last-known data forward.
             </dd>
           </div>

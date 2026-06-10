@@ -127,7 +127,7 @@ export function MotorResults({
 
       <div className="mt-3 hidden overflow-x-auto md:block">
         <table className="min-w-full text-sm">
-          <thead className="sticky top-0 z-10 bg-zinc-100 text-left text-xs uppercase tracking-wider text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+          <thead className="sticky top-0 z-10 bg-zinc-100 text-left text-xs uppercase tracking-wider text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
             <tr>
               <th
                 scope="col"
@@ -190,7 +190,7 @@ export function MotorResults({
                             discontinued={m.discontinued}
                           />
                         </span>
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="text-xs text-zinc-600 dark:text-zinc-400">
                           {showManufacturer ? `${manufacturerLabel(m.manufacturer)} · ` : ""}
                           {m.impulse_class} · {m.diameter_mm}mm
                           {m.propellant ? ` · ${m.propellant}` : ""}
@@ -200,7 +200,7 @@ export function MotorResults({
                               ? " · single use"
                               : ""}
                         </span>
-                        <span className="text-xs tabular-nums text-zinc-500">
+                        <span className="text-xs tabular-nums text-zinc-600 dark:text-zinc-400">
                           {formatImpulse(m.total_impulse_ns)} · {formatThrust(m.avg_thrust_n)} ·{" "}
                           {formatBurn(m.burn_time_s)}
                           {burnCharacter(m) && (
@@ -268,7 +268,7 @@ export function MotorResults({
                         <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
                           {isBestPrice && <BestPriceTag />}
                           <span
-                            className={isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : ""}
+                            className={isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : ""}
                           >
                             {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
                           </span>

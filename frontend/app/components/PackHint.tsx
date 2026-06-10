@@ -8,5 +8,5 @@ import { packSize } from "@/lib/pack";
 export function PackHint({ url }: { url: string | null | undefined }) {
   const n = url ? packSize(url) : 1;
   if (n < 2) return null;
-  return <span className="text-zinc-400 dark:text-zinc-500"> · {n}-pack</span>;
+  return <span className="text-zinc-500 dark:text-zinc-400"> · {n}-pack</span>;
 }

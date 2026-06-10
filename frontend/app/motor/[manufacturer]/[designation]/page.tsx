@@ -132,7 +132,7 @@ export async function generateMetadata({
 }
 
 const cellHead =
-  "px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400";
+  "px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-zinc-400";
 
 export default async function MotorDetailPage({ params }: { params: Promise<Params> }) {
   const found = await findMotor(await params);
@@ -351,7 +351,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                         {isBestPrice && <BestPriceTag />}
                         <span
                           className={
-                            isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : ""
+                            isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : ""
                           }
                         >
                           {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}

@@ -146,7 +146,7 @@ export function MotorCard({
                       </div>
                       <div className="shrink-0 text-right">
                         <div
-                          className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-600 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
+                          className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
                         >
                           {isBestPrice && <BestPriceTag />}
                           {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
