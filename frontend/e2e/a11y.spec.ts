@@ -26,6 +26,12 @@ for (const [name, path] of PAGES) {
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(path, { waitUntil: "networkidle" });
       await page.waitForTimeout(300);
+      // Expand the My Rockets add-form so its fields are audited too — otherwise
+      // it's collapsed and never scanned.
+      if (name === "catalog") {
+        await page.getByRole("button", { name: /Add rocket/ }).click();
+        await page.waitForTimeout(150);
+      }
       const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze();
       for (const v of violations) {
         const node = v.nodes[0];
