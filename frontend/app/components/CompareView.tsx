@@ -98,7 +98,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
         <table className="min-w-full border-separate border-spacing-0 text-sm">
           <thead>
             <tr>
-              <th scope="col" className="sticky left-0 z-10 bg-white px-3 py-2 text-left dark:bg-zinc-950" />
+              <th scope="col" className="sticky left-0 z-10 border-r border-zinc-200 bg-white px-3 py-2 text-left dark:border-zinc-800 dark:bg-zinc-950" />
               {motors.map((m) => (
                 <th key={m.id} scope="col" className="px-3 py-2 text-left align-bottom">
                   <Link
@@ -125,7 +125,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
                 <th
                   scope="row"
                   title={row.title}
-                  className="sticky left-0 z-10 whitespace-nowrap border-t border-zinc-200 bg-white px-3 py-2 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400"
+                  className="sticky left-0 z-10 whitespace-nowrap border-t border-r border-zinc-200 bg-white px-3 py-2 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400"
                 >
                   {row.label}
                 </th>
@@ -143,7 +143,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
             <tr className="border-t border-zinc-200 dark:border-zinc-800">
               <th
                 scope="row"
-                className="sticky left-0 z-10 whitespace-nowrap border-t border-zinc-200 bg-white px-3 py-2 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400"
+                className="sticky left-0 z-10 whitespace-nowrap border-t border-r border-zinc-200 bg-white px-3 py-2 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400"
               >
                 Cheapest in stock
               </th>
