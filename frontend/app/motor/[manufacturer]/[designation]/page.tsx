@@ -50,13 +50,11 @@ import { CertBadge } from "@/app/components/CertBadge";
 import { DiscontinuedBadge } from "@/app/components/DiscontinuedBadge";
 import { SparkyBadge } from "@/app/components/SparkyBadge";
 import { ThrustCurveChart, type CurveSeries } from "@/app/components/ThrustCurveChart";
+import { ListingStatus } from "@/app/components/ListingStatus";
 import { NotifyButton } from "@/app/components/NotifyButton";
-import { RestockBadge } from "@/app/components/RestockBadge";
 import { SnapshotTime } from "@/app/components/SnapshotTime";
 import { SiteHeader } from "@/app/components/SiteHeader";
-import { StaleBadge } from "@/app/components/StaleBadge";
 import { StarButton } from "@/app/components/StarButton";
-import { StatusBadge } from "@/app/components/StatusBadge";
 
 // Match the catalog: the snapshot refreshes hourly, so re-render at most once a
 // minute. New motors (not in generateStaticParams at build) render on demand.
@@ -345,9 +343,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                       )}
                       <td className="px-3 py-2 text-zinc-700 dark:text-zinc-300">{l.vendor_name}</td>
                       <td className="px-3 py-2 whitespace-nowrap">
-                        <StatusBadge status={l.status} count={l.stock_count} leadTime={l.lead_time} />
-                        <RestockBadge history={history[l.url]} now={now} />
-                        <StaleBadge seenAt={l.seen_at} now={now} />
+                        <ListingStatus listing={l} history={history} now={now} />
                       </td>
                       <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
                         {isBestPrice && <BestPriceTag />}
