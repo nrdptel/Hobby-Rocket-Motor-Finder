@@ -311,7 +311,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                 <th scope="col" className={cellHead}>Vendor</th>
                 <th scope="col" className={cellHead}>Status</th>
                 <th scope="col" className={`${cellHead} text-right`}>Price</th>
-                <th scope="col" className={cellHead}></th>
+                <th scope="col" className={cellHead}>
+                  <span className="sr-only">Vendor link</span>
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
@@ -389,12 +391,19 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
         </section>
       )}
 
-      {/* Similar in-stock motors */}
-      {similar.length > 0 && (
+      {/* Similar in-stock motors — always shown when sold out (with an empty
+          state if there are none) so the page never just ends without telling a
+          sold-out shopper whether swaps exist. */}
+      {(similar.length > 0 || soldOut) && (
         <section className="mt-8">
           <h2 className="text-lg font-semibold tracking-tight">
             {soldOut ? "Similar motors in stock" : "Similar motors"}
           </h2>
+          {similar.length === 0 ? (
+            <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
+              No in-stock swaps found at the tracked vendors.
+            </p>
+          ) : (
           <ul className="mt-3 divide-y divide-zinc-200 rounded-md border border-zinc-200 dark:divide-zinc-800 dark:border-zinc-800">
             {similar.map((s) => {
               // Per-motor (pack-aware) cheapest — works for a single-vendor
@@ -425,6 +434,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
               );
             })}
           </ul>
+          )}
         </section>
       )}
 

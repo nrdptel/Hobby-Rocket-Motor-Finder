@@ -1,13 +1,13 @@
 import Link from "next/link";
 
+import { SearchIcon } from "./components/SearchIcon";
+
 // Custom 404 — reached by an unknown route or a motor detail page calling
 // notFound() (mistyped slug, or a motor that's no longer in the catalog).
 export default function NotFound() {
   return (
     <main className="mx-auto flex min-h-[60vh] max-w-lg flex-col items-center justify-center px-6 text-center">
-      <p className="text-4xl" aria-hidden>
-        🔍
-      </p>
+      <SearchIcon className="h-12 w-12 text-zinc-400 dark:text-zinc-500" />
       <h1 className="mt-4 text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
         Page not found
       </h1>
