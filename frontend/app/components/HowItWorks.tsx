@@ -1,4 +1,5 @@
 import { BestPriceTag } from "./BestPriceTag";
+import { CartIcon } from "./CartIcon";
 import { CertBadge } from "./CertBadge";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { StatusBadge } from "./StatusBadge";
@@ -82,7 +83,10 @@ export function HowItWorks() {
               to show only those, and as the basis for planning an order (below).
             </li>
             <li>
-              <strong className="font-medium text-zinc-800 dark:text-zinc-200">🛒 Plan your order</strong>{" "}
+              <strong className="inline-flex items-center gap-1 font-medium text-zinc-800 dark:text-zinc-200">
+                <CartIcon className="h-3.5 w-3.5" />
+                Plan your order
+              </strong>{" "}
               &mdash; once you&apos;ve starred a few motors, a <em>Plan order</em>{" "}button appears next to
               ★ Starred. It finds the cheapest way to buy your whole list across vendors: set a quantity
               per motor and your estimated shipping/HAZMAT cost per order, and it trades motor price
