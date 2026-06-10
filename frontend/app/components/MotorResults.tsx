@@ -172,9 +172,6 @@ export function MotorResults({
                     <td colSpan={6} className="px-3 py-2">
                       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span className="flex items-center gap-1.5">
-                          <StarButton motorId={m.id} designation={m.designation} />
-                          <NotifyButton manufacturer={m.manufacturer} designation={m.designation} />
-                          <CompareButton motorId={m.id} designation={m.designation} />
                           <Link
                             href={motorPath(m)}
                             className="font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
@@ -225,6 +222,11 @@ export function MotorResults({
                             <ThrustSparkline d={sparklines[m.id]} />
                           </Link>
                         )}
+                        <span className="ml-auto flex shrink-0 items-center gap-1.5 self-center">
+                          <StarButton motorId={m.id} designation={m.designation} />
+                          <NotifyButton manufacturer={m.manufacturer} designation={m.designation} />
+                          <CompareButton motorId={m.id} designation={m.designation} />
+                        </span>
                       </div>
                     </td>
                   </tr>,
