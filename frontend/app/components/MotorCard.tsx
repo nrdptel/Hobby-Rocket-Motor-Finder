@@ -64,9 +64,6 @@ export function MotorCard({
   return (
     <article className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
       <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
-        <StarButton motorId={motor.id} designation={motor.designation} />
-        <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
-        <CompareButton motorId={motor.id} designation={motor.designation} />
         <Link
           href={motorPath(motor)}
           className="whitespace-nowrap font-mono text-base text-zinc-900 underline decoration-zinc-300 underline-offset-2 hover:decoration-zinc-500 dark:text-zinc-100 dark:decoration-zinc-700 dark:hover:decoration-zinc-300"
@@ -78,6 +75,11 @@ export function MotorCard({
         {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
         <SparkyBadge sparky={motor.sparky} />
         <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
+        <span className="ml-auto flex shrink-0 items-center gap-1.5">
+          <StarButton motorId={motor.id} designation={motor.designation} />
+          <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
+          <CompareButton motorId={motor.id} designation={motor.designation} />
+        </span>
       </div>
       <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
         {showManufacturer ? `${manufacturerLabel(motor.manufacturer)} · ` : ""}
