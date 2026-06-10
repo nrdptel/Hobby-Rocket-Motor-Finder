@@ -188,7 +188,7 @@ export function FilterBar({
   };
 
   const pill = (active: boolean) =>
-    `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:focus-visible:ring-offset-zinc-900 ${
+    `inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition cursor-pointer ${
       active
         ? "bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100"
         : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
@@ -310,7 +310,7 @@ export function FilterBar({
           type="button"
           onClick={() => setShowAdvanced((v) => !v)}
           aria-expanded={showAdvanced}
-          className="inline-flex items-center gap-1 rounded-md px-1 text-xs font-medium text-zinc-600 underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:text-zinc-300 dark:focus-visible:ring-offset-zinc-900"
+          className="inline-flex items-center gap-1 rounded-md px-1 text-xs font-medium text-zinc-600 underline-offset-2 hover:underline dark:text-zinc-300"
         >
           <span aria-hidden="true">{showAdvanced ? "▾" : "▸"}</span>
           {showAdvanced ? "Fewer filters" : "More filters"}
@@ -480,7 +480,7 @@ export function FilterBar({
           id="sort-order"
           value={sortOrder}
           onChange={(e) => update("order", e.target.value === "class" ? null : e.target.value)}
-          className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 focus-visible:border-zinc-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:focus-visible:ring-offset-zinc-900"
+          className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
         >
           <option value="class">Class (default)</option>
           <option value="impulse">Total impulse</option>

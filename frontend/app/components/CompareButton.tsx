@@ -36,7 +36,7 @@ export function CompareButton({
             ? "Remove from comparison"
             : "Add to comparison"
       }
-      className={`-m-1.5 shrink-0 cursor-pointer rounded p-1.5 leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 disabled:cursor-not-allowed disabled:opacity-40 dark:focus-visible:ring-offset-zinc-900 ${
+      className={`-m-1.5 shrink-0 cursor-pointer p-1.5 leading-none transition disabled:cursor-not-allowed disabled:opacity-40 ${
         selected
           ? "text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
           : "text-zinc-400 hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"

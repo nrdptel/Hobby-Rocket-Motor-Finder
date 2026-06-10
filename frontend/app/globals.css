@@ -34,17 +34,18 @@ html.dark {
   background-color: #09090b;
 }
 
-/* Visible keyboard focus for every interactive control (WCAG 2.4.7). The filter
-   inputs use Tailwind `focus:outline-none`; an element-level `:focus-visible`
-   selector outranks that class, so the ring shows on keyboard focus while mouse
-   focus stays clean. */
+/* Visible keyboard focus for interactive controls (WCAG 2.4.7), in the app's
+   indigo accent so it's one consistent indicator everywhere. Buttons, links,
+   summaries, etc. get this outline on keyboard focus. Text inputs/selects opt
+   out with Tailwind `focus:outline-none` and show a border-colour change
+   instead, for a cleaner field on click. */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid #71717a; /* zinc-500 — visible on both themes */
+  outline: 2px solid #6366f1; /* indigo-500 — the focus accent, legible on both themes */
   outline-offset: 2px;
   border-radius: 3px;
 }
