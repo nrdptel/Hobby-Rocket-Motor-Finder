@@ -23,7 +23,7 @@ export function RestockBadge({
       className={
         "ml-1.5 text-xs " +
         (restocked
-          ? "text-emerald-600 dark:text-emerald-500/90"
+          ? "text-emerald-700 dark:text-emerald-400"
           : "text-zinc-500 dark:text-zinc-400")
       }
       title={

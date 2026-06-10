@@ -18,7 +18,7 @@ export function PackNote({
   const pack = packSize(url);
   if (pack < 2 || priceCents == null) return null;
   return (
-    <span className="block text-[10px] text-zinc-400 dark:text-zinc-500">
+    <span className="block text-[10px] text-zinc-500 dark:text-zinc-400">
       {pack}-pack · {formatPrice(priceCents, currency)} total
     </span>
   );

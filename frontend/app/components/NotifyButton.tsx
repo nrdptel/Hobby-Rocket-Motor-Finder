@@ -103,7 +103,7 @@ export function NotifyButton({
     return (
       <>
         {liveRegion}
-        <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+        <span className="inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-400">
           ✓ Check your email to confirm
           <button
             type="button"
@@ -156,7 +156,7 @@ export function NotifyButton({
         {status === "error" && (
           <span className="text-xs text-red-600 dark:text-red-400">{message}</span>
         )}
-        <span className="basis-full text-[10px] leading-tight text-zinc-400 dark:text-zinc-500">
+        <span className="basis-full text-[10px] leading-tight text-zinc-500 dark:text-zinc-400">
           Double opt-in — we&apos;ll email a confirmation, address used only for restock alerts.{" "}
           <Link
             href="/privacy"

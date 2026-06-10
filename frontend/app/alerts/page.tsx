@@ -17,7 +17,7 @@ export default function AlertsPage() {
       <SiteHeader />
       <Link
         href="/"
-        className="mt-4 inline-block text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
+        className="mt-4 inline-block text-sm text-zinc-500 hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
       >
         ← Back to HPR Motor Finder
       </Link>

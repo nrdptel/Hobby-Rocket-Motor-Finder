@@ -134,7 +134,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
                     key={motors[i].id}
                     className="border-t border-zinc-200 px-3 py-2 tabular-nums text-zinc-800 dark:border-zinc-800 dark:text-zinc-200"
                   >
-                    {v ?? <span className="text-zinc-400 dark:text-zinc-600">—</span>}
+                    {v ?? <span className="text-zinc-500 dark:text-zinc-400">—</span>}
                   </td>
                 ))}
               </tr>
@@ -156,7 +156,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
                     <span
                       className={
                         cheapest != null && b.cents === cheapest
-                          ? "font-medium text-emerald-600 dark:text-emerald-400"
+                          ? "font-medium text-emerald-700 dark:text-emerald-400"
                           : "text-zinc-800 dark:text-zinc-200"
                       }
                     >
@@ -166,7 +166,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
                       </span>
                     </span>
                   ) : (
-                    <span className="text-zinc-400 dark:text-zinc-600">Not in stock</span>
+                    <span className="text-zinc-500 dark:text-zinc-400">Not in stock</span>
                   )}
                 </td>
               ))}

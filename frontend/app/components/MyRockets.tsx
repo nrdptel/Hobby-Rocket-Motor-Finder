@@ -188,7 +188,7 @@ export function MyRockets({
                       count > 0
                         ? active
                           ? "opacity-80"
-                          : "text-emerald-600 dark:text-emerald-400"
+                          : "text-emerald-700 dark:text-emerald-400"
                         : "opacity-50"
                     }
                   >

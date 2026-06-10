@@ -64,7 +64,7 @@ export function AvailabilityHistory({
           {/* Motor-level "buyable somewhere" union strip. */}
           <div className="mt-4">
             <TimelineBar segments={a.timeline} label="In stock at any vendor" />
-            <div className="mt-1 flex justify-between text-[11px] text-zinc-400 dark:text-zinc-500">
+            <div className="mt-1 flex justify-between text-[11px] text-zinc-500 dark:text-zinc-400">
               <span>{startLabel}</span>
               <span>now</span>
             </div>
