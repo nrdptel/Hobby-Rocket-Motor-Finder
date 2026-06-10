@@ -91,7 +91,7 @@ export function NotifyButton({
           onClick={() => setOpen(true)}
           aria-label={`Email me when ${designation} is back in stock`}
           title="Email me when this is back in stock"
-          className="-m-1.5 shrink-0 cursor-pointer rounded p-1.5 leading-none text-zinc-400 transition hover:text-zinc-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-50 dark:text-zinc-600 dark:hover:text-zinc-300 dark:focus-visible:ring-offset-zinc-900"
+          className="-m-1.5 shrink-0 cursor-pointer p-1.5 leading-none text-zinc-400 transition hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
         >
           <BellIcon className="h-[1.05rem] w-[1.05rem]" />
         </button>
