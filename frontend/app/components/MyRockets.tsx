@@ -393,7 +393,7 @@ function RocketForm({
       className="mt-3 flex flex-wrap items-end gap-2 border-t border-zinc-200 pt-3 dark:border-zinc-800"
     >
       <label className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-        Name <span className="opacity-60">(optional)</span>
+        Name <span>(optional)</span>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -414,7 +414,7 @@ function RocketForm({
       {classes.length > 0 && (
         <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
           <span>
-            Class <span className="opacity-60">(optional, pick one or more)</span>
+            Class <span>(optional, pick one or more)</span>
           </span>
           <SearchableMultiSelect
             options={classOptions}
@@ -430,7 +430,7 @@ function RocketForm({
       {caseChoices.length > 0 && (
         <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
           <span>
-            Cases <span className="opacity-60">(optional, pick any you own)</span>
+            Cases <span>(optional, pick any you own)</span>
           </span>
           <CaseFilter
             options={caseChoices}
@@ -441,7 +441,7 @@ function RocketForm({
         </div>
       )}
       <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-        Impulse <span className="opacity-60">N·s (optional)</span>
+        Impulse <span>N·s (optional)</span>
         <div className="flex items-center gap-1">
           <input
             type="number"
