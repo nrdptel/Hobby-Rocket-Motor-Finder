@@ -132,7 +132,7 @@ export function HowItWorks() {
               </span>
               <span>
                 Stock status; the number is the vendor&apos;s on-hand count when they publish one.{" "}
-                <span className="text-amber-600 dark:text-amber-500/80">Xh old</span>{" "}next to it means
+                <span className="text-amber-700 dark:text-amber-500">Xh old</span>{" "}next to it means
                 that vendor&apos;s data was carried forward from an earlier scrape &mdash; staler than the rest.
               </span>
             </li>
@@ -171,7 +171,7 @@ export function HowItWorks() {
               </span>
             </li>
             <li className="flex items-start gap-2.5">
-              <span className="shrink-0 pt-0.5 text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+              <span className="shrink-0 pt-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
                 ↓ lowest tracked
               </span>
               <span>

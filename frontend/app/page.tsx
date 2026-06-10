@@ -209,7 +209,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           </p>
           <div className="mt-4 hidden overflow-x-auto md:block">
             <table className="min-w-full divide-y divide-zinc-200 text-sm dark:divide-zinc-800">
-              <thead className="bg-zinc-100 text-left text-xs uppercase tracking-wider text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+              <thead className="bg-zinc-100 text-left text-xs uppercase tracking-wider text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
                 <tr>
                   <th className="px-3 py-2">Raw designation</th>
                   <th className="px-3 py-2">Title</th>
@@ -259,7 +259,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
                     {u.raw_designation || u.raw_title}
                   </div>
                   <div className="mt-1 flex items-center gap-2">
-                    <span className="text-xs text-zinc-500">{u.vendor_name}</span>
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">{u.vendor_name}</span>
                     <StatusBadge status={u.status} count={u.stock_count} />
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
         </section>
       )}
 
-      <footer className="mt-12 border-t border-zinc-200 pt-6 text-xs text-zinc-500 dark:border-zinc-800">
+      <footer className="mt-12 border-t border-zinc-200 pt-6 text-xs text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <nav className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <a
@@ -319,7 +319,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
             )}
           </nav>
 
-          <div className="flex items-center gap-1.5 opacity-80">
+          <div className="flex items-center gap-1.5">
             <span>Built by</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -332,7 +332,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
           </div>
         </div>
 
-        <p className="mt-5 max-w-3xl leading-relaxed text-zinc-400 dark:text-zinc-500">
+        <p className="mt-5 max-w-3xl leading-relaxed text-zinc-500 dark:text-zinc-400">
           Personal, non-commercial project &mdash; not affiliated with any listed vendor or manufacturer.
           Stock and prices are scraped on a schedule from public vendor sites, are a point-in-time
           snapshot, and may be stale by the time you click through; always verify on the vendor&apos;s

@@ -163,7 +163,7 @@ export function SearchableMultiSelect({
             {Array.from(groups.entries()).map(([group, opts]) => (
               <div key={group || "_"}>
                 {group && (
-                  <div className="px-1 text-[10px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+                  <div className="px-1 text-[10px] font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                     {group}
                   </div>
                 )}
@@ -182,7 +182,7 @@ export function SearchableMultiSelect({
                       {o.label ?? o.value}
                     </span>
                     {o.sublabel && (
-                      <span className="ml-auto text-[10px] text-zinc-400 dark:text-zinc-500">
+                      <span className="ml-auto text-[10px] text-zinc-500 dark:text-zinc-400">
                         {o.sublabel}
                       </span>
                     )}

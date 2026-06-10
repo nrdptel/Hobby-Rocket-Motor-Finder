@@ -13,7 +13,7 @@ export function PriceSignalTag({ signal }: { signal: PriceSignal }) {
       className={
         "block text-[10px] font-medium tabular-nums " +
         (good
-          ? "text-emerald-600 dark:text-emerald-400"
+          ? "text-emerald-700 dark:text-emerald-400"
           : "text-zinc-500 dark:text-zinc-400")
       }
     >

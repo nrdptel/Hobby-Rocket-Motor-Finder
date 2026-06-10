@@ -10,7 +10,7 @@ export function StaleBadge({ seenAt, now }: { seenAt: string; now: Date }) {
   if (!label) return null;
   return (
     <span
-      className="ml-1.5 text-xs text-amber-600 dark:text-amber-500/80"
+      className="ml-1.5 text-xs text-amber-700 dark:text-amber-500"
       title={`This vendor's data was last refreshed ${new Date(seenAt).toLocaleString()} — likely carried forward from an earlier scrape.`}
     >
       {label}

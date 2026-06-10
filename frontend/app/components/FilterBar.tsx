@@ -270,7 +270,7 @@ export function FilterBar({
               title={`Motors you can fly at ${lvl.label} (${lvl.sublabel})`}
             >
               {lvl.label}
-              <span className="ml-1 opacity-60">{lvl.sublabel}</span>
+              <span className="ml-1 opacity-80">{lvl.sublabel}</span>
             </button>
           ))}
         </FilterRow>
@@ -314,7 +314,7 @@ export function FilterBar({
         >
           <span aria-hidden="true">{showAdvanced ? "▾" : "▸"}</span>
           {showAdvanced ? "Fewer filters" : "More filters"}
-          <span className="font-normal text-zinc-400 dark:text-zinc-500">
+          <span className="font-normal text-zinc-500 dark:text-zinc-400">
             vendor · case · propellant · character · impulse · price
           </span>
         </button>

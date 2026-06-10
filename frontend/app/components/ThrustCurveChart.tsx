@@ -132,7 +132,7 @@ export function ThrustCurveChart({
                 style={d.color ? { backgroundColor: d.color } : undefined}
               />
               <span className={d.focus ? "font-medium" : ""}>{d.label}</span>
-              <span className="text-zinc-400 dark:text-zinc-500">
+              <span className="text-zinc-500 dark:text-zinc-400">
                 {Math.round(d.peak)} N · {d.burn.toFixed(1)} s
               </span>
             </li>
