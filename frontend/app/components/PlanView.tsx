@@ -23,6 +23,8 @@ import {
 import { decodeSharedOrder, encodeSharedOrder, orderPlanToText } from "@/lib/planShare";
 import type { Motor } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
+import { ClipboardIcon } from "./ClipboardIcon";
+import { LinkIcon } from "./LinkIcon";
 import { PackHint } from "./PackHint";
 import { SiteHeader } from "./SiteHeader";
 
@@ -244,7 +246,7 @@ export function PlanView({
           {previewing && (
             <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm dark:border-amber-800/60 dark:bg-amber-950/40">
               <span className="text-amber-800 dark:text-amber-300">
-                📋 You&apos;re viewing a <strong>shared order</strong> ({list.length} motors), priced
+                You&apos;re viewing a <strong>shared order</strong> ({list.length} motors), priced
                 against current stock.
               </span>
               <span className="flex shrink-0 gap-2">
@@ -271,18 +273,32 @@ export function PlanView({
             <button
               type="button"
               onClick={() => copy("link")}
-              className="inline-flex items-center rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
               title="A link that opens this order list (priced live) for whoever you send it to"
             >
-              {copied === "link" ? "Copied!" : "🔗 Copy share link"}
+              {copied === "link" ? (
+                "Copied!"
+              ) : (
+                <>
+                  <LinkIcon className="h-3.5 w-3.5" />
+                  Copy share link
+                </>
+              )}
             </button>
             <button
               type="button"
               onClick={() => copy("text")}
-              className="inline-flex items-center rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-3 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
               title="Copy a plain-text order summary to paste into an email"
             >
-              {copied === "text" ? "Copied!" : "📋 Copy as text"}
+              {copied === "text" ? (
+                "Copied!"
+              ) : (
+                <>
+                  <ClipboardIcon className="h-3.5 w-3.5" />
+                  Copy as text
+                </>
+              )}
             </button>
           </div>
 
@@ -503,9 +519,13 @@ export function PlanView({
                       </Link>
                       <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
                         {manufacturerLabel(m.manufacturer)} ·{" "}
-                        {cheapest != null
-                          ? `${usd(cheapest)} · ${offers.length} vendor${offers.length === 1 ? "" : "s"}`
-                          : "out of stock"}
+                        {cheapest != null ? (
+                          `${usd(cheapest)} · ${offers.length} vendor${offers.length === 1 ? "" : "s"}`
+                        ) : (
+                          <span className="font-medium text-amber-700 dark:text-amber-500">
+                            out of stock
+                          </span>
+                        )}
                       </span>
                     </span>
                     <span className="flex shrink-0 items-center gap-1">
