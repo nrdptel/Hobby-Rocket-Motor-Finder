@@ -19,6 +19,14 @@ export function Substitutes({ subs }: { subs: Substitute[] | undefined }) {
       <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs font-medium text-emerald-700 hover:underline dark:text-emerald-400">
         <span aria-hidden>↻</span>
         {subs.length} similar {subs.length === 1 ? "motor" : "motors"} in stock
+        {subs.length > 1 && (
+          <span className="font-normal text-zinc-500 dark:text-zinc-400">
+            · closest{" "}
+            <span className="font-mono text-zinc-700 dark:text-zinc-300">
+              {subs[0].designation}
+            </span>
+          </span>
+        )}
       </summary>
       <ul className="mt-2 space-y-1.5 border-l-2 border-emerald-200 pl-3 dark:border-emerald-900/60">
         {subs.map((s, i) => (
