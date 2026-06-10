@@ -59,11 +59,14 @@ export function CompareTray({ labels }: { labels: Record<number, string> }) {
               Compare {count} motors
             </Link>
           ) : (
-            <span
-              className="cursor-not-allowed rounded-md bg-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600"
-              title="Pick at least 2 motors to compare"
-            >
-              Compare
+            <span className="flex items-center gap-2">
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">pick 1 more</span>
+              <span
+                className="cursor-not-allowed rounded-md bg-zinc-200 px-3 py-1.5 text-xs font-medium text-zinc-400 dark:bg-zinc-800 dark:text-zinc-600"
+                title="Pick at least 2 motors to compare"
+              >
+                Compare
+              </span>
             </span>
           )}
         </div>

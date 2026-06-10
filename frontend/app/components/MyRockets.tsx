@@ -414,7 +414,7 @@ function RocketForm({
       {classes.length > 0 && (
         <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
           <span>
-            Class <span className="opacity-60">(optional, pick any)</span>
+            Class <span className="opacity-60">(optional, pick one or more)</span>
           </span>
           <SearchableMultiSelect
             options={classOptions}
