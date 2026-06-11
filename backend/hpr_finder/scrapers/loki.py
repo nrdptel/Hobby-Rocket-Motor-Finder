@@ -27,6 +27,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_loki_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 BASE_URL = "https://lokiresearch.com"
 # The single "hobby certified reloads" group page holds the full catalog.
@@ -118,7 +119,7 @@ def _price_cents(cells: list[str]) -> int | None:
     for cell in cells:
         m = PRICE_RE.search(cell)
         if m:
-            return int(round(float(m.group(1).replace(",", "")) * 100))
+            return price_to_cents(m.group(1))
     return None
 
 

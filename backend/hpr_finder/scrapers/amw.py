@@ -41,6 +41,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
@@ -158,7 +159,7 @@ class AMWScraper(Scraper):
             desc_m = DESC_RE.search(block)
             desc = desc_m.group(1).strip() if desc_m else ""
             price_m = PRICE_RE.search(block)
-            price_cents = _price_to_cents(price_m.group(1) if price_m else None)
+            price_cents = price_to_cents(price_m.group(1) if price_m else None)
             url_m = URL_RE.search(block)
             relative_url = url_m.group(1) if url_m else ""
             url = (BASE_URL + relative_url) if relative_url else ""
@@ -204,12 +205,3 @@ def _parse_status(block: str) -> tuple[StockStatus, int | None]:
     if m.group("call") or m.group("preorder"):
         return StockStatus.SPECIAL_ORDER, None
     return StockStatus.UNKNOWN, None
-
-
-def _price_to_cents(price: str | None) -> int | None:
-    if not price:
-        return None
-    try:
-        return int(round(float(price) * 100))
-    except (TypeError, ValueError):
-        return None

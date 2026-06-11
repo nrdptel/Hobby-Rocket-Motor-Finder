@@ -48,6 +48,7 @@ from ..normalize import (
     extract_loki_designation,
 )
 from .base import Scraper
+from .prices import price_to_cents
 
 BASE_URL = "https://performancehobbies.com"
 GROUP_URL = f"{BASE_URL}/secure/store.aspx?groupid="
@@ -246,7 +247,7 @@ def _price_cents(row: str) -> int | None:
     m = _PRICE_RE.search(row)
     if not m:
         return None
-    return int(round(float(m.group(1).replace(",", "")) * 100))
+    return price_to_cents(m.group(1))
 
 
 def _cell_text(html: str) -> str:
