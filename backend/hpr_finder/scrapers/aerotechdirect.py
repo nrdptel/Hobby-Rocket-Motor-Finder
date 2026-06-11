@@ -182,7 +182,11 @@ def parse_products(
             continue
         variants = p.get("variants") or []
         available = any(v.get("available") for v in variants)
-        price_cents = _first_price_cents(variants)
+        # Price from an available variant when possible, so an in-stock motor
+        # never shows a sold-out variant's price (falls back to any priced one).
+        price_cents = _first_price_cents([v for v in variants if v.get("available")])
+        if price_cents is None:
+            price_cents = _first_price_cents(variants)
         sku = next((v.get("sku") for v in variants if v.get("sku")), None)
         handle = p.get("handle") or ""
 

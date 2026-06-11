@@ -102,3 +102,24 @@ def test_non_motor_and_out_of_scope_products_skipped():
     assert "Lanyard" not in titles  # merch
     # Quest Q-Jet is a different manufacturer (out of scope) sold on the same store.
     assert "Quest" not in titles and "Q-Jet" not in titles
+
+
+def test_price_comes_from_available_variant():
+    # The sold-out variant is listed first; the in-stock motor must show the
+    # available variant's price, not the sold-out one's.
+    products = [
+        {
+            "title": "AeroTech H128W-14A",
+            "handle": "h128w",
+            "variants": [
+                {"available": False, "price": "9.99", "sku": "OLD"},
+                {"available": True, "price": "21.50", "sku": "NEW"},
+            ],
+        }
+    ]
+    listings = parse_products(products, None, backorder_mode=False)
+
+    assert len(listings) == 1
+    l = listings[0]
+    assert l.status is StockStatus.IN_STOCK
+    assert l.price_cents == 2150

@@ -58,7 +58,16 @@ export default function PrivacyPage() {
               No cookies beyond a single one that remembers your light/dark theme preference.
             </li>
             <li>
-              The only third party your address touches is{" "}
+              The only third parties your address touches:{" "}
+              <a
+                href="https://upstash.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
+              >
+                Upstash
+              </a>{" "}
+              (stores your subscription) and{" "}
               <a
                 href="https://www.zoho.com/zeptomail/"
                 target="_blank"
@@ -66,8 +75,8 @@ export default function PrivacyPage() {
                 className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
               >
                 ZeptoMail
-              </a>
-              , which delivers the emails.
+              </a>{" "}
+              (delivers the emails).
             </li>
           </ul>
         </section>

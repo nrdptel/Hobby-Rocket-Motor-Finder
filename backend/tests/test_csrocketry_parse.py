@@ -44,6 +44,13 @@ def test_instock_h242t_status_with_count():
     assert status is StockStatus.IN_STOCK_WITH_COUNT
 
 
+def test_instock_zero_count_is_out_of_stock():
+    # An InStock schema with a parsed count of 0 is sold out, not
+    # in-stock-with-count-zero (mirrors the n>0 guards in other scrapers).
+    status = _availability_to_status("https://schema.org/InStock", 0, "")
+    assert status is StockStatus.OUT_OF_STOCK
+
+
 def test_oos_j825r_parses_jsonld():
     html = _load("csrocketry_j825r_oos.html")
     product = _extract_product_jsonld(html)

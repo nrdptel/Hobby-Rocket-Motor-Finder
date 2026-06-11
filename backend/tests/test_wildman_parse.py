@@ -149,3 +149,28 @@ async def test_scrape_aerotech_unchanged_by_cti_routing():
     assert listings[0].manufacturer == "AeroTech"
     assert listings[0].diameter_mm is None
     assert "I161W" in listings[0].motor_designation
+
+
+def test_cti_listing_prefers_in_stock_variant():
+    # variants[0] is sold out; a later variant is in stock. The single CTI
+    # listing should reflect the buyable variant's status and price, not the
+    # sold-out variants[0].
+    scraper = WildmanScraper()
+    url = "https://wildmanrocketry.com/products/pr75-5g-r"
+    variants = [
+        {"id": 1, "title": "P", "price": 19999, "available": False, "inventory_policy": "deny"},
+        {"id": 2, "title": "Long", "price": 20999, "available": True, "inventory_quantity": 3},
+    ]
+    listings = scraper._cti_listings("M1810-CTI Red", url, url, variants)
+
+    assert len(listings) == 1
+    l = listings[0]
+    assert l.status is StockStatus.IN_STOCK_WITH_COUNT
+    assert l.stock_count == 3
+    assert l.price_cents == 20999  # the in-stock variant, not the sold-out 19999
+
+
+def test_cti_listing_no_variants_is_dropped():
+    scraper = WildmanScraper()
+    url = "https://wildmanrocketry.com/products/pr75-5g-r"
+    assert scraper._cti_listings("M1810-CTI Red", url, url, []) == []
