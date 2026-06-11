@@ -2,7 +2,7 @@ import { after } from "next/server";
 
 import { alertConfig, clientIp, normalizeEmail, userMotorsKey, userRocketsKey } from "@/lib/alerts/config";
 import { manageEmail, sendEmail } from "@/lib/alerts/email";
-import { overIpLimit } from "@/lib/alerts/rateLimit";
+import { overIpLimit, rateLimitedResponse } from "@/lib/alerts/rateLimit";
 import { signToken } from "@/lib/alerts/tokens";
 import { smembers } from "@/lib/alerts/upstash";
 
@@ -40,14 +40,13 @@ export async function POST(request: Request): Promise<Response> {
   if (!email) return json({ error: "a valid email is required" }, 400);
 
   try {
-    if (await overIpLimit(cfg, "rl:mgr", clientIp(request), RL_MAX)) {
-      return json({ error: "rate limited; try again later" }, 429);
-    }
+    const ipCheck = await overIpLimit(cfg, "rl:mgr", clientIp(request), RL_MAX);
+    if (ipCheck.limited) return rateLimitedResponse(ipCheck.retryAfterS);
   } catch {
     // Fail CLOSED if the store is down — consistent with the subscribe endpoints,
     // so a transient Upstash outage can't be used to fire unthrottled magic-link
     // emails (each carries a live 1h management token) at a subscriber.
-    return json({ error: "rate limited; try again later" }, 429);
+    return json({ error: "We couldn't process that just now — please try again shortly." }, 429);
   }
 
   // Do the lookup + send AFTER responding (next/server `after`), so the response
