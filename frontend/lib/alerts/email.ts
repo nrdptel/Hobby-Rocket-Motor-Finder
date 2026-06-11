@@ -1,58 +1,115 @@
-// Amazon SES email sender (via the SES v2 API) + the email templates the alert
-// system sends: a double-opt-in confirmation and a restock notification. Kept
-// text-light and inbox-friendly.
-
-import { SendEmailCommand, SESv2Client } from "@aws-sdk/client-sesv2";
+// ZeptoMail transactional email sender (via the v1.1 REST API) + the email
+// templates the alert system sends: a double-opt-in confirmation and a restock
+// notification. Kept text-light and inbox-friendly. No SDK — a single fetch to
+// the documented JSON endpoint, so the function stays dependency-free and runs
+// on the Edge/Node runtime unchanged.
 
 type SendArgs = {
-  ses: { region: string; accessKeyId: string; secretAccessKey: string };
+  zepto: { host: string; token: string };
   from: string;
   to: string;
   subject: string;
   html: string;
   text: string;
   // RFC 8058 one-click unsubscribe header (helps deliverability + gives the
-  // mail client a native unsubscribe button). Passed through SES's Simple-content
-  // Headers field, which supports List-Unsubscribe / List-Unsubscribe-Post.
+  // mail client a native unsubscribe button). Passed through ZeptoMail's
+  // `mime_headers`, which injects arbitrary MIME headers into the message.
   listUnsubscribe?: string;
 };
 
+/** Thrown when ZeptoMail rejects a send because the account's sending credits /
+ * quota are exhausted. Distinct from a transient/recipient failure so callers
+ * can raise an ops signal and stop hammering the API instead of treating it as
+ * a per-recipient blip. */
+export class EmailQuotaError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "EmailQuotaError";
+  }
+}
+
+/** Split an RFC 5322 `Name <addr>` (or a bare address) into ZeptoMail's
+ * `{ address, name }` shape. */
+export function parseFrom(from: string): { address: string; name?: string } {
+  const m = from.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+  if (m) {
+    const name = m[1].replace(/^"|"$/g, "").trim();
+    return name ? { address: m[2].trim(), name } : { address: m[2].trim() };
+  }
+  return { address: from.trim() };
+}
+
+/** Authorization header value. The Agent's "Send Mail token" already includes
+ * the `Zoho-enczapikey ` prefix; tolerate a bare key too. */
+function authHeader(token: string): string {
+  return /^Zoho-enczapikey\s/i.test(token) ? token : `Zoho-enczapikey ${token}`;
+}
+
+/** Detect ZeptoMail's "out of credits / over quota" rejection so the caller can
+ * raise an ops signal rather than silently dropping the batch. Matches on both
+ * the documented error codes and a message fallback (so a renamed code still
+ * trips the signal). */
+export function isQuotaError(status: number, code: string, message: string): boolean {
+  if (status === 402) return true;
+  const c = code.toUpperCase();
+  if (c === "TM_3201" || c === "SM_133") return true;
+  return /\b(credit|quota)s?\b|limit\s*exceed|insufficient/i.test(message);
+}
+
 export async function sendEmail(args: SendArgs): Promise<void> {
-  const client = new SESv2Client({
-    region: args.ses.region,
-    credentials: {
-      accessKeyId: args.ses.accessKeyId,
-      secretAccessKey: args.ses.secretAccessKey,
-    },
-  });
+  const body: Record<string, unknown> = {
+    from: parseFrom(args.from),
+    to: [{ email_address: { address: args.to } }],
+    subject: args.subject,
+    htmlbody: args.html,
+    textbody: args.text,
+  };
+  if (args.listUnsubscribe) {
+    body.mime_headers = {
+      "List-Unsubscribe": `<${args.listUnsubscribe}>`,
+      "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+    };
+  }
 
-  const headers = args.listUnsubscribe
-    ? [
-        { Name: "List-Unsubscribe", Value: `<${args.listUnsubscribe}>` },
-        { Name: "List-Unsubscribe-Post", Value: "List-Unsubscribe=One-Click" },
-      ]
-    : undefined;
-
-  // The SDK throws on any non-success (auth, throttling, rejected recipient). The
-  // caller treats a throw as "not sent" and rolls back the cooldown so the next
-  // run retries — so we deliberately don't swallow errors here. The SDK already
-  // retries transient/throttling errors internally with backoff.
-  await client.send(
-    new SendEmailCommand({
-      FromEmailAddress: args.from,
-      Destination: { ToAddresses: [args.to] },
-      Content: {
-        Simple: {
-          Subject: { Data: args.subject, Charset: "UTF-8" },
-          Body: {
-            Text: { Data: args.text, Charset: "UTF-8" },
-            Html: { Data: args.html, Charset: "UTF-8" },
-          },
-          ...(headers ? { Headers: headers } : {}),
-        },
+  // A throw means "not sent": the caller rolls back its cooldown so the next run
+  // retries. fetch only rejects on network errors, so we must inspect the status
+  // ourselves and throw on any non-2xx.
+  let res: Response;
+  try {
+    res = await fetch(`https://${args.zepto.host}/v1.1/email`, {
+      method: "POST",
+      headers: {
+        Authorization: authHeader(args.zepto.token),
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-    }),
-  );
+      body: JSON.stringify(body),
+    });
+  } catch (e) {
+    throw new Error(`ZeptoMail request failed: ${(e as Error).message}`);
+  }
+
+  if (res.ok) return;
+
+  // Non-2xx: pull the code/message out of ZeptoMail's `{ error: { code, message } }`
+  // envelope for a useful log line + quota detection.
+  let code = "";
+  let message = "";
+  try {
+    const j = (await res.json()) as { error?: { code?: string; message?: string } };
+    code = j.error?.code ?? "";
+    message = j.error?.message ?? "";
+  } catch {
+    /* body wasn't JSON */
+  }
+  if (isQuotaError(res.status, code, message)) {
+    // Distinct, greppable ops line — point a Vercel log drain / alert at it.
+    console.error(
+      `[alerts] ZeptoMail quota exhausted (status=${res.status} code=${code}): ${message}`,
+    );
+    throw new EmailQuotaError(`ZeptoMail quota exhausted: ${code || res.status}`);
+  }
+  throw new Error(`ZeptoMail send failed (status=${res.status} code=${code}): ${message}`);
 }
 
 const esc = (s: string) =>

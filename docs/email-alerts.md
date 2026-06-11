@@ -8,7 +8,7 @@ the site works exactly as without it.
 
 ```
 visitor clicks 🔔 → POST /api/alerts/subscribe (Vercel fn)
-        → double-opt-in email (Resend) → click confirm → GET /api/alerts/confirm
+        → double-opt-in email (ZeptoMail) → click confirm → GET /api/alerts/confirm
         → email added to Upstash set  sub:<manufacturer::designation>
 
 rocket-fit subscribe: My Rockets 🔔 → POST /api/alerts/subscribe-rocket
@@ -24,7 +24,7 @@ hourly scrape (GitHub Actions): export snapshot
         → per-motor: look up sub:<motorKey> subscribers, email each
         → rocket-fit: for each rocketsubs member, find restocked motors that fit
           it and send one digest email (per-(rocket,motor) 6h cooldown)
-        → all sends via Amazon SES
+        → all sends via ZeptoMail
 
 self-serve manage (no restock needed): /alerts page → enter email
         → POST /api/alerts/manage-request → magic link emailed (1h, signed "m" token)
@@ -46,13 +46,14 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
 
 ## One-time setup
 
-1. **Amazon SES** (email sending — ~$0.10 per 1,000 emails): in the SES console
-   (pick a region, e.g. `us-east-1`), **verify your sending domain** (Easy DKIM →
-   add the 3 CNAME records it gives you to DNS) and **request production access**
-   (new accounts start in a sandbox that can only send to verified addresses;
-   approval takes ~24h). Create an IAM user with `ses:SendEmail` (e.g. the
-   `AmazonSESFullAccess` policy) and generate an **access key id + secret**. Pick a
-   from address on the verified domain.
+1. **ZeptoMail** (transactional email sending — Zoho; pay-as-you-go credits, with
+   a free allotment to start): in the ZeptoMail console, **add and verify your
+   sending domain** (add the SPF + DKIM DNS records it gives you), create a
+   **Mail Agent** for this app, and under the agent's **Setup Info / SMTP & API**
+   tab copy the **Send Mail token** (a long string that already begins with
+   `Zoho-enczapikey `). Pick a from address on the verified domain. New accounts
+   are review-gated for transactional use; you can send up to 100/day while review
+   is pending.
 2. **Upstash** (subscriber store — free tier): create a Redis database, copy its
    **REST URL** and **REST token** (not the redis:// URL).
 3. **Generate two random secrets:** `openssl rand -hex 32` for each of
@@ -60,19 +61,20 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
 4. **Vercel** → Project → Settings → Environment Variables (Production), then redeploy:
    | Var | Value |
    |---|---|
-   | `SES_REGION` | e.g. `us-east-1` (the SES region you verified in) |
-   | `SES_ACCESS_KEY_ID` | from the IAM user |
-   | `SES_SECRET_ACCESS_KEY` | from the IAM user |
+   | `ZEPTOMAIL_TOKEN` | the agent's **Send Mail token** (the full `Zoho-enczapikey …` value) |
+   | `ZEPTOMAIL_HOST` | _(optional)_ API host; defaults to `api.zeptomail.com` (use `api.zeptomail.eu` for an EU account) |
    | `ALERTS_FROM` | e.g. `HPR Motor Finder <alerts@yourdomain>` (on the verified domain) |
    | `UPSTASH_REDIS_REST_URL` | from Upstash |
    | `UPSTASH_REDIS_REST_TOKEN` | from Upstash |
    | `ALERTS_SECRET` | random hex |
    | `ALERTS_DISPATCH_SECRET` | random hex |
+   | `ZEPTOMAIL_WEBHOOK_SECRET` | _(optional)_ shared key for the bounce webhook — see below |
    | `NEXT_PUBLIC_ALERTS_ENABLED` | `1` (shows the 🔔 button) |
    | `NEXT_PUBLIC_SITE_URL` | `https://motor.fusionspace.co` |
 
-   > Note: the SES vars use an `SES_` prefix, **not** `AWS_` — Vercel runs functions
-   > on Lambda, which reserves the `AWS_` prefix for its own runtime credentials.
+   > Treat `ZEPTOMAIL_TOKEN` as a live credential: it can send mail as your domain.
+   > Store it only in Vercel's env (never in the repo); rotate it from the agent's
+   > token list if it leaks.
 5. **GitHub** → repo → Settings → Secrets and variables → Actions → add:
    - `ALERTS_DISPATCH_URL` = `https://motor.fusionspace.co/api/alerts/dispatch`
    - `ALERTS_DISPATCH_SECRET` = the **same** value as in Vercel
@@ -88,15 +90,30 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
 ## Bounce / complaint handling
 
 A hard bounce or spam complaint should stop us emailing that address again
-(protects sender reputation). With SES this is handled **automatically** by the
-account-level **suppression list**: SES suppresses addresses that hard-bounce or
-complain, with no setup required — so reputation is protected out of the box.
+(protects sender reputation). ZeptoMail handles this on **its** side
+automatically — it suppresses hard-bounced/complained addresses internally, so
+deliverability is protected out of the box with no setup.
 
-To also scrub bounced/complained addresses from *our own* Upstash subscriber list
-(so dispatch stops trying them), subscribe SES bounce/complaint notifications to an
-**SNS topic** and point it at an HTTP endpoint that removes the address via the
-reverse indexes. This is optional and not yet wired up; the legacy
-`/api/alerts/resend-webhook` route is unused and inert (its secret is never set).
+To also scrub those addresses from *our own* Upstash subscriber list (so dispatch
+stops trying them), wire up the optional bounce webhook:
+
+1. In the ZeptoMail agent, add a **Webhook** pointing at
+   `https://motor.fusionspace.co/api/alerts/zepto-webhook`, subscribed to the
+   **hard bounce** and **feedback loop (spam complaint)** events, with an
+   **authentication key** of your choosing.
+2. Set `ZEPTOMAIL_WEBHOOK_SECRET` in Vercel to that **same** key and redeploy.
+
+The route verifies ZeptoMail's `producer-signature` header (HMAC-SHA256, replay
+window 5 min), then removes the recipient from every subscription via the reverse
+indexes. It's inert (503) until the secret is set, so a fork without it is
+unaffected. Soft/transient bounces are ignored (the address may recover).
+
+> Heads-up: ZeptoMail documents the `producer-signature` header format but not the
+> exact signed-content concatenation. We assume `<ts>.<rawBody>`
+> (`frontend/lib/alerts/webhook.ts` → `signedContent()`). Verification fails
+> **closed**, so if the first real webhook is rejected, confirm the concatenation
+> against the delivery and adjust that one function. No request is ever accepted
+> without a valid signature.
 
 ## One-time backfill (legacy subscriptions)
 
@@ -117,8 +134,11 @@ subs need no backfill). Returns `{keysScanned, backfilled}`.
 - Rate limits key off the **trusted** Vercel client IP (`x-vercel-forwarded-for` /
   `x-real-ip`), not the spoofable leftmost `x-forwarded-for`.
 - Public endpoints fail **closed** (no send) if the rate-limit store is down.
-- A global **daily cap** on confirmation-email sends bounds Resend-quota abuse
-  even if per-IP limiting is somehow evaded (restock dispatch sends are separate).
+- A global **hourly cap** on confirmation-email sends bounds ZeptoMail-credit
+  abuse even if per-IP limiting is somehow evaded (restock dispatch sends are
+  separate). If ZeptoMail credits do run out mid-run, `/api/alerts/dispatch` stops
+  the batch, logs a greppable `ZeptoMail quota exhausted` line, and returns
+  `quotaExhausted: true` (which the scrape surfaces in its CI output).
 
 ## Notes
 

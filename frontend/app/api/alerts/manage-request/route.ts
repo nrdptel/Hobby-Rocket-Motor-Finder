@@ -73,7 +73,7 @@ export async function POST(request: Request): Promise<Response> {
       const manageUrl = `${cfg.siteUrl}/api/alerts/manage?token=${encodeURIComponent(token)}`;
       const tmpl = manageEmail(manageUrl);
       await sendEmail({
-        ses: cfg.ses,
+        zepto: cfg.zepto,
         from: cfg.from,
         to: email,
         subject: tmpl.subject,

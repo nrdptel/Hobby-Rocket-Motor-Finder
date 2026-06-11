@@ -8,9 +8,10 @@
 // as before with zero setup.
 
 export type AlertConfig = {
-  // Amazon SES sending credentials. Env vars use an SES_ prefix (not AWS_) because
-  // Vercel runs functions on Lambda, which reserves the AWS_ prefix.
-  ses: { region: string; accessKeyId: string; secretAccessKey: string };
+  // ZeptoMail transactional-send credentials. `token` is the Agent's "Send Mail
+  // token" (it already carries the `Zoho-enczapikey ` Authorization prefix);
+  // `host` is the regional API host (defaults to api.zeptomail.com).
+  zepto: { host: string; token: string };
   from: string; // e.g. "HPR Motor Finder <alerts@fusionspace.co>"
   upstashUrl: string;
   upstashToken: string;
@@ -22,23 +23,21 @@ export type AlertConfig = {
 /** Resolve the full alert config from env, or null if any required piece is
  * missing (→ alerts disabled). */
 export function alertConfig(): AlertConfig | null {
-  const region = process.env.SES_REGION;
-  const accessKeyId = process.env.SES_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.SES_SECRET_ACCESS_KEY;
+  const token = process.env.ZEPTOMAIL_TOKEN;
+  const host = process.env.ZEPTOMAIL_HOST || "api.zeptomail.com";
   const from = process.env.ALERTS_FROM;
   const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
   const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
   const secret = process.env.ALERTS_SECRET;
   const dispatchSecret = process.env.ALERTS_DISPATCH_SECRET;
   if (
-    !region || !accessKeyId || !secretAccessKey ||
-    !from || !upstashUrl || !upstashToken || !secret || !dispatchSecret
+    !token || !from || !upstashUrl || !upstashToken || !secret || !dispatchSecret
   ) {
     return null;
   }
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
   return {
-    ses: { region, accessKeyId, secretAccessKey },
+    zepto: { host, token },
     from, upstashUrl, upstashToken, secret, dispatchSecret, siteUrl,
   };
 }

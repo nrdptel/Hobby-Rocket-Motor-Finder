@@ -82,7 +82,7 @@ export async function POST(request: Request): Promise<Response> {
 
   try {
     await sendEmail({
-      ses: cfg.ses,
+      zepto: cfg.zepto,
       from: cfg.from,
       to: email,
       subject: tmpl.subject,
