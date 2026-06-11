@@ -7,18 +7,22 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const setNxEx = vi.fn();
 const incrWithTtl = vi.fn();
 const del = vi.fn();
+const ttl = vi.fn();
 
 vi.mock("./upstash", () => ({
   setNxEx: (...a: unknown[]) => setNxEx(...a),
   incrWithTtl: (...a: unknown[]) => incrWithTtl(...a),
   del: (...a: unknown[]) => del(...a),
+  ttl: (...a: unknown[]) => ttl(...a),
 }));
 
 import type { AlertConfig } from "./config";
 import {
   confirmRecentlySent,
+  formatRetry,
   overGlobalConfirmCap,
   overIpLimit,
+  rateLimitedResponse,
   releaseConfirmCooldown,
   utcHour,
 } from "./rateLimit";
@@ -29,6 +33,7 @@ beforeEach(() => {
   setNxEx.mockReset();
   incrWithTtl.mockReset();
   del.mockReset();
+  ttl.mockReset();
 });
 
 describe("confirmRecentlySent (per-recipient cooldown)", () => {
@@ -56,11 +61,12 @@ describe("confirmRecentlySent (per-recipient cooldown)", () => {
 });
 
 describe("overGlobalConfirmCap (hourly cap = 300)", () => {
-  it("is false at the cap and true past it", async () => {
+  it("is not limited at the cap, limited past it (with a retry-after)", async () => {
     incrWithTtl.mockResolvedValueOnce(300);
-    expect(await overGlobalConfirmCap(cfg, "2026-06-06T18")).toBe(false);
+    expect(await overGlobalConfirmCap(cfg, "2026-06-06T18")).toEqual({ limited: false, retryAfterS: 0 });
     incrWithTtl.mockResolvedValueOnce(301);
-    expect(await overGlobalConfirmCap(cfg, "2026-06-06T18")).toBe(true);
+    ttl.mockResolvedValueOnce(1800);
+    expect(await overGlobalConfirmCap(cfg, "2026-06-06T18")).toEqual({ limited: true, retryAfterS: 1800 });
   });
 
   it("propagates a store error (fail closed)", async () => {
@@ -70,11 +76,44 @@ describe("overGlobalConfirmCap (hourly cap = 300)", () => {
 });
 
 describe("overIpLimit", () => {
-  it("is false at the max and true past it", async () => {
+  it("is not limited at the max, limited past it (retry-after = key TTL)", async () => {
     incrWithTtl.mockResolvedValueOnce(12);
-    expect(await overIpLimit(cfg, "rl:sub", "1.2.3.4", 12)).toBe(false);
+    expect(await overIpLimit(cfg, "rl:sub", "1.2.3.4", 12)).toEqual({ limited: false, retryAfterS: 0 });
     incrWithTtl.mockResolvedValueOnce(13);
-    expect(await overIpLimit(cfg, "rl:sub", "1.2.3.4", 12)).toBe(true);
+    ttl.mockResolvedValueOnce(2400);
+    expect(await overIpLimit(cfg, "rl:sub", "1.2.3.4", 12)).toEqual({ limited: true, retryAfterS: 2400 });
+  });
+
+  it("falls back to the full window when the key has no TTL (-1/-2)", async () => {
+    incrWithTtl.mockResolvedValueOnce(13);
+    ttl.mockResolvedValueOnce(-2); // key gone between INCR and TTL
+    expect(await overIpLimit(cfg, "rl:sub", "1.2.3.4", 12, 3600)).toEqual({
+      limited: true,
+      retryAfterS: 3600,
+    });
+  });
+});
+
+describe("formatRetry", () => {
+  it("renders a human phrase", () => {
+    expect(formatRetry(30)).toBe("less than a minute");
+    expect(formatRetry(60)).toBe("less than a minute");
+    expect(formatRetry(61)).toBe("about 2 minutes");
+    expect(formatRetry(120)).toBe("about 2 minutes");
+    expect(formatRetry(90)).toBe("about 2 minutes");
+    expect(formatRetry(3300)).toBe("about an hour");
+  });
+});
+
+describe("rateLimitedResponse", () => {
+  it("returns 429 with a time-aware message, Retry-After header, and retryAfterS", async () => {
+    const res = rateLimitedResponse(1800, "Any confirmations already sent are in your inbox.");
+    expect(res.status).toBe(429);
+    expect(res.headers.get("retry-after")).toBe("1800");
+    const body = await res.json();
+    expect(body.retryAfterS).toBe(1800);
+    expect(body.error).toContain("about 30 minutes");
+    expect(body.error).toContain("already sent are in your inbox");
   });
 });
 

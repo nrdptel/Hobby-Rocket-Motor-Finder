@@ -12,7 +12,7 @@
 //      feature. An hourly window self-heals within the hour.
 
 import type { AlertConfig } from "./config";
-import { del, incrWithTtl, setNxEx } from "./upstash";
+import { del, incrWithTtl, setNxEx, ttl } from "./upstash";
 
 // Generous enough for a launch-day surge of genuine signups, low enough to bound
 // a runaway. Dispatch (restock) sends are separate and not counted here.
@@ -25,17 +25,30 @@ const GLOBAL_CONFIRM_CAP_PER_HOUR = 300;
 // global caps — those are the real anti-abuse controls.
 const EMAIL_CONFIRM_COOLDOWN_S = 600; // 10 min
 
-/** Per-IP hourly limit. Returns true if the caller is over the cap. Throws if
- * the store is unavailable (caller decides fail-open vs fail-closed). */
+/** Result of a rate-limit check. `retryAfterS` is meaningful only when `limited`
+ * is true — seconds until the window resets, for a Retry-After hint. */
+export type RateCheck = { limited: boolean; retryAfterS: number };
+
+/** Remaining seconds on a window key, falling back to the full window when the
+ * key has no TTL / doesn't exist (Redis TTL returns -1 / -2). */
+async function retryAfter(cfg: AlertConfig, key: string, windowSeconds: number): Promise<number> {
+  const t = await ttl(cfg, key);
+  return t > 0 ? t : windowSeconds;
+}
+
+/** Per-IP hourly limit. When limited, `retryAfterS` is the key's remaining TTL.
+ * Throws if the store is unavailable (caller decides fail-open vs fail-closed). */
 export async function overIpLimit(
   cfg: AlertConfig,
   keyPrefix: string,
   ip: string,
   max: number,
   windowSeconds = 3600,
-): Promise<boolean> {
-  const n = await incrWithTtl(cfg, `${keyPrefix}:${ip}`, windowSeconds);
-  return n > max;
+): Promise<RateCheck> {
+  const key = `${keyPrefix}:${ip}`;
+  const n = await incrWithTtl(cfg, key, windowSeconds);
+  if (n <= max) return { limited: false, retryAfterS: 0 };
+  return { limited: true, retryAfterS: await retryAfter(cfg, key, windowSeconds) };
 }
 
 /** Claim the per-recipient confirmation cooldown for `email`. Returns true when a
@@ -75,15 +88,38 @@ function cooldownKey(email: string, target: string): string {
   return `csent:${email}:${target}`;
 }
 
-/** Global hourly cap on confirmation-email sends. Returns true if this hour's cap
- * is already reached. `hour` is an injected YYYY-MM-DDTHH string (keeps this
- * testable and avoids a clock dependency in the helper). */
-export async function overGlobalConfirmCap(cfg: AlertConfig, hour: string): Promise<boolean> {
-  const n = await incrWithTtl(cfg, `csend:${hour}`, 3700); // ~1h + slack TTL
-  return n > GLOBAL_CONFIRM_CAP_PER_HOUR;
+/** Global hourly cap on confirmation-email sends. When limited, `retryAfterS` is
+ * the bucket's remaining TTL. `hour` is an injected YYYY-MM-DDTHH string (keeps
+ * this testable and avoids a clock dependency in the helper). */
+export async function overGlobalConfirmCap(cfg: AlertConfig, hour: string): Promise<RateCheck> {
+  const key = `csend:${hour}`;
+  const n = await incrWithTtl(cfg, key, 3700); // ~1h + slack TTL
+  if (n <= GLOBAL_CONFIRM_CAP_PER_HOUR) return { limited: false, retryAfterS: 0 };
+  return { limited: true, retryAfterS: await retryAfter(cfg, key, 3600) };
 }
 
 /** The current UTC hour as YYYY-MM-DDTHH, for the global-cap key. */
 export function utcHour(): string {
   return new Date().toISOString().slice(0, 13);
+}
+
+/** Human-friendly "try again in …" phrase for a Retry-After number of seconds. */
+export function formatRetry(seconds: number): string {
+  if (seconds <= 60) return "less than a minute";
+  const minutes = Math.ceil(seconds / 60);
+  if (minutes >= 55) return "about an hour";
+  return `about ${minutes} minute${minutes === 1 ? "" : "s"}`;
+}
+
+/** A 429 response carrying a friendly, time-aware message, a machine-readable
+ * `retryAfterS`, and the standard `Retry-After` header. `note` is appended to the
+ * default sentence (e.g. to reassure that earlier confirmations already sent). */
+export function rateLimitedResponse(retryAfterS: number, note?: string): Response {
+  const error =
+    `You're going a bit fast — please try again in ${formatRetry(retryAfterS)}.` +
+    (note ? ` ${note}` : "");
+  return new Response(JSON.stringify({ error, retryAfterS }), {
+    status: 429,
+    headers: { "content-type": "application/json", "retry-after": String(retryAfterS) },
+  });
 }
