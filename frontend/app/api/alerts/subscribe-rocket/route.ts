@@ -45,6 +45,8 @@ export async function POST(request: Request): Promise<Response> {
   const fields = normalizeRocketFields(body);
   if (!email) return json({ error: "a valid email is required" }, 400);
   if (!fields) return json({ error: "a valid rocket (motor-mount diameter) is required" }, 400);
+  // The cooldown is per-(email, rocket-spec), so compute the spec target up front.
+  const specField = rocketSpecField(fields);
 
   // Per-IP hourly cap, global hourly cap, and a per-recipient cooldown; all fail
   // CLOSED if the store is down so a flaky Upstash can't be used to bypass them.
@@ -56,13 +58,13 @@ export async function POST(request: Request): Promise<Response> {
     // suppress (no email) doesn't burn the global hourly budget — the global cap
     // then counts only would-be sends. Suppressed → SAME success message so we
     // never reveal subscription state.
-    if (await confirmRecentlySent(cfg, email)) {
+    if (await confirmRecentlySent(cfg, email, specField)) {
       return json({ ok: true, message: "Check your email to confirm." });
     }
     if (await overGlobalConfirmCap(cfg, utcHour())) {
       // Over the global cap after claiming the cooldown → release it so this
       // address isn't locked out of retrying once the window resets.
-      await releaseConfirmCooldown(cfg, email);
+      await releaseConfirmCooldown(cfg, email, specField);
       return json({ error: "rate limited; try again later" }, 429);
     }
   } catch {
@@ -72,7 +74,7 @@ export async function POST(request: Request): Promise<Response> {
   const token = await signToken(cfg.secret, {
     t: "rc",
     e: email,
-    m: rocketSpecField(fields),
+    m: specField,
     x: Math.floor(Date.now() / 1000) + CONFIRM_TTL_S,
   });
   const confirmUrl = `${cfg.siteUrl}/api/alerts/confirm?token=${encodeURIComponent(token)}`;
@@ -95,7 +97,7 @@ export async function POST(request: Request): Promise<Response> {
   } catch {
     // Send failed → release the per-recipient cooldown so a transient error
     // doesn't lock this address out of retrying for the full window.
-    await releaseConfirmCooldown(cfg, email);
+    await releaseConfirmCooldown(cfg, email, specField);
     return json({ error: "could not send confirmation email" }, 502);
   }
 
