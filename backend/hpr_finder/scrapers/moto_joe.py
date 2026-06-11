@@ -33,6 +33,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_cti_designation, extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 BASE_URL = "https://www.moto-joe.com"
 AEROTECH = "AeroTech"
@@ -226,7 +227,7 @@ def _block_price_cents(block: str) -> int | None:
     if not pb:
         return None
     m = _PRICE_RE.search(pb.group(1))  # first $ amount (handles price-new/old)
-    return int(round(float(m.group(1).replace(",", "")) * 100)) if m else None
+    return price_to_cents(m.group(1)) if m else None
 
 
 def _clean(text: str) -> str:

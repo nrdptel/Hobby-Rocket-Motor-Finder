@@ -26,6 +26,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_cti_designation, extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
@@ -198,7 +199,7 @@ class CSRocketryScraper(Scraper):
         sku = str(product.get("sku") or offers.get("sku") or "") or None
         availability = offers.get("availability") or ""
         price = offers.get("price")
-        price_cents = _to_cents(price)
+        price_cents = price_to_cents(price)
 
         # Cesaroni and AeroTech products share this page layout; the URL tree tells
         # them apart, and each brand needs its own designation extractor + match
@@ -296,12 +297,3 @@ def _availability_to_status(availability: str, stock_count: int | None, html: st
     if "outofstock" in a or OOS_TEXT_RE.search(html):
         return StockStatus.OUT_OF_STOCK
     return StockStatus.UNKNOWN
-
-
-def _to_cents(price) -> int | None:
-    if price is None:
-        return None
-    try:
-        return int(round(float(price) * 100))
-    except (TypeError, ValueError):
-        return None

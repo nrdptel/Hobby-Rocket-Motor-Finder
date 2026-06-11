@@ -8,7 +8,8 @@ exercised across many statuses.
 from pathlib import Path
 
 from hpr_finder.models import StockStatus
-from hpr_finder.scrapers.amw import AMWScraper, _parse_status, _price_to_cents
+from hpr_finder.scrapers.amw import AMWScraper, _parse_status
+from hpr_finder.scrapers.prices import price_to_cents
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -97,13 +98,13 @@ def test_parse_status_zero_in_stock_is_out_of_stock():
 
 
 def test_price_to_cents_normal():
-    assert _price_to_cents("33.14") == 3314
-    assert _price_to_cents("600.09") == 60009
+    assert price_to_cents("33.14") == 3314
+    assert price_to_cents("600.09") == 60009
 
 
 def test_price_to_cents_none():
-    assert _price_to_cents(None) is None
+    assert price_to_cents(None) is None
 
 
 def test_price_to_cents_bogus():
-    assert _price_to_cents("not-a-price") is None
+    assert price_to_cents("not-a-price") is None

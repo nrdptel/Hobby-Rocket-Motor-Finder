@@ -40,6 +40,7 @@ from ..normalize import (
     propellant_letter,
 )
 from .base import Scraper
+from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
@@ -156,7 +157,7 @@ class BuyRocketMotorsScraper(Scraper):
         # Single-variant product (HPR motor, kit, etc.) — use default-variant data
         # from the Product JSON-LD.
         availability = (offers.get("availability") or "").lower()
-        price_cents = _to_cents(offers.get("price"))
+        price_cents = price_to_cents(offers.get("price"))
         sku = str(product.get("sku") or offers.get("sku") or "") or None
         return [
             Listing(
@@ -286,12 +287,3 @@ def _availability_to_status(availability: str) -> StockStatus:
     if "preorder" in a or "backorder" in a:
         return StockStatus.SPECIAL_ORDER
     return StockStatus.UNKNOWN
-
-
-def _to_cents(price) -> int | None:
-    if price is None:
-        return None
-    try:
-        return int(round(float(price) * 100))
-    except (TypeError, ValueError):
-        return None
