@@ -1,93 +1,116 @@
 import { describe, expect, it } from "vitest";
 
-import { isRemovableEvent, recipientsFromEvent, verifyResendWebhook } from "./webhook";
+import { isRemovableEvent, recipientsFromEvent, verifyZeptoWebhook } from "./webhook";
 
-const SECRET = "whsec_dGVzdHNlY3JldHRlc3RzZWNyZXQ="; // base64("testsecrettestsecret")
+const SECRET = "testsecrettestsecret";
 
-const b64dec = (s: string) => {
-  const bin = atob(s);
-  const u = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-  return u;
-};
 const b64enc = (u: Uint8Array) => {
   let s = "";
   for (const b of u) s += String.fromCharCode(b);
   return btoa(s);
 };
 
-async function sign(secret: string, id: string, ts: string, payload: string): Promise<string> {
+/** Build a valid `producer-signature` header for a body — mirrors the scheme in
+ * webhook.ts (HMAC-SHA256 over `<ts>.<body>`, ts in epoch millis). */
+async function sign(secret: string, tsMs: string, payload: string): Promise<string> {
   const key = await crypto.subtle.importKey(
     "raw",
-    b64dec(secret.slice("whsec_".length)),
+    new TextEncoder().encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"],
   );
   const sig = new Uint8Array(
-    await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${id}.${ts}.${payload}`)),
+    await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${tsMs}.${payload}`)),
   );
-  return `v1,${b64enc(sig)}`;
+  return `ts=${tsMs};s=${b64enc(sig)};s-algorithm=HmacSHA256`;
 }
 
-describe("verifyResendWebhook", () => {
-  const id = "msg_1";
-  const ts = "1700000000";
-  const payload = '{"type":"email.bounced","data":{"to":["a@b.com"]}}';
-  const now = 1700000000;
+describe("verifyZeptoWebhook", () => {
+  const tsMs = "1700000000000"; // epoch millis
+  const now = 1700000000; // same instant in seconds
+  const payload = '{"event_name":"hard bounce","event_message":[{"email_info":{"to":[{"email_address":{"address":"a@b.com"}}]}}]}';
 
   it("accepts a valid signature within tolerance", async () => {
-    const signature = await sign(SECRET, id, ts, payload);
-    expect(await verifyResendWebhook({ secret: SECRET, id, timestamp: ts, signature, payload, now })).toBe(true);
+    const header = await sign(SECRET, tsMs, payload);
+    expect(await verifyZeptoWebhook({ secret: SECRET, signatureHeader: header, payload, now })).toBe(true);
   });
 
   it("rejects a tampered payload", async () => {
-    const signature = await sign(SECRET, id, ts, payload);
+    const header = await sign(SECRET, tsMs, payload);
     const tampered = payload.replace("a@b.com", "evil@x.com");
     expect(
-      await verifyResendWebhook({ secret: SECRET, id, timestamp: ts, signature, payload: tampered, now }),
+      await verifyZeptoWebhook({ secret: SECRET, signatureHeader: header, payload: tampered, now }),
     ).toBe(false);
   });
 
   it("rejects a signature made with a different secret", async () => {
-    const signature = await sign("whsec_b3RoZXJzZWNyZXRvdGhlcnNlY3JldA==", id, ts, payload);
-    expect(await verifyResendWebhook({ secret: SECRET, id, timestamp: ts, signature, payload, now })).toBe(false);
+    const header = await sign("othersecretothersecret", tsMs, payload);
+    expect(await verifyZeptoWebhook({ secret: SECRET, signatureHeader: header, payload, now })).toBe(false);
   });
 
   it("rejects a stale timestamp (replay)", async () => {
-    const signature = await sign(SECRET, id, ts, payload);
+    const header = await sign(SECRET, tsMs, payload);
     expect(
-      await verifyResendWebhook({ secret: SECRET, id, timestamp: ts, signature, payload, now: now + 10_000 }),
+      await verifyZeptoWebhook({ secret: SECRET, signatureHeader: header, payload, now: now + 10_000 }),
     ).toBe(false);
   });
 
-  it("accepts when one of several space-delimited signatures matches", async () => {
-    const good = await sign(SECRET, id, ts, payload);
-    const signature = `v1,AAAA ${good}`;
-    expect(await verifyResendWebhook({ secret: SECRET, id, timestamp: ts, signature, payload, now })).toBe(true);
+  it("tolerates whitespace and key ordering in the header", async () => {
+    const key = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(SECRET),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    );
+    const s = b64enc(
+      new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${tsMs}.${payload}`))),
+    );
+    const header = ` s-algorithm=HmacSHA256 ; ts=${tsMs} ; s=${s} `;
+    expect(await verifyZeptoWebhook({ secret: SECRET, signatureHeader: header, payload, now })).toBe(true);
   });
 
-  it("rejects missing headers", async () => {
-    expect(await verifyResendWebhook({ secret: SECRET, id: null, timestamp: ts, signature: "x", payload, now })).toBe(false);
+  it("rejects a missing or malformed header", async () => {
+    expect(await verifyZeptoWebhook({ secret: SECRET, signatureHeader: null, payload, now })).toBe(false);
+    expect(await verifyZeptoWebhook({ secret: SECRET, signatureHeader: "garbage", payload, now })).toBe(false);
   });
 });
 
 describe("recipientsFromEvent", () => {
-  it("reads an array or a string `to`", () => {
-    expect(recipientsFromEvent({ data: { to: ["a@b.com", "c@d.com"] } })).toEqual(["a@b.com", "c@d.com"]);
-    expect(recipientsFromEvent({ data: { to: "a@b.com" } })).toEqual(["a@b.com"]);
-    expect(recipientsFromEvent({ data: {} })).toEqual([]);
+  it("extracts nested recipients and ignores non-recipient addresses", () => {
+    const event = {
+      event_name: "hard bounce",
+      event_message: [
+        {
+          email_info: {
+            from: { address: "alerts@fusionspace.co" }, // must NOT be scrubbed
+            to: [{ email_address: { address: "a@b.com" } }, { email_address: { address: "c@d.com" } }],
+          },
+        },
+      ],
+    };
+    expect(recipientsFromEvent(event).sort()).toEqual(["a@b.com", "c@d.com"]);
+  });
+
+  it("handles a single (non-array) email_message/to and de-dupes", () => {
+    const event = {
+      event_message: { email_info: { to: { email_address: { address: "a@b.com" } } } },
+    };
+    expect(recipientsFromEvent(event)).toEqual(["a@b.com"]);
     expect(recipientsFromEvent(null)).toEqual([]);
+    expect(recipientsFromEvent({})).toEqual([]);
   });
 });
 
 describe("isRemovableEvent", () => {
-  it("removes on complaints and permanent bounces, not transient/delivered", () => {
-    expect(isRemovableEvent({ type: "email.complained" })).toBe(true);
-    expect(isRemovableEvent({ type: "email.bounced", data: { bounce: { type: "Permanent" } } })).toBe(true);
-    expect(isRemovableEvent({ type: "email.bounced" })).toBe(true); // unknown → treat as hard
-    expect(isRemovableEvent({ type: "email.bounced", data: { bounce: { type: "Transient" } } })).toBe(false);
-    expect(isRemovableEvent({ type: "email.delivered" })).toBe(false);
+  it("removes on hard bounce and feedback-loop, not soft/other", () => {
+    expect(isRemovableEvent({ event_name: "hard bounce" })).toBe(true);
+    expect(isRemovableEvent({ event_name: "hardbounce" })).toBe(true);
+    expect(isRemovableEvent({ event_name: "feedback loop" })).toBe(true);
+    expect(isRemovableEvent({ event_name: "spam complaint" })).toBe(true);
+    expect(isRemovableEvent({ event_name: "soft bounce" })).toBe(false);
+    expect(isRemovableEvent({ event_name: "email opens" })).toBe(false);
     expect(isRemovableEvent({})).toBe(false);
   });
 });

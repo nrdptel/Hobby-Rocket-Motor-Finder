@@ -60,12 +60,12 @@ export default function PrivacyPage() {
             <li>
               The only third party your address touches is{" "}
               <a
-                href="https://aws.amazon.com/ses/"
+                href="https://www.zoho.com/zeptomail/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline underline-offset-2 hover:text-zinc-900 dark:hover:text-zinc-100"
               >
-                Amazon SES
+                ZeptoMail
               </a>
               , which delivers the emails.
             </li>

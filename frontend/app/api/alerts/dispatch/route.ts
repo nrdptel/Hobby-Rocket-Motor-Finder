@@ -1,5 +1,5 @@
 import { alertConfig, motorKey, rocketSubsKey, subKey } from "@/lib/alerts/config";
-import { restockEmail, rocketRestockEmail, sendEmail } from "@/lib/alerts/email";
+import { EmailQuotaError, restockEmail, rocketRestockEmail, sendEmail } from "@/lib/alerts/email";
 import { manageLink } from "@/lib/alerts/manageLink";
 import { motorFitsRocket } from "@/lib/rocketFit";
 import {
@@ -70,7 +70,11 @@ export async function POST(request: Request): Promise<Response> {
 
   let sent = 0;
   let notified = 0;
+  // ZeptoMail credits exhausted: stop the whole batch (no point hammering the
+  // API) and report it so an ops alert can fire. Set by a caught EmailQuotaError.
+  let quotaExhausted = false;
   for (const m of motors) {
+    if (quotaExhausted) break;
     const manufacturer = typeof m.manufacturer === "string" ? m.manufacturer.trim() : "";
     const designation = typeof m.designation === "string" ? m.designation.trim() : "";
     if (!manufacturer || !designation) continue;
@@ -87,6 +91,7 @@ export async function POST(request: Request): Promise<Response> {
       const motorUrl = `${cfg.siteUrl}/?q=${encodeURIComponent(designation)}`;
       let sentForMotor = 0;
       for (const email of subs) {
+        if (quotaExhausted) break;
         try {
           const unsubToken = await signToken(cfg.secret, { t: "u", e: email, m: key, x: 0 });
           const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
@@ -100,7 +105,7 @@ export async function POST(request: Request): Promise<Response> {
             firstAvailable,
           );
           await sendEmail({
-            ses: cfg.ses,
+            zepto: cfg.zepto,
             from: cfg.from,
             to: email,
             subject: tmpl.subject,
@@ -110,8 +115,13 @@ export async function POST(request: Request): Promise<Response> {
           });
           sent++;
           sentForMotor++;
-        } catch {
-          // Skip a single bad recipient; keep going.
+        } catch (e) {
+          // Quota exhausted → abort the whole batch (the signal is already logged
+          // in sendEmail). Otherwise skip a single bad recipient and keep going.
+          if (e instanceof EmailQuotaError) {
+            quotaExhausted = true;
+            break;
+          }
         }
       }
       // If NOT ONE recipient got the email, release the cooldown claim. Note
@@ -154,7 +164,7 @@ export async function POST(request: Request): Promise<Response> {
     });
   }
 
-  if (restocked.length > 0) {
+  if (restocked.length > 0 && !quotaExhausted) {
     let members: string[] = [];
     try {
       members = await smembers(cfg, rocketSubsKey());
@@ -162,6 +172,7 @@ export async function POST(request: Request): Promise<Response> {
       members = [];
     }
     for (const raw of members) {
+      if (quotaExhausted) break;
       const parsed = parseRocketMember(raw);
       if (!parsed) continue;
       const spec = fieldsToSpec(parsed.fields);
@@ -208,7 +219,7 @@ export async function POST(request: Request): Promise<Response> {
           await manageLink(cfg, parsed.email),
         );
         await sendEmail({
-          ses: cfg.ses,
+          zepto: cfg.zepto,
           from: cfg.from,
           to: parsed.email,
           subject: tmpl.subject,
@@ -217,7 +228,8 @@ export async function POST(request: Request): Promise<Response> {
           listUnsubscribe: unsubscribeUrl,
         });
         rocketEmailsSent++;
-      } catch {
+      } catch (e) {
+        if (e instanceof EmailQuotaError) quotaExhausted = true;
         // The digest send failed — release the cooldown claims. As with the
         // per-motor path this only enables a retry if the fresh snapshot also
         // fails to commit this run; otherwise the restock isn't re-detected next
@@ -240,5 +252,8 @@ export async function POST(request: Request): Promise<Response> {
     emailsSent: sent,
     rocketsNotified,
     rocketEmailsSent,
+    // True if the batch stopped early because ZeptoMail credits ran out; the
+    // scrape logs the dispatch response, so this surfaces in CI output too.
+    ...(quotaExhausted ? { quotaExhausted: true } : {}),
   });
 }
