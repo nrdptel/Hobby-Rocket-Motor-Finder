@@ -2,6 +2,7 @@ import { after } from "next/server";
 
 import { alertConfig, clientIp, normalizeEmail, userMotorsKey, userRocketsKey } from "@/lib/alerts/config";
 import { manageEmail, sendEmail } from "@/lib/alerts/email";
+import { json } from "@/lib/alerts/http";
 import { overIpLimit, rateLimitedResponse } from "@/lib/alerts/rateLimit";
 import { signToken } from "@/lib/alerts/tokens";
 import { smembers } from "@/lib/alerts/upstash";
@@ -10,13 +11,6 @@ export const dynamic = "force-dynamic";
 
 const MANAGE_TTL_S = 3600; // magic link valid for 1 hour
 const RL_MAX = 12; // manage-link requests per IP per hour
-
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
-}
 
 // Always the same reply so the site can't be used to test whether an address is
 // subscribed (no email enumeration). A magic link is emailed only if the address

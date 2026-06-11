@@ -1,5 +1,6 @@
 import { alertConfig, motorKey, rocketSubsKey, subKey } from "@/lib/alerts/config";
 import { EmailQuotaError, restockEmail, rocketRestockEmail, sendEmail } from "@/lib/alerts/email";
+import { hasDispatchBearer, json } from "@/lib/alerts/http";
 import { manageLink } from "@/lib/alerts/manageLink";
 import { motorFitsRocket } from "@/lib/rocketFit";
 import {
@@ -34,29 +35,13 @@ export const maxDuration = 60;
 const COOLDOWN_S = 6 * 3600;
 const MAX_MOTORS = 1000;
 
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
-}
-
-function constantTimeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}
-
 /** Called by the hourly scrape with the motors that just restocked. Looks up
  * subscribers and emails them, de-duplicated by a per-motor cooldown. */
 export async function POST(request: Request): Promise<Response> {
   const cfg = alertConfig();
   if (!cfg) return json({ error: "alerts not configured" }, 503);
 
-  const auth = request.headers.get("authorization") || "";
-  const bearer = auth.startsWith("Bearer ") ? auth.slice(7) : "";
-  if (!bearer || !constantTimeEqual(bearer, cfg.dispatchSecret)) {
+  if (!hasDispatchBearer(request, cfg)) {
     return json({ error: "unauthorized" }, 401);
   }
 
