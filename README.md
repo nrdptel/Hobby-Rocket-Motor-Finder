@@ -23,7 +23,7 @@ The U.S. hobby motor shortage makes finding a specific impulse / diameter / prop
 
 ## Disclaimer
 
-Personal, non-commercial hobby project. Not affiliated with any vendor or manufacturer listed. Stock and price data are best-effort, often stale, and not authoritative — always confirm on the vendor's own site before purchasing. If you operate a listed vendor and would like the scraper changed or removed, please [open an issue](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/issues) and we'll comply.
+A personal hobby project. Not affiliated with any vendor or manufacturer listed. Stock and price data are best-effort, often stale, and not authoritative — always confirm on the vendor's own site before purchasing. If you operate a listed vendor and would like the scraper changed or removed, please [open an issue](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/issues) and we'll comply.
 
 Released under the [MIT License](LICENSE) — fork it, modify it, deploy your own copy, no attribution required.
 
