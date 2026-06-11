@@ -5,6 +5,7 @@ import {
   confirmRecentlySent,
   overGlobalConfirmCap,
   overIpLimit,
+  rateLimitedResponse,
   releaseConfirmCooldown,
   utcHour,
 } from "@/lib/alerts/rateLimit";
@@ -51,8 +52,9 @@ export async function POST(request: Request): Promise<Response> {
   // Per-IP hourly cap, global hourly cap, and a per-recipient cooldown; all fail
   // CLOSED if the store is down so a flaky Upstash can't be used to bypass them.
   try {
-    if (await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX)) {
-      return json({ error: "rate limited; try again later" }, 429);
+    const ipCheck = await overIpLimit(cfg, "rl:sub", clientIp(request), RL_MAX);
+    if (ipCheck.limited) {
+      return rateLimitedResponse(ipCheck.retryAfterS, "Any confirmations already sent are in your inbox.");
     }
     // Per-recipient cooldown BEFORE the global cap, so a request we're going to
     // suppress (no email) doesn't burn the global hourly budget — the global cap
@@ -61,14 +63,15 @@ export async function POST(request: Request): Promise<Response> {
     if (await confirmRecentlySent(cfg, email, specField)) {
       return json({ ok: true, message: "Check your email to confirm." });
     }
-    if (await overGlobalConfirmCap(cfg, utcHour())) {
+    const capCheck = await overGlobalConfirmCap(cfg, utcHour());
+    if (capCheck.limited) {
       // Over the global cap after claiming the cooldown → release it so this
       // address isn't locked out of retrying once the window resets.
       await releaseConfirmCooldown(cfg, email, specField);
-      return json({ error: "rate limited; try again later" }, 429);
+      return rateLimitedResponse(capCheck.retryAfterS);
     }
   } catch {
-    return json({ error: "rate limited; try again later" }, 429);
+    return json({ error: "We couldn't set up your alert just now — please try again shortly." }, 429);
   }
 
   const token = await signToken(cfg.secret, {

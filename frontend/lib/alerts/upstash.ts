@@ -64,6 +64,15 @@ export async function del(cfg: UpstashCfg, key: string): Promise<void> {
   await cmd(cfg, ["DEL", key]);
 }
 
+/** Remaining time-to-live of a key, in seconds. Redis returns -2 if the key
+ * doesn't exist and -1 if it exists without a TTL; we pass those through so the
+ * caller can fall back to the full window. Used to tell a rate-limited caller
+ * how long until they can retry. */
+export async function ttl(cfg: UpstashCfg, key: string): Promise<number> {
+  const r = await cmd(cfg, ["TTL", key]);
+  return typeof r === "number" ? r : -2;
+}
+
 /** Iterate keys matching a glob with SCAN (cursor-based; never blocks Redis like
  * KEYS). Returns all matches. Used by the one-time reverse-index backfill. */
 export async function scanKeys(cfg: UpstashCfg, match: string, count = 200): Promise<string[]> {
