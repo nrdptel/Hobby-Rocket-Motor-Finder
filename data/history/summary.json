@@ -40781,10 +40781,10 @@
     "price_high_cents": 19300
   },
   "https://www.balsamachining.com/hpmp.htm#11100P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -40924,10 +40924,10 @@
     "price_high_cents": 11300
   },
   "https://www.balsamachining.com/hpmp.htm#11103L": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -41795,10 +41795,10 @@
     "price_high_cents": 16800
   },
   "https://www.balsamachining.com/hpmp.htm#11560P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -43290,10 +43290,10 @@
     "price_high_cents": 25000
   },
   "https://www.balsamachining.com/hpmp.htm#12139P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -43550,10 +43550,10 @@
     "price_high_cents": 40000
   },
   "https://www.balsamachining.com/hpmp.htm#12220P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -44811,10 +44811,10 @@
     "price_high_cents": 98700
   },
   "https://www.balsamachining.com/hpmp.htm#13107P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -45123,10 +45123,10 @@
     "price_high_cents": 49900
   },
   "https://www.balsamachining.com/hpmp.htm#13141P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -45526,10 +45526,10 @@
     "price_high_cents": 45000
   },
   "https://www.balsamachining.com/hpmp.htm#13193P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -45851,10 +45851,10 @@
     "price_high_cents": 61100
   },
   "https://www.balsamachining.com/hpmp.htm#13450P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -46397,10 +46397,10 @@
     "price_high_cents": 192100
   },
   "https://www.balsamachining.com/hpmp.htm#14100P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -46449,10 +46449,10 @@
     "price_high_cents": 90000
   },
   "https://www.balsamachining.com/hpmp.htm#14200P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-06-11T14:00:27+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
