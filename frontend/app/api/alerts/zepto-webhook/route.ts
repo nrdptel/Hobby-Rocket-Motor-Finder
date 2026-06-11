@@ -1,15 +1,9 @@
 import { alertConfig, normalizeEmail } from "@/lib/alerts/config";
+import { json } from "@/lib/alerts/http";
 import { removeAllForEmail } from "@/lib/alerts/store";
 import { isRemovableEvent, recipientsFromEvent, verifyZeptoWebhook } from "@/lib/alerts/webhook";
 
 export const dynamic = "force-dynamic";
-
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
-}
 
 // ZeptoMail bounce/complaint webhook. On a hard bounce or a spam complaint
 // (feedback loop), scrub the address from every subscription so it's never
