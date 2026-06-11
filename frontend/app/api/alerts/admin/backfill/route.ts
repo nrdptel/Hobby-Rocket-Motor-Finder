@@ -1,21 +1,8 @@
 import { alertConfig, userMotorsKey } from "@/lib/alerts/config";
+import { hasDispatchBearer, json } from "@/lib/alerts/http";
 import { sadd, scanKeys, smembers } from "@/lib/alerts/upstash";
 
 export const dynamic = "force-dynamic";
-
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
-}
-
-function constantTimeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}
 
 // One-time maintenance: subscriptions created before PR #50 wrote only the
 // forward set (sub:<motorKey>) and not the per-email reverse index
@@ -28,9 +15,7 @@ export async function POST(request: Request): Promise<Response> {
   const cfg = alertConfig();
   if (!cfg) return json({ error: "alerts not configured" }, 503);
 
-  const auth = request.headers.get("authorization") || "";
-  const bearer = auth.startsWith("Bearer ") ? auth.slice(7) : "";
-  if (!bearer || !constantTimeEqual(bearer, cfg.dispatchSecret)) {
+  if (!hasDispatchBearer(request, cfg)) {
     return json({ error: "unauthorized" }, 401);
   }
 

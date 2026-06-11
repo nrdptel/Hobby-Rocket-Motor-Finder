@@ -1,5 +1,6 @@
 import { alertConfig, clientIp, normalizeEmail } from "@/lib/alerts/config";
 import { rocketConfirmEmail, sendEmail } from "@/lib/alerts/email";
+import { json } from "@/lib/alerts/http";
 import { manageLink } from "@/lib/alerts/manageLink";
 import {
   confirmRecentlySent,
@@ -21,13 +22,6 @@ export const dynamic = "force-dynamic";
 
 const CONFIRM_TTL_S = 24 * 3600; // confirm links expire in 24h
 const RL_MAX = 12; // subscribe requests per IP per hour
-
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
-}
 
 // "Email me when anything that fits this rocket restocks." Takes the rocket's
 // fit spec (diameter required; optional cert, impulse class, reload case, and

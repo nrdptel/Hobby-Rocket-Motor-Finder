@@ -1,5 +1,6 @@
 import { alertConfig, clientIp, motorKey, normalizeEmail } from "@/lib/alerts/config";
 import { sendEmail, confirmEmail } from "@/lib/alerts/email";
+import { json } from "@/lib/alerts/http";
 import { manageLink } from "@/lib/alerts/manageLink";
 import {
   confirmRecentlySent,
@@ -21,13 +22,6 @@ function shortField(raw: unknown): string | null {
   const v = raw.trim();
   if (!v || v.length > 80 || /[\r\n]/.test(v)) return null;
   return v;
-}
-
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "content-type": "application/json" },
-  });
 }
 
 export async function POST(request: Request): Promise<Response> {
