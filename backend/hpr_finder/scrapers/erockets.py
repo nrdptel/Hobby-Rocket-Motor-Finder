@@ -24,6 +24,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 BASE_URL = "https://www.erockets.biz"
 MANUFACTURER = "AeroTech"
@@ -141,7 +142,7 @@ def _classify_status(card: str) -> StockStatus:
 
 def _first_price_cents(card: str) -> int | None:
     m = _PRICE_RE.search(card)
-    return int(round(float(m.group(1).replace(",", "")) * 100)) if m else None
+    return price_to_cents(m.group(1)) if m else None
 
 
 def _clean(text: str) -> str:

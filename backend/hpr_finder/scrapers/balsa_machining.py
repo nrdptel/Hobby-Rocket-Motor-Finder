@@ -31,6 +31,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_cti_designation, extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 BASE_URL = "https://www.balsamachining.com"
 HPM_URL = f"{BASE_URL}/hpmp.htm"
@@ -144,7 +145,7 @@ def _last_price_cents(row: str) -> int | None:
     prices = _PRICE_RE.findall(row)
     if not prices:
         return None
-    return int(round(float(prices[-1].replace(",", "")) * 100))
+    return price_to_cents(prices[-1])
 
 
 def _clean(text: str) -> str:

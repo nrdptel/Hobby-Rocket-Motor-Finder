@@ -34,6 +34,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
@@ -217,11 +218,7 @@ def parse_products(
 
 def _first_price_cents(variants: list[dict]) -> int | None:
     for v in variants:
-        price = v.get("price")
-        if price is None:
-            continue
-        try:
-            return int(round(float(price) * 100))
-        except (TypeError, ValueError):
-            continue
+        cents = price_to_cents(v.get("price"))
+        if cents is not None:
+            return cents
     return None

@@ -42,6 +42,7 @@ from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_designation
 from .base import Scraper
+from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
@@ -250,10 +251,9 @@ def _extract_price_cents(html: str) -> int | None:
     for key in ("sale", "special", "general", "normal"):
         m = PRICE_RE[key].search(block)
         if m:
-            try:
-                return int(round(float(m.group(1).replace(",", "")) * 100))
-            except ValueError:
-                continue
+            cents = price_to_cents(m.group(1))
+            if cents is not None:
+                return cents
     return None
 
 
