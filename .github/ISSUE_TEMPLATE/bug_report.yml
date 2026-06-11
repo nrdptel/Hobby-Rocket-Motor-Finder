@@ -1,0 +1,39 @@
+name: Bug report
+description: Something on the site is wrong or broken
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! Note: stock and price data is best-effort and
+        often stale — please confirm on the vendor's own site before reporting a
+        stock/price mismatch.
+  - type: input
+    id: motor
+    attributes:
+      label: Motor or page
+      description: Which motor or page is affected? A link is ideal.
+      placeholder: e.g. AeroTech J500G, or the page URL
+  - type: textarea
+    id: what
+    attributes:
+      label: What's wrong?
+      description: What did you expect, and what did you actually see?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Stock/price data looks wrong
+        - A vendor is missing or not updating
+        - Search / filters / sorting
+        - Email restock alerts
+        - Substitutes / rocket fit
+        - Something else
+  - type: input
+    id: env
+    attributes:
+      label: Browser / device (optional)
+      placeholder: e.g. Chrome on Android, Safari on iPhone

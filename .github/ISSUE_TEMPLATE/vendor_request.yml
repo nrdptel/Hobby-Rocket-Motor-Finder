@@ -1,0 +1,40 @@
+name: Vendor opt-out or scraper change
+description: You operate a listed store and want the scraper adjusted or removed
+labels: ["vendor-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project reads publicly listed stock/price data politely (rate-limited
+        per host) and identifies itself in its User-Agent. If you operate a listed
+        vendor and want changes or removal, we'll comply — thanks for reaching out.
+  - type: input
+    id: vendor
+    attributes:
+      label: Store
+      description: Which store / website?
+    validations:
+      required: true
+  - type: dropdown
+    id: request
+    attributes:
+      label: Request
+      options:
+        - Remove my store entirely
+        - Reduce scrape frequency
+        - Fix incorrect data being shown
+        - Other (describe below)
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Anything else that helps us act on this quickly.
+  - type: checkboxes
+    id: affiliation
+    attributes:
+      label: Confirmation
+      options:
+        - label: I operate or represent this store
+          required: true
