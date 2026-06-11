@@ -193,6 +193,137 @@ async def _async_scrape_run(
         raise typer.Exit(1)
 
 
+def _serialize_snapshot(motors, matched_listings, unmatched_listings) -> dict:
+    """Build the snapshot payload — the single contract with the frontend (see
+    frontend/lib/snapshot.ts). Every motor with at least one matched listing, its
+    listings nested, plus the in-scope ``unmatched`` bucket. Out-of-scope lines
+    (Q-Jet, Quest) are dropped rather than carried as unmatched."""
+    by_motor: dict[int, list[dict]] = {}
+    for r in matched_listings:
+        by_motor.setdefault(r["motor_id"], []).append(
+            {
+                "vendor_slug": r["vendor_slug"],
+                "vendor_name": r["vendor_name"],
+                "url": r["url"],
+                "sku": r["sku"],
+                "price_cents": r["price_cents"],
+                "currency": r["currency"],
+                "status": r["status"],
+                "stock_count": r["stock_count"],
+                # Only emit lead_time when set, to keep the snapshot lean for the
+                # vast majority of listings (normal stock-or-not vendors).
+                **({"lead_time": r["lead_time"]} if r["lead_time"] else {}),
+                "seen_at": r["seen_at"],
+                "raw_designation": r["raw_designation"],
+            }
+        )
+
+    return {
+        "generated_at": _utc_now().isoformat(timespec="seconds"),
+        # Only emit motors that have at least one matched listing. The frontend
+        # already hides listing-less motors (`listings.length > 0`), so shipping
+        # them is dead weight — and it keeps catalog-only motors (e.g. Cesaroni
+        # loaded before its scraper exists) out of the snapshot entirely.
+        "motors": [
+            {
+                "id": m["id"],
+                "manufacturer": m["manufacturer"],
+                "designation": m["designation"],
+                "common_name": m["common_name"],
+                "diameter_mm": m["diameter_mm"],
+                "impulse_class": m["impulse_class"],
+                "total_impulse_ns": m["total_impulse_ns"],
+                "avg_thrust_n": m["avg_thrust_n"],
+                "burn_time_s": m["burn_time_s"],
+                "propellant": m["propellant"],
+                "delays": m["delays"],
+                "delay_adjustable": bool(m["delay_adjustable"]),
+                # Motor type ("reload"/"SU"/"hybrid") and the reload hardware it
+                # uses (e.g. "RMS-38/720", "Pro38-3G"), for the case filter. case_info
+                # is null for single-use motors.
+                "motor_type": m["motor_type"],
+                "case_info": m["case_info"],
+                # Sparky (metal-additive) propellant flag, and propellant grain
+                # mass (g) — the basis for the derived specific-impulse figure.
+                "sparky": bool(m["sparky"]),
+                "prop_weight_g": m["prop_weight_g"],
+                # Out-of-production: matched to a discontinued ThrustCurve motor,
+                # i.e. a vendor's old stock that won't be restocked once it sells.
+                "discontinued": (m["availability"] or "") == "OOP",
+                "listings": by_motor[m["id"]],
+            }
+            for m in motors
+            if m["id"] in by_motor
+        ],
+        # Out-of-scope product lines (Q-Jet, Quest) are dropped here rather than
+        # carried as "unmatched": they have no catalog entry by design, so they'd
+        # otherwise inflate the couldn't-identify count and the per-vendor
+        # unmatched-spike health metric forever. The remaining unmatched are
+        # genuine in-scope products we failed to identify — the actionable signal.
+        "unmatched": [
+            {
+                "raw_designation": r["raw_designation"],
+                "raw_title": r["raw_title"],
+                "vendor_slug": r["vendor_slug"],
+                "vendor_name": r["vendor_name"],
+                "url": r["url"],
+                "sku": r["sku"],
+                "price_cents": r["price_cents"],
+                "currency": r["currency"],
+                "status": r["status"],
+                "stock_count": r["stock_count"],
+                "seen_at": r["seen_at"],
+            }
+            for r in unmatched_listings
+            if not is_out_of_scope(r["raw_title"], r["raw_designation"])
+        ],
+    }
+
+
+def _scrape_run_health(latest_runs, decision):
+    """From the latest finished scrape run per vendor: the run duration (s), the
+    categorized last error (failed runs only), and vendors present this run with
+    no finished run at all (a likely hang). Returns
+    ``(run_durations, scrape_errors, no_finished_run)``."""
+    run_durations: dict[str, float] = {}
+    scrape_errors: dict[str, dict[str, str]] = {}
+    for row in latest_runs:
+        start = _parse_iso(row["started_at"])
+        end = _parse_iso(row["finished_at"])
+        if start is not None and end is not None:
+            run_durations[row["vendor_slug"]] = round((end - start).total_seconds(), 1)
+        if not row["ok"] and row["error"]:
+            scrape_errors[row["vendor_slug"]] = {
+                "category": _categorize_scrape_error(row["error"]),
+                "detail": row["error"],
+            }
+    no_finished_run = sorted(v for v in decision if v not in run_durations)
+    return run_durations, scrape_errors, no_finished_run
+
+
+def _anomaly_report(fresh_stock, fresh_unmatched, decision, generated_at, baseline_json):
+    """Baseline-relative anomaly detection: catch a vendor that's above floor but
+    well below its own normal listing/in-stock counts (or whose unmatched spiked).
+    Reads, updates, and rewrites the rolling baseline. Returns
+    ``(anomalies, sustained)``; both empty when ``baseline_json`` is None (a test
+    calling the command directly without a baseline path)."""
+    if baseline_json is None:
+        return [], []
+    baseline = _load_json(baseline_json) or {}
+    anomalies_now = health.detect_anomalies(
+        fresh_stock, baseline, decision, fresh_unmatched=fresh_unmatched
+    )
+    baseline = health.update_baseline(
+        baseline, fresh_stock, decision, anomalies_now, generated_at,
+        fresh_unmatched=fresh_unmatched,
+    )
+    anomalies = health.annotate_streaks(anomalies_now, baseline)
+    sustained = health.sustained_anomalies(anomalies_now, baseline)
+    baseline_json.parent.mkdir(parents=True, exist_ok=True)
+    baseline_json.write_text(json.dumps(baseline, indent=2, sort_keys=True))
+    return anomalies, sustained
+
+
 @snapshot_app.command("export")
 def snapshot_export(
     out: Path = typer.Option(
@@ -283,86 +414,7 @@ def snapshot_export(
         # excluded, so a hung scraper surfaces as an absent vendor, not a bogus time.
         latest_runs = db.latest_finished_runs(conn)
 
-    by_motor: dict[int, list[dict]] = {}
-    for r in matched_listings:
-        by_motor.setdefault(r["motor_id"], []).append(
-            {
-                "vendor_slug": r["vendor_slug"],
-                "vendor_name": r["vendor_name"],
-                "url": r["url"],
-                "sku": r["sku"],
-                "price_cents": r["price_cents"],
-                "currency": r["currency"],
-                "status": r["status"],
-                "stock_count": r["stock_count"],
-                # Only emit lead_time when set, to keep the snapshot lean for the
-                # vast majority of listings (normal stock-or-not vendors).
-                **({"lead_time": r["lead_time"]} if r["lead_time"] else {}),
-                "seen_at": r["seen_at"],
-                "raw_designation": r["raw_designation"],
-            }
-        )
-
-    payload = {
-        "generated_at": _utc_now().isoformat(timespec="seconds"),
-        # Only emit motors that have at least one matched listing. The frontend
-        # already hides listing-less motors (`listings.length > 0`), so shipping
-        # them is dead weight — and it keeps catalog-only motors (e.g. Cesaroni
-        # loaded before its scraper exists) out of the snapshot entirely.
-        "motors": [
-            {
-                "id": m["id"],
-                "manufacturer": m["manufacturer"],
-                "designation": m["designation"],
-                "common_name": m["common_name"],
-                "diameter_mm": m["diameter_mm"],
-                "impulse_class": m["impulse_class"],
-                "total_impulse_ns": m["total_impulse_ns"],
-                "avg_thrust_n": m["avg_thrust_n"],
-                "burn_time_s": m["burn_time_s"],
-                "propellant": m["propellant"],
-                "delays": m["delays"],
-                "delay_adjustable": bool(m["delay_adjustable"]),
-                # Motor type ("reload"/"SU"/"hybrid") and the reload hardware it
-                # uses (e.g. "RMS-38/720", "Pro38-3G"), for the case filter. case_info
-                # is null for single-use motors.
-                "motor_type": m["motor_type"],
-                "case_info": m["case_info"],
-                # Sparky (metal-additive) propellant flag, and propellant grain
-                # mass (g) — the basis for the derived specific-impulse figure.
-                "sparky": bool(m["sparky"]),
-                "prop_weight_g": m["prop_weight_g"],
-                # Out-of-production: matched to a discontinued ThrustCurve motor,
-                # i.e. a vendor's old stock that won't be restocked once it sells.
-                "discontinued": (m["availability"] or "") == "OOP",
-                "listings": by_motor[m["id"]],
-            }
-            for m in motors
-            if m["id"] in by_motor
-        ],
-        # Out-of-scope product lines (Q-Jet, Quest) are dropped here rather than
-        # carried as "unmatched": they have no catalog entry by design, so they'd
-        # otherwise inflate the couldn't-identify count and the per-vendor
-        # unmatched-spike health metric forever. The remaining unmatched are
-        # genuine in-scope products we failed to identify — the actionable signal.
-        "unmatched": [
-            {
-                "raw_designation": r["raw_designation"],
-                "raw_title": r["raw_title"],
-                "vendor_slug": r["vendor_slug"],
-                "vendor_name": r["vendor_name"],
-                "url": r["url"],
-                "sku": r["sku"],
-                "price_cents": r["price_cents"],
-                "currency": r["currency"],
-                "status": r["status"],
-                "stock_count": r["stock_count"],
-                "seen_at": r["seen_at"],
-            }
-            for r in unmatched_listings
-            if not is_out_of_scope(r["raw_title"], r["raw_designation"])
-        ],
-    }
+    payload = _serialize_snapshot(motors, matched_listings, unmatched_listings)
     # Capture the FRESH per-vendor counts (total + in-stock + unmatched) BEFORE
     # carry_forward merges in last-good data, so anomaly detection judges what the
     # scraper actually returned this run, not carried-forward listings.
@@ -404,50 +456,14 @@ def snapshot_export(
         stale_hours = _vendor_stale_hours(payload, decision)
         ages = [h for h in stale_hours.values() if h is not None]
 
-        # Baseline-relative anomaly detection: catch a vendor that's above floor
-        # (so "healthy" + fresh) but well below its own normal listing/in-stock
-        # counts — partial degradation or an in-stock-collapse parsing regression
-        # that the floor + staleness checks miss. The baseline is a slow EWMA that
-        # only learns from healthy, non-anomalous runs (no boiling-frog), and a
-        # consecutive-run streak gates escalation. Skipped when no baseline path
-        # is set (e.g. tests calling this function directly).
-        anomalies: list[dict] = []
-        sustained: list[dict] = []
-        if baseline_json is not None:
-            baseline = _load_json(baseline_json) or {}
-            anomalies_now = health.detect_anomalies(
-                fresh_stock, baseline, decision, fresh_unmatched=fresh_unmatched
-            )
-            baseline = health.update_baseline(
-                baseline, fresh_stock, decision, anomalies_now, payload["generated_at"],
-                fresh_unmatched=fresh_unmatched,
-            )
-            anomalies = health.annotate_streaks(anomalies_now, baseline)
-            sustained = health.sustained_anomalies(anomalies_now, baseline)
-            baseline_json.parent.mkdir(parents=True, exist_ok=True)
-            baseline_json.write_text(json.dumps(baseline, indent=2, sort_keys=True))
+        # Vendors above floor but well below their own baseline (count/in-stock or
+        # unmatched spike), and whether any has persisted long enough to escalate.
+        anomalies, sustained = _anomaly_report(
+            fresh_stock, fresh_unmatched, decision, payload["generated_at"], baseline_json
+        )
 
-        # Per-vendor scrape duration (seconds) from the latest finished run. Pure
-        # visibility for now (not yet an escalation signal): a slow scrape is a
-        # leading indicator of a vendor getting flaky. A vendor that was attempted
-        # this run but has no finished run (hung/crashed before finish_run) is
-        # absent from run_durations — surfaced separately as no_finished_run.
-        run_durations: dict[str, float] = {}
-        # Per-vendor last scrape error, categorized — only for vendors whose latest
-        # finished run actually failed (ok=0), to keep the report lean. Lets the run
-        # summary say WHY a carried/failed vendor broke without digging into logs.
-        scrape_errors: dict[str, dict[str, str]] = {}
-        for row in latest_runs:
-            start = _parse_iso(row["started_at"])
-            end = _parse_iso(row["finished_at"])
-            if start is not None and end is not None:
-                run_durations[row["vendor_slug"]] = round((end - start).total_seconds(), 1)
-            if not row["ok"] and row["error"]:
-                scrape_errors[row["vendor_slug"]] = {
-                    "category": _categorize_scrape_error(row["error"]),
-                    "detail": row["error"],
-                }
-        no_finished_run = sorted(v for v in decision if v not in run_durations)
+        # Per-vendor scrape duration + categorized last error + likely hangs.
+        run_durations, scrape_errors, no_finished_run = _scrape_run_health(latest_runs, decision)
 
         # Vendors in the scraper REGISTRY that published ZERO listings this
         # snapshot — neither fresh nor carried-forward. These are a structural
