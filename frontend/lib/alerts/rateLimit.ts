@@ -18,8 +18,11 @@ import { del, incrWithTtl, setNxEx } from "./upstash";
 // a runaway. Dispatch (restock) sends are separate and not counted here.
 const GLOBAL_CONFIRM_CAP_PER_HOUR = 300;
 
-// One confirmation per address per window. Long enough to stop inbox-bombing,
-// short enough that a real user who mis-typed and retries isn't stuck for long.
+// One confirmation per (address, target) per window. Keyed on the SPECIFIC
+// motor/rocket, not the address alone, so a real user can bell several motors in
+// a row while a repeat for the same target (a retry, or an inbox-bomb on one
+// motor) is still deduped. Cross-target bombing is bounded by the per-IP and
+// global caps — those are the real anti-abuse controls.
 const EMAIL_CONFIRM_COOLDOWN_S = 600; // 10 min
 
 /** Per-IP hourly limit. Returns true if the caller is over the cap. Throws if
@@ -39,22 +42,37 @@ export async function overIpLimit(
  * confirmation was ALREADY sent to this address within the window (so the caller
  * should skip the send and return the normal success message — never re-mailing
  * an address on demand). Throws if the store is unavailable. */
-export async function confirmRecentlySent(cfg: AlertConfig, email: string): Promise<boolean> {
+export async function confirmRecentlySent(
+  cfg: AlertConfig,
+  email: string,
+  target: string,
+): Promise<boolean> {
   // setNxEx returns true when the key was newly set (first send), false when it
   // already exists (a recent send) — so a failed claim means "already sent".
-  const claimed = await setNxEx(cfg, `csent:${email}`, EMAIL_CONFIRM_COOLDOWN_S);
+  const claimed = await setNxEx(cfg, cooldownKey(email, target), EMAIL_CONFIRM_COOLDOWN_S);
   return !claimed;
 }
 
 /** Release the per-recipient cooldown claimed by {@link confirmRecentlySent}.
  * Call this when the confirmation send then FAILS, so a transient send error
  * doesn't lock a legitimate address out for the whole window. Best-effort. */
-export async function releaseConfirmCooldown(cfg: AlertConfig, email: string): Promise<void> {
+export async function releaseConfirmCooldown(
+  cfg: AlertConfig,
+  email: string,
+  target: string,
+): Promise<void> {
   try {
-    await del(cfg, `csent:${email}`);
+    await del(cfg, cooldownKey(email, target));
   } catch {
     /* best-effort — the cooldown will lapse on its own TTL */
   }
+}
+
+/** Cooldown key for an (email, target) pair — `target` is the motorKey or rocket
+ * spec being subscribed to, so different motors don't share one address-wide
+ * lock. */
+function cooldownKey(email: string, target: string): string {
+  return `csent:${email}:${target}`;
 }
 
 /** Global hourly cap on confirmation-email sends. Returns true if this hour's cap
