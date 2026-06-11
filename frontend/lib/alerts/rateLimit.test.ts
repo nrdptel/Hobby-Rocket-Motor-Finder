@@ -34,15 +34,24 @@ beforeEach(() => {
 describe("confirmRecentlySent (per-recipient cooldown)", () => {
   it("returns false on first send (claim succeeds), true on a recent repeat", async () => {
     setNxEx.mockResolvedValueOnce(true); // NX claim succeeded → first send
-    expect(await confirmRecentlySent(cfg, "a@b.com")).toBe(false); // proceed to send
-    expect(setNxEx).toHaveBeenCalledWith(cfg, "csent:a@b.com", 600);
+    expect(await confirmRecentlySent(cfg, "a@b.com", "AeroTech::J350W")).toBe(false); // proceed
+    expect(setNxEx).toHaveBeenCalledWith(cfg, "csent:a@b.com:AeroTech::J350W", 600);
     setNxEx.mockResolvedValueOnce(false); // key already exists → recently sent
-    expect(await confirmRecentlySent(cfg, "a@b.com")).toBe(true); // suppress
+    expect(await confirmRecentlySent(cfg, "a@b.com", "AeroTech::J350W")).toBe(true); // suppress
+  });
+
+  it("keys on (email, target) so a different motor isn't blocked", async () => {
+    // Same address, two different motors → two distinct keys, both claimable.
+    setNxEx.mockResolvedValue(true);
+    expect(await confirmRecentlySent(cfg, "a@b.com", "AeroTech::J350W")).toBe(false);
+    expect(await confirmRecentlySent(cfg, "a@b.com", "Cesaroni::K400")).toBe(false);
+    expect(setNxEx).toHaveBeenCalledWith(cfg, "csent:a@b.com:AeroTech::J350W", 600);
+    expect(setNxEx).toHaveBeenCalledWith(cfg, "csent:a@b.com:Cesaroni::K400", 600);
   });
 
   it("propagates a store error so the caller can fail CLOSED", async () => {
     setNxEx.mockRejectedValueOnce(new Error("upstash down"));
-    await expect(confirmRecentlySent(cfg, "a@b.com")).rejects.toThrow();
+    await expect(confirmRecentlySent(cfg, "a@b.com", "AeroTech::J350W")).rejects.toThrow();
   });
 });
 
@@ -72,10 +81,10 @@ describe("overIpLimit", () => {
 describe("releaseConfirmCooldown", () => {
   it("deletes the cooldown key and swallows a store error", async () => {
     del.mockResolvedValueOnce(undefined);
-    await expect(releaseConfirmCooldown(cfg, "a@b.com")).resolves.toBeUndefined();
-    expect(del).toHaveBeenCalledWith(cfg, "csent:a@b.com");
+    await expect(releaseConfirmCooldown(cfg, "a@b.com", "AeroTech::J350W")).resolves.toBeUndefined();
+    expect(del).toHaveBeenCalledWith(cfg, "csent:a@b.com:AeroTech::J350W");
     del.mockRejectedValueOnce(new Error("down"));
-    await expect(releaseConfirmCooldown(cfg, "a@b.com")).resolves.toBeUndefined(); // no throw
+    await expect(releaseConfirmCooldown(cfg, "a@b.com", "AeroTech::J350W")).resolves.toBeUndefined(); // no throw
   });
 });
 

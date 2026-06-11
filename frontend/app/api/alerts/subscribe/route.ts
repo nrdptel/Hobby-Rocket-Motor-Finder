@@ -45,6 +45,8 @@ export async function POST(request: Request): Promise<Response> {
   if (!email || !manufacturer || !designation) {
     return json({ error: "email, manufacturer and designation are required" }, 400);
   }
+  // The cooldown is per-(email, motor), so compute the motorKey up front.
+  const key = motorKey(manufacturer, designation);
 
   // Per-IP hourly cap, a global hourly cap, and a per-recipient cooldown. All
   // fail CLOSED (no email) if the store is down, so a flaky Upstash can't be used
@@ -57,20 +59,19 @@ export async function POST(request: Request): Promise<Response> {
     // suppress (no email) doesn't burn the global hourly budget — the global cap
     // then counts only would-be sends. Suppressed → SAME success message so we
     // never reveal subscription state.
-    if (await confirmRecentlySent(cfg, email)) {
+    if (await confirmRecentlySent(cfg, email, key)) {
       return json({ ok: true, message: "Check your email to confirm." });
     }
     if (await overGlobalConfirmCap(cfg, utcHour())) {
       // Over the global cap after claiming the cooldown → release it so this
       // address isn't locked out of retrying once the window resets.
-      await releaseConfirmCooldown(cfg, email);
+      await releaseConfirmCooldown(cfg, email, key);
       return json({ error: "rate limited; try again later" }, 429);
     }
   } catch {
     return json({ error: "rate limited; try again later" }, 429);
   }
 
-  const key = motorKey(manufacturer, designation);
   const token = await signToken(cfg.secret, {
     t: "c",
     e: email,
@@ -92,7 +93,7 @@ export async function POST(request: Request): Promise<Response> {
   } catch {
     // Send failed → release the per-recipient cooldown so a transient error
     // doesn't lock this address out of retrying for the full window.
-    await releaseConfirmCooldown(cfg, email);
+    await releaseConfirmCooldown(cfg, email, key);
     return json({ error: "could not send confirmation email" }, 502);
   }
 
