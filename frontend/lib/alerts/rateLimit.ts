@@ -3,8 +3,8 @@
 //   2. per-RECIPIENT cooldown: the same address can't be re-mailed a
 //      confirmation within a short window. The confirmation goes to an address
 //      the requester hasn't proven they control, so without this the endpoint is
-//      an email-bomb vector (spam a victim's inbox from our domain, trashing SES
-//      reputation right at launch).
+//      an email-bomb vector (spam a victim's inbox from our domain, trashing our
+//      sender reputation right at launch).
 //   3. a global HOURLY cap on confirmation-email sends — a backstop against a
 //      runaway/abuse burst. Hourly (not daily) on purpose: the old daily cap, once
 //      tripped, locked out EVERY legitimate signup for the rest of the UTC day,

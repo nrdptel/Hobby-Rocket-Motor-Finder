@@ -1,16 +1,15 @@
-// Verify a Resend webhook signature. Resend signs webhooks with Svix:
-//   signed content = `${svix-id}.${svix-timestamp}.${raw-body}`
-//   signature      = base64( HMAC-SHA256( key, signed-content ) )
-//   key            = base64-decode of the secret after the `whsec_` prefix
-// The `svix-signature` header is a space-delimited list of `v1,<base64sig>`.
-// Implemented with Web Crypto so we need no `svix` dependency.
-
-function b64decode(s: string): Uint8Array {
-  const bin = atob(s);
-  const out = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
-  return out;
-}
+// Verify a ZeptoMail webhook and pull bounce/complaint recipients out of its
+// payload. ZeptoMail signs each webhook with a `producer-signature` header:
+//   producer-signature: ts=<epoch-ms>;s=<base64 sig>;s-algorithm=HmacSHA256
+// The signature is HMAC-SHA256 over the timestamp joined to the raw body, keyed
+// with the secret you configure on the Agent's webhook. Implemented with Web
+// Crypto so we need no extra dependency.
+//
+// NOTE: ZeptoMail publishes the header format but not the exact signed-content
+// concatenation. `signedContent()` encodes our assumption (`<ts>.<rawBody>`) in
+// one place; if the first real delivery fails verification, adjust it there.
+// Verification fails CLOSED, so a wrong guess only no-ops the scrub — it never
+// lets an unverified request through.
 
 function b64encode(bytes: Uint8Array): string {
   let bin = "";
@@ -37,76 +36,104 @@ async function hmacSha256(keyBytes: Uint8Array, data: string): Promise<Uint8Arra
   return new Uint8Array(sig);
 }
 
+/** The exact string fed to HMAC-SHA256. Isolated so the one ZeptoMail-specific
+ * assumption lives in a single place (see file header). */
+function signedContent(ts: string, payload: string): string {
+  return `${ts}.${payload}`;
+}
+
+/** Parse `ts=…;s=…;s-algorithm=…` into a map. Tolerant of ordering/whitespace. */
+function parseProducerSignature(header: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const part of header.split(";")) {
+    const eq = part.indexOf("=");
+    if (eq < 0) continue;
+    out[part.slice(0, eq).trim()] = part.slice(eq + 1).trim();
+  }
+  return out;
+}
+
 export type WebhookVerifyInput = {
-  secret: string; // RESEND_WEBHOOK_SECRET (whsec_...)
-  id: string | null; // svix-id header
-  timestamp: string | null; // svix-timestamp header (epoch seconds)
-  signature: string | null; // svix-signature header
+  secret: string; // the webhook auth key configured on the ZeptoMail Agent
+  signatureHeader: string | null; // raw `producer-signature` header value
   payload: string; // RAW request body
   toleranceS?: number; // max clock skew (default 5 min)
   now?: number; // epoch seconds, injectable for tests
 };
 
 /** True only if the signature is valid AND the timestamp is within tolerance. */
-export async function verifyResendWebhook(opts: WebhookVerifyInput): Promise<boolean> {
-  const { secret, id, timestamp, signature, payload } = opts;
-  if (!secret || !id || !timestamp || !signature) return false;
+export async function verifyZeptoWebhook(opts: WebhookVerifyInput): Promise<boolean> {
+  const { secret, signatureHeader, payload } = opts;
+  if (!secret || !signatureHeader) return false;
 
-  const ts = Number(timestamp);
-  if (!Number.isFinite(ts)) return false;
+  const parts = parseProducerSignature(signatureHeader);
+  const tsRaw = parts.ts;
+  const sig = parts.s;
+  if (!tsRaw || !sig) return false;
+
+  // ZeptoMail's `ts` is epoch milliseconds; compare in seconds.
+  const tsMs = Number(tsRaw);
+  if (!Number.isFinite(tsMs)) return false;
+  const ts = Math.floor(tsMs / 1000);
   const now = opts.now ?? Math.floor(Date.now() / 1000);
   const tolerance = opts.toleranceS ?? 300;
   if (Math.abs(now - ts) > tolerance) return false;
 
-  const secretB64 = secret.startsWith("whsec_") ? secret.slice(6) : secret;
-  let keyBytes: Uint8Array;
-  try {
-    keyBytes = b64decode(secretB64);
-  } catch {
-    return false;
-  }
-
   let expected: string;
   try {
-    expected = b64encode(await hmacSha256(keyBytes, `${id}.${timestamp}.${payload}`));
+    expected = b64encode(
+      await hmacSha256(new TextEncoder().encode(secret), signedContent(tsRaw, payload)),
+    );
   } catch {
     return false;
   }
+  return timingSafeEqual(sig, expected);
+}
 
-  // Header may carry multiple versioned signatures; any match passes.
-  for (const part of signature.split(" ")) {
-    const comma = part.indexOf(",");
-    const sig = comma >= 0 ? part.slice(comma + 1) : part;
-    if (timingSafeEqual(sig, expected)) return true;
+/** Walk an unknown value and collect every `email_address.address` string under
+ * it. ZeptoMail nests the recipient at
+ * `event_message[].email_info.to[].email_address.address`, but the docs are
+ * inconsistent about whether intermediate nodes are arrays or objects, so a
+ * tolerant recursive scan beats hard-coding one shape. */
+function collectAddresses(node: unknown, out: Set<string>): void {
+  if (Array.isArray(node)) {
+    for (const v of node) collectAddresses(v, out);
+    return;
   }
-  return false;
+  if (typeof node !== "object" || node === null) return;
+  const obj = node as Record<string, unknown>;
+  // `email_address: { address }` (the recipient shape) → take the address.
+  const ea = obj.email_address;
+  if (ea && typeof ea === "object") {
+    collectAddresses(ea, out);
+  }
+  if (typeof obj.address === "string" && obj.address.includes("@")) {
+    out.add(obj.address);
+  }
+  // Recurse only into the carriers that hold recipients, so we don't sweep up
+  // the From/bounce-return addresses (which live under different keys).
+  for (const key of ["event_message", "email_info", "to"]) {
+    if (key in obj) collectAddresses(obj[key], out);
+  }
 }
 
-/** Pull the recipient address(es) out of a Resend webhook event payload.
- * `data.to` is an array of addresses (or a single string in some events). */
+/** Pull recipient address(es) out of a ZeptoMail bounce/complaint event. */
 export function recipientsFromEvent(event: unknown): string[] {
-  if (typeof event !== "object" || event === null) return [];
-  const data = (event as { data?: unknown }).data;
-  if (typeof data !== "object" || data === null) return [];
-  const to = (data as { to?: unknown }).to;
-  if (Array.isArray(to)) return to.filter((x): x is string => typeof x === "string");
-  if (typeof to === "string") return [to];
-  return [];
+  const out = new Set<string>();
+  collectAddresses(event, out);
+  return [...out];
 }
 
-/** Should this event cause an unsubscribe? Always for complaints; for bounces
- * only when it's NOT clearly transient/soft (permanent bounces are the
- * reputation risk; a temporary "mailbox full" shouldn't drop the subscriber). */
+/** Should this event cause an unsubscribe? Hard bounces and spam complaints
+ * (feedback-loop) are the reputation risk → remove. Soft/transient bounces are
+ * temporary (e.g. mailbox full) → keep the subscriber. */
 export function isRemovableEvent(event: unknown): boolean {
   if (typeof event !== "object" || event === null) return false;
-  const type = (event as { type?: unknown }).type;
-  if (typeof type !== "string") return false;
-  if (type === "email.complained") return true;
-  if (type === "email.bounced") {
-    const data = (event as { data?: { bounce?: { type?: unknown } } }).data;
-    const bt = data?.bounce?.type;
-    if (typeof bt === "string" && /transient|soft|temporary/i.test(bt)) return false;
-    return true;
-  }
+  const name = (event as { event_name?: unknown }).event_name;
+  if (typeof name !== "string") return false;
+  const n = name.toLowerCase();
+  if (n.includes("soft")) return false; // soft bounce → transient, keep
+  if (n.includes("hard") && n.includes("bounce")) return true;
+  if (n.includes("feedback") || n.includes("complaint") || n.includes("spam")) return true;
   return false;
 }
