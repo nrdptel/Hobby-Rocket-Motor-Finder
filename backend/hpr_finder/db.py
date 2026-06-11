@@ -116,36 +116,45 @@ def connect(path: Path | None = None) -> Iterator[sqlite3.Connection]:
         conn.close()
 
 
+# Idempotent column migrations for databases created before a column existed.
+# CREATE TABLE IF NOT EXISTS already defines every column on a FRESH db, so these
+# only fire on an OLDER one that predates the column. Each entry is
+# (column_name, ADD COLUMN ddl); adding a future column is a one-line addition.
+_MOTOR_MIGRATIONS = (
+    ("common_name", "ALTER TABLE motors ADD COLUMN common_name TEXT NOT NULL DEFAULT ''"),
+    ("delays", "ALTER TABLE motors ADD COLUMN delays TEXT"),
+    ("delay_adjustable", "ALTER TABLE motors ADD COLUMN delay_adjustable INTEGER NOT NULL DEFAULT 0"),
+    ("availability", "ALTER TABLE motors ADD COLUMN availability TEXT"),
+    ("motor_type", "ALTER TABLE motors ADD COLUMN motor_type TEXT"),
+    ("case_info", "ALTER TABLE motors ADD COLUMN case_info TEXT"),
+    ("sparky", "ALTER TABLE motors ADD COLUMN sparky INTEGER NOT NULL DEFAULT 0"),
+    ("prop_weight_g", "ALTER TABLE motors ADD COLUMN prop_weight_g REAL"),
+)
+# manufacturer/diameter route find_motor_id; predate multi-manufacturer support.
+_LISTING_MIGRATIONS = (
+    ("manufacturer", "ALTER TABLE listings ADD COLUMN manufacturer TEXT NOT NULL DEFAULT 'AeroTech'"),
+    ("diameter_mm", "ALTER TABLE listings ADD COLUMN diameter_mm INTEGER"),
+    ("lead_time", "ALTER TABLE listings ADD COLUMN lead_time TEXT"),
+)
+
+
+def _migrate_columns(
+    conn: sqlite3.Connection, table: str, migrations: tuple[tuple[str, str], ...]
+) -> None:
+    """Add any missing columns from ``migrations`` to ``table`` (idempotent).
+    ``table`` is a hardcoded literal, never user input."""
+    existing = {r["name"] for r in conn.execute(f"PRAGMA table_info({table})")}
+    for column, ddl in migrations:
+        if column not in existing:
+            conn.execute(ddl)
+
+
 def init_schema(conn: sqlite3.Connection) -> None:
     conn.executescript(SCHEMA)
-    # Idempotent migration: add common_name column to motors if older DB lacks it.
-    cols = {r["name"] for r in conn.execute("PRAGMA table_info(motors)")}
-    if "common_name" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN common_name TEXT NOT NULL DEFAULT ''")
-    if "delays" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN delays TEXT")
-    if "delay_adjustable" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN delay_adjustable INTEGER NOT NULL DEFAULT 0")
-    if "availability" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN availability TEXT")
-    if "motor_type" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN motor_type TEXT")
-    if "case_info" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN case_info TEXT")
-    if "sparky" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN sparky INTEGER NOT NULL DEFAULT 0")
-    if "prop_weight_g" not in cols:
-        conn.execute("ALTER TABLE motors ADD COLUMN prop_weight_g REAL")
+    _migrate_columns(conn, "motors", _MOTOR_MIGRATIONS)
+    # Created after the migration so the common_name column is guaranteed present.
     conn.execute("CREATE INDEX IF NOT EXISTS idx_motors_common_name ON motors (common_name)")
-    # Idempotent migration: add manufacturer/diameter routing columns to listings
-    # if an older DB predates multi-manufacturer support.
-    lcols = {r["name"] for r in conn.execute("PRAGMA table_info(listings)")}
-    if "manufacturer" not in lcols:
-        conn.execute("ALTER TABLE listings ADD COLUMN manufacturer TEXT NOT NULL DEFAULT 'AeroTech'")
-    if "diameter_mm" not in lcols:
-        conn.execute("ALTER TABLE listings ADD COLUMN diameter_mm INTEGER")
-    if "lead_time" not in lcols:
-        conn.execute("ALTER TABLE listings ADD COLUMN lead_time TEXT")
+    _migrate_columns(conn, "listings", _LISTING_MIGRATIONS)
 
 
 def upsert_vendor(conn: sqlite3.Connection, slug: str, name: str, homepage: str, state: str | None = None) -> int:
