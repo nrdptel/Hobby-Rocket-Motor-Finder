@@ -15,11 +15,14 @@ out-of-stock plus the URL-id and product-URL regexes used at discovery time.
 import re
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
 from hpr_finder.scrapers.sirius import (
     H1_RE,
     PRODUCT_URL_RE,
     TOTAL_PRODUCTS_RE,
+    SiriusScraper,
     _classify_status,
     _extract_price_cents,
     _product_id_from_url,
@@ -167,3 +170,187 @@ def test_price_none_when_main_block_priceless_despite_leak():
         '<span class="productSalePrice">Sale:&nbsp;$277.19</span></div>'
     )
     assert _extract_price_cents(html) is None
+
+
+# --- _classify_status: the unknown-state fall-through -------------------------
+
+
+def test_classify_status_unknown_without_buttons_or_special():
+    # No in-cart / sold-out button image and not a special order → UNKNOWN.
+    assert _classify_status("<html>no stock buttons</html>", "Aerotech H100W") is StockStatus.UNKNOWN
+
+
+# --- _scrape_product (HTML -> Listing, via a fake client) --------------------
+
+
+class _FakeResp:
+    def __init__(self, text: str):
+        self.text = text
+
+    def raise_for_status(self):
+        return None
+
+
+class _FakeClient:
+    def __init__(self, body: str):
+        self._body = body
+
+    async def get(self, url, **kwargs):
+        return _FakeResp(self._body)
+
+
+@pytest.mark.asyncio
+async def test_scrape_product_in_stock_builds_listing():
+    scraper = SiriusScraper()
+    url = "https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html"
+    listing = await scraper._scrape_product(_FakeClient(_load("sirius_g138t_instock.html")), url)
+    assert listing is not None
+    assert listing.vendor_slug == "sirius"
+    assert "G138T" in listing.motor_designation
+    assert listing.status is StockStatus.IN_STOCK
+    assert listing.price_cents == 2783
+    assert listing.currency == "USD"
+    assert listing.sku == "744"
+    assert listing.stock_count is None  # Sirius never publishes counts
+
+
+@pytest.mark.asyncio
+async def test_scrape_product_out_of_stock():
+    scraper = SiriusScraper()
+    url = "https://www.siriusrocketry.biz/ishop/aerotech-h112j-hpr-reload-kit-901.html"
+    listing = await scraper._scrape_product(_FakeClient(_load("sirius_h112j_oos.html")), url)
+    assert listing.status is StockStatus.OUT_OF_STOCK
+    assert listing.price_cents == 5393
+    assert listing.sku == "901"
+
+
+@pytest.mark.asyncio
+async def test_scrape_product_special_order():
+    scraper = SiriusScraper()
+    url = "https://www.siriusrocketry.biz/ishop/aerotech-k1999n-p-hpr-reload-kit-555.html"
+    listing = await scraper._scrape_product(_FakeClient(_load("sirius_k1999n_special.html")), url)
+    assert listing.status is StockStatus.SPECIAL_ORDER
+    assert listing.price_cents == 20559
+
+
+@pytest.mark.asyncio
+async def test_scrape_product_no_h1_raises():
+    scraper = SiriusScraper()
+    with pytest.raises(ValueError):
+        await scraper._scrape_product(_FakeClient("<html>no heading</html>"), "https://x/y-1.html")
+
+
+@pytest.mark.asyncio
+async def test_scrape_product_empty_title_raises():
+    scraper = SiriusScraper()
+    with pytest.raises(ValueError):
+        await scraper._scrape_product(_FakeClient("<h1>   </h1>"), "https://x/y-1.html")
+
+
+@pytest.mark.asyncio
+async def test_scrape_product_non_motor_returns_none():
+    # A real page in the crawl whose title isn't a motor (a kit/accessory).
+    scraper = SiriusScraper()
+    listing = await scraper._scrape_product(_FakeClient("<h1>Rocket Glue Stick</h1>"), "https://x/glue-1.html")
+    assert listing is None
+
+
+# --- scrape() orchestration + _crawl_for_products ----------------------------
+
+
+_MANUFACTURER_PAGE_1 = (
+    '<div id="productsListingTopNumber" class="navSplitPagesResult back">'
+    "Displaying <strong>1</strong> to <strong>50</strong> "
+    "(of <strong>2</strong> Products)</div>"
+    '<a href="https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html">G138T</a>'
+    '<a href="https://www.siriusrocketry.biz/ishop/aerotech-h112j-hpr-reload-kit-901.html">H112J</a>'
+)
+
+
+class _CrawlClient:
+    """Page 1 (manufacturer base) lists products; later index-N pages are empty,
+    so pagination stops at the first page that yields nothing new."""
+
+    def __init__(self, page1: str):
+        self._page1 = page1
+
+    async def get(self, url, **kwargs):
+        return _FakeResp(self._page1 if "index-" not in url else "<html>empty</html>")
+
+
+@pytest.mark.asyncio
+async def test_crawl_for_products_paginates_until_empty_page():
+    scraper = SiriusScraper()
+    urls = await scraper._crawl_for_products(_CrawlClient(_MANUFACTURER_PAGE_1))
+    assert urls == {
+        "https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html",
+        "https://www.siriusrocketry.biz/ishop/aerotech-h112j-hpr-reload-kit-901.html",
+    }
+
+
+@pytest.mark.asyncio
+async def test_scrape_with_explicit_urls_respects_limit():
+    scraper = SiriusScraper()
+    listings = await scraper.scrape(
+        _FakeClient(_load("sirius_g138t_instock.html")),
+        only_urls=[
+            "https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html",
+            "https://www.siriusrocketry.biz/ishop/aerotech-h112j-hpr-reload-kit-901.html",
+        ],
+        limit=1,
+    )
+    assert len(listings) == 1
+
+
+@pytest.mark.asyncio
+async def test_scrape_isolates_a_failing_product():
+    class _MixedClient:
+        async def get(self, url, **kwargs):
+            if "good" in url:
+                return _FakeResp(_load("sirius_g138t_instock.html"))
+            return _FakeResp("<html>broken — no h1</html>")
+
+    scraper = SiriusScraper()
+    listings = await scraper.scrape(
+        _MixedClient(),
+        only_urls=["https://x/good-1.html", "https://x/bad-2.html"],
+    )
+    assert len(listings) == 1
+    assert "G138T" in listings[0].motor_designation
+
+
+class _FullClient:
+    """Manufacturer pages for discovery; any product URL serves one fixture."""
+
+    def __init__(self, page1: str, product_html: str):
+        self._page1 = page1
+        self._html = product_html
+
+    async def get(self, url, **kwargs):
+        if "manufacturers" in url:
+            return _FakeResp(self._page1 if "index-" not in url else "<html></html>")
+        return _FakeResp(self._html)
+
+
+@pytest.mark.asyncio
+async def test_scrape_discovers_then_builds_listings():
+    scraper = SiriusScraper()
+    client = _FullClient(_MANUFACTURER_PAGE_1, _load("sirius_g138t_instock.html"))
+    listings = await scraper.scrape(client)
+    assert len(listings) == 2  # both discovered product URLs become listings
+
+
+@pytest.mark.asyncio
+async def test_crawl_stops_and_keeps_page1_when_a_later_page_fails():
+    # Page 1 yields products; the page-2 fetch raises. The crawl must keep the
+    # page-1 URLs and stop (rather than crash), and it never reached an empty
+    # page so it logs the pagination-incomplete warning.
+    class _FailOnIndexClient:
+        async def get(self, url, **kwargs):
+            if "index-" in url:
+                raise RuntimeError("manufacturer page fetch failed")
+            return _FakeResp(_MANUFACTURER_PAGE_1)
+
+    scraper = SiriusScraper()
+    urls = await scraper._crawl_for_products(_FailOnIndexClient())
+    assert len(urls) == 2
