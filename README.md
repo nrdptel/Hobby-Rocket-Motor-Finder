@@ -1,5 +1,8 @@
 # Hobby Rocket Motor Finder
 
+[![test](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/actions/workflows/test.yml/badge.svg)](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/actions/workflows/test.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A web aggregator for U.S. high-power rocketry (HPR) motor availability across multiple vendors.
 
 **Live at [motor.fusionspace.co](https://motor.fusionspace.co).**
@@ -13,6 +16,7 @@ The U.S. hobby motor shortage makes finding a specific impulse / diameter / prop
 - **Filter and sort** by impulse class, diameter, total-impulse range, certification level (L1–L3), manufacturer, vendor, propellant, reload case, and in-stock-only; sort by class, impulse, thrust, diameter, or cheapest in-stock price. Every filter lives in the URL, so any view is shareable.
 - **Per-motor detail pages** (`/motor/<mfr>/<designation>`) — full specs, every vendor's price and stock side by side, an **availability history** (how often the motor's been buyable since the scrape cadence became reliable, with a per-vendor in-stock/out timeline), similar in-stock motors, and a link to the ThrustCurve thrust curve; each carries `Product`/`Offer` structured data and a generated social card.
 - **In-stock substitutes** — when a motor is sold out at every vendor, surfaces comparable in-stock motors you could fly instead: same diameter and impulse class, total impulse within ±15% and average thrust within ±35%, ranked by closest fit.
+- **Compare side by side** — line up the full specs of up to four motors (class, diameter, total impulse, average thrust, burn time, specific impulse, propellant, case/type) and overlay their thrust curves in one view, so you can pick between candidates — e.g. two reloads that fit the same rocket. The selection lives in the URL, so a comparison is shareable.
 - **My Rockets** — save a rocket by its motor-mount diameter (the only required field), optionally pinning a cert level, impulse class, reload case, and/or total-impulse band; each shows how many in-stock motors fit it, and one tap opens a **"fly it" loadout** — the in-stock motors that fit (cheapest first), one tap to add them all to a Plan order, and the closest buyable swaps when nothing that fits is in stock.
 - **Plan your order** — star the motors you want, then get the cheapest way to buy them all across vendors: set a quantity per motor and an estimated shipping/HAZMAT cost per order, and it minimizes motor cost + shipping × number of shipments (and is pack-aware — where a motor is sold only in a multipack, it buys whole packs and prices per motor). When a motor on your list is sold out everywhere, it surfaces in-stock swaps you can add in one tap to keep the order buyable. The plan is shareable as a link (re-priced live for whoever opens it) and exportable as plain text.
 - **Restock email alerts** — get notified when a specific motor, or anything that fits a saved rocket, comes back in stock — *or appears in stock for the first time* (watch a "phantom" motor no vendor stocks and hear the moment one lists it) ([setup](docs/email-alerts.md)).
@@ -154,6 +158,10 @@ data/                   Runtime data
 docs/                   Research notes and the original vendor directory
 .github/workflows/      CI (pytest, vitest, next build, Playwright e2e) + hourly scrape
 ```
+
+## Contributing
+
+Issues and PRs are welcome — especially vendor parser fixes and new vendors. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, the checks to run before a PR (they mirror CI), how to add a vendor, and how the golden-fixture scraper tests work. Optional email-alert config is documented in [frontend/.env.example](frontend/.env.example) and [docs/email-alerts.md](docs/email-alerts.md).
 
 ## License
 
