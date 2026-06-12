@@ -204,4 +204,6 @@ def _parse_status(block: str) -> tuple[StockStatus, int | None]:
         return (StockStatus.IN_STOCK_WITH_COUNT, n) if n > 0 else (StockStatus.OUT_OF_STOCK, None)
     if m.group("call") or m.group("preorder"):
         return StockStatus.SPECIAL_ORDER, None
-    return StockStatus.UNKNOWN, None
+    # Unreachable: a STATUS_RE match always sets exactly one of count/call/
+    # preorder. Kept as a defensive fallback.
+    return StockStatus.UNKNOWN, None  # pragma: no cover

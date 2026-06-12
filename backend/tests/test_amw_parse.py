@@ -7,6 +7,8 @@ exercised across many statuses.
 """
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
 from hpr_finder.scrapers.amw import AMWScraper, _parse_status
 from hpr_finder.scrapers.prices import price_to_cents
@@ -108,3 +110,87 @@ def test_price_to_cents_none():
 
 def test_price_to_cents_bogus():
     assert price_to_cents("not-a-price") is None
+
+
+# --- _parse_status branches --------------------------------------------------
+
+
+def test_parse_status_call_is_special_order():
+    status, count = _parse_status("Call <br>for price")
+    assert status is StockStatus.SPECIAL_ORDER and count is None
+
+
+def test_parse_status_preorder_is_special_order():
+    assert _parse_status("Pre-Order now")[0] is StockStatus.SPECIAL_ORDER
+
+
+def test_parse_status_no_match_is_unknown():
+    assert _parse_status("no stock info here")[0] is StockStatus.UNKNOWN
+
+
+# --- _parse_category guard branches ------------------------------------------
+
+
+def test_parse_category_skips_block_without_numeric_pid():
+    # Block carries the product marker but a non-numeric id -> no match -> skipped.
+    html = '<div class="product floatleft">productdetails&virtuemart_product_id=abc</div>'
+    assert AMWScraper()._parse_category(html) == []
+
+
+def test_parse_category_dedupes_repeated_pid_within_a_page():
+    block = (
+        '<div class="product floatleft">'
+        "productdetails&virtuemart_product_id=999 "
+        '<a title="AeroTech H100W">x</a></div>'
+    )
+    # Same product id twice on one page -> parsed at most once (no crash).
+    once = AMWScraper()._parse_category(block)
+    twice = AMWScraper()._parse_category(block + block)
+    assert len(twice) == len(once)
+
+
+# --- scrape() orchestration --------------------------------------------------
+
+
+class _FakeResp:
+    def __init__(self, text: str):
+        self.text = text
+
+    def raise_for_status(self):
+        return None
+
+
+class _FakeClient:
+    def __init__(self, body: str):
+        self._body = body
+
+    async def get(self, url, **kwargs):
+        return _FakeResp(self._body)
+
+
+@pytest.mark.asyncio
+async def test_scrape_dedupes_products_across_categories():
+    listings = await AMWScraper().scrape(_FakeClient(_load("amw_cat104_dms.html")))
+    assert len(listings) > 0
+    skus = [l.sku for l in listings if l.sku]
+    assert len(skus) == len(set(skus))  # deduped by product id across categories
+
+
+@pytest.mark.asyncio
+async def test_scrape_respects_limit():
+    listings = await AMWScraper().scrape(_FakeClient(_load("amw_cat104_dms.html")), limit=2)
+    assert len(listings) == 2
+
+
+@pytest.mark.asyncio
+async def test_scrape_url_lookup_is_unsupported():
+    assert await AMWScraper().scrape(_FakeClient(""), only_urls=["https://amw/x"]) == []
+
+
+@pytest.mark.asyncio
+async def test_scrape_isolates_a_failing_category():
+    class _FailClient:
+        async def get(self, url, **kwargs):
+            raise RuntimeError("category page down")
+
+    assert await AMWScraper().scrape(_FailClient()) == []

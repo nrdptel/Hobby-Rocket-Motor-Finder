@@ -123,6 +123,11 @@ export function SearchableMultiSelect({
           key={v}
           type="button"
           onClick={() => onToggle(v)}
+          // The chip's text content is just the value (e.g. "AeroTech"), so
+          // without this the accessible name wouldn't convey that activating it
+          // REMOVES the filter — `title` doesn't supply the name when text
+          // content exists. State the action explicitly for assistive tech.
+          aria-label={`Remove ${noun} ${labelOf.get(v) ?? v}`}
           title={`Remove this ${noun}`}
           className="inline-flex items-center gap-1 rounded-full border border-zinc-900 bg-zinc-900 px-2.5 py-0.5 text-xs text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
         >

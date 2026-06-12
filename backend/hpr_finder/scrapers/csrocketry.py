@@ -291,8 +291,10 @@ def _extract_product_jsonld(html: str) -> dict | None:
 def _availability_to_status(availability: str, stock_count: int | None, html: str) -> StockStatus:
     a = (availability or "").lower()
     if "instock" in a:
-        if stock_count is not None and stock_count > 0:
-            return StockStatus.IN_STOCK_WITH_COUNT
+        if stock_count is not None:
+            # A parsed count of 0 is sold out, not in-stock-with-count-zero —
+            # matches the n>0 guards in amw/balsa/moto_joe.
+            return StockStatus.IN_STOCK_WITH_COUNT if stock_count > 0 else StockStatus.OUT_OF_STOCK
         return StockStatus.IN_STOCK
     if "outofstock" in a or OOS_TEXT_RE.search(html):
         return StockStatus.OUT_OF_STOCK

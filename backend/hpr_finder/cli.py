@@ -597,7 +597,13 @@ def alerts_dispatch(
             url,
             json={"motors": motors},
             headers={"Authorization": f"Bearer {secret}", "User-Agent": USER_AGENT},
-            timeout=30,
+            # The dispatch route is `maxDuration = 60` and a throttled ZeptoMail
+            # batch can legitimately run most of that (sequential sends + 429
+            # backoff). Keep the client read timeout safely above the route's
+            # ceiling (plus cold-start/network margin) so a slow-but-healthy run
+            # isn't aborted at the client and mislogged as a failure while the
+            # route keeps sending and claiming per-motor cooldowns server-side.
+            timeout=httpx.Timeout(90.0, connect=10.0),
         )
         typer.echo(f"alerts: dispatch -> HTTP {r.status_code}: {r.text[:200]}")
     except Exception as e:  # best-effort: never fail the scrape on alert errors
@@ -744,7 +750,13 @@ def history_update(
         current = history.empty_log() if not log.exists() else json.loads(log.read_text())
     except (OSError, json.JSONDecodeError):
         current = history.empty_log()
-    snapshot = json.loads(Path(snapshot_path).read_text())
+    # The snapshot is this command's required input — a missing or corrupt file
+    # is an operator error, so fail with a clear message rather than a traceback.
+    try:
+        snapshot = json.loads(Path(snapshot_path).read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        typer.echo(f"history: cannot read snapshot {snapshot_path}: {exc}", err=True)
+        raise typer.Exit(1) from None
     updated = history.apply_snapshot(current, snapshot)
     _write_history(updated, log, summary_out, window_days)
 

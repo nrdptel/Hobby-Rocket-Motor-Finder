@@ -19,6 +19,31 @@ const PAGES: [string, string][] = [
   ["alerts", "/alerts"],
 ];
 
+// The page-level audits above only ever scan static, freshly-loaded markup.
+// The searchable multi-selects (vendor/case/propellant) render an entire panel
+// on open that those scans never see — and a removable filter "chip" whose
+// visible text is just the value, so its accessible name must explicitly state
+// the remove action. Exercise that interactive state directly.
+test("a11y: open vendor multi-select panel + chip remove name", async ({ page }) => {
+  test.setTimeout(90_000);
+  await page.goto("/?class=H", { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: /More filters/ }).click();
+  const trigger = page.getByRole("button", { name: /^Any vendor$/ });
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded", "true");
+
+  // Audit the opened panel (search box + grouped checklist) that the page-level
+  // scans never reach.
+  const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze();
+  expect(violations.map((v) => v.id)).toEqual([]);
+
+  // Selecting a vendor adds a chip; its accessible name must convey REMOVE, not
+  // just echo the vendor label (the ✕ glyph is aria-hidden).
+  const panel = page.getByRole("group", { name: /vendor filter/i });
+  await panel.getByRole("checkbox").first().check();
+  await expect(page.getByRole("button", { name: /^Remove vendor / })).toBeVisible();
+});
+
 for (const [name, path] of PAGES) {
   for (const scheme of ["light", "dark"] as const) {
     test(`a11y: ${name} (${scheme})`, async ({ page }) => {

@@ -219,12 +219,19 @@ class WildmanScraper(Scraper):
         designation = extract_cti_designation(title)
         if not designation or CTI_HARDWARE_RE.search(title):
             return []
+        if not variants:
+            return []
+        # Use an in-stock variant when one exists, so status + price reflect a
+        # buyable option rather than a sold-out variants[0]. All of a CTI product's
+        # (field-adjustable) delay variants map to the same catalog motor, so any
+        # available one is a valid representative.
+        variant = next((v for v in variants if v.get("available") is True), variants[0])
         return [
             _variant_to_listing(
                 vendor_slug=self.slug,
                 product_title=title,
                 canonical_url=canonical_url,
-                variant=variants[0],
+                variant=variant,
                 motor_designation=designation,
                 propellant_code="",
                 is_single_variant=True,

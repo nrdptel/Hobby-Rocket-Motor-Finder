@@ -56,11 +56,19 @@ export function isQuotaError(status: number, code: string, message: string): boo
   return /\b(credit|quota)s?\b|limit\s*exceed|insufficient/i.test(message);
 }
 
+/** Collapse control characters (incl. CR/LF) to spaces. Subjects embed
+ * scraped, third-party data (motor designations, rocket names); ZeptoMail's
+ * JSON REST API already neutralizes header injection, but stripping control
+ * chars at the single send chokepoint is cheap defense-in-depth and keeps a
+ * stray newline from mangling how a client renders the subject line. */
+const oneLineSubject = (s: string): string =>
+  s.replace(/[\u0000-\u001f\u007f]+/g, " ").trim();
+
 export async function sendEmail(args: SendArgs): Promise<void> {
   const body: Record<string, unknown> = {
     from: parseFrom(args.from),
     to: [{ email_address: { address: args.to } }],
-    subject: args.subject,
+    subject: oneLineSubject(args.subject),
     htmlbody: args.html,
     textbody: args.text,
   };
@@ -73,7 +81,9 @@ export async function sendEmail(args: SendArgs): Promise<void> {
 
   // A throw means "not sent": the caller rolls back its cooldown so the next run
   // retries. fetch only rejects on network errors, so we must inspect the status
-  // ourselves and throw on any non-2xx.
+  // ourselves and throw on any non-2xx. A 10s deadline keeps a hung ZeptoMail
+  // connection from tying up the dispatch route (which has a 60s budget for the
+  // whole batch) — the abort surfaces as a thrown Error, same as a network blip.
   let res: Response;
   try {
     res = await fetch(`https://${args.zepto.host}/v1.1/email`, {
@@ -84,6 +94,7 @@ export async function sendEmail(args: SendArgs): Promise<void> {
         Accept: "application/json",
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(10_000),
     });
   } catch (e) {
     throw new Error(`ZeptoMail request failed: ${(e as Error).message}`);

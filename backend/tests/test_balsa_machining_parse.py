@@ -8,8 +8,16 @@ hardware rows (no ThrustCurve link) that must be skipped.
 """
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
-from hpr_finder.scrapers.balsa_machining import HPM_URL, _classify_stock, parse_motors
+from hpr_finder.scrapers.balsa_machining import (
+    HPM_URL,
+    BalsaMachiningScraper,
+    _classify_stock,
+    _last_price_cents,
+    parse_motors,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -73,3 +81,73 @@ def test_designation_pulled_from_link_text():
 def test_manufacturer_taken_from_thrustcurve_link():
     # Every motor's manufacturer is read from its thrustcurve.org/motors/<MFR>/ URL.
     assert all(l.manufacturer == "AeroTech" for l in _listings())
+
+
+# --- parse / classify guard branches -----------------------------------------
+
+
+def test_parse_motors_skips_row_missing_catalog_cell():
+    # A ThrustCurve-linked row with no catalog SKU cell is skipped.
+    html = '<TR VALIGN=TOP><a href="https://www.thrustcurve.org/motors/AeroTech/H100W-14A">x</a></TR>'
+    assert parse_motors(html) == []
+
+
+def test_parse_motors_skips_row_without_a_valid_designation():
+    html = (
+        "<TR VALIGN=TOP><TD><FONT>1ABC23</FONT></TD>"
+        "https://www.thrustcurve.org/motors/AeroTech/foo "
+        'click for thrust curve"> Just Hardware <span></TR>'
+    )
+    assert parse_motors(html) == []
+
+
+def test_classify_stock_unknown_without_availability_or_oos():
+    assert _classify_stock("<td>no availability info here</td>") == (StockStatus.UNKNOWN, None)
+
+
+def test_last_price_cents_none_without_a_price():
+    assert _last_price_cents("<td>no dollar amount</td>") is None
+
+
+# --- scrape() ----------------------------------------------------------------
+
+
+class _FakeResp:
+    def __init__(self, content: bytes):
+        self.content = content
+
+    def raise_for_status(self):
+        return None
+
+
+class _FakeClient:
+    def __init__(self, content: bytes):
+        self._content = content
+
+    async def get(self, url, **kwargs):
+        return _FakeResp(self._content)
+
+
+def _hpm_bytes() -> bytes:
+    return (FIXTURES / "balsa_machining_hpm.html").read_bytes()
+
+
+@pytest.mark.asyncio
+async def test_scrape_parses_the_hpm_page():
+    listings = await BalsaMachiningScraper().scrape(_FakeClient(_hpm_bytes()))
+    assert len(listings) > 0
+    assert all(l.vendor_slug == "balsa_machining" for l in listings)
+
+
+@pytest.mark.asyncio
+async def test_scrape_respects_limit():
+    listings = await BalsaMachiningScraper().scrape(_FakeClient(_hpm_bytes()), limit=1)
+    assert len(listings) == 1
+
+
+@pytest.mark.asyncio
+async def test_scrape_only_urls_filters_to_requested():
+    everything = await BalsaMachiningScraper().scrape(_FakeClient(_hpm_bytes()))
+    target = everything[0].url
+    filtered = await BalsaMachiningScraper().scrape(_FakeClient(_hpm_bytes()), only_urls=[target])
+    assert filtered and all(l.url == target for l in filtered)

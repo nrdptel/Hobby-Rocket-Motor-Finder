@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { BellIcon } from "./BellIcon";
+import { ALERT_EMAIL_KEY as EMAIL_KEY } from "@/lib/alertEmailKey";
 
 // Per-motor "email me when it's back in stock". Renders only when alerts are
 // configured (NEXT_PUBLIC_ALERTS_ENABLED === "1") — otherwise it's nothing, so
@@ -10,7 +11,6 @@ import { BellIcon } from "./BellIcon";
 // in localStorage so it's one field, prefilled, after the first time.
 
 const ALERTS_ON = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
-const EMAIL_KEY = "hpr.alertEmail";
 
 type Status = "idle" | "sending" | "sent" | "error";
 

@@ -111,4 +111,25 @@ describe("sendEmail", () => {
     await expect(sendEmail(baseArgs)).rejects.toThrow(/ZeptoMail send failed/);
     await expect(sendEmail(baseArgs)).rejects.not.toBeInstanceOf(EmailQuotaError);
   });
+
+  it("collapses control chars (CR/LF) in the subject before sending", async () => {
+    const fetchFn = mockFetch(200, {});
+    await sendEmail({ ...baseArgs, subject: "H128W\r\nBcc: attacker@evil.com\tis back" });
+    const sent = JSON.parse(fetchFn.mock.calls[0][1].body);
+    expect(sent.subject).toBe("H128W Bcc: attacker@evil.com is back");
+    expect(sent.subject).not.toMatch(/[\r\n]/);
+  });
+
+  it("passes an abort signal so a hung request can't run past the deadline", async () => {
+    const fetchFn = mockFetch(200, {});
+    await sendEmail(baseArgs);
+    const [, init] = fetchFn.mock.calls[0];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+  });
+
+  it("surfaces a timeout/network rejection as a thrown Error (caller retries)", async () => {
+    const fn = vi.fn().mockRejectedValue(new DOMException("timed out", "TimeoutError"));
+    vi.stubGlobal("fetch", fn);
+    await expect(sendEmail(baseArgs)).rejects.toThrow(/ZeptoMail request failed/);
+  });
 });
