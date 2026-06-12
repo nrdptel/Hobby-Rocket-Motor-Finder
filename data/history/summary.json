@@ -7722,10 +7722,10 @@
     "price_high_cents": 3099
   },
   "https://www.buyrocketmotors.com/products/aerotech-g79w-14a-white-lightning-rms-29-120?variant=50855189479721": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:01",
-    "last_change_at": "2026-05-31T02:24:01",
+    "last_change_at": "2026-06-12T15:01:46+00:00",
     "last_in_stock_at": "2026-05-31T02:24:01",
     "last_restock_at": null,
     "restock_count": 0,
@@ -46902,5 +46902,44 @@
     "price_prev_cents": null,
     "price_low_cents": 299999,
     "price_high_cents": 299999
+  },
+  "https://wildmanrocketry.com/products/g73-11c": {
+    "currently_in_stock": true,
+    "status_current": "in_stock_with_count",
+    "first_seen_at": "2026-06-12T15:04:44+00:00",
+    "last_change_at": "2026-06-12T15:04:44+00:00",
+    "last_in_stock_at": "2026-06-12T15:04:44+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 3899,
+    "price_prev_cents": null,
+    "price_low_cents": 3899,
+    "price_high_cents": 3899
+  },
+  "https://wildmanrocketry.com/products/g73-15c": {
+    "currently_in_stock": true,
+    "status_current": "in_stock_with_count",
+    "first_seen_at": "2026-06-12T15:04:45+00:00",
+    "last_change_at": "2026-06-12T15:04:45+00:00",
+    "last_in_stock_at": "2026-06-12T15:04:45+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 3899,
+    "price_prev_cents": null,
+    "price_low_cents": 3899,
+    "price_high_cents": 3899
+  },
+  "https://wildmanrocketry.com/products/g73-7c": {
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
+    "first_seen_at": "2026-06-12T15:04:47+00:00",
+    "last_change_at": "2026-06-12T15:04:47+00:00",
+    "last_in_stock_at": null,
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 3899,
+    "price_prev_cents": null,
+    "price_low_cents": 3899,
+    "price_high_cents": 3899
   }
 }
