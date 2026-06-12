@@ -73,7 +73,9 @@ export async function sendEmail(args: SendArgs): Promise<void> {
 
   // A throw means "not sent": the caller rolls back its cooldown so the next run
   // retries. fetch only rejects on network errors, so we must inspect the status
-  // ourselves and throw on any non-2xx.
+  // ourselves and throw on any non-2xx. A 10s deadline keeps a hung ZeptoMail
+  // connection from tying up the dispatch route (which has a 60s budget for the
+  // whole batch) — the abort surfaces as a thrown Error, same as a network blip.
   let res: Response;
   try {
     res = await fetch(`https://${args.zepto.host}/v1.1/email`, {
@@ -84,6 +86,7 @@ export async function sendEmail(args: SendArgs): Promise<void> {
         Accept: "application/json",
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(10_000),
     });
   } catch (e) {
     throw new Error(`ZeptoMail request failed: ${(e as Error).message}`);

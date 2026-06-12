@@ -744,7 +744,13 @@ def history_update(
         current = history.empty_log() if not log.exists() else json.loads(log.read_text())
     except (OSError, json.JSONDecodeError):
         current = history.empty_log()
-    snapshot = json.loads(Path(snapshot_path).read_text())
+    # The snapshot is this command's required input — a missing or corrupt file
+    # is an operator error, so fail with a clear message rather than a traceback.
+    try:
+        snapshot = json.loads(Path(snapshot_path).read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        typer.echo(f"history: cannot read snapshot {snapshot_path}: {exc}", err=True)
+        raise typer.Exit(1)
     updated = history.apply_snapshot(current, snapshot)
     _write_history(updated, log, summary_out, window_days)
 
