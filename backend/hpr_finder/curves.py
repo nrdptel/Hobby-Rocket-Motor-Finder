@@ -61,7 +61,7 @@ def select_curve(simfiles: list[dict]) -> ThrustCurve | None:
         pts = _points(sf.get("samples") or [])
         if len(pts) < 2 or pts[-1][0] <= 0:
             continue  # not a usable curve
-        rank = _SOURCE_RANK.get(sf.get("source"), 3)
+        rank = _SOURCE_RANK.get(sf.get("source") or "", 3)
         key = (rank, -len(pts))
         if best_key is None or key < best_key:
             best_key, best_pts = key, pts

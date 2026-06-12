@@ -40,7 +40,7 @@ PRICE_RE = re.compile(r"\$([\d,]+\.\d{2})")
 # "HP-G-69-SF" (some G-class reloads carry an HP- prefix).
 DESIG_CELL_RE = re.compile(r"^(?:HP-)?[G-O]-?\d{2,4}-?[A-Z]{2}$", re.I)
 # Split on table rows / cells with regex rather than a DOM parser: the store's
-# markup is invalid (nested <a> tags), which makes selectolax restructure the
+# markup is invalid (nested <a> tags), which makes a DOM parser restructure the
 # tree and emit duplicate/mis-scoped rows. Each product is one flat <tr> with no
 # nested table, so a non-greedy row split is exact.
 _TR_RE = re.compile(r"<tr\b.*?</tr>", re.S | re.I)
