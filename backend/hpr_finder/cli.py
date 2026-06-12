@@ -597,7 +597,13 @@ def alerts_dispatch(
             url,
             json={"motors": motors},
             headers={"Authorization": f"Bearer {secret}", "User-Agent": USER_AGENT},
-            timeout=30,
+            # The dispatch route is `maxDuration = 60` and a throttled ZeptoMail
+            # batch can legitimately run most of that (sequential sends + 429
+            # backoff). Keep the client read timeout safely above the route's
+            # ceiling (plus cold-start/network margin) so a slow-but-healthy run
+            # isn't aborted at the client and mislogged as a failure while the
+            # route keeps sending and claiming per-motor cooldowns server-side.
+            timeout=httpx.Timeout(90.0, connect=10.0),
         )
         typer.echo(f"alerts: dispatch -> HTTP {r.status_code}: {r.text[:200]}")
     except Exception as e:  # best-effort: never fail the scrape on alert errors
