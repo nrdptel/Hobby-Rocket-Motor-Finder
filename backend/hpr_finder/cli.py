@@ -756,7 +756,7 @@ def history_update(
         snapshot = json.loads(Path(snapshot_path).read_text())
     except (OSError, json.JSONDecodeError) as exc:
         typer.echo(f"history: cannot read snapshot {snapshot_path}: {exc}", err=True)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     updated = history.apply_snapshot(current, snapshot)
     _write_history(updated, log, summary_out, window_days)
 
