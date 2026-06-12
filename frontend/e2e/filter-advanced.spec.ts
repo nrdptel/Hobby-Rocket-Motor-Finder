@@ -43,13 +43,17 @@ test("the price filter narrows the catalog client-side", async ({ page }) => {
 test("sorting by Price is stock-agnostic and shows the clarifying hint", async ({ page }) => {
   await page.goto("/");
   await expect(motorLinks(page).first()).toBeVisible();
-  // The full catalog is heavy; wait for hydration so the <select>'s onChange is
-  // wired before we drive it (otherwise the change is lost and React resets it).
-  await page.waitForLoadState("networkidle");
   const before = await matchCount(page);
 
-  await page.locator("#sort-order").selectOption("price");
-  await expect(page).toHaveURL(/order=price/);
+  // The full catalog is heavy, so the <select>'s onChange can be unwired when we
+  // first drive it (a bare selectOption then fires before hydration and is lost,
+  // and `networkidle` doesn't mean "hydrated"). Retry the change until it sticks
+  // — i.e. until the onChange has written the URL — which is robust regardless of
+  // hydration timing.
+  await expect(async () => {
+    await page.locator("#sort-order").selectOption("price");
+    await expect(page).toHaveURL(/order=price/, { timeout: 1000 });
+  }).toPass();
   // The hint tells users it ranks across ALL vendors (pair with in-stock).
   await expect(page.getByText(/cheapest across all vendors/)).toBeVisible();
   // Sorting reorders but doesn't filter — the match count is unchanged.
