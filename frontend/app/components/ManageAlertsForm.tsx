@@ -2,12 +2,12 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 
+import { ALERT_EMAIL_KEY as EMAIL_KEY } from "@/lib/alertEmailKey";
+
 // "Manage my alerts" entry form. Enter an email → we email a magic link to view
 // and unsubscribe from your alerts. The response is intentionally always the
 // same ("if that address has alerts…") so the page can't be used to discover
 // whether an address is subscribed.
-
-const EMAIL_KEY = "hpr.alertEmail";
 
 type Status = "idle" | "sending" | "sent" | "error";
 

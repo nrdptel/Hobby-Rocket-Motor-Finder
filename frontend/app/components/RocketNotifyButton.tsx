@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { BellIcon } from "./BellIcon";
+import { ALERT_EMAIL_KEY as EMAIL_KEY } from "@/lib/alertEmailKey";
 
 // Per-rocket "email me when ANYTHING that fits this rocket comes back in stock".
 // One subscription covers every compatible motor, present and future — no need
@@ -11,7 +12,6 @@ import { BellIcon } from "./BellIcon";
 // shared with the per-motor NotifyButton.
 
 const ALERTS_ON = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
-const EMAIL_KEY = "hpr.alertEmail";
 
 type Status = "idle" | "sending" | "sent" | "error";
 

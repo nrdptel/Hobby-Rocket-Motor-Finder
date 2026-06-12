@@ -78,7 +78,7 @@ class PoliteAsyncClient:
     async def _await_start_slot(self, host: str) -> None:
         """Block until this host's next allowed request-start time, reserving the
         following slot so concurrent callers stay ``min_start_interval_s`` apart."""
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         async with self._rate_lock:
             now = loop.time()
             scheduled = max(now, self._next_start_time.get(host, 0.0))
