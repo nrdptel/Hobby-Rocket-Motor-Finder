@@ -9,12 +9,17 @@ out-of-stock rows.
 """
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
 from hpr_finder.scrapers.performancehobbies import (
     _SKIP_NAME_RE,
     GROUP_URL,
     NAV_GROUP_IDS,
+    ROOTS,
+    PerformanceHobbiesScraper,
     _classify_status,
+    _crawl,
     extract_subgroups,
     parse_diameter,
     parse_products,
@@ -143,3 +148,73 @@ def test_classify_status():
     assert _classify_status("<td>Out of stock</td>", in_stock=False) == StockStatus.OUT_OF_STOCK
     assert _classify_status("Call for availability", in_stock=False) == StockStatus.SPECIAL_ORDER
     assert _classify_status("mystery", in_stock=False) == StockStatus.UNKNOWN
+
+
+# --- scrape() + _crawl group-tree walk ---------------------------------------
+
+
+class _FakeResp:
+    def __init__(self, body: str):
+        # _crawl decodes r.content as latin-1 (the site mis-declares utf-8).
+        self.content = body.encode("latin-1")
+
+    def raise_for_status(self):
+        return None
+
+
+class _CrawlClient:
+    """Each brand ROOT serves the branch page (which links sub-groups); every
+    other group id serves the leaf page (products, no further sub-groups, so the
+    depth-first walk terminates)."""
+
+    def __init__(self, branch_html: str, leaf_html: str):
+        self._branch = branch_html
+        self._leaf = leaf_html
+        self._roots = {r[0] for r in ROOTS}
+
+    async def get(self, url, **kwargs):
+        group_id = url.split("groupid=")[-1]
+        return _FakeResp(self._branch if group_id in self._roots else self._leaf)
+
+
+def _crawl_client():
+    return _CrawlClient(
+        _load("performancehobbies_branch_aerotech_top.html"),
+        _load("performancehobbies_leaf_aerotech_38mm.html"),
+    )
+
+
+@pytest.mark.asyncio
+async def test_scrape_walks_roots_and_subgroups():
+    listings = await PerformanceHobbiesScraper().scrape(_crawl_client())
+    assert len(listings) > 0
+    assert all("groupid=" in l.url for l in listings)
+
+
+@pytest.mark.asyncio
+async def test_scrape_respects_limit():
+    listings = await PerformanceHobbiesScraper().scrape(_crawl_client(), limit=1)
+    assert len(listings) == 1
+
+
+@pytest.mark.asyncio
+async def test_scrape_only_urls_filters_to_requested():
+    everything = await PerformanceHobbiesScraper().scrape(_crawl_client())
+    target = everything[0].url
+    filtered = await PerformanceHobbiesScraper().scrape(_crawl_client(), only_urls=[target])
+    assert filtered and all(l.url == target for l in filtered)
+
+
+@pytest.mark.asyncio
+async def test_crawl_skips_an_already_visited_group():
+    out: list = []
+    # group_id already in `visited` -> immediate return, no fetch.
+    await _crawl(_crawl_client(), "999", "AeroTech", None, {"999"}, out, None)
+    assert out == []
+
+
+@pytest.mark.asyncio
+async def test_crawl_returns_when_limit_already_reached():
+    out: list = ["sentinel"]  # already at the limit
+    await _crawl(_crawl_client(), "777", "AeroTech", None, set(), out, 1)
+    assert out == ["sentinel"]  # returned before fetching/parsing

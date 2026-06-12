@@ -9,9 +9,13 @@ and an in-stock item showing a numeric quantity).
 """
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
 from hpr_finder.scrapers.moto_joe import (
     _AVAIL_RE,
+    MotoJoeScraper,
+    _block_price_cents,
     build_listing,
     classify_availability,
     parse_category,
@@ -124,3 +128,101 @@ def test_parse_diameter():
     assert parse_diameter("Motor reload, 24mm") == 24
     assert parse_diameter("RMS-38/720 reload") == 38
     assert parse_diameter("no size mentioned") is None
+
+
+# --- helper guard branches ---------------------------------------------------
+
+
+def test_parse_category_skips_thumb_without_id_or_name():
+    assert parse_category('<div class="product-thumb">just text, no product_id or h4</div>') == []
+
+
+def test_build_listing_returns_none_without_a_designation():
+    # Not a skip-brand, but the page has no recognizable motor designation.
+    html = "<h1>Rocket Building Glue</h1>"
+    assert build_listing(html, "https://x?product_id=9", "AeroTech", 1000, "Glue") is None
+
+
+def test_block_price_cents_none_without_price_block():
+    assert _block_price_cents("<div>no price element here</div>") is None
+
+
+# --- scrape() orchestration --------------------------------------------------
+
+
+class _FakeResp:
+    def __init__(self, text: str):
+        self.text = text
+
+    def raise_for_status(self):
+        return None
+
+
+class _MotoJoeClient:
+    """Category pages serve the brand fixture on page 1 (empty after); any
+    product page serves the product fixture."""
+
+    def __init__(self, category_html: str, product_html: str):
+        self._cat = category_html
+        self._prod = product_html
+
+    async def get(self, url, **kwargs):
+        if "route=product/category" in url:
+            return _FakeResp(self._cat if "page=1" in url else "<html></html>")
+        return _FakeResp(self._prod)
+
+
+def _client():
+    return _MotoJoeClient(_load("moto_joe_category_aerotech.html"), _load("moto_joe_product_oos.html"))
+
+
+@pytest.mark.asyncio
+async def test_scrape_discovers_categories_then_fetches_products():
+    listings = await MotoJoeScraper().scrape(_client())
+    assert len(listings) > 0
+    assert all(l.vendor_slug == "moto_joe" for l in listings)
+
+
+@pytest.mark.asyncio
+async def test_scrape_respects_limit():
+    listings = await MotoJoeScraper().scrape(_client(), limit=1)
+    assert len(listings) == 1
+
+
+@pytest.mark.asyncio
+async def test_scrape_only_urls_filters_to_requested():
+    everything = await MotoJoeScraper().scrape(_client())
+    target = everything[0].url
+    filtered = await MotoJoeScraper().scrape(_client(), only_urls=[target])
+    assert [l.url for l in filtered] == [target]
+
+
+@pytest.mark.asyncio
+async def test_scrape_skips_a_failing_product_fetch():
+    class _ProductFails(_MotoJoeClient):
+        async def get(self, url, **kwargs):
+            if "route=product/product" in url:
+                raise RuntimeError("product page down")
+            return await super().get(url, **kwargs)
+
+    listings = await MotoJoeScraper().scrape(
+        _ProductFails(_load("moto_joe_category_aerotech.html"), "")
+    )
+    assert listings == []  # every product fetch failed -> nothing built
+
+
+@pytest.mark.asyncio
+async def test_scrape_stops_at_total_pages_count():
+    # Every category page returns products, so pagination stops via the
+    # "page >= total_pages" guard (the fixture reports 3 pages) rather than an
+    # empty page.
+    class _AllPagesClient(_MotoJoeClient):
+        async def get(self, url, **kwargs):
+            if "route=product/category" in url:
+                return _FakeResp(self._cat)
+            return _FakeResp(self._prod)
+
+    listings = await MotoJoeScraper().scrape(
+        _AllPagesClient(_load("moto_joe_category_aerotech.html"), _load("moto_joe_product_oos.html"))
+    )
+    assert len(listings) > 0
