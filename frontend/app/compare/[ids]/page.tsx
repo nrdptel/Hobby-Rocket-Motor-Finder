@@ -30,8 +30,18 @@ export const metadata: Metadata = {
  * ids in the order given (URL order is the column order). Tolerates an encoded
  * comma (``1%2C2``) so legacy redirects resolve identically. */
 function parseIds(raw: string): number[] {
+  // Next already URL-decodes the segment; the extra decode only matters if a
+  // comma arrived encoded (%2C). Guard it — a malformed percent-sequence
+  // (e.g. /compare/%ZZ) would otherwise throw and 500 instead of falling through
+  // to the pick-motors prompt.
+  let decoded = raw;
+  try {
+    decoded = decodeURIComponent(raw);
+  } catch {
+    /* keep raw; unparseable ids drop out below */
+  }
   const out: number[] = [];
-  for (const part of decodeURIComponent(raw).split(",")) {
+  for (const part of decoded.split(",")) {
     const n = Number(part.trim());
     if (Number.isInteger(n) && n > 0 && !out.includes(n)) out.push(n);
     if (out.length >= MAX_COMPARE) break;
