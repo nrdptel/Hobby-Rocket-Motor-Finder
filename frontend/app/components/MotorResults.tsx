@@ -20,7 +20,7 @@ import {
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
-import type { HistorySummary } from "@/lib/snapshot";
+import type { CatalogHistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
 import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
@@ -65,7 +65,7 @@ export function MotorResults({
   showManufacturer: boolean;
   generatedAt: string;
   starredOnly: boolean;
-  history: HistorySummary;
+  history: CatalogHistorySummary;
   availability: Record<number, CatalogAvailability>;
   substitutes: Record<number, Substitute[]>;
   /** Per-motor thrust-curve sparkline path, keyed by motor id. */

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  type CatalogHistorySummary,
   loadCatalogMotors,
   loadHistoryLog,
   loadHistorySummary,
@@ -144,7 +145,24 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
   // Filtering, sorting, grouping, substitutes, and the per-listing history lookup
   // now run client-side in CatalogView (instant, no round-trip). The server ships
-  // the full motors-with-listings set + the whole history summary once.
+  // the full motors-with-listings set once, plus a SLIM history summary: only the
+  // six fields the catalog reads (restock timing + the price-signal rollup). The
+  // five unused fields — status_current, first_seen_at, last_change_at,
+  // restock_count, price_current_cents (two of them long ISO timestamps) — are
+  // projected out here so they never reach the browser. The detail page loads its
+  // own full history server-side, so this doesn't affect it.
+  const catalogHistory: CatalogHistorySummary = {};
+  for (const url in history) {
+    const h = history[url];
+    catalogHistory[url] = {
+      currently_in_stock: h.currently_in_stock,
+      last_in_stock_at: h.last_in_stock_at,
+      last_restock_at: h.last_restock_at,
+      price_prev_cents: h.price_prev_cents,
+      price_low_cents: h.price_low_cents,
+      price_high_cents: h.price_high_cents,
+    };
+  }
 
   // Drop A/B/C-class entries from the unmatched section too (the same
   // MIN_CLASS gate applied to motors). Also drop AeroTech Q-Jet products —
@@ -183,7 +201,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
       <CatalogFilterProvider initialQuery={initialQuery}>
         <CatalogView
           allMotors={motorsWithListings}
-          history={history}
+          history={catalogHistory}
           availability={availability}
           generatedAt={snapshot.generated_at}
           showManufacturer={showManufacturer}

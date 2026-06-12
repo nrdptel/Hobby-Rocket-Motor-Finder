@@ -4,7 +4,7 @@
 // always in here, not in the JSX.
 
 import { unitPriceCents } from "./pack";
-import type { ListingHistory, Listing, Motor } from "./snapshot";
+import type { CatalogListingHistory, Listing, Motor } from "./snapshot";
 
 /** Lower bound on impulse class shown by the UI — D and up. Hides A/B/C
  * Estes-style model rocket motors that aren't this project's audience. */
@@ -204,7 +204,7 @@ function ageLabel(ms: number): string {
  *   ``last_restock_at`` and shows nothing — see the backend's restock rule.)
  * - Out of stock but last in stock within ~30 days → ``last in stock 2d ago``.
  * - Otherwise → ``null`` (never-stocked, or the event is too old to matter). */
-export function restockLabel(h: ListingHistory | undefined, now: Date): string | null {
+export function restockLabel(h: CatalogListingHistory | undefined, now: Date): string | null {
   if (!h) return null;
   const ref = now.getTime();
   if (h.currently_in_stock) {

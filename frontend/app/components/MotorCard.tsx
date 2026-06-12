@@ -17,7 +17,7 @@ import {
 } from "@/lib/derive";
 import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
-import type { HistorySummary } from "@/lib/snapshot";
+import type { CatalogHistorySummary } from "@/lib/snapshot";
 import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
@@ -55,7 +55,7 @@ export function MotorCard({
   motor: GroupedMotor;
   showManufacturer: boolean;
   snapshotTime: Date;
-  history: HistorySummary;
+  history: CatalogHistorySummary;
   availability: CatalogAvailability | undefined;
   substitutes?: Substitute[];
   /** Precomputed thrust-curve sparkline path for this motor, if any. */
