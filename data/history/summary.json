@@ -1248,10 +1248,10 @@
     "price_high_cents": 4399
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/32mm-/g12-rct.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:09",
-    "last_change_at": "2026-05-30T22:33:09",
+    "last_change_at": "2026-06-12T13:01:32+00:00",
     "last_in_stock_at": "2026-05-30T22:33:09",
     "last_restock_at": null,
     "restock_count": 0,
@@ -1859,10 +1859,10 @@
     "price_high_cents": 4599
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/dms-rocket-motors/aerotech-h13st-p-ntr-super-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:52",
-    "last_change_at": "2026-05-30T22:32:52",
+    "last_change_at": "2026-06-12T13:01:20+00:00",
     "last_in_stock_at": "2026-05-30T22:32:52",
     "last_restock_at": null,
     "restock_count": 0,
