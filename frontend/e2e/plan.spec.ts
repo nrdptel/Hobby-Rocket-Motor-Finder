@@ -6,6 +6,11 @@ import { expect, test, type Page } from "@playwright/test";
 async function starFirstInStock(page: Page, n: number, query = "in_stock=1") {
   await page.goto(`/?${query}`);
   await expect(page.locator('a[href^="/motor/"]').first()).toBeVisible();
+  // The homepage is statically rendered (cacheable), so a shared filtered link
+  // applies its filter client-side just after hydration. Wait for that — the
+  // reactive "clear all" affordance appears once a filter is active — so we star
+  // from the filtered (in-stock) catalog, not the momentary full one.
+  await expect(page.getByRole("button", { name: /clear all/i })).toBeVisible();
   // Clicking the first "Add … to watchlist" stars that motor (its button flips to
   // "Remove"), so the next .first() is the next un-starred motor → n distinct.
   for (let i = 0; i < n; i++) {

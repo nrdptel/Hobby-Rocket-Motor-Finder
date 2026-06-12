@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BURN_LABEL, numericParamValue, searchParamValue } from "@/lib/derive";
 import type { BurnCharacter, CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
@@ -49,18 +49,29 @@ function useDebouncedParam(
   delayMs = 250,
 ): [string, (v: string) => void] {
   const [value, setValue] = useState(urlValue);
+  // Distinguishes a user edit from an external URL change. The homepage is
+  // statically rendered, so a shared filtered link (e.g. /?pmax=25) arrives with
+  // an empty initial URL value that the client populates just after hydration;
+  // we must mirror that into the input WITHOUT treating it as an edit to push
+  // back (which would race the mirror and clear the very param we just received).
+  const edited = useRef(false);
   // Mirror external URL changes into the input.
   useEffect(() => {
+    edited.current = false;
     setValue(urlValue);
   }, [urlValue]);
-  // Push after the user pauses; the guard avoids echoing back a value we just
-  // received from the URL.
+  // Push after the user pauses — but only the user's own edits, never an external
+  // URL change we're still mirroring in.
   useEffect(() => {
-    if (value === urlValue) return;
+    if (!edited.current || value === urlValue) return;
     const id = setTimeout(() => update(key, normalize(value)), delayMs);
     return () => clearTimeout(id);
   }, [value, urlValue, key, normalize, update, delayMs]);
-  return [value, setValue];
+  const onEdit = useCallback((v: string) => {
+    edited.current = true;
+    setValue(v);
+  }, []);
+  return [value, onEdit];
 }
 
 export function FilterBar({

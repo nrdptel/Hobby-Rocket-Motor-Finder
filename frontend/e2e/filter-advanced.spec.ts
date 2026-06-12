@@ -23,8 +23,9 @@ test("secondary filters hide behind a 'More filters' disclosure", async ({ page 
 test("a shared link with a price filter auto-opens the disclosure", async ({ page }) => {
   await page.goto("/?pmax=25");
   await expect(motorLinks(page).first()).toBeVisible();
-  // The advanced section is open on first paint because a price bound is active,
-  // with the value reflected — an applied filter is never hidden.
+  // The homepage is static, so the URL's price bound applies client-side just
+  // after hydration; the disclosure then auto-opens (an applied filter is never
+  // hidden) with the value reflected.
   await expect(page.getByLabel(/Maximum price in dollars/)).toBeVisible();
   await expect(page.getByLabel(/Maximum price in dollars/)).toHaveValue("25");
 });
