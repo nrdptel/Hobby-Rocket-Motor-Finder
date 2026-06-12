@@ -9,10 +9,20 @@ cards (grease, a wrench, a charge canister) that must be skipped.
 """
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
-from hpr_finder.scrapers.erockets import parse_category
+from hpr_finder.scrapers.erockets import (
+    ERocketsScraper,
+    _classify_status,
+    parse_category,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
+
+
+def _load(name: str) -> str:
+    return (FIXTURES / name).read_text(encoding="utf-8")
 
 
 def _listings():
@@ -77,3 +87,58 @@ def test_card_with_nested_li_is_not_truncated():
     assert listings[0].motor_designation == "H128W-14A"
     assert listings[0].status == StockStatus.IN_STOCK
     assert listings[0].price_cents == 3499
+
+
+def test_parse_category_skips_card_without_a_title():
+    # Matches the product-card shape but has no card-title link -> skipped.
+    assert parse_category('<li class="product foo">no card-title link here</li>') == []
+
+
+def test_classify_status_unknown_without_cart_or_stock_words():
+    assert _classify_status('<div class="card">just a description</div>') is StockStatus.UNKNOWN
+
+
+# --- scrape() orchestration --------------------------------------------------
+
+
+class _FakeResp:
+    def __init__(self, text: str):
+        self.text = text
+
+    def raise_for_status(self):
+        return None
+
+
+class _CategoryClient:
+    """Serves the category fixture for page 1 of any category, empty afterwards."""
+
+    def __init__(self, page1_html: str):
+        self._page1 = page1_html
+
+    async def get(self, url, **kwargs):
+        return _FakeResp(self._page1 if "page=1" in url else "<html></html>")
+
+
+@pytest.mark.asyncio
+async def test_scrape_walks_categories_and_dedups_urls():
+    listings = await ERocketsScraper().scrape(_CategoryClient(_load("erockets_category.html")))
+    assert len(listings) > 0
+    # Each category serves the same fixture; URLs are deduped across them.
+    assert len({l.url for l in listings}) == len(listings)
+
+
+@pytest.mark.asyncio
+async def test_scrape_respects_limit():
+    listings = await ERocketsScraper().scrape(_CategoryClient(_load("erockets_category.html")), limit=1)
+    assert len(listings) == 1
+
+
+@pytest.mark.asyncio
+async def test_scrape_only_urls_filters_to_requested():
+    client = _CategoryClient(_load("erockets_category.html"))
+    everything = await ERocketsScraper().scrape(client)
+    target = everything[0].url
+    filtered = await ERocketsScraper().scrape(
+        _CategoryClient(_load("erockets_category.html")), only_urls=[target]
+    )
+    assert [l.url for l in filtered] == [target]
