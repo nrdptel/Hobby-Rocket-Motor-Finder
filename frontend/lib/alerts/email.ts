@@ -56,11 +56,19 @@ export function isQuotaError(status: number, code: string, message: string): boo
   return /\b(credit|quota)s?\b|limit\s*exceed|insufficient/i.test(message);
 }
 
+/** Collapse control characters (incl. CR/LF) to spaces. Subjects embed
+ * scraped, third-party data (motor designations, rocket names); ZeptoMail's
+ * JSON REST API already neutralizes header injection, but stripping control
+ * chars at the single send chokepoint is cheap defense-in-depth and keeps a
+ * stray newline from mangling how a client renders the subject line. */
+const oneLineSubject = (s: string): string =>
+  s.replace(/[\u0000-\u001f\u007f]+/g, " ").trim();
+
 export async function sendEmail(args: SendArgs): Promise<void> {
   const body: Record<string, unknown> = {
     from: parseFrom(args.from),
     to: [{ email_address: { address: args.to } }],
-    subject: args.subject,
+    subject: oneLineSubject(args.subject),
     htmlbody: args.html,
     textbody: args.text,
   };
