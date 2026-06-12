@@ -7,9 +7,9 @@ are welcome — especially vendor parser fixes and new vendors.
 
 - `backend/` — Python scraper, catalog matcher, snapshot/history builders, and
   the `hpr` CLI (Typer). See `backend/README.md`.
-- `frontend/` — Next.js UI + the email-alert API routes. Note `frontend/AGENTS.md`:
-  this is a customized Next.js, so check `node_modules/next/dist/docs/` before
-  relying on framework behavior from memory.
+- `frontend/` — Next.js UI + the email-alert API routes. This is a customized
+  Next.js build, so check `node_modules/next/dist/docs/` before relying on
+  framework behavior from memory.
 - `data/` — generated snapshots/history and the ThrustCurve catalog caches.
 
 ## Setup
