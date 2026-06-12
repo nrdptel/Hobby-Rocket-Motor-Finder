@@ -27,6 +27,10 @@ set -euo pipefail
 REPORT="${1:-data/scrape-status.json}"
 THRESHOLD_HOURS="${2:-6}"
 TITLE="🚨 Scrape health: a vendor needs attention"
+# Repo owner (from the workflow's github.repository_owner). When set, the tracking
+# issue @mentions and is assigned to them, so the alert notifies reliably even if
+# their repo watch is "participating only". Forks get their own owner here.
+OWNER="${OWNER:-}"
 
 summary() { [[ -n "${GITHUB_STEP_SUMMARY:-}" ]] && echo -e "$1" >> "$GITHUB_STEP_SUMMARY" || true; }
 
@@ -126,7 +130,7 @@ existing=$(gh issue list --state open --search "in:title $TITLE" \
   --json number,title \
   --jq "map(select(.title == \"$TITLE\")) | .[0].number // empty" 2>/dev/null || echo "")
 
-body="Automated by the hourly scrape workflow.
+body="${OWNER:+@$OWNER — }Automated by the hourly scrape workflow.
 
 A sustained scrape-health problem is being masked by carry-forward / fresh-but-degraded data — not a transient blip.
 
@@ -154,7 +158,16 @@ if [[ "$escalate" == "true" ]]; then
     echo "sustained problem; issue #$existing already open — staying quiet"
   else
     echo "sustained problem; opening tracking issue"
-    gh issue create --title "$TITLE" --body "$body"
+    url=$(gh issue create --title "$TITLE" --body "$body")
+    echo "opened: $url"
+    # Assign the owner on top of the @mention so the notification lands even with
+    # a "participating only" watch. Tolerate a non-assignable owner (some fork/org
+    # setups) — the body @mention still pings them.
+    num="${url##*/}"
+    if [[ -n "$OWNER" && -n "$num" ]]; then
+      gh issue edit "$num" --add-assignee "$OWNER" >/dev/null 2>&1 \
+        || echo "note: couldn't assign @$OWNER (not assignable?) — relying on the @mention"
+    fi
   fi
 else
   if [[ -n "$existing" ]]; then

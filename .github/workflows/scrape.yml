@@ -91,6 +91,9 @@ jobs:
         working-directory: ${{ github.workspace }}
         env:
           GH_TOKEN: ${{ github.token }}
+          # The tracking issue @mentions and is assigned to the repo owner, so the
+          # alert notifies reliably even with a "participating only" watch.
+          OWNER: ${{ github.repository_owner }}
         # Second arg is the stale-hours threshold that opens an issue.
         run: bash .github/scripts/alert_on_degraded.sh data/scrape-status.json 6
 
