@@ -3978,10 +3978,10 @@
     "price_high_cents": 1599
   },
   "https://www.buyrocketmotors.com/products/aerotech-d24-blue-thunder-rms-18-20-3-pack?variant=50855198916905": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:50",
-    "last_change_at": "2026-05-31T02:23:50",
+    "last_change_at": "2026-06-12T19:00:27+00:00",
     "last_in_stock_at": "2026-05-31T02:23:50",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17004,10 +17004,10 @@
     "price_high_cents": 10700
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j1799n-p-reload-kit-hazmat-439.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:21",
-    "last_change_at": "2026-05-31T04:26:21",
+    "last_change_at": "2026-06-12T19:04:37+00:00",
     "last_in_stock_at": "2026-05-31T04:26:21",
     "last_restock_at": null,
     "restock_count": 0,
