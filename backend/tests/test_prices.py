@@ -30,3 +30,10 @@ def test_unparseable_returns_none():
     assert price_to_cents("") is None
     assert price_to_cents("not-a-price") is None
     assert price_to_cents("$") is None
+
+
+def test_uncoercible_values_return_none():
+    # Survives the non-numeric strip but float() still fails (ValueError), and a
+    # type float() can't handle at all (TypeError) — both return None.
+    assert price_to_cents("1.2.3") is None
+    assert price_to_cents(object()) is None

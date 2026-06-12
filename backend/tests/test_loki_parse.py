@@ -7,8 +7,15 @@ Fixture: the live reloads page captured 2026-06.
 """
 from pathlib import Path
 
+import pytest
+
 from hpr_finder.models import StockStatus
-from hpr_finder.scrapers.loki import _classify_status, _price_cents, parse_reloads
+from hpr_finder.scrapers.loki import (
+    LokiScraper,
+    _classify_status,
+    _price_cents,
+    parse_reloads,
+)
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -79,3 +86,48 @@ def test_classify_status_precedence():
 def test_price_cents_from_cells():
     assert _price_cents(["N-3800-LW", "Loki White", "$1,245.00"]) == 124500
     assert _price_cents(["no price here"]) is None
+
+
+# --- parse_reloads skip branches ---------------------------------------------
+
+
+def test_parse_reloads_skips_row_without_a_store_id():
+    assert parse_reloads("<tr><td>hardware row, no store id</td></tr>") == []
+
+
+def test_parse_reloads_skips_row_without_designation_or_price():
+    # Has a store id but no designation cell and no price -> skipped.
+    row = '<tr><a href="storeDetail.asp?id=123">x</a><td>Hardware Item</td><td>no price</td></tr>'
+    assert parse_reloads(row) == []
+
+
+# --- scrape() ----------------------------------------------------------------
+
+
+class _FakeResp:
+    def __init__(self, text: str):
+        self.text = text
+
+    def raise_for_status(self):
+        return None
+
+
+class _FakeClient:
+    def __init__(self, body: str):
+        self._body = body
+
+    async def get(self, url, **kwargs):
+        return _FakeResp(self._body)
+
+
+@pytest.mark.asyncio
+async def test_scrape_parses_the_reloads_page():
+    listings = await LokiScraper().scrape(_FakeClient(_load()))
+    assert len(listings) > 0
+    assert all(l.vendor_slug == "loki" for l in listings)
+
+
+@pytest.mark.asyncio
+async def test_scrape_respects_limit():
+    listings = await LokiScraper().scrape(_FakeClient(_load()), limit=1)
+    assert len(listings) == 1

@@ -91,7 +91,9 @@ def parse_reloads(html: str) -> list[Listing]:
         if raw_designation is None or price_cents is None:
             continue
         designation = extract_loki_designation(raw_designation)
-        if not designation:
+        # Practically unreachable: any cell that passes DESIG_CELL_RE also
+        # extracts cleanly. Kept as a defensive guard.
+        if not designation:  # pragma: no cover
             continue
         item_id = id_match.group(1)
         idx = cells.index(raw_designation)
