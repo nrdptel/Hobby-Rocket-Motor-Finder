@@ -1,4 +1,4 @@
-import type { HistorySummary, Listing } from "@/lib/snapshot";
+import type { CatalogHistorySummary, Listing } from "@/lib/snapshot";
 import { RestockBadge } from "./RestockBadge";
 import { StaleBadge } from "./StaleBadge";
 import { StatusBadge } from "./StatusBadge";
@@ -13,7 +13,7 @@ export function ListingStatus({
   now,
 }: {
   listing: Listing;
-  history: HistorySummary;
+  history: CatalogHistorySummary;
   now: Date;
 }) {
   return (

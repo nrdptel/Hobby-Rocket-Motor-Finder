@@ -6,7 +6,7 @@ import { buildCatalogView, parseCatalogParams } from "@/lib/catalog";
 import type { CaseOption, PropellantOption, SubstituteShape, VendorOption } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import { rocketMatchesParams, useRockets, type RocketMotor } from "@/lib/rockets";
-import type { HistorySummary, Motor } from "@/lib/snapshot";
+import type { CatalogHistorySummary, Motor } from "@/lib/snapshot";
 import { useCatalogFilters } from "./CatalogFilters";
 import { CompareTray } from "./CompareTray";
 import { FilterBar } from "./FilterBar";
@@ -38,7 +38,7 @@ export function CatalogView({
   shapes,
 }: {
   allMotors: Motor[];
-  history: HistorySummary;
+  history: CatalogHistorySummary;
   availability: Record<number, CatalogAvailability>;
   generatedAt: string;
   showManufacturer: boolean;

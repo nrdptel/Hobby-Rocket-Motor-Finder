@@ -1,4 +1,4 @@
-import type { ListingHistory } from "@/lib/snapshot";
+import type { CatalogListingHistory } from "@/lib/snapshot";
 import { restockLabel } from "@/lib/derive";
 
 /** A small history marker shown next to a listing's status:
@@ -12,7 +12,7 @@ export function RestockBadge({
   history,
   now,
 }: {
-  history: ListingHistory | undefined;
+  history: CatalogListingHistory | undefined;
   now: Date;
 }) {
   const label = restockLabel(history, now);

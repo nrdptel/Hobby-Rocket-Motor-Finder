@@ -1,4 +1,4 @@
-import type { ListingHistory } from "./snapshot";
+import type { CatalogListingHistory } from "./snapshot";
 
 // A price marker for a single listing relative to its OWN tracked history — the
 // "informed buying" signal. Unlike availability, price min/max is NOT
@@ -42,7 +42,7 @@ export function plausiblePair(a: number | null, b: number | null): boolean {
  * price sitting above its own low ("high"). `currentCents` is the live listing
  * price; the low/high/prev come from the summary rollup. */
 export function priceSignal(
-  h: ListingHistory | undefined,
+  h: CatalogListingHistory | undefined,
   currentCents: number | null,
   inStock = true,
 ): PriceSignal | null {
