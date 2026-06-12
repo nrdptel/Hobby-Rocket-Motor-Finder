@@ -32,7 +32,10 @@ log = logging.getLogger(__name__)
 
 CESARONI_MANUFACTURER = "Cesaroni Technology"  # the name ThrustCurve stores
 
-SITEMAP_URL = "https://www.csrocketry.com/sitemap.xml.gz"
+# csrocketry serves a sitemap *index* (sitemap_index.xml, per robots.txt) that
+# points to one or more gzipped sub-sitemaps holding the actual page URLs.
+SITEMAP_URL = "https://www.csrocketry.com/sitemap_index.xml"
+SITEMAP_LOC_RE = re.compile(r"<loc>\s*([^<\s]+)\s*</loc>", re.IGNORECASE)
 PRODUCT_URL_RE = re.compile(
     r"https://www\.csrocketry\.com/rocket-motors/aerotech-rocketry/motors/"
     r"[^<\s\"]+/(?:aerotech-|[a-o]\d)[^<\s\"]*\.html",
@@ -147,13 +150,23 @@ class CSRocketryScraper(Scraper):
         return urls
 
     async def _sitemap_text(self, client: PoliteAsyncClient) -> str:
+        """Decoded sitemap text. Handles a sitemap *index* — fetch each sub-sitemap
+        it lists and concatenate them — and a plain (flat) sitemap, so a future
+        revert to a single sitemap still works. Sub-sitemaps may be gzipped."""
         r = await client.get(SITEMAP_URL)
         r.raise_for_status()
-        raw = r.content
-        try:
-            return gzip.decompress(raw).decode("utf-8", errors="replace")
-        except OSError:
-            return raw.decode("utf-8", errors="replace")
+        text = _decode_maybe_gzip(r.content)
+        if "<sitemapindex" not in text.lower():
+            return text  # already a flat <urlset>
+        parts: list[str] = []
+        for sub in SITEMAP_LOC_RE.findall(text):
+            try:
+                rs = await client.get(sub.strip())
+                rs.raise_for_status()
+                parts.append(_decode_maybe_gzip(rs.content))
+            except Exception as e:
+                log.warning("csrocketry: sub-sitemap fetch failed %s: %s", sub, e)
+        return "\n".join(parts)
 
     @staticmethod
     def _extract_product_urls(text: str) -> set[str]:
@@ -236,6 +249,14 @@ class CSRocketryScraper(Scraper):
             diameter_mm=diameter_mm,
             seen_at=_utc_now(),
         )
+
+
+def _decode_maybe_gzip(raw: bytes) -> str:
+    """Decode sitemap bytes, transparently gunzipping a ``.gz`` body."""
+    try:
+        return gzip.decompress(raw).decode("utf-8", errors="replace")
+    except OSError:
+        return raw.decode("utf-8", errors="replace")
 
 
 def _pro_size_diameter(url: str) -> int | None:

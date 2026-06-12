@@ -254,6 +254,48 @@ async def test_sitemap_text_falls_back_on_uncompressed_body():
     assert "plain not gzipped" in text
 
 
+_SITEMAP_INDEX = (
+    '<?xml version="1.0"?><sitemapindex>'
+    "<sitemap><loc>https://www.csrocketry.com/sitemap_1.xml.gz</loc></sitemap>"
+    "</sitemapindex>"
+)
+_SUB_SITEMAP = (
+    "<urlset><url><loc>https://www.csrocketry.com/rocket-motors/"
+    "aerotech-rocketry/motors/38mm/aerotech-h242t-14a-rocket-motor.html</loc></url></urlset>"
+)
+
+
+@pytest.mark.asyncio
+async def test_sitemap_text_follows_index_to_gzipped_subsitemaps():
+    # The top-level URL is a sitemap *index*; follow its <loc> to the (gzipped)
+    # sub-sitemap and return the concatenated page URLs.
+    class _IndexClient:
+        async def get(self, url, **kwargs):
+            r = _FakeResp("")
+            if "sitemap_1" in url:
+                r.content = gzip.compress(_SUB_SITEMAP.encode())
+            else:
+                r.content = _SITEMAP_INDEX.encode()
+            return r
+
+    text = await CSRocketryScraper()._sitemap_text(_IndexClient())
+    assert "aerotech-h242t-14a-rocket-motor.html" in text
+
+
+@pytest.mark.asyncio
+async def test_sitemap_text_tolerates_a_failing_subsitemap():
+    class _IndexFailsClient:
+        async def get(self, url, **kwargs):
+            if "sitemap_1" in url:
+                raise RuntimeError("sub-sitemap fetch failed")
+            r = _FakeResp("")
+            r.content = _SITEMAP_INDEX.encode()
+            return r
+
+    text = await CSRocketryScraper()._sitemap_text(_IndexFailsClient())
+    assert text == ""  # index parsed, sole sub-sitemap failed -> nothing collected
+
+
 # --- discovery + scrape orchestration ----------------------------------------
 
 # An AeroTech product, a Cesaroni product, and an AeroTech sub-category page
