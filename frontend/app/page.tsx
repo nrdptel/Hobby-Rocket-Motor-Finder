@@ -34,9 +34,7 @@ import { ThemeToggle } from "./components/ThemeToggle";
 // freshness ceiling as our scrape, ~50× less server work under load.
 export const revalidate = 60;
 
-type SearchParamsRaw = Promise<{ [k: string]: string | string[] | undefined }>;
-
-export default async function Home({ searchParams }: { searchParams: SearchParamsRaw }) {
+export default async function Home() {
   const [snapshot, history, historyLog, catalog] = await Promise.all([
     loadSnapshot(),
     loadHistorySummary(),
@@ -61,18 +59,13 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
     );
   }
 
-  // Reconstruct the filter query string from the request URL so the client
-  // filter store (CatalogFilterProvider) seeds from it and the SSR-rendered view
-  // matches the URL exactly — no flash on a shared filtered link. The filtering
-  // itself runs client-side in CatalogView, so changing a filter re-renders the
-  // in-memory catalog instantly with no navigation / server round-trip.
-  const params = await searchParams;
-  const initialFilters = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    const v = Array.isArray(value) ? value[0] : value;
-    if (typeof v === "string" && v) initialFilters.set(key, v);
-  }
-  const initialQuery = initialFilters.toString();
+  // The page intentionally does NOT read searchParams: doing so would force a
+  // per-request dynamic render of the whole 596-motor catalog. Instead this page
+  // is static / ISR (cacheable at the edge), always shipping the full catalog,
+  // and the client filter store (CatalogFilterProvider) reads the URL on mount
+  // and applies any shared filter. Filtering runs client-side in CatalogView, so
+  // changing a filter re-renders the in-memory catalog instantly with no
+  // navigation / server round-trip.
 
   // All motors that have any listing (before filtering).
   // MIN_CLASS hides A/B/C-class Estes-style model rocket motors — this tool
@@ -198,7 +191,7 @@ export default async function Home({ searchParams }: { searchParams: SearchParam
 
       <Methodology />
 
-      <CatalogFilterProvider initialQuery={initialQuery}>
+      <CatalogFilterProvider>
         <CatalogView
           allMotors={motorsWithListings}
           history={catalogHistory}

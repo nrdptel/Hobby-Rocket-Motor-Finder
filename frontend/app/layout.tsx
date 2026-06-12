@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { cookies } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -51,37 +50,38 @@ export const viewport: Viewport = {
 
 // Resolve and apply the theme before first paint. Reads the persisted choice
 // (light/dark/system; default system) and the OS preference, then toggles
-// `.dark` and the native `color-scheme`. It also writes the *resolved* value to
-// a cookie so the server can render the matching `.dark` class on <html> on the
-// next request — that's what prevents the dark→light→dark hydration flash (the
-// server otherwise renders no theme class, and React reconciles the script's
-// `.dark` away for a frame). Kept in sync afterward by <ThemeToggle>.
-const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';document.cookie='hpr.theme.resolved='+(d?'dark':'light')+';path=/;max-age=31536000;samesite=lax';}catch(e){}})();`;
+// `.dark` and the native `color-scheme` on <html>. Running as the first child of
+// <body>, this executes synchronously before the browser paints body content, so
+// the correct theme is in place from the first frame — the same flash-free
+// approach next-themes uses. `<html suppressHydrationWarning>` lets React keep
+// the class the script set instead of reconciling it away. Kept in sync
+// afterward by <ThemeToggle>. No cookie is needed, so the layout stays static
+// (server-rendered HTML doesn't vary per request → cacheable / ISR).
+const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
 
 // Classic six-stripe Pride flag, left to right.
 const PRIDE_GRADIENT =
   "linear-gradient(to right, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787)";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   // A small seasonal flourish: a thin rainbow rule at the top during June.
-  // Computed per request, so it appears and disappears on its own.
+  // Re-evaluated whenever the static HTML is (re)generated (ISR), so it appears
+  // and disappears within a revalidation window on its own.
   const isPrideMonth = new Date().getMonth() === 5;
 
-  // Render the theme class on the server from the cookie the theme script wrote
-  // last visit, so the SSR HTML already matches what the client will show — no
-  // hydration mismatch, no flash. Unknown (first visit) defaults to dark: a dark
-  // flash beats a light one, and a returning user's cookie makes it exact.
-  const ssrDark = (await cookies()).get("hpr.theme.resolved")?.value !== "light";
-
+  // No theme class is rendered server-side: the static HTML is identical for
+  // every visitor, and the inline `themeInit` script below applies the correct
+  // theme to <html> before first paint. `suppressHydrationWarning` keeps React
+  // from touching the class the script set during hydration.
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased${ssrDark ? " dark" : ""}`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />

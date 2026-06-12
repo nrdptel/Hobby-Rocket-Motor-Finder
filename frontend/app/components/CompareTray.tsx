@@ -12,9 +12,9 @@ export function CompareTray({ labels }: { labels: Record<number, string> }) {
   const { selected, count, toggle, clear, hydrated } = useCompare();
   if (!hydrated || count === 0) return null;
 
-  // Stable order for the chips + the shareable ?ids= URL.
+  // Stable order for the chips + the shareable /compare/<ids> URL (ISR-cached).
   const ids = [...selected].sort((a, b) => a - b);
-  const href = `/compare?ids=${ids.join(",")}`;
+  const href = `/compare/${ids.join(",")}`;
   const ready = count >= 2;
 
   return (

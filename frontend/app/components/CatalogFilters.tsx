@@ -46,15 +46,17 @@ function writeUrl(params: URLSearchParams) {
 }
 
 export function CatalogFilterProvider({
-  initialQuery,
+  initialQuery = "",
   children,
 }: {
-  initialQuery: string;
+  initialQuery?: string;
   children: ReactNode;
 }) {
-  // Seeded from the server-rendered URL so SSR and the first client render match
-  // exactly (the server already rendered this filtered view) — no flash, no
-  // hydration mismatch.
+  // Starts empty so the first client render matches the static SSR HTML (which is
+  // unfiltered) — no hydration mismatch. The mount effect below then reads the
+  // actual URL and applies any shared filter; for the bare homepage that's a
+  // no-op, and a shared filtered link (e.g. /?in_stock=1) snaps to its filtered
+  // view one frame after hydration.
   const [search, setSearch] = useState(initialQuery);
   const params = useMemo(() => new URLSearchParams(search), [search]);
 
@@ -75,6 +77,14 @@ export function CatalogFilterProvider({
 
   const replace = useCallback((next: URLSearchParams) => apply(next), [apply]);
   const clearAll = useCallback(() => apply(new URLSearchParams()), [apply]);
+
+  // On mount, adopt the filters from the current URL. The static page seeds us
+  // empty, so this is what applies a shared filtered link after hydration (and
+  // it harmlessly re-affirms "" for the bare homepage). Runs once.
+  useEffect(() => {
+    const fromUrl = window.location.search.replace(/^\?/, "");
+    if (fromUrl) setSearch(fromUrl);
+  }, []);
 
   // Back/forward: re-read the URL the browser restored into our state.
   useEffect(() => {

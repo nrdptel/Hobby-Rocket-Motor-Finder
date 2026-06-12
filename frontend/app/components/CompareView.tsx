@@ -32,14 +32,14 @@ type Row = { label: string; values: (string | null)[]; title?: string };
 
 /** Side-by-side comparison of 2–4 motors: an overlaid thrust-curve chart plus a
  * spec table (one column per motor). Server-rendered; the "remove" links just
- * drop an id from the ?ids= URL, so the whole view is shareable and needs no
- * client state. */
+ * drop an id from the /compare/<ids> URL, so the whole view is shareable and
+ * needs no client state. */
 export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSeries: CurveSeries[] }) {
   const ids = motors.map((m) => m.id);
   // A link to this same compare view with one motor removed.
   const withoutHref = (id: number) => {
     const rest = ids.filter((x) => x !== id);
-    return rest.length >= 2 ? `/compare?ids=${rest.join(",")}` : "/";
+    return rest.length >= 2 ? `/compare/${rest.join(",")}` : "/";
   };
 
   const buys = motors.map(bestBuy);

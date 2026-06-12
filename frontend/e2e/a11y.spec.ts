@@ -14,7 +14,7 @@ const PAGES: [string, string][] = [
   ["catalog", "/?class=H"],
   ["detail", "/motor/aerotech/D10W"],
   ["plan", "/plan"],
-  ["compare", "/compare?ids=1,2,3,4"],
+  ["compare", "/compare/1,2,3,4"],
   ["privacy", "/privacy"],
   ["alerts", "/alerts"],
 ];

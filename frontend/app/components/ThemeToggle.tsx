@@ -15,22 +15,13 @@ function systemDark(): boolean {
 
 /** Apply a theme to the document: toggle the `.dark` class (which drives every
  * `dark:` utility) and the native `color-scheme` (scrollbars, form controls).
- * Also persist the resolved value to a cookie so the server renders the matching
- * `.dark` class on the next request (no hydration flash) — mirrors the inline
- * script in layout.tsx. */
+ * Mirrors the inline script in layout.tsx, which applies the stored choice
+ * before first paint; this keeps it in sync afterward. */
 function apply(theme: Theme): void {
   const dark = theme === "dark" || (theme === "system" && systemDark());
   const e = document.documentElement;
   e.classList.toggle("dark", dark);
   e.style.colorScheme = dark ? "dark" : "light";
-  // Cookie writes can throw if storage is blocked; the class toggle above is
-  // what actually themes the page, so a failed cookie just costs the next
-  // server render the flash-avoidance, not correctness.
-  try {
-    document.cookie = `hpr.theme.resolved=${dark ? "dark" : "light"}; path=/; max-age=31536000; samesite=lax`;
-  } catch {
-    /* ignore */
-  }
 }
 
 /** Cycles System → Light → Dark, persisted in localStorage. The inline script
