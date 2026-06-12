@@ -176,7 +176,6 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
     }
   }
 
-  const name = `${manufacturerLabel(motor.manufacturer)} ${motor.designation}`;
   const caseLabel = motor.case_info
     ? motor.case_info
     : motor.motor_type === "SU"
