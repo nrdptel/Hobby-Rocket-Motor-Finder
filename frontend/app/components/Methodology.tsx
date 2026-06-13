@@ -2,7 +2,7 @@ import { BURN_LONG_MIN_S, BURN_PUNCHY_MAX_S, SUBSTITUTE_IMPULSE_BAND } from "@/l
 
 const impulsePct = Math.round(SUBSTITUTE_IMPULSE_BAND * 100);
 
-/** "How the data is derived" — the methodology companion shown directly below
+/** "Where the numbers come from" — the methodology companion shown directly below
  * How-it-works. Explains where each number comes from and the rules behind the
  * derived signals (matching, restock timing, best price, and the substitute
  * criteria), so nothing on the page is a black box. The substitute percentages
@@ -13,7 +13,7 @@ export function Methodology() {
   return (
     <details className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <summary className="cursor-pointer select-none font-medium text-zinc-700 dark:text-zinc-300">
-        How the data is derived
+        Where the numbers come from
       </summary>
 
       <div className="mt-3 space-y-4 text-zinc-600 dark:text-zinc-400">
