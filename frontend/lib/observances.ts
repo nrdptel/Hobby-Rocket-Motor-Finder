@@ -43,6 +43,12 @@ const SUICIDE_TEAL_PURPLE = "linear-gradient(to right, #14b8a6, #8b5cf6)"; // te
 const BREAST_PINK = "linear-gradient(to right, #ec4899, #db2777)";
 const NATIVE_EARTH = "linear-gradient(to right, #1ba39c, #d97742)"; // turquoise → terracotta
 const AIDS_RED = "linear-gradient(to right, #e11d48, #be123c)"; // the original red ribbon
+const HEART_RED = "linear-gradient(to right, #ef4444, #b91c1c)"; // American Heart Month
+const SAAM_TEAL = "linear-gradient(to right, #14b8a6, #0d9488)"; // sexual-assault-awareness teal ribbon
+const AAPI_WARM = "linear-gradient(to right, #e11d48, #fb923c)"; // AAPI heritage
+const HISPANIC_FIESTA = "linear-gradient(to right, #f43f5e, #f59e0b, #fcd34d)"; // Hispanic heritage
+const DV_PURPLE = "linear-gradient(to right, #9333ea, #6d28d9)"; // domestic-violence purple ribbon
+const MOVEMBER_BLUE = "linear-gradient(to right, #2563eb, #1d4ed8)"; // Movember men's health
 
 // Keyed by month index (0 = January … 11 = December).
 const OBSERVANCES: Record<number, Observance[]> = {
@@ -65,6 +71,14 @@ const OBSERVANCES: Record<number, Observance[]> = {
       hrefLabel: "Museum of African American History",
       bar: { background: PAN_AFRICAN, title: "Black History Month ✊🏿" },
     },
+    {
+      id: "american-heart",
+      emoji: "❤️",
+      message: "American Heart Month — look after your heart.",
+      href: "https://www.heart.org",
+      hrefLabel: "American Heart Association",
+      bar: { background: HEART_RED, title: "American Heart Month ❤️" },
+    },
   ],
   2: [
     {
@@ -85,6 +99,14 @@ const OBSERVANCES: Record<number, Observance[]> = {
       hrefLabel: "ASAN",
       bar: { background: AUTISM_GOLD, title: "Autism Acceptance Month ♾️" },
     },
+    {
+      id: "sexual-assault-awareness",
+      emoji: "💙",
+      message: "Sexual Assault Awareness Month — support survivors, end the silence.",
+      href: "https://www.rainn.org",
+      hrefLabel: "RAINN",
+      bar: { background: SAAM_TEAL, title: "Sexual Assault Awareness Month 💙" },
+    },
   ],
   4: [
     {
@@ -94,6 +116,14 @@ const OBSERVANCES: Record<number, Observance[]> = {
       href: "https://www.nami.org",
       hrefLabel: "NAMI",
       bar: { background: MH_GREEN, title: "Mental Health Awareness Month 💚" },
+    },
+    {
+      id: "aapi-heritage",
+      emoji: "🌏",
+      message: "AAPI Heritage Month — celebrating Asian American & Pacific Islander communities.",
+      href: "https://asianpacificheritage.gov",
+      hrefLabel: "Asian Pacific Heritage",
+      bar: { background: AAPI_WARM, title: "AAPI Heritage Month 🌏" },
     },
   ],
   5: [
@@ -143,6 +173,14 @@ const OBSERVANCES: Record<number, Observance[]> = {
       hrefLabel: "988 Lifeline",
       bar: { background: SUICIDE_TEAL_PURPLE, title: "Suicide Prevention Month 💛" },
     },
+    {
+      id: "hispanic-heritage",
+      emoji: "🌎",
+      message: "Hispanic Heritage Month — celebrating Hispanic & Latino cultures and contributions.",
+      href: "https://www.hispanicheritagemonth.gov",
+      hrefLabel: "Hispanic Heritage",
+      bar: { background: HISPANIC_FIESTA, title: "Hispanic Heritage Month 🌎" },
+    },
   ],
   9: [
     {
@@ -153,6 +191,14 @@ const OBSERVANCES: Record<number, Observance[]> = {
       hrefLabel: "Susan G. Komen",
       bar: { background: BREAST_PINK, title: "Breast Cancer Awareness Month 🎀" },
     },
+    {
+      id: "domestic-violence-awareness",
+      emoji: "💜",
+      message: "Domestic Violence Awareness Month — you're not alone; help is confidential.",
+      href: "https://www.thehotline.org",
+      hrefLabel: "The Hotline",
+      bar: { background: DV_PURPLE, title: "Domestic Violence Awareness Month 💜" },
+    },
   ],
   10: [
     {
@@ -162,6 +208,14 @@ const OBSERVANCES: Record<number, Observance[]> = {
       href: "https://americanindian.si.edu",
       hrefLabel: "Museum of the American Indian",
       bar: { background: NATIVE_EARTH, title: "Native American Heritage Month 🪶" },
+    },
+    {
+      id: "movember",
+      emoji: "💙",
+      message: "Movember — men's health: prostate & testicular cancer, and mental health.",
+      href: "https://movember.com",
+      hrefLabel: "Movember",
+      bar: { background: MOVEMBER_BLUE, title: "Movember 💙" },
     },
   ],
   11: [
