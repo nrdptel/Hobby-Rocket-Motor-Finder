@@ -4,19 +4,19 @@ import { CertBadge } from "./CertBadge";
 import { DiscontinuedBadge } from "./DiscontinuedBadge";
 import { StatusBadge } from "./StatusBadge";
 
-/** Collapsed-by-default site guide + listing legend (the visible label is "Using
- * this site"; the component keeps its original name to avoid churn). Native
- * <details> so it needs no client JS, is keyboard-accessible, and stays out of
- * the way for return visitors. Focused on what a flyer can *do* and how to read a
- * row; the badge legend reuses the real components so it always matches the
- * table/cards. The companion "How the data is derived" section directly below
+/** Collapsed-by-default site guide + listing legend (the visible label is "How
+ * to use this site"; the component keeps its original name to avoid churn).
+ * Native <details> so it needs no client JS, is keyboard-accessible, and stays
+ * out of the way for return visitors. Focused on what a flyer can *do* and how to
+ * read a row; the badge legend reuses the real components so it always matches the
+ * table/cards. The companion "Where the numbers come from" section directly below
  * covers the methodology (matching, restock timing, substitute rules). */
 export function HowItWorks() {
   const alertsEnabled = process.env.NEXT_PUBLIC_ALERTS_ENABLED === "1";
   return (
     <details className="mt-4 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm dark:border-zinc-800 dark:bg-zinc-900/40">
       <summary className="cursor-pointer select-none font-medium text-zinc-700 dark:text-zinc-300">
-        Using this site
+        How to use this site
       </summary>
 
       <div className="mt-3 space-y-4 text-zinc-600 dark:text-zinc-400">
