@@ -11076,10 +11076,10 @@
     "price_high_cents": 11399
   },
   "https://www.buyrocketmotors.com/products/aerotech-j570w-14a-38mm-rms-white-lightning?variant=50855067877673": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:19",
-    "last_change_at": "2026-05-31T02:24:19",
+    "last_change_at": "2026-06-13T18:02:57+00:00",
     "last_in_stock_at": "2026-05-31T02:24:19",
     "last_restock_at": null,
     "restock_count": 0,
