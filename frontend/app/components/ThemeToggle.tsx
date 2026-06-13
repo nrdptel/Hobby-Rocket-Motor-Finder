@@ -9,20 +9,14 @@ const ORDER: Theme[] = ["system", "light", "dark"];
 const LABEL: Record<Theme, string> = { system: "System", light: "Light", dark: "Dark" };
 const ICON: Record<Theme, string> = { system: "◐", light: "☀", dark: "☾" };
 
-function systemDark(): boolean {
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
-
-/** Apply a theme to the document: toggle the `.dark` class (which drives every
- * `dark:` utility) and the native `color-scheme` (scrollbars, form controls).
- * Mirrors the inline script in layout.tsx, which applies the stored choice
- * before first paint; this keeps it in sync afterward. */
+/** Apply the persisted theme as a class on <html>: `dark`/`light` for an explicit
+ * choice, or NEITHER for "system" (the prefers-color-scheme fallback in
+ * globals.css drives it and auto-tracks OS changes). Mirrors the inline script in
+ * layout.tsx. `color-scheme` is handled by CSS (html / html.dark / html.light). */
 function apply(theme: Theme): void {
-  const dark = theme === "dark" || (theme === "system" && systemDark());
   const e = document.documentElement;
-  e.classList.toggle("dark", dark);
-  e.classList.toggle("light", !dark); // mutually exclusive marker (see globals.css)
-  e.style.colorScheme = dark ? "dark" : "light";
+  e.classList.toggle("dark", theme === "dark");
+  e.classList.toggle("light", theme === "light");
 }
 
 /** Cycles System → Light → Dark, persisted in localStorage. The inline script
