@@ -58,7 +58,7 @@ export const viewport: Viewport = {
 // the class the script set instead of reconciling it away. Kept in sync
 // afterward by <ThemeToggle>. No cookie is needed, so the layout stays static
 // (server-rendered HTML doesn't vary per request → cacheable / ISR).
-const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
+const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.classList.toggle('light',!d);e.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
 
 export default function RootLayout({
   children,
