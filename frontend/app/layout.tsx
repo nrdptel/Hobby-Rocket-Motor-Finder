@@ -49,16 +49,16 @@ export const viewport: Viewport = {
   colorScheme: "light dark",
 };
 
-// Resolve and apply the theme before first paint. Reads the persisted choice
-// (light/dark/system; default system) and the OS preference, then toggles
-// `.dark` and the native `color-scheme` on <html>. Running as the first child of
-// <body>, this executes synchronously before the browser paints body content, so
-// the correct theme is in place from the first frame — the same flash-free
-// approach next-themes uses. `<html suppressHydrationWarning>` lets React keep
-// the class the script set instead of reconciling it away. Kept in sync
-// afterward by <ThemeToggle>. No cookie is needed, so the layout stays static
-// (server-rendered HTML doesn't vary per request → cacheable / ISR).
-const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.classList.toggle('light',!d);e.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
+// Apply the persisted theme choice as a class on <html>: `dark` or `light` for an
+// explicit pick, or NEITHER for "system" (the default) — in which case the
+// prefers-color-scheme fallback baked into the `dark:` variant and the html
+// background (globals.css) drives the theme, with no script-timing dependency.
+// That CSS fallback is what prevents the flash: every `dark:` element is already
+// dark on a dark-OS visitor's first paint, before this script runs. The script
+// only needs to honor an explicit light/dark override. `color-scheme` is set by
+// CSS (html / html.dark / html.light). `<html suppressHydrationWarning>` lets the
+// class the script adds survive hydration. Kept in sync by <ThemeToggle>.
+const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var e=document.documentElement;e.classList.toggle('dark',t==='dark');e.classList.toggle('light',t==='light');}catch(e){}})();`;
 
 export default function RootLayout({
   children,

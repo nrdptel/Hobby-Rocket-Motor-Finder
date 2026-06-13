@@ -62,6 +62,9 @@ test("a shared compare link renders without any local selection", async ({ page 
 test("a legacy ?ids= link redirects to the new /compare/<ids> path", async ({ page }) => {
   await pickForCompare(page, 2);
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
+  // Wait for the client navigation to settle before reading the URL — otherwise
+  // page.url() can still be the homepage and the match below is null.
+  await expect(page).toHaveURL(/\/compare\/\d+,\d+/);
   const ids = page.url().match(/\/compare\/([\d,]+)/)![1];
 
   await page.goto(`/compare?ids=${ids}`);
