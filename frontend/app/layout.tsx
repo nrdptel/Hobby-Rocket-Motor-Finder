@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { observancesForDate } from "@/lib/observances";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,19 +60,16 @@ export const viewport: Viewport = {
 // (server-rendered HTML doesn't vary per request → cacheable / ISR).
 const themeInit = `(function(){try{var t=localStorage.getItem('hpr.theme');var d=t==='dark'||((!t||t==='system')&&window.matchMedia('(prefers-color-scheme: dark)').matches);var e=document.documentElement;e.classList.toggle('dark',d);e.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
 
-// Classic six-stripe Pride flag, left to right.
-const PRIDE_GRADIENT =
-  "linear-gradient(to right, #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787)";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // A small seasonal flourish: a thin rainbow rule at the top during June.
-  // Re-evaluated whenever the static HTML is (re)generated (ISR), so it appears
-  // and disappears within a revalidation window on its own.
-  const isPrideMonth = new Date().getMonth() === 5;
+  // Small monthly flourishes (Pride, Men's Mental Health Month, …) — a thin
+  // accent rule per active observance, stacked at the very top. Re-evaluated
+  // whenever the static HTML is (re)generated (ISR), so they appear and disappear
+  // within a revalidation window on their own.
+  const bars = observancesForDate().filter((o) => o.bar);
 
   // No theme class is rendered server-side: the static HTML is identical for
   // every visitor, and the inline `themeInit` script below applies the correct
@@ -85,14 +83,15 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
-        {isPrideMonth && (
+        {bars.map((o) => (
           <div
+            key={o.id}
             aria-hidden
-            title="Happy Pride Month 🏳️‍🌈"
+            title={o.bar!.title}
             className="h-1.5 w-full shrink-0"
-            style={{ background: PRIDE_GRADIENT }}
+            style={{ background: o.bar!.background }}
           />
-        )}
+        ))}
         {children}
       </body>
     </html>

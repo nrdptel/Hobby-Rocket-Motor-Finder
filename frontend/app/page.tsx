@@ -9,6 +9,7 @@ import {
 import { mergedCatalog } from "@/lib/catalogMotors";
 import { buildShapeMap, curveKey, loadCurves, sparkPath } from "@/lib/curves";
 import { catalogAvailability } from "@/lib/history";
+import { observancesForDate } from "@/lib/observances";
 import {
   CERT_LEVELS,
   MIN_CLASS,
@@ -168,6 +169,9 @@ export default async function Home() {
     if (/q-?jet/i.test(u.raw_title ?? "")) return false;
     return true;
   });
+
+  // Monthly flourishes (Pride, Men's Mental Health Month, …) shown in the footer.
+  const observances = observancesForDate();
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
@@ -345,10 +349,30 @@ export default async function Home() {
           Stock and prices are scraped on a schedule from public vendor sites, are a point-in-time
           snapshot, and may be stale by the time you click through; always verify on the vendor&apos;s
           own page before buying.
-          {new Date().getMonth() === 5 && (
-            <span className="ml-1">🏳️‍🌈 Happy Pride Month &mdash; fly high.</span>
-          )}
         </p>
+
+        {observances.length > 0 && (
+          <div className="mt-4 space-y-1">
+            {observances.map((o) => (
+              <p key={o.id} className="text-zinc-500 dark:text-zinc-400">
+                <span aria-hidden>{o.emoji}</span> {o.message}
+                {o.href && (
+                  <>
+                    {" "}
+                    <a
+                      href={o.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-zinc-800 dark:hover:text-zinc-200"
+                    >
+                      {o.hrefLabel} &rarr;
+                    </a>
+                  </>
+                )}
+              </p>
+            ))}
+          </div>
+        )}
       </footer>
     </main>
   );
