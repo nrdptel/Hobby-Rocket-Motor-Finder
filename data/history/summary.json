@@ -8541,10 +8541,10 @@
     "price_high_cents": 4199
   },
   "https://www.buyrocketmotors.com/products/aerotech-h210r-14a-redline?variant=50855045398825": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:06",
-    "last_change_at": "2026-06-12T16:01:56+00:00",
+    "last_change_at": "2026-06-13T20:01:47+00:00",
     "last_in_stock_at": "2026-06-12T16:01:56+00:00",
     "last_restock_at": "2026-06-12T16:01:56+00:00",
     "restock_count": 1,
