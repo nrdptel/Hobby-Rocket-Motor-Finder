@@ -176,9 +176,6 @@ export default async function Home() {
           <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             Snapshot generated <SnapshotTime iso={snapshot.generated_at} />
-            {unmatched.length > 0 && (
-              <> · {unmatched.length} listings we couldn&apos;t identify</>
-            )}
           </p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
