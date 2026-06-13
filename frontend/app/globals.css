@@ -10,16 +10,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Background lives on <html> (not just <body>) so the whole document — and the
-   reload canvas — is themed before any content paints. It's driven by a CSS
-   media query, NOT the JS theme script, so it's correct on the very first paint
-   with no script-timing dependency (the previous version hardcoded a white
-   background that covered the canvas and flashed white until JS ran).
+/* Theme background driven by a CSS media query, NOT the JS theme script, so it's
+   correct on the very first paint with no script-timing dependency. The default
+   is DARK (a brief flash of dark beats white). The theme script in layout.tsx
+   adds `.dark` or `.light` to <html> before paint when it can; these rules cover
+   the window before it runs and the no-JS case.
 
-   The default is DARK: a brief flash of dark on reload is preferable to white,
-   and dark-OS users (the common dark-mode case) never see white. Light-OS users
-   get the light background via the media query; an explicit Dark choice (the
-   `.dark` class the script sets) keeps it dark on a light OS too. */
+   `.light` is an explicit marker (not just "absence of .dark") so a Light choice
+   on a dark OS resolves to light instead of falling through to the dark default. */
 html {
   color-scheme: light dark;
   background-color: #09090b; /* zinc-950 — matches the body's dark background */
@@ -32,6 +30,25 @@ html {
 html.dark {
   color-scheme: dark;
   background-color: #09090b;
+}
+html.light {
+  color-scheme: light;
+  background-color: #ffffff;
+}
+
+/* The <body> sets an explicit light background (Tailwind `bg-white`) that paints
+   white OVER the dark <html> canvas until the theme script adds `.dark`. That
+   script lives in <body>, so on this large page it's blocked behind this
+   (render-blocking) stylesheet and can run just AFTER the first paint — which is
+   the white flash dark-mode users saw on reload. Mirror the canvas fallback onto
+   the body so a dark-OS visitor's first paint is already dark; once the script
+   resolves the real choice (`.dark`/`.light`), this stops applying and Tailwind
+   takes over. */
+@media (prefers-color-scheme: dark) {
+  html:not(.dark):not(.light) body {
+    background-color: #09090b; /* zinc-950 */
+    color: #fafafa; /* zinc-50 — legible text for the pre-script frame */
+  }
 }
 
 /* Visible keyboard focus for interactive controls (WCAG 2.4.7), in the app's

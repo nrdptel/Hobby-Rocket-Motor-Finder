@@ -21,6 +21,7 @@ function apply(theme: Theme): void {
   const dark = theme === "dark" || (theme === "system" && systemDark());
   const e = document.documentElement;
   e.classList.toggle("dark", dark);
+  e.classList.toggle("light", !dark); // mutually exclusive marker (see globals.css)
   e.style.colorScheme = dark ? "dark" : "light";
 }
 
