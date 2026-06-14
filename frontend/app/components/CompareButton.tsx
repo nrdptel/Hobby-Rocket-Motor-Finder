@@ -36,13 +36,13 @@ export function CompareButton({
             ? "Remove from comparison"
             : "Add to comparison"
       }
-      className={`-m-1.5 shrink-0 cursor-pointer p-1.5 leading-none transition disabled:cursor-not-allowed disabled:opacity-40 ${
+      className={`inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md leading-none transition hover:bg-zinc-100 dark:hover:bg-zinc-800 md:h-7 md:w-7 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent ${
         selected
           ? "text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
           : "text-zinc-400 hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
       }`}
     >
-      <CompareIcon className="h-[1.05rem] w-[1.05rem]" filled={selected} />
+      <CompareIcon className="h-5 w-5 md:h-[1.05rem] md:w-[1.05rem]" filled={selected} />
     </button>
   );
 }

@@ -75,10 +75,12 @@ export function MotorCard({
         {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
         <SparkyBadge sparky={motor.sparky} />
         <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
+        {/* Notify is last so its expanded form wraps onto its own line (basis-full)
+            without splitting the star/compare buttons. */}
         <span className="ml-auto flex flex-wrap items-center justify-end gap-1.5">
           <StarButton motorId={motor.id} designation={motor.designation} />
-          <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
           <CompareButton motorId={motor.id} designation={motor.designation} />
+          <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
         </span>
       </div>
       <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
