@@ -298,7 +298,8 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
             in-stock motors are below.
           </p>
         ) : (
-        <div className="mt-3 overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800">
+        <>
+        <div className="mt-3 hidden overflow-x-auto rounded-md border border-zinc-200 dark:border-zinc-800 md:block">
           <table className="min-w-full text-sm">
             <thead className="bg-zinc-100 dark:bg-zinc-900">
               <tr>
@@ -372,6 +373,60 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
             </tbody>
           </table>
         </div>
+
+        {/* Mobile: the same availability, stacked — a 6-column table would push
+            the page wider than a phone screen, so below md we render cards. */}
+        <div className="mt-3 space-y-2 md:hidden">
+          {grouped.delayGroups.map((g) => {
+            const bestCents = bestInStockPriceCents(g.listings);
+            return (
+              <div key={g.delay} className="rounded-md border border-zinc-200 p-3 dark:border-zinc-800">
+                <div className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                  {g.variety || "—"}
+                  {g.delay !== "—" && <span> · {g.delay}</span>}
+                </div>
+                <ul className="mt-2 space-y-2">
+                  {g.listings.map((l, i) => {
+                    const isBestPrice = isBestInStockPrice(l, bestCents);
+                    const sig = priceSignal(history[l.url], l.price_cents, listingInStock(l.status));
+                    return (
+                      <li
+                        key={`${l.vendor_slug}-${i}`}
+                        className="flex items-start justify-between gap-3 border-t border-zinc-100 pt-2 first:border-0 first:pt-0 dark:border-zinc-800/60"
+                      >
+                        <div className="min-w-0">
+                          <div className="truncate text-zinc-700 dark:text-zinc-300">{l.vendor_name}</div>
+                          <div className="mt-0.5">
+                            <ListingStatus listing={l} history={history} now={now} />
+                          </div>
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <div
+                            className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
+                          >
+                            {isBestPrice && <BestPriceTag />}
+                            {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
+                          </div>
+                          <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
+                          {sig && <PriceSignalTag signal={sig} />}
+                          <a
+                            href={safeHref(l.url)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                          >
+                            view
+                          </a>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+        </>
         )}
       </section>
 
