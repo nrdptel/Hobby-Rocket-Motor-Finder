@@ -1,6 +1,10 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+
+// Run before paint on the client (to position the panel without a flicker) but
+// fall back to useEffect on the server, where useLayoutEffect would warn.
+const useIsoLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export type SelectOption = {
   // The value stored in the URL filter + passed to onToggle (e.g. a vendor slug,
@@ -53,7 +57,30 @@ export function SearchableMultiSelect({
   const [query, setQuery] = useState("");
   const ref = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const panelId = useId();
+  // Horizontal nudge (px) to keep the panel on-screen — see the clamp below.
+  const [shift, setShift] = useState(0);
+
+  // The panel is anchored to the trigger, which on a phone can sit well right of
+  // center; a fixed-width absolute panel would then spill off the right edge.
+  // Once open, pull it left by however much it overflows (but never past the left
+  // edge). Runs before paint, so there's no visible jump.
+  useIsoLayoutEffect(() => {
+    if (!open) {
+      setShift(0);
+      return;
+    }
+    const el = panelRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth;
+    const margin = 8;
+    let delta = 0;
+    if (r.right > vw - margin) delta = vw - margin - r.right; // pull left
+    if (r.left + delta < margin) delta = margin - r.left; // but stay on the left edge
+    if (delta) setShift((s) => s + delta);
+  }, [open]);
 
   // Close on outside click or Escape. Escape returns focus to the trigger so
   // keyboard focus isn't stranded in the (now-hidden) panel.
@@ -151,9 +178,11 @@ export function SearchableMultiSelect({
       {open && (
         <div
           id={panelId}
+          ref={panelRef}
           role="group"
           aria-label={`${noun} filter`}
-          className="absolute left-0 top-full z-20 mt-1 max-h-80 w-72 overflow-auto rounded-md border border-zinc-200 bg-white p-2 shadow-lg dark:border-zinc-700 dark:bg-zinc-900"
+          style={{ left: shift }}
+          className="absolute top-full z-20 mt-1 max-h-80 w-72 max-w-[calc(100vw-1rem)] overflow-auto rounded-md border border-zinc-200 bg-white p-2 shadow-lg dark:border-zinc-700 dark:bg-zinc-900"
         >
           <input
             autoFocus

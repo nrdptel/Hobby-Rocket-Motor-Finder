@@ -75,7 +75,7 @@ export function MotorCard({
         {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
         <SparkyBadge sparky={motor.sparky} />
         <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />
-        <span className="ml-auto flex shrink-0 items-center gap-1.5">
+        <span className="ml-auto flex flex-wrap items-center justify-end gap-1.5">
           <StarButton motorId={motor.id} designation={motor.designation} />
           <NotifyButton manufacturer={motor.manufacturer} designation={motor.designation} />
           <CompareButton motorId={motor.id} designation={motor.designation} />
