@@ -85,10 +85,10 @@ export function MotorCard({
         {showManufacturer ? `${manufacturerLabel(motor.manufacturer)} · ` : ""}
         {motor.impulse_class} · {motor.diameter_mm}mm
         {motor.propellant ? ` · ${motor.propellant}` : ""}
-        {motor.case_info
-          ? ` · ${motor.case_info}`
-          : motor.motor_type === "SU"
-            ? " · single use"
+        {motor.motor_type === "SU"
+          ? " · single use"
+          : motor.case_info
+            ? ` · ${motor.case_info}`
             : ""}
       </div>
 

@@ -76,7 +76,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
     {
       label: "Case / type",
       values: motors.map((m) =>
-        m.case_info ? m.case_info : m.motor_type === "SU" ? "Single use" : null,
+        m.motor_type === "SU" ? "Single use" : m.case_info ? m.case_info : null,
       ),
     },
   ];

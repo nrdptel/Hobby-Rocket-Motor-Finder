@@ -191,10 +191,10 @@ export function MotorResults({
                           {showManufacturer ? `${manufacturerLabel(m.manufacturer)} · ` : ""}
                           {m.impulse_class} · {m.diameter_mm}mm
                           {m.propellant ? ` · ${m.propellant}` : ""}
-                          {m.case_info
-                            ? ` · ${m.case_info}`
-                            : m.motor_type === "SU"
-                              ? " · single use"
+                          {m.motor_type === "SU"
+                            ? " · single use"
+                            : m.case_info
+                              ? ` · ${m.case_info}`
                               : ""}
                         </span>
                         <span className="text-xs tabular-nums text-zinc-600 dark:text-zinc-400">
