@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BURN_LABEL, numericParamValue, searchParamValue } from "@/lib/derive";
+import { BURN_LABEL, SINGLE_USE_CASE, numericParamValue, searchParamValue } from "@/lib/derive";
 import type { BurnCharacter, CaseOption, PropellantOption, VendorOption } from "@/lib/derive";
 import { useWatchlist } from "@/lib/watchlist";
 import { useCatalogFilters } from "./CatalogFilters";
@@ -135,6 +135,15 @@ export function FilterBar({
   const toggleBurn = (k: string) => update("burn", toggleInList(activeBurn, k));
   const toggleSparky = () => update("sparky", sparkyOnly ? null : "1");
   const toggleStock = () => update("in_stock", inStockOnly ? null : "1");
+
+  // "Single use" is surfaced as its own toggle button beside the Case dropdown
+  // rather than as a dropdown option, so a flyer can pick reload case(s) AND/OR
+  // single use — either one matches. It shares the `case` param (filterCatalog
+  // already OR-matches everything in it), so nothing else has to change.
+  const singleUseActive = activeCases.has(SINGLE_USE_CASE);
+  const hasSingleUse = cases.some((c) => c.value === SINGLE_USE_CASE);
+  const reloadCases = cases.filter((c) => c.value !== SINGLE_USE_CASE);
+  const reloadCaseActive = new Set([...activeCases].filter((v) => v !== SINGLE_USE_CASE));
   const toggleStarred = () => update("starred", starredOnly ? null : "1");
 
   const anyFilter =
@@ -344,14 +353,28 @@ export function FilterBar({
             </FilterRow>
           )}
 
-          {cases.length > 0 && (
+          {(reloadCases.length > 0 || hasSingleUse) && (
             <FilterRow label="Case">
-              <CaseFilter
-                options={cases}
-                active={activeCases}
-                onToggle={toggleCase}
-                onClear={() => update("case", null)}
-              />
+              {reloadCases.length > 0 && (
+                <CaseFilter
+                  options={reloadCases}
+                  active={reloadCaseActive}
+                  onToggle={toggleCase}
+                  // Clear the reload-case selection but leave Single use (its own toggle).
+                  onClear={() => update("case", singleUseActive ? SINGLE_USE_CASE : null)}
+                />
+              )}
+              {hasSingleUse && (
+                <button
+                  type="button"
+                  onClick={() => toggleCase(SINGLE_USE_CASE)}
+                  aria-pressed={singleUseActive}
+                  className={pill(singleUseActive)}
+                  title="Single-use motors — no reusable casing, the whole motor is the hardware. Use with a reload-case selection to match either."
+                >
+                  Single use
+                </button>
+              )}
             </FilterRow>
           )}
 
