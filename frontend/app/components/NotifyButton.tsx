@@ -91,9 +91,9 @@ export function NotifyButton({
           onClick={() => setOpen(true)}
           aria-label={`Email me when ${designation} is back in stock`}
           title="Email me when this is back in stock"
-          className="-m-1.5 shrink-0 cursor-pointer p-1.5 leading-none text-zinc-400 transition hover:text-zinc-700 dark:text-zinc-600 dark:hover:text-zinc-300"
+          className="inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-md leading-none text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 dark:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300 md:h-7 md:w-7"
         >
-          <BellIcon className="h-[1.05rem] w-[1.05rem]" />
+          <BellIcon className="h-5 w-5 md:h-[1.05rem] md:w-[1.05rem]" />
         </button>
       </>
     );
@@ -103,7 +103,7 @@ export function NotifyButton({
     return (
       <>
         {liveRegion}
-        <span className="inline-flex items-center gap-1 text-xs text-emerald-700 dark:text-emerald-400">
+        <span className="inline-flex basis-full items-center justify-end gap-1 text-xs text-emerald-700 dark:text-emerald-400">
           ✓ Check your email to confirm
           <button
             type="button"
@@ -112,7 +112,7 @@ export function NotifyButton({
               setStatus("idle");
             }}
             aria-label="Close"
-            className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md text-base leading-none text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
           >
             ×
           </button>
@@ -124,7 +124,10 @@ export function NotifyButton({
   return (
     <>
       {liveRegion}
-      <form onSubmit={submit} className="inline-flex max-w-[15rem] flex-wrap items-center gap-1">
+      <form
+        onSubmit={submit}
+        className="flex max-w-[16rem] basis-full flex-wrap items-center justify-end gap-1.5"
+      >
         <input
           ref={inputRef}
           type="email"
@@ -133,12 +136,12 @@ export function NotifyButton({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@email.com"
           aria-label={`Email for ${designation} restock alert`}
-          className="w-40 rounded-md border border-zinc-300 bg-white px-2 py-0.5 text-xs text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
+          className="w-full basis-full rounded-md border border-zinc-300 bg-white px-2.5 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
         />
         <button
           type="submit"
           disabled={status === "sending"}
-          className="rounded-md border border-zinc-900 bg-zinc-900 px-2 py-0.5 text-xs font-medium text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+          className="shrink-0 rounded-md border border-zinc-900 bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
           {status === "sending" ? "…" : "Notify me"}
         </button>
@@ -149,14 +152,16 @@ export function NotifyButton({
             setStatus("idle");
           }}
           aria-label="Cancel"
-          className="text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-base leading-none text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
         >
           ×
         </button>
         {status === "error" && (
-          <span className="text-xs text-red-600 dark:text-red-400">{message}</span>
+          <span className="basis-full text-right text-xs text-red-600 dark:text-red-400">
+            {message}
+          </span>
         )}
-        <span className="basis-full text-[10px] leading-tight text-zinc-500 dark:text-zinc-400">
+        <span className="basis-full text-right text-[11px] leading-tight text-zinc-500 dark:text-zinc-400">
           Double opt-in — we&apos;ll email a confirmation, address used only for restock alerts.{" "}
           <Link
             href="/privacy"
