@@ -584,13 +584,16 @@ export function toSubstitute(m: Motor): Substitute {
 // reload hardware, so they're their own "case".
 export const SINGLE_USE_CASE = "Single use";
 
-/** The hardware a motor maps to for the case filter: its reload case (e.g.
- * "RMS-38/720", "Pro38-3G"), or the "Single use" pseudo-case for single-use
- * motors. ``null`` when unknown — a hybrid with no case, or a snapshot written
- * before case data existed — so such a motor matches no case selection. */
+/** The hardware a motor maps to for the case filter: the "Single use" pseudo-case
+ * for any disposable (SU) motor, otherwise its reload case (e.g. "RMS-38/720",
+ * "Pro38-3G"). Single use is checked FIRST because some disposable motors still
+ * carry a case_info label that isn't reusable hardware — DMS ("Disposable Motor
+ * System"), or a single-use form factor like "SU 24x95" — and those must group
+ * under Single use, not as their own pseudo-case. ``null`` when unknown — a
+ * hybrid with no case, or a snapshot written before case data existed. */
 export function caseKey(m: Pick<Motor, "case_info" | "motor_type">): string | null {
-  if (m.case_info) return m.case_info;
   if (m.motor_type === "SU") return SINGLE_USE_CASE;
+  if (m.case_info) return m.case_info;
   return null;
 }
 

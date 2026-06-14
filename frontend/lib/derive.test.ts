@@ -1169,6 +1169,14 @@ describe("caseKey / caseOptions", () => {
     expect(caseKey(makeMotor({ motor_type: "SU", case_info: null }))).toBe(SINGLE_USE_CASE);
   });
 
+  it("caseKey folds disposable motors that carry a case label into Single use", () => {
+    // DMS ("Disposable Motor System") and single-use form factors like "SU 24x95"
+    // are type SU but still have a non-reusable case_info — they must group under
+    // Single use, not as their own pseudo-case.
+    expect(caseKey(makeMotor({ motor_type: "SU", case_info: "DMS" }))).toBe(SINGLE_USE_CASE);
+    expect(caseKey(makeMotor({ motor_type: "SU", case_info: "SU 24x95" }))).toBe(SINGLE_USE_CASE);
+  });
+
   it("caseKey returns null when unknown (old snapshot, or hybrid w/o case)", () => {
     expect(caseKey(makeMotor({ motor_type: undefined, case_info: undefined }))).toBeNull();
     expect(caseKey(makeMotor({ motor_type: "hybrid", case_info: null }))).toBeNull();
@@ -1187,6 +1195,15 @@ describe("caseKey / caseOptions", () => {
       { value: "RMS-38/720", diameter: 38, manufacturer: "AeroTech" },
       { value: SINGLE_USE_CASE, diameter: null, manufacturer: null },
     ]);
+  });
+
+  it("caseOptions folds a disposable motor's case label (DMS) into Single use, not a separate option", () => {
+    const motors = [
+      makeMotor({ id: 1, manufacturer: "AeroTech", diameter_mm: 38, motor_type: "reload", case_info: "RMS-38/720" }),
+      makeMotor({ id: 2, manufacturer: "AeroTech", diameter_mm: 38, motor_type: "SU", case_info: "DMS" }),
+      makeMotor({ id: 3, manufacturer: "AeroTech", diameter_mm: 24, motor_type: "SU", case_info: "SU 24x95" }),
+    ];
+    expect(caseOptions(motors).map((o) => o.value)).toEqual(["RMS-38/720", SINGLE_USE_CASE]);
   });
 });
 

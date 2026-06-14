@@ -176,11 +176,8 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
     }
   }
 
-  const caseLabel = motor.case_info
-    ? motor.case_info
-    : motor.motor_type === "SU"
-      ? "Single use"
-      : null;
+  const caseLabel =
+    motor.motor_type === "SU" ? "Single use" : motor.case_info ? motor.case_info : null;
 
   const isp = specificImpulseS(motor);
   const burn = burnCharacter(motor);
