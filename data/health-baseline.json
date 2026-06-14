@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 252.0,
-    "samples": 229,
+    "samples": 230,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-14T21:11:51+00:00"
+    "updated_at": "2026-06-14T22:13:32+00:00"
   },
   "amw": {
     "count": 247.0,
@@ -24,28 +24,28 @@
     "updated_at": "2026-06-14T21:11:51+00:00"
   },
   "buyrocketmotors": {
-    "count": 278.83463549641544,
-    "samples": 228,
-    "stock": 119.61777915925265,
+    "count": 278.87597662231155,
+    "samples": 229,
+    "stock": 119.96333436943948,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-14T21:11:51+00:00"
+    "updated_at": "2026-06-14T22:13:32+00:00"
   },
   "csrocketry": {
     "count": 558.0,
-    "samples": 202,
-    "stock": 242.00245376543,
+    "samples": 203,
+    "stock": 242.0018403240725,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-14T21:11:51+00:00"
+    "updated_at": "2026-06-14T22:13:32+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 229,
-    "stock": 29.999999999936,
+    "samples": 230,
+    "stock": 29.999999999952003,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-14T21:11:51+00:00"
+    "updated_at": "2026-06-14T22:13:32+00:00"
   },
   "moto_joe": {
     "count": 527.999999999102,
@@ -57,11 +57,11 @@
   },
   "performancehobbies": {
     "count": 594.0,
-    "samples": 229,
+    "samples": 230,
     "stock": 117.0,
     "streak": 0,
     "unmatched": 6.000000000000002,
-    "updated_at": "2026-06-14T21:11:51+00:00"
+    "updated_at": "2026-06-14T22:13:32+00:00"
   },
   "sirius": {
     "count": 310.9725161631959,
@@ -72,11 +72,11 @@
     "updated_at": "2026-06-14T21:11:51+00:00"
   },
   "wildman": {
-    "count": 486.54132023751345,
-    "samples": 228,
-    "stock": 175.87361183871434,
+    "count": 486.4059901781351,
+    "samples": 229,
+    "stock": 175.40520887903574,
     "streak": 0,
-    "unmatched": 1.9974943510599947,
-    "updated_at": "2026-06-14T21:11:51+00:00"
+    "unmatched": 1.998120763294996,
+    "updated_at": "2026-06-14T22:13:32+00:00"
   }
 }
