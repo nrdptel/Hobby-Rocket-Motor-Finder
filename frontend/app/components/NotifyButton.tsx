@@ -124,7 +124,7 @@ export function NotifyButton({
   return (
     <>
       {liveRegion}
-      <form onSubmit={submit} className="inline-flex flex-wrap items-center gap-1">
+      <form onSubmit={submit} className="inline-flex max-w-[15rem] flex-wrap items-center gap-1">
         <input
           ref={inputRef}
           type="email"
