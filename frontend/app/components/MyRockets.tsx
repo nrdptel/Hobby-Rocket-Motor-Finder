@@ -12,6 +12,7 @@ import {
   type RocketMotor,
 } from "@/lib/rockets";
 import { useCatalogFilters } from "./CatalogFilters";
+import { SINGLE_USE_CASE } from "@/lib/derive";
 import type { CaseOption } from "@/lib/derive";
 import { CaseFilter } from "./CaseFilter";
 import { RocketNotifyButton } from "./RocketNotifyButton";
@@ -370,7 +371,19 @@ function RocketForm({
   const dnum = Number(diameter);
   const caseChoices = cases.filter((c) => c.diameter == null || c.diameter === dnum);
   const caseActive = new Set([...caseInfos].filter((v) => caseChoices.some((c) => c.value === v)));
+  // Single use is its own toggle beside the reload-case dropdown (matching the
+  // catalog filter), so a rocket can pin reload case(s) AND/OR single use.
+  const hasSingleUse = caseChoices.some((c) => c.value === SINGLE_USE_CASE);
+  const reloadChoices = caseChoices.filter((c) => c.value !== SINGLE_USE_CASE);
+  const reloadActive = new Set([...caseActive].filter((v) => v !== SINGLE_USE_CASE));
   const classOptions: SelectOption[] = classes.map((c) => ({ value: c }));
+
+  const singleUsePill = (active: boolean) =>
+    `inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium transition cursor-pointer ${
+      active
+        ? "bg-zinc-900 text-white border-zinc-900 dark:bg-zinc-100 dark:text-zinc-900 dark:border-zinc-100"
+        : "bg-white text-zinc-700 border-zinc-300 hover:bg-zinc-100 hover:text-zinc-900 dark:bg-zinc-900 dark:text-zinc-300 dark:border-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+    }`;
 
   const selectCls =
     "rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300";
@@ -427,17 +440,35 @@ function RocketForm({
           />
         </div>
       )}
-      {caseChoices.length > 0 && (
+      {(reloadChoices.length > 0 || hasSingleUse) && (
         <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
           <span>
             Cases <span>(optional, pick any you own)</span>
           </span>
-          <CaseFilter
-            options={caseChoices}
-            active={caseActive}
-            onToggle={(v) => toggleIn(caseInfos, setCaseInfos, v)}
-            onClear={() => setCaseInfos(new Set())}
-          />
+          <div className="flex flex-wrap items-center gap-1.5">
+            {reloadChoices.length > 0 && (
+              <CaseFilter
+                options={reloadChoices}
+                active={reloadActive}
+                onToggle={(v) => toggleIn(caseInfos, setCaseInfos, v)}
+                // Clear reload cases but keep Single use (its own toggle).
+                onClear={() =>
+                  setCaseInfos(new Set([...caseInfos].filter((v) => v === SINGLE_USE_CASE)))
+                }
+              />
+            )}
+            {hasSingleUse && (
+              <button
+                type="button"
+                onClick={() => toggleIn(caseInfos, setCaseInfos, SINGLE_USE_CASE)}
+                aria-pressed={caseInfos.has(SINGLE_USE_CASE)}
+                className={singleUsePill(caseInfos.has(SINGLE_USE_CASE))}
+                title="Single-use motors — no reusable casing. Pin alongside reload cases to fit either."
+              >
+                Single use
+              </button>
+            )}
+          </div>
         </div>
       )}
       <div className="flex flex-col gap-0.5 text-xs text-zinc-500 dark:text-zinc-400">
