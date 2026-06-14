@@ -60,3 +60,31 @@ test("sorting by Price is stock-agnostic and shows the clarifying hint", async (
   // Sorting reorders but doesn't filter — the match count is unchanged.
   await expect.poll(() => matchCount(page)).toBe(before);
 });
+
+test("single use is a toggle button beside the Case dropdown, OR-combined with cases", async ({ page }) => {
+  await page.goto("/");
+  await expect(motorLinks(page).first()).toBeVisible();
+  await page.getByRole("button", { name: /More filters/ }).click();
+
+  // It's a standalone button now — NOT an option inside the case dropdown.
+  const singleUse = page.getByRole("button", { name: "Single use" });
+  await expect(singleUse).toBeVisible();
+  await page.getByRole("button", { name: "Any case" }).click();
+  const casePanel = page.getByRole("group", { name: "case filter" });
+  await expect(casePanel).toBeVisible();
+  await expect(casePanel.getByText("Single use")).toHaveCount(0);
+  await page.keyboard.press("Escape");
+
+  // Toggling it narrows to single-use motors and writes case=Single use.
+  const all = await matchCount(page);
+  await singleUse.click();
+  await expect(page).toHaveURL(/[?&]case=Single(\+|%20)use/);
+  await expect(singleUse).toHaveAttribute("aria-pressed", "true");
+  await expect.poll(() => matchCount(page)).toBeLessThan(all);
+  const singleUseOnly = await matchCount(page);
+
+  // Adding a reload case shows EITHER — the count grows beyond single-use-only.
+  await page.getByRole("button", { name: "Any case" }).click();
+  await casePanel.getByRole("checkbox").first().check();
+  await expect.poll(() => matchCount(page)).toBeGreaterThan(singleUseOnly);
+});
