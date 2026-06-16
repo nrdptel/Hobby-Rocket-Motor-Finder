@@ -4,7 +4,7 @@
 // always in here, not in the JSX.
 
 import { unitPriceCents } from "./pack";
-import type { CatalogListingHistory, Listing, Motor } from "./snapshot";
+import type { CatalogListingHistory, Listing, Motor, UnmatchedListing } from "./snapshot";
 
 /** Lower bound on impulse class shown by the UI — D and up. Hides A/B/C
  * Estes-style model rocket motors that aren't this project's audience. */
@@ -766,6 +766,40 @@ export function numericParamValue(raw: string): string | null {
 /** True when a listing's status means a customer could buy it right now. */
 export function listingInStock(status: string): boolean {
   return status === "in_stock_with_count" || status === "in_stock";
+}
+
+/** One unmatched designation and every vendor listing we found under it. */
+export type UnmatchedGroup = {
+  /** Display label — the shared raw designation, or the title when there's none. */
+  designation: string;
+  listings: UnmatchedListing[];
+};
+
+/** Collapse unmatched listings that share a raw designation into one group, so
+ * the same motor sold by several vendors shows as a single entry instead of a
+ * row per vendor. Listings with no parsed designation stay on their own (keyed by
+ * URL) so they don't lump together. Groups keep first-seen order; within a group,
+ * buyable listings come first, then cheapest by price. */
+export function groupUnmatched(items: readonly UnmatchedListing[]): UnmatchedGroup[] {
+  const groups = new Map<string, UnmatchedGroup>();
+  for (const u of items) {
+    const des = (u.raw_designation ?? "").trim();
+    const key = des ? `d:${des.toLowerCase()}` : `u:${u.url}`;
+    let g = groups.get(key);
+    if (!g) {
+      g = { designation: des || (u.raw_title ?? "").trim() || "—", listings: [] };
+      groups.set(key, g);
+    }
+    g.listings.push(u);
+  }
+  for (const g of groups.values()) {
+    g.listings.sort((a, b) => {
+      const stock = Number(listingInStock(b.status)) - Number(listingInStock(a.status));
+      if (stock !== 0) return stock;
+      return (a.price_cents ?? Infinity) - (b.price_cents ?? Infinity);
+    });
+  }
+  return Array.from(groups.values());
 }
 
 /** The lowest in-stock price (in cents) among a set of listings for the *same*

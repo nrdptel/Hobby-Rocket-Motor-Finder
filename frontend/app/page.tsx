@@ -15,6 +15,7 @@ import {
   MIN_CLASS,
   caseOptions,
   formatPrice,
+  groupUnmatched,
   listingInStock,
   manufacturerLabel,
   propellantOptions,
@@ -169,6 +170,9 @@ export default async function Home() {
     if (/q-?jet/i.test(u.raw_title ?? "")) return false;
     return true;
   });
+  // Collapse same-designation listings (e.g. an I297 sold by four vendors) into
+  // one grouped entry instead of a row per vendor.
+  const unmatchedGroups = groupUnmatched(unmatched);
 
   // Monthly flourishes (Pride, Men's Mental Health Month, …) shown in the footer.
   const observances = observancesForDate();
@@ -232,62 +236,81 @@ export default async function Home() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-200 dark:divide-zinc-900">
-                {unmatched.map((u) => (
-                  <tr key={u.url} className="hover:bg-zinc-100 dark:hover:bg-zinc-900/60">
-                    <td className="px-3 py-2 font-mono">{u.raw_designation || "—"}</td>
-                    <td className="px-3 py-2 text-zinc-500 dark:text-zinc-400">{u.raw_title}</td>
-                    <td className="px-3 py-2 text-zinc-500 dark:text-zinc-400">{u.vendor_name}</td>
-                    <td className="px-3 py-2">
-                      <StatusBadge status={u.status} count={u.stock_count} />
-                    </td>
-                    <td className="px-3 py-2 text-right tabular-nums">
-                      {formatPrice(u.price_cents, u.currency)}
-                    </td>
-                    <td className="px-3 py-2">
-                      <a
-                        href={safeHref(u.url)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-                      >
-                        view
-                      </a>
-                    </td>
-                  </tr>
-                ))}
+                {unmatchedGroups.map((g) =>
+                  g.listings.map((u, i) => (
+                    <tr key={u.url} className="hover:bg-zinc-100 dark:hover:bg-zinc-900/60">
+                      {i === 0 && (
+                        <td
+                          rowSpan={g.listings.length}
+                          className="px-3 py-2 align-top font-mono"
+                        >
+                          {g.designation}
+                        </td>
+                      )}
+                      <td className="px-3 py-2 text-zinc-500 dark:text-zinc-400">{u.raw_title}</td>
+                      <td className="px-3 py-2 text-zinc-500 dark:text-zinc-400">{u.vendor_name}</td>
+                      <td className="px-3 py-2">
+                        <StatusBadge status={u.status} count={u.stock_count} />
+                      </td>
+                      <td className="px-3 py-2 text-right tabular-nums">
+                        {formatPrice(u.price_cents, u.currency)}
+                      </td>
+                      <td className="px-3 py-2">
+                        <a
+                          href={safeHref(u.url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                        >
+                          view
+                        </a>
+                      </td>
+                    </tr>
+                  )),
+                )}
               </tbody>
             </table>
           </div>
 
-          {/* Stacked counterpart of the unmatched table for narrow screens. */}
+          {/* Stacked counterpart of the unmatched table for narrow screens —
+              one card per designation, each vendor listing inside it. */}
           <ul className="mt-4 space-y-2 md:hidden">
-            {unmatched.map((u) => (
+            {unmatchedGroups.map((g) => (
               <li
-                key={u.url}
-                className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40"
+                key={g.listings[0].url}
+                className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900/40"
               >
-                <div className="min-w-0">
-                  <div className="truncate font-mono text-zinc-800 dark:text-zinc-200">
-                    {u.raw_designation || u.raw_title}
-                  </div>
-                  <div className="mt-1 flex items-center gap-2">
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">{u.vendor_name}</span>
-                    <StatusBadge status={u.status} count={u.stock_count} />
-                  </div>
+                <div className="truncate font-mono text-zinc-800 dark:text-zinc-200">
+                  {g.designation}
                 </div>
-                <div className="shrink-0 text-right">
-                  <div className="tabular-nums text-zinc-800 dark:text-zinc-200">
-                    {formatPrice(u.price_cents, u.currency)}
-                  </div>
-                  <a
-                    href={safeHref(u.url)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-                  >
-                    view
-                  </a>
-                </div>
+                <ul className="mt-2 divide-y divide-zinc-200 dark:divide-zinc-800/80">
+                  {g.listings.map((u) => (
+                    <li
+                      key={u.url}
+                      className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0"
+                    >
+                      <div className="min-w-0">
+                        <div className="text-xs text-zinc-500 dark:text-zinc-400">{u.vendor_name}</div>
+                        <div className="mt-0.5">
+                          <StatusBadge status={u.status} count={u.stock_count} />
+                        </div>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <div className="tabular-nums text-zinc-800 dark:text-zinc-200">
+                          {formatPrice(u.price_cents, u.currency)}
+                        </div>
+                        <a
+                          href={safeHref(u.url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-zinc-500 underline hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                        >
+                          view
+                        </a>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
