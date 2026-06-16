@@ -129,3 +129,36 @@ def test_aerotech_query_unaffected_by_cti_dispatch(conn):
               delays=None, delay_adjustable=False, thrustcurve_id=None),
     ])
     assert find_motor_id(conn, "AeroTech", "H242T-14A") is not None
+
+
+# --- curated designation aliases (issue #154) ------------------------------
+# Vendor commonNames a few N off from the catalog's avg-thrust name. Each alias
+# key matches no real catalog motor, so it can only ever help.
+
+def test_alias_h223_red_lightning_matches_h233(conn):
+    upsert_motors(conn, [
+        _cti("311H233-14A", "H233", "Red Lightning", diameter_mm=29, impulse_class="H"),
+    ])
+    mid = find_motor_id(conn, MFR, "H223", "Red Lightning 6 grain H223-14")
+    assert mid is not None
+
+
+def test_alias_i455_vmax_matches_i445(conn):
+    upsert_motors(conn, [_cti("475I445-16A", "I445", "Vmax", diameter_mm=54)])
+    mid = find_motor_id(conn, MFR, "I455", "I455 VMAX")
+    assert mid is not None
+
+
+def test_alias_m1180_green_matches_m1160(conn):
+    upsert_motors(conn, [
+        _cti("5880M1160-P", "M1160", "Green3", diameter_mm=75, impulse_class="M"),
+    ])
+    mid = find_motor_id(conn, MFR, "M1180", "M1180 Green 5 Grain")
+    assert mid is not None
+
+
+def test_alias_does_not_invent_a_match_when_motor_absent(conn):
+    """The alias only rewrites the lookup key; if the canonical motor isn't in the
+    catalog at all, it still returns None (the alias fabricates nothing)."""
+    upsert_motors(conn, [_cti("999K660-14A", "K660", "White Thunder", impulse_class="K")])
+    assert find_motor_id(conn, MFR, "I455", "I455 VMAX") is None
