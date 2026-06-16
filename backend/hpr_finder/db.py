@@ -211,6 +211,30 @@ def upsert_motors(conn: sqlite3.Connection, motors: list[Motor]) -> int:
 _EXCLUDE_OOP = " AND (availability IS NULL OR availability <> 'OOP')"
 
 
+# Curated aliases for vendor designations that sit a small thrust-number
+# rounding/typo — or a single class-boundary letter — away from the canonical
+# ThrustCurve name, so an exact match misses them. Each was verified 1:1 against
+# ThrustCurve (issue #154), and each alias KEY matches no real catalog motor, so
+# applying it can never divert a listing from a correct match. Keyed by
+# (manufacturer family, UPPER vendor designation/commonName) -> canonical form.
+_DESIGNATION_ALIASES: dict[tuple[str, str], str] = {
+    # Cesaroni — vendor commonName off by a few N from the catalog's avg-thrust name
+    ("cesaroni", "H223"): "H233",  # Red Lightning Pro38/Pro29-6G (catalog 311H233-14A)
+    ("cesaroni", "I455"): "I445",  # Vmax Pro54-1G (catalog 475I445-16A)
+    ("cesaroni", "M1180"): "M1160",  # Green3 Pro75-5G (catalog 5880M1160-P)
+    # AeroTech — the 40N Warp 9 38mm DMS sits on the H/I total-impulse boundary;
+    # some vendors call it H40N-P, ThrustCurve (and our catalog) call it I40N-P.
+    ("aerotech", "H40N-P"): "I40N-P",
+}
+
+
+def _canonical_alias(manufacturer: str, designation: str) -> str:
+    """Map a known-off vendor designation to its canonical catalog form (see
+    ``_DESIGNATION_ALIASES``), or return it unchanged."""
+    family = (manufacturer or "").lower().split(" ", 1)[0]
+    return _DESIGNATION_ALIASES.get((family, designation.upper()), designation)
+
+
 def find_motor_id(
     conn: sqlite3.Connection,
     manufacturer: str,
@@ -244,6 +268,7 @@ def find_motor_id(
     """
     if not designation:
         return None
+    designation = _canonical_alias(manufacturer, designation)
     match = (
         _find_cti_motor_id
         if manufacturer.lower().startswith("cesaroni")
