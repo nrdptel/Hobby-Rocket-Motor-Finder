@@ -256,3 +256,18 @@ def test_loki_listing_matches_via_unique_common_name(conn):
     assert find_motor_id(conn, "Loki Research", "N5500-LW", "Loki N5500-LW") is not None
     # AeroTech manufacturer must not match the Loki motor (manufacturer-scoped).
     assert find_motor_id(conn, "AeroTech", "N5500-LW") is None
+
+
+# --- curated designation alias (issue #154) --------------------------------
+
+def test_alias_h40n_p_matches_i40n_p(conn):
+    """The 40N Warp 9 38mm DMS sits on the H/I boundary: some vendors call it
+    H40N-P, the catalog (and ThrustCurve) call it I40N-P. The alias bridges it."""
+    upsert_motors(conn, [
+        _make_motor("I40N-P", common_name="I40", propellant="Warp 9",
+                    impulse_class="I", diameter_mm=38),
+    ])
+    mid = find_motor_id(conn, "AeroTech", "H40N-P", "H40N-P 38mm DMS")
+    assert mid is not None
+    # The alias is exact: a different H-class designation must NOT be rewritten.
+    assert find_motor_id(conn, "AeroTech", "H99X-P", "H99X-P") is None
