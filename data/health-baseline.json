@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 252.0,
-    "samples": 273,
+    "samples": 274,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T13:12:03+00:00"
+    "updated_at": "2026-06-16T14:10:22+00:00"
   },
   "amw": {
     "count": 247.0,
@@ -24,28 +24,28 @@
     "updated_at": "2026-06-16T13:12:03+00:00"
   },
   "buyrocketmotors": {
-    "count": 278.9591903378833,
-    "samples": 272,
-    "stock": 120.43894139193422,
+    "count": 279.2193927534125,
+    "samples": 273,
+    "stock": 120.32920604395066,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T13:12:03+00:00"
+    "updated_at": "2026-06-16T14:10:22+00:00"
   },
   "csrocketry": {
     "count": 558.0,
-    "samples": 246,
-    "stock": 242.0000000078078,
+    "samples": 247,
+    "stock": 242.00000000585587,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-16T13:12:03+00:00"
+    "updated_at": "2026-06-16T14:10:22+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 273,
+    "samples": 274,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T13:12:03+00:00"
+    "updated_at": "2026-06-16T14:10:22+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
@@ -57,11 +57,11 @@
   },
   "performancehobbies": {
     "count": 594.0,
-    "samples": 273,
+    "samples": 274,
     "stock": 117.0,
     "streak": 0,
     "unmatched": 6.000000000000002,
-    "updated_at": "2026-06-16T13:12:03+00:00"
+    "updated_at": "2026-06-16T14:10:22+00:00"
   },
   "sirius": {
     "count": 310.9999984470398,
@@ -72,11 +72,11 @@
     "updated_at": "2026-06-16T13:12:03+00:00"
   },
   "wildman": {
-    "count": 486.23353839729265,
-    "samples": 272,
-    "stock": 176.43513399568684,
+    "count": 485.9251537979695,
+    "samples": 273,
+    "stock": 176.07635049676514,
     "streak": 0,
-    "unmatched": 1.9999999920271092,
-    "updated_at": "2026-06-16T13:12:03+00:00"
+    "unmatched": 1.999999994020332,
+    "updated_at": "2026-06-16T14:10:22+00:00"
   }
 }
