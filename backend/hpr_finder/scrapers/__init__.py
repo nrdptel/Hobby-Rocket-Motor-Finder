@@ -1,0 +1,27 @@
+"""Per-vendor scrapers. Each scraper produces a list of Listing for one vendor."""
+
+from .aerotechdirect import AeroTechDirectScraper
+from .amw import AMWScraper
+from .balsa_machining import BalsaMachiningScraper
+from .buyrocketmotors import BuyRocketMotorsScraper
+from .csrocketry import CSRocketryScraper
+from .erockets import ERocketsScraper
+from .loki import LokiScraper
+from .moto_joe import MotoJoeScraper
+from .performancehobbies import PerformanceHobbiesScraper
+from .sirius import SiriusScraper
+from .wildman import WildmanScraper
+
+REGISTRY = {
+    CSRocketryScraper.slug: CSRocketryScraper,
+    BuyRocketMotorsScraper.slug: BuyRocketMotorsScraper,
+    WildmanScraper.slug: WildmanScraper,
+    AMWScraper.slug: AMWScraper,
+    SiriusScraper.slug: SiriusScraper,
+    LokiScraper.slug: LokiScraper,
+    PerformanceHobbiesScraper.slug: PerformanceHobbiesScraper,
+    AeroTechDirectScraper.slug: AeroTechDirectScraper,
+    MotoJoeScraper.slug: MotoJoeScraper,
+    BalsaMachiningScraper.slug: BalsaMachiningScraper,
+    ERocketsScraper.slug: ERocketsScraper,
+}

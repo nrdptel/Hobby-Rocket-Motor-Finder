@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* Dark mode = class override + OS fallback. `dark:` utilities apply when:
+   (a) an ancestor has the `.dark` class (an explicit Dark choice, set by the
+       inline script in layout.tsx / <ThemeToggle>), OR
+   (b) the OS prefers dark AND the user hasn't explicitly chosen Light (`.light`).
+   Clause (b) is what makes EVERY `dark:` element correct on the very first paint
+   for a dark-OS visitor — before the theme script runs — so nothing flashes its
+   light background. "System" sets neither class and rides entirely on (b). */
+@custom-variant dark {
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(html:not(.light), html:not(.light) *) {
+      @slot;
+    }
+  }
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Theme background driven by a CSS media query, NOT the JS theme script, so it's
+   correct on the very first paint with no script-timing dependency. The default
+   is DARK (a brief flash of dark beats white). The theme script in layout.tsx
+   adds `.dark` or `.light` to <html> before paint when it can; these rules cover
+   the window before it runs and the no-JS case.
+
+   `.light` is an explicit marker (not just "absence of .dark") so a Light choice
+   on a dark OS resolves to light instead of falling through to the dark default. */
+html {
+  color-scheme: light dark;
+  background-color: #09090b; /* zinc-950 — matches the body's dark background */
+}
+@media (prefers-color-scheme: light) {
+  html:not(.dark) {
+    background-color: #ffffff;
+  }
+}
+html.dark {
+  color-scheme: dark;
+  background-color: #09090b;
+}
+html.light {
+  color-scheme: light;
+  background-color: #ffffff;
+}
+
+/* Visible keyboard focus for interactive controls (WCAG 2.4.7), in the app's
+   indigo accent so it's one consistent indicator everywhere. Buttons, links,
+   summaries, etc. get this outline on keyboard focus. Text inputs/selects opt
+   out with Tailwind `focus:outline-none` and show a border-colour change
+   instead, for a cleaner field on click. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #6366f1; /* indigo-500 — the focus accent, legible on both themes */
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* The page <main> is a flex child of <body> (a flex column) with `mx-auto` +
+   `max-w-*` and no explicit width, so it shrink-to-fits its content. A wide
+   child (e.g. the vendor table on a motor page) makes it grow past the viewport
+   — on mobile that means horizontal scroll, or the browser scaling the whole
+   layout down to fit (which left the top Pride bar short of the right edge).
+   Pinning width to 100% caps main at the viewport (still bounded by max-w-*);
+   wide children scroll inside their own overflow-x containers instead. */
+body > main {
+  width: 100%;
+  min-width: 0;
+}

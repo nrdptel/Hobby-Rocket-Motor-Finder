@@ -1,0 +1,244 @@
+import { alertConfig, motorKey, rocketSubsKey, subKey } from "@/lib/alerts/config";
+import { EmailQuotaError, restockEmail, rocketRestockEmail, sendEmail } from "@/lib/alerts/email";
+import { hasDispatchBearer, json } from "@/lib/alerts/http";
+import { manageLink } from "@/lib/alerts/manageLink";
+import { motorFitsRocket } from "@/lib/rocketFit";
+import {
+  fieldsToSpec,
+  parseRocketMember,
+  rocketDisplayName,
+  rocketSpecField,
+  shortHash,
+} from "@/lib/alerts/rocketSub";
+import { signToken } from "@/lib/alerts/tokens";
+import { del, setNxEx, smembers } from "@/lib/alerts/upstash";
+
+type RestockMotor = {
+  manufacturer: string;
+  designation: string;
+  diameter_mm: number;
+  impulse_class: string;
+  total_impulse_ns: number | null;
+  case_info: string | null;
+  motor_type: string | null;
+};
+
+export const dynamic = "force-dynamic";
+// Sends are sequential and a throttled batch can hit the 429 retry's backoff;
+// give the function headroom so it isn't cut off mid-batch (which would skip the
+// cooldown rollback below and strand those motors).
+export const maxDuration = 60;
+
+// Don't re-alert a motor's subscribers more than once per window, even if the
+// scrape flaps or the job retries. The out→in transition detection upstream is
+// the primary guard; this is belt-and-suspenders.
+const COOLDOWN_S = 6 * 3600;
+const MAX_MOTORS = 1000;
+
+/** Called by the hourly scrape with the motors that just restocked. Looks up
+ * subscribers and emails them, de-duplicated by a per-motor cooldown. */
+export async function POST(request: Request): Promise<Response> {
+  const cfg = alertConfig();
+  if (!cfg) return json({ error: "alerts not configured" }, 503);
+
+  if (!hasDispatchBearer(request, cfg)) {
+    return json({ error: "unauthorized" }, 401);
+  }
+
+  let body: { motors?: Array<Record<string, unknown>> };
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: "invalid body" }, 400);
+  }
+  const motors = Array.isArray(body.motors) ? body.motors.slice(0, MAX_MOTORS) : [];
+
+  let sent = 0;
+  let notified = 0;
+  // ZeptoMail credits exhausted: stop the whole batch (no point hammering the
+  // API) and report it so an ops alert can fire. Set by a caught EmailQuotaError.
+  let quotaExhausted = false;
+  for (const m of motors) {
+    if (quotaExhausted) break;
+    const manufacturer = typeof m.manufacturer === "string" ? m.manufacturer.trim() : "";
+    const designation = typeof m.designation === "string" ? m.designation.trim() : "";
+    if (!manufacturer || !designation) continue;
+    const key = motorKey(manufacturer, designation);
+    // "Phantom" first appearance (a motor no vendor stocked, now listed) → the
+    // email reads "now in stock" instead of "back in stock".
+    const firstAvailable = m.first_available === true;
+    try {
+      const subs = await smembers(cfg, subKey(key));
+      if (subs.length === 0) continue;
+      // Claim the cooldown; if already claimed this window, skip (avoids dupes).
+      if (!(await setNxEx(cfg, `alerted:${key}`, COOLDOWN_S))) continue;
+      notified++;
+      const motorUrl = `${cfg.siteUrl}/?q=${encodeURIComponent(designation)}`;
+      let sentForMotor = 0;
+      for (const email of subs) {
+        if (quotaExhausted) break;
+        try {
+          const unsubToken = await signToken(cfg.secret, { t: "u", e: email, m: key, x: 0 });
+          const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
+            unsubToken,
+          )}`;
+          const tmpl = restockEmail(
+            designation,
+            motorUrl,
+            unsubscribeUrl,
+            await manageLink(cfg, email),
+            firstAvailable,
+          );
+          await sendEmail({
+            zepto: cfg.zepto,
+            from: cfg.from,
+            to: email,
+            subject: tmpl.subject,
+            html: tmpl.html,
+            text: tmpl.text,
+            listUnsubscribe: unsubscribeUrl,
+          });
+          sent++;
+          sentForMotor++;
+        } catch (e) {
+          // Quota exhausted → abort the whole batch (the signal is already logged
+          // in sendEmail). Otherwise skip a single bad recipient and keep going.
+          if (e instanceof EmailQuotaError) {
+            quotaExhausted = true;
+            break;
+          }
+        }
+      }
+      // If NOT ONE recipient got the email, release the cooldown claim. Note
+      // this only enables a retry when the fresh snapshot ALSO fails to commit
+      // this run (so the next run still diffs the same out→in transition); on
+      // the normal path the committed snapshot means the restock won't be
+      // re-detected, so a total send outage remains a rare best-effort miss.
+      // A successful send keeps the claim, preserving the dedupe guarantee.
+      if (sentForMotor === 0) {
+        try {
+          await del(cfg, `alerted:${key}`);
+        } catch {
+          /* best-effort */
+        }
+      }
+    } catch {
+      // Skip a motor whose lookup failed; keep going.
+    }
+  }
+
+  // --- Rocket-fit alerts: "email me when anything that fits my rocket restocks"
+  // For each confirmed rocket sub, find which restocked motors fit it and send
+  // one digest email, de-duped by a per-(rocket, motor) cooldown.
+  let rocketsNotified = 0;
+  let rocketEmailsSent = 0;
+  const restocked: RestockMotor[] = [];
+  for (const m of motors) {
+    const manufacturer = typeof m.manufacturer === "string" ? m.manufacturer.trim() : "";
+    const designation = typeof m.designation === "string" ? m.designation.trim() : "";
+    const diameter = typeof m.diameter_mm === "number" ? m.diameter_mm : Number(m.diameter_mm);
+    if (!manufacturer || !designation || !Number.isFinite(diameter)) continue;
+    restocked.push({
+      manufacturer,
+      designation,
+      diameter_mm: diameter,
+      impulse_class: typeof m.impulse_class === "string" ? m.impulse_class : "",
+      total_impulse_ns: typeof m.total_impulse_ns === "number" ? m.total_impulse_ns : null,
+      case_info: typeof m.case_info === "string" ? m.case_info : null,
+      motor_type: typeof m.motor_type === "string" ? m.motor_type : null,
+    });
+  }
+
+  if (restocked.length > 0 && !quotaExhausted) {
+    let members: string[] = [];
+    try {
+      members = await smembers(cfg, rocketSubsKey());
+    } catch {
+      members = [];
+    }
+    for (const raw of members) {
+      if (quotaExhausted) break;
+      const parsed = parseRocketMember(raw);
+      if (!parsed) continue;
+      const spec = fieldsToSpec(parsed.fields);
+      const fits = restocked.filter((mo) => motorFitsRocket(spec, mo));
+      if (fits.length === 0) continue;
+
+      // Claim a per-(sub, motor) cooldown; skip any already alerted this window.
+      const h = shortHash(raw);
+      const fresh: RestockMotor[] = [];
+      const claimedKeys: string[] = [];
+      for (const mo of fits) {
+        const ck = `alerted-r:${h}:${motorKey(mo.manufacturer, mo.designation)}`;
+        try {
+          if (await setNxEx(cfg, ck, COOLDOWN_S)) {
+            fresh.push(mo);
+            claimedKeys.push(ck);
+          }
+        } catch {
+          // cooldown store down — skip (fail closed) to avoid dupe spam.
+        }
+      }
+      if (fresh.length === 0) continue;
+
+      rocketsNotified++;
+      try {
+        const unsubToken = await signToken(cfg.secret, {
+          t: "ru",
+          e: parsed.email,
+          m: rocketSpecField(parsed.fields),
+          x: 0,
+        });
+        const unsubscribeUrl = `${cfg.siteUrl}/api/alerts/unsubscribe?token=${encodeURIComponent(
+          unsubToken,
+        )}`;
+        const items = fresh.map((mo) => ({
+          designation: mo.designation,
+          manufacturer: mo.manufacturer,
+          url: `${cfg.siteUrl}/?q=${encodeURIComponent(mo.designation)}`,
+        }));
+        const tmpl = rocketRestockEmail(
+          rocketDisplayName(parsed.fields),
+          items,
+          unsubscribeUrl,
+          await manageLink(cfg, parsed.email),
+        );
+        await sendEmail({
+          zepto: cfg.zepto,
+          from: cfg.from,
+          to: parsed.email,
+          subject: tmpl.subject,
+          html: tmpl.html,
+          text: tmpl.text,
+          listUnsubscribe: unsubscribeUrl,
+        });
+        rocketEmailsSent++;
+      } catch (e) {
+        if (e instanceof EmailQuotaError) quotaExhausted = true;
+        // The digest send failed — release the cooldown claims. As with the
+        // per-motor path this only enables a retry if the fresh snapshot also
+        // fails to commit this run; otherwise the restock isn't re-detected next
+        // run. Best-effort.
+        for (const ck of claimedKeys) {
+          try {
+            await del(cfg, ck);
+          } catch {
+            /* best-effort */
+          }
+        }
+      }
+    }
+  }
+
+  return json({
+    ok: true,
+    motorsRestocked: motors.length,
+    motorsNotified: notified,
+    emailsSent: sent,
+    rocketsNotified,
+    rocketEmailsSent,
+    // True if the batch stopped early because ZeptoMail credits ran out; the
+    // scrape logs the dispatch response, so this surfaces in CI output too.
+    ...(quotaExhausted ? { quotaExhausted: true } : {}),
+  });
+}

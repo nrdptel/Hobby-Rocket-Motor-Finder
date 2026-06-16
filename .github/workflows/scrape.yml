@@ -1,0 +1,149 @@
+name: scrape
+
+# Primary trigger is an external cron (cron-job.org) hitting workflow_dispatch
+# every hour — GitHub's own scheduler is best-effort and silently drops/delays
+# scheduled runs, which left us closer to every ~1.5h. See docs/ops-scrape-cron.md.
+#
+# This `schedule` is now only a FALLBACK: every 6 hours, so that if the external
+# cron ever goes down the data still refreshes (and never goes badly stale)
+# without redundantly doubling the reliable hourly external trigger.
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+
+# Don't pile up runs if one is still going.
+concurrency:
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      # Lets the alerting step open/comment/close a tracking issue when a
+      # vendor degrades (carry-forward) or fails outright.
+      issues: write
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Need a real token (not GITHUB_TOKEN's default) to push back, OR
+          # set permissions: contents: write above. We've done the latter.
+          persist-credentials: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/pyproject.toml
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Refresh ThrustCurve catalog
+        # Always run this — the SQLite DB is gitignored so each runner starts
+        # empty, and we need motors loaded before scrape→match can succeed.
+        # ``actions/checkout`` resets file mtimes to "now," so an mtime-based
+        # "skip if fresh" check never triggered and silently produced
+        # snapshots where every listing was unmatched. The refresh itself is
+        # a single HTTP request (~2s, 273 records) — cheap to always run.
+        run: hpr catalog refresh
+
+      - name: Scrape all vendors
+        run: hpr scrape run all
+
+      - name: Export snapshot (resilient to a flaky vendor)
+        # A vendor that scrapes below the floor (AMW/Sirius intermittently
+        # return 0 when blocked from CI data-center IPs) keeps its last-good
+        # listings from the previously-committed data/snapshot.json instead of
+        # vanishing — so healthy vendors' fresh data still publishes every run.
+        # The export only fails (and skips the commit) if a below-floor vendor
+        # has NO prior data to fall back on. The floor (200) is well above a
+        # rate-limited-mid-walk run (~20% of normal) but below a healthy run.
+        working-directory: ${{ github.workspace }}
+        # --report-json writes machine-readable per-vendor health that the
+        # alerting step reads. It's written even when export exits non-zero
+        # (refuse-to-publish), so the alert still fires on a total failure.
+        run: hpr snapshot export --floor 200 --report-json data/scrape-status.json
+
+      - name: Validate snapshot before publishing
+        # Belt-and-suspenders on top of --floor: never commit a snapshot that
+        # isn't parseable JSON with a non-empty motors array. A truncated/corrupt
+        # file (partial write, disk hiccup) would otherwise auto-deploy and 500
+        # every page (loadSnapshot throws on malformed JSON). Failing here skips
+        # the commit; the previously-published snapshot stays live.
+        working-directory: ${{ github.workspace }}
+        run: |
+          python -c "import json,sys; d=json.load(open('data/snapshot.json')); n=len(d.get('motors') or []); print(f'snapshot OK: {n} motors'); sys.exit(0 if n>0 else 1)"
+
+      - name: Report scrape health
+        # always() so it runs even when the export step exited non-zero. Writes a
+        # one-line health note to the run summary every time, and opens a single
+        # tracking issue ONLY when a vendor's data has been stale beyond the
+        # threshold (a sustained outage, not a transient carry-forward). The
+        # issue auto-closes on recovery. Total failures exit non-zero and are
+        # covered by GitHub's native workflow-failure email.
+        if: always()
+        working-directory: ${{ github.workspace }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          # The tracking issue @mentions and is assigned to the repo owner, so the
+          # alert notifies reliably even with a "participating only" watch.
+          OWNER: ${{ github.repository_owner }}
+        # Second arg is the stale-hours threshold that opens an issue.
+        run: bash .github/scripts/alert_on_degraded.sh data/scrape-status.json 6
+
+      - name: Update stock/price history
+        # Append this run's stock/price changes to the per-listing history log.
+        # No `if: always()` on purpose: the export step exits non-zero on a
+        # refuse-to-publish run, which short-circuits the job here so history
+        # never ingests an unpublished snapshot. On a carry-forward run the
+        # snapshot DID publish but carried listings are byte-identical, so this
+        # records nothing (idempotent) — correct by design.
+        working-directory: ${{ github.workspace }}
+        run: hpr history update --snapshot-path data/snapshot.json
+
+      - name: Send restock email alerts (best-effort)
+        # Diff the previously-published snapshot (git HEAD, before this run's
+        # commit) against the freshly-written one and notify subscribers of
+        # motors that came back in stock. No-op unless the dispatch secrets are
+        # set; continue-on-error so alerts can never block the snapshot commit.
+        working-directory: ${{ github.workspace }}
+        continue-on-error: true
+        env:
+          ALERTS_DISPATCH_URL: ${{ secrets.ALERTS_DISPATCH_URL }}
+          ALERTS_DISPATCH_SECRET: ${{ secrets.ALERTS_DISPATCH_SECRET }}
+        run: |
+          git show HEAD:data/snapshot.json > /tmp/prev_snapshot.json 2>/dev/null || echo '{}' > /tmp/prev_snapshot.json
+          hpr alerts dispatch --prev /tmp/prev_snapshot.json --current data/snapshot.json
+
+      - name: Commit changes if any
+        working-directory: ${{ github.workspace }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Commit ALL three manufacturer caches (not just AeroTech) — each is
+          # rewritten by `catalog refresh` and is the stale-cache fallback if
+          # ThrustCurve is down; omitting cesaroni/loki let those rot (and once
+          # corrupted the Loki cache). The glob also covers future manufacturers.
+          # health-baseline.json is the rolling per-vendor count/in-stock
+          # baseline that powers below-baseline anomaly detection; it's rewritten
+          # each run and must persist across runs to learn.
+          git add data/snapshot.json data/thrustcurve_*.json \
+                  data/history/log.json data/history/summary.json \
+                  data/health-baseline.json
+          # No-op when scrape produced no changes (e.g. all vendors quiet).
+          # [skip ci] keeps the regular test workflow from running on these
+          # data-only commits — saves Actions minutes and avoids noise.
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -m "Hourly scrape: refresh snapshot [skip ci]"
+            # Rebase onto any concurrent push (e.g. a merged PR) so a
+            # non-fast-forward doesn't silently drop this run's data.
+            git pull --rebase --autostash origin main && git push
+          fi

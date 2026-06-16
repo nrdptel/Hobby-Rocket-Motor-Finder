@@ -1,0 +1,81 @@
+{
+  "products": [
+    {
+      "title": "AeroTech F115SN-12A 29mm DMS\u2122 Rocket Motor \u2014 061112",
+      "handle": "aerotech-classic-enerjet\u00ae-g73c-enerjet\u00ae-30-29mm-single-use-rocket-motor-77311-copy",
+      "variants": [
+        {
+          "sku": "061112",
+          "available": true,
+          "price": "29.99"
+        }
+      ]
+    },
+    {
+      "title": "AeroTech N2700W-PS 75mm RMS\u2122 Rocket Motor Reload Kit \u2014 13270P",
+      "handle": "aerotech-n2700w-ps-75mm-rms\u2122-rocket-motor-reload-kit-13270p-copy",
+      "variants": [
+        {
+          "sku": "13270P",
+          "available": true,
+          "price": "779.99"
+        }
+      ]
+    },
+    {
+      "title": "AeroTech I364FJ-14A RMS-38/720 Reload Kit (1 Pack) - 0936414",
+      "handle": "product_c077eda9-3997-bbff-7b23-23b8da95d89e",
+      "variants": [
+        {
+          "sku": "0936414",
+          "available": false,
+          "price": "89.99"
+        }
+      ]
+    },
+    {
+      "title": "AeroTech J510W-14A RMS-38/1320 Reload Kit (1 Pack) - 105114",
+      "handle": "product_8f91c9d7-cb96-5c51-dabd-b40461a43792",
+      "variants": [
+        {
+          "sku": "105114",
+          "available": true,
+          "price": "128.99"
+        }
+      ]
+    },
+    {
+      "title": "AeroTech RMS-24/40 Complete Motor Hardware Set - 91241",
+      "handle": "product_e97a08b8-b983-b6f4-d4f5-907afeb7f3b7",
+      "variants": [
+        {
+          "sku": "91241",
+          "available": true,
+          "price": "76.99"
+        }
+      ]
+    },
+    {
+      "title": "AeroTech/Quest Power...straight up! Lanyard - 94306",
+      "handle": "aerotech-quest-power-straight-up-lanyard-93406",
+      "variants": [
+        {
+          "sku": "",
+          "available": false,
+          "price": "4.99"
+        }
+      ]
+    },
+    {
+      "title": "Quest Q-Jet™ F41-8W White Lightning Complete 2-Motor Launch Pack",
+      "handle": "quest-q-jet-f41-8w",
+      "variants": [
+        {
+          "sku": "Q41-8W",
+          "available": true,
+          "price": "21.99"
+        }
+      ]
+    }
+  ]
+}

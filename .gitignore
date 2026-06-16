@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files that ARE tracked:
+#   snapshot.example.json    — frozen seed so `npm run dev` works on a fresh clone
+#   snapshot.json            — committed hourly by .github/workflows/scrape.yml
+#                              (Vercel auto-deploys when it changes)
+#   thrustcurve_aerotech.json — refreshable but slow-changing catalog
+data/*.db
+data/*.db-journal
+data/snapshots/
+# Transient CI health report consumed by the scrape alerting step.
+data/scrape-status.json
+
+# IDE
+.vscode/
+.idea/
+
+# Design sources (Illustrator) — keep the exported SVG, not the binary
+*.ai
+*.AI
