@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 252.0,
-    "samples": 280,
+    "samples": 281,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "updated_at": "2026-06-16T20:11:52+00:00"
   },
   "amw": {
     "count": 247.0,
@@ -17,35 +17,35 @@
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 271,
-    "stock": 69.00030135727715,
+    "samples": 272,
+    "stock": 69.00022601795786,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "updated_at": "2026-06-16T20:11:52+00:00"
   },
   "buyrocketmotors": {
-    "count": 279.09837336846624,
-    "samples": 279,
-    "stock": 119.82104277491212,
+    "count": 279.0737800263497,
+    "samples": 280,
+    "stock": 119.86578208118408,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "updated_at": "2026-06-16T20:11:52+00:00"
   },
   "csrocketry": {
     "count": 558.0,
-    "samples": 253,
-    "stock": 242.0000000010422,
+    "samples": 254,
+    "stock": 242.00000000078165,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "updated_at": "2026-06-16T20:11:52+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 280,
+    "samples": 281,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "updated_at": "2026-06-16T20:11:52+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
@@ -57,11 +57,11 @@
   },
   "performancehobbies": {
     "count": 594.0,
-    "samples": 280,
+    "samples": 281,
     "stock": 117.0,
     "streak": 0,
     "unmatched": 6.000000000000002,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "updated_at": "2026-06-16T20:11:52+00:00"
   },
   "sirius": {
     "count": 310.9999993448449,
@@ -72,11 +72,11 @@
     "updated_at": "2026-06-16T19:30:12+00:00"
   },
   "wildman": {
-    "count": 486.09214773406245,
-    "samples": 279,
-    "stock": 175.7899559355815,
+    "count": 486.3191108005468,
+    "samples": 280,
+    "stock": 175.59246695168613,
     "streak": 0,
-    "unmatched": 1.9999999989357478,
-    "updated_at": "2026-06-16T19:30:12+00:00"
+    "unmatched": 1.999999999201811,
+    "updated_at": "2026-06-16T20:11:52+00:00"
   }
 }
