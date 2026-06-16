@@ -19,6 +19,7 @@ import {
   formatPrice,
   formatThrust,
   groupByDelay,
+  groupUnmatched,
   isBestInStockPrice,
   buildMotorJsonLd,
   designationFromSlug,
@@ -1327,5 +1328,61 @@ describe("sortedMotors — isp order", () => {
     expect(asc[0]).toBe(1); // lower Isp first
     expect(asc[1]).toBe(2);
     expect(asc[2]).toBe(3); // unknown Isp sinks last
+  });
+});
+
+// --- groupUnmatched --------------------------------------------------------
+describe("groupUnmatched", () => {
+  const u = (over: Partial<Parameters<typeof groupUnmatched>[0][number]>) => ({
+    raw_designation: "",
+    raw_title: "",
+    vendor_slug: "v",
+    vendor_name: "Vendor",
+    url: `https://example.com/${Math.random()}`,
+    sku: null,
+    price_cents: null,
+    currency: "USD",
+    status: "out_of_stock" as const,
+    stock_count: null,
+    seen_at: "2026-01-01T00:00:00Z",
+    ...over,
+  });
+
+  it("collapses same-designation listings into one group", () => {
+    const groups = groupUnmatched([
+      u({ raw_designation: "I297", vendor_name: "A", url: "a" }),
+      u({ raw_designation: "O5280X-PS", vendor_name: "B", url: "b" }),
+      u({ raw_designation: "I297", vendor_name: "C", url: "c" }),
+    ]);
+    expect(groups.map((g) => g.designation)).toEqual(["I297", "O5280X-PS"]);
+    expect(groups[0].listings.map((l) => l.vendor_name)).toEqual(["A", "C"]);
+    expect(groups[1].listings).toHaveLength(1);
+  });
+
+  it("groups case-insensitively but keeps the first-seen label", () => {
+    const groups = groupUnmatched([
+      u({ raw_designation: "I297", url: "a" }),
+      u({ raw_designation: "i297", url: "b" }),
+    ]);
+    expect(groups).toHaveLength(1);
+    expect(groups[0].designation).toBe("I297");
+  });
+
+  it("orders listings buyable-first, then cheapest", () => {
+    const groups = groupUnmatched([
+      u({ raw_designation: "X", url: "a", status: "out_of_stock", price_cents: 100 }),
+      u({ raw_designation: "X", url: "b", status: "in_stock", price_cents: 900 }),
+      u({ raw_designation: "X", url: "c", status: "in_stock", price_cents: 500 }),
+    ]);
+    expect(groups[0].listings.map((l) => l.url)).toEqual(["c", "b", "a"]);
+  });
+
+  it("keeps listings with no designation separate (one group each)", () => {
+    const groups = groupUnmatched([
+      u({ raw_designation: "", raw_title: "Mystery A", url: "a" }),
+      u({ raw_designation: "", raw_title: "Mystery B", url: "b" }),
+    ]);
+    expect(groups).toHaveLength(2);
+    expect(groups.map((g) => g.designation)).toEqual(["Mystery A", "Mystery B"]);
   });
 });
