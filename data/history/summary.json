@@ -8515,10 +8515,10 @@
     "price_high_cents": 3989
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1422&virtuemart_category_id=135&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:55",
-    "last_change_at": "2026-06-11T19:00:52+00:00",
+    "last_change_at": "2026-06-17T15:00:53+00:00",
     "last_in_stock_at": "2026-06-11T19:00:52+00:00",
     "last_restock_at": "2026-06-11T19:00:52+00:00",
     "restock_count": 1,
@@ -8554,10 +8554,10 @@
     "price_high_cents": 3989
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1423&virtuemart_category_id=135&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:55",
-    "last_change_at": "2026-06-11T19:00:52+00:00",
+    "last_change_at": "2026-06-17T15:00:53+00:00",
     "last_in_stock_at": "2026-06-11T19:00:52+00:00",
     "last_restock_at": "2026-06-11T19:00:52+00:00",
     "restock_count": 1,
@@ -8632,10 +8632,10 @@
     "price_high_cents": 3989
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1424&virtuemart_category_id=135&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:55",
-    "last_change_at": "2026-06-11T19:00:52+00:00",
+    "last_change_at": "2026-06-17T15:00:53+00:00",
     "last_in_stock_at": "2026-06-11T19:00:52+00:00",
     "last_restock_at": "2026-06-11T19:00:52+00:00",
     "restock_count": 1,
@@ -27248,10 +27248,10 @@
     "price_high_cents": 3500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9042#E6-RCT": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:29+00:00",
-    "last_change_at": "2026-06-05T17:00:29+00:00",
+    "last_change_at": "2026-06-17T15:00:41+00:00",
     "last_in_stock_at": "2026-06-05T17:00:29+00:00",
     "last_restock_at": null,
     "restock_count": 0,
