@@ -81,7 +81,7 @@ STATUS_RE = re.compile(
     r"(?P<count>\d+)\s*In\s*Stock|(?P<call>Call)(?=\s|<)|(?P<preorder>Pre-?Order)",
     re.I,
 )
-PRICE_RE = re.compile(r'PricesalesPrice"[^>]*>\$(\d+\.\d{2})')
+PRICE_RE = re.compile(r'PricesalesPrice"[^>]*>\$([\d,]+\.\d{2})')
 DESC_RE = re.compile(r'product_s_desc"[^>]*>\s*([^<]+)\s*<')
 URL_RE = re.compile(
     r'href="(/index\.php[^"]*virtuemart_product_id=\d+[^"]*)"'

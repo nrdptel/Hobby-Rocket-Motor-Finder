@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 
 from hpr_finder.models import StockStatus
-from hpr_finder.scrapers.amw import AMWScraper, _parse_status
+from hpr_finder.scrapers.amw import PRICE_RE, AMWScraper, _parse_status
 from hpr_finder.scrapers.prices import price_to_cents
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -97,6 +97,21 @@ def test_parse_status_zero_in_stock_is_out_of_stock():
     status, count = _parse_status('<span class="amw_in_stock">0 In Stock</span>')
     assert status is StockStatus.OUT_OF_STOCK
     assert count is None
+
+
+# --- PRICE_RE: thousands separators on big N/O-class motors -----------------
+
+
+def test_price_re_matches_plain_price():
+    m = PRICE_RE.search('PricesalesPrice" >$33.14</span>')
+    assert m and price_to_cents(m.group(1)) == 3314
+
+
+def test_price_re_matches_comma_thousands_price():
+    # N/O-class DMS reloads run over $1,000; without comma support the price
+    # was missed and the listing recorded None despite a visible price.
+    m = PRICE_RE.search('PricesalesPrice" >$1,383.00</span>')
+    assert m and price_to_cents(m.group(1)) == 138300
 
 
 def test_price_to_cents_normal():
