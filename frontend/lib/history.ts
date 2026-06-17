@@ -241,7 +241,7 @@ export function buildMotorAvailability(
     for (const e of l.events) {
       // Per-motor (pack-aware), so the range matches the per-unit prices shown
       // elsewhere on the page rather than a multipack's pack total.
-      const p = unitPriceCents(e.price_cents, l.url);
+      const p = unitPriceCents(e.price_cents, l);
       if (p == null) continue;
       if (Number.isNaN(parseMs(e.t)) || parseMs(e.t) < trackStart) continue;
       priceLow = priceLow == null ? p : Math.min(priceLow, p);
@@ -366,7 +366,7 @@ export function buildPriceHistory(
   for (const s of series) {
     for (const e of s.events) {
       if (!isInStock(e.status)) continue;
-      const p = unitPriceCents(e.price_cents, s.url);
+      const p = unitPriceCents(e.price_cents, s);
       if (p != null) observed.push(p);
     }
   }
@@ -395,7 +395,7 @@ export function buildPriceHistory(
         if (Number.isNaN(m) || m > t) break;
         inStock = isInStock(e.status);
         if (e.price_cents != null) {
-          const p = unitPriceCents(e.price_cents, s.url);
+          const p = unitPriceCents(e.price_cents, s);
           if (p != null && plausible(p)) price = p;
         }
       }

@@ -479,7 +479,7 @@ export function PlanView({
                               {price != null && (
                                 <span className="tabular-nums text-emerald-700/80 dark:text-emerald-400/80">
                                   {usd(price)}
-                                  <PackHint url={cheapestL?.url} />
+                                  <PackHint listing={cheapestL} />
                                 </span>
                               )}
                               <button

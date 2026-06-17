@@ -43,7 +43,7 @@ export function Substitutes({ subs }: { subs: Substitute[] | undefined }) {
             </span>
             <span className="shrink-0 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
               {formatPrice(s.bestPriceCents, s.currency)}
-              <PackHint url={s.url} />
+              <PackHint listing={s} />
               {s.url && (
                 <>
                   {" "}
