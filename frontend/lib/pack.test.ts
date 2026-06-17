@@ -34,6 +34,27 @@ describe("packSize", () => {
     // Implausibly large "pack" → not trusted.
     expect(packSize("https://v/weird-99-pack")).toBe(1);
   });
+
+  it("prefers the snapshot-resolved pack_size over the URL", () => {
+    // The whole point of the consensus fix: a plain URL with the size only known
+    // from cross-vendor inference still sizes correctly.
+    expect(packSize({ url: "https://c/aerotech-d24-4t-blue-thunder.html", pack_size: 3 })).toBe(3);
+    // pack_size wins even if the URL disagrees.
+    expect(packSize({ url: "https://v/x-2-pack", pack_size: 3 })).toBe(3);
+    // An explicit single from the backend stays a single.
+    expect(packSize({ url: "https://v/x-3-pack", pack_size: 1 })).toBe(1);
+  });
+
+  it("falls back to the URL when pack_size is absent (old snapshots)", () => {
+    expect(packSize({ url: "https://v/d13-3-pack" })).toBe(3);
+    expect(packSize({ url: "https://v/h128w" })).toBe(1);
+    expect(packSize({ url: null })).toBe(1);
+  });
+
+  it("clamps an out-of-range pack_size to a single", () => {
+    expect(packSize({ url: "", pack_size: 99 })).toBe(1);
+    expect(packSize({ url: "", pack_size: 0 })).toBe(1);
+  });
 });
 
 describe("unitPriceCents", () => {
@@ -44,6 +65,13 @@ describe("unitPriceCents", () => {
 
   it("leaves a single price unchanged", () => {
     expect(unitPriceCents(1299, "https://v/h128w")).toBe(1299);
+  });
+
+  it("divides by the resolved pack_size when the URL doesn't carry it", () => {
+    // The D24-4T case: CSRocketry's $27.99 is really a 3-pack ($9.33/motor).
+    expect(unitPriceCents(2799, { url: "https://c/aerotech-d24-4t.html", pack_size: 3 })).toBe(933);
+    // Moto-Joe's $19.00 3-pack → $6.33/motor.
+    expect(unitPriceCents(1900, { url: "https://m/index.php?product_id=166", pack_size: 3 })).toBe(633);
   });
 
   it("passes null through", () => {

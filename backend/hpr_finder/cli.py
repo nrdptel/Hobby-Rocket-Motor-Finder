@@ -17,6 +17,7 @@ from .alerts import newly_available_motors, restocked_motors
 from .http import USER_AGENT, polite_async_client
 from .models import _utc_now
 from .normalize import is_out_of_scope
+from .pack import resolve_pack_sizes
 from .scrapers import REGISTRY
 from .snapshot import carry_forward, vendor_counts
 
@@ -516,6 +517,11 @@ def snapshot_export(
             typer.echo(
                 f"  zero-coverage (registered, 0 published listings): {', '.join(zero_coverage)}"
             )
+
+    # Resolve per-listing pack sizes on the FINAL set of listings (fresh +
+    # carried), so the per-unit price the UI shows reflects multipacks even for
+    # vendors that don't encode the size in their URL (cross-vendor consensus).
+    payload = resolve_pack_sizes(payload)
 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2))

@@ -27,6 +27,10 @@ export type Listing = {
   // special-order badge. Absent for normal stock-or-not listings.
   lead_time?: string | null;
   seen_at: string;
+  // Multipack size resolved at snapshot-export time (1 = single). Optional for
+  // back-compat with snapshots written before the field existed; when absent the
+  // pack helpers fall back to parsing the size out of the URL.
+  pack_size?: number;
 };
 
 export type Motor = {

@@ -69,7 +69,7 @@ export function vendorOffers(item: PlanItem): Offer[] {
     // A non-positive price is a placeholder/scrape glitch, not a free motor —
     // never let it win the plan as "$0".
     if (!listingInStock(l.status) || l.price_cents == null || l.price_cents <= 0) continue;
-    const packSizeUnits = packSize(l.url);
+    const packSizeUnits = packSize(l);
     const packsToBuy = Math.max(1, Math.ceil(item.qty / packSizeUnits));
     // A vendor's stock_count is the count of THIS SKU — i.e. packs for a
     // multipack — so check it against the packs we need, not the motor qty.

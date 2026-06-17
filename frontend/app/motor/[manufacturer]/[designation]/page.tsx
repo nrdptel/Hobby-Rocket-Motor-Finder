@@ -97,7 +97,7 @@ function stockSummary(motor: Motor): string {
   const cheapest = cheapestInStockListing(motor);
   const price =
     cheapest?.price_cents != null
-      ? `, from ${formatPrice(unitPriceCents(cheapest.price_cents, cheapest.url), cheapest.currency)}`
+      ? `, from ${formatPrice(unitPriceCents(cheapest.price_cents, cheapest), cheapest.currency)}`
       : "";
   return `In stock at ${inStock} of ${vendors} ${vendorWord}${price}`;
 }
@@ -351,9 +351,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                             isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : ""
                           }
                         >
-                          {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
+                          {formatPrice(unitPriceCents(l.price_cents, l), l.currency)}
                         </span>
-                        <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
+                        <PackNote priceCents={l.price_cents} currency={l.currency} listing={l} />
                         {sig && <PriceSignalTag signal={sig} />}
                       </td>
                       <td className="px-3 py-2">
@@ -405,9 +405,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                             className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
                           >
                             {isBestPrice && <BestPriceTag />}
-                            {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
+                            {formatPrice(unitPriceCents(l.price_cents, l), l.currency)}
                           </div>
-                          <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
+                          <PackNote priceCents={l.price_cents} currency={l.currency} listing={l} />
                           {sig && <PriceSignalTag signal={sig} />}
                           <a
                             href={safeHref(l.url)}
@@ -479,7 +479,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                   </Link>
                   <span className="shrink-0 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
                     {formatPrice(price, cur)}
-                    <PackHint url={cheapestL?.url} />
+                    <PackHint listing={cheapestL} />
                   </span>
                 </li>
               );

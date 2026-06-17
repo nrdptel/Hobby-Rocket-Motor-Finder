@@ -272,9 +272,9 @@ export function MotorResults({
                           <span
                             className={isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : ""}
                           >
-                            {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
+                            {formatPrice(unitPriceCents(l.price_cents, l), l.currency)}
                           </span>
-                          <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
+                          <PackNote priceCents={l.price_cents} currency={l.currency} listing={l} />
                           {sig && <PriceSignalTag signal={sig} />}
                         </td>
                         <td className="px-3 py-2">
