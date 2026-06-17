@@ -8762,10 +8762,10 @@
     "price_high_cents": 4199
   },
   "https://wildmanrocketry.com/products/h268r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:48",
-    "last_change_at": "2026-05-31T01:15:48",
+    "last_change_at": "2026-06-17T13:29:24+00:00",
     "last_in_stock_at": "2026-05-31T01:15:48",
     "last_restock_at": null,
     "restock_count": 0,
@@ -20319,10 +20319,10 @@
     "price_high_cents": 4885
   },
   "https://wildmanrocketry.com/products/pr29-4g-b": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:36:27+00:00",
-    "last_change_at": "2026-06-03T02:36:27+00:00",
+    "last_change_at": "2026-06-17T13:32:27+00:00",
     "last_in_stock_at": "2026-06-03T02:36:27+00:00",
     "last_restock_at": null,
     "restock_count": 0,
