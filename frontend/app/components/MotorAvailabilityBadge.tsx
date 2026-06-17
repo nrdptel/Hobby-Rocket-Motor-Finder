@@ -34,7 +34,7 @@ export function MotorAvailabilityBadge({
   }
   return (
     <span
-      className="rounded border border-zinc-300 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-zinc-500 dark:border-zinc-600 dark:text-zinc-400"
+      className="rounded border border-zinc-300 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-zinc-600 dark:border-zinc-600 dark:text-zinc-400"
       title={`In stock ~${badge.pct}% of the time over the last ${windowLabel} — it comes and goes.`}
     >
       often out
