@@ -6266,10 +6266,10 @@
     "price_high_cents": 4599
   },
   "https://www.buyrocketmotors.com/products/aerotech-f67-c-classic-enerjet-single-use-motor-2-pack?variant=50855317963049": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:56",
-    "last_change_at": "2026-05-31T02:23:56",
+    "last_change_at": "2026-06-17T18:57:45+00:00",
     "last_in_stock_at": "2026-05-31T02:23:56",
     "last_restock_at": null,
     "restock_count": 0,
