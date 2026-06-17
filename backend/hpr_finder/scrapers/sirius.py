@@ -80,12 +80,17 @@ H1_RE = re.compile(r'<h1[^>]*>(.*?)</h1>', re.S)
 #   * productSpecialPrice    -- generic Zen Cart class (fallback if Sirius ever
 #                                reverts)
 #   * productGeneralPrice    -- single-price products (no sale)
-# Preference: sale > special > general > normal — pick the actual price the
-# customer would pay if they hit "Add to Cart".
+#   * productBasePrice       -- the base price Zen Cart renders when there is no
+#                                sale/special/general row (many Sirius products
+#                                show only this). Without it these products have
+#                                a visible price on the page but record None.
+# Preference: sale > special > general > base > normal — pick the actual price
+# the customer would pay if they hit "Add to Cart".
 PRICE_RE = {
     "sale": re.compile(r'productSalePrice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
     "special": re.compile(r'productSpecialPrice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
     "general": re.compile(r'productGeneralPrice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
+    "base": re.compile(r'productBasePrice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
     "normal": re.compile(r'normalprice[^>]*>[^<]*?\$([\d,]+\.\d{2})'),
 }
 # The MAIN product's price lives in Zen Cart's "Product Price block":
@@ -247,8 +252,8 @@ def _extract_price_cents(html: str) -> int | None:
     if not block_match:
         return None
     block = block_match.group(0)
-    # Prefer sale > special > general > normal — what the customer would pay.
-    for key in ("sale", "special", "general", "normal"):
+    # Prefer sale > special > general > base > normal — what the customer pays.
+    for key in ("sale", "special", "general", "base", "normal"):
         m = PRICE_RE[key].search(block)
         if m:
             cents = price_to_cents(m.group(1))

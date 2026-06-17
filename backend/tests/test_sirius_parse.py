@@ -142,6 +142,29 @@ def test_price_general_when_no_sale():
     assert _extract_price_cents(html) == 3314
 
 
+def test_price_base_when_only_base_price_present():
+    """Many Sirius products render only ``productBasePrice`` (no sale/special/
+    general row). Without recognising it the price showed on the page but the
+    listing recorded None — the gap this fix closes."""
+    html = _price_block('<span class="productBasePrice">$455.99</span>')
+    assert _extract_price_cents(html) == 45599
+
+
+def test_price_base_with_thousands_separator():
+    """Base-price N/O-class motors run over $1,000 — the comma must parse."""
+    html = _price_block('<span class="productBasePrice">$1,383.00</span>')
+    assert _extract_price_cents(html) == 138300
+
+
+def test_price_general_preferred_over_base():
+    """When both rows are present, the general (cart) price wins over base."""
+    html = _price_block(
+        '<span class="productBasePrice">$99.99</span>'
+        '<span class="productGeneralPrice">$33.14</span>'
+    )
+    assert _extract_price_cents(html) == 3314
+
+
 def test_price_none_when_no_price_present():
     assert _extract_price_cents("<p>no price here</p>") is None
 
