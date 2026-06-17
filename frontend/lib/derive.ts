@@ -127,15 +127,20 @@ export type GroupedMotor = Motor & { delayGroups: DelayGroup[] };
  * A single bad value would otherwise crash the whole server-rendered page, so we
  * fall back to a plain dollar string rather than let one poisoned listing take
  * the site down. */
-// Some vendors use a four-nines placeholder ($9,999.99) as a "price on request"
-// / not-really-for-sale sentinel on special-order or unavailable items. No real
-// HPR motor is anywhere near this, so we render such a price as "no price" rather
-// than a real-looking number. (Best-price + price sorting are in-stock-only and
-// use the raw cents, so suppressing the *display* doesn't affect them.)
-const SENTINEL_PRICE_CENTS = 900_000;
+// A storefront's "not for sale / price on request" placeholder is an absurd
+// all-nines value — $99,999.99, $999,999.99. Hide only those. Real HPR motors
+// run high but not THAT high: the very biggest (a Cesaroni Pro150 O-class, or an
+// AeroTech 152mm O6000) genuinely list around $9,200–$9,999, so a $9,999.99 is a
+// real price and must show. (Best-price + price sorting are in-stock-only and use
+// the raw cents, so suppressing the *display* doesn't affect them.)
+export function isSentinelPrice(cents: number | null): boolean {
+  if (cents == null) return false;
+  const dollars = Math.floor(cents / 100);
+  return dollars >= 99999 && /^9+$/.test(String(dollars));
+}
 
 export function formatPrice(cents: number | null, currency: string): string {
-  if (cents == null || cents >= SENTINEL_PRICE_CENTS) return "—";
+  if (cents == null || isSentinelPrice(cents)) return "—";
   try {
     return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(
       cents / 100,
@@ -335,7 +340,7 @@ export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, 
   // rich results).
   const priced = m.listings
     .map((l) => ({ l, unit: unitPriceCents(l.price_cents, l.url) }))
-    .filter(({ l, unit }) => unit != null && (l.price_cents as number) < SENTINEL_PRICE_CENTS);
+    .filter(({ l, unit }) => unit != null && !isSentinelPrice(l.price_cents));
   if (priced.length > 0) {
     const cents = priced.map((p) => p.unit as number);
     const anyInStock = m.listings.some((l) => listingInStock(l.status));
