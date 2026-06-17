@@ -179,7 +179,7 @@ function LoadoutRow({
         {entry.cheapestCents != null ? (
           <span className="font-medium text-emerald-700 dark:text-emerald-400">
             {formatPrice(entry.cheapestCents, entry.cheapestListing?.currency ?? "USD")}
-            <PackHint url={entry.cheapestListing?.url} />
+            <PackHint listing={entry.cheapestListing} />
           </span>
         ) : (
           <span className="text-zinc-400">in stock</span>

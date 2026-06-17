@@ -22,7 +22,7 @@ import { unitPriceCents } from "@/lib/pack";
 function bestBuy(m: Motor): { cents: number; vendor: string; currency: string } | null {
   const l = cheapestInStockListing(m);
   if (!l) return null;
-  const cents = unitPriceCents(l.price_cents, l.url);
+  const cents = unitPriceCents(l.price_cents, l);
   if (cents == null) return null;
   return { cents, vendor: l.vendor_name, currency: l.currency };
 }

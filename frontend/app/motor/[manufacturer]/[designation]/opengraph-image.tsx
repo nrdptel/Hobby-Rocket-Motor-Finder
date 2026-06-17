@@ -62,7 +62,7 @@ export default async function Image({
       const cheapest = cheapestInStockListing(motor);
       const price =
         cheapest?.price_cents != null
-          ? ` — from ${formatPrice(unitPriceCents(cheapest.price_cents, cheapest.url), cheapest.currency)}`
+          ? ` — from ${formatPrice(unitPriceCents(cheapest.price_cents, cheapest), cheapest.currency)}`
           : "";
       stockLine = `In stock at ${n} of ${vendors} vendor${vendors === 1 ? "" : "s"}${price}`;
     } else {

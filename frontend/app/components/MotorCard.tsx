@@ -153,9 +153,9 @@ export function MotorCard({
                           className={`tabular-nums ${isBestPrice ? "font-medium text-emerald-700 dark:text-emerald-400" : "text-zinc-800 dark:text-zinc-200"}`}
                         >
                           {isBestPrice && <BestPriceTag />}
-                          {formatPrice(unitPriceCents(l.price_cents, l.url), l.currency)}
+                          {formatPrice(unitPriceCents(l.price_cents, l), l.currency)}
                         </div>
-                        <PackNote priceCents={l.price_cents} currency={l.currency} url={l.url} />
+                        <PackNote priceCents={l.price_cents} currency={l.currency} listing={l} />
                         {sig && <PriceSignalTag signal={sig} />}
                         <a
                           href={safeHref(l.url)}

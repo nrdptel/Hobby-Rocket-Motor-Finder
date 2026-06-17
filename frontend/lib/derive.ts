@@ -3,7 +3,7 @@
 // to exercise. If the table renders something garbled, the bug is almost
 // always in here, not in the JSX.
 
-import { unitPriceCents } from "./pack";
+import { packSize, unitPriceCents } from "./pack";
 import type { CatalogListingHistory, Listing, Motor, UnmatchedListing } from "./snapshot";
 
 /** Lower bound on impulse class shown by the UI — D and up. Hides A/B/C
@@ -339,7 +339,7 @@ export function buildMotorJsonLd(m: Motor, absoluteUrl: string): Record<string, 
   // consistent figure (a raw pack price here would mismatch the page and mislead
   // rich results).
   const priced = m.listings
-    .map((l) => ({ l, unit: unitPriceCents(l.price_cents, l.url) }))
+    .map((l) => ({ l, unit: unitPriceCents(l.price_cents, l) }))
     .filter(({ l, unit }) => unit != null && !isSentinelPrice(l.price_cents));
   if (priced.length > 0) {
     const cents = priced.map((p) => p.unit as number);
@@ -401,7 +401,7 @@ export function cheapestInStockCents(m: Motor): number | null {
   let best: number | null = null;
   for (const l of m.listings) {
     if (!listingInStock(l.status)) continue;
-    const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
+    const unit = unitPriceCents(l.price_cents, l); // per-motor (pack-aware)
     if (unit == null) continue;
     if (best == null || unit < best) best = unit;
   }
@@ -414,7 +414,7 @@ export function cheapestInStockCents(m: Motor): number | null {
 export function cheapestCents(m: Motor): number | null {
   let best: number | null = null;
   for (const l of m.listings) {
-    const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
+    const unit = unitPriceCents(l.price_cents, l); // per-motor (pack-aware)
     if (unit == null) continue;
     if (best == null || unit < best) best = unit;
   }
@@ -539,7 +539,7 @@ export function cheapestInStockListing(m: Motor): Listing | null {
   let bestUnit = Number.POSITIVE_INFINITY;
   for (const l of m.listings) {
     if (!listingInStock(l.status)) continue;
-    const unit = unitPriceCents(l.price_cents, l.url); // per-motor (pack-aware)
+    const unit = unitPriceCents(l.price_cents, l); // per-motor (pack-aware)
     if (unit == null) continue;
     if (unit < bestUnit) {
       best = l;
@@ -562,6 +562,9 @@ export type Substitute = {
   currency: string;
   vendorName: string | null;
   url: string | null;
+  // Resolved pack size of the chosen listing, so the "· N-pack" hint matches the
+  // (pack-aware) bestPriceCents even when the size isn't in the URL.
+  pack_size?: number;
 };
 
 /** Project a substitute Motor into the compact {@link Substitute} payload,
@@ -578,10 +581,11 @@ export function toSubstitute(m: Motor): Substitute {
     total_impulse_ns: m.total_impulse_ns,
     avg_thrust_n: m.avg_thrust_n,
     // Per-motor (pack-aware), to match the price shown everywhere else.
-    bestPriceCents: listing ? unitPriceCents(listing.price_cents, listing.url) : null,
+    bestPriceCents: listing ? unitPriceCents(listing.price_cents, listing) : null,
     currency: listing?.currency ?? "USD",
     vendorName: listing?.vendor_name ?? null,
     url: listing?.url ?? null,
+    pack_size: listing ? packSize(listing) : undefined,
   };
 }
 
@@ -816,7 +820,7 @@ export function groupUnmatched(items: readonly UnmatchedListing[]): UnmatchedGro
 export function bestInStockPriceCents(listings: Listing[]): number | null {
   const priced = listings
     .filter((l) => listingInStock(l.status))
-    .map((l) => unitPriceCents(l.price_cents, l.url)) // per-motor (pack-aware)
+    .map((l) => unitPriceCents(l.price_cents, l)) // per-motor (pack-aware)
     .filter((p): p is number => p != null);
   if (priced.length < 2) return null;
   return Math.min(...priced);
@@ -829,7 +833,7 @@ export function isBestInStockPrice(listing: Listing, bestCents: number | null): 
   return (
     bestCents != null &&
     listingInStock(listing.status) &&
-    unitPriceCents(listing.price_cents, listing.url) === bestCents
+    unitPriceCents(listing.price_cents, listing) === bestCents
   );
 }
 
@@ -853,8 +857,8 @@ export type ListingSort = "stock" | "price";
 function listingTiebreak(a: Listing, b: Listing, sort: ListingSort): number {
   if (sort === "price") {
     // Per-unit (pack-aware), to match the per-motor price the row displays.
-    const ap = unitPriceCents(a.price_cents, a.url) ?? Number.POSITIVE_INFINITY;
-    const bp = unitPriceCents(b.price_cents, b.url) ?? Number.POSITIVE_INFINITY;
+    const ap = unitPriceCents(a.price_cents, a) ?? Number.POSITIVE_INFINITY;
+    const bp = unitPriceCents(b.price_cents, b) ?? Number.POSITIVE_INFINITY;
     if (ap !== bp) return ap - bp;
   }
   return a.vendor_name.localeCompare(b.vendor_name);
@@ -910,7 +914,7 @@ function dedupeRenderedListings(listings: Listing[]): Listing[] {
     // Key on the VISIBLE columns (vendor name, stock state, per-unit price) —
     // that's what makes two rows indistinguishable. Per-unit, so a single and a
     // multipack at the same RAW price (different per-motor prices) aren't merged.
-    const unit = unitPriceCents(l.price_cents, l.url);
+    const unit = unitPriceCents(l.price_cents, l);
     const key = `${l.vendor_name}|${l.status}|${l.stock_count ?? ""}|${l.lead_time ?? ""}|${unit ?? ""}`;
     if (seen.has(key)) continue;
     seen.add(key);
