@@ -17,6 +17,7 @@ import {
   formatBurn,
   formatImpulse,
   formatPrice,
+  isSentinelPrice,
   formatThrust,
   groupByDelay,
   groupUnmatched,
@@ -100,9 +101,26 @@ describe("formatPrice", () => {
     expect(formatPrice(null, "USD")).toBe("—");
   });
 
-  it("suppresses the four-nines placeholder price as 'no price'", () => {
-    expect(formatPrice(999999, "USD")).toBe("—"); // $9,999.99 sentinel
-    expect(formatPrice(150000, "USD")).toBe("$1,500.00"); // a real (high) motor still shows
+  it("shows real big-motor prices, hiding only absurd all-nines placeholders", () => {
+    // Real prices on the biggest motors (O-class) — all must show, including the
+    // $9,999.99 that looks like a placeholder but is a genuine AeroTech O6000 price.
+    expect(formatPrice(999999, "USD")).toBe("$9,999.99");
+    expect(formatPrice(999900, "USD")).toBe("$9,999.00");
+    expect(formatPrice(944199, "USD")).toBe("$9,441.99");
+    expect(formatPrice(920200, "USD")).toBe("$9,202.00");
+    expect(formatPrice(150000, "USD")).toBe("$1,500.00");
+    // Only an absurd all-nines value is a "not for sale" placeholder.
+    expect(formatPrice(9999999, "USD")).toBe("—"); // $99,999.99
+  });
+
+  it("isSentinelPrice flags only absurd all-nines placeholders", () => {
+    expect(isSentinelPrice(9999999)).toBe(true); // $99,999.99
+    expect(isSentinelPrice(99999999)).toBe(true); // $999,999.99
+    expect(isSentinelPrice(999999)).toBe(false); // $9,999.99 — real (O-class)
+    expect(isSentinelPrice(999900)).toBe(false); // $9,999.00 — real
+    expect(isSentinelPrice(944199)).toBe(false); // $9,441.99 — real
+    expect(isSentinelPrice(1000000)).toBe(false); // $10,000.00 — real
+    expect(isSentinelPrice(null)).toBe(false);
   });
 
   it("falls back to a dollar string on an invalid scraped currency (no crash)", () => {
@@ -257,7 +275,7 @@ describe("manufacturerSlug / motorPath", () => {
       listings: [
         makeListing({ vendor_name: "Wildman", price_cents: 7499, status: "in_stock", currency: "USD" }),
         makeListing({ vendor_name: "Sirius", price_cents: 8100, status: "out_of_stock" }),
-        makeListing({ vendor_name: "AeroTech-direct", price_cents: 999999, status: "special_order" }), // sentinel
+        makeListing({ vendor_name: "AeroTech-direct", price_cents: 9999999, status: "special_order" }), // $99,999.99 placeholder
         makeListing({ vendor_name: "Moto-Joe", price_cents: null, status: "out_of_stock" }), // no price
       ],
     });
@@ -273,7 +291,7 @@ describe("manufacturerSlug / motorPath", () => {
     const offers = ld.offers;
     expect(offers["@type"]).toBe("AggregateOffer");
     expect(offers.lowPrice).toBe("74.99"); // cheapest real price
-    expect(offers.highPrice).toBe("81.00"); // sentinel 9999.99 excluded
+    expect(offers.highPrice).toBe("81.00"); // $99,999.99 placeholder excluded
     expect(offers.offerCount).toBe(2); // matches the real-priced offers array
     expect(offers.offers).toHaveLength(2); // only the two real-priced ones
     expect(offers.availability).toBe("https://schema.org/InStock"); // one is in stock
