@@ -2,8 +2,13 @@ import { defineConfig, devices } from "@playwright/test";
 
 // Headless browser (Chromium) end-to-end tests. These cover the interactive
 // behavior the node/vitest unit tests can't — instant client-side filtering, URL
-// sync, Back/clear, SSR deep-links, and a clean hydration (no console errors).
-// Run against a production build: `npm run build` first, then `npm run test:e2e`.
+// sync, Back/clear, deep-links, and a clean hydration (no console errors).
+//
+// Run against the STATIC EXPORT: `npm run build` first (emits out/), then
+// `npm run test:e2e`. The webServer serves out/ with `serve` instead of
+// `next start` (which doesn't work with output: export), using e2e-serve.json to
+// emulate the Cloudflare _redirects rewrite (one compare shell for any
+// /compare/<ids>) and the _headers security headers.
 
 export default defineConfig({
   testDir: "./e2e",
@@ -18,7 +23,9 @@ export default defineConfig({
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
-    command: "npm run start",
+    // Serve the static export (out/) on :3000 with the Cloudflare-emulating
+    // config (e2e-serve.json). `--no-clipboard` keeps `serve` non-interactive.
+    command: "npx serve -c e2e-serve.json -l 3000 --no-clipboard --no-request-logging",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
