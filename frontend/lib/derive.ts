@@ -13,7 +13,8 @@ export const MIN_CLASS = "D";
 /** NAR/Tripoli certification ladder, by impulse class (which is itself a total-
  * impulse bracket). HPR certification is usually gated by impulse class
  * (L1 = H–I, L2 = J–L, L3 = M–O), but a motor below H is ALSO high-power — and
- * needs L1 — if its average thrust tops 80 N; see {@link certRequirement}.
+ * needs L1 — if its average thrust tops 80 N or it's sparky; see
+ * {@link certRequirement}.
  * Lets a flyer filter to exactly what they're rated to buy and fly, and powers
  * the per-motor cert badge. Order matters: rendered as a ladder. */
 export const CERT_LEVELS: ReadonlyArray<{
@@ -46,36 +47,41 @@ export function certClasses(selected: ReadonlySet<string>): Set<string> {
 }
 
 // A motor BELOW the H impulse line is still a high-power motor (needs L1) when
-// its average thrust tops 80 N — the trigger vendors actually gate cert on.
-// Strict ">" 80 N so the classic "biggest motor you can fly uncertified" — a
-// G80 like the Enerjet G80-7T — stays no-cert; anything hotter needs L1.
-// (NFPA 1127 also counts > 62.5 g propellant and sparky/hybrid as high-power,
-// but vendors don't enforce those for purchase, so we mirror vendor practice.)
+// its average thrust tops 80 N, or it's sparky (spark-emitting) — the triggers
+// vendors actually gate purchase certification on. Verified against CSRocketry's
+// published "requires a L1 Certification to buy" flag, which fires for class H+,
+// average thrust > 80 N, or sparky — but NOT for propellant mass alone, so we
+// deliberately don't use NFPA's > 62.5 g propellant criterion here. Strict ">"
+// 80 N so the classic "biggest motor you can fly uncertified" — a G80 like the
+// Enerjet G80-7T — stays no-cert.
 const HP_AVG_THRUST_N = 80;
 
-/** The fields needed to decide a motor's cert requirement. ``avg_thrust_n`` is
+/** The fields needed to decide a motor's cert requirement. Non-class fields are
  * optional so a bare ``{ impulse_class }`` (e.g. the explainer's example badge)
  * still type-checks. */
 export type CertMotorInput = {
   impulse_class: string;
   avg_thrust_n?: number | null;
+  sparky?: boolean | null;
 };
 
 export type CertInfo = { key: string; label: string; sublabel: string; reason?: string };
 
 /** Why a sub-H motor is itself a "high-power motor" (so it needs L1) despite its
- * letter — or null if it doesn't. The trigger is average thrust over 80 N; the
- * returned string is shown to the flyer as the reason. */
+ * letter — or null if it doesn't. Triggers (vendor-enforced): average thrust
+ * over 80 N, or sparky propellant. The returned string is shown to the flyer as
+ * the reason. */
 export function highPowerMotorReason(m: CertMotorInput): string | null {
   if (m.avg_thrust_n != null && m.avg_thrust_n > HP_AVG_THRUST_N)
     return `${Math.round(m.avg_thrust_n)} N average thrust (over ${HP_AVG_THRUST_N} N)`;
+  if (m.sparky) return "spark-emitting (sparky) propellant";
   return null;
 }
 
 /** The HPR certification a motor REQUIRES to buy/fly, or null for none. Gated by
- * impulse class (L1 = H/I, L2 = J/L, L3 = M/O) plus average thrust: a sub-H
- * motor still requires L1 when its average thrust tops 80 N (see
- * {@link highPowerMotorReason}); ``reason`` explains that non-obvious case.
+ * impulse class (L1 = H/I, L2 = J/L, L3 = M/O) plus average thrust and sparky: a
+ * sub-H motor still requires L1 when its average thrust tops 80 N or it's sparky
+ * (see {@link highPowerMotorReason}); ``reason`` explains that non-obvious case.
  * Matches what vendors gate certification on, so the filter and badge reflect
  * what a flyer actually needs to be certified for. */
 export function certRequirement(m: CertMotorInput): CertInfo | null {

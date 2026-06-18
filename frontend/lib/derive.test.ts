@@ -423,9 +423,15 @@ describe("certRequirement", () => {
     expect(c?.reason).toContain("138 N average thrust");
   });
 
-  it("does NOT flag a sub-H motor that's only heavy on propellant/sparky (thrust ≤ 80)", () => {
-    // Only average thrust + class gate cert (vendor practice); a 79 N G with a
-    // big grain is still mid-power here.
+  it("flags a sparky sub-H motor as L1 even when thrust ≤ 80 (vendor-enforced)", () => {
+    const c = certRequirement({ impulse_class: "G", avg_thrust_n: 69, sparky: true });
+    expect(c?.label).toBe("L1");
+    expect(c?.reason).toContain("sparky");
+  });
+
+  it("does NOT flag a non-sparky sub-H motor with thrust ≤ 80 (propellant ignored)", () => {
+    // A 79 N non-sparky G with a big grain stays mid-power: vendors don't gate
+    // cert on propellant mass.
     expect(certRequirement({ impulse_class: "G", avg_thrust_n: 79 })).toBeNull();
   });
 
