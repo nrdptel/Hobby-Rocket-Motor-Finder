@@ -33,14 +33,14 @@ Released under the [MIT License](LICENSE) — fork it, modify it, deploy your ow
 
 ## What's covered
 
-Today: AeroTech across ten vendors (including manufacturer-direct from AeroTech itself); Cesaroni (CTI) on Chris' Rocket Supplies, Wildman Rocketry, Performance Hobbies, and Moto-Joe Rocketry; and Loki Research direct from the manufacturer and via Performance Hobbies.
+Today: AeroTech across ten vendors (including manufacturer-direct from AeroTech itself); Cesaroni (CTI) on Chris' Rocket Supplies, Wildman Rocketry, Performance Hobbies, Moto-Joe Rocketry, and Animal Motor Works; and Loki Research direct from the manufacturer and via Performance Hobbies.
 
 | Vendor | State | Platform | Motors |
 |---|---|---|---|
 | [Chris' Rocket Supplies](https://www.csrocketry.com) | GA | Custom (Schema.org JSON-LD) | AeroTech, Cesaroni |
 | [BuyRocketMotors](https://www.buyrocketmotors.com) | TX | Shopify | AeroTech |
 | [Wildman Rocketry](https://wildmanrocketry.com) | IL | Shopify | AeroTech, Cesaroni |
-| [Animal Motor Works](https://cart.amwprox.com) | AZ | VirtueMart | AeroTech |
+| [Animal Motor Works](https://cart.amwprox.com) | AZ | VirtueMart | AeroTech, Cesaroni |
 | [Sirius Rocketry](https://www.siriusrocketry.biz) | WI | Zen Cart | AeroTech |
 | [Loki Research](https://lokiresearch.com) | MO | Custom (ASP store) | Loki |
 | [Performance Hobbies](https://performancehobbies.com) | VA | Custom (ASP.NET store) | AeroTech, Cesaroni, Loki |

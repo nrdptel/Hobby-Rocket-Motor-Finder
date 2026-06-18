@@ -318,3 +318,51 @@ def infer_cti_propellant(title: str) -> str | None:
         if needle in lower:
             return propinfo
     return None
+
+
+# AMW is the one Cesaroni vendor that encodes the propellant as a short code
+# glued straight onto the commonName ("K530SS 54-4G Reload") instead of spelling
+# the flavor out, so neither extract_cti_designation (its commonName regex needs
+# a boundary after the digits) nor infer_cti_propellant (matches flavor *names*)
+# fires on AMW's raw text. These are AMW's OWN codes — note it uses non-standard
+# CL (Classic) and MY (Mellow), and assigns SK=Skidmark / SS=Smoky Sam — so each
+# was verified 1:1 against the ThrustCurve Cesaroni catalog rather than assumed
+# from Cesaroni's published abbreviations. An unrecognized code maps to None, and
+# the matcher then falls back to a commonName-only match (never a wrong flavor).
+AMW_CTI_PROPELLANT_CODES = {
+    "BS": "Blue Streak",
+    "CL": "Classic",
+    "CS": "C-Star",
+    "IM": "Imax",
+    "MY": "Mellow",
+    "P": "Pink",
+    "RL": "Red Lightning",
+    "SK": "Skidmark",
+    "SS": "Smoky Sam",
+    "VM": "Vmax",
+    "WH": "White",
+    "WT": "White Thunder",
+}
+
+# Class letter (D-O, the HPR range we cover) + 2-5 thrust digits + an optional
+# 1-2 letter propellant code. Case-SENSITIVE on purpose: the casing/hardware rows
+# AMW lists in the same categories ("Pro54-1 Casing", "Pro98-Nozzle Holder")
+# contain a lowercase "o" that an IGNORECASE [D-O] would wrongly read as a motor.
+_AMW_CTI_DESIGNATION_RE = re.compile(r"\b([D-O]\d{2,5})([A-Z]{1,2})?\b")
+
+
+def parse_amw_cti(raw: str) -> tuple[str, str | None] | None:
+    """Parse one of AMW's Cesaroni rows into ``(commonName, propInfo)``.
+
+    ``"K530SS 54-4G Reload"`` -> ``("K530", "Smoky Sam")``;
+    ``"O25,000VM"``           -> ``("O25000", "Vmax")``.
+    Returns ``None`` when no CTI motor designation is present — AMW's casings,
+    spacers, nozzle holders and centering rings carry no class designation, so
+    this is what keeps that hardware out of the motor listings. ``propInfo`` is
+    ``None`` for an unrecognized code (the matcher then uses commonName alone)."""
+    if not raw:
+        return None
+    m = _AMW_CTI_DESIGNATION_RE.search(raw.replace(",", ""))
+    if not m:
+        return None
+    return m.group(1).upper(), AMW_CTI_PROPELLANT_CODES.get((m.group(2) or "").upper())
