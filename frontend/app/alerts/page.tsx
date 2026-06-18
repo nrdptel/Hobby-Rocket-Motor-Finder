@@ -32,7 +32,7 @@ export default function AlertsPage() {
             you&apos;re subscribed to, where you can unsubscribe from any or all of them.
             No restock needed.
           </p>
-          <p className="mt-2 max-w-prose text-xs leading-relaxed text-zinc-500 dark:text-zinc-500">
+          <p className="mt-2 max-w-prose text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
             For your privacy, we always show the same message and never reveal whether an
             address is subscribed — your list opens only from the link we email you. See our{" "}
             <Link

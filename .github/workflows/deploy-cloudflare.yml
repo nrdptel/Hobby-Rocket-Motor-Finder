@@ -4,15 +4,16 @@ name: Deploy to Cloudflare Pages
 #
 # Triggers:
 #   - workflow_dispatch: manual deploy from the Actions tab.
-#   - workflow_run: after the hourly scrape workflow completes, so each fresh
-#     snapshot redeploys the site (the snapshot is bundled at build time). The
-#     scrape workflow is named "Scrape" below — if/when it's added under a
-#     different name, update `workflows:` to match (or have the scrape job call
-#     this one via `repository_dispatch` / a reusable `workflow_call` instead).
+#   - workflow_run: after the hourly scrape workflow (.github/workflows/scrape.yml,
+#     `name: scrape`) completes, so each fresh snapshot redeploys the site (the
+#     snapshot is bundled at build time). `workflows:` matches that workflow's
+#     `name:` exactly (case-sensitive). NOTE: a workflow_run trigger only fires
+#     once this file is on the default branch, so the FIRST deploys are manual
+#     (workflow_dispatch) or `wrangler pages deploy` until cutover.
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Scrape"]
+    workflows: ["scrape"]
     types: [completed]
 
 # One in-flight deploy at a time; newer snapshot supersedes an older one.
