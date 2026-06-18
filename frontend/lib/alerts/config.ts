@@ -20,22 +20,28 @@ export type AlertConfig = {
   siteUrl: string;
 };
 
+/** A record of env vars. On Node/Next this is `process.env`; in a Cloudflare
+ * Pages Function it's the per-request `context.env` binding (env is NOT on
+ * `process.env` there). */
+export type EnvSource = Record<string, string | undefined>;
+
 /** Resolve the full alert config from env, or null if any required piece is
- * missing (→ alerts disabled). */
-export function alertConfig(): AlertConfig | null {
-  const token = process.env.ZEPTOMAIL_TOKEN;
-  const host = process.env.ZEPTOMAIL_HOST || "api.zeptomail.com";
-  const from = process.env.ALERTS_FROM;
-  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
-  const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
-  const secret = process.env.ALERTS_SECRET;
-  const dispatchSecret = process.env.ALERTS_DISPATCH_SECRET;
+ * missing (→ alerts disabled). Defaults to `process.env` (Node/Next); a
+ * Cloudflare Pages Function passes its `context.env` instead. */
+export function alertConfig(env: EnvSource = process.env): AlertConfig | null {
+  const token = env.ZEPTOMAIL_TOKEN;
+  const host = env.ZEPTOMAIL_HOST || "api.zeptomail.com";
+  const from = env.ALERTS_FROM;
+  const upstashUrl = env.UPSTASH_REDIS_REST_URL;
+  const upstashToken = env.UPSTASH_REDIS_REST_TOKEN;
+  const secret = env.ALERTS_SECRET;
+  const dispatchSecret = env.ALERTS_DISPATCH_SECRET;
   if (
     !token || !from || !upstashUrl || !upstashToken || !secret || !dispatchSecret
   ) {
     return null;
   }
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
+  const siteUrl = env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
   return {
     zepto: { host, token },
     from, upstashUrl, upstashToken, secret, dispatchSecret, siteUrl,

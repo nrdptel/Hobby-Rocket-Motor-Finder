@@ -77,9 +77,18 @@ vi.mock("@/lib/alerts/email", async (importOriginal) => {
 
 import { motorKey, subKey, userMotorsKey } from "@/lib/alerts/config";
 import { signToken } from "@/lib/alerts/tokens";
-import { POST as subscribe } from "@/app/api/alerts/subscribe/route";
-import { GET as confirm } from "@/app/api/alerts/confirm/route";
-import { GET as unsubscribe } from "@/app/api/alerts/unsubscribe/route";
+import {
+  handleSubscribe,
+  handleConfirm,
+  handleUnsubscribe,
+} from "@/lib/alerts/handlers";
+
+// The route handlers now live in lib/alerts/handlers.ts (moved out of the Next
+// app so they can run as Cloudflare Pages Functions under static export). They
+// take (request, env); on Node we pass process.env, matching production Next.
+const subscribe = (req: Request) => handleSubscribe(req, process.env);
+const confirm = (req: Request) => handleConfirm(req, process.env);
+const unsubscribe = (req: Request) => handleUnsubscribe(req, process.env);
 
 const SECRET = "integration-secret";
 const MFR = "AeroTech";
