@@ -71,7 +71,7 @@ export function MotorCard({
         >
           {motor.designation}
         </Link>
-        <CertBadge impulseClass={motor.impulse_class} />
+        <CertBadge motor={motor} />
         {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
         <SparkyBadge sparky={motor.sparky} />
         <MotorAvailabilityBadge availability={availability} discontinued={motor.discontinued} />

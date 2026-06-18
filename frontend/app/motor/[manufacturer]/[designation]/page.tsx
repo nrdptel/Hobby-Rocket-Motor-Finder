@@ -16,6 +16,7 @@ import {
   MIN_CLASS,
   bestInStockPriceCents,
   buildMotorJsonLd,
+  certRequirement,
   cheapestInStockCents,
   cheapestInStockListing,
   designationFromSlug,
@@ -179,6 +180,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
   const caseLabel =
     motor.motor_type === "SU" ? "Single use" : motor.case_info ? motor.case_info : null;
 
+  const cert = certRequirement(motor);
   const isp = specificImpulseS(motor);
   const burn = burnCharacter(motor);
   const specs: { label: string; value: string }[] = [
@@ -229,7 +231,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           <h1 className="font-mono text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
             {motor.designation}
           </h1>
-          <CertBadge impulseClass={motor.impulse_class} />
+          <CertBadge motor={motor} />
           {motor.listings.length > 0 && <DiscontinuedBadge discontinued={motor.discontinued} />}
           <SparkyBadge sparky={motor.sparky} />
         </div>
@@ -247,6 +249,12 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
         >
           {stockSummary(motor)}
         </p>
+        {cert && (
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
+            Requires NAR/Tripoli <span className="font-medium">{cert.label}</span> certification
+            {cert.reason ? ` — a high-power motor (${cert.reason}), despite its ${motor.impulse_class} class` : ""}.
+          </p>
+        )}
       </header>
 
       {/* Specs */}
