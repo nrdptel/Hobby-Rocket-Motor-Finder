@@ -8,18 +8,13 @@ import { MAX_COMPARE } from "@/lib/compareSelection";
 import { type CurveSeries } from "../../components/ThrustCurveChart";
 import { ComparePageBody } from "../../components/ComparePageBody";
 
-// 24h: the data is bundled at build time and freshness is bounded by the hourly
-// redeploy, not this timer, so a long window only avoids regenerating identical
-// HTML (saving metered ISR writes) with no effect on what users see.
-export const revalidate = 86400;
-
-// Prerender no specific comparison; each unique id-combination renders on its
-// first request and is then ISR-cached (s-maxage), so shared compare links serve
-// from the edge instead of forcing a per-request dynamic render. The server
-// still resolves only the 2–4 selected motors, so the payload stays tiny.
-export function generateStaticParams() {
-  return [];
-}
+// Dynamic, NOT ISR. The id-combinations are unbounded (any 2–4 motors), so under
+// ISR every distinct/shared compare URL minted a new cache entry — a metered ISR
+// *write* — and the hourly redeploy flushed them all to be re-written. Rendering
+// on demand instead produces byte-identical HTML (the server still resolves only
+// the 2–4 selected motors, so the payload stays tiny) with zero ISR writes. This
+// is a transient, `noindex` view, so not edge-caching it is a non-issue.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Compare motors — HPR Motor Finder",
