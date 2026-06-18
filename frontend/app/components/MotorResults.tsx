@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   BURN_LABEL,
@@ -22,6 +22,7 @@ import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import type { CatalogHistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
+import { loadScroll, saveScroll } from "@/lib/catalogSession";
 import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
@@ -108,6 +109,48 @@ export function MotorResults({
     return () => cancelAnimationFrame(id);
   }, [shown, visible.length]);
   const windowed = visible.slice(0, shown);
+
+  // Scroll restoration: on a Back navigation from a motor page (which remounts
+  // this component), return the viewer to where they were in the list. The saved
+  // offset is captured once on mount. Because the list fills progressively, a
+  // deep offset has no DOM to land on yet, so we first grow the render window to
+  // cover it, then jump. We wait a beat before arming so the filter (applied in
+  // a post-hydration effect that reshapes `motors`) has settled — restoring into
+  // the wrong, unfiltered list would put us at the wrong row.
+  const [restoreTarget] = useState(() => (typeof window !== "undefined" ? loadScroll() : 0));
+  const restoredRef = useRef(restoreTarget === 0);
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (restoredRef.current) return;
+    const t = setTimeout(() => setArmed(true), 200);
+    return () => clearTimeout(t);
+  }, []);
+  useEffect(() => {
+    if (restoredRef.current || !armed) return;
+    const needed = restoreTarget + window.innerHeight;
+    if (shown < visible.length && document.documentElement.scrollHeight < needed) {
+      // Render the rest so a deep offset has somewhere to land, then re-run.
+      setShown(visible.length);
+      return;
+    }
+    window.scrollTo(0, restoreTarget);
+    restoredRef.current = true;
+  }, [armed, restoreTarget, shown, visible.length]);
+
+  // Remember the scroll position at the moment the viewer opens a motor's detail
+  // page, so a later Back can restore it. We record it on the link click in the
+  // CAPTURE phase — before Next navigates and scrolls the new page to the top
+  // (a continuous scroll listener would instead save that scroll-to-0 and lose
+  // the position). Catches both the desktop table and the mobile card links.
+  useEffect(() => {
+    const onClickCapture = (e: MouseEvent) => {
+      const target = e.target as Element | null;
+      const anchor = target?.closest?.('a[href^="/motor/"]');
+      if (anchor) saveScroll(window.scrollY);
+    };
+    document.addEventListener("click", onClickCapture, true);
+    return () => document.removeEventListener("click", onClickCapture, true);
+  }, []);
 
   // Empty-state copy depends on *why* it's empty.
   let emptyMessage = "No motors match the current filters.";
