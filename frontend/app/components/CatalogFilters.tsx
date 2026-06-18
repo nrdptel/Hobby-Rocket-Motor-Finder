@@ -111,18 +111,33 @@ export function CatalogFilterProvider({
     }
   }, []);
 
-  // On mount (incl. a Back navigation that remounts this provider), adopt the
-  // filter. The static page seeds us empty, so this is what applies a shared
-  // filtered link or a remembered filter after hydration. Runs once.
+  // Back/forward WITHIN the catalog (no remount: filtering is client-side, so the
+  // provider stays mounted). Here we must read the URL the browser restored and
+  // trust it — including an empty query, which is a Back that undoes a filter.
+  // Crucially we do NOT fall back to the remembered filter (that would re-apply
+  // the very filter the user is backing out of); instead we sync the remembered
+  // value to the restored URL, so a later motor-page Back won't resurrect a stale
+  // filter. The remembered-filter fallback is reserved for the mount path below.
+  const onPop = useCallback(() => {
+    const fromUrl = window.location.search.replace(/^\?/, "");
+    saveFilter(fromUrl);
+    setSearch(fromUrl);
+  }, []);
+
+  // On mount, adopt the filter. This is also the path taken when returning from a
+  // motor page: that's a real route change, so the home page (and this provider)
+  // remounts rather than firing popstate here — which is exactly why the mount
+  // path, not onPop, owns restoring the remembered filter. The static page seeds
+  // us empty, so this applies a shared filtered link or remembered filter after
+  // hydration. Runs once.
   useEffect(() => {
     adopt();
   }, [adopt]);
 
-  // Back/forward within the catalog: re-adopt from the URL the browser restored.
   useEffect(() => {
-    window.addEventListener("popstate", adopt);
-    return () => window.removeEventListener("popstate", adopt);
-  }, [adopt]);
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [onPop]);
 
   const value = useMemo(
     () => ({ params, update, replace, clearAll }),
