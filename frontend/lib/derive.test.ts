@@ -413,33 +413,24 @@ describe("certRequirement", () => {
 
   it("returns null for a true mid/low-power motor and unknown classes", () => {
     expect(certRequirement({ impulse_class: "D", avg_thrust_n: 12 })).toBeNull();
-    expect(certRequirement({ impulse_class: "G", avg_thrust_n: 60, prop_weight_g: 40 })).toBeNull();
+    expect(certRequirement({ impulse_class: "G", avg_thrust_n: 60 })).toBeNull();
     expect(certRequirement({ impulse_class: "Z" })).toBeNull();
   });
 
   it("flags a sub-H motor as L1 when average thrust tops 80 N (e.g. G138)", () => {
-    const c = certRequirement({ impulse_class: "G", avg_thrust_n: 138, prop_weight_g: 70 });
+    const c = certRequirement({ impulse_class: "G", avg_thrust_n: 138 });
     expect(c?.label).toBe("L1");
     expect(c?.reason).toContain("138 N average thrust");
   });
 
-  it("flags a sub-H motor as L1 on propellant mass alone (thrust under 80)", () => {
-    const c = certRequirement({ impulse_class: "G", avg_thrust_n: 79, prop_weight_g: 83 });
-    expect(c?.label).toBe("L1");
-    expect(c?.reason).toContain("83 g propellant");
-  });
-
-  it("flags sparky and hybrid sub-H motors as L1", () => {
-    expect(certRequirement({ impulse_class: "G", avg_thrust_n: 60, sparky: true })?.reason).toContain(
-      "sparky",
-    );
-    expect(
-      certRequirement({ impulse_class: "G", avg_thrust_n: 60, motor_type: "hybrid" })?.reason,
-    ).toContain("hybrid");
+  it("does NOT flag a sub-H motor that's only heavy on propellant/sparky (thrust ≤ 80)", () => {
+    // Only average thrust + class gate cert (vendor practice); a 79 N G with a
+    // big grain is still mid-power here.
+    expect(certRequirement({ impulse_class: "G", avg_thrust_n: 79 })).toBeNull();
   });
 
   it("keeps a G80 at exactly 80 N uncertified (strict > 80, the Enerjet G80-7T)", () => {
-    expect(certRequirement({ impulse_class: "G", avg_thrust_n: 80, prop_weight_g: 50 })).toBeNull();
+    expect(certRequirement({ impulse_class: "G", avg_thrust_n: 80 })).toBeNull();
   });
 });
 
@@ -449,18 +440,18 @@ describe("certKey", () => {
     expect(certKey({ impulse_class: "M" })).toBe("l3");
     // A hot G resolves to l1, a plain G to mid.
     expect(certKey({ impulse_class: "G", avg_thrust_n: 138 })).toBe("l1");
-    expect(certKey({ impulse_class: "G", avg_thrust_n: 60, prop_weight_g: 40 })).toBe("mid");
+    expect(certKey({ impulse_class: "G", avg_thrust_n: 60 })).toBe("mid");
   });
 });
 
 describe("highPowerMotorReason", () => {
-  it("returns null when no trigger fires", () => {
-    expect(highPowerMotorReason({ impulse_class: "G", avg_thrust_n: 80, prop_weight_g: 62.5 })).toBeNull();
+  it("returns null when average thrust is 80 N or below", () => {
+    expect(highPowerMotorReason({ impulse_class: "G", avg_thrust_n: 80 })).toBeNull();
   });
-  it("prefers average thrust over the other triggers", () => {
-    expect(
-      highPowerMotorReason({ impulse_class: "G", avg_thrust_n: 120, prop_weight_g: 90, sparky: true }),
-    ).toContain("average thrust");
+  it("returns the average-thrust reason when it tops 80 N", () => {
+    expect(highPowerMotorReason({ impulse_class: "G", avg_thrust_n: 120 })).toContain(
+      "average thrust",
+    );
   });
 });
 

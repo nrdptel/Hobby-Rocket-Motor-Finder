@@ -13,8 +13,7 @@ export const MIN_CLASS = "D";
 /** NAR/Tripoli certification ladder, by impulse class (which is itself a total-
  * impulse bracket). HPR certification is usually gated by impulse class
  * (L1 = H–I, L2 = J–L, L3 = M–O), but a motor below H is ALSO high-power — and
- * needs L1 — if it crosses a non-impulse NFPA 1127 line (average thrust > 80 N,
- * > 62.5 g propellant, or sparky/hybrid propellant); see {@link certRequirement}.
+ * needs L1 — if its average thrust tops 80 N; see {@link certRequirement}.
  * Lets a flyer filter to exactly what they're rated to buy and fly, and powers
  * the per-motor cert badge. Order matters: rendered as a ladder. */
 export const CERT_LEVELS: ReadonlyArray<{
@@ -46,45 +45,39 @@ export function certClasses(selected: ReadonlySet<string>): Set<string> {
   return out;
 }
 
-// NFPA 1127 high-power-motor triggers for a motor BELOW the H impulse line.
+// A motor BELOW the H impulse line is still a high-power motor (needs L1) when
+// its average thrust tops 80 N — the trigger vendors actually gate cert on.
 // Strict ">" 80 N so the classic "biggest motor you can fly uncertified" — a
 // G80 like the Enerjet G80-7T — stays no-cert; anything hotter needs L1.
+// (NFPA 1127 also counts > 62.5 g propellant and sparky/hybrid as high-power,
+// but vendors don't enforce those for purchase, so we mirror vendor practice.)
 const HP_AVG_THRUST_N = 80;
-const HP_PROP_WEIGHT_G = 62.5;
 
-/** The fields needed to decide a motor's cert requirement. Non-class fields are
+/** The fields needed to decide a motor's cert requirement. ``avg_thrust_n`` is
  * optional so a bare ``{ impulse_class }`` (e.g. the explainer's example badge)
  * still type-checks. */
 export type CertMotorInput = {
   impulse_class: string;
   avg_thrust_n?: number | null;
-  prop_weight_g?: number | null;
-  sparky?: boolean | null;
-  motor_type?: string | null;
 };
 
 export type CertInfo = { key: string; label: string; sublabel: string; reason?: string };
 
 /** Why a sub-H motor is itself a "high-power motor" (so it needs L1) despite its
- * letter — or null if it genuinely needs no cert. Checks the non-impulse NFPA
- * 1127 triggers in priority order: average thrust, propellant mass, sparky,
- * hybrid. The returned string is shown to the flyer as the reason. */
+ * letter — or null if it doesn't. The trigger is average thrust over 80 N; the
+ * returned string is shown to the flyer as the reason. */
 export function highPowerMotorReason(m: CertMotorInput): string | null {
   if (m.avg_thrust_n != null && m.avg_thrust_n > HP_AVG_THRUST_N)
     return `${Math.round(m.avg_thrust_n)} N average thrust (over ${HP_AVG_THRUST_N} N)`;
-  if (m.prop_weight_g != null && m.prop_weight_g > HP_PROP_WEIGHT_G)
-    return `${Math.round(m.prop_weight_g)} g propellant (over ${HP_PROP_WEIGHT_G} g)`;
-  if (m.sparky) return "spark-emitting (sparky) propellant";
-  if ((m.motor_type ?? "").toLowerCase() === "hybrid") return "hybrid motor";
   return null;
 }
 
-/** The HPR certification a motor REQUIRES to buy/fly, or null for none. Beyond
- * the impulse class (L1 = H/I, L2 = J/L, L3 = M/O), a sub-H motor still requires
- * L1 when it meets a non-impulse high-power trigger (see
- * {@link highPowerMotorReason}); ``reason`` explains those non-obvious cases.
- * Replaces letter-only logic so the filter and badge match what a flyer
- * actually needs to be certified for. Used for the per-motor cert badge. */
+/** The HPR certification a motor REQUIRES to buy/fly, or null for none. Gated by
+ * impulse class (L1 = H/I, L2 = J/L, L3 = M/O) plus average thrust: a sub-H
+ * motor still requires L1 when its average thrust tops 80 N (see
+ * {@link highPowerMotorReason}); ``reason`` explains that non-obvious case.
+ * Matches what vendors gate certification on, so the filter and badge reflect
+ * what a flyer actually needs to be certified for. */
 export function certRequirement(m: CertMotorInput): CertInfo | null {
   const byClass = CLASS_TO_CERT.get(m.impulse_class);
   if (byClass && byClass.key !== "mid") return byClass; // H and up — by impulse class
