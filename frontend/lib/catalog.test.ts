@@ -119,8 +119,24 @@ describe("filterCatalog — each dimension narrows like the original page", () =
   it("manufacturer", () =>
     expect(ids({ ...EMPTY, mfr: new Set(["Cesaroni"]) })).toEqual([2]));
   it("class", () => expect(ids({ ...EMPTY, cls: new Set(["H"]) })).toEqual([3]));
-  it("cert expands to classes (L2 = J/K, not H)", () =>
+  it("cert filter matches required level (L2 = J/K, not the H motor)", () =>
     expect(ids({ ...EMPTY, cert: new Set(["l2"]) }).sort()).toEqual([1, 2]));
+
+  it("cert filter uses the motor's REAL requirement: a hot G is L1, a plain G is mid", () => {
+    const hotG = motor({
+      id: 10, designation: "G138T", impulse_class: "G", total_impulse_ns: 157,
+      avg_thrust_n: 138, prop_weight_g: 70,
+    });
+    const plainG = motor({
+      id: 11, designation: "G80-7T", impulse_class: "G", total_impulse_ns: 120,
+      avg_thrust_n: 80, prop_weight_g: 40,
+    });
+    const cat = [hotG, plainG];
+    const got = (p: CatalogParams) => filterCatalog(cat, p).map((m) => m.id).sort();
+    // L1 filter surfaces the high-thrust G; Mid-power surfaces only the true single.
+    expect(got({ ...EMPTY, cert: new Set(["l1"]) })).toEqual([10]);
+    expect(got({ ...EMPTY, cert: new Set(["mid"]) })).toEqual([11]);
+  });
   it("diameter", () => expect(ids({ ...EMPTY, dia: new Set(["29"]) })).toEqual([3]));
   it("case", () =>
     expect(ids({ ...EMPTY, cases: new Set(["Pro54-5G"]) })).toEqual([2]));
