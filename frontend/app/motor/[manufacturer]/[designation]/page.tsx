@@ -128,12 +128,26 @@ export async function generateMetadata({
   )}. Live availability + pricing across U.S. high-power rocketry vendors, with a restock alert.`;
   const url = motorPath(motor);
   const ogTitle = `${name} — availability & pricing`;
+  // Per-motor OG cards are pre-generated at build (scripts/gen-og.mjs) ONLY for
+  // stocked motors — the same universe the old dynamic route rendered. Phantoms
+  // (no listing) fall back to the site-wide default card, matching the dynamic
+  // route's own generic fallback. Paths resolve absolutely via metadataBase.
+  const ogImage =
+    motor.listings.length > 0
+      ? `/og/motor/${manufacturerSlug(motor.manufacturer)}/${designationToSlug(motor.designation)}.png`
+      : "/og/default.png";
   return {
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { type: "article", title: ogTitle, description, url },
-    twitter: { card: "summary_large_image", title: ogTitle, description },
+    openGraph: {
+      type: "article",
+      title: ogTitle,
+      description,
+      url,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", title: ogTitle, description, images: [ogImage] },
   };
 }
 
