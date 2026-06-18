@@ -57,9 +57,11 @@ import { SnapshotTime } from "@/app/components/SnapshotTime";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { StarButton } from "@/app/components/StarButton";
 
-// Match the catalog: the snapshot refreshes hourly, so re-render at most once a
-// minute. New motors (not in generateStaticParams at build) render on demand.
-export const revalidate = 60;
+// Match the catalog: the bundled snapshot only changes via the hourly scrape
+// redeploy, so re-render at most once an hour — a tighter window just regenerates
+// identical HTML (660+ motor pages × frequent crawler hits is the dominant ISR
+// write cost). New motors (not in generateStaticParams at build) render on demand.
+export const revalidate = 3600;
 
 type Params = { manufacturer: string; designation: string };
 
