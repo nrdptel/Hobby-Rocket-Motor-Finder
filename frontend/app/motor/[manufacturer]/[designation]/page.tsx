@@ -58,10 +58,12 @@ import { SiteHeader } from "@/app/components/SiteHeader";
 import { StarButton } from "@/app/components/StarButton";
 
 // Match the catalog: the bundled snapshot only changes via the hourly scrape
-// redeploy, so re-render at most once an hour — a tighter window just regenerates
-// identical HTML (660+ motor pages × frequent crawler hits is the dominant ISR
-// write cost). New motors (not in generateStaticParams at build) render on demand.
-export const revalidate = 3600;
+// redeploy, never via this timer (which re-renders identical HTML). 660+ motor
+// pages × frequent crawler hits make these the dominant ISR-write cost, so we set
+// the window high (24h) to cap each page at ~1 regen/day instead of ~24 — no
+// freshness change (deploy-bounded). New motors (not in generateStaticParams at
+// build) render on demand, from the same bundled snapshot.
+export const revalidate = 86400;
 
 type Params = { manufacturer: string; designation: string };
 

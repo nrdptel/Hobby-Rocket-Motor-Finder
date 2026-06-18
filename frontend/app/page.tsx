@@ -33,11 +33,12 @@ import { StatusBadge } from "./components/StatusBadge";
 import { ThemeToggle } from "./components/ThemeToggle";
 
 // The snapshot is bundled at build time (not fetched at runtime), so new data
-// reaches users only via a redeploy on the hourly scrape commit — between
-// deploys the data never changes. Revalidate hourly to match that cadence: a 60s
-// ceiling just re-rendered byte-identical HTML up to 60× more often, burning ISR
-// writes (Vercel's metered free tier) for zero freshness gain.
-export const revalidate = 3600;
+// reaches users only via a redeploy on the hourly scrape commit — never via this
+// timer, which can only re-render the SAME bundled data. Freshness is therefore
+// bounded by the redeploy cadence regardless of this value, so we set it high
+// (24h) purely to minimize metered ISR writes: each background regen reproduces
+// byte-identical HTML, so a tighter window only costs writes for no freshness gain.
+export const revalidate = 86400;
 
 export default async function Home() {
   const [snapshot, history, historyLog, catalog] = await Promise.all([
