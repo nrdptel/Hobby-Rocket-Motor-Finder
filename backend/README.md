@@ -39,7 +39,7 @@ hpr_finder/
     csrocketry.py        Chris' Rocket Supplies (AeroTech, Cesaroni)
     buyrocketmotors.py   BuyRocketMotors (AeroTech)
     wildman.py           Wildman Rocketry (AeroTech, Cesaroni)
-    amw.py               Animal Motor Works (AeroTech)
+    amw.py               Animal Motor Works (AeroTech, Cesaroni)
     sirius.py            Sirius Rocketry (AeroTech)
     loki.py              Loki Research (Loki)
     performancehobbies.py  Performance Hobbies (AeroTech, Cesaroni, Loki)
