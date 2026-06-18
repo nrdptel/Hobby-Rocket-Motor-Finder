@@ -8,7 +8,9 @@ import { MAX_COMPARE } from "@/lib/compareSelection";
 import { type CurveSeries } from "../../components/ThrustCurveChart";
 import { ComparePageBody } from "../../components/ComparePageBody";
 
-export const revalidate = 60;
+// Hourly, matching the snapshot's scrape/redeploy cadence: the data is bundled at
+// build time, so re-rendering more often only yields identical HTML and ISR writes.
+export const revalidate = 3600;
 
 // Prerender no specific comparison; each unique id-combination renders on its
 // first request and is then ISR-cached (s-maxage), so shared compare links serve
