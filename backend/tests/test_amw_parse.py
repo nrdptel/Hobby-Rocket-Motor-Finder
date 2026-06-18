@@ -5,6 +5,7 @@ price, status) lives in the category listing — no per-product fetch needed.
 This fixture is one of the larger DMS category pages so the parser is
 exercised across many statuses.
 """
+import re
 from pathlib import Path
 
 import pytest
@@ -209,3 +210,74 @@ async def test_scrape_isolates_a_failing_category():
             raise RuntimeError("category page down")
 
     assert await AMWScraper().scrape(_FailClient()) == []
+
+
+# --- Cesaroni (CTI) categories ----------------------------------------------
+
+CESARONI = "Cesaroni Technology"
+
+
+def _cti_listings():
+    # The 54mm CTI category fixture: 5 reloads + 11 hardware rows (casings,
+    # closures, spacers, a centering ring, a placeholder).
+    return AMWScraper()._parse_category(_load("amw_cti_cat6_54mm.html"), CESARONI, 54)
+
+
+def test_cti_parses_only_the_reloads():
+    listings = _cti_listings()
+    # Exactly the five in-stock reloads on the page — hardware is excluded.
+    assert {l.motor_designation for l in listings} == {"K530", "K515", "K650", "K261", "K675"}
+
+
+def test_cti_listings_are_tagged_for_the_cesaroni_match_path():
+    for l in _cti_listings():
+        assert l.manufacturer == CESARONI  # routes find_motor_id to the CTI path
+        assert l.diameter_mm == 54  # the category's diameter, for disambiguation
+        assert l.vendor_slug == "amw" and l.sku and l.currency == "USD"
+        # designation is the bare commonName (class + thrust, no propellant code)
+        assert re.fullmatch(r"[D-O]\d{2,5}", l.motor_designation)
+
+
+def test_cti_title_is_rematch_ready():
+    # The rebuilt title must let the shared CTI helpers resolve commonName + flavor
+    # (they run again on every rematch), and it keeps the vendor's raw in parens.
+    from hpr_finder.normalize import extract_cti_designation, infer_cti_propellant
+
+    by_des = {l.motor_designation: l for l in _cti_listings()}
+    k530 = by_des["K530"]
+    assert extract_cti_designation(k530.raw_title) == "K530"
+    assert infer_cti_propellant(k530.raw_title) == "Smoky Sam"
+    assert "K530SS 54-4G Reload" in k530.raw_title  # vendor raw preserved
+
+
+def test_cti_excludes_hardware():
+    raws = " ".join(l.raw_title for l in _cti_listings())
+    for hw in ("Casing", "Closure", "Spacer", "centering", "Nozzle"):
+        assert hw not in raws
+
+
+def test_cti_listings_match_the_catalog_end_to_end():
+    """Parse the fixture and run the real matcher against a small CTI catalog."""
+    import sqlite3
+
+    from hpr_finder.db import find_motor_id, init_schema, upsert_motors
+    from hpr_finder.models import Motor
+
+    def _m(common, prop):
+        return Motor(
+            manufacturer=CESARONI, designation=f"54{common}-X", common_name=common,
+            diameter_mm=54, length_mm=None, total_impulse_ns=None, avg_thrust_n=None,
+            burn_time_s=None, propellant=prop, impulse_class="K", delays=None,
+            delay_adjustable=True,
+        )
+
+    conn = sqlite3.connect(":memory:")
+    conn.row_factory = sqlite3.Row
+    init_schema(conn)
+    upsert_motors(conn, [
+        _m("K530", "Smoky Sam"), _m("K515", "Skidmark"), _m("K650", "Smoky Sam"),
+        _m("K261", "White"), _m("K675", "Skidmark"),
+    ])
+    for l in _cti_listings():
+        mid = find_motor_id(conn, l.manufacturer, l.motor_designation, l.raw_title, l.diameter_mm)
+        assert mid is not None, f"{l.motor_designation} ({l.raw_title}) did not match"

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import pytest
 
-from hpr_finder.normalize import extract_cti_designation, infer_cti_propellant
+from hpr_finder.normalize import extract_cti_designation, infer_cti_propellant, parse_amw_cti
 
 # --- extract_cti_designation: the two real vendor title formats ------------
 
@@ -90,3 +90,52 @@ def test_extract_cti_designation_five_digit_thrust():
 def test_infer_cti_propellant_none_when_absent():
     assert infer_cti_propellant("Cesaroni N1100 Moon Burner") is None
     assert infer_cti_propellant("") is None
+
+
+# --- parse_amw_cti: AMW's code-glued CTI format ----------------------------
+
+
+@pytest.mark.parametrize(
+    "raw,common,propinfo",
+    [
+        # the code is glued straight onto the commonName, then casing + "Reload"
+        ("F51BS 24-2G Reload", "F51", "Blue Streak"),
+        ("K530SS 54-4G Reload", "K530", "Smoky Sam"),
+        ("K515SK 54-5G Reload", "K515", "Skidmark"),
+        ("K261WH 54-5G Reload", "K261", "White"),
+        ("I540WT 38-5G Reload", "I540", "White Thunder"),
+        ("G127RL 24-6GG Reload", "G127", "Red Lightning"),
+        ("H53MY P29-5G Reload", "H53", "Mellow"),  # AMW's non-standard MY = Mellow
+        # the desc sometimes leads with a casing label; the first CTI token wins
+        ("F36SS P29-1G Reload", "F36", "Smoky Sam"),
+        # 150mm research motors: comma in the thrust, 5 digits, no "Reload" word
+        ("O25,000VM", "O25000", "Vmax"),
+        ("O5800WT", "O5800", "White Thunder"),
+    ],
+)
+def test_parse_amw_cti(raw, common, propinfo):
+    assert parse_amw_cti(raw) == (common, propinfo)
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        # hardware in the same categories carries no class designation. The
+        # lowercase "o" in "Pro.." must NOT be read as an O-class motor.
+        "Pro54-1 Casing",
+        "Pro54 Rear Closure",
+        "Pro98-Nozzle Holder",
+        "P54 Nozzle spacer",
+        "Pro24 DAT centering ring",
+        "Product Short description",
+        "",
+    ],
+)
+def test_parse_amw_cti_rejects_hardware(raw):
+    assert parse_amw_cti(raw) is None
+
+
+def test_parse_amw_cti_unknown_code_keeps_commonname():
+    # An unrecognized code -> commonName only, propInfo None (matcher then falls
+    # back to a commonName-only match rather than guessing a flavor).
+    assert parse_amw_cti("K530ZZ 54-4G Reload") == ("K530", None)

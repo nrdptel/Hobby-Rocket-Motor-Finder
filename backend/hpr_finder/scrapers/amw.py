@@ -20,6 +20,12 @@ by exhaustive cat-ID scan 2026-05-23):
 The scraper visits all of these and dedupes by product ID, ensuring full
 RMS coverage (which lives only in the leaf categories).
 
+AMW also stocks Cesaroni (CTI), under a clean by-diameter taxonomy (see
+``CTI_CATEGORY_DIAMETERS``). Those categories mix reloads with hardware
+(casings, spacers, nozzle holders); the CTI designation parser keeps only the
+motors and tags them for the Cesaroni match path. AMW writes CTI propellants as
+a short code glued to the commonName ("K530SS"), handled in ``parse_amw_cti``.
+
 Status mapping:
   * ``"N In Stock"``  -> IN_STOCK_WITH_COUNT (N parsed)
   * ``"Call"``         -> SPECIAL_ORDER (vendor wants you to call/inquire)
@@ -39,13 +45,16 @@ import re
 
 from ..http import PoliteAsyncClient
 from ..models import Listing, StockStatus, _utc_now
-from ..normalize import extract_designation
+from ..normalize import extract_designation, parse_amw_cti
 from .base import Scraper
 from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
 BASE_URL = "https://cart.amwprox.com"
+# The manufacturer name ThrustCurve stores; routes the listing to the CTI match
+# path (db.find_motor_id dispatches on a "cesaroni" prefix).
+CESARONI_MANUFACTURER = "Cesaroni Technology"
 
 # AeroTech motor category IDs at AMW. Multiple overlapping taxonomies — dedupe
 # by product ID across all of them. Skip Quest (107, low-power Q-Jet) and the
@@ -66,6 +75,14 @@ CATEGORY_IDS = [
     151, 152, 153, 154, 155, 156,            # 75mm reload sizes
     157, 158, 160, 161, 162, 163, 165,       # 98mm reload sizes + 75/10240
 ]
+
+# Cesaroni (CTI) motor categories — a clean by-diameter taxonomy (parent 2 is
+# empty), unlike the AeroTech sprawl above. The diameter is the category, so we
+# carry it through as the matcher's disambiguation hint (it breaks the lone CTI
+# commonName+flavor collision). Each diameter page mixes reloads with hardware
+# (casings, spacers, nozzle holders); the CTI designation parser drops the
+# hardware (it carries no class designation). cid -> casing diameter in mm.
+CTI_CATEGORY_DIAMETERS = {3: 24, 4: 29, 5: 38, 6: 54, 7: 75, 8: 98, 9: 150}
 
 CATEGORY_URL_TEMPLATE = (
     BASE_URL
@@ -110,18 +127,26 @@ class AMWScraper(Scraper):
             log.warning("amw: --url is not supported (category-page-driven scrape)")
             return []
 
-        cat_urls = [CATEGORY_URL_TEMPLATE.format(cid=cid) for cid in CATEGORY_IDS]
+        # (url, manufacturer, diameter_mm) — AeroTech categories carry no
+        # diameter hint (the matcher doesn't need one), CTI ones carry theirs.
+        cat_specs: list[tuple[str, str, int | None]] = [
+            (CATEGORY_URL_TEMPLATE.format(cid=cid), "AeroTech", None)
+            for cid in CATEGORY_IDS
+        ] + [
+            (CATEGORY_URL_TEMPLATE.format(cid=cid), CESARONI_MANUFACTURER, dia)
+            for cid, dia in CTI_CATEGORY_DIAMETERS.items()
+        ]
 
-        async def _safe(cat_url: str) -> list[Listing]:
+        async def _safe(cat_url: str, manufacturer: str, diameter_mm: int | None) -> list[Listing]:
             try:
                 r = await client.get(cat_url)
                 r.raise_for_status()
-                return self._parse_category(r.text)
+                return self._parse_category(r.text, manufacturer, diameter_mm)
             except Exception as e:
                 log.warning("amw: category fetch failed %s: %s", cat_url, e)
                 return []
 
-        results = await asyncio.gather(*[_safe(u) for u in cat_urls])
+        results = await asyncio.gather(*[_safe(u, mfr, dia) for u, mfr, dia in cat_specs])
         # Dedupe by product ID (sku) — multiple overlapping AMW taxonomies
         # list the same motor in multiple categories. Keep the first seen.
         seen: set[str] = set()
@@ -135,13 +160,19 @@ class AMWScraper(Scraper):
                 listings.append(l)
         log.info(
             "amw: parsed %d total rows across %d categories, %d unique products after dedupe",
-            sum(len(lst) for lst in results), len(cat_urls), len(listings),
+            sum(len(lst) for lst in results), len(cat_specs), len(listings),
         )
         if limit is not None:
             listings = listings[:limit]
         return listings
 
-    def _parse_category(self, html: str) -> list[Listing]:
+    def _parse_category(
+        self,
+        html: str,
+        manufacturer: str = "AeroTech",
+        diameter_mm: int | None = None,
+    ) -> list[Listing]:
+        is_cti = manufacturer == CESARONI_MANUFACTURER
         listings: list[Listing] = []
         seen_pids: set[str] = set()
         for block in PRODUCT_BLOCK_SPLIT_RE.split(html):
@@ -167,12 +198,20 @@ class AMWScraper(Scraper):
             # The desc field carries the actual designation (e.g.,
             # "F115SN-12A 29mm DMS"), more useful than the bare title
             # ("F115SN DMS") because the desc preserves the delay code.
-            raw_title = desc or title
-            designation = extract_designation(raw_title) or extract_designation(title)
-            if designation is None:
-                # Not a motor (e.g., "Universal Delay Drilling Tool" — appears
-                # in motor categories but is an accessory). Skip.
-                continue
+            raw = desc or title
+            if is_cti:
+                designation, raw_title = self._cti_designation(raw, title)
+                # No CTI designation -> hardware (casing/spacer/nozzle holder) or
+                # an accessory in a motor category. Skip.
+                if designation is None:
+                    continue
+            else:
+                raw_title = raw
+                designation = extract_designation(raw) or extract_designation(title)
+                if designation is None:
+                    # Not a motor (e.g., "Universal Delay Drilling Tool" — appears
+                    # in motor categories but is an accessory). Skip.
+                    continue
 
             status, stock_count = _parse_status(block)
 
@@ -188,10 +227,33 @@ class AMWScraper(Scraper):
                     status=status,
                     stock_count=stock_count,
                     raw_title=raw_title,
+                    manufacturer=manufacturer,
+                    diameter_mm=diameter_mm,
                     seen_at=_utc_now(),
                 )
             )
         return listings
+
+    @staticmethod
+    def _cti_designation(raw: str, title: str) -> tuple[str | None, str]:
+        """Resolve a CTI row to ``(commonName, match-ready title)``, trying the
+        desc then the title. Returns ``(None, raw)`` for hardware (no CTI motor
+        designation).
+
+        The returned title is rebuilt so the shared Cesaroni matcher resolves it:
+        a STANDALONE commonName token (its regex needs a boundary after the
+        digits, which AMW's glued ``K530SS`` denies) plus the spelled-out flavor
+        (``infer_cti_propellant`` matches names, not AMW's codes). The vendor's
+        raw string is kept in parens for debuggability / the unmatched-listing
+        health report; a later rematch re-reads this title, so it stays
+        self-consistent."""
+        for text in (raw, title):
+            parsed = parse_amw_cti(text)
+            if parsed is not None:
+                common, propinfo = parsed
+                flavor = f" {propinfo}" if propinfo else ""
+                return common, f"{common}{flavor} ({text})"
+        return None, raw
 
 
 def _parse_status(block: str) -> tuple[StockStatus, int | None]:
