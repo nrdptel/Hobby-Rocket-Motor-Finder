@@ -32,10 +32,12 @@ import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ThemeToggle } from "./components/ThemeToggle";
 
-// Snapshot refreshes on a scrape cadence (typically every few hours), so
-// per-request SSR is wasted work. Revalidate cached HTML every 60s — same
-// freshness ceiling as our scrape, ~50× less server work under load.
-export const revalidate = 60;
+// The snapshot is bundled at build time (not fetched at runtime), so new data
+// reaches users only via a redeploy on the hourly scrape commit — between
+// deploys the data never changes. Revalidate hourly to match that cadence: a 60s
+// ceiling just re-rendered byte-identical HTML up to 60× more often, burning ISR
+// writes (Vercel's metered free tier) for zero freshness gain.
+export const revalidate = 3600;
 
 export default async function Home() {
   const [snapshot, history, historyLog, catalog] = await Promise.all([
