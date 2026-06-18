@@ -6,9 +6,10 @@ import { buildShapeMap, loadCurves } from "@/lib/curves";
 import { MIN_CLASS } from "@/lib/derive";
 import { PlanView } from "../components/PlanView";
 
-// Hourly, matching the snapshot's scrape/redeploy cadence: the data is bundled at
-// build time, so re-rendering more often only yields identical HTML and ISR writes.
-export const revalidate = 3600;
+// 24h: the data is bundled at build time and freshness is bounded by the hourly
+// redeploy, not this timer, so a long window only avoids regenerating identical
+// HTML (saving metered ISR writes) with no effect on what users see.
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: "Plan your order — HPR Motor Finder",
