@@ -57,13 +57,14 @@ import { SnapshotTime } from "@/app/components/SnapshotTime";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { StarButton } from "@/app/components/StarButton";
 
-// Match the catalog: the bundled snapshot only changes via the hourly scrape
-// redeploy, never via this timer (which re-renders identical HTML). 660+ motor
-// pages × frequent crawler hits make these the dominant ISR-write cost, so we set
-// the window high (24h) to cap each page at ~1 regen/day instead of ~24 — no
-// freshness change (deploy-bounded). New motors (not in generateStaticParams at
-// build) render on demand, from the same bundled snapshot.
-export const revalidate = 86400;
+// Fully static — NOT ISR (see app/page.tsx). Every catalog motor is prerendered
+// at build via generateStaticParams below, so real traffic is served from the CDN
+// with no regeneration (no ISR writes — the dominant cost under load was these
+// pages regenerating after each hourly cache flush). `dynamicParams` is left at
+// its default (true), so a URL not in the build (a brand-new motor between
+// deploys, or a stray link) still resolves on demand exactly as before — no new
+// 404s. The bundled snapshot is unchanged within a deploy, so this is freshness-
+// identical to the old ISR setup.
 
 type Params = { manufacturer: string; designation: string };
 

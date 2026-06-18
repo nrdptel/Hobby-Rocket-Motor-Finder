@@ -6,10 +6,10 @@ import { buildShapeMap, loadCurves } from "@/lib/curves";
 import { MIN_CLASS } from "@/lib/derive";
 import { PlanView } from "../components/PlanView";
 
-// 24h: the data is bundled at build time and freshness is bounded by the hourly
-// redeploy, not this timer, so a long window only avoids regenerating identical
-// HTML (saving metered ISR writes) with no effect on what users see.
-export const revalidate = 86400;
+// Fully static — NOT ISR (see app/page.tsx). The bundled data only changes on the
+// hourly redeploy, so there's nothing to revalidate; serving it as a plain
+// prerendered page avoids the per-deploy ISR regeneration writes with no change
+// to what users see.
 
 export const metadata: Metadata = {
   title: "Plan your order — HPR Motor Finder",
