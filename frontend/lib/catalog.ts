@@ -8,7 +8,7 @@
 import {
   burnCharacter,
   caseKey,
-  certClasses,
+  certKey,
   cheapestInStockCents,
   findSubstitutes,
   groupByDelay,
@@ -95,12 +95,14 @@ export function parseCatalogParams(get: (key: string) => string | undefined): Ca
 
 /** Filter + sort the catalog. Verbatim from the original page.tsx predicate. */
 export function filterCatalog(motors: readonly Motor[], p: CatalogParams): Motor[] {
-  const certCls = certClasses(p.cert);
   return sortedMotors(
     motors.filter((m) => {
       if (p.mfr.size > 0 && !p.mfr.has(manufacturerLabel(m.manufacturer))) return false;
       if (p.cls.size > 0 && !p.cls.has(m.impulse_class)) return false;
-      if (certCls.size > 0 && !certCls.has(m.impulse_class)) return false;
+      // Cert filter matches the motor's REAL required level (a high-power G/F
+      // resolves to "l1", not "mid"), so the L1 filter shows it and Mid-power
+      // doesn't — see certKey/certRequirement.
+      if (p.cert.size > 0 && !p.cert.has(certKey(m))) return false;
       if (p.dia.size > 0 && !p.dia.has(String(m.diameter_mm))) return false;
       if (p.cases.size > 0) {
         const k = caseKey(m);

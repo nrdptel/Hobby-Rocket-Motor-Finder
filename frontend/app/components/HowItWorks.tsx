@@ -185,11 +185,13 @@ export function HowItWorks() {
             </li>
             <li className="flex items-start gap-2.5">
               <span className="shrink-0 pt-0.5">
-                <CertBadge impulseClass="J" />
+                <CertBadge motor={{ impulse_class: "J" }} />
               </span>
               <span>
                 The HPR certification level a motor needs (L1 = H&ndash;I, L2 = J&ndash;L, L3 = M&ndash;O);
-                it doubles as the cert filter.
+                it doubles as the cert filter. Some F/G motors also need L1 &mdash; a motor below H is
+                still &ldquo;high-power&rdquo; if its average thrust tops 80&nbsp;N, it holds over
+                62.5&nbsp;g of propellant, or it&rsquo;s sparky/hybrid &mdash; so those show an L1 badge too.
               </span>
             </li>
             <li className="flex items-start gap-2.5">

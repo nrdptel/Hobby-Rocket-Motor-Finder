@@ -14,6 +14,7 @@ import {
   CERT_LEVELS,
   MIN_CLASS,
   caseOptions,
+  certKey,
   formatPrice,
   groupUnmatched,
   listingInStock,
@@ -121,11 +122,12 @@ export default async function Home() {
   // Propellants present (searchable, brand-grouped) and vendors present (pills).
   const propellantFilterOptions = propellantOptions(motorsWithListings);
   const vendorFilterOptions = vendorOptions(motorsWithListings);
-  // Only offer cert levels that actually have motors with listings.
-  const presentClasses = new Set(motorsWithListings.map((m) => m.impulse_class));
-  const certOptions = CERT_LEVELS.filter((lvl) =>
-    lvl.classes.some((c) => presentClasses.has(c)),
-  ).map(({ key, label, sublabel }) => ({ key, label, sublabel }));
+  // Only offer cert levels that actually have motors with listings — by the
+  // motor's REAL required level (so a hot G shows up under L1, not mid-power).
+  const presentCertKeys = new Set(motorsWithListings.map((m) => certKey(m)));
+  const certOptions = CERT_LEVELS.filter((lvl) => presentCertKeys.has(lvl.key)).map(
+    ({ key, label, sublabel }) => ({ key, label, sublabel }),
+  );
   // Compact per-motor summary for the "My Rockets" in-stock match counts. Built
   // over all motors-with-listings (not the filtered view) so each rocket's count
   // is absolute, independent of the current filters.

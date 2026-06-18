@@ -179,7 +179,7 @@ export function MotorResults({
                           >
                             {m.designation}
                           </Link>
-                          <CertBadge impulseClass={m.impulse_class} />
+                          <CertBadge motor={m} />
                           {m.listings.length > 0 && <DiscontinuedBadge discontinued={m.discontinued} />}
                           <SparkyBadge sparky={m.sparky} />
                           <MotorAvailabilityBadge
