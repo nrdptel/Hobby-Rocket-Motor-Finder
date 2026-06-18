@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { MAX_COMPARE } from "@/lib/compareSelection";
-import type { Motor } from "@/lib/snapshot";
+import type { Motor } from "@/lib/snapshotTypes";
 import { ComparePageBody } from "../../components/ComparePageBody";
 import { type CurveSeries } from "../../components/ThrustCurveChart";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { type CurveSeries, ThrustCurveChart } from "./ThrustCurveChart";
@@ -14,7 +16,7 @@ import {
   motorPath,
   specificImpulseS,
 } from "@/lib/derive";
-import type { Motor } from "@/lib/snapshot";
+import type { Motor } from "@/lib/snapshotTypes";
 import { unitPriceCents } from "@/lib/pack";
 
 /** One motor's cheapest in-stock buy (per-unit price + vendor), or null when

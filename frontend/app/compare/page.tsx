@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { ComparePageBody } from "../components/ComparePageBody";
-import { LegacyCompareRedirect } from "../components/LegacyCompareRedirect";
+import { CompareEmptyClient } from "./CompareEmptyClient";
 
 export const metadata: Metadata = {
   title: "Compare motors — HPR Motor Finder",
@@ -12,13 +11,8 @@ export const metadata: Metadata = {
 };
 
 /** Bare /compare: a fully static empty-state shell. A real comparison lives at
- * /compare/<ids> (ISR-cached). Legacy /compare?ids= links are redirected there
- * client-side. */
+ * /compare/<ids>, which a static shell renders client-side. Legacy /compare?ids=
+ * links are redirected there client-side (see CompareEmptyClient). */
 export default function ComparePage() {
-  return (
-    <>
-      <LegacyCompareRedirect />
-      <ComparePageBody motors={[]} curveSeries={[]} />
-    </>
-  );
+  return <CompareEmptyClient />;
 }
