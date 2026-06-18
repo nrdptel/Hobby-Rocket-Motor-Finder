@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
 
-import { loadCatalogMotors, loadSnapshot } from "@/lib/snapshot";
-import { mergedCatalog } from "@/lib/catalogMotors";
-import { curveKey, loadCurves } from "@/lib/curves";
-import { MIN_CLASS } from "@/lib/derive";
-import { MAX_COMPARE } from "@/lib/compareSelection";
-import { type CurveSeries } from "../../components/ThrustCurveChart";
-import { ComparePageBody } from "../../components/ComparePageBody";
+import { CompareClient } from "./CompareClient";
 
-// Dynamic, NOT ISR. The id-combinations are unbounded (any 2–4 motors), so under
-// ISR every distinct/shared compare URL minted a new cache entry — a metered ISR
-// *write* — and the hourly redeploy flushed them all to be re-written. Rendering
-// on demand instead produces byte-identical HTML (the server still resolves only
-// the 2–4 selected motors, so the payload stays tiny) with zero ISR writes. This
-// is a transient, `noindex` view, so not edge-caching it is a non-issue.
-export const dynamic = "force-dynamic";
-
+// Static-export shell for /compare/<ids>. The page itself reads NO fs and renders
+// a single client component that resolves the requested motors from the
+// build-time /compare-data.json payload in the browser (see CompareClient).
+//
+// generateStaticParams returns one placeholder param so exactly ONE shell HTML
+// is emitted (out/compare/_/index.html). public/_redirects then rewrites any
+// /compare/<ids> URL to that shell with a 200 (a rewrite, not a redirect), so the
+// shareable path form /compare/1,2,3 is preserved while only one file ships.
 export const metadata: Metadata = {
   title: "Compare motors — HPR Motor Finder",
   description:
@@ -24,49 +18,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-/** Parse the ``1,2,3`` path segment into a de-duplicated, capped list of motor
- * ids in the order given (URL order is the column order). Tolerates an encoded
- * comma (``1%2C2``) so legacy redirects resolve identically. */
-function parseIds(raw: string): number[] {
-  // Next already URL-decodes the segment; the extra decode only matters if a
-  // comma arrived encoded (%2C). Guard it — a malformed percent-sequence
-  // (e.g. /compare/%ZZ) would otherwise throw and 500 instead of falling through
-  // to the pick-motors prompt.
-  let decoded = raw;
-  try {
-    decoded = decodeURIComponent(raw);
-  } catch {
-    /* keep raw; unparseable ids drop out below */
-  }
-  const out: number[] = [];
-  for (const part of decoded.split(",")) {
-    const n = Number(part.trim());
-    if (Number.isInteger(n) && n > 0 && !out.includes(n)) out.push(n);
-    if (out.length >= MAX_COMPARE) break;
-  }
-  return out;
+export function generateStaticParams(): { ids: string }[] {
+  // One placeholder shell; the _redirects rewrite serves it for every /compare/*.
+  return [{ ids: "_" }];
 }
 
-export default async function ComparePage({ params }: { params: Promise<{ ids: string }> }) {
-  const ids = parseIds((await params).ids);
-  const [snapshot, catalog, curves] = await Promise.all([
-    loadSnapshot(),
-    loadCatalogMotors(),
-    loadCurves(),
-  ]);
-
-  const allMotors = snapshot ? mergedCatalog(snapshot.motors, catalog, MIN_CLASS) : [];
-  const byId = new Map(allMotors.map((m) => [m.id, m]));
-  // Resolve in URL order, skipping ids we don't recognize.
-  const motors = ids.map((id) => byId.get(id)).filter((m): m is NonNullable<typeof m> => m != null);
-
-  // Overlay only the motors that actually have a curve; the spec table still
-  // covers every motor.
-  const curveSeries: CurveSeries[] = [];
-  motors.forEach((m, i) => {
-    const pts = curves[curveKey(m.manufacturer, m.designation)];
-    if (pts) curveSeries.push({ label: m.designation, points: pts, emphasis: i === 0 });
-  });
-
-  return <ComparePageBody motors={motors} curveSeries={curveSeries} />;
+export default function ComparePage() {
+  return <CompareClient />;
 }
