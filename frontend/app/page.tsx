@@ -32,13 +32,14 @@ import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ThemeToggle } from "./components/ThemeToggle";
 
-// The snapshot is bundled at build time (not fetched at runtime), so new data
-// reaches users only via a redeploy on the hourly scrape commit — never via this
-// timer, which can only re-render the SAME bundled data. Freshness is therefore
-// bounded by the redeploy cadence regardless of this value, so we set it high
-// (24h) purely to minimize metered ISR writes: each background regen reproduces
-// byte-identical HTML, so a tighter window only costs writes for no freshness gain.
-export const revalidate = 86400;
+// Fully static — NOT ISR. The snapshot is bundled at build time and only changes
+// on the hourly scrape redeploy, so there is nothing to revalidate at runtime;
+// `revalidate` only opted the page into ISR, where every redeploy flushes the
+// cache and the next request to each region regenerates (a metered ISR *write*) —
+// which is what blew up under real traffic. As a plain prerendered page it's
+// served from the CDN with no per-request regeneration, refreshed each deploy.
+// Same data freshness, no ISR reads/writes. (No `searchParams` read below keeps
+// it static; see the note in Home.)
 
 export default async function Home() {
   const [snapshot, history, historyLog, catalog] = await Promise.all([
