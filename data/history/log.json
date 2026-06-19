@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-06-19T13:24:10+00:00",
+  "updated_at": "2026-06-19T14:11:52+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -14988,6 +14988,11 @@
         {
           "t": "2026-05-31T04:25:12",
           "status": "in_stock",
+          "price_cents": 3914
+        },
+        {
+          "t": "2026-06-19T14:03:31+00:00",
+          "status": "out_of_stock",
           "price_cents": 3914
         }
       ]
@@ -39889,6 +39894,956 @@
           "t": "2026-06-18T21:01:22+00:00",
           "status": "in_stock_with_count",
           "price_cents": 9599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-18-20-d13w-white-lightning-model-rocket-motor-reload-kit-3-pack?variant=49177037734186": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-18-20-d13w-white-lightning-model-rocket-motor-reload-kit-3-pack?variant=49177152553258": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-18-20-d13w-white-lightning-model-rocket-motor-reload-kit-3-pack?variant=49177152586026": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-d15t-blue-thunder-model-rocket-motor-reload-kit-3-pack": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3099
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-18-20-d24t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=49177037766954": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-18-20-d24t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=49546794795306": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-18-20-d24t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=51462096945450": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-e11j-black-jack-model-rocket-motor-reload-kit-3-pack": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-e16w-white-lightning-model-rocket-motor-reload-kit?variant=49177038324010": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 1999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-e16w-white-lightning-model-rocket-motor-reload-kit?variant=49273895321898": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 1999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-e18w-white-lightning-model-rocket-motor-reload-kit-3-pack?variant=49177037832490": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-e18w-white-lightning-model-rocket-motor-reload-kit-3-pack?variant=49177134367018": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-e20-white-lightning-24mm-single-use-model-rocket-motor-2-pack?variant=49177034359082": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-e20-white-lightning-24mm-single-use-model-rocket-motor-2-pack?variant=50788021371178": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-e23t-blue-thunder-model-rocket-motor-reload-kit?variant=49177038422314": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 1999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-e23t-blue-thunder-model-rocket-motor-reload-kit?variant=49273895944490": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 1999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-e24c-classic-rocket-motor-2-pack?variant=48389114691882": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-e24c-classic-rocket-motor-2-pack?variant=48389114724650": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-e24c-classic-rocket-motor-2-pack?variant=48389114757418": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-e28t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=49177037865258": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-e28t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=51462111035690": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-e30-blue-thunder-24mm-single-use-model-rocket-motor-2-pack?variant=49177034391850": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-e30-blue-thunder-24mm-single-use-model-rocket-motor-2-pack?variant=50002206327082": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-f12-5j-black-jack-model-rocket-motor-reload-kit-3-pack": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f20w-white-lightning-29mm-single-use-model-rocket-motor-2-pack?variant=49177034555690": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f20w-white-lightning-29mm-single-use-model-rocket-motor-2-pack?variant=50429348839722": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f23fj-black-max-model-29mm-single-use-rocket-motor-2-pack?variant=49177034588458": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f23fj-black-max-model-29mm-single-use-rocket-motor-2-pack?variant=50429365616938": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-lms-f23fj-black-max-model-29mm-single-use-rocket-motor-2-pack?variant=50581747269930": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-lms-f23fj-black-max-model-29mm-single-use-rocket-motor-2-pack?variant=50581747302698": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-f24w-white-thunder-model-rocket-motor-reload-kit-3-pack?variant=49177037963562": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-f24w-white-thunder-model-rocket-motor-reload-kit-3-pack?variant=49177140592938": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-lms-f27r-redline-model-29mm-single-use-rocket-motor-2-pack": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f27r-redline-model-29mm-single-use-rocket-motor-2-pack?variant=49177034621226": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f27r-redline-model-29mm-single-use-rocket-motor-2-pack?variant=49236815675690": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f30fj-classic-rocket-motor?variant=48389131567402": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2549
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f30fj-classic-rocket-motor?variant=48389131600170": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2549
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f30fj-classic-rocket-motor?variant=48389131632938": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2549
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f32t-blue-thunder-24mm-single-use-model-rocket-motor?variant=49177034490154": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2549
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f32t-blue-thunder-24mm-single-use-model-rocket-motor?variant=51459025174826": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2549
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f32t-blue-thunder-24mm-single-use-model-rocket-motor?variant=51074890465578": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2549
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-60-f35w-white-lightning-model-rocket-motor-reload-kit-2-pack?variant=49177038029098": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-60-f35w-white-lightning-model-rocket-motor-reload-kit-2-pack?variant=49273907282218": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-60-f35w-white-lightning-model-rocket-motor-reload-kit-2-pack?variant=49273907314986": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-60-f37w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 1379
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-f39t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=49177037996330": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-40-f39t-blue-thunder-model-rocket-motor-reload-kit-3-pack?variant=49235665486122": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/econojet-by-aerotech-f42t-blue-thunder-rocket-motor-2-pack?variant=49102384070954": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/econojet-by-aerotech-f42t-blue-thunder-rocket-motor-2-pack?variant=49102384103722": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f44-white-lightning-24mm-single-use-model-rocket-motor-2-pack?variant=49177034424618": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f44-white-lightning-24mm-single-use-model-rocket-motor-2-pack?variant=51459009970474": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-60-f51-10nt-new-blue-thunder-model-rocket-motor-reload-kit-2-pack": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f52c-classic-rocket-motor-2-pack?variant=47852008243498": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f52c-classic-rocket-motor-2-pack?variant=47852015780138": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f52c-classic-rocket-motor-2-pack?variant=47852015812906": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-60-f62-10fj-fast-black-jack-model-rocket-motor-reload-kit-2-pack": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-60-f62t-14a-blue-thunder-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-24-60-f63-10r-redline-model-rocket-motor-reload-kit-2-pak": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f67-6w-white-lightning-rocket-motor?variant=49236821475626": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f67-6w-white-lightning-rocket-motor?variant=47851989991722": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-f67-6w-white-lightning-rocket-motor?variant=48388423221546": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-100-g104t-14a-blue-thunder-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g53fj-black-max-model-rocket-motor-reload-kit?variant=49177038553386": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g53fj-black-max-model-rocket-motor-reload-kit?variant=49177164316970": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g53fj-black-max-model-rocket-motor-reload-kit?variant=49177164349738": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-100-g54w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g64w-white-lightning-model-rocket-motor-reload-kit?variant=49177038586154": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g64w-white-lightning-model-rocket-motor-reload-kit?variant=49177132237098": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g64w-white-lightning-model-rocket-motor-reload-kit?variant=49273896993066": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g76g-mojave-green-model-rocket-motor-reload-kit?variant=49177038618922": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g76g-mojave-green-model-rocket-motor-reload-kit?variant=49273897419050": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-40-120-g76g-mojave-green-model-rocket-motor-reload-kit?variant=49273897451818": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 2599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-lms-g77r-redline-29mm-single-use-model-rocket-motor": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4099
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-120-g77r-14a-redline-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3099
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-g77r-redline-29mm-single-use-model-rocket-motor?variant=49177035145514": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-g77r-redline-29mm-single-use-model-rocket-motor?variant=51461994053930": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-g77r-redline-29mm-single-use-model-rocket-motor?variant=51461994086698": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-lms-g78g-mojave-green-29mm-single-use-model-rocket-motor": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4099
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-g78g-mojave-green-29mm-single-use-model-rocket-motor?variant=49177035178282": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-g78g-mojave-green-29mm-single-use-model-rocket-motor?variant=51461995888938": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-g78g-mojave-green-29mm-single-use-model-rocket-motor?variant=51461995921706": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-lms-g79w-white-lightning-29mm-single-use-model-rocket-motor": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4099
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-120-g79w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3099
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-180-h128w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3499
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-38-240-h130w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4599
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-180-h165r-14a-redline-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3499
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-240-h180w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-240-h210r-14a-redline-model-rocket-motor-reload-kit-requires-fsd": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-240-h220t-14a-blue-thunder-model-rocket-motor-reload-kit-requires-fsd": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4799
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-180-h238t-14a-blue-thunder-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3499
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-240-h250g-14a-mojave-green-model-rocket-motor-reload-kit-requires-fsd": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-360-h268r-14a-redline-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 5199
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-38-360-i180w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "in_stock",
+          "price_cents": 6299
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/aerotech-rms-29-360-i200w-14a-white-lightning-model-rocket-motor-reload-kit": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 5899
+        }
+      ]
+    },
+    "https://newcenturyrocketry.shop/products/54mm-forward-closure-bulkhead-plug-for-j99n-p-54-852-reload": {
+      "vendor_slug": "newcenturyrocketry",
+      "events": [
+        {
+          "t": "2026-06-19T14:00:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2599
         }
       ]
     }
