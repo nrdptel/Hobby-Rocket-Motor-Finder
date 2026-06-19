@@ -1,7 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
 
 // Compare tray: pick 2–4 motors from the catalog, then a shareable /compare view
-// overlays their thrust curves and lines up the specs side by side.
+// overlays their thrust curves and lines up the specs side by side. The shareable
+// URL is the query form /compare?ids=1,2,3 (a static page read client-side);
+// legacy /compare/1,2,3 path links 302 to it (public/_redirects).
 
 async function pickForCompare(page: Page, n: number, query = "in_stock=1") {
   await page.goto(`/?${query}`);
@@ -26,7 +28,7 @@ test("selecting motors fills the tray and opens a side-by-side compare", async (
 
   // Open the compare view from the tray.
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
-  await expect(page).toHaveURL(/\/compare\/\d+,\d+/);
+  await expect(page).toHaveURL(/\/compare\?ids=\d+,\d+/);
 
   await expect(page.getByRole("heading", { name: "Compare motors" })).toBeVisible();
   // The spec table is present (one row per dimension) …
@@ -47,33 +49,32 @@ test("the compare set is capped at four", async ({ page }) => {
 
 test("a shared compare link renders without any local selection", async ({ page }) => {
   // First discover two real motor ids by selecting them, then hit the URL fresh
-  // in a context whose localStorage is irrelevant to the server-rendered page.
+  // in a context whose localStorage is irrelevant to the page.
   await pickForCompare(page, 2);
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
-  await expect(page).toHaveURL(/\/compare\/\d+,\d+/);
-  const ids = page.url().match(/\/compare\/([\d,]+)/)![1];
+  await expect(page).toHaveURL(/\/compare\?ids=\d+,\d+/);
+  const ids = page.url().match(/[?&]ids=([\d,]+)/)![1];
   expect(ids).toMatch(/^\d+,\d+$/);
 
-  await page.goto(`/compare/${ids}`);
+  await page.goto(`/compare?ids=${ids}`);
   await expect(page.getByRole("heading", { name: "Compare motors" })).toBeVisible();
   await expect(page.locator("table thead a[href^='/motor/']")).toHaveCount(2);
 });
 
-test("a legacy ?ids= link redirects to the new /compare/<ids> path", async ({ page }) => {
+test("a legacy /compare/<ids> path link redirects to the ?ids= query form", async ({ page }) => {
   await pickForCompare(page, 2);
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
-  // Wait for the client navigation to settle before reading the URL — otherwise
-  // page.url() can still be the homepage and the match below is null.
-  await expect(page).toHaveURL(/\/compare\/\d+,\d+/);
-  const ids = page.url().match(/\/compare\/([\d,]+)/)![1];
+  await expect(page).toHaveURL(/\/compare\?ids=\d+,\d+/);
+  const ids = page.url().match(/[?&]ids=([\d,]+)/)![1];
 
-  await page.goto(`/compare?ids=${ids}`);
-  await expect(page).toHaveURL(new RegExp(`/compare/${ids}$`));
+  // The old shareable path form must 302 to the query form and still render.
+  await page.goto(`/compare/${ids}`);
+  await expect(page).toHaveURL(/\/compare\?ids=/);
   await expect(page.getByRole("heading", { name: "Compare motors" })).toBeVisible();
   await expect(page.locator("table thead a[href^='/motor/']")).toHaveCount(2);
 });
 
 test("too few ids shows the pick-motors prompt", async ({ page }) => {
-  await page.goto("/compare/999999999");
+  await page.goto("/compare?ids=999999999");
   await expect(page.getByText(/Pick 2.*motors to compare/)).toBeVisible();
 });

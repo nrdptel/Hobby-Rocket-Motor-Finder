@@ -1,0 +1,64 @@
+name: Deploy to Cloudflare Pages
+
+# Builds the Next static export (frontend/out) and deploys it to Cloudflare Pages.
+#
+# Triggers:
+#   - workflow_dispatch: manual deploy from the Actions tab.
+#   - workflow_run: after the hourly scrape workflow (.github/workflows/scrape.yml,
+#     `name: scrape`) completes, so each fresh snapshot redeploys the site (the
+#     snapshot is bundled at build time). `workflows:` matches that workflow's
+#     `name:` exactly (case-sensitive). NOTE: a workflow_run trigger only fires
+#     once this file is on the default branch, so the FIRST deploys are manual
+#     (workflow_dispatch) or `wrangler pages deploy` until cutover.
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["scrape"]
+    types: [completed]
+
+# One in-flight deploy at a time; newer snapshot supersedes an older one.
+concurrency:
+  group: deploy-cloudflare
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # On the workflow_run trigger, only deploy when the scrape actually succeeded.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install + build static export
+        working-directory: frontend
+        env:
+          # Build-time public env: the canonical site origin (OG/sitemap/canonical
+          # URLs + the alert API links) and the alerts feature flag (shows the
+          # bell + alert UI, which posts to the Pages Functions under /api/alerts).
+          NEXT_PUBLIC_SITE_URL: https://motor.fusionspace.co
+          NEXT_PUBLIC_ALERTS_ENABLED: "1"
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Upload the built static site (frontend/out). The Pages project also
+          # picks up frontend/functions/** as Pages Functions and the
+          # public/_redirects + public/_headers (copied into out/) automatically.
+          workingDirectory: frontend
+          # `--branch=main` forces a PRODUCTION deployment (main is the project's
+          # production branch) — the custom domain serves production, so an
+          # implicit/preview branch would deploy but never go live.
+          command: pages deploy out --project-name=hpr-motor-finder --branch=main

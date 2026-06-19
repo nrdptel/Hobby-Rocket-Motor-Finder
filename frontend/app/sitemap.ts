@@ -7,9 +7,11 @@ import { MIN_CLASS, motorPath } from "@/lib/derive";
 // NEXT_PUBLIC_SITE_URL on its deploy host to point the sitemap at its own domain.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
 
-// Regenerate hourly so each fresh snapshot's `lastModified` flows through without
-// a redeploy (snapshot commits are [skip ci], so they don't trigger one).
-export const revalidate = 3600;
+// Static export: the sitemap is emitted once as a static sitemap.xml at build
+// time (no runtime regeneration). Each scrape redeploys the site, so a fresh
+// snapshot's `lastModified` flows through on the next deploy. `revalidate` was
+// removed — it only had meaning under ISR, which static export doesn't run.
+export const dynamic = "force-static";
 
 /** Sitemap of every indexable page: the catalog, the alerts manager, and one URL
  * per in-catalog motor detail page. Lists the exact same motor universe the

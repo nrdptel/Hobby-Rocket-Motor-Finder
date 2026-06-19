@@ -33,11 +33,16 @@ export const metadata: Metadata = {
     title: "HPR Motor Finder",
     description,
     url: "/",
+    // Pre-generated at build by scripts/gen-og.mjs (static export can't render
+    // the old dynamic next/og route at request time). Resolved absolutely
+    // against metadataBase. Per-motor pages override this in generateMetadata.
+    images: [{ url: "/og/default.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "HPR Motor Finder",
     description,
+    images: ["/og/default.png"],
   },
 };
 

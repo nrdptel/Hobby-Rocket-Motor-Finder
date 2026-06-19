@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "node scripts/copy-snapshot.mjs",
+    "predev": "node scripts/copy-snapshot.mjs && node scripts/gen-compare-data.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/copy-snapshot.mjs",
+    "prebuild": "node scripts/copy-snapshot.mjs && node scripts/gen-compare-data.mjs && node scripts/gen-og.mjs",
     "build": "next build",
     "start": "next start",
     "test": "vitest run",
@@ -26,6 +26,7 @@
     "@types/react-dom": "^19",
     "@vitest/coverage-v8": "^4.1.7",
     "axe-core": "^4.12.0",
+    "serve": "^14.2.6",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.7"

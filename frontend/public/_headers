@@ -1,0 +1,10 @@
+# Cloudflare Pages response headers. Replaces the next.config.ts headers() block,
+# which static export can't emit. Same baseline security headers, applied to
+# every path: clickjacking, MIME sniffing, and referrer leakage. (No CSP — see
+# the note in the original next.config.ts: the inline theme-init script would
+# need a per-request nonce/hash and a misconfigured CSP failing closed is a worse
+# risk than its marginal benefit here.)
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

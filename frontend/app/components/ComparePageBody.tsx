@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
 
 import { MAX_COMPARE } from "@/lib/compareSelection";
-import type { Motor } from "@/lib/snapshot";
+import type { Motor } from "@/lib/snapshotTypes";
 import { CompareView } from "./CompareView";
 import { type CurveSeries } from "./ThrustCurveChart";
 import { SiteHeader } from "./SiteHeader";

@@ -4,7 +4,7 @@
 // always in here, not in the JSX.
 
 import { packSize, unitPriceCents } from "./pack";
-import type { CatalogListingHistory, Listing, Motor, UnmatchedListing } from "./snapshot";
+import type { CatalogListingHistory, Listing, Motor, UnmatchedListing } from "./snapshotTypes";
 
 /** Lower bound on impulse class shown by the UI — D and up. Hides A/B/C
  * Estes-style model rocket motors that aren't this project's audience. */

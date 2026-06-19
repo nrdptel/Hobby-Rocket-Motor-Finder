@@ -1,4 +1,4 @@
-import { curveExtent, curvePath, type ThrustCurve } from "@/lib/curves";
+import { curveExtent, curvePath, type ThrustCurve } from "@/lib/curveGeometry";
 
 export type CurveSeries = {
   label: string;
