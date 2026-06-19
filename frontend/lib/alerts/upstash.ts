@@ -1,6 +1,11 @@
 // Tiny Upstash Redis REST client — just the handful of commands the alert
 // system needs. Upstash's REST API takes the command as a path or JSON array and
 // a bearer token; it works the same from any runtime over plain fetch.
+//
+// NB: no `cache: "no-store"` on the fetch. POSTs aren't cached anyway, and the
+// Cloudflare Workers runtime (Pages Functions) rejects the standard `cache`
+// init field — passing it throws and every Upstash call fails. Node tolerates
+// it, which is why this only surfaced on the Cloudflare deploy.
 
 // Accepts the AlertConfig (structurally) — just needs the Upstash URL + token.
 type UpstashCfg = { upstashUrl: string; upstashToken: string };
@@ -13,7 +18,6 @@ async function cmd(cfg: UpstashCfg, args: (string | number)[]): Promise<unknown>
       "Content-Type": "application/json",
     },
     body: JSON.stringify(args),
-    cache: "no-store",
   });
   if (!res.ok) {
     throw new Error(`upstash ${args[0]} failed: ${res.status}`);

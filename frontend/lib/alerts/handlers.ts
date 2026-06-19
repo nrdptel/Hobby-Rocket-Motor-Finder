@@ -100,8 +100,16 @@ export async function handleSubscribe(request: Request, env: EnvSource): Promise
       await releaseConfirmCooldown(cfg, email, key);
       return rateLimitedResponse(capCheck.retryAfterS);
     }
-  } catch {
-    return json({ error: "We couldn't set up your alert just now — please try again shortly." }, 429);
+  } catch (e) {
+    // TEMP (Cloudflare migration debug): surface the underlying cause so a failing
+    // Upstash call on the preview is diagnosable. Remove `detail` before cutover.
+    return json(
+      {
+        error: "We couldn't set up your alert just now — please try again shortly.",
+        detail: e instanceof Error ? e.message : String(e),
+      },
+      429,
+    );
   }
 
   const token = await signToken(cfg.secret, {
@@ -160,8 +168,16 @@ export async function handleSubscribeRocket(request: Request, env: EnvSource): P
       await releaseConfirmCooldown(cfg, email, specField);
       return rateLimitedResponse(capCheck.retryAfterS);
     }
-  } catch {
-    return json({ error: "We couldn't set up your alert just now — please try again shortly." }, 429);
+  } catch (e) {
+    // TEMP (Cloudflare migration debug): surface the underlying cause so a failing
+    // Upstash call on the preview is diagnosable. Remove `detail` before cutover.
+    return json(
+      {
+        error: "We couldn't set up your alert just now — please try again shortly.",
+        detail: e instanceof Error ? e.message : String(e),
+      },
+      429,
+    );
   }
 
   const token = await signToken(cfg.secret, {
