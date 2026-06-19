@@ -8,6 +8,7 @@ from .csrocketry import CSRocketryScraper
 from .erockets import ERocketsScraper
 from .loki import LokiScraper
 from .moto_joe import MotoJoeScraper
+from .motorman import MotormanScraper
 from .newcenturyrocketry import NewCenturyRocketryScraper
 from .performancehobbies import PerformanceHobbiesScraper
 from .sirius import SiriusScraper
@@ -23,6 +24,7 @@ REGISTRY = {
     PerformanceHobbiesScraper.slug: PerformanceHobbiesScraper,
     AeroTechDirectScraper.slug: AeroTechDirectScraper,
     MotoJoeScraper.slug: MotoJoeScraper,
+    MotormanScraper.slug: MotormanScraper,
     NewCenturyRocketryScraper.slug: NewCenturyRocketryScraper,
     BalsaMachiningScraper.slug: BalsaMachiningScraper,
     ERocketsScraper.slug: ERocketsScraper,

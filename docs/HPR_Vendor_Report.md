@@ -12,7 +12,7 @@
 
 ## Aggregator integration status (motor vendors)
 
-### ✅ Live — scraped (12 vendors: AeroTech ×11, Cesaroni ×4, Loki ×2)
+### ✅ Live — scraped (13 vendors: AeroTech ×12, Cesaroni ×5, Loki ×2)
 
 | Vendor | Brands integrated | Platform | Notes |
 |---|---|---|---|
@@ -28,12 +28,7 @@
 | [Balsa Machining Service](https://www.balsamachining.com) | AeroTech | Custom single-page ASP | one page; rows link to ThrustCurve → 100% match; numeric stock |
 | [eRockets](https://www.erockets.biz) | AeroTech (low/mid-power) | BigCommerce | category-page scrape; tops out ~H class |
 | [New Century Rocketry](https://newcenturyrocketry.shop) | AeroTech | Shopify | `products.json` (vendor==AeroTech); in/out only (no qty); ~95 listings (mid-power-heavy, ~12 HPR). Its Cesaroni items are hardware-only (cases/closures) — no CTI motors |
-
-### 🟡 Found 2026-06-19 — carries our brands, scrapeable, not yet integrated
-
-| Vendor | Brands | Why it's worth adding |
-|---|---|---|
-| [Motorman Rocketry](http://www.the-motorman.net) | **Cesaroni**, AeroTech | Weebly storefront — static server HTML (no SPA), `robots.txt` is `Disallow:` (allow-all). Two brand pages list **~191 Cesaroni commonNames + ~121 AeroTech designations** through M-class, each with an **in-stock quantity** in parentheses (e.g. `(2)`) and a price. Cesaroni is our thinnest-covered brand (4 current sources), so a 5th CTI source — *with stock counts*, richer than most — is the highest-value lead found in this pass. Needs an HTML-table scraper (no JSON API), but the CTI + AeroTech designation/match logic already exists. **Recommended next add.** |
+| [Motorman Rocketry](https://www.the-motorman.net) | **Cesaroni**, AeroTech | Weebly (two flat HTML pages, `robots.txt` allow-all). Parses ~415 listings → **390 matched (93%)**: **180 Cesaroni (142 HPR)** + 210 AeroTech, with **in-stock quantities**. Diameter for the CTI match comes from the `Pro<NN>` section headers; no on-page OOS legend, so a missing `(N)` reads as out-of-stock. Roughly doubles our Cesaroni coverage. |
 
 Uncertain lead: **rocket.supplies** — live (HTTP 200) and mentions AeroTech, but no detectable cart/e-commerce platform; reads more like a thin landing page than a stock-bearing storefront. Needs a closer look before triage.
 
@@ -56,7 +51,7 @@ Uncertain lead: **rocket.supplies** — live (HTTP 200) and mentions AeroTech, b
 | [Discount Rocketry](https://www.discountrocketry.com) | AeroTech | osCommerce store with price + "Sold Out" stock, but the AeroTech catalog tops out at **F-class single-use** — below the HPR scope (no H+; no CTI/Loki). (verified 2026-06-19) |
 | [The RCS Store / rocketmotorparts.com](https://www.rocketmotorparts.com) | AeroTech | RCS Rocket Motor Components is AeroTech's parent. Freewebstore site selling RMS **components, propellant grains, and EX (experimental) motor kits** with 6–44-week lead times — manufacturer-direct hardware/experimental, same entity already covered by AeroTech-direct. (verified 2026-06-19) |
 
-**Status (2026-06-19 refresh):** a fresh discovery pass added **New Century Rocketry** to the scraped set and surfaced **Motorman Rocketry** as the top integrable lead (above). Beyond those, the remaining triaged leads need either (a) an HTML scraper for Motorman's Weebly pages, (b) a headless browser (Dayton Rocketry and other client-rendered Square stores), or (c) relaxing the three-manufacturer scope. `aerotechstore.com` and `rocketmotorparts.com` both resolve to RCS/AeroTech and are redundant with AeroTech-direct; `the-rocket-store.com` is dead (HTTP 404). The three official Loki dealers (OneBadHawk, Miller, Oregon Astronomy) remain unusable, so Loki coverage stays limited to the manufacturer-direct site plus Performance Hobbies.
+**Status (2026-06-19 refresh):** a fresh discovery pass added **New Century Rocketry** and **Motorman Rocketry** to the scraped set — Motorman roughly doubling Cesaroni coverage. Beyond those, the remaining triaged leads need either (a) a headless browser (Dayton Rocketry and other client-rendered Square stores) or (b) relaxing the three-manufacturer scope. `aerotechstore.com` and `rocketmotorparts.com` both resolve to RCS/AeroTech and are redundant with AeroTech-direct; `the-rocket-store.com` is dead (HTTP 404). The three official Loki dealers (OneBadHawk, Miller, Oregon Astronomy) remain unusable, so Loki coverage stays limited to the manufacturer-direct site plus Performance Hobbies.
 
 ---
 
@@ -143,7 +138,7 @@ This section is intentionally narrow and high-level. I only include vendors that
 | Manufacturer | U.S. vendors / distributors found | States served or vendor states | Source citations | Notes |
 |---|---|---|---|---|
 | [AeroTech / Quest / RCS Rocket Motor Components](https://aerotech-rocketry.com) | Direct: [AeroTech](https://aerotech-rocketry.com); retailers: [BuyRocketMotors.com](https://www.buyrocketmotors.com,) [Apogee Components](https://www.apogeerockets.com,) [Chris' Rocket Supplies](https://www.csrocketry.com,) [Performance Hobbies](https://performancehobbies.com,) [Sirius Rocketry](https://siriusrocketry.com,) [Animal Motor Works](https://cart.amwprox.com,) [OneBadHawk Recovery Harnesses](https://www.onebadhawk.com,) [New Century Rocketry](https://newcenturyrocketry.shop) | UT, TX, CO, GA, VA, WI, AZ, NJ, SC | | Strongest verified dealer ecosystem in this sample |
-| [Cesaroni Technology](https://cesaroni.net) | [Apogee Components](https://www.apogeerockets.com,) [Performance Hobbies](https://performancehobbies.com,) [Wildman Rocketry](https://wildmanrocketry.com,) [Animal Motor Works](https://cart.amwprox.com) | CO, VA, IL, AZ | | Public CTI dealer discovery was easier through retailer pages than through a clean first-party U.S. dealer list |
+| [Cesaroni Technology](https://cesaroni.net) | [Apogee Components](https://www.apogeerockets.com,) [Performance Hobbies](https://performancehobbies.com,) [Wildman Rocketry](https://wildmanrocketry.com,) [Animal Motor Works](https://cart.amwprox.com,) [Chris' Rocket Supplies](https://www.csrocketry.com,) [Moto-Joe](https://www.moto-joe.com,) [Motorman Rocketry](https://www.the-motorman.net) | CO, VA, IL, AZ, GA | | Public CTI dealer discovery was easier through retailer pages than through a clean first-party U.S. dealer list. Motorman (added 2026-06-19) is the broadest single CTI source we scrape. |
 | [Loki Research](https://lokiresearch.com) | Direct: [Loki Research](https://lokiresearch.com); dealers: [OneBadHawk Recovery Harnesses](https://www.onebadhawk.com,) Miller Motor Works, Oregon Astronomy & Rocketry, [Performance Hobbies](https://performancehobbies.com) | MO, NJ, MI, OR, VA | | Miller Motor Works and Oregon Astronomy & Rocketry came from Loki's official dealer page; they were not independently re-verified here |
 | [Animal Motor Works](https://cart.amwprox.com) | Direct: [Animal Motor Works](https://cart.amwprox.com); retailer: [Performance Hobbies](https://performancehobbies.com) | AZ, VA | | Straightforward manufacturer-plus-retailer pattern |
 | [Contrail Rockets](https://contrailrockets.com) | Direct: [Contrail Rockets](https://contrailrockets.com); retailer: [Performance Hobbies](https://performancehobbies.com) | State not surfaced, VA | | Clear current hybrid storefront plus at least one active retailer |
