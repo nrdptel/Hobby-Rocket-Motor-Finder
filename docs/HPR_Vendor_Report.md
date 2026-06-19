@@ -1,6 +1,6 @@
 # U.S. High-Power Rocketry Vendor Directory
 
-> **Last updated: 2026-06-05.**
+> **Last updated: 2026-06-19.**
 >
 > The original directory below is the source research. This top section records the
 > **Hobby Rocket Motor Finder aggregator's integration status** for every *motor*
@@ -12,7 +12,7 @@
 
 ## Aggregator integration status (motor vendors)
 
-### ✅ Live — scraped (11 vendors: AeroTech ×10, Cesaroni ×4, Loki ×2)
+### ✅ Live — scraped (12 vendors: AeroTech ×11, Cesaroni ×4, Loki ×2)
 
 | Vendor | Brands integrated | Platform | Notes |
 |---|---|---|---|
@@ -27,6 +27,7 @@
 | [Moto-Joe Rocketry](https://www.moto-joe.com) | AeroTech, Cesaroni | OpenCart | category list for price, per-product page for stock |
 | [Balsa Machining Service](https://www.balsamachining.com) | AeroTech | Custom single-page ASP | one page; rows link to ThrustCurve → 100% match; numeric stock |
 | [eRockets](https://www.erockets.biz) | AeroTech (low/mid-power) | BigCommerce | category-page scrape; tops out ~H class |
+| [New Century Rocketry](https://newcenturyrocketry.shop) | AeroTech | Shopify | `products.json` (vendor==AeroTech); in/out only (no qty); ~95 listings (mid-power-heavy, ~12 HPR). Its Cesaroni items are hardware-only (cases/closures) — no CTI motors |
 
 ### ❌ Investigated & excluded (motor vendors carrying our brands)
 
@@ -130,7 +131,7 @@ This section is intentionally narrow and high-level. I only include vendors that
 
 | Manufacturer | U.S. vendors / distributors found | States served or vendor states | Source citations | Notes |
 |---|---|---|---|---|
-| [AeroTech / Quest / RCS Rocket Motor Components](https://aerotech-rocketry.com) | Direct: [AeroTech](https://aerotech-rocketry.com); retailers: [BuyRocketMotors.com](https://www.buyrocketmotors.com,) [Apogee Components](https://www.apogeerockets.com,) [Chris' Rocket Supplies](https://www.csrocketry.com,) [Performance Hobbies](https://performancehobbies.com,) [Sirius Rocketry](https://siriusrocketry.com,) [Animal Motor Works](https://cart.amwprox.com,) [OneBadHawk Recovery Harnesses](https://www.onebadhawk.com) | UT, TX, CO, GA, VA, WI, AZ, NJ | | Strongest verified dealer ecosystem in this sample |
+| [AeroTech / Quest / RCS Rocket Motor Components](https://aerotech-rocketry.com) | Direct: [AeroTech](https://aerotech-rocketry.com); retailers: [BuyRocketMotors.com](https://www.buyrocketmotors.com,) [Apogee Components](https://www.apogeerockets.com,) [Chris' Rocket Supplies](https://www.csrocketry.com,) [Performance Hobbies](https://performancehobbies.com,) [Sirius Rocketry](https://siriusrocketry.com,) [Animal Motor Works](https://cart.amwprox.com,) [OneBadHawk Recovery Harnesses](https://www.onebadhawk.com,) [New Century Rocketry](https://newcenturyrocketry.shop) | UT, TX, CO, GA, VA, WI, AZ, NJ, SC | | Strongest verified dealer ecosystem in this sample |
 | [Cesaroni Technology](https://cesaroni.net) | [Apogee Components](https://www.apogeerockets.com,) [Performance Hobbies](https://performancehobbies.com,) [Wildman Rocketry](https://wildmanrocketry.com,) [Animal Motor Works](https://cart.amwprox.com) | CO, VA, IL, AZ | | Public CTI dealer discovery was easier through retailer pages than through a clean first-party U.S. dealer list |
 | [Loki Research](https://lokiresearch.com) | Direct: [Loki Research](https://lokiresearch.com); dealers: [OneBadHawk Recovery Harnesses](https://www.onebadhawk.com,) Miller Motor Works, Oregon Astronomy & Rocketry, [Performance Hobbies](https://performancehobbies.com) | MO, NJ, MI, OR, VA | | Miller Motor Works and Oregon Astronomy & Rocketry came from Loki's official dealer page; they were not independently re-verified here |
 | [Animal Motor Works](https://cart.amwprox.com) | Direct: [Animal Motor Works](https://cart.amwprox.com); retailer: [Performance Hobbies](https://performancehobbies.com) | AZ, VA | | Straightforward manufacturer-plus-retailer pattern |

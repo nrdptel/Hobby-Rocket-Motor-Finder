@@ -51,6 +51,7 @@ _DEFAULT_HEALTH_BASELINE = _REPO_ROOT / "data" / "health-baseline.json"
 # the low tens already signal a degraded scrape.
 _VENDOR_FLOORS = {
     "loki": 10,
+    "newcenturyrocketry": 40,  # healthy ~95 listings, products.json all-or-nothing
     "balsa_machining": 120,  # healthy ~204, single-page all-or-nothing
     "amw": 150,  # healthy ~247
     "aerotechdirect": 150,  # healthy ~252, full-catalog backorder vendor
