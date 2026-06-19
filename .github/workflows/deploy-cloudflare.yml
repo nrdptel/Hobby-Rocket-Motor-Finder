@@ -58,4 +58,7 @@ jobs:
           # picks up frontend/functions/** as Pages Functions and the
           # public/_redirects + public/_headers (copied into out/) automatically.
           workingDirectory: frontend
-          command: pages deploy out --project-name=hpr-motor-finder
+          # `--branch=main` forces a PRODUCTION deployment (main is the project's
+          # production branch) — the custom domain serves production, so an
+          # implicit/preview branch would deploy but never go live.
+          command: pages deploy out --project-name=hpr-motor-finder --branch=main
