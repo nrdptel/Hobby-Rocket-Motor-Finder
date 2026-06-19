@@ -32,11 +32,14 @@ secrets.
 - **`public/_headers`** — the security headers.
 - **`public/_redirects`** — legacy `/compare/<ids>` path links 302 to the
   `/compare?ids=…` query form (the query form survives the redirect; a
-  `.html`→clean-URL redirect on the path form would loop).
-- **`public/_routes.json`** — static asset paths never invoke a Function.
+  `.html`→clean-URL redirect on the path form would loop). Uses a named
+  placeholder (`:ids`), since Cloudflare leaves a `:splat` literal in a
+  query-string destination.
 - **Pages Functions** (`functions/api/alerts/*`) export `onRequestPost` /
   `onRequestGet` and wrap the runtime-agnostic `lib/alerts/*` (fetch + Web
   Crypto). Env comes from the Functions `env` binding, not `process.env`.
+  Cloudflare routes any `/api/*` request to these Functions and serves
+  everything else as a static asset automatically — no `_routes.json` needed.
 - **GitHub Actions deploy** (`.github/workflows/deploy-cloudflare.yml`) builds
   with the `NEXT_PUBLIC_*` vars present, then
   `wrangler pages deploy out --project-name <proj>`. Direct upload, so it

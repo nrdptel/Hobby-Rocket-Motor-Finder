@@ -5,4 +5,9 @@
 # page directly. The query form is used because a /compare/<ids> PATH triggers
 # Pages' canonical-URL (.html -> clean) redirect, which loops. The ids survive
 # the 302 in the query string, so the /compare page resolves them client-side.
-/compare/* /compare?ids=:splat 302
+#
+# Use a NAMED placeholder (:ids), not a splat (*): Cloudflare Pages substitutes
+# named placeholders inside a query-string destination, but a `*`/:splat is left
+# literal there (verified live — :splat produced `?ids=:splat`). The compare ids
+# are a single path segment (commas, no slashes), so :ids captures them whole.
+/compare/:ids /compare?ids=:ids 302
