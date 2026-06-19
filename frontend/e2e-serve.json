@@ -1,6 +1,6 @@
 {
   "public": "out",
-  "rewrites": [{ "source": "/compare/:ids", "destination": "/compare/_.html" }],
+  "redirects": [{ "source": "/compare/:ids", "destination": "/compare?ids=:ids", "type": 302 }],
   "headers": [
     {
       "source": "**",

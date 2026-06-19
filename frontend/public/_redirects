@@ -1,10 +1,8 @@
-# Cloudflare Pages redirects/rewrites. First match wins.
+# Cloudflare Pages redirects. First match wins.
 #
-# Serve the single static compare shell (out/compare/_.html) for ANY
-# /compare/<ids> URL with a 200 — a REWRITE, not a redirect — so the shareable
-# path form /compare/1,2,3 keeps its URL while only one shell HTML ships. The
-# shell's client JS reads the ids out of the pathname and resolves the motors
-# from /compare-data.json. The bare /compare (pick-motors) page is its own
-# static route and is not matched by this rule. Next emits the placeholder
-# generateStaticParams shell as compare/_.html (not /_/index.html).
-/compare/* /compare/_.html 200
+# Back-compat for the OLD shareable compare URL form (/compare/1,2,3): 302 it to
+# the canonical query form (/compare?ids=1,2,3), which serves the static /compare
+# page directly. The query form is used because a /compare/<ids> PATH triggers
+# Pages' canonical-URL (.html -> clean) redirect, which loops. The ids survive
+# the 302 in the query string, so the /compare page resolves them client-side.
+/compare/* /compare?ids=:splat 302

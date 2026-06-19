@@ -41,7 +41,7 @@ export function CompareView({ motors, curveSeries }: { motors: Motor[]; curveSer
   // A link to this same compare view with one motor removed.
   const withoutHref = (id: number) => {
     const rest = ids.filter((x) => x !== id);
-    return rest.length >= 2 ? `/compare/${rest.join(",")}` : "/";
+    return rest.length >= 2 ? `/compare?ids=${rest.join(",")}` : "/";
   };
 
   const buys = motors.map(bestBuy);

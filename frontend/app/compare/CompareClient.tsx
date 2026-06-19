@@ -4,14 +4,19 @@ import { useEffect, useState } from "react";
 
 import { MAX_COMPARE } from "@/lib/compareSelection";
 import type { Motor } from "@/lib/snapshotTypes";
-import { ComparePageBody } from "../../components/ComparePageBody";
-import { type CurveSeries } from "../../components/ThrustCurveChart";
+import { ComparePageBody } from "../components/ComparePageBody";
+import { type CurveSeries } from "../components/ThrustCurveChart";
 
-// Client renderer for /compare/<ids>. Under static export the route can't read
-// fs per-request, so a single static shell ships and the browser resolves the
-// requested motors from the build-time `/compare-data.json` payload. The path
-// form (/compare/1,2,3) is preserved — ids are read from the URL pathname, NOT a
-// route param — so shared compare links keep working byte-for-byte.
+// Client renderer for the compare view. Under static export the route can't read
+// fs per-request, so the bare /compare page ships as one static shell and the
+// browser resolves the requested motors from the build-time /compare-data.json.
+//
+// The shareable URL is the QUERY form `/compare?ids=1,2,3`: it serves the static
+// /compare page directly (no redirect), so it's robust on Cloudflare Pages —
+// unlike a /compare/<ids> path, which Pages' canonical-URL redirect turns into a
+// loop. Legacy /compare/<ids> path links are 302'd to the query form by
+// public/_redirects, so old shared links keep working. We still read the path as
+// a fallback in case a path URL reaches the client without the redirect.
 
 /** Compact motor record as emitted by scripts/gen-compare-data.mjs — a subset of
  * Motor carrying exactly the fields CompareView/ComparePageBody read. */
@@ -26,8 +31,8 @@ function curveKey(manufacturer: string, designation: string): string {
 }
 
 /** Parse the `1,2,3` segment into a de-duplicated, capped list of motor ids in
- * URL order (the column order). Same logic the old server route used: tolerates
- * an encoded comma and drops unparseable ids. */
+ * URL order (the column order). Tolerates an encoded comma and drops unparseable
+ * ids — same logic the old server route used. */
 function parseIds(raw: string): number[] {
   let decoded = raw;
   try {
@@ -44,10 +49,12 @@ function parseIds(raw: string): number[] {
   return out;
 }
 
-/** Read the ids segment from the current pathname (`/compare/<ids>`). Returns ""
- * for the bare /compare/ shell so it renders the pick-motors empty state. */
-function idsFromPath(pathname: string): string {
-  const m = pathname.match(/^\/compare\/(.+?)\/?$/);
+/** The ids selection from the URL: the `?ids=` query (canonical), falling back to
+ * a `/compare/<ids>` pathname. Empty string → render the pick-motors shell. */
+function idsFromUrl(): string {
+  const q = new URLSearchParams(window.location.search).get("ids");
+  if (q) return q;
+  const m = window.location.pathname.match(/^\/compare\/(.+?)\/?$/);
   return m ? m[1] : "";
 }
 
@@ -58,7 +65,7 @@ export function CompareClient() {
 
   useEffect(() => {
     let cancelled = false;
-    const ids = parseIds(idsFromPath(window.location.pathname));
+    const ids = parseIds(idsFromUrl());
     if (ids.length === 0) {
       setLoaded(true);
       return;
