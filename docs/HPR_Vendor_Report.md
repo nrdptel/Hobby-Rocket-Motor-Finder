@@ -29,9 +29,17 @@
 | [eRockets](https://www.erockets.biz) | AeroTech (low/mid-power) | BigCommerce | category-page scrape; tops out ~H class |
 | [New Century Rocketry](https://newcenturyrocketry.shop) | AeroTech | Shopify | `products.json` (vendor==AeroTech); in/out only (no qty); ~95 listings (mid-power-heavy, ~12 HPR). Its Cesaroni items are hardware-only (cases/closures) — no CTI motors |
 
+### 🟡 Found 2026-06-19 — carries our brands, scrapeable, not yet integrated
+
+| Vendor | Brands | Why it's worth adding |
+|---|---|---|
+| [Motorman Rocketry](http://www.the-motorman.net) | **Cesaroni**, AeroTech | Weebly storefront — static server HTML (no SPA), `robots.txt` is `Disallow:` (allow-all). Two brand pages list **~191 Cesaroni commonNames + ~121 AeroTech designations** through M-class, each with an **in-stock quantity** in parentheses (e.g. `(2)`) and a price. Cesaroni is our thinnest-covered brand (4 current sources), so a 5th CTI source — *with stock counts*, richer than most — is the highest-value lead found in this pass. Needs an HTML-table scraper (no JSON API), but the CTI + AeroTech designation/match logic already exists. **Recommended next add.** |
+
+Uncertain lead: **rocket.supplies** — live (HTTP 200) and mentions AeroTech, but no detectable cart/e-commerce platform; reads more like a thin landing page than a stock-bearing storefront. Needs a closer look before triage.
+
 ### ❌ Investigated & excluded (motor vendors carrying our brands)
 
-| Vendor | Brands | Reason not integrated (verified 2026-06-05) |
+| Vendor | Brands | Reason not integrated |
 |---|---|---|
 | [Apogee Components](https://www.apogeerockets.com) | AeroTech, Cesaroni | robots.txt `Disallow: /` for the generic user-agent (only named search engines allowed) — off-limits by our honor-robots policy. Would otherwise be a top pick. |
 | [Dayton Rocketry](https://daytonrocketry.square.site) | AeroTech | Square Online SPA: price + stock are 100% client-rendered behind a CSRF/session-gated store API; absent from server HTML. Would need a headless browser. (CTI/Loki: none.) |
@@ -44,8 +52,11 @@
 | Off We Go Rocketry (offwegorocketry.com) | AeroTech, Cesaroni | Owner **retired; store closed Dec 31, 2025**; domain now parked ("Coming Soon"). Never carried Loki. |
 | [Aerocon Systems](https://aeroconsystems.com) | none of ours | Live OpenCart store, but carries **zero** AeroTech/Cesaroni/Loki — it's a hybrid/liquid/EX-research supplier (RATTWorks, bipropellant). |
 | [Countyline / Starlight Model Rockets](https://www.starlightrockets.com) | none of ours | Live Wix store (cleanly scrapeable) but stocks only Estes/Quest low-power (A–E) + kits — no AeroTech/Cesaroni/Loki composite motors. |
+| [Rocketarium](https://www.rocketarium.com) | AeroTech, Cesaroni (hardware only) | Live Zen Cart store, but for our brands it sells only **reusable hardware** — RMS/Pro casings, closures, nozzles, grease — no propellant reload kits or motors. Out of scope like Aero Pack. (verified 2026-06-19) |
+| [Discount Rocketry](https://www.discountrocketry.com) | AeroTech | osCommerce store with price + "Sold Out" stock, but the AeroTech catalog tops out at **F-class single-use** — below the HPR scope (no H+; no CTI/Loki). (verified 2026-06-19) |
+| [The RCS Store / rocketmotorparts.com](https://www.rocketmotorparts.com) | AeroTech | RCS Rocket Motor Components is AeroTech's parent. Freewebstore site selling RMS **components, propellant grains, and EX (experimental) motor kits** with 6–44-week lead times — manufacturer-direct hardware/experimental, same entity already covered by AeroTech-direct. (verified 2026-06-19) |
 
-**Status: every motor vendor in this directory has been triaged.** No further leads remain without either (a) a headless-browser scraper (would unlock Dayton Rocketry and other client-rendered Square stores) or (b) relaxing the three-manufacturer scope. The three official Loki dealers (OneBadHawk, Miller, Oregon Astronomy) are all unusable, which is why Loki coverage is limited to the manufacturer-direct site plus Performance Hobbies.
+**Status (2026-06-19 refresh):** a fresh discovery pass added **New Century Rocketry** to the scraped set and surfaced **Motorman Rocketry** as the top integrable lead (above). Beyond those, the remaining triaged leads need either (a) an HTML scraper for Motorman's Weebly pages, (b) a headless browser (Dayton Rocketry and other client-rendered Square stores), or (c) relaxing the three-manufacturer scope. `aerotechstore.com` and `rocketmotorparts.com` both resolve to RCS/AeroTech and are redundant with AeroTech-direct; `the-rocket-store.com` is dead (HTTP 404). The three official Loki dealers (OneBadHawk, Miller, Oregon Astronomy) remain unusable, so Loki coverage stays limited to the manufacturer-direct site plus Performance Hobbies.
 
 ---
 
