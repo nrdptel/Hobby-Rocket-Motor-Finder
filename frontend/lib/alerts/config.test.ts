@@ -44,20 +44,20 @@ describe("normalizeEmail", () => {
 });
 
 describe("clientIp anti-spoof precedence", () => {
-  it("prefers the platform-set x-vercel-forwarded-for over the spoofable x-forwarded-for", () => {
-    // x-forwarded-for is client-supplied on Vercel; trusting it would let an
-    // attacker rotate the rate-limit key per request and email-bomb.
+  it("prefers the platform-set cf-connecting-ip over the spoofable x-forwarded-for", () => {
+    // x-forwarded-for is client-supplied; trusting it would let an attacker
+    // rotate the rate-limit key per request and email-bomb.
     const ip = clientIp(
       req({
         "x-forwarded-for": "1.1.1.1", // attacker-controlled
-        "x-vercel-forwarded-for": "9.9.9.9", // platform-set, trusted
+        "cf-connecting-ip": "9.9.9.9", // platform-set, trusted
         "x-real-ip": "8.8.8.8",
       }),
     );
     expect(ip).toBe("9.9.9.9");
   });
 
-  it("falls back to x-real-ip when no vercel header is present", () => {
+  it("falls back to x-real-ip when no cf-connecting-ip header is present", () => {
     expect(clientIp(req({ "x-real-ip": "8.8.8.8", "x-forwarded-for": "1.1.1.1" }))).toBe("8.8.8.8");
   });
 
@@ -69,8 +69,8 @@ describe("clientIp anti-spoof precedence", () => {
     expect(clientIp(req({}))).toBe("unknown");
   });
 
-  it("takes the leftmost entry and trims surrounding spaces", () => {
-    expect(clientIp(req({ "x-vercel-forwarded-for": " 9.9.9.9 , 7.7.7.7 " }))).toBe("9.9.9.9");
+  it("trims surrounding spaces on the cf-connecting-ip value", () => {
+    expect(clientIp(req({ "cf-connecting-ip": " 9.9.9.9 " }))).toBe("9.9.9.9");
   });
 });
 

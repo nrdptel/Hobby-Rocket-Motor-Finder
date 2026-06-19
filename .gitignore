@@ -29,7 +29,7 @@ Thumbs.db
 # Data files that ARE tracked:
 #   snapshot.example.json    — frozen seed so `npm run dev` works on a fresh clone
 #   snapshot.json            — committed hourly by .github/workflows/scrape.yml
-#                              (Vercel auto-deploys when it changes)
+#                              (a Cloudflare Pages deploy publishes it)
 #   thrustcurve_aerotech.json — refreshable but slow-changing catalog
 data/*.db
 data/*.db-journal

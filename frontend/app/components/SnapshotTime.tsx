@@ -21,8 +21,8 @@ const local = (iso: string) => new Date(iso).toLocaleString(undefined, PARTS);
 
 /** Renders an ISO timestamp in the *viewer's* local timezone with an explicit
  * zone label (e.g. "Jun 3, 2026, 9:01 PM CDT"). The timestamp is otherwise
- * formatted server-side, which means it would show the server's zone (UTC on
- * Vercel) to everyone; this fixes that by reformatting after mount. Falls back
+ * formatted at build time, which means it would show the build host's zone
+ * (UTC) to everyone; this fixes that by reformatting after mount. Falls back
  * to a clearly-labelled UTC value before hydration. */
 export function SnapshotTime({ iso }: { iso: string }) {
   const [text, setText] = useState(() => utc(iso));

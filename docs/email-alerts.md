@@ -7,7 +7,7 @@ the site works exactly as without it.
 ## How it works
 
 ```
-visitor clicks 🔔 → POST /api/alerts/subscribe (Vercel fn)
+visitor clicks 🔔 → POST /api/alerts/subscribe (Pages Function)
         → double-opt-in email (ZeptoMail) → click confirm → GET /api/alerts/confirm
         → email added to Upstash set  sub:<manufacturer::designation>
 
@@ -39,8 +39,9 @@ always returns the same response and only emails the link if the address
 actually has alerts — the list itself is shown only after the magic link proves
 inbox ownership, so no one can view or change anyone else's subscriptions.
 
-All subscriber/email logic is TypeScript on Vercel (`frontend/lib/alerts`,
-`frontend/app/api/alerts/*`); the Python side only computes restocks
+All subscriber/email logic is TypeScript running as Cloudflare Pages Functions
+(`frontend/lib/alerts`, `frontend/functions/api/alerts/*`); the Python side only
+computes restocks
 (`backend/hpr_finder/alerts.py`) and POSTs them. Confirm/unsubscribe links are
 stateless HMAC-signed tokens (no DB rows for pending/unsub).
 
@@ -58,7 +59,8 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
    **REST URL** and **REST token** (not the redis:// URL).
 3. **Generate two random secrets:** `openssl rand -hex 32` for each of
    `ALERTS_SECRET` (token signing) and `ALERTS_DISPATCH_SECRET` (CI→dispatch auth).
-4. **Vercel** → Project → Settings → Environment Variables (Production), then redeploy:
+4. **Cloudflare** → Pages project → Settings → Environment variables (Production),
+   then trigger a deploy (the `NEXT_PUBLIC_*` vars are baked in at build time):
    | Var | Value |
    |---|---|
    | `ZEPTOMAIL_TOKEN` | the agent's **Send Mail token** (the full `Zoho-enczapikey …` value) |
@@ -73,11 +75,11 @@ stateless HMAC-signed tokens (no DB rows for pending/unsub).
    | `NEXT_PUBLIC_SITE_URL` | `https://motor.fusionspace.co` |
 
    > Treat `ZEPTOMAIL_TOKEN` as a live credential: it can send mail as your domain.
-   > Store it only in Vercel's env (never in the repo); rotate it from the agent's
-   > token list if it leaks.
+   > Store it only in the Cloudflare Pages env (never in the repo); rotate it from
+   > the agent's token list if it leaks.
 5. **GitHub** → repo → Settings → Secrets and variables → Actions → add:
    - `ALERTS_DISPATCH_URL` = `https://motor.fusionspace.co/api/alerts/dispatch`
-   - `ALERTS_DISPATCH_SECRET` = the **same** value as in Vercel
+   - `ALERTS_DISPATCH_SECRET` = the **same** value as in Cloudflare Pages
    The hourly `scrape.yml` reads these; without them the dispatch step is a no-op.
 
 ## Verify
@@ -101,7 +103,7 @@ stops trying them), wire up the optional bounce webhook:
    `https://motor.fusionspace.co/api/alerts/zepto-webhook`, subscribed to the
    **hard bounce** and **feedback loop (spam complaint)** events, with an
    **authentication key** of your choosing.
-2. Set `ZEPTOMAIL_WEBHOOK_SECRET` in Vercel to that **same** key and redeploy.
+2. Set `ZEPTOMAIL_WEBHOOK_SECRET` in Cloudflare Pages to that **same** key and redeploy.
 
 The route verifies ZeptoMail's `producer-signature` header (HMAC-SHA256, replay
 window 5 min), then removes the recipient from every subscription via the reverse
@@ -131,7 +133,7 @@ subs need no backfill). Returns `{keysScanned, backfilled}`.
 
 ## Abuse / cost protection
 
-- Rate limits key off the **trusted** Vercel client IP (`x-vercel-forwarded-for` /
+- Rate limits key off the **trusted** Cloudflare client IP (`cf-connecting-ip` /
   `x-real-ip`), not the spoofable leftmost `x-forwarded-for`.
 - Public endpoints fail **closed** (no send) if the rate-limit store is down.
 - A global **hourly cap** on confirmation-email sends bounds ZeptoMail-credit

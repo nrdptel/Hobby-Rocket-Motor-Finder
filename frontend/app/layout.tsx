@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 // Origin used to resolve OG / Twitter card image URLs absolutely. Defaults to
 // the production site; a fork can override with NEXT_PUBLIC_SITE_URL on its
-// deploy host (Vercel / Cloudflare Pages) to point cards at its own domain.
+// deploy host (Cloudflare Pages) to point cards at its own domain.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
 
 const description =

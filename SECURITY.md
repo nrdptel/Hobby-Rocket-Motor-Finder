@@ -19,7 +19,7 @@ In scope: the web app and its API routes (`frontend/app/api/alerts/*`), the
 token/auth handling, and the scrape/snapshot pipeline.
 
 Out of scope: third-party services this project integrates with (ZeptoMail,
-Upstash, Vercel) — report those to the respective vendor. Stale or incorrect
+Upstash, Cloudflare) — report those to the respective vendor. Stale or incorrect
 stock/price data is a data-quality bug, not a security issue — please use the
 bug-report template for that.
 

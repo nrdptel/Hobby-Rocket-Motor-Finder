@@ -98,7 +98,7 @@ const KEY = motorKey(MFR, DES);
 const subscribeReq = (body: object, ip = "1.2.3.4") =>
   new Request("https://site.test/api/alerts/subscribe", {
     method: "POST",
-    headers: { "content-type": "application/json", "x-vercel-forwarded-for": ip },
+    headers: { "content-type": "application/json", "cf-connecting-ip": ip },
     body: JSON.stringify(body),
   });
 

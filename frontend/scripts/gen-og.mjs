@@ -8,11 +8,12 @@
 //   public/og/motor/<manufacturer>/<designation>.png      (per-motor cards)
 // The page generateMetadata then points openGraph/twitter.images at these paths.
 //
-// We import next/og's compiled @vercel/og directly (the public `next/og` export
-// is only resolvable inside Next's bundler, not a plain node script). The OG
-// layout JSX is reproduced with React.createElement so this stays a plain .mjs,
-// matching the other prebuild scripts. The small derive formatters it needs are
-// inlined below — kept in sync with lib/derive.ts (trivial, pure functions).
+// We use next/og's `ImageResponse` (Next's built-in OG image renderer), imported
+// via the explicit `next/og.js` specifier so it resolves from a plain node
+// script as well as inside Next's bundler. The OG layout JSX is reproduced with
+// React.createElement so this stays a plain .mjs, matching the other prebuild
+// scripts. The small derive formatters it needs are inlined below — kept in sync
+// with lib/derive.ts (trivial, pure functions).
 //
 // Runs in `prebuild` after copy-snapshot.mjs. Idempotent.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -20,7 +21,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import React from "react";
-import { ImageResponse } from "next/dist/compiled/@vercel/og/index.node.js";
+import { ImageResponse } from "next/og.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, "..", "data");

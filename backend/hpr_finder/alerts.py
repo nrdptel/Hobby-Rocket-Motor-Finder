@@ -3,8 +3,8 @@
 The hourly scrape calls ``hpr alerts dispatch`` (see cli.py), which diffs the
 previously-published snapshot against the freshly-written one and POSTs the
 restocked motors to the frontend's ``/api/alerts/dispatch`` route. All the
-subscriber/email logic lives in TypeScript on Vercel; this module is just the
-pure "what came back in stock" diff.
+subscriber/email logic lives in TypeScript (Cloudflare Pages Functions); this
+module is just the pure "what came back in stock" diff.
 """
 from __future__ import annotations
 

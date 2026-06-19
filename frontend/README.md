@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend — HPR Motor Finder
+
+The [Next.js](https://nextjs.org) (App Router) web app. It renders a static
+catalog of high-power rocket motors from a snapshot the Python backend produces,
+plus the optional restock email-alert API routes.
+
+See the top-level [README](../README.md) for the project overview and the
+architecture, and [docs/email-alerts.md](../docs/email-alerts.md) for the alert
+backend setup.
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the result. The
+`prebuild`/`predev` scripts copy the latest snapshot from `../data` and
+pre-generate Open Graph cards, so a fresh clone renders the seed catalog with no
+extra setup. Edit pages under `app/`; they hot-reload as you save.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build & test
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build      # static export to ./out (output: "export")
+npm test           # vitest unit tests (lib/**)
+npm run test:e2e   # Playwright e2e against the exported ./out
+```
+
+## Deploying
+
+The app is a static export (`out/`) served by **Cloudflare Pages**, with the
+alert API routes running as **Pages Functions** (`functions/`). The hourly
+scrape commits a fresh snapshot, and a GitHub Actions workflow rebuilds and runs
+`wrangler pages deploy`. See [docs/hosting.md](../docs/hosting.md)
+for the hosting layout.
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs) — Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) — an interactive Next.js tutorial.

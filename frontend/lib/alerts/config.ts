@@ -81,13 +81,13 @@ export function userRocketsKey(email: string): string {
 }
 
 /** The trusted client IP for rate limiting. The leftmost `x-forwarded-for`
- * entry is client-supplied and spoofable on Vercel (the platform appends the
- * real edge IP rather than replacing the header), so a per-request spoof would
- * defeat the limiter. Prefer the Vercel-set headers, which the client can't
- * forge; fall back to XFF only off-platform (local/dev). */
+ * entry is client-supplied and spoofable (the platform appends the real edge
+ * IP rather than replacing the header), so a per-request spoof would defeat the
+ * limiter. Prefer `cf-connecting-ip`, which Cloudflare sets to the real client
+ * IP and the client can't forge; fall back to XFF only off-platform (local/dev). */
 export function clientIp(request: Request): string {
-  const vercel = request.headers.get("x-vercel-forwarded-for");
-  if (vercel) return vercel.split(",")[0].trim();
+  const cf = request.headers.get("cf-connecting-ip");
+  if (cf) return cf.trim();
   const real = request.headers.get("x-real-ip");
   if (real) return real.trim();
   const xff = request.headers.get("x-forwarded-for");

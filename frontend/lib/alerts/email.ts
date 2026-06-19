@@ -114,7 +114,7 @@ export async function sendEmail(args: SendArgs): Promise<void> {
     /* body wasn't JSON */
   }
   if (isQuotaError(res.status, code, message)) {
-    // Distinct, greppable ops line — point a Vercel log drain / alert at it.
+    // Distinct, greppable ops line — point a log drain / alert at it.
     console.error(
       `[alerts] ZeptoMail quota exhausted (status=${res.status} code=${code}): ${message}`,
     );
