@@ -24,8 +24,8 @@ describe("designationFromKey", () => {
 
 describe("clientIp", () => {
   const req = (h: Record<string, string>) => new Request("https://x.test", { headers: h });
-  it("prefers Vercel-set headers over the spoofable x-forwarded-for", () => {
-    expect(clientIp(req({ "x-vercel-forwarded-for": "9.9.9.9", "x-forwarded-for": "1.2.3.4" }))).toBe("9.9.9.9");
+  it("prefers platform-set headers over the spoofable x-forwarded-for", () => {
+    expect(clientIp(req({ "cf-connecting-ip": "9.9.9.9", "x-forwarded-for": "1.2.3.4" }))).toBe("9.9.9.9");
     expect(clientIp(req({ "x-real-ip": "8.8.8.8", "x-forwarded-for": "1.2.3.4" }))).toBe("8.8.8.8");
   });
   it("falls back to x-forwarded-for off-platform", () => {

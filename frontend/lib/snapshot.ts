@@ -28,7 +28,7 @@ export type {
 // `copy-snapshot.mjs` script copies them in before `next build`/`next dev`
 // runs. This indirection is required because Next 16 + Turbopack refuses
 // file traces outside the project root, so reading from `../data/` would
-// not survive deployment to Vercel / Cloudflare Pages.
+// not survive the static export / deployment to Cloudflare Pages.
 //
 // Live snapshot — copied from `<repo>/data/snapshot.json` if present.
 const SNAPSHOT_PATH = path.resolve(process.cwd(), "data", "snapshot.json");

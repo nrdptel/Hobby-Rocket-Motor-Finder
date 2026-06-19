@@ -128,7 +128,7 @@ The data model is generic: a `Listing` is `{vendor, designation, sku, status, pr
 
 Free hosting works since the architecture is essentially a static site fed by a periodic snapshot.
 
-- **Frontend**: Cloudflare Pages or Vercel Hobby — auto-deploy on `git push`.
+- **Frontend**: Cloudflare Pages (static export) — deploy on `git push` via GitHub Actions.
 - **Scrapes**: GitHub Actions cron, e.g. every 6h: run `hpr scrape run all && hpr snapshot export`, upload `snapshot.json` as a build artifact, trigger a frontend deploy.
 
 A test workflow lives at [.github/workflows/test.yml](.github/workflows/test.yml). A deploy workflow is left as an exercise — pick the host you prefer.
