@@ -13,7 +13,7 @@ export function ApiButton() {
       <span aria-hidden className="font-mono text-[13px] leading-none">
         {"</>"}
       </span>
-      Free API
+      API
     </Link>
   );
 }
