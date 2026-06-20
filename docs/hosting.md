@@ -38,8 +38,11 @@ secrets.
 - **Pages Functions** (`functions/api/alerts/*`) export `onRequestPost` /
   `onRequestGet` and wrap the runtime-agnostic `lib/alerts/*` (fetch + Web
   Crypto). Env comes from the Functions `env` binding, not `process.env`.
-  Cloudflare routes any `/api/*` request to these Functions and serves
-  everything else as a static asset automatically — no `_routes.json` needed.
+  File-based routing: only the concrete `/api/alerts/*` paths invoke a
+  Function (Wrangler auto-generates `_routes.json` from `functions/`). Every
+  other request — including the public data API under `/api/v1/*` — is served
+  as a static asset and never touches the Workers runtime, so it stays in the
+  unlimited/free static tier (the 100k/day Functions cap is alerts-only).
 - **GitHub Actions deploy** (`.github/workflows/deploy-cloudflare.yml`) builds
   with the `NEXT_PUBLIC_*` vars present, then
   `wrangler pages deploy out --project-name <proj>`. Direct upload, so it
