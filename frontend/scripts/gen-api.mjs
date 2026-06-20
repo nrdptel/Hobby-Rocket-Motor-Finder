@@ -258,7 +258,7 @@ export function buildOpenApi() {
       vendor_count: { type: "integer", description: "distinct vendors carrying it" },
       in_stock_vendor_count: { type: "integer" },
       listing_count: { type: "integer", description: "total individual listings/variants" },
-      cheapest_in_stock: { type: ["object", "null"] },
+      cheapest_in_stock: { anyOf: [{ type: "null" }, { $ref: "#/components/schemas/CheapestInStock" }] },
       listings: { type: "array", items: { $ref: "#/components/schemas/Listing" } },
     },
   };
@@ -304,6 +304,19 @@ export function buildOpenApi() {
     components: {
       schemas: {
         Listing: listing,
+        CheapestInStock: {
+          type: "object",
+          description: "The pack-aware cheapest in-stock listing (per unit).",
+          properties: {
+            price_cents: { type: ["integer", "null"] },
+            unit_price_cents: { type: ["integer", "null"] },
+            currency: { type: "string" },
+            vendor: { type: "string" },
+            vendor_slug: { type: "string" },
+            url: { type: "string", format: "uri" },
+            pack_size: { type: "integer" },
+          },
+        },
         Motor: motor,
         Vendor: {
           type: "object",

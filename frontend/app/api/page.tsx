@@ -73,7 +73,7 @@ export default function ApiPage() {
               manufacturer list. Poll this to detect updates.
             </Endpoint>
             <Endpoint path="/api/v1/motors.json">
-              every matched motor we have a listing for, all impulse classes.
+              every matched motor we have a listing for (D-class and up, matching the site).
             </Endpoint>
             <Endpoint path="/api/v1/in-stock.json">
               same shape, only motors in stock at a vendor right now.
