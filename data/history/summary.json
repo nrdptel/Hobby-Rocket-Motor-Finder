@@ -17121,10 +17121,10 @@
     "price_high_cents": 10700
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j415w-l-reload-kit-hazmat-436.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:30",
-    "last_change_at": "2026-05-31T04:26:30",
+    "last_change_at": "2026-06-20T23:04:46+00:00",
     "last_in_stock_at": "2026-05-31T04:26:30",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17277,10 +17277,10 @@
     "price_high_cents": 10091
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j800t-l-reload-kit-hazmat-438.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:43",
-    "last_change_at": "2026-05-31T04:26:43",
+    "last_change_at": "2026-06-20T23:04:59+00:00",
     "last_in_stock_at": "2026-05-31T04:26:43",
     "last_restock_at": null,
     "restock_count": 0,
