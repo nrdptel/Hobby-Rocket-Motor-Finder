@@ -30,6 +30,7 @@ import { HowItWorks } from "./components/HowItWorks";
 import { Methodology } from "./components/Methodology";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
+import { ApiButton } from "./components/ApiButton";
 import { ThemeToggle } from "./components/ThemeToggle";
 
 // Fully static — NOT ISR. The snapshot is bundled at build time and only changes
@@ -192,9 +193,12 @@ export default async function Home() {
             Snapshot generated <SnapshotTime iso={snapshot.generated_at} />
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
-          <PlanOrderButton />
-          <ThemeToggle />
+        <div className="flex shrink-0 flex-col items-end gap-2">
+          <div className="flex items-center gap-2">
+            <PlanOrderButton />
+            <ThemeToggle />
+          </div>
+          <ApiButton />
         </div>
       </header>
 
