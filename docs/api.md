@@ -39,6 +39,7 @@ Every payload carries `schema_version` (currently `1`) and `generated_at` (ISO
 ```jsonc
 {
   "id": 1234,                       // stable numeric id for this motor
+  "path": "/api/v1/motors/aerotech/H128W.json",  // this motor's own endpoint
   "manufacturer": "AeroTech",       // "AeroTech" | "Cesaroni Technology" | "Loki Research"
   "designation": "H128W",
   "common_name": "H128",            // designation without the propellant code; may be null
@@ -95,7 +96,12 @@ Every payload carries `schema_version` (currently `1`) and `generated_at` (ISO
 ### Vendor
 
 ```jsonc
-{ "slug": "csrocketry", "name": "Chris' Rocket Supplies", "motor_count": 558, "in_stock_count": 241 }
+{
+  "slug": "csrocketry",
+  "name": "Chris' Rocket Supplies",
+  "motor_count": 488,      // DISTINCT motors this vendor carries
+  "in_stock_count": 241    // distinct motors it has in stock
+}
 ```
 
 ## Examples

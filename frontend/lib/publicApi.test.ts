@@ -128,11 +128,20 @@ describe("buildApi", () => {
     expect(api.inStock.motors.map((m: { id: number }) => m.id)).toEqual([1]);
   });
 
-  it("vendor counts dedupe per motor too (motor_count = listings touched)", () => {
+  it("vendors.json motor_count is DISTINCT motors, not listings", () => {
+    // csrocketry has two listings on motor 1 (and one on the excluded sub-D motor)
+    // → it carries exactly ONE in-scope motor.
     const cs = api.vendors.vendors.find((v: { slug: string }) => v.slug === "csrocketry");
-    expect(cs.motor_count).toBe(2); // two csrocketry listings on motor 1
+    expect(cs.motor_count).toBe(1);
+    expect(cs.in_stock_count).toBe(1);
     const sr = api.vendors.vendors.find((v: { slug: string }) => v.slug === "sirius");
-    expect(sr.in_stock_count).toBe(0);
+    expect(sr.in_stock_count).toBe(0); // sirius listing is out of stock
+  });
+
+  it("each motor carries its own per-motor endpoint (path)", () => {
+    expect(m1.path).toBe("/api/v1/motors/aerotech/H128W.json");
+    const j = api.motors.motors.find((m: { id: number }) => m.id === 2);
+    expect(j.path).toBe("/api/v1/motors/cesaroni/J360.json");
   });
 
   it("toPublicMotor omits internal-only fields", () => {
@@ -165,6 +174,11 @@ describe("openapi", () => {
     expect(spec.openapi).toBe("3.1.0");
     expect(Object.keys(spec.paths)).toContain("/motors/{manufacturer}/{designation}.json");
     expect(spec.components.schemas.Motor.properties.vendor_count.description).toMatch(/distinct vendors/);
+    // Every operation has an operationId + a documented 404 (lint-clean).
+    for (const path of Object.values(spec.paths) as { get: { operationId: string; responses: Record<string, unknown> } }[]) {
+      expect(path.get.operationId).toBeTruthy();
+      expect(path.get.responses["404"]).toBeTruthy();
+    }
     expect(api.openapi.openapi).toBe("3.1.0"); // also returned from buildApi
   });
 });

@@ -107,6 +107,7 @@ export function toPublicMotor(m) {
   const cheapest = cheapestInStockListing(m);
   return {
     id: m.id,
+    path: `/api/v1/${motorApiPath(m)}`, // this motor's own endpoint
     manufacturer: m.manufacturer,
     designation: m.designation,
     common_name: m.common_name ?? null,
@@ -144,19 +145,31 @@ export function toPublicMotor(m) {
 }
 
 function buildVendors(motors) {
-  const bySlug = new Map();
+  // Count DISTINCT motors per vendor (and distinct in-stock motors) — a vendor
+  // that lists several variants of one motor must count it once, not per listing.
+  const names = new Map();
+  const motorCount = new Map();
+  const inStockCount = new Map();
+  const bump = (map, slug) => map.set(slug, (map.get(slug) ?? 0) + 1);
   for (const m of motors) {
+    const all = new Set();
+    const inStock = new Set();
     for (const l of m.listings ?? []) {
-      let v = bySlug.get(l.vendor_slug);
-      if (!v) {
-        v = { slug: l.vendor_slug, name: l.vendor_name, motor_count: 0, in_stock_count: 0 };
-        bySlug.set(l.vendor_slug, v);
-      }
-      v.motor_count += 1;
-      if (listingInStock(l.status)) v.in_stock_count += 1;
+      names.set(l.vendor_slug, l.vendor_name);
+      all.add(l.vendor_slug);
+      if (listingInStock(l.status)) inStock.add(l.vendor_slug);
     }
+    for (const slug of all) bump(motorCount, slug);
+    for (const slug of inStock) bump(inStockCount, slug);
   }
-  return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
+  return [...names.keys()]
+    .map((slug) => ({
+      slug,
+      name: names.get(slug),
+      motor_count: motorCount.get(slug) ?? 0, // distinct motors carried
+      in_stock_count: inStockCount.get(slug) ?? 0, // distinct motors in stock
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 /** Build the full set of public API payloads from a snapshot. Pure (no I/O). */
@@ -225,6 +238,7 @@ export function buildOpenApi() {
     type: "object",
     properties: {
       id: { type: "integer" },
+      path: { type: "string", description: "this motor's own /api/v1 endpoint" },
       manufacturer: { type: "string", enum: ["AeroTech", "Cesaroni Technology", "Loki Research"] },
       designation: { type: "string" },
       common_name: { type: ["string", "null"] },
@@ -256,9 +270,12 @@ export function buildOpenApi() {
       ...extra,
     },
   });
+  const notFound = { description: "Not found", content: { "application/json": { schema: { $ref: "#/components/schemas/Error" } } } };
   const ok = (ref) => ({
     "200": { description: "OK", content: { "application/json": { schema: { $ref: ref } } } },
+    "404": notFound,
   });
+  const op = (operationId, summary, ref, extra = {}) => ({ operationId, summary, responses: ok(ref), ...extra });
   return {
     openapi: "3.1.0",
     info: {
@@ -267,23 +284,21 @@ export function buildOpenApi() {
       description:
         "Free, read-only JSON of U.S. high-power rocket motor stock & pricing (AeroTech, " +
         "Cesaroni, Loki). Static files on a CDN — no key, no rate limit, CORS-open, refreshed ~hourly.",
-      license: { name: "Free to use; attribution appreciated; provided as-is" },
+      license: { name: "Free to use; attribution appreciated; provided as-is", url: `${SITE_URL}/api` },
     },
     servers: [{ url: `${SITE_URL}/api/v1` }],
     paths: {
-      "/meta.json": { get: { summary: "Schema version, generated_at, counts, endpoints", responses: ok("#/components/schemas/Meta") } },
-      "/motors.json": { get: { summary: "Every motor we have a listing for", responses: ok("#/components/schemas/MotorList") } },
-      "/in-stock.json": { get: { summary: "Only motors in stock somewhere", responses: ok("#/components/schemas/MotorList") } },
-      "/vendors.json": { get: { summary: "Vendors tracked + per-vendor counts", responses: ok("#/components/schemas/VendorList") } },
+      "/meta.json": { get: op("getMeta", "Schema version, generated_at, counts, endpoints", "#/components/schemas/Meta") },
+      "/motors.json": { get: op("listMotors", "Every motor we have a listing for", "#/components/schemas/MotorList") },
+      "/in-stock.json": { get: op("listInStockMotors", "Only motors in stock somewhere", "#/components/schemas/MotorList") },
+      "/vendors.json": { get: op("listVendors", "Vendors tracked + per-vendor counts", "#/components/schemas/VendorList") },
       "/motors/{manufacturer}/{designation}.json": {
-        get: {
-          summary: "A single motor (slugs mirror the site /motor URL, e.g. aerotech/H128W)",
+        get: op("getMotor", "A single motor (slugs mirror the site /motor URL, e.g. aerotech/H128W)", "#/components/schemas/MotorResponse", {
           parameters: [
             { name: "manufacturer", in: "path", required: true, schema: { type: "string", enum: ["aerotech", "cesaroni", "loki"] } },
             { name: "designation", in: "path", required: true, schema: { type: "string" }, description: "'/' is encoded as '~'" },
           ],
-          responses: ok("#/components/schemas/MotorResponse"),
-        },
+        }),
       },
     },
     components: {
@@ -313,6 +328,7 @@ export function buildOpenApi() {
           vendors: { type: "array", items: { $ref: "#/components/schemas/Vendor" } },
         }),
         MotorResponse: stamped({ motor: { $ref: "#/components/schemas/Motor" } }),
+        Error: { type: "object", properties: { error: { type: "string" } } },
       },
     },
   };

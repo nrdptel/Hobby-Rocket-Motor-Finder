@@ -101,6 +101,7 @@ export default function ApiPage() {
           </p>
           <Code>{`{
   "id": 1234,
+  "path": "/api/v1/motors/aerotech/H128W.json",   // this motor's own endpoint
   "manufacturer": "AeroTech",        // | "Cesaroni Technology" | "Loki Research"
   "designation": "H128W",
   "impulse_class": "H",              // A–O
