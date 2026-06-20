@@ -17,6 +17,7 @@ const PAGES: [string, string][] = [
   ["compare", "/compare/1,2,3,4"],
   ["privacy", "/privacy"],
   ["alerts", "/alerts"],
+  ["api", "/api"],
 ];
 
 // The page-level audits above only ever scan static, freshly-loaded markup.

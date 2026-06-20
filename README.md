@@ -23,7 +23,30 @@ The U.S. hobby motor shortage makes finding a specific impulse / diameter / prop
 - **History-powered buying signals** — a catalog badge flags motors that are *in stock now but rarely are* (grab it) vs. *often out* (the scarcity verdict only fires once a motor has been tracked for several days, and never on discontinued stock); each **in-stock** listing's price gets a marker vs. its own tracked history (`↓ lowest tracked` / `↓ price dropped` / `↑ above its low`). Cadence-sensitive stats are clipped to the reliable-scrape epoch; price min/max isn't, so it uses full history with a noise guard.
 - **Restock & last-in-stock history** plus **best-price-across-vendors** (compared per motor, so multipacks — some vendors sell small motors in 2/3/12-packs — are priced by the unit with the pack total noted), derived from successive hourly snapshots.
 - **Scrape-health monitoring** — catches silent breakages (carry-forward, sustained staleness, below-baseline count / in-stock / match-rate anomalies, and a registered vendor contributing zero listings) and opens a single auto-closing tracking issue ([details](docs/scrape-health.md)).
+- **Free public JSON API** — the whole dataset (every motor + per-vendor stock and pricing) as static, CORS-open, no-key, **no-rate-limit** JSON, refreshed hourly ([docs](docs/api.md) · [on the site](https://motor.fusionspace.co/api)).
 - Plus a ★ watchlist, dark mode, and an on-page explainer of exactly how every figure is derived. Interactive behavior is covered by a headless-browser (Playwright) end-to-end suite in CI.
+
+## API
+
+A free, read-only JSON API of everything on the site — served as static files on a CDN, so there's **no key, no rate limit, and no cost**, and it's `Access-Control-Allow-Origin: *` (call it from a browser). Refreshed on the hourly deploy.
+
+Base URL: `https://motor.fusionspace.co/api/v1/`
+
+| Endpoint | What it is |
+|---|---|
+| [`meta.json`](https://motor.fusionspace.co/api/v1/meta.json) | schema version, `generated_at`, counts, manufacturer list |
+| [`motors.json`](https://motor.fusionspace.co/api/v1/motors.json) | every matched motor we have a listing for |
+| [`in-stock.json`](https://motor.fusionspace.co/api/v1/in-stock.json) | same shape, only motors in stock somewhere |
+| [`vendors.json`](https://motor.fusionspace.co/api/v1/vendors.json) | the vendors we track + per-vendor counts |
+
+```bash
+# Cheapest in-stock H motors right now
+curl -s https://motor.fusionspace.co/api/v1/in-stock.json \
+  | jq '.motors[] | select(.impulse_class=="H")
+        | {designation, from: .cheapest_in_stock.unit_price_cents, vendor: .cheapest_in_stock.vendor}'
+```
+
+Full field reference, schema, and terms: **[docs/api.md](docs/api.md)**.
 
 ## Disclaimer
 
