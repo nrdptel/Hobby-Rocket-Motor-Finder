@@ -26,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // so advertising it in the sitemap would be a mixed signal to crawlers.
   const entries: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified, changeFrequency: "hourly", priority: 1 },
+    { url: `${siteUrl}/api`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/privacy`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
