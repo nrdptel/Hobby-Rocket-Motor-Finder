@@ -184,6 +184,11 @@ const cti54 = motors.filter(
             what it&apos;s for, and it keeps load off the shops. Cache a copy and poll{" "}
             <code className="font-mono text-xs">meta.json</code> for changes.
           </p>
+          <p className="mt-2">
+            There&apos;s no per-key or per-IP rate limit. Cloudflare&apos;s standard automatic abuse
+            protection applies to all traffic, as it does to any site behind a CDN — normal use
+            never encounters it.
+          </p>
         </section>
       </div>
 

@@ -132,3 +132,7 @@ vendor's own page before relying on it.
 Please **use this API rather than scraping the vendors directly** — that's the
 whole point of it, and it keeps load off the shops. The catalog is small and
 refreshes hourly, so caching a copy and polling `meta.json` for changes is plenty.
+
+There's no per-key or per-IP rate limit. Cloudflare's standard automatic abuse
+protection applies to all traffic, as it does to any site behind a CDN — normal
+use never encounters it.
