@@ -1,9 +1,11 @@
 // Emit the public read-only JSON API under `public/api/v1/` at build time:
 //
-//   /api/v1/meta.json       — schema version, snapshot time, counts, endpoint list
-//   /api/v1/motors.json     — every matched motor we have listings for (clean schema)
-//   /api/v1/in-stock.json   — same shape, only motors in stock somewhere
-//   /api/v1/vendors.json    — the vendors we track + per-vendor counts
+//   /api/v1/meta.json                                  — version, snapshot time, counts, endpoint index
+//   /api/v1/motors.json                                — every motor we have a listing for (clean schema)
+//   /api/v1/in-stock.json                              — same shape, only motors in stock somewhere
+//   /api/v1/vendors.json                               — the vendors we track + per-vendor counts
+//   /api/v1/motors/<manufacturer>/<designation>.json   — one motor (mirrors the site's /motor URL)
+//   /api/v1/openapi.json                               — OpenAPI 3.1 spec for the above
 //
 // These are STATIC assets served by Cloudflare Pages (unlimited requests +
 // bandwidth, free, global CDN), so the API has no rate limit and no per-request
@@ -21,6 +23,8 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 export const SCHEMA_VERSION = 1;
+const MIN_CLASS = "D"; // match the site's catalog floor (mirror lib/derive MIN_CLASS)
+const SITE_URL = "https://motor.fusionspace.co";
 
 // --- inlined in-stock / pack helpers (mirror lib/derive.ts + lib/pack.ts) ---
 const IN_STOCK = new Set(["in_stock", "in_stock_with_count"]);
@@ -59,6 +63,19 @@ function cheapestInStockListing(m) {
   return best ?? m.listings.find((l) => listingInStock(l.status)) ?? null;
 }
 
+// --- slugs (mirror gen-og.mjs / the site's /motor/<mfr>/<designation> route) ---
+function manufacturerLabel(m) {
+  if (m === "Cesaroni Technology") return "Cesaroni";
+  if (m === "Loki Research") return "Loki";
+  return m;
+}
+export const manufacturerSlug = (m) => manufacturerLabel(m).toLowerCase();
+export const designationToSlug = (d) => d.replaceAll("/", "~");
+/** Per-motor API path (relative to public/), mirroring the site URL + OG path. */
+export function motorApiPath(motor) {
+  return `motors/${manufacturerSlug(motor.manufacturer)}/${designationToSlug(motor.designation)}.json`;
+}
+
 // Collapse the internal `in_stock_with_count` into a plain `in_stock` for the
 // public contract; the count lives in `stock_count` instead. The other states
 // pass through unchanged.
@@ -84,8 +101,9 @@ function toPublicListing(l) {
 
 /** Project an internal snapshot motor down to the stable public schema. */
 export function toPublicMotor(m) {
-  const listings = (m.listings ?? []).map(toPublicListing);
-  const inStockListings = (m.listings ?? []).filter((l) => listingInStock(l.status));
+  const raw = m.listings ?? [];
+  const listings = raw.map(toPublicListing);
+  const inStockRaw = raw.filter((l) => listingInStock(l.status));
   const cheapest = cheapestInStockListing(m);
   return {
     id: m.id,
@@ -104,9 +122,12 @@ export function toPublicMotor(m) {
     delays: m.delays ?? null,
     delay_adjustable: m.delay_adjustable ?? false,
     discontinued: m.discontinued ?? false,
-    in_stock: inStockListings.length > 0,
-    vendor_count: listings.length,
-    in_stock_vendor_count: inStockListings.length,
+    in_stock: inStockRaw.length > 0,
+    // Distinct VENDORS (deduped by slug) — a vendor that lists several variants
+    // of the same motor (delays, pack sizes) must not inflate the vendor count.
+    vendor_count: new Set(raw.map((l) => l.vendor_slug)).size,
+    in_stock_vendor_count: new Set(inStockRaw.map((l) => l.vendor_slug)).size,
+    listing_count: listings.length, // total individual listings/variants
     cheapest_in_stock: cheapest
       ? {
           price_cents: cheapest.price_cents ?? null,
@@ -141,9 +162,12 @@ function buildVendors(motors) {
 /** Build the full set of public API payloads from a snapshot. Pure (no I/O). */
 export function buildApi(snapshot) {
   const generatedAt = snapshot?.generated_at ?? null;
-  // Every matched motor we actually have a listing for (all impulse classes —
-  // the API is the complete dataset, not the D+ UI view).
-  const source = (snapshot?.motors ?? []).filter((m) => (m.listings?.length ?? 0) > 0);
+  // Every matched motor with a listing, at or above the site's class floor — a
+  // stray sub-D matched motor would otherwise appear in the API but never on the
+  // site.
+  const source = (snapshot?.motors ?? []).filter(
+    (m) => (m.listings?.length ?? 0) > 0 && (m.impulse_class ?? "") >= MIN_CLASS,
+  );
   const motors = source.map(toPublicMotor);
   const inStock = motors.filter((m) => m.in_stock);
   const vendors = buildVendors(source);
@@ -159,6 +183,8 @@ export function buildApi(snapshot) {
       motors: "/api/v1/motors.json",
       in_stock: "/api/v1/in-stock.json",
       vendors: "/api/v1/vendors.json",
+      motor: "/api/v1/motors/{manufacturer}/{designation}.json",
+      openapi: "/api/v1/openapi.json",
     },
     docs: "https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/blob/main/docs/api.md",
     license:
@@ -171,6 +197,124 @@ export function buildApi(snapshot) {
     motors: { ...stamp, count: motors.length, motors },
     inStock: { ...stamp, count: inStock.length, motors: inStock },
     vendors: { ...stamp, count: vendors.length, vendors },
+    // One payload per motor, written to its slug path; wrapped like the others.
+    perMotor: motors.map((m) => ({ path: motorApiPath(m), payload: { ...stamp, motor: m } })),
+    openapi: buildOpenApi(),
+  };
+}
+
+/** A small OpenAPI 3.1 document describing the endpoints + schemas. */
+export function buildOpenApi() {
+  const listing = {
+    type: "object",
+    properties: {
+      vendor: { type: "string" },
+      vendor_slug: { type: "string" },
+      url: { type: "string", format: "uri" },
+      status: { type: "string", enum: ["in_stock", "out_of_stock", "special_order", "unknown"] },
+      price_cents: { type: ["integer", "null"], description: "sticker price in cents" },
+      unit_price_cents: { type: ["integer", "null"], description: "price ÷ pack_size" },
+      currency: { type: "string" },
+      pack_size: { type: "integer", description: "1 = single" },
+      stock_count: { type: ["integer", "null"] },
+      lead_time: { type: ["string", "null"] },
+      last_seen: { type: "string", format: "date-time" },
+    },
+  };
+  const motor = {
+    type: "object",
+    properties: {
+      id: { type: "integer" },
+      manufacturer: { type: "string", enum: ["AeroTech", "Cesaroni Technology", "Loki Research"] },
+      designation: { type: "string" },
+      common_name: { type: ["string", "null"] },
+      impulse_class: { type: "string", description: "single letter, D–O" },
+      diameter_mm: { type: "integer" },
+      total_impulse_ns: { type: ["number", "null"] },
+      avg_thrust_n: { type: ["number", "null"] },
+      burn_time_s: { type: ["number", "null"] },
+      propellant: { type: ["string", "null"] },
+      sparky: { type: "boolean" },
+      motor_type: { type: ["string", "null"], description: "reload | SU | hybrid" },
+      case_info: { type: ["string", "null"] },
+      delays: { type: ["string", "null"] },
+      delay_adjustable: { type: "boolean" },
+      discontinued: { type: "boolean" },
+      in_stock: { type: "boolean" },
+      vendor_count: { type: "integer", description: "distinct vendors carrying it" },
+      in_stock_vendor_count: { type: "integer" },
+      listing_count: { type: "integer", description: "total individual listings/variants" },
+      cheapest_in_stock: { type: ["object", "null"] },
+      listings: { type: "array", items: { $ref: "#/components/schemas/Listing" } },
+    },
+  };
+  const stamped = (extra) => ({
+    type: "object",
+    properties: {
+      schema_version: { type: "integer" },
+      generated_at: { type: "string", format: "date-time" },
+      ...extra,
+    },
+  });
+  const ok = (ref) => ({
+    "200": { description: "OK", content: { "application/json": { schema: { $ref: ref } } } },
+  });
+  return {
+    openapi: "3.1.0",
+    info: {
+      title: "HPR Motor Finder API",
+      version: `${SCHEMA_VERSION}.0.0`,
+      description:
+        "Free, read-only JSON of U.S. high-power rocket motor stock & pricing (AeroTech, " +
+        "Cesaroni, Loki). Static files on a CDN — no key, no rate limit, CORS-open, refreshed ~hourly.",
+      license: { name: "Free to use; attribution appreciated; provided as-is" },
+    },
+    servers: [{ url: `${SITE_URL}/api/v1` }],
+    paths: {
+      "/meta.json": { get: { summary: "Schema version, generated_at, counts, endpoints", responses: ok("#/components/schemas/Meta") } },
+      "/motors.json": { get: { summary: "Every motor we have a listing for", responses: ok("#/components/schemas/MotorList") } },
+      "/in-stock.json": { get: { summary: "Only motors in stock somewhere", responses: ok("#/components/schemas/MotorList") } },
+      "/vendors.json": { get: { summary: "Vendors tracked + per-vendor counts", responses: ok("#/components/schemas/VendorList") } },
+      "/motors/{manufacturer}/{designation}.json": {
+        get: {
+          summary: "A single motor (slugs mirror the site /motor URL, e.g. aerotech/H128W)",
+          parameters: [
+            { name: "manufacturer", in: "path", required: true, schema: { type: "string", enum: ["aerotech", "cesaroni", "loki"] } },
+            { name: "designation", in: "path", required: true, schema: { type: "string" }, description: "'/' is encoded as '~'" },
+          ],
+          responses: ok("#/components/schemas/MotorResponse"),
+        },
+      },
+    },
+    components: {
+      schemas: {
+        Listing: listing,
+        Motor: motor,
+        Vendor: {
+          type: "object",
+          properties: {
+            slug: { type: "string" },
+            name: { type: "string" },
+            motor_count: { type: "integer" },
+            in_stock_count: { type: "integer" },
+          },
+        },
+        Meta: stamped({
+          counts: { type: "object" },
+          manufacturers: { type: "array", items: { type: "string" } },
+          endpoints: { type: "object" },
+        }),
+        MotorList: stamped({
+          count: { type: "integer" },
+          motors: { type: "array", items: { $ref: "#/components/schemas/Motor" } },
+        }),
+        VendorList: stamped({
+          count: { type: "integer" },
+          vendors: { type: "array", items: { $ref: "#/components/schemas/Vendor" } },
+        }),
+        MotorResponse: stamped({ motor: { $ref: "#/components/schemas/Motor" } }),
+      },
+    },
   };
 }
 
@@ -195,8 +339,20 @@ async function main() {
   await writeFile(resolve(outDir, "motors.json"), JSON.stringify(api.motors));
   await writeFile(resolve(outDir, "in-stock.json"), JSON.stringify(api.inStock));
   await writeFile(resolve(outDir, "vendors.json"), JSON.stringify(api.vendors));
+  await writeFile(resolve(outDir, "openapi.json"), JSON.stringify(api.openapi));
+  // Per-motor files (one dir per manufacturer slug).
+  const madeDirs = new Set();
+  for (const { path, payload } of api.perMotor) {
+    const abs = resolve(outDir, path);
+    const dir = dirname(abs);
+    if (!madeDirs.has(dir)) {
+      await mkdir(dir, { recursive: true });
+      madeDirs.add(dir);
+    }
+    await writeFile(abs, JSON.stringify(payload));
+  }
   console.log(
-    `gen-api: wrote public/api/v1/{meta,motors,in-stock,vendors}.json ` +
+    `gen-api: wrote meta/motors/in-stock/vendors/openapi + ${api.perMotor.length} per-motor files ` +
       `(${api.meta.counts.motors} motors, ${api.meta.counts.in_stock} in stock, ${api.meta.counts.vendors} vendors)`,
   );
 }

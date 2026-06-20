@@ -38,6 +38,8 @@ Base URL: `https://motor.fusionspace.co/api/v1/`
 | [`motors.json`](https://motor.fusionspace.co/api/v1/motors.json) | every matched motor we have a listing for |
 | [`in-stock.json`](https://motor.fusionspace.co/api/v1/in-stock.json) | same shape, only motors in stock somewhere |
 | [`vendors.json`](https://motor.fusionspace.co/api/v1/vendors.json) | the vendors we track + per-vendor counts |
+| `motors/{mfr}/{designation}.json` | a single motor (slugs mirror the `/motor` URL) |
+| [`openapi.json`](https://motor.fusionspace.co/api/v1/openapi.json) | OpenAPI 3.1 spec |
 
 ```bash
 # Cheapest in-stock H motors right now

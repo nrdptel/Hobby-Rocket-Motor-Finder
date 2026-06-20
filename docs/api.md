@@ -22,9 +22,11 @@ by `frontend/lib/publicApi.test.ts`.
 | Endpoint | What it is |
 |---|---|
 | [`GET /api/v1/meta.json`](https://motor.fusionspace.co/api/v1/meta.json) | Schema version, `generated_at`, counts, manufacturer list, endpoint index. Poll this cheaply to detect updates. |
-| [`GET /api/v1/motors.json`](https://motor.fusionspace.co/api/v1/motors.json) | Every matched motor we have a listing for, all impulse classes. |
+| [`GET /api/v1/motors.json`](https://motor.fusionspace.co/api/v1/motors.json) | Every matched motor we have a listing for (D-class and up, matching the site). |
 | [`GET /api/v1/in-stock.json`](https://motor.fusionspace.co/api/v1/in-stock.json) | Same shape, only motors in stock at ≥1 vendor. |
 | [`GET /api/v1/vendors.json`](https://motor.fusionspace.co/api/v1/vendors.json) | The vendors we track, with per-vendor motor + in-stock counts. |
+| `GET /api/v1/motors/{manufacturer}/{designation}.json` | A single motor. Slugs mirror the site's `/motor` URL — e.g. [`…/motors/aerotech/H128W.json`](https://motor.fusionspace.co/api/v1/motors/aerotech/H128W.json) (`manufacturer` ∈ `aerotech`/`cesaroni`/`loki`; a `/` in a designation is encoded as `~`). |
+| [`GET /api/v1/openapi.json`](https://motor.fusionspace.co/api/v1/openapi.json) | OpenAPI 3.1 spec for everything above (drop it into Swagger/Postman/codegen). |
 
 ## Schema
 
@@ -53,8 +55,9 @@ Every payload carries `schema_version` (currently `1`) and `generated_at` (ISO
   "delay_adjustable": true,
   "discontinued": false,            // out of production — old stock only
   "in_stock": true,                 // in stock at ≥1 vendor right now
-  "vendor_count": 5,                // vendors carrying it (in or out of stock)
+  "vendor_count": 5,                // DISTINCT vendors carrying it (in or out of stock)
   "in_stock_vendor_count": 3,
+  "listing_count": 9,               // total listings — a vendor may list several variants (delays, packs)
   "cheapest_in_stock": {            // pack-aware per-unit cheapest in-stock listing; null if none
     "price_cents": 6000,
     "unit_price_cents": 3000,       // sticker price ÷ pack size
@@ -119,3 +122,7 @@ Free to use; attribution to **motor.fusionspace.co** is appreciated. The data is
 aggregated from public vendor listings and [ThrustCurve](https://www.thrustcurve.org);
 it's provided **as-is, with no warranty** — verify stock and price on the
 vendor's own page before relying on it.
+
+Please **use this API rather than scraping the vendors directly** — that's the
+whole point of it, and it keeps load off the shops. The catalog is small and
+refreshes hourly, so caching a copy and polling `meta.json` for changes is plenty.

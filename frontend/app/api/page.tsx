@@ -37,7 +37,7 @@ function Code({ children }: { children: string }) {
 export default function ApiPage() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-12">
-      <SiteHeader />
+      <SiteHeader apiButton={false} />
       <h1 className="mt-6 text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
         Developer API
       </h1>
@@ -81,6 +81,12 @@ export default function ApiPage() {
             <Endpoint path="/api/v1/vendors.json">
               the vendors we track, with per-vendor counts.
             </Endpoint>
+            <Endpoint path="/api/v1/motors/aerotech/H128W.json">
+              a single motor — slugs mirror the site&apos;s <code className="font-mono text-xs">/motor</code> URL.
+            </Endpoint>
+            <Endpoint path="/api/v1/openapi.json">
+              OpenAPI 3.1 spec (drop into Swagger / Postman / codegen).
+            </Endpoint>
           </ul>
         </section>
 
@@ -107,8 +113,9 @@ export default function ApiPage() {
   "motor_type": "reload",            // | "SU" | "hybrid"
   "case_info": "RMS-29/180",         // null for single-use
   "in_stock": true,
-  "vendor_count": 5,
+  "vendor_count": 5,                 // distinct vendors carrying it
   "in_stock_vendor_count": 3,
+  "listing_count": 9,                // total listings (a vendor may list variants)
   "cheapest_in_stock": {             // pack-aware per-unit; null if none in stock
     "unit_price_cents": 3000, "currency": "USD",
     "vendor": "Wildman", "url": "https://…", "pack_size": 2
@@ -170,6 +177,11 @@ const cti54 = motors.filter(
             </a>
             ; it&apos;s provided <strong>as-is, with no warranty</strong> — verify stock and price on
             the vendor&apos;s own page before relying on it.
+          </p>
+          <p className="mt-2">
+            Please <strong>use this API rather than scraping the vendors directly</strong> — that&apos;s
+            what it&apos;s for, and it keeps load off the shops. Cache a copy and poll{" "}
+            <code className="font-mono text-xs">meta.json</code> for changes.
           </p>
         </section>
       </div>
