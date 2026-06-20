@@ -23348,10 +23348,10 @@
     "price_high_cents": 26535
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-75/2g-reloads/cesaroni-k555-white-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:48+00:00",
-    "last_change_at": "2026-06-03T02:28:48+00:00",
+    "last_change_at": "2026-06-20T17:02:34+00:00",
     "last_in_stock_at": "2026-06-03T02:28:48+00:00",
     "last_restock_at": null,
     "restock_count": 0,
