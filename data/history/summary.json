@@ -11752,10 +11752,10 @@
     "price_high_cents": 19299
   },
   "https://www.buyrocketmotors.com/products/aerotech-k400-14a-classic-54-mm-dms?variant=50855205044521": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:23",
-    "last_change_at": "2026-05-31T02:24:23",
+    "last_change_at": "2026-06-21T14:03:14+00:00",
     "last_in_stock_at": "2026-05-31T02:24:23",
     "last_restock_at": null,
     "restock_count": 0,
