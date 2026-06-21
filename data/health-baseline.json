@@ -1,90 +1,90 @@
 {
   "aerotechdirect": {
     "count": 252.0,
-    "samples": 393,
+    "samples": 394,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "amw": {
-    "count": 279.99999818572405,
-    "samples": 324,
-    "stock": 130.99999824246103,
+    "count": 279.99999863929304,
+    "samples": 325,
+    "stock": 130.99999868184577,
     "streak": 0,
-    "unmatched": 0.9999999433042088,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "unmatched": 0.9999999574781566,
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 389,
-    "stock": 66.00535142014698,
+    "samples": 390,
+    "stock": 66.00401356511023,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "buyrocketmotors": {
-    "count": 278.9533033418222,
-    "samples": 392,
-    "stock": 116.63918808327115,
+    "count": 278.96497750636667,
+    "samples": 393,
+    "stock": 116.22939106245336,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "csrocketry": {
     "count": 558.0,
-    "samples": 371,
-    "stock": 240.00422828259283,
+    "samples": 372,
+    "stock": 240.00317121194462,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 398,
+    "samples": 399,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
-    "samples": 324,
+    "samples": 325,
     "stock": 4.000000000000002,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "newcenturyrocketry": {
     "count": 95.0,
-    "samples": 46,
+    "samples": 47,
     "stock": 69.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "performancehobbies": {
     "count": 596.9999999999998,
-    "samples": 398,
-    "stock": 117.00000000000074,
+    "samples": 399,
+    "stock": 117.00000000000055,
     "streak": 0,
-    "unmatched": 3.0000000000000098,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "unmatched": 3.000000000000007,
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "sirius": {
-    "count": 308.000000000003,
-    "samples": 309,
-    "stock": 180.08447805342243,
+    "count": 308.0000000000023,
+    "samples": 310,
+    "stock": 180.06335854006682,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "updated_at": "2026-06-21T11:11:50+00:00"
   },
   "wildman": {
-    "count": 486.5183921588271,
-    "samples": 394,
-    "stock": 171.16029891364212,
+    "count": 486.63879411912035,
+    "samples": 395,
+    "stock": 171.6202241852316,
     "streak": 0,
-    "unmatched": 1.999999999920091,
-    "updated_at": "2026-06-21T10:11:53+00:00"
+    "unmatched": 1.9999999999400684,
+    "updated_at": "2026-06-21T11:11:50+00:00"
   }
 }
