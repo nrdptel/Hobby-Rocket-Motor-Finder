@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ApiButton } from "./ApiButton";
+import { KofiButton } from "./KofiButton";
 import { ThemeToggle } from "./ThemeToggle";
 
 /** Slim top bar (brand → home + theme toggle) for the pages that aren't the
@@ -21,7 +22,10 @@ export function SiteHeader({ apiButton = true }: { apiButton?: boolean }) {
       </Link>
       <div className="flex flex-col items-end gap-2">
         <ThemeToggle />
-        {apiButton && <ApiButton />}
+        <div className="flex items-center gap-2">
+          {apiButton && <ApiButton />}
+          <KofiButton />
+        </div>
       </div>
     </div>
   );
