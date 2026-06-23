@@ -31,6 +31,7 @@ import { Methodology } from "./components/Methodology";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ApiButton } from "./components/ApiButton";
+import { KofiButton } from "./components/KofiButton";
 import { ThemeToggle } from "./components/ThemeToggle";
 
 // Fully static — NOT ISR. The snapshot is bundled at build time and only changes
@@ -198,7 +199,10 @@ export default async function Home() {
             <PlanOrderButton />
             <ThemeToggle />
           </div>
-          <ApiButton />
+          <div className="flex items-center gap-2">
+            <ApiButton />
+            <KofiButton />
+          </div>
         </div>
       </header>
 
