@@ -41314,10 +41314,10 @@
     "price_high_cents": 23299
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9154#K270W-P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:26+00:00",
-    "last_change_at": "2026-06-05T17:00:26+00:00",
+    "last_change_at": "2026-06-24T04:00:28+00:00",
     "last_in_stock_at": "2026-06-05T17:00:26+00:00",
     "last_restock_at": null,
     "restock_count": 0,
