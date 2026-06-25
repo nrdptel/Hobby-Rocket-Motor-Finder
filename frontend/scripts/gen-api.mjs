@@ -30,13 +30,14 @@ const SITE_URL = "https://motor.fusionspace.co";
 const IN_STOCK = new Set(["in_stock", "in_stock_with_count"]);
 const listingInStock = (status) => IN_STOCK.has(status);
 
-// DOT hazmat status, mirror of lib/derive.ts hazmatStatus(): H+ or >62.5g
-// propellant must ship hazmat; A–E never; F/G is a vendor-dependent gray zone.
+// DOT hazmat status, mirror of lib/derive.ts hazmatStatus(): hybrids exempt
+// (inert fuel grain), H+ or >62.5g propellant required, A–E none, F/G gray zone.
 const HAZMAT_PROP_WEIGHT_G = 62.5;
-const HIGH_POWER_CLASSES = new Set(["H", "I", "J", "K", "L", "M", "N", "O"]);
-function hazmatStatus(m) {
+const isHighPowerClass = (cls) => cls.length === 1 && cls >= "H" && cls <= "Z";
+export function hazmatStatus(m) {
+  if (m.motor_type === "hybrid") return "none";
   const cls = (m.impulse_class || "").toUpperCase();
-  if (HIGH_POWER_CLASSES.has(cls)) return "required";
+  if (isHighPowerClass(cls)) return "required";
   if (m.prop_weight_g != null && m.prop_weight_g > HAZMAT_PROP_WEIGHT_G) return "required";
   if (cls === "F" || cls === "G") return "varies";
   return "none";

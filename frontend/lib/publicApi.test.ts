@@ -9,10 +9,12 @@ import {
   buildApi,
   buildOpenApi,
   designationToSlug,
+  hazmatStatus as hazmatStatusApi,
   manufacturerSlug,
   motorApiPath,
   toPublicMotor,
 } from "../scripts/gen-api.mjs";
+import { hazmatStatus as hazmatStatusDerive } from "./derive";
 
 const listing = (over: Record<string, unknown>) => ({
   vendor_slug: "csrocketry",
@@ -180,5 +182,28 @@ describe("openapi", () => {
       expect(path.get.responses["404"]).toBeTruthy();
     }
     expect(api.openapi.openapi).toBe("3.1.0"); // also returned from buildApi
+  });
+});
+
+describe("hazmat parity (gen-api mirror of lib/derive)", () => {
+  // The API mirrors lib/derive's hazmatStatus by hand; this fails if they drift.
+  it("gen-api hazmatStatus matches lib/derive across a battery of motors", () => {
+    const cases = [
+      { motor_type: "reload", impulse_class: "D", prop_weight_g: 10 },
+      { motor_type: "reload", impulse_class: "E", prop_weight_g: 62.5 },
+      { motor_type: "SU", impulse_class: "F", prop_weight_g: 45 },
+      { motor_type: "SU", impulse_class: "F", prop_weight_g: 70 },
+      { motor_type: "reload", impulse_class: "G", prop_weight_g: 62.5 },
+      { motor_type: "reload", impulse_class: "G", prop_weight_g: 72 },
+      { motor_type: "reload", impulse_class: "H", prop_weight_g: 120 },
+      { motor_type: "reload", impulse_class: "I", prop_weight_g: null },
+      { motor_type: "reload", impulse_class: "P", prop_weight_g: null },
+      { motor_type: "hybrid", impulse_class: "M", prop_weight_g: 3433 },
+      { motor_type: null, impulse_class: "", prop_weight_g: null },
+    ];
+    for (const c of cases) {
+      // @ts-expect-error — gen-api is untyped JS.
+      expect(hazmatStatusApi(c)).toBe(hazmatStatusDerive(c as never));
+    }
   });
 });

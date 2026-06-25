@@ -336,11 +336,21 @@ export function rankMotor(m: Motor): [string, number, string] {
 export type HazmatStatus = "required" | "varies" | "none";
 
 export const HAZMAT_PROP_WEIGHT_G = 62.5;
-const HIGH_POWER_CLASSES = new Set(["H", "I", "J", "K", "L", "M", "N", "O"]);
+
+/** A single-letter impulse class of H or higher (high-power). A range rather
+ * than a fixed set so a future P+ class is still covered even if its propellant
+ * weight is missing. */
+function isHighPowerClass(cls: string): boolean {
+  return cls.length === 1 && cls >= "H" && cls <= "Z";
+}
 
 export function hazmatStatus(m: Motor): HazmatStatus {
+  // Hybrids ship only an inert fuel grain — the flyer supplies the N2O oxidizer
+  // separately — so the shipped article isn't hazmat regardless of its (large)
+  // total propellant weight. ThrustCurve marks every hybrid hazmat-exempt; match.
+  if (m.motor_type === "hybrid") return "none";
   const cls = (m.impulse_class || "").toUpperCase();
-  if (HIGH_POWER_CLASSES.has(cls)) return "required";
+  if (isHighPowerClass(cls)) return "required";
   if (m.prop_weight_g != null && m.prop_weight_g > HAZMAT_PROP_WEIGHT_G) return "required";
   if (cls === "F" || cls === "G") return "varies";
   return "none";

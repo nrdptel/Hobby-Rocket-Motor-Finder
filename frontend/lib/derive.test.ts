@@ -695,6 +695,21 @@ describe("hazmatStatus", () => {
     expect(hazmatStatus(makeMotor({ impulse_class: "G", prop_weight_g: null }))).toBe("varies");
     expect(hazmatStatus(makeMotor({ impulse_class: "D", prop_weight_g: null }))).toBe("none");
   });
+
+  it("hybrids are never hazmat — they ship an inert fuel grain (oxidizer is separate)", () => {
+    // Even a huge M-class hybrid: ThrustCurve marks every hybrid hazmat-exempt.
+    expect(hazmatStatus(makeMotor({ motor_type: "hybrid", impulse_class: "M", prop_weight_g: 3433 }))).toBe(
+      "none",
+    );
+    expect(hazmatStatus(makeMotor({ motor_type: "hybrid", impulse_class: "J", prop_weight_g: 471 }))).toBe(
+      "none",
+    );
+  });
+
+  it("treats any single-letter class >= H as high-power (covers a future P+ with no prop weight)", () => {
+    expect(hazmatStatus(makeMotor({ impulse_class: "P", prop_weight_g: null }))).toBe("required");
+    expect(hazmatStatus(makeMotor({ impulse_class: "Q", prop_weight_g: null }))).toBe("required");
+  });
 });
 
 // --- parseSetParam ---------------------------------------------------------

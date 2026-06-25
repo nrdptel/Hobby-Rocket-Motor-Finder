@@ -311,7 +311,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
           ))}
         </dl>
         <p className="mt-3 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-          {HAZMAT_NOTE[hazmat]}
+          {motor.motor_type === "hybrid"
+            ? "Hybrid motor — the shipped reload is an inert fuel grain (you supply the N₂O oxidizer separately), so it isn't a hazardous material and ships without a hazmat fee."
+            : HAZMAT_NOTE[hazmat]}
         </p>
         <p className="mt-4 text-sm">
           <a
