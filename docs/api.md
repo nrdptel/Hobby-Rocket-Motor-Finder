@@ -52,6 +52,7 @@ Every payload carries `schema_version` (currently `1`) and `generated_at` (ISO
   "sparky": false,                  // metal-additive (throws sparks)
   "motor_type": "reload",           // "reload" | "SU" (single-use) | "hybrid" | null
   "case_info": "RMS-29/180",        // reload hardware; null for single-use
+  "hazmat": "required",             // "required" (>62.5g propellant / H+) | "varies" (F/G near the limit, vendor-dependent) | "none" (<=62.5g, A-E)
   "delays": "6,10,14",              // nullable
   "delay_adjustable": true,
   "discontinued": false,            // out of production — old stock only

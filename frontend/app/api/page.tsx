@@ -113,6 +113,7 @@ export default function ApiPage() {
   "sparky": false,
   "motor_type": "reload",            // | "SU" | "hybrid"
   "case_info": "RMS-29/180",         // null for single-use
+  "hazmat": "required",              // "required" | "varies" (F/G) | "none"
   "in_stock": true,
   "vendor_count": 5,                 // distinct vendors carrying it
   "in_stock_vendor_count": 3,

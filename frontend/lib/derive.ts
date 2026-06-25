@@ -318,6 +318,34 @@ export function rankMotor(m: Motor): [string, number, string] {
   return [m.impulse_class, m.diameter_mm, m.designation];
 }
 
+/** DOT hazmat-shipping status, derived from propellant weight + impulse class.
+ *
+ * ThrustCurve has no hazmat field, but US shipping rules are defined by
+ * propellant weight: a motor with ≤62.5 g of propellant ships as a DOT "Limited
+ * Quantity" (no hazmat fee); above 62.5 g it must ship hazmat. That cleanly
+ * splits the ends — every H+ motor exceeds the limit (always hazmat); A–E are
+ * always under it (never hazmat). The F/G band straddles the line AND the
+ * exemption requires special LQ packaging some vendors skip, so those vendors
+ * charge hazmat even under the legal limit — i.e. it genuinely varies by vendor.
+ *
+ *   - "required" — H+ class, or >62.5 g propellant (legally must ship hazmat)
+ *   - "varies"   — F/G under the limit (legal LQ, but many vendors still charge)
+ *   - "none"     — A–E under the limit (never hazmat)
+ *
+ * Derived from `prop_weight_g` (present on ~99.8% of motors) + `impulse_class`. */
+export type HazmatStatus = "required" | "varies" | "none";
+
+export const HAZMAT_PROP_WEIGHT_G = 62.5;
+const HIGH_POWER_CLASSES = new Set(["H", "I", "J", "K", "L", "M", "N", "O"]);
+
+export function hazmatStatus(m: Motor): HazmatStatus {
+  const cls = (m.impulse_class || "").toUpperCase();
+  if (HIGH_POWER_CLASSES.has(cls)) return "required";
+  if (m.prop_weight_g != null && m.prop_weight_g > HAZMAT_PROP_WEIGHT_G) return "required";
+  if (cls === "F" || cls === "G") return "varies";
+  return "none";
+}
+
 /** Outbound link to the canonical ThrustCurve page for this motor.
  *
  * ThrustCurve's motor URLs are `/motors/{manufacturerAbbrev}/{designation}/` —

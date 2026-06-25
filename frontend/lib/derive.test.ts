@@ -44,6 +44,7 @@ import {
   sortedMotors,
   staleLabel,
   thrustcurveUrl,
+  hazmatStatus,
   vendorOptions,
   specificImpulseS,
   formatIsp,
@@ -660,6 +661,39 @@ describe("thrustcurveUrl", () => {
     // ThrustCurve's URLs treat dots and slashes literally; encodeURIComponent
     // handles forward slashes which would otherwise break path parsing.
     expect(thrustcurveUrl(makeMotor({ designation: "D2.3T" }))).toContain("D2.3T");
+  });
+});
+
+// --- hazmatStatus ----------------------------------------------------------
+
+describe("hazmatStatus", () => {
+  it("high-power motors (H+) always require hazmat, regardless of prop weight", () => {
+    for (const c of ["H", "I", "J", "K", "L", "M", "N", "O"]) {
+      expect(hazmatStatus(makeMotor({ impulse_class: c, prop_weight_g: 10 }))).toBe("required");
+    }
+  });
+
+  it("A–E under the 62.5g limit never require hazmat", () => {
+    for (const c of ["A", "B", "C", "D", "E"]) {
+      expect(hazmatStatus(makeMotor({ impulse_class: c, prop_weight_g: 30 }))).toBe("none");
+    }
+  });
+
+  it("F/G under the limit are vendor-dependent (varies)", () => {
+    expect(hazmatStatus(makeMotor({ impulse_class: "F", prop_weight_g: 45 }))).toBe("varies");
+    expect(hazmatStatus(makeMotor({ impulse_class: "G", prop_weight_g: 60 }))).toBe("varies");
+    expect(hazmatStatus(makeMotor({ impulse_class: "G", prop_weight_g: 62.5 }))).toBe("varies"); // boundary inclusive
+  });
+
+  it("F/G over 62.5g are unambiguously hazmat", () => {
+    expect(hazmatStatus(makeMotor({ impulse_class: "G", prop_weight_g: 72 }))).toBe("required");
+    expect(hazmatStatus(makeMotor({ impulse_class: "F", prop_weight_g: 70 }))).toBe("required");
+  });
+
+  it("falls back to class when prop weight is missing", () => {
+    expect(hazmatStatus(makeMotor({ impulse_class: "I", prop_weight_g: null }))).toBe("required");
+    expect(hazmatStatus(makeMotor({ impulse_class: "G", prop_weight_g: null }))).toBe("varies");
+    expect(hazmatStatus(makeMotor({ impulse_class: "D", prop_weight_g: null }))).toBe("none");
   });
 });
 

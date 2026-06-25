@@ -29,6 +29,18 @@ const SITE_URL = "https://motor.fusionspace.co";
 // --- inlined in-stock / pack helpers (mirror lib/derive.ts + lib/pack.ts) ---
 const IN_STOCK = new Set(["in_stock", "in_stock_with_count"]);
 const listingInStock = (status) => IN_STOCK.has(status);
+
+// DOT hazmat status, mirror of lib/derive.ts hazmatStatus(): H+ or >62.5g
+// propellant must ship hazmat; A–E never; F/G is a vendor-dependent gray zone.
+const HAZMAT_PROP_WEIGHT_G = 62.5;
+const HIGH_POWER_CLASSES = new Set(["H", "I", "J", "K", "L", "M", "N", "O"]);
+function hazmatStatus(m) {
+  const cls = (m.impulse_class || "").toUpperCase();
+  if (HIGH_POWER_CLASSES.has(cls)) return "required";
+  if (m.prop_weight_g != null && m.prop_weight_g > HAZMAT_PROP_WEIGHT_G) return "required";
+  if (cls === "F" || cls === "G") return "varies";
+  return "none";
+}
 const MAX_PACK = 24;
 function packFromUrl(url) {
   const m = /(\d+)\s*[- ]?\s*pack/i.exec(url || "");
@@ -120,6 +132,7 @@ export function toPublicMotor(m) {
     sparky: m.sparky ?? false,
     motor_type: m.motor_type ?? null,
     case_info: m.case_info ?? null,
+    hazmat: hazmatStatus(m), // "required" | "varies" | "none" (DOT 62.5g rule)
     delays: m.delays ?? null,
     delay_adjustable: m.delay_adjustable ?? false,
     discontinued: m.discontinued ?? false,
@@ -251,6 +264,12 @@ export function buildOpenApi() {
       sparky: { type: "boolean" },
       motor_type: { type: ["string", "null"], description: "reload | SU | hybrid" },
       case_info: { type: ["string", "null"] },
+      hazmat: {
+        type: "string",
+        enum: ["required", "varies", "none"],
+        description:
+          "DOT hazmat-shipping status derived from propellant weight: required (>62.5g or H+), varies (F/G near the limit — vendor-dependent), none (<=62.5g, A-E)",
+      },
       delays: { type: ["string", "null"] },
       delay_adjustable: { type: "boolean" },
       discontinued: { type: "boolean" },

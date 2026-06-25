@@ -30,6 +30,8 @@ import {
   formatPrice,
   formatThrust,
   groupByDelay,
+  hazmatStatus,
+  type HazmatStatus,
   specificImpulseS,
   isBestInStockPrice,
   listingInStock,
@@ -56,6 +58,21 @@ import { NotifyButton } from "@/app/components/NotifyButton";
 import { SnapshotTime } from "@/app/components/SnapshotTime";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { StarButton } from "@/app/components/StarButton";
+
+// Hazmat shipping (derived in lib/derive). H+ / >62.5g propellant must ship
+// hazmat; A–E never do; F/G sit in a legal-but-vendor-dependent gray zone.
+const HAZMAT_LABEL: Record<HazmatStatus, string> = {
+  required: "Hazmat required",
+  varies: "May require hazmat",
+  none: "No hazmat",
+};
+const HAZMAT_NOTE: Record<HazmatStatus, string> = {
+  required:
+    "Ships as a hazardous material (>62.5 g propellant), so most carriers add a hazmat fee. Check the vendor's shipping terms.",
+  varies:
+    "Near the 62.5 g propellant limit — legally it can ship without a hazmat fee, but many vendors still charge one. Confirm with the vendor before ordering.",
+  none: "Under the 62.5 g propellant limit, so it ships without a hazmat fee.",
+};
 
 // Fully static — NOT ISR (see app/page.tsx). Every catalog motor is prerendered
 // at build via generateStaticParams below, so real traffic is served from the CDN
@@ -202,6 +219,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
   const cert = certRequirement(motor);
   const isp = specificImpulseS(motor);
   const burn = burnCharacter(motor);
+  const hazmat = hazmatStatus(motor);
   const specs: { label: string; value: string }[] = [
     { label: "Impulse class", value: motor.impulse_class },
     { label: "Diameter", value: `${motor.diameter_mm} mm` },
@@ -223,6 +241,10 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
     ...(motor.common_name && motor.common_name !== motor.designation
       ? [{ label: "Common name", value: motor.common_name }]
       : []),
+    {
+      label: "Shipping",
+      value: HAZMAT_LABEL[hazmat],
+    },
   ];
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://motor.fusionspace.co";
@@ -288,6 +310,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
             </div>
           ))}
         </dl>
+        <p className="mt-3 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+          {HAZMAT_NOTE[hazmat]}
+        </p>
         <p className="mt-4 text-sm">
           <a
             href={thrustcurveUrl(motor)}
