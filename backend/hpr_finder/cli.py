@@ -19,7 +19,7 @@ from .models import _utc_now
 from .normalize import is_out_of_scope
 from .pack import resolve_pack_sizes
 from .scrapers import REGISTRY
-from .snapshot import carry_forward, vendor_counts
+from .snapshot import CARRIED, carry_forward, vendor_counts
 
 app = typer.Typer(help="HPR motor availability aggregator CLI", no_args_is_help=True)
 catalog_app = typer.Typer(help="Manage the canonical motor catalog")
@@ -652,14 +652,28 @@ def _categorize_scrape_error(err: str | None) -> str:
 
 
 def _vendor_stale_hours(payload: dict, decision: dict[str, str]) -> dict[str, float | None]:
-    """Age (hours) of each vendor's freshest published listing vs ``generated_at``.
+    """Age (hours) of each vendor's published data vs ``generated_at``.
 
     A just-scraped vendor reads ~0; a vendor whose data is being carried forward
     reads how long ago that data was last genuinely scraped, which grows every
     hour the outage persists. ``None`` for a vendor with no published listings.
+
+    The reference listing depends on the carry-forward decision:
+
+      * HEALTHY — every listing was (re)scraped this run, so they're uniformly
+        fresh; the newest is representative (~0h).
+      * CARRIED — a PARTIAL scrape (below floor) is merged with last-good
+        backfill, so the vendor serves a MIX: fresh listings from this run's
+        partial scrape (newest ~0h) plus stale backfilled ones. Keying on the
+        newest would read ~0h and hide the stale half entirely — the exact blind
+        spot that let two vendors sit ~22h out of date without alerting. Key on
+        the OLDEST served listing instead, so a partial carry-forward surfaces
+        the true age of the stale data it's still publishing. (A FULL carry-
+        forward — 0 fresh — has oldest == newest, so this also stays correct.)
     """
     gen = _parse_iso(payload.get("generated_at"))
     newest: dict[str, datetime] = {}
+    oldest: dict[str, datetime] = {}
     for m in payload.get("motors", []):
         for l in m.get("listings", []):
             dt = _parse_iso(l.get("seen_at"))
@@ -668,9 +682,12 @@ def _vendor_stale_hours(payload: dict, decision: dict[str, str]) -> dict[str, fl
             v = l["vendor_slug"]
             if v not in newest or dt > newest[v]:
                 newest[v] = dt
+            if v not in oldest or dt < oldest[v]:
+                oldest[v] = dt
     out: dict[str, float | None] = {}
     for v in decision:
-        nd = newest.get(v)
+        ref = oldest if decision.get(v) == CARRIED else newest
+        nd = ref.get(v)
         out[v] = None if (nd is None or gen is None) else round((gen - nd).total_seconds() / 3600, 2)
     return out
 

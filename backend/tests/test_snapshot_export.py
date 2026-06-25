@@ -618,6 +618,51 @@ def test_vendor_stale_hours_survives_naive_seen_at():
     assert out["amw"] == 24.0  # 1 day gap, computed without raising
 
 
+def test_vendor_stale_hours_partial_carry_forward_uses_oldest():
+    # Regression: a vendor below floor is CARRIED and serves a MIX — fresh
+    # listings from this run's partial scrape PLUS stale backfilled ones. Keying
+    # on the newest listing read ~0h and hid the stale half, letting a vendor sit
+    # ~22h out of date with no alert. A carried vendor must report the OLDEST
+    # served listing's age so the partial-carry-forward surfaces.
+    payload = {
+        "generated_at": "2026-06-25T00:00:00+00:00",
+        "motors": [
+            {
+                "manufacturer": "AeroTech", "designation": "H1",
+                "listings": [
+                    {"vendor_slug": "wildman", "seen_at": "2026-06-25T00:00:00+00:00"},  # fresh
+                    {"vendor_slug": "wildman", "seen_at": "2026-06-24T02:00:00+00:00"},  # 22h stale
+                    # A healthy vendor in the same snapshot, uniformly fresh.
+                    {"vendor_slug": "csrocketry", "seen_at": "2026-06-25T00:00:00+00:00"},
+                ],
+            }
+        ],
+    }
+    out = _vendor_stale_hours(payload, {"wildman": "carried", "csrocketry": "healthy"})
+    assert out["wildman"] == 22.0   # oldest served listing — the carried half
+    assert out["csrocketry"] == 0.0  # healthy: newest is representative
+
+
+def test_vendor_stale_hours_healthy_uses_newest_not_oldest():
+    # A HEALTHY vendor's listings can have a small seen_at spread (each page is
+    # fetched over the run's few minutes). It must read ~0h off the newest, not
+    # be dragged up by the oldest — only carried vendors flip to oldest.
+    payload = {
+        "generated_at": "2026-06-25T00:10:00+00:00",
+        "motors": [
+            {
+                "manufacturer": "AeroTech", "designation": "H1",
+                "listings": [
+                    {"vendor_slug": "sirius", "seen_at": "2026-06-25T00:01:00+00:00"},
+                    {"vendor_slug": "sirius", "seen_at": "2026-06-25T00:09:00+00:00"},
+                ],
+            }
+        ],
+    }
+    out = _vendor_stale_hours(payload, {"sirius": "healthy"})
+    assert out["sirius"] == 0.02  # ~1 min off newest, not 9 min off oldest
+
+
 def test_refuses_to_publish_empty_snapshot_under_floor(tmp_db, tmp_path):
     """With a floor set (production path), a snapshot with zero motor listings —
     e.g. a broken catalog left everything unmatched — must refuse to publish so
