@@ -48217,10 +48217,10 @@
     "price_high_cents": 2599
   },
   "https://newcenturyrocketry.shop/products/aerotech-rms-29-100-g54w-14a-white-lightning-model-rocket-motor-reload-kit": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-19T14:00:28+00:00",
-    "last_change_at": "2026-06-19T14:00:28+00:00",
+    "last_change_at": "2026-06-25T12:00:27+00:00",
     "last_in_stock_at": "2026-06-19T14:00:28+00:00",
     "last_restock_at": null,
     "restock_count": 0,
