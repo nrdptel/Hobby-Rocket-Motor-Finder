@@ -1,18 +1,24 @@
 """Async scraper for BuyRocketMotors.com (Shopify storefront, TX).
 
-Discovery:
-  * Paginate Shopify's auth-free ``/products.json?limit=250&page=N`` endpoint
-    to get every product with its vendor and title. Filter to ``vendor ==
-    AEROTECH`` and titles that contain a recognizable motor designation.
-  * This catches motors under non-standard URL prefixes that a regex over
-    the sitemap would miss: ``enerjet-by-aerotech-...``, ``aerotech-economax-...``,
+Discovery + data, both from Shopify's auth-free ``/products.json?limit=250&page=N``:
+  * Paginate it to get every product with its ``vendor``, ``handle``, ``title``,
+    ``options`` and full ``variants`` array. Filter to ``vendor == AEROTECH`` and
+    titles that contain a recognizable motor designation.
+  * This catches motors under non-standard URL prefixes a sitemap regex would
+    miss: ``enerjet-by-aerotech-...``, ``aerotech-economax-...``,
     ``pre-order-only-aerotech-...``, etc.
 
-Per product page:
-  * Parse Product JSON-LD for default-variant name, sku, price, availability.
-  * Also extract the inline Shopify variants array (from a
-    ``<script type="application/json">`` blob that lists every variant with
-    its own ``available``, ``price``, ``sku``, and option title).
+This replaced an older approach that used products.json only for DISCOVERY and
+then fetched each product PAGE to read its inline variants. Shopify/Cloudflare
+rate-limits (403s) that many per-product requests from data-center IPs (GitHub
+Actions), leaving the scrape below floor and the data carried-forward/stale.
+products.json already carries every variant's ``available``/``price``/``sku``/
+``title`` in ~3 paginated requests, so we read them straight from it — no
+per-product fetch. The only fidelity cost is that products.json omits
+``inventory_policy``, so a backorder reads OUT_OF_STOCK rather than
+SPECIAL_ORDER. No LISTINGS are lost (BRM publishes only in/out-of-stock today).
+
+Per product:
   * For products with multiple variants where the option is a delay (e.g.,
     Aerotech D13 with values 4/7/10 seconds), emit one Listing per variant.
     Each variant's ``url`` includes the Shopify ``?variant={id}`` selector
@@ -21,14 +27,9 @@ Per product page:
     + digits + variant delay + propellant letter inferred from the title
     (e.g., "D13" + "4" + "W" -> "D13-4W"), so the Variety column matches the
     naming users see at single-SKU vendors like csrocketry.
-
-Politeness: Shopify on Cloudflare/Fastly handles 4 concurrent connections at
-0.2s start cadence comfortably; same defaults as csrocketry.
 """
 from __future__ import annotations
 
-import asyncio
-import json
 import logging
 import re
 
@@ -46,16 +47,9 @@ log = logging.getLogger(__name__)
 
 PRODUCTS_JSON_URL = "https://www.buyrocketmotors.com/products.json"
 PRODUCT_BASE_URL = "https://www.buyrocketmotors.com/products/"
-JSON_LD_RE = re.compile(
-    r'<script[^>]*type="application/ld\+json"[^>]*>(.*?)</script>',
-    re.S,
-)
-INLINE_JSON_RE = re.compile(
-    r'<script[^>]+type="application/json"[^>]*>(.*?)</script>',
-    re.S,
-)
 # How we tell a variant option is a delay-time selector.
 DELAY_OPTION_RE = re.compile(r"^\s*\d{1,2}\s*$")
+SAFETY_MAX_PAGES = 20
 
 
 class BuyRocketMotorsScraper(Scraper):
@@ -63,11 +57,10 @@ class BuyRocketMotorsScraper(Scraper):
     name = "BuyRocketMotors.com"
     homepage = "https://www.buyrocketmotors.com"
     state = "TX"
-    # Shopify aggressively rate-limits per-product fetches from data-center
-    # IPs. See the same comment in wildman.py — 2 concurrent / 1s interval
-    # is the threshold below which we don't get 403'd from GH Actions.
+    # Only a few products.json page fetches now, so the conservative
+    # per-product-fetch pace is no longer needed; keep it polite regardless.
     max_concurrent_per_host = 2
-    min_start_interval_s = 1.0
+    min_start_interval_s = 0.5
 
     async def scrape(
         self,
@@ -75,32 +68,32 @@ class BuyRocketMotorsScraper(Scraper):
         limit: int | None = None,
         only_urls: list[str] | None = None,
     ) -> list[Listing]:
+        products = await self._discover_products(client)
         if only_urls:
-            urls = list(only_urls)
-            log.info("buyrocketmotors: scraping %d explicit URLs", len(urls))
+            wanted = {_handle_of(u) for u in only_urls}
+            products = [p for p in products if p.get("handle") in wanted]
+            log.info("buyrocketmotors: filtered to %d products from %d explicit URLs",
+                     len(products), len(only_urls))
         else:
-            urls = sorted(await self._discover_product_urls(client))
-            log.info("buyrocketmotors: discovered %d AeroTech product URLs", len(urls))
+            log.info("buyrocketmotors: %d AeroTech motor products from products.json", len(products))
         if limit is not None:
-            urls = urls[:limit]
-            log.info("buyrocketmotors: capped to %d URLs (--limit)", len(urls))
+            products = products[:limit]
+            log.info("buyrocketmotors: capped to %d products (--limit)", len(products))
 
-        async def _safe(url: str) -> list[Listing]:
+        listings: list[Listing] = []
+        for p in products:
             try:
-                return await self._scrape_product(client, url)
+                listings.extend(self._product_to_listings(p))
             except Exception as e:
-                log.warning("buyrocketmotors: skipping %s: %s", url, e)
-                return []
+                log.warning("buyrocketmotors: skipping %s: %s", p.get("handle"), e)
+        return listings
 
-        result_lists = await asyncio.gather(*[_safe(u) for u in urls])
-        return [l for lst in result_lists for l in lst]
-
-    async def _discover_product_urls(self, client: PoliteAsyncClient) -> set[str]:
+    async def _discover_products(self, client: PoliteAsyncClient) -> list[dict]:
         """Walk /products.json pages, keep vendor==AEROTECH with a motor-shaped
-        title. Returns canonical product URLs."""
-        urls: set[str] = set()
+        title. Variant prices (dollar strings) are normalized to integer cents in
+        place so the shared variant→listing logic is unchanged."""
+        out: list[dict] = []
         page = 1
-        SAFETY_MAX_PAGES = 20
         while page <= SAFETY_MAX_PAGES:
             r = await client.get(f"{PRODUCTS_JSON_URL}?limit=250&page={page}")
             r.raise_for_status()
@@ -110,65 +103,66 @@ class BuyRocketMotorsScraper(Scraper):
             for p in products:
                 if (p.get("vendor") or "").upper() != "AEROTECH":
                     continue
-                title = p.get("title") or ""
-                # Use the same designation regex that the matcher uses.
-                if extract_designation(title) is None:
+                if extract_designation(p.get("title") or "") is None:
                     continue
-                handle = p.get("handle")
-                if handle:
-                    urls.add(f"{PRODUCT_BASE_URL}{handle}")
+                for v in p.get("variants") or []:
+                    v["price"] = price_to_cents(v.get("price"))
+                out.append(p)
             log.info(
                 "buyrocketmotors: products.json page %d had %d products (%d AEROTECH motors total so far)",
-                page, len(products), len(urls),
+                page, len(products), len(out),
             )
             page += 1
-        return urls
+        return out
 
-    async def _scrape_product(self, client: PoliteAsyncClient, url: str) -> list[Listing]:
-        r = await client.get(url)
-        r.raise_for_status()
-        html = r.text
-        product = _extract_product_jsonld(html)
-        if product is None:
-            raise ValueError("no Product JSON-LD block")
-
-        offers = product.get("offers") or {}
-        if isinstance(offers, list):
-            offers = offers[0] if offers else {}
-
-        name = product.get("name") or ""
-        currency = str(offers.get("priceCurrency") or "USD")
-        canonical_url = str(offers.get("url") or url).split("?", 1)[0]
+    def _product_to_listings(self, product: dict) -> list[Listing]:
+        name = product.get("title") or ""
+        handle = product.get("handle") or ""
+        canonical_url = f"{PRODUCT_BASE_URL}{handle}"
         product_designation = extract_designation(name) or ""
+        variants = product.get("variants") or []
+        if not variants:
+            return []
 
-        variants = _extract_variants(html)
-        if variants:
-            delay_variants = [v for v in variants if _is_delay_variant(v)]
-            if len(delay_variants) >= 1 and len(variants) > 1:
-                # Multi-variant product where each variant is a delay option.
-                # Emit one Listing per variant.
-                propellant_name = infer_propellant_from_title(name)
-                p_letter = propellant_letter(propellant_name)
-                return [
-                    _variant_to_listing(self.slug, name, canonical_url, v, product_designation, p_letter, currency)
-                    for v in delay_variants
-                ]
+        delay_variants = [v for v in variants if _is_delay_variant(v)]
+        if len(delay_variants) >= 1 and len(variants) > 1:
+            # Multi-variant product where each variant is a delay option.
+            # Emit one Listing per variant.
+            propellant_name = infer_propellant_from_title(name)
+            p_letter = propellant_letter(propellant_name)
+            return [
+                _variant_to_listing(self.slug, name, canonical_url, v, product_designation, p_letter, "USD")
+                for v in delay_variants
+            ]
 
-        # Single-variant product (HPR motor, kit, etc.) — use default-variant data
-        # from the Product JSON-LD.
-        availability = (offers.get("availability") or "").lower()
-        price_cents = price_to_cents(offers.get("price"))
-        sku = str(product.get("sku") or offers.get("sku") or "") or None
+        # Single-variant product (HPR motor, kit, etc.) — use the default variant.
+        v0 = variants[0]
+        sku_field = v0.get("sku")
+        sku = str(sku_field) if sku_field else None
+        available = v0.get("available")
+        if available is True:
+            status = StockStatus.IN_STOCK
+        elif available is False:
+            status = StockStatus.OUT_OF_STOCK
+        else:
+            status = StockStatus.UNKNOWN
+        price_raw = v0.get("price")
+        price_cents = int(round(float(price_raw))) if isinstance(price_raw, (int, float)) else None
+        # Keep the ``?variant={id}`` suffix the old JSON-LD-sourced URL carried, so
+        # the (vendor, url) listing key is byte-stable across this scraper rewrite
+        # (no history churn / orphaned rows). Default variant id == variants[0].id.
+        variant_id = v0.get("id")
+        url = f"{canonical_url}?variant={variant_id}" if variant_id else canonical_url
         return [
             Listing(
                 vendor_slug=self.slug,
                 motor_designation=product_designation,
                 motor_id=None,
-                url=str(offers.get("url") or url),
+                url=url,
                 sku=sku,
                 price_cents=price_cents,
-                currency=currency,
-                status=_availability_to_status(availability),
+                currency="USD",
+                status=status,
                 stock_count=None,
                 raw_title=name,
                 seen_at=_utc_now(),
@@ -176,47 +170,9 @@ class BuyRocketMotorsScraper(Scraper):
         ]
 
 
-def _extract_product_jsonld(html: str) -> dict | None:
-    for block in JSON_LD_RE.findall(html):
-        try:
-            data = json.loads(block, strict=False)
-        except json.JSONDecodeError:
-            continue
-        items = data if isinstance(data, list) else [data]
-        if isinstance(data, dict) and "@graph" in data:
-            items = data["@graph"]
-        for item in items:
-            if isinstance(item, dict) and item.get("@type") == "Product":
-                return item
-    return None
-
-
-def _extract_variants(html: str) -> list[dict] | None:
-    """Find the inline Shopify variants array — the one that includes the
-    ``available`` boolean per variant (the JSON-LD only has the default).
-
-    Shopify themes embed this as a top-level array inside a
-    ``<script type="application/json">`` tag near the product form.
-    """
-    for m in INLINE_JSON_RE.finditer(html):
-        text = m.group(1).strip()
-        if not text.startswith("["):
-            continue
-        try:
-            data = json.loads(text)
-        except json.JSONDecodeError:
-            continue
-        if not isinstance(data, list) or not data:
-            continue
-        first = data[0]
-        if (
-            isinstance(first, dict)
-            and "sku" in first
-            and "available" in first
-            and "title" in first
-        ):
-            return data
-    return None
+def _handle_of(url: str) -> str:
+    """Product handle from a full product URL (for --url smoke testing)."""
+    return url.split("?", 1)[0].rstrip("/").rsplit("/", 1)[-1]
 
 
 def _is_delay_variant(variant: dict) -> bool:
@@ -241,7 +197,7 @@ def _variant_to_listing(
     sku_field = variant.get("sku")
     sku = str(sku_field) if sku_field else None
     price_value = variant.get("price")
-    # Shopify inline JSON encodes price as cents (e.g. 2100 for $21.00).
+    # variant['price'] was normalized to integer cents in _discover_products.
     price_cents: int | None
     if isinstance(price_value, (int, float)):
         price_cents = int(round(float(price_value)))
@@ -276,14 +232,3 @@ def _variant_to_listing(
         raw_title=product_title,
         seen_at=_utc_now(),
     )
-
-
-def _availability_to_status(availability: str) -> StockStatus:
-    a = (availability or "").lower()
-    if "instock" in a:
-        return StockStatus.IN_STOCK
-    if "outofstock" in a:
-        return StockStatus.OUT_OF_STOCK
-    if "preorder" in a or "backorder" in a:
-        return StockStatus.SPECIAL_ORDER
-    return StockStatus.UNKNOWN

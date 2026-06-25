@@ -1,6 +1,10 @@
-"""Parse-level tests for the Wildman scraper using captured HTML fixtures."""
-from pathlib import Path
+"""Parse-level tests for the Wildman scraper.
 
+The scraper reads every product + variant from Shopify's ``/products.json``
+(no per-product HTML fetch), so these tests drive product dicts shaped like
+products.json through ``scrape`` / ``_product_to_listings`` / ``_discover_products``,
+plus unit tests for the shared listing helpers.
+"""
 import pytest
 
 from hpr_finder.models import StockStatus
@@ -9,36 +13,11 @@ from hpr_finder.scrapers.wildman import (
     PRODUCT_URL_RE,
     WildmanScraper,
     _cti_diameter_from_url,
-    _extract_product_blob,
     _is_delay_variant,
     _variant_to_listing,
 )
 
-FIXTURES = Path(__file__).parent / "fixtures"
-
-
-def _load(name: str) -> str:
-    return (FIXTURES / name).read_text()
-
-
-def test_i161w_blob_parses():
-    html = _load("wildman_i161w.html")
-    p = _extract_product_blob(html)
-    assert p is not None
-    assert p["title"] == "I161W-14A"
-    assert p["vendor"] == "AEROTECH"
-    assert len(p["variants"]) == 1
-
-
-def test_i161w_variant_has_inventory():
-    html = _load("wildman_i161w.html")
-    p = _extract_product_blob(html)
-    v = p["variants"][0]
-    assert v["sku"] == "2710"
-    assert v["price"] == 6199
-    assert v["available"] is True
-    assert v["inventory_quantity"] == 7
-    assert v["inventory_policy"] == "deny"
+# --- _is_delay_variant ---------------------------------------------------------
 
 
 def test_default_title_is_not_delay_variant():
@@ -56,7 +35,8 @@ def test_named_variant_is_not_delay():
     assert _is_delay_variant({"title": "Red"}) is False
 
 
-# --- Cesaroni (CTI) -------------------------------------------------------
+# --- Cesaroni (CTI) handle regexes + diameter ---------------------------------
+
 
 def test_cti_discovery_matches_pr_handles_not_p_hardware():
     """Motor handles are pr<dia> (pr98-…); hardware is p<dia> (p98-rr) and must
@@ -87,87 +67,59 @@ def test_cti_diameter_from_url(url, expected):
     assert _cti_diameter_from_url(url) == expected
 
 
-class _FakeResp:
-    def __init__(self, text: str):
-        self.text = text
-
-    def raise_for_status(self):
-        return None
+# --- _variant_to_listing -------------------------------------------------------
 
 
-class _FakeClient:
-    def __init__(self, body: str):
-        self._body = body
-
-    async def get(self, url, **kwargs):
-        return _FakeResp(self._body)
-
-
-@pytest.mark.asyncio
-async def test_scrape_cti_instock_single_listing():
-    scraper = WildmanScraper()
-    url = "https://wildmanrocketry.com/products/pr75-5g-r"
-    client = _FakeClient(_load("wildman_cti_m1810_red_instock.html"))
-    listings = await scraper._scrape_product(client, url)
-
-    assert len(listings) == 1  # one listing per CTI product, no delay fan-out
-    l = listings[0]
-    assert l.manufacturer == "Cesaroni Technology"
-    assert l.motor_designation == "M1810"     # commonName, from "M1810-CTI Red"
-    assert l.diameter_mm == 75                 # from pr75 handle
-    assert l.status is StockStatus.IN_STOCK_WITH_COUNT
-    assert l.stock_count == 1
-    assert l.vendor_slug == "wildman"
-    assert "Red" in l.raw_title                # flavor stays in the title for matching
+def test_variant_to_listing_unknown_status_and_non_numeric_price():
+    # No 'available' key -> UNKNOWN; non-numeric price -> None; multi-variant URL.
+    v = {"id": 9, "title": "6", "sku": "S", "price": "n/a"}
+    listing = _variant_to_listing(
+        vendor_slug="wildman", product_title="t", canonical_url="https://w/p",
+        variant=v, motor_designation="H100W", propellant_code="W", is_single_variant=False,
+    )
+    assert listing.status is StockStatus.UNKNOWN
+    assert listing.price_cents is None
+    assert listing.url == "https://w/p?variant=9"
+    assert listing.motor_designation == "H100W-6W"
 
 
-@pytest.mark.asyncio
-async def test_scrape_cti_oos_negative_inventory():
-    scraper = WildmanScraper()
-    url = "https://wildmanrocketry.com/products/pr98-6gxl-i"
-    client = _FakeClient(_load("wildman_cti_o3400_imax_oos.html"))
-    listings = await scraper._scrape_product(client, url)
-
-    assert len(listings) == 1
-    l = listings[0]
-    assert l.manufacturer == "Cesaroni Technology"
-    assert l.motor_designation == "O3400"
-    assert l.diameter_mm == 98
-    assert l.status is StockStatus.OUT_OF_STOCK   # available False -> OOS
-    assert l.stock_count is None
+def test_variant_to_listing_multivariant_empty_designation_is_blank():
+    v = {"id": 5, "title": "6", "available": True, "inventory_quantity": 2}
+    listing = _variant_to_listing(
+        vendor_slug="wildman", product_title="t", canonical_url="https://w/p",
+        variant=v, motor_designation="", propellant_code="W", is_single_variant=False,
+    )
+    assert listing.motor_designation == ""  # no base designation -> empty synthetic
 
 
-@pytest.mark.asyncio
-async def test_scrape_aerotech_unchanged_by_cti_routing():
-    """Regression: an AeroTech Wildman product still parses as AeroTech with no
-    diameter hint."""
-    scraper = WildmanScraper()
-    url = "https://wildmanrocketry.com/products/i161w-14a"
-    client = _FakeClient(_load("wildman_i161w.html"))
-    listings = await scraper._scrape_product(client, url)
+def test_variant_to_listing_counts_when_inventory_quantity_present():
+    # The helper still reports an exact count if a source ever supplies it
+    # (products.json does not, so this stays a unit-level guarantee).
+    v = {"id": 1, "title": "Default Title", "available": True, "inventory_quantity": 7}
+    listing = _variant_to_listing(
+        vendor_slug="wildman", product_title="t", canonical_url="https://w/p",
+        variant=v, motor_designation="H100W", propellant_code="", is_single_variant=True,
+    )
+    assert listing.status is StockStatus.IN_STOCK_WITH_COUNT
+    assert listing.stock_count == 7
 
-    assert len(listings) == 1
-    assert listings[0].manufacturer == "AeroTech"
-    assert listings[0].diameter_mm is None
-    assert "I161W" in listings[0].motor_designation
+
+# --- _cti_listings (variant dicts in directly) --------------------------------
 
 
 def test_cti_listing_prefers_in_stock_variant():
     # variants[0] is sold out; a later variant is in stock. The single CTI
-    # listing should reflect the buyable variant's status and price, not the
-    # sold-out variants[0].
+    # listing should reflect the buyable variant's status and price.
     scraper = WildmanScraper()
     url = "https://wildmanrocketry.com/products/pr75-5g-r"
     variants = [
-        {"id": 1, "title": "P", "price": 19999, "available": False, "inventory_policy": "deny"},
-        {"id": 2, "title": "Long", "price": 20999, "available": True, "inventory_quantity": 3},
+        {"id": 1, "title": "P", "price": 19999, "available": False},
+        {"id": 2, "title": "Long", "price": 20999, "available": True},
     ]
     listings = scraper._cti_listings("M1810-CTI Red", url, url, variants)
-
     assert len(listings) == 1
     l = listings[0]
-    assert l.status is StockStatus.IN_STOCK_WITH_COUNT
-    assert l.stock_count == 3
+    assert l.status is StockStatus.IN_STOCK
     assert l.price_cents == 20999  # the in-stock variant, not the sold-out 19999
 
 
@@ -185,169 +137,165 @@ def test_cti_listings_skips_hardware_titled_product():
     assert scraper._cti_listings("O3400-CTI Casing", url, url, variants) == []
 
 
-# --- AeroTech _scrape_product: skips + multi-variant delay fan-out ------------
+# --- _product_to_listings (product dict -> Listings) --------------------------
 
 
-@pytest.mark.asyncio
-async def test_scrape_product_skips_when_no_blob():
-    listings = await WildmanScraper()._scrape_product(
-        _FakeClient("<html>no inline product json</html>"), "https://wildmanrocketry.com/products/x"
-    )
-    assert listings == []
+def test_product_to_listings_aerotech_single_variant():
+    product = {
+        "vendor": "AEROTECH", "title": "I161W-14A", "handle": "i161w-14a",
+        "variants": [{"id": 1, "title": "Default Title", "sku": "2710", "price": 6199, "available": True}],
+    }
+    listings = WildmanScraper()._product_to_listings(product)
+    assert len(listings) == 1
+    l = listings[0]
+    assert l.manufacturer == "AeroTech"
+    assert l.diameter_mm is None
+    assert "I161W" in l.motor_designation
+    assert l.status is StockStatus.IN_STOCK  # products.json has no inventory_quantity
+    assert l.price_cents == 6199
+    assert l.url == "https://wildmanrocketry.com/products/i161w-14a"  # single-variant: no ?variant
 
 
-@pytest.mark.asyncio
-async def test_scrape_product_skips_other_brands():
-    html = (
-        '<script type="application/json">'
-        '{"title":"Loki H100","vendor":"LOKI","variants":[{"id":1,"title":"Default Title"}]}'
-        "</script>"
-    )
-    listings = await WildmanScraper()._scrape_product(_FakeClient(html), "https://wildmanrocketry.com/products/x")
-    assert listings == []
+def test_product_to_listings_cti_single_listing():
+    product = {
+        "vendor": "CESARONI TECHNOLOGY", "title": "M1810-CTI Red", "handle": "pr75-5g-r",
+        "variants": [{"id": 1, "title": "P", "price": 20999, "available": True}],
+    }
+    listings = WildmanScraper()._product_to_listings(product)
+    assert len(listings) == 1
+    l = listings[0]
+    assert l.manufacturer == "Cesaroni Technology"
+    assert l.motor_designation == "M1810"   # commonName, from "M1810-CTI Red"
+    assert l.diameter_mm == 75              # from pr75 handle
+    assert l.status is StockStatus.IN_STOCK
+    assert "Red" in l.raw_title
 
 
-@pytest.mark.asyncio
-async def test_scrape_product_skips_when_no_variants():
-    html = '<script type="application/json">{"title":"AeroTech H100W","vendor":"AEROTECH","variants":[]}</script>'
-    listings = await WildmanScraper()._scrape_product(_FakeClient(html), "https://wildmanrocketry.com/products/x")
-    assert listings == []
+def test_product_to_listings_skips_other_brands():
+    product = {"vendor": "LOKI", "title": "Loki H100", "handle": "h100",
+               "variants": [{"id": 1, "title": "Default Title"}]}
+    assert WildmanScraper()._product_to_listings(product) == []
 
 
-_AT_MULTI_BLOB = (
-    '<script type="application/json">'
-    '{"title":"AeroTech H100W White Lightning","vendor":"AEROTECH",'
-    '"options":[{"name":"Delay"}],'
-    '"variants":['
-    '{"id":1,"title":"6","sku":"S6","price":4999,"available":true,"inventory_quantity":3,"inventory_policy":"deny"},'
-    '{"id":2,"title":"10","sku":"S10","price":4999,"available":false,"inventory_policy":"deny"},'
-    '{"id":3,"title":"14","sku":"S14","price":4999,"available":true,"inventory_policy":"deny"}'
-    "]}"
-    "</script>"
-)
+def test_product_to_listings_skips_when_no_variants():
+    product = {"vendor": "AEROTECH", "title": "AeroTech H100W", "handle": "h100w", "variants": []}
+    assert WildmanScraper()._product_to_listings(product) == []
 
 
-@pytest.mark.asyncio
-async def test_scrape_product_aerotech_fans_out_delay_variants():
-    listings = await WildmanScraper()._scrape_product(
-        _FakeClient(_AT_MULTI_BLOB), "https://wildmanrocketry.com/products/h100w"
-    )
+def test_product_to_listings_fans_out_delay_variants():
+    product = {
+        "vendor": "AEROTECH", "title": "AeroTech H100W White Lightning", "handle": "h100w",
+        "options": [{"name": "Delay"}],
+        "variants": [
+            {"id": 1, "title": "6", "sku": "S6", "price": 4999, "available": True},
+            {"id": 2, "title": "10", "sku": "S10", "price": 4999, "available": False},
+            {"id": 3, "title": "14", "sku": "S14", "price": 4999, "available": True},
+        ],
+    }
+    listings = WildmanScraper()._product_to_listings(product)
     assert len(listings) == 3
     by_v = {l.url.rsplit("variant=", 1)[1]: l for l in listings}
     assert set(by_v) == {"1", "2", "3"}
-    assert by_v["1"].status is StockStatus.IN_STOCK_WITH_COUNT and by_v["1"].stock_count == 3
+    # No inventory_quantity in products.json -> available reads plain IN_STOCK.
+    assert by_v["1"].status is StockStatus.IN_STOCK
     assert by_v["2"].status is StockStatus.OUT_OF_STOCK
-    # available=True but no inventory_quantity -> plain IN_STOCK, no count.
-    assert by_v["3"].status is StockStatus.IN_STOCK and by_v["3"].stock_count is None
+    assert by_v["3"].status is StockStatus.IN_STOCK
     assert all(l.manufacturer == "AeroTech" for l in listings)
 
 
-def test_variant_to_listing_unknown_status_and_non_numeric_price():
-    # No 'available' key -> UNKNOWN; non-numeric price -> None; multi-variant URL.
-    v = {"id": 9, "title": "6", "sku": "S", "price": "n/a"}
-    listing = _variant_to_listing(
-        vendor_slug="wildman", product_title="t", canonical_url="https://w/p",
-        variant=v, motor_designation="H100W", propellant_code="W", is_single_variant=False,
-    )
-    assert listing.status is StockStatus.UNKNOWN
-    assert listing.price_cents is None
-    assert listing.url == "https://w/p?variant=9"
-    assert listing.motor_designation == "H100W-6W"
+# --- products.json plumbing + scrape orchestration ----------------------------
 
 
-# --- scrape() orchestration + _discover_product_urls -------------------------
+class _JsonResp:
+    def __init__(self, data: dict):
+        self._data = data
+
+    def raise_for_status(self):
+        return None
+
+    def json(self):
+        return self._data
 
 
-class _DiscoverClient:
-    """Sitemap index -> one product sub-sitemap -> AeroTech + Cesaroni URLs."""
+class _PagedClient:
+    """Serves /products.json pages keyed by ?page=N, then empties to stop."""
+
+    def __init__(self, pages: list[list[dict]]):
+        self._pages = pages
 
     async def get(self, url, **kwargs):
-        if "sitemap_products_" in url:
-            return _FakeResp(
-                "https://wildmanrocketry.com/products/i161w-14a "
-                "https://wildmanrocketry.com/products/pr98-6gxl-i"
-            )
-        if "sitemap" in url:
-            return _FakeResp("<loc>https://wildmanrocketry.com/sitemap_products_1.xml</loc>")
-        return _FakeResp("")
+        import re
+
+        m = re.search(r"page=(\d+)", url)
+        page = int(m.group(1)) if m else 1
+        products = self._pages[page - 1] if page - 1 < len(self._pages) else []
+        return _JsonResp({"products": products})
 
 
 @pytest.mark.asyncio
-async def test_discover_product_urls_walks_the_sitemap_index():
-    urls = await WildmanScraper()._discover_product_urls(_DiscoverClient())
-    assert "https://wildmanrocketry.com/products/i161w-14a" in urls
-    assert "https://wildmanrocketry.com/products/pr98-6gxl-i" in urls
+async def test_discover_products_keeps_motor_shaped_handles_and_normalizes_price():
+    pages = [[
+        {"vendor": "AEROTECH", "title": "I161W-14A", "handle": "i161w-14a",
+         "variants": [{"id": 1, "price": "61.99"}]},
+        {"vendor": "CESARONI TECHNOLOGY", "title": "O3400-CTI IMAX", "handle": "pr98-6gxl-i",
+         "variants": [{"id": 2, "price": "380.00"}]},
+        {"vendor": "WILDMAN BRAND", "title": "Launch Pad", "handle": "launch-pad-high-power",
+         "variants": [{"id": 3, "price": "5.00"}]},   # non-motor handle -> dropped
+        {"vendor": "AEROTECH", "title": "FirstFire Igniter", "handle": "firstfire-igniter",
+         "variants": [{"id": 4, "price": "1.00"}]},   # non-motor handle -> dropped
+    ]]
+    products = await WildmanScraper()._discover_products(_PagedClient(pages))
+    handles = {p["handle"] for p in products}
+    assert handles == {"i161w-14a", "pr98-6gxl-i"}
+    # Dollar-string price normalized to integer cents in place.
+    prices = {p["handle"]: p["variants"][0]["price"] for p in products}
+    assert prices["i161w-14a"] == 6199
 
 
 @pytest.mark.asyncio
-async def test_discover_tolerates_a_failing_sub_sitemap():
-    class _SubSitemapFails(_DiscoverClient):
-        async def get(self, url, **kwargs):
-            if "sitemap_products_" in url:
-                raise RuntimeError("sub-sitemap down")
-            return await super().get(url, **kwargs)
-
-    urls = await WildmanScraper()._discover_product_urls(_SubSitemapFails())
-    assert urls == set()
+async def test_scrape_builds_aerotech_and_cti_listings():
+    pages = [[
+        {"vendor": "AEROTECH", "title": "I161W-14A", "handle": "i161w-14a",
+         "variants": [{"id": 1, "title": "Default Title", "sku": "2710", "price": "61.99", "available": True}]},
+        {"vendor": "CESARONI TECHNOLOGY", "title": "O3400-CTI IMAX", "handle": "pr98-6gxl-i",
+         "variants": [{"id": 2, "title": "P", "price": "380.00", "available": True}]},
+    ]]
+    listings = await WildmanScraper().scrape(_PagedClient(pages))
+    assert len(listings) == 2
+    assert {l.manufacturer for l in listings} == {"AeroTech", "Cesaroni Technology"}
 
 
 @pytest.mark.asyncio
-async def test_scrape_with_explicit_urls_respects_limit():
-    scraper = WildmanScraper()
-    listings = await scraper.scrape(
-        _FakeClient(_load("wildman_i161w.html")),
-        only_urls=[
-            "https://wildmanrocketry.com/products/i161w-14a",
-            "https://wildmanrocketry.com/products/another",
-        ],
+async def test_scrape_only_urls_filters_by_handle_and_respects_limit():
+    pages = [[
+        {"vendor": "AEROTECH", "title": "I161W-14A", "handle": "i161w-14a",
+         "variants": [{"id": 1, "title": "Default Title", "sku": "2710", "price": "61.99", "available": True}]},
+        {"vendor": "AEROTECH", "title": "H128W", "handle": "h128w",
+         "variants": [{"id": 2, "title": "Default Title", "sku": "x", "price": "40.00", "available": True}]},
+    ]]
+    listings = await WildmanScraper().scrape(
+        _PagedClient(pages),
+        only_urls=["https://wildmanrocketry.com/products/i161w-14a"],
         limit=1,
     )
     assert len(listings) == 1
+    assert "I161W" in listings[0].motor_designation
 
 
 @pytest.mark.asyncio
 async def test_scrape_isolates_a_failing_product():
-    class _MixedClient:
-        async def get(self, url, **kwargs):
-            if "bad" in url:
-                raise RuntimeError("network blip")
-            return _FakeResp(_load("wildman_i161w.html"))
+    class _Boom(WildmanScraper):
+        def _product_to_listings(self, product):
+            if product.get("handle") == "i9bad":
+                raise RuntimeError("boom")
+            return super()._product_to_listings(product)
 
-    listings = await WildmanScraper().scrape(
-        _MixedClient(),
-        only_urls=["https://wildmanrocketry.com/products/good-i161w", "https://wildmanrocketry.com/products/bad"],
-    )
+    pages = [[
+        {"vendor": "AEROTECH", "title": "I161W-14A", "handle": "i161w-14a",
+         "variants": [{"id": 1, "title": "Default Title", "sku": "2710", "price": "61.99", "available": True}]},
+        {"vendor": "AEROTECH", "title": "H128W", "handle": "i9bad",
+         "variants": [{"id": 2, "title": "Default Title", "sku": "x", "price": "40.00", "available": True}]},
+    ]]
+    listings = await _Boom().scrape(_PagedClient(pages))
     assert len(listings) == 1
-
-
-@pytest.mark.asyncio
-async def test_scrape_discovers_then_builds_listings():
-    class _FullClient(_DiscoverClient):
-        async def get(self, url, **kwargs):
-            if "sitemap" in url:
-                return await super().get(url, **kwargs)
-            return _FakeResp(_load("wildman_i161w.html"))  # any product URL -> fixture
-
-    listings = await WildmanScraper().scrape(_FullClient())
-    assert len(listings) == 2  # both discovered product URLs become listings
-
-
-def test_extract_product_blob_skips_non_object_and_invalid_json():
-    html = (
-        '<script type="application/json">[1,2,3]</script>'  # array, not an object
-        '<script type="application/json">{"vendor":"AEROTECH","variants": oops}</script>'  # invalid JSON
-        '<script type="application/json">'
-        '{"title":"AeroTech H100W","vendor":"AEROTECH","variants":[{"id":1,"title":"Default Title"}]}'
-        "</script>"
-    )
-    blob = _extract_product_blob(html)
-    assert blob is not None and blob["title"] == "AeroTech H100W"
-
-
-def test_variant_to_listing_multivariant_empty_designation_is_blank():
-    v = {"id": 5, "title": "6", "available": True, "inventory_quantity": 2}
-    listing = _variant_to_listing(
-        vendor_slug="wildman", product_title="t", canonical_url="https://w/p",
-        variant=v, motor_designation="", propellant_code="W", is_single_variant=False,
-    )
-    assert listing.motor_designation == ""  # no base designation -> empty synthetic
+    assert "I161W" in listings[0].motor_designation

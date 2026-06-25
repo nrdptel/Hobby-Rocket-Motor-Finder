@@ -3,34 +3,36 @@
 Wildman carries many brands (AeroTech, Cesaroni, Loki, ...) and the product
 catalog (~1900 items) spans far beyond motors. Discovery strategy:
 
-  1. /sitemap.xml → /sitemap_products_*.xml.
-  2. Filter to motor-shaped slugs: AeroTech ``[a-o]\\d…`` and Cesaroni
-     ``pr\\d\\d…`` (the "pr<diameter>" handle; hardware uses "p<diameter>"
-     without the r, so it's excluded) — a fast first cut.
-  3. Fetch each candidate and parse the inline product blob; keep ``vendor`` ==
-     ``AEROTECH`` or ``CESARONI TECHNOLOGY`` (Cesaroni products are emitted as a
-     single listing keyed on commonName + flavor, with the diameter from the
-     handle — see ``_cti_listings``).
+  * Paginate Shopify's auth-free ``/products.json?limit=250&page=N`` endpoint,
+    which returns every product with its ``vendor``, ``handle``, ``title``,
+    ``options`` and full ``variants`` array in a HANDFUL of requests.
+  * Keep motor-shaped handles: AeroTech ``[a-o]\\d…`` and Cesaroni ``pr\\d\\d…``
+    (the "pr<diameter>" handle; hardware uses "p<diameter>" without the r, so
+    it's excluded — and the diameter feeds CTI collision-breaking).
+  * Keep ``vendor`` == ``AEROTECH`` or ``CESARONI TECHNOLOGY`` (Cesaroni products
+    are emitted as a single listing keyed on commonName + flavor, with the
+    diameter from the handle — see ``_cti_listings``).
 
-Per product page:
-  * Wildman does NOT publish Product JSON-LD; the canonical product info lives
-    in a ``<script type="application/json">`` blob containing the full product
-    (title, vendor, handle, variants[], options). Each variant exposes
-    ``available``, ``inventory_quantity`` (a real number!), ``inventory_policy``,
-    ``price`` (in cents), and ``sku``. This is BETTER than BRM, which hides
-    inventory_quantity.
-  * Status mapping:
-      - available=True + inventory_quantity>0  -> IN_STOCK_WITH_COUNT
-      - available=True (no count)              -> IN_STOCK
-      - available=False + policy=continue      -> SPECIAL_ORDER (backorder)
-      - available=False (any other policy)     -> OUT_OF_STOCK
+This replaced an older sitemap-walk that fetched each of ~1900 product PAGES
+individually. Shopify/Cloudflare aggressively rate-limits (403s) that many
+per-product requests from data-center IPs (GitHub Actions), which left the
+scrape below floor and the data carried-forward/stale. ``products.json`` carries
+the same product+variant data in ~10 paginated requests, well under the block
+threshold. The only fidelity cost: ``products.json`` omits ``inventory_quantity``
+and ``inventory_policy``, so an in-stock variant reads IN_STOCK rather than
+IN_STOCK_WITH_COUNT (no exact count), and we can't distinguish a backorder
+(SPECIAL_ORDER) from out-of-stock. No LISTINGS are lost — every variant, price,
+SKU and in/out-of-stock state is preserved.
+
+Per variant (unchanged from before):
+  * ``available``/``price``/``sku``/``title`` drive the listing. Status mapping:
+      - available=True  -> IN_STOCK
+      - available=False -> OUT_OF_STOCK
   * For multi-variant delay products, emit one Listing per variant (same shape
     as the BRM scraper).
 """
 from __future__ import annotations
 
-import asyncio
-import json
 import logging
 import re
 
@@ -43,16 +45,15 @@ from ..normalize import (
     propellant_letter,
 )
 from .base import Scraper
+from .prices import price_to_cents
 
 log = logging.getLogger(__name__)
 
 CESARONI_MANUFACTURER = "Cesaroni Technology"  # the name ThrustCurve stores
 
-SITEMAP_URL = "https://wildmanrocketry.com/sitemap.xml"
-PRODUCTS_SITEMAP_RE = re.compile(
-    r"https://wildmanrocketry\.com/sitemap_products_\d+\.xml(?:\?[^<\s\"]*)?",
-)
-# Motor-shaped product URL: /products/{class-letter}{digit}{...}
+PRODUCTS_JSON_URL = "https://wildmanrocketry.com/products.json"
+PRODUCT_BASE_URL = "https://wildmanrocketry.com/products/"
+# Motor-shaped product handle: {class-letter}{digit}{...}.
 PRODUCT_URL_RE = re.compile(
     r"https://wildmanrocketry\.com/products/[a-o]\d[a-z0-9\-]*",
 )
@@ -69,11 +70,8 @@ CTI_HARDWARE_RE = re.compile(
     r"\b(closure|casing|case|spacer|nozzle|liner|hardware|insulator|retainer)\b",
     re.IGNORECASE,
 )
-INLINE_JSON_RE = re.compile(
-    r'<script[^>]+type="application/json"[^>]*>(.*?)</script>',
-    re.S,
-)
 DELAY_OPTION_RE = re.compile(r"^\s*\d{1,2}\s*$")
+SAFETY_MAX_PAGES = 60  # ~15k products at 250/page — far above the real catalog
 
 
 class WildmanScraper(Scraper):
@@ -81,13 +79,11 @@ class WildmanScraper(Scraper):
     name = "Wildman Rocketry"
     homepage = "https://wildmanrocketry.com"
     state = "IL"
-    # Shopify aggressively rate-limits per-product fetches from data-center
-    # IPs (e.g., GitHub Actions). Hitting 4 concurrent / 200ms interval got
-    # ~80% of our product pages 403'd on Azure runners. 2 concurrent / 1s
-    # interval matches our conservative AMW/Sirius pace and clears the
-    # threshold cleanly. Slightly slower scrape, but reliable.
+    # products.json is a handful of requests, so the per-product-fetch rate
+    # limiting that forced the conservative pace no longer applies. Keep a polite
+    # default; there are only ~10 page fetches.
     max_concurrent_per_host = 2
-    min_start_interval_s = 1.0
+    min_start_interval_s = 0.5
 
     async def scrape(
         self,
@@ -95,62 +91,59 @@ class WildmanScraper(Scraper):
         limit: int | None = None,
         only_urls: list[str] | None = None,
     ) -> list[Listing]:
+        products = await self._discover_products(client)
         if only_urls:
-            urls = list(only_urls)
-            log.info("wildman: scraping %d explicit URLs", len(urls))
+            wanted = {_handle_of(u) for u in only_urls}
+            products = [p for p in products if p.get("handle") in wanted]
+            log.info("wildman: filtered to %d products from %d explicit URLs", len(products), len(only_urls))
         else:
-            urls = sorted(await self._discover_product_urls(client))
-            log.info("wildman: discovered %d motor-shaped product URLs", len(urls))
+            log.info("wildman: %d motor-shaped products from products.json", len(products))
         if limit is not None:
-            urls = urls[:limit]
-            log.info("wildman: capped to %d URLs (--limit)", len(urls))
+            products = products[:limit]
+            log.info("wildman: capped to %d products (--limit)", len(products))
 
-        async def _safe(url: str) -> list[Listing]:
+        listings: list[Listing] = []
+        for p in products:
             try:
-                return await self._scrape_product(client, url)
+                listings.extend(self._product_to_listings(p))
             except Exception as e:
-                log.warning("wildman: skipping %s: %s", url, e)
-                return []
+                log.warning("wildman: skipping %s: %s", p.get("handle"), e)
+        return listings
 
-        results = await asyncio.gather(*[_safe(u) for u in urls])
-        return [l for lst in results for l in lst]
+    async def _discover_products(self, client: PoliteAsyncClient) -> list[dict]:
+        """Paginate /products.json and keep motor-shaped products. Variant prices
+        (dollar strings in products.json) are normalized to integer cents in place
+        so the shared variant→listing logic is unchanged."""
+        out: list[dict] = []
+        page = 1
+        while page <= SAFETY_MAX_PAGES:
+            r = await client.get(f"{PRODUCTS_JSON_URL}?limit=250&page={page}")
+            r.raise_for_status()
+            products = r.json().get("products", [])
+            if not products:
+                break
+            for p in products:
+                handle = p.get("handle") or ""
+                url = f"{PRODUCT_BASE_URL}{handle}"
+                if not (PRODUCT_URL_RE.match(url) or CTI_PRODUCT_URL_RE.match(url)):
+                    continue
+                for v in p.get("variants") or []:
+                    v["price"] = price_to_cents(v.get("price"))
+                out.append(p)
+            log.info("wildman: products.json page %d had %d products (%d motor-shaped so far)",
+                     page, len(products), len(out))
+            page += 1
+        return out
 
-    async def _discover_product_urls(self, client: PoliteAsyncClient) -> set[str]:
-        r = await client.get(SITEMAP_URL)
-        r.raise_for_status()
-        product_sitemaps = sorted(set(PRODUCTS_SITEMAP_RE.findall(r.text)))
-        log.info("wildman: %d product sub-sitemaps in index", len(product_sitemaps))
-
-        async def fetch_sitemap(url: str) -> set[str]:
-            try:
-                r2 = await client.get(url)
-                r2.raise_for_status()
-                # Both AeroTech ([a-o]N…) and Cesaroni (prNN…) motor handles.
-                return set(PRODUCT_URL_RE.findall(r2.text)) | set(CTI_PRODUCT_URL_RE.findall(r2.text))
-            except Exception as e:
-                log.warning("wildman: sub-sitemap fetch failed %s: %s", url, e)
-                return set()
-
-        results = await asyncio.gather(*[fetch_sitemap(u) for u in product_sitemaps])
-        urls: set[str] = set()
-        for s in results:
-            urls |= s
-        return urls
-
-    async def _scrape_product(self, client: PoliteAsyncClient, url: str) -> list[Listing]:
-        r = await client.get(url)
-        r.raise_for_status()
-        html = r.text
-        product = _extract_product_blob(html)
-        if product is None:
-            # Not a recognized Shopify product page, or no inline blob — skip silently
-            return []
+    def _product_to_listings(self, product: dict) -> list[Listing]:
         vendor = (product.get("vendor") or "").upper()
         if vendor not in ("AEROTECH", "CESARONI TECHNOLOGY"):
             return []  # other brands (Loki, etc.) out of scope
 
         title = product.get("title") or ""
-        canonical_url = url.split("?", 1)[0]
+        handle = product.get("handle") or ""
+        url = f"{PRODUCT_BASE_URL}{handle}"
+        canonical_url = url
         variants = product.get("variants") or []
         if not variants:
             return []
@@ -241,28 +234,14 @@ class WildmanScraper(Scraper):
         ]
 
 
+def _handle_of(url: str) -> str:
+    """Product handle from a full product URL (for --url smoke testing)."""
+    return url.split("?", 1)[0].rstrip("/").rsplit("/", 1)[-1]
+
+
 def _cti_diameter_from_url(url: str) -> int | None:
     m = CTI_DIAMETER_RE.search(url)
     return int(m.group(1)) if m else None
-
-
-def _extract_product_blob(html: str) -> dict | None:
-    """Find the inline ``<script type="application/json">`` blob that contains
-    the full product (it has both ``vendor`` and ``variants``).
-    """
-    for s in INLINE_JSON_RE.findall(html):
-        text = s.strip()
-        if not text.startswith("{"):
-            continue
-        if '"vendor"' not in text or '"variants"' not in text:
-            continue
-        try:
-            d = json.loads(text)
-        except json.JSONDecodeError:
-            continue
-        if isinstance(d, dict) and "vendor" in d and "variants" in d:
-            return d
-    return None
 
 
 def _is_delay_variant(variant: dict) -> bool:
