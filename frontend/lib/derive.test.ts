@@ -645,6 +645,17 @@ describe("thrustcurveUrl", () => {
     );
   });
 
+  it("uses ThrustCurve's manufacturer ABBREVIATION, not the full catalog name", () => {
+    // ThrustCurve keys URLs on "Cesaroni"/"Loki" — passing "Cesaroni Technology"
+    // or "Loki Research" silently falls back to its search page (the bug).
+    expect(
+      thrustcurveUrl(makeMotor({ manufacturer: "Cesaroni Technology", designation: "24E22-13A" })),
+    ).toBe("https://www.thrustcurve.org/motors/Cesaroni/24E22-13A/");
+    expect(
+      thrustcurveUrl(makeMotor({ manufacturer: "Loki Research", designation: "G66-LR" })),
+    ).toBe("https://www.thrustcurve.org/motors/Loki/G66-LR/");
+  });
+
   it("URL-encodes manufacturers and designations with special characters", () => {
     // ThrustCurve's URLs treat dots and slashes literally; encodeURIComponent
     // handles forward slashes which would otherwise break path parsing.

@@ -318,9 +318,18 @@ export function rankMotor(m: Motor): [string, number, string] {
   return [m.impulse_class, m.diameter_mm, m.designation];
 }
 
-/** Outbound link to the canonical ThrustCurve page for this motor. */
+/** Outbound link to the canonical ThrustCurve page for this motor.
+ *
+ * ThrustCurve's motor URLs are `/motors/{manufacturerAbbrev}/{designation}/` —
+ * keyed on the manufacturer's ABBREVIATION ("Cesaroni", "Loki"), not its full
+ * catalog name ("Cesaroni Technology", "Loki Research"). Passing the full name
+ * doesn't 404 — ThrustCurve silently falls back to its Attribute Search page, so
+ * every Cesaroni and Loki link landed on the wrong page. `manufacturerLabel`
+ * already maps to exactly those abbreviations. The designation is ThrustCurve's
+ * own (every snapshot designation is verified present in the TC catalog). */
 export function thrustcurveUrl(m: Motor): string {
-  return `https://www.thrustcurve.org/motors/${encodeURIComponent(m.manufacturer)}/${encodeURIComponent(m.designation)}/`;
+  const mfr = manufacturerLabel(m.manufacturer);
+  return `https://www.thrustcurve.org/motors/${encodeURIComponent(mfr)}/${encodeURIComponent(m.designation)}/`;
 }
 
 /** Short, human display name for a manufacturer. ThrustCurve stores Cesaroni
