@@ -380,10 +380,10 @@ export default async function Home() {
             <span>A</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/fusion-space-logo.svg"
+              src="/brand/fusion-space-wordmark.svg"
               alt="Fusion Space"
-              width={1694}
-              height={378}
+              width={1598}
+              height={281}
               className="h-5 w-auto"
             />
             <span>
