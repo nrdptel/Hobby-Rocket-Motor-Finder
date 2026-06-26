@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ApiButton } from "./ApiButton";
+import { FusionSpaceBadge } from "./FusionSpaceBadge";
 import { KofiButton } from "./KofiButton";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -14,12 +15,15 @@ import { ThemeToggle } from "./ThemeToggle";
 export function SiteHeader({ apiButton = true }: { apiButton?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-4">
-      <Link
-        href="/"
-        className="text-sm font-semibold tracking-tight text-zinc-900 transition hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-300"
-      >
-        HPR Motor Finder
-      </Link>
+      <div className="flex flex-col gap-1">
+        <FusionSpaceBadge />
+        <Link
+          href="/"
+          className="text-sm font-semibold tracking-tight text-zinc-900 transition hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-300"
+        >
+          HPR Motor Finder
+        </Link>
+      </div>
       <div className="flex flex-col items-end gap-2">
         <ThemeToggle />
         <div className="flex items-center gap-2">

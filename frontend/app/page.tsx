@@ -31,6 +31,7 @@ import { Methodology } from "./components/Methodology";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ApiButton } from "./components/ApiButton";
+import { FusionSpaceBadge } from "./components/FusionSpaceBadge";
 import { KofiButton } from "./components/KofiButton";
 import { ThemeToggle } from "./components/ThemeToggle";
 
@@ -189,6 +190,7 @@ export default async function Home() {
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
       <header className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
         <div>
+          <FusionSpaceBadge className="mb-1.5" />
           <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
             Snapshot generated <SnapshotTime iso={snapshot.generated_at} />
@@ -368,8 +370,14 @@ export default async function Home() {
             )}
           </nav>
 
-          <div className="flex items-center gap-1.5">
-            <span>Built by</span>
+          <a
+            href="https://fusionspace.co"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Fusion Space — free, polished tools for high-power rocketry"
+            className="group inline-flex items-center gap-1.5 transition hover:opacity-80"
+          >
+            <span>A</span>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/fusion-space-logo.svg"
@@ -378,7 +386,13 @@ export default async function Home() {
               height={378}
               className="h-5 w-auto"
             />
-          </div>
+            <span>
+              project{" "}
+              <span aria-hidden className="opacity-0 transition group-hover:opacity-100">
+                ↗
+              </span>
+            </span>
+          </a>
         </div>
 
         <p className="mt-5 max-w-3xl leading-relaxed text-zinc-500 dark:text-zinc-400">
