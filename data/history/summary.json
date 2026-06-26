@@ -16263,10 +16263,10 @@
     "price_high_cents": 4949
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h220t-14a-reload-kit-1836.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:27",
-    "last_change_at": "2026-05-31T04:25:27",
+    "last_change_at": "2026-06-26T16:03:44+00:00",
     "last_in_stock_at": "2026-05-31T04:25:27",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16354,10 +16354,10 @@
     "price_high_cents": 5669
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h550st-14a-rms-reload-kit-hazmat-1587.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:35",
-    "last_change_at": "2026-05-31T04:25:35",
+    "last_change_at": "2026-06-26T16:03:51+00:00",
     "last_in_stock_at": "2026-05-31T04:25:35",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16887,10 +16887,10 @@
     "price_high_cents": 6299
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i435t-14a-reload-kit-hazmat-1723.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:11",
-    "last_change_at": "2026-05-31T04:26:11",
+    "last_change_at": "2026-06-26T16:04:28+00:00",
     "last_in_stock_at": "2026-05-31T04:26:11",
     "last_restock_at": null,
     "restock_count": 0,
