@@ -192,7 +192,10 @@ export default async function Home() {
         <div>
           <FusionSpaceBadge className="mb-1.5" />
           <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+            Live motor stock and pricing across the major U.S. vendors, in one searchable view.
+          </p>
+          <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
             Snapshot generated <SnapshotTime iso={snapshot.generated_at} />
           </p>
         </div>
