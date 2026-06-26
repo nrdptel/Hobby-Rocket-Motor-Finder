@@ -188,27 +188,32 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 md:px-6 md:py-10">
-      <header className="flex items-start justify-between gap-4 border-b border-zinc-200 pb-6 dark:border-zinc-800">
-        <div>
-          <FusionSpaceBadge className="mb-1.5" />
-          <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
-          <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
-            Live motor stock and pricing across the major U.S. vendors, in one searchable view.
-          </p>
-          <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            Snapshot generated <SnapshotTime iso={snapshot.generated_at} />
-          </p>
-        </div>
-        <div className="flex shrink-0 flex-col items-end gap-2">
-          <div className="flex items-center gap-2">
-            <PlanOrderButton />
-            <ThemeToggle />
+      <header className="border-b border-zinc-200 pb-6 dark:border-zinc-800">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <FusionSpaceBadge className="mb-1.5" />
+            <h1 className="text-2xl font-semibold tracking-tight">HPR Motor Finder</h1>
           </div>
-          <div className="flex items-center gap-2">
-            <ApiButton />
-            <KofiButton />
+          <div className="flex shrink-0 flex-col items-end gap-2">
+            <div className="flex items-center gap-2">
+              <PlanOrderButton />
+              <ThemeToggle />
+            </div>
+            <div className="flex items-center gap-2">
+              <ApiButton />
+              <KofiButton />
+            </div>
           </div>
         </div>
+        {/* Tagline + snapshot span the full width below the title/buttons row, so
+            they don't get trapped in a narrow column beside the buttons (which
+            left dead space on the right on mobile). */}
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+          Live motor stock and pricing across the major U.S. vendors, in one searchable view.
+        </p>
+        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+          Snapshot generated <SnapshotTime iso={snapshot.generated_at} />
+        </p>
       </header>
 
       <HowItWorks />
