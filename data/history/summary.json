@@ -16523,10 +16523,10 @@
     "price_high_cents": 5759
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i280dm-14a-38mm-dms-hazmat-1407.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:01",
-    "last_change_at": "2026-05-31T04:26:01",
+    "last_change_at": "2026-06-27T01:01:17+00:00",
     "last_in_stock_at": "2026-05-31T04:26:01",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16549,10 +16549,10 @@
     "price_high_cents": 8729
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i65w-p-54mm-dms-hazmat-1513.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:17",
-    "last_change_at": "2026-05-31T04:26:17",
+    "last_change_at": "2026-06-27T01:01:33+00:00",
     "last_in_stock_at": "2026-05-31T04:26:17",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16666,10 +16666,10 @@
     "price_high_cents": 5480
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i195j-10a-reload-kit-hazmat-1842.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:53",
-    "last_change_at": "2026-05-31T04:25:53",
+    "last_change_at": "2026-06-27T01:01:08+00:00",
     "last_in_stock_at": "2026-05-31T04:25:53",
     "last_restock_at": null,
     "restock_count": 0,
