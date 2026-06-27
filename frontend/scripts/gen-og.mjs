@@ -125,9 +125,13 @@ function footer(logoUri) {
   );
 }
 
-// Site-wide card — centered brand lockup, in the clean style of the main
-// fusionspace.co share card: sparkle mark → product name → tagline → domain on a
-// dark background with a soft indigo glow.
+// Site-wide card — centered brand lockup, shared template with the rest of the
+// Fusion Space tools (charge.fusionspace.co etc.) so they read as one family:
+// sparkle mark → product name → tagline → domain on a dark background with a
+// soft indigo glow. The only per-tool changes are the three strings (name,
+// tagline, domain); type scale, glow, and mark are identical across tools. The
+// name is sized to fill the frame at the same visual weight regardless of
+// length — "HPR Motor Finder" runs longer than most, so it sits at 100px.
 function defaultCard(markUri) {
   return h(
     "div",
@@ -142,25 +146,25 @@ function defaultCard(markUri) {
         textAlign: "center",
         background: "#09090b",
         backgroundImage:
-          "radial-gradient(45% 55% at 50% 32%, rgba(99,102,241,0.28) 0%, rgba(99,102,241,0) 70%)",
+          "radial-gradient(56% 64% at 50% 31%, rgba(99,102,241,0.27) 0%, rgba(99,102,241,0) 76%)",
         color: "#fafafa",
         fontFamily: "sans-serif",
       },
     },
-    h("img", { src: markUri, width: 150, height: 139, style: { marginBottom: 44 } }),
+    h("img", { src: markUri, width: 130, height: 120, style: { marginBottom: 40 } }),
     h(
       "div",
-      { style: { fontSize: 90, fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em" } },
+      { style: { fontSize: 100, fontWeight: 800, lineHeight: 1.0, letterSpacing: "-0.03em" } },
       "HPR Motor Finder",
     ),
     h(
       "div",
-      { style: { fontSize: 34, fontWeight: 600, color: "#e4e4e7", marginTop: 36, maxWidth: 1040 } },
+      { style: { fontSize: 40, fontWeight: 600, color: "#d4d4d8", marginTop: 32, maxWidth: 1040 } },
       "Live motor stock and pricing across U.S. vendors",
     ),
     h(
       "div",
-      { style: { fontSize: 26, color: "#818cf8", marginTop: 30, fontFamily: "monospace", letterSpacing: "0.02em" } },
+      { style: { fontSize: 26, color: "#818cf8", marginTop: 28, fontFamily: "monospace", letterSpacing: "0.02em" } },
       "motor.fusionspace.co",
     ),
   );
