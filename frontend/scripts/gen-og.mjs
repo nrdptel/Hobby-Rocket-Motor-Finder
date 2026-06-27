@@ -125,35 +125,44 @@ function footer(logoUri) {
   );
 }
 
-// Site-wide card (mirrors app/opengraph-image.tsx).
-function defaultCard(logoUri) {
+// Site-wide card — centered brand lockup, in the clean style of the main
+// fusionspace.co share card: sparkle mark → product name → tagline → domain on a
+// dark background with a soft indigo glow.
+function defaultCard(markUri) {
   return h(
     "div",
-    { style: CARD_STYLE },
-    h(
-      "div",
-      {
-        style: {
-          fontSize: 28,
-          color: "#a1a1aa",
-          letterSpacing: "0.05em",
-          textTransform: "uppercase",
-          marginBottom: 24,
-        },
+    {
+      style: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+        background: "#09090b",
+        backgroundImage:
+          "radial-gradient(45% 55% at 50% 32%, rgba(99,102,241,0.28) 0%, rgba(99,102,241,0) 70%)",
+        color: "#fafafa",
+        fontFamily: "sans-serif",
       },
-      "U.S. high-power rocketry",
-    ),
+    },
+    h("img", { src: markUri, width: 150, height: 139, style: { marginBottom: 44 } }),
     h(
       "div",
-      { style: { fontSize: 96, fontWeight: 700, lineHeight: 1.05, marginBottom: 32, letterSpacing: "-0.02em" } },
+      { style: { fontSize: 90, fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em" } },
       "HPR Motor Finder",
     ),
     h(
       "div",
-      { style: { fontSize: 36, color: "#d4d4d8", lineHeight: 1.3, maxWidth: 980 } },
-      "AeroTech, Cesaroni & Loki stock + pricing across vendors — with restock alerts and in-stock substitutes when a motor's sold out.",
+      { style: { fontSize: 34, fontWeight: 600, color: "#e4e4e7", marginTop: 36, maxWidth: 1040 } },
+      "Live motor stock and pricing across U.S. vendors",
     ),
-    footer(logoUri),
+    h(
+      "div",
+      { style: { fontSize: 26, color: "#818cf8", marginTop: 30, fontFamily: "monospace", letterSpacing: "0.02em" } },
+      "motor.fusionspace.co",
+    ),
   );
 }
 
@@ -203,15 +212,19 @@ async function render(element) {
 }
 
 async function main() {
-  // Extract the embedded logo data URI from lib/og-logo.ts (robust to changes).
+  // Extract the embedded data URIs (robust to formatting changes): the wordmark
+  // for the per-motor footer, the sparkle mark for the centered default card.
   const logoSrc = await readFile(resolve(here, "..", "lib", "og-logo.ts"), "utf-8");
   const logoUri = logoSrc.match(/data:image\/png;base64,[A-Za-z0-9+/=]+/)?.[0];
   if (!logoUri) throw new Error("gen-og: could not extract OG_LOGO_PNG from lib/og-logo.ts");
+  const markSrc = await readFile(resolve(here, "..", "lib", "og-mark.ts"), "utf-8");
+  const markUri = markSrc.match(/data:image\/png;base64,[A-Za-z0-9+/=]+/)?.[0];
+  if (!markUri) throw new Error("gen-og: could not extract OG_MARK_PNG from lib/og-mark.ts");
 
   await mkdir(ogDir, { recursive: true });
 
   // Site-wide default card.
-  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(logoUri)));
+  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(markUri)));
   console.log("gen-og: wrote public/og/default.png");
 
   // Per-motor cards for the SAME universe the dynamic route covered: stocked
