@@ -9477,10 +9477,10 @@
     "price_high_cents": 6199
   },
   "https://www.buyrocketmotors.com/products/aerotech-i170g-14a-mojave-green?variant=50855071547689": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:10",
-    "last_change_at": "2026-05-31T02:24:10",
+    "last_change_at": "2026-06-28T04:00:24+00:00",
     "last_in_stock_at": "2026-05-31T02:24:10",
     "last_restock_at": null,
     "restock_count": 0,
