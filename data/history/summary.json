@@ -8879,10 +8879,10 @@
     "price_high_cents": 4654
   },
   "https://www.buyrocketmotors.com/products/aerotech-h73j-10a-black-jack?variant=50855049724201": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:08",
-    "last_change_at": "2026-05-31T02:24:08",
+    "last_change_at": "2026-06-28T23:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:08",
     "last_restock_at": null,
     "restock_count": 0,
