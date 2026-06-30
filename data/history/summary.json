@@ -8073,10 +8073,10 @@
     "price_high_cents": 5499
   },
   "https://www.buyrocketmotors.com/products/aerotech-h112j-10a-black-jack?variant=50855053558057": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:02",
-    "last_change_at": "2026-05-31T02:24:02",
+    "last_change_at": "2026-06-30T02:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:02",
     "last_restock_at": null,
     "restock_count": 0,
