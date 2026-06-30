@@ -4117,7 +4117,7 @@
     "restock_count": 0,
     "price_current_cents": 1999,
     "price_prev_cents": 1699,
-    "price_low_cents": 1699,
+    "price_low_cents": 1999,
     "price_high_cents": 1999
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1389&virtuemart_category_id=130&Itemid=533": {
@@ -4130,7 +4130,7 @@
     "restock_count": 0,
     "price_current_cents": 1999,
     "price_prev_cents": 1699,
-    "price_low_cents": 1699,
+    "price_low_cents": 1999,
     "price_high_cents": 1999
   },
   "https://wildmanrocketry.com/products/e18-4w": {
@@ -4247,7 +4247,7 @@
     "restock_count": 0,
     "price_current_cents": 3399,
     "price_prev_cents": 2889,
-    "price_low_cents": 2889,
+    "price_low_cents": 3399,
     "price_high_cents": 3399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1305&virtuemart_category_id=124&Itemid=533": {
@@ -4260,7 +4260,7 @@
     "restock_count": 0,
     "price_current_cents": 3399,
     "price_prev_cents": 2889,
-    "price_low_cents": 2889,
+    "price_low_cents": 3399,
     "price_high_cents": 3399
   },
   "https://wildmanrocketry.com/products/e23-5t": {
@@ -4325,7 +4325,7 @@
     "restock_count": 0,
     "price_current_cents": 1999,
     "price_prev_cents": 1699,
-    "price_low_cents": 1699,
+    "price_low_cents": 1999,
     "price_high_cents": 1999
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1391&virtuemart_category_id=130&Itemid=533": {
@@ -4338,7 +4338,7 @@
     "restock_count": 0,
     "price_current_cents": 1999,
     "price_prev_cents": 1699,
-    "price_low_cents": 1699,
+    "price_low_cents": 1999,
     "price_high_cents": 1999
   },
   "https://wildmanrocketry.com/products/e24c-4-enerjet-2-pack": {
@@ -4559,7 +4559,7 @@
     "restock_count": 0,
     "price_current_cents": 3399,
     "price_prev_cents": 2889,
-    "price_low_cents": 2889,
+    "price_low_cents": 3399,
     "price_high_cents": 3399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1336&virtuemart_category_id=124&Itemid=533": {
@@ -4572,7 +4572,7 @@
     "restock_count": 0,
     "price_current_cents": 3399,
     "price_prev_cents": 2889,
-    "price_low_cents": 2889,
+    "price_low_cents": 3399,
     "price_high_cents": 3399
   },
   "https://wildmanrocketry.com/products/f115sn-12a-29mm-dms": {
@@ -4611,7 +4611,7 @@
     "restock_count": 0,
     "price_current_cents": 2999,
     "price_prev_cents": 2549,
-    "price_low_cents": 2549,
+    "price_low_cents": 2999,
     "price_high_cents": 2999
   },
   "https://wildmanrocketry.com/products/f12-5j": {
@@ -4715,7 +4715,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1307&virtuemart_category_id=124&Itemid=533": {
@@ -4728,7 +4728,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://www.buyrocketmotors.com/products/aerotech-f22-7j-rms-29-40-120?variant=50855173456169": {
@@ -4767,7 +4767,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1393&virtuemart_category_id=130&Itemid=533": {
@@ -4780,7 +4780,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://www.buyrocketmotors.com/products/aerotech-f23-fast-jack-econojet-29-mm-single-use-2-pack?variant=50855180140841": {
@@ -4819,7 +4819,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1347&virtuemart_category_id=124&Itemid=533": {
@@ -4832,7 +4832,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/f24-4w": {
@@ -4962,7 +4962,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1309&virtuemart_category_id=124&Itemid=533": {
@@ -4975,7 +4975,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1351&virtuemart_category_id=124&Itemid=533": {
@@ -4988,7 +4988,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://wildmanrocketry.com/products/f26-6fj": {
@@ -5040,7 +5040,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1352&virtuemart_category_id=124&Itemid=533": {
@@ -5053,7 +5053,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://wildmanrocketry.com/products/f27-4r": {
@@ -5118,7 +5118,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1348&virtuemart_category_id=124&Itemid=533": {
@@ -5131,7 +5131,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/f30-4fj": {
@@ -5222,7 +5222,7 @@
     "restock_count": 0,
     "price_current_cents": 2549,
     "price_prev_cents": 2167,
-    "price_low_cents": 2167,
+    "price_low_cents": 2549,
     "price_high_cents": 2549
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1312&virtuemart_category_id=124&Itemid=533": {
@@ -5235,7 +5235,7 @@
     "restock_count": 0,
     "price_current_cents": 2549,
     "price_prev_cents": 2167,
-    "price_low_cents": 2167,
+    "price_low_cents": 2549,
     "price_high_cents": 2549
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1339&virtuemart_category_id=124&Itemid=533": {
@@ -5248,7 +5248,7 @@
     "restock_count": 0,
     "price_current_cents": 2549,
     "price_prev_cents": 2167,
-    "price_low_cents": 2167,
+    "price_low_cents": 2549,
     "price_high_cents": 2549
   },
   "https://wildmanrocketry.com/products/f32-4t": {
@@ -5339,7 +5339,7 @@
     "restock_count": 0,
     "price_current_cents": 2549,
     "price_prev_cents": 2167,
-    "price_low_cents": 2167,
+    "price_low_cents": 2549,
     "price_high_cents": 2549
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1341&virtuemart_category_id=124&Itemid=533": {
@@ -5352,7 +5352,7 @@
     "restock_count": 0,
     "price_current_cents": 2549,
     "price_prev_cents": 2167,
-    "price_low_cents": 2167,
+    "price_low_cents": 2549,
     "price_high_cents": 2549
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1313&virtuemart_category_id=124&Itemid=533": {
@@ -5365,7 +5365,7 @@
     "restock_count": 0,
     "price_current_cents": 2549,
     "price_prev_cents": 2167,
-    "price_low_cents": 2167,
+    "price_low_cents": 2549,
     "price_high_cents": 2549
   },
   "https://wildmanrocketry.com/products/f35-11w": {
@@ -5521,7 +5521,7 @@
     "restock_count": 0,
     "price_current_cents": 4299,
     "price_prev_cents": 3654,
-    "price_low_cents": 3654,
+    "price_low_cents": 4299,
     "price_high_cents": 4299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1258&virtuemart_category_id=128&Itemid=533": {
@@ -5534,7 +5534,7 @@
     "restock_count": 0,
     "price_current_cents": 4299,
     "price_prev_cents": 3654,
-    "price_low_cents": 3654,
+    "price_low_cents": 4299,
     "price_high_cents": 4299
   },
   "https://wildmanrocketry.com/products/f40-10w": {
@@ -5625,7 +5625,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1394&virtuemart_category_id=130&Itemid=533": {
@@ -5638,7 +5638,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1395&virtuemart_category_id=130&Itemid=533": {
@@ -5651,7 +5651,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://wildmanrocketry.com/products/f42-4t": {
@@ -5716,7 +5716,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1314&virtuemart_category_id=124&Itemid=533": {
@@ -5729,7 +5729,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/f44-4w": {
@@ -5794,7 +5794,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1315&virtuemart_category_id=124&Itemid=533": {
@@ -5807,7 +5807,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/f50-4t": {
@@ -5898,7 +5898,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1316&virtuemart_category_id=124&Itemid=533": {
@@ -5911,7 +5911,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1354&virtuemart_category_id=124&Itemid=533": {
@@ -5924,7 +5924,7 @@
     "restock_count": 0,
     "price_current_cents": 3599,
     "price_prev_cents": 3059,
-    "price_low_cents": 3059,
+    "price_low_cents": 3599,
     "price_high_cents": 3599
   },
   "https://wildmanrocketry.com/products/f51-10nt": {
@@ -5963,7 +5963,7 @@
     "restock_count": 0,
     "price_current_cents": 3799,
     "price_prev_cents": 3229,
-    "price_low_cents": 3229,
+    "price_low_cents": 3799,
     "price_high_cents": 3799
   },
   "https://wildmanrocketry.com/products/f52-5c-enerjet-2-pack": {
@@ -6041,7 +6041,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1679&virtuemart_category_id=124&Itemid=533": {
@@ -6054,7 +6054,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1318&virtuemart_category_id=124&Itemid=533": {
@@ -6067,7 +6067,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/f52-11t": {
@@ -6158,7 +6158,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1397&virtuemart_category_id=130&Itemid=533": {
@@ -6171,7 +6171,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1398&virtuemart_category_id=130&Itemid=533": {
@@ -6184,7 +6184,7 @@
     "restock_count": 0,
     "price_current_cents": 2299,
     "price_prev_cents": 1954,
-    "price_low_cents": 1954,
+    "price_low_cents": 2299,
     "price_high_cents": 2299
   },
   "https://www.buyrocketmotors.com/products/aerotech-f62-fast-jack-24-mm-reloadable-2-pack?variant=50855202816297": {
@@ -6392,7 +6392,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1319&virtuemart_category_id=124&Itemid=533": {
@@ -6405,7 +6405,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1343&virtuemart_category_id=124&Itemid=533": {
@@ -6418,7 +6418,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3739,
-    "price_low_cents": 3739,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/g104t": {
@@ -6457,7 +6457,7 @@
     "restock_count": 0,
     "price_current_cents": 2799,
     "price_prev_cents": 2379,
-    "price_low_cents": 2379,
+    "price_low_cents": 2799,
     "price_high_cents": 2799
   },
   "https://wildmanrocketry.com/products/g12-rct-32mm-r-c-2pk": {
@@ -6509,7 +6509,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g12st-p-29mm-dms": {
@@ -6548,7 +6548,7 @@
     "restock_count": 0,
     "price_current_cents": 4299,
     "price_prev_cents": 3654,
-    "price_low_cents": 3654,
+    "price_low_cents": 4299,
     "price_high_cents": 4299
   },
   "https://wildmanrocketry.com/products/g25w": {
@@ -6626,7 +6626,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1321&virtuemart_category_id=124&Itemid=533": {
@@ -6639,7 +6639,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g40-10w": {
@@ -6730,7 +6730,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1323&virtuemart_category_id=124&Itemid=533": {
@@ -6743,7 +6743,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1324&virtuemart_category_id=124&Itemid=533": {
@@ -6756,7 +6756,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g53-10fj": {
@@ -6847,7 +6847,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1400&virtuemart_category_id=130&Itemid=533": {
@@ -6860,7 +6860,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1401&virtuemart_category_id=130&Itemid=533": {
@@ -6873,7 +6873,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://wildmanrocketry.com/products/g54w": {
@@ -6912,7 +6912,7 @@
     "restock_count": 0,
     "price_current_cents": 2799,
     "price_prev_cents": 2379,
-    "price_low_cents": 2379,
+    "price_low_cents": 2799,
     "price_high_cents": 2799
   },
   "https://wildmanrocketry.com/products/g61w": {
@@ -7042,7 +7042,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1403&virtuemart_category_id=130&Itemid=533": {
@@ -7055,7 +7055,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1404&virtuemart_category_id=130&Itemid=533": {
@@ -7068,7 +7068,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://wildmanrocketry.com/products/g67r": {
@@ -7159,7 +7159,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g74-4w": {
@@ -7250,7 +7250,7 @@
     "restock_count": 0,
     "price_current_cents": 5799,
     "price_prev_cents": 4929,
-    "price_low_cents": 4929,
+    "price_low_cents": 5799,
     "price_high_cents": 5799
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1326&virtuemart_category_id=124&Itemid=533": {
@@ -7263,7 +7263,7 @@
     "restock_count": 0,
     "price_current_cents": 5799,
     "price_prev_cents": 4929,
-    "price_low_cents": 4929,
+    "price_low_cents": 5799,
     "price_high_cents": 5799
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1345&virtuemart_category_id=124&Itemid=533": {
@@ -7276,7 +7276,7 @@
     "restock_count": 0,
     "price_current_cents": 5799,
     "price_prev_cents": 4929,
-    "price_low_cents": 4929,
+    "price_low_cents": 5799,
     "price_high_cents": 5799
   },
   "https://www.buyrocketmotors.com/products/aerotech-g75j-10a-black-jack?variant=50855041925417": {
@@ -7302,7 +7302,7 @@
     "restock_count": 0,
     "price_current_cents": 3499,
     "price_prev_cents": 2974,
-    "price_low_cents": 2974,
+    "price_low_cents": 3499,
     "price_high_cents": 3499
   },
   "https://www.buyrocketmotors.com/products/aerotech-g75-13a-metalstorm-29-mm-dms?variant=50855256555817": {
@@ -7328,7 +7328,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g76-10g": {
@@ -7419,7 +7419,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1406&virtuemart_category_id=130&Itemid=533": {
@@ -7432,7 +7432,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1407&virtuemart_category_id=130&Itemid=533": {
@@ -7445,7 +7445,7 @@
     "restock_count": 0,
     "price_current_cents": 2599,
     "price_prev_cents": 2209,
-    "price_low_cents": 2209,
+    "price_low_cents": 2599,
     "price_high_cents": 2599
   },
   "https://wildmanrocketry.com/products/g77-10r": {
@@ -7523,7 +7523,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1328&virtuemart_category_id=124&Itemid=533": {
@@ -7536,7 +7536,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1558&virtuemart_category_id=124&Itemid=533": {
@@ -7549,7 +7549,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://www.buyrocketmotors.com/products/aerotech-g77-redline-29-mm-single-use?variant=50855182827817": {
@@ -7679,7 +7679,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1331&virtuemart_category_id=124&Itemid=533": {
@@ -7692,7 +7692,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1332&virtuemart_category_id=124&Itemid=533": {
@@ -7705,7 +7705,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g79w": {
@@ -7744,7 +7744,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1357&virtuemart_category_id=124&Itemid=533": {
@@ -7757,7 +7757,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1333&virtuemart_category_id=124&Itemid=533": {
@@ -7770,7 +7770,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://www.buyrocketmotors.com/products/aerotech-g79-white-lightning-29-mm-single-use?variant=50855182106921": {
@@ -7926,7 +7926,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1360&virtuemart_category_id=124&Itemid=533": {
@@ -7939,7 +7939,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1361&virtuemart_category_id=124&Itemid=533": {
@@ -7952,7 +7952,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1359&virtuemart_category_id=124&Itemid=533": {
@@ -7965,7 +7965,7 @@
     "restock_count": 0,
     "price_current_cents": 3899,
     "price_prev_cents": 3314,
-    "price_low_cents": 3314,
+    "price_low_cents": 3899,
     "price_high_cents": 3899
   },
   "https://www.buyrocketmotors.com/products/aerotech-g8-super-thunder-29-mm-single-use-plugged?variant=50855240925481": {
@@ -7991,7 +7991,7 @@
     "restock_count": 0,
     "price_current_cents": 4299,
     "price_prev_cents": 3654,
-    "price_low_cents": 3654,
+    "price_low_cents": 4299,
     "price_high_cents": 4299
   },
   "https://wildmanrocketry.com/products/g138nt-14a": {
@@ -8069,7 +8069,7 @@
     "restock_count": 0,
     "price_current_cents": 5499,
     "price_prev_cents": 4674,
-    "price_low_cents": 4674,
+    "price_low_cents": 5499,
     "price_high_cents": 5499
   },
   "https://www.buyrocketmotors.com/products/aerotech-h112j-10a-black-jack?variant=50855053558057": {
@@ -8121,7 +8121,7 @@
     "restock_count": 0,
     "price_current_cents": 4499,
     "price_prev_cents": 3824,
-    "price_low_cents": 3824,
+    "price_low_cents": 4499,
     "price_high_cents": 4499
   },
   "https://wildmanrocketry.com/products/h128w": {
@@ -8160,7 +8160,7 @@
     "restock_count": 0,
     "price_current_cents": 3499,
     "price_prev_cents": 2974,
-    "price_low_cents": 2974,
+    "price_low_cents": 3499,
     "price_high_cents": 3499
   },
   "https://www.buyrocketmotors.com/products/aerotech-h130w-14a-white-lightning?variant=50855192035625": {
@@ -8186,7 +8186,7 @@
     "restock_count": 0,
     "price_current_cents": 4599,
     "price_prev_cents": 3909,
-    "price_low_cents": 3909,
+    "price_low_cents": 4599,
     "price_high_cents": 4599
   },
   "https://www.buyrocketmotors.com/products/aerotech-h13-p-super-thunder-29-mm-dms-with-thrust-ring?variant=50855256785193": {
@@ -8238,7 +8238,7 @@
     "restock_count": 0,
     "price_current_cents": 5799,
     "price_prev_cents": 4929,
-    "price_low_cents": 4929,
+    "price_low_cents": 5799,
     "price_high_cents": 5799
   },
   "https://wildmanrocketry.com/products/h148r": {
@@ -8277,7 +8277,7 @@
     "restock_count": 0,
     "price_current_cents": 4499,
     "price_prev_cents": 3824,
-    "price_low_cents": 3824,
+    "price_low_cents": 4499,
     "price_high_cents": 4499
   },
   "https://www.buyrocketmotors.com/products/aerotech-h14st-p-dms-super-thunder-with-thrust-ring?variant=50855326974249": {
@@ -8316,7 +8316,7 @@
     "restock_count": 0,
     "price_current_cents": 6299,
     "price_prev_cents": 5354,
-    "price_low_cents": 5354,
+    "price_low_cents": 6299,
     "price_high_cents": 6299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1743&virtuemart_category_id=104&Itemid=533": {
@@ -8329,7 +8329,7 @@
     "restock_count": 0,
     "price_current_cents": 6299,
     "price_prev_cents": 5354,
-    "price_low_cents": 5354,
+    "price_low_cents": 6299,
     "price_high_cents": 6299
   },
   "https://wildmanrocketry.com/products/h165r": {
@@ -8368,7 +8368,7 @@
     "restock_count": 0,
     "price_current_cents": 3499,
     "price_prev_cents": 2974,
-    "price_low_cents": 2974,
+    "price_low_cents": 3499,
     "price_high_cents": 3499
   },
   "https://wildmanrocketry.com/products/h169ws": {
@@ -8407,7 +8407,7 @@
     "restock_count": 0,
     "price_current_cents": 4699,
     "price_prev_cents": 3994,
-    "price_low_cents": 3994,
+    "price_low_cents": 4699,
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h170m": {
@@ -8446,7 +8446,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://wildmanrocketry.com/products/h178dm": {
@@ -8485,7 +8485,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://wildmanrocketry.com/products/h180w": {
@@ -8602,7 +8602,7 @@
     "restock_count": 0,
     "price_current_cents": 5499,
     "price_prev_cents": 4674,
-    "price_low_cents": 4674,
+    "price_low_cents": 5499,
     "price_high_cents": 5499
   },
   "https://wildmanrocketry.com/products/h220t": {
@@ -8680,7 +8680,7 @@
     "restock_count": 0,
     "price_current_cents": 3499,
     "price_prev_cents": 2974,
-    "price_low_cents": 2974,
+    "price_low_cents": 3499,
     "price_high_cents": 3499
   },
   "https://wildmanrocketry.com/products/h242t": {
@@ -8719,7 +8719,7 @@
     "restock_count": 0,
     "price_current_cents": 4499,
     "price_prev_cents": 3824,
-    "price_low_cents": 3824,
+    "price_low_cents": 4499,
     "price_high_cents": 4499
   },
   "https://wildmanrocketry.com/products/h250g": {
@@ -8823,7 +8823,7 @@
     "restock_count": 0,
     "price_current_cents": 5499,
     "price_prev_cents": 4674,
-    "price_low_cents": 4674,
+    "price_low_cents": 5499,
     "price_high_cents": 5499
   },
   "https://wildmanrocketry.com/products/h550st": {
@@ -8849,7 +8849,7 @@
     "restock_count": 0,
     "price_current_cents": 6299,
     "price_prev_cents": 5354,
-    "price_low_cents": 5354,
+    "price_low_cents": 6299,
     "price_high_cents": 6299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1441&virtuemart_category_id=139&Itemid=533": {
@@ -8862,7 +8862,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://www.buyrocketmotors.com/products/aerotech-h669n-p-warp-9?variant=50855052017961": {
@@ -8901,7 +8901,7 @@
     "restock_count": 0,
     "price_current_cents": 4499,
     "price_prev_cents": 3824,
-    "price_low_cents": 3824,
+    "price_low_cents": 4499,
     "price_high_cents": 4499
   },
   "https://www.buyrocketmotors.com/products/aerotech-h97j-m-black-jack?variant=50855043858729": {
@@ -8927,7 +8927,7 @@
     "restock_count": 0,
     "price_current_cents": 4199,
     "price_prev_cents": 3569,
-    "price_low_cents": 3569,
+    "price_low_cents": 4199,
     "price_high_cents": 4199
   },
   "https://www.buyrocketmotors.com/products/aerotech-h999n-p-warp-9?variant=50855056474409": {
@@ -8979,7 +8979,7 @@
     "restock_count": 0,
     "price_current_cents": 4699,
     "price_prev_cents": 3994,
-    "price_low_cents": 3994,
+    "price_low_cents": 4699,
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h135w": {
@@ -9018,7 +9018,7 @@
     "restock_count": 0,
     "price_current_cents": 4699,
     "price_prev_cents": 3994,
-    "price_low_cents": 3994,
+    "price_low_cents": 4699,
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h182r": {
@@ -9057,7 +9057,7 @@
     "restock_count": 0,
     "price_current_cents": 4699,
     "price_prev_cents": 3994,
-    "price_low_cents": 3994,
+    "price_low_cents": 4699,
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h195nt": {
@@ -9096,7 +9096,7 @@
     "restock_count": 0,
     "price_current_cents": 4699,
     "price_prev_cents": 3994,
-    "price_low_cents": 3994,
+    "price_low_cents": 4699,
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h45w": {
@@ -9135,7 +9135,7 @@
     "restock_count": 0,
     "price_current_cents": 6299,
     "price_prev_cents": 5354,
-    "price_low_cents": 5354,
+    "price_low_cents": 6299,
     "price_high_cents": 6299
   },
   "https://www.buyrocketmotors.com/products/aerotech-h550-14a-super-blue-thunder-38-mm-dms?variant=50855169753385": {
@@ -9200,7 +9200,7 @@
     "restock_count": 0,
     "price_current_cents": 6499,
     "price_prev_cents": 5524,
-    "price_low_cents": 5524,
+    "price_low_cents": 6499,
     "price_high_cents": 6499
   },
   "https://wildmanrocketry.com/products/i205w": {
@@ -9239,7 +9239,7 @@
     "restock_count": 0,
     "price_current_cents": 6399,
     "price_prev_cents": 5439,
-    "price_low_cents": 5439,
+    "price_low_cents": 6399,
     "price_high_cents": 6399
   },
   "https://wildmanrocketry.com/products/i280dm": {
@@ -9278,7 +9278,7 @@
     "restock_count": 0,
     "price_current_cents": 9699,
     "price_prev_cents": 8244,
-    "price_low_cents": 8244,
+    "price_low_cents": 9699,
     "price_high_cents": 9699
   },
   "https://wildmanrocketry.com/products/i500t": {
@@ -9317,7 +9317,7 @@
     "restock_count": 0,
     "price_current_cents": 9699,
     "price_prev_cents": 8244,
-    "price_low_cents": 8244,
+    "price_low_cents": 9699,
     "price_high_cents": 9699
   },
   "https://www.buyrocketmotors.com/products/aerotech-i65-p-white-lightning-54-mm-dms?variant=50855115653417": {
@@ -9343,7 +9343,7 @@
     "restock_count": 0,
     "price_current_cents": 11599,
     "price_prev_cents": 9859,
-    "price_low_cents": 9859,
+    "price_low_cents": 11599,
     "price_high_cents": 11599
   },
   "https://www.buyrocketmotors.com/products/aerotech-i115w-14a-white-lightning?variant=50855069810985": {
@@ -9369,7 +9369,7 @@
     "restock_count": 0,
     "price_current_cents": 7499,
     "price_prev_cents": 6374,
-    "price_low_cents": 6374,
+    "price_low_cents": 7499,
     "price_high_cents": 7499
   },
   "https://www.buyrocketmotors.com/products/aerotech-i117fj-14a-fast-jack?variant=50855071088937": {
@@ -9421,7 +9421,7 @@
     "restock_count": 0,
     "price_current_cents": 7699,
     "price_prev_cents": 6544,
-    "price_low_cents": 6544,
+    "price_low_cents": 7699,
     "price_high_cents": 7699
   },
   "https://www.buyrocketmotors.com/products/aerotech-i154j-10a-black-jack?variant=50855058473257": {
@@ -9473,7 +9473,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://www.buyrocketmotors.com/products/aerotech-i170g-14a-mojave-green?variant=50855071547689": {
@@ -9499,7 +9499,7 @@
     "restock_count": 0,
     "price_current_cents": 7499,
     "price_prev_cents": 6374,
-    "price_low_cents": 6374,
+    "price_low_cents": 7499,
     "price_high_cents": 7499
   },
   "https://wildmanrocketry.com/products/i175ws-13a": {
@@ -9538,7 +9538,7 @@
     "restock_count": 0,
     "price_current_cents": 6499,
     "price_prev_cents": 5524,
-    "price_low_cents": 5524,
+    "price_low_cents": 6499,
     "price_high_cents": 6499
   },
   "https://www.buyrocketmotors.com/products/aerotech-i180w-14a-white-lightning?variant=50855192723753": {
@@ -9564,7 +9564,7 @@
     "restock_count": 0,
     "price_current_cents": 6299,
     "price_prev_cents": 5354,
-    "price_low_cents": 5354,
+    "price_low_cents": 6299,
     "price_high_cents": 6299
   },
   "https://wildmanrocketry.com/products/i200w": {
@@ -9629,7 +9629,7 @@
     "restock_count": 0,
     "price_current_cents": 7299,
     "price_prev_cents": 6204,
-    "price_low_cents": 6204,
+    "price_low_cents": 7299,
     "price_high_cents": 7299
   },
   "https://wildmanrocketry.com/products/i215r": {
@@ -9668,7 +9668,7 @@
     "restock_count": 0,
     "price_current_cents": 7499,
     "price_prev_cents": 6374,
-    "price_low_cents": 6374,
+    "price_low_cents": 7499,
     "price_high_cents": 7499
   },
   "https://wildmanrocketry.com/products/i218r": {
@@ -9707,7 +9707,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://www.buyrocketmotors.com/products/aerotech-i225fj-14a-fast-jack?variant=50855059357993": {
@@ -9759,7 +9759,7 @@
     "restock_count": 0,
     "price_current_cents": 7499,
     "price_prev_cents": 6374,
-    "price_low_cents": 6374,
+    "price_low_cents": 7499,
     "price_high_cents": 7499
   },
   "https://wildmanrocketry.com/products/i245g": {
@@ -9798,7 +9798,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://wildmanrocketry.com/products/i284w": {
@@ -9837,7 +9837,7 @@
     "restock_count": 0,
     "price_current_cents": 8299,
     "price_prev_cents": 7054,
-    "price_low_cents": 7054,
+    "price_low_cents": 8299,
     "price_high_cents": 8299
   },
   "https://wildmanrocketry.com/products/i285r": {
@@ -9876,7 +9876,7 @@
     "restock_count": 0,
     "price_current_cents": 7299,
     "price_prev_cents": 6204,
-    "price_low_cents": 6204,
+    "price_low_cents": 7299,
     "price_high_cents": 7299
   },
   "https://wildmanrocketry.com/products/i300t": {
@@ -9915,7 +9915,7 @@
     "restock_count": 0,
     "price_current_cents": 7299,
     "price_prev_cents": 6204,
-    "price_low_cents": 6204,
+    "price_low_cents": 7299,
     "price_high_cents": 7299
   },
   "https://wildmanrocketry.com/products/i327dm": {
@@ -9954,7 +9954,7 @@
     "restock_count": 0,
     "price_current_cents": 8999,
     "price_prev_cents": 7649,
-    "price_low_cents": 7649,
+    "price_low_cents": 8999,
     "price_high_cents": 8999
   },
   "https://wildmanrocketry.com/products/i357t": {
@@ -9993,7 +9993,7 @@
     "restock_count": 0,
     "price_current_cents": 6199,
     "price_prev_cents": 5269,
-    "price_low_cents": 5269,
+    "price_low_cents": 6199,
     "price_high_cents": 6199
   },
   "https://wildmanrocketry.com/products/i366r": {
@@ -10032,7 +10032,7 @@
     "restock_count": 0,
     "price_current_cents": 8299,
     "price_prev_cents": 7054,
-    "price_low_cents": 7054,
+    "price_low_cents": 8299,
     "price_high_cents": 8299
   },
   "https://www.buyrocketmotors.com/products/aerotech-i40n-p-38mm-x-203mm-single-use-dms?variant=50855318454569": {
@@ -10084,7 +10084,7 @@
     "restock_count": 0,
     "price_current_cents": 8299,
     "price_prev_cents": 7054,
-    "price_low_cents": 7054,
+    "price_low_cents": 8299,
     "price_high_cents": 8299
   },
   "https://www.buyrocketmotors.com/products/aerotech-i49n-p-warp-9?variant=50855052575017": {
@@ -10136,7 +10136,7 @@
     "restock_count": 0,
     "price_current_cents": 8199,
     "price_prev_cents": 6969,
-    "price_low_cents": 6969,
+    "price_low_cents": 8199,
     "price_high_cents": 8199
   },
   "https://wildmanrocketry.com/products/i59n": {
@@ -10175,7 +10175,7 @@
     "restock_count": 0,
     "price_current_cents": 7699,
     "price_prev_cents": 6544,
-    "price_low_cents": 6544,
+    "price_low_cents": 7699,
     "price_high_cents": 7699
   },
   "https://wildmanrocketry.com/products/i600r": {
@@ -10214,7 +10214,7 @@
     "restock_count": 0,
     "price_current_cents": 8999,
     "price_prev_cents": 7649,
-    "price_low_cents": 7649,
+    "price_low_cents": 8999,
     "price_high_cents": 8999
   },
   "https://wildmanrocketry.com/products/j270w": {
@@ -10253,7 +10253,7 @@
     "restock_count": 0,
     "price_current_cents": 10299,
     "price_prev_cents": 8754,
-    "price_low_cents": 8754,
+    "price_low_cents": 10299,
     "price_high_cents": 10299
   },
   "https://wildmanrocketry.com/products/j425r": {
@@ -10292,7 +10292,7 @@
     "restock_count": 0,
     "price_current_cents": 10299,
     "price_prev_cents": 8754,
-    "price_low_cents": 8754,
+    "price_low_cents": 10299,
     "price_high_cents": 10299
   },
   "https://wildmanrocketry.com/products/j1299n": {
@@ -10331,7 +10331,7 @@
     "restock_count": 0,
     "price_current_cents": 11599,
     "price_prev_cents": 9859,
-    "price_low_cents": 9859,
+    "price_low_cents": 11599,
     "price_high_cents": 11599
   },
   "https://wildmanrocketry.com/products/j135w": {
@@ -10370,7 +10370,7 @@
     "restock_count": 0,
     "price_current_cents": 13599,
     "price_prev_cents": 11559,
-    "price_low_cents": 11559,
+    "price_low_cents": 13599,
     "price_high_cents": 13599
   },
   "https://wildmanrocketry.com/products/j1799n": {
@@ -10409,7 +10409,7 @@
     "restock_count": 0,
     "price_current_cents": 14899,
     "price_prev_cents": 12664,
-    "price_low_cents": 12664,
+    "price_low_cents": 14899,
     "price_high_cents": 14899
   },
   "https://wildmanrocketry.com/products/j180t": {
@@ -10448,7 +10448,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://www.buyrocketmotors.com/products/aerotech-j250fj-14a-fast-jack?variant=50855074398505": {
@@ -10474,7 +10474,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j250w": {
@@ -10513,7 +10513,7 @@
     "restock_count": 0,
     "price_current_cents": 12899,
     "price_prev_cents": 10964,
-    "price_low_cents": 10964,
+    "price_low_cents": 12899,
     "price_high_cents": 12899
   },
   "https://wildmanrocketry.com/products/j275w": {
@@ -10552,7 +10552,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j315r": {
@@ -10591,7 +10591,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j340m": {
@@ -10630,7 +10630,7 @@
     "restock_count": 0,
     "price_current_cents": 9599,
     "price_prev_cents": 8159,
-    "price_low_cents": 8159,
+    "price_low_cents": 9599,
     "price_high_cents": 9599
   },
   "https://wildmanrocketry.com/products/j350w": {
@@ -10669,7 +10669,7 @@
     "restock_count": 0,
     "price_current_cents": 9599,
     "price_prev_cents": 8159,
-    "price_low_cents": 8159,
+    "price_low_cents": 9599,
     "price_high_cents": 9599
   },
   "https://www.buyrocketmotors.com/products/aerotech-j401fj-l-fast-jack?variant=50855077773609": {
@@ -10721,7 +10721,7 @@
     "restock_count": 0,
     "price_current_cents": 13599,
     "price_prev_cents": 11559,
-    "price_low_cents": 11559,
+    "price_low_cents": 13599,
     "price_high_cents": 13599
   },
   "https://wildmanrocketry.com/products/j420r": {
@@ -10760,7 +10760,7 @@
     "restock_count": 0,
     "price_current_cents": 9599,
     "price_prev_cents": 8159,
-    "price_low_cents": 8159,
+    "price_low_cents": 9599,
     "price_high_cents": 9599
   },
   "https://wildmanrocketry.com/products/j435ws": {
@@ -10799,7 +10799,7 @@
     "restock_count": 0,
     "price_current_cents": 10299,
     "price_prev_cents": 8754,
-    "price_low_cents": 8754,
+    "price_low_cents": 10299,
     "price_high_cents": 10299
   },
   "https://wildmanrocketry.com/products/j450dm": {
@@ -10838,7 +10838,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/j460t": {
@@ -10877,7 +10877,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j500g": {
@@ -10916,7 +10916,7 @@
     "restock_count": 0,
     "price_current_cents": 9599,
     "price_prev_cents": 8159,
-    "price_low_cents": 8159,
+    "price_low_cents": 9599,
     "price_high_cents": 9599
   },
   "https://wildmanrocketry.com/products/j510w": {
@@ -10981,7 +10981,7 @@
     "restock_count": 0,
     "price_current_cents": 13000,
     "price_prev_cents": 11050,
-    "price_low_cents": 11050,
+    "price_low_cents": 13000,
     "price_high_cents": 13000
   },
   "https://wildmanrocketry.com/products/j540r": {
@@ -11020,7 +11020,7 @@
     "restock_count": 0,
     "price_current_cents": 13599,
     "price_prev_cents": 11559,
-    "price_low_cents": 11559,
+    "price_low_cents": 13599,
     "price_high_cents": 13599
   },
   "https://wildmanrocketry.com/products/j550st-14": {
@@ -11059,7 +11059,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j570w": {
@@ -11098,7 +11098,7 @@
     "restock_count": 0,
     "price_current_cents": 11599,
     "price_prev_cents": 9859,
-    "price_low_cents": 9859,
+    "price_low_cents": 11599,
     "price_high_cents": 11599
   },
   "https://www.buyrocketmotors.com/products/aerotech-j575fj-14a-fast-jack?variant=50855068369193": {
@@ -11124,7 +11124,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j800t": {
@@ -11202,7 +11202,7 @@
     "restock_count": 0,
     "price_current_cents": 11599,
     "price_prev_cents": 9859,
-    "price_low_cents": 9859,
+    "price_low_cents": 11599,
     "price_high_cents": 11599
   },
   "https://wildmanrocketry.com/products/j90w": {
@@ -11241,7 +11241,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://www.buyrocketmotors.com/products/aerotech-j99n-p-warp-9?variant=50855267795241": {
@@ -11267,7 +11267,7 @@
     "restock_count": 0,
     "price_current_cents": 10999,
     "price_prev_cents": 9349,
-    "price_low_cents": 9349,
+    "price_low_cents": 10999,
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/k535w": {
@@ -11306,7 +11306,7 @@
     "restock_count": 0,
     "price_current_cents": 19299,
     "price_prev_cents": 16404,
-    "price_low_cents": 16404,
+    "price_low_cents": 19299,
     "price_high_cents": 19299
   },
   "https://wildmanrocketry.com/products/k1000t": {
@@ -11345,7 +11345,7 @@
     "restock_count": 0,
     "price_current_cents": 20299,
     "price_prev_cents": 17254,
-    "price_low_cents": 17254,
+    "price_low_cents": 20299,
     "price_high_cents": 20299
   },
   "https://www.buyrocketmotors.com/products/aerotech-k1050w-p-white-lightning?variant=50855086326057": {
@@ -11397,7 +11397,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k1103x": {
@@ -11436,7 +11436,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k1275r": {
@@ -11475,7 +11475,7 @@
     "restock_count": 0,
     "price_current_cents": 23299,
     "price_prev_cents": 19804,
-    "price_low_cents": 19804,
+    "price_low_cents": 23299,
     "price_high_cents": 23299
   },
   "https://www.buyrocketmotors.com/products/aerotech-k1499n-p-warp-9?variant=50855088029993": {
@@ -11527,7 +11527,7 @@
     "restock_count": 0,
     "price_current_cents": 24999,
     "price_prev_cents": 21249,
-    "price_low_cents": 21249,
+    "price_low_cents": 24999,
     "price_high_cents": 24999
   },
   "https://wildmanrocketry.com/products/k185w": {
@@ -11592,7 +11592,7 @@
     "restock_count": 0,
     "price_current_cents": 25699,
     "price_prev_cents": 21844,
-    "price_low_cents": 21844,
+    "price_low_cents": 25699,
     "price_high_cents": 25699
   },
   "https://wildmanrocketry.com/products/k2050st": {
@@ -11631,7 +11631,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k250w": {
@@ -11657,7 +11657,7 @@
     "restock_count": 0,
     "price_current_cents": 34699,
     "price_prev_cents": 29494,
-    "price_low_cents": 29494,
+    "price_low_cents": 34699,
     "price_high_cents": 34699
   },
   "https://wildmanrocketry.com/products/k270w": {
@@ -11696,7 +11696,7 @@
     "restock_count": 0,
     "price_current_cents": 23299,
     "price_prev_cents": 19804,
-    "price_low_cents": 19804,
+    "price_low_cents": 23299,
     "price_high_cents": 23299
   },
   "https://wildmanrocketry.com/products/k375nw": {
@@ -11735,7 +11735,7 @@
     "restock_count": 0,
     "price_current_cents": 23299,
     "price_prev_cents": 19804,
-    "price_low_cents": 19804,
+    "price_low_cents": 23299,
     "price_high_cents": 23299
   },
   "https://wildmanrocketry.com/products/k400c": {
@@ -11774,7 +11774,7 @@
     "restock_count": 0,
     "price_current_cents": 19299,
     "price_prev_cents": 16404,
-    "price_low_cents": 16404,
+    "price_low_cents": 19299,
     "price_high_cents": 19299
   },
   "https://wildmanrocketry.com/products/k455nw": {
@@ -11813,7 +11813,7 @@
     "restock_count": 0,
     "price_current_cents": 29499,
     "price_prev_cents": 25074,
-    "price_low_cents": 25074,
+    "price_low_cents": 29499,
     "price_high_cents": 29499
   },
   "https://wildmanrocketry.com/products/k456dm": {
@@ -11852,7 +11852,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k480w": {
@@ -11891,7 +11891,7 @@
     "restock_count": 0,
     "price_current_cents": 23299,
     "price_prev_cents": 19804,
-    "price_low_cents": 19804,
+    "price_low_cents": 23299,
     "price_high_cents": 23299
   },
   "https://www.buyrocketmotors.com/products/aerotech-k513fj-14a-fast-jack?variant=50855079903529": {
@@ -11917,7 +11917,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k540m": {
@@ -11956,7 +11956,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k550w": {
@@ -11995,7 +11995,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k560w": {
@@ -12034,7 +12034,7 @@
     "restock_count": 0,
     "price_current_cents": 20299,
     "price_prev_cents": 17254,
-    "price_low_cents": 17254,
+    "price_low_cents": 20299,
     "price_high_cents": 20299
   },
   "https://wildmanrocketry.com/products/k695r": {
@@ -12073,7 +12073,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k700w": {
@@ -12112,7 +12112,7 @@
     "restock_count": 0,
     "price_current_cents": 23299,
     "price_prev_cents": 19804,
-    "price_low_cents": 19804,
+    "price_low_cents": 23299,
     "price_high_cents": 23299
   },
   "https://wildmanrocketry.com/products/k750st-ps": {
@@ -12151,7 +12151,7 @@
     "restock_count": 0,
     "price_current_cents": 17399,
     "price_prev_cents": 14789,
-    "price_low_cents": 14789,
+    "price_low_cents": 17399,
     "price_high_cents": 17399
   },
   "https://wildmanrocketry.com/products/k780r": {
@@ -12190,7 +12190,7 @@
     "restock_count": 0,
     "price_current_cents": 20299,
     "price_prev_cents": 17254,
-    "price_low_cents": 17254,
+    "price_low_cents": 20299,
     "price_high_cents": 20299
   },
   "https://wildmanrocketry.com/products/k805g": {
@@ -12229,7 +12229,7 @@
     "restock_count": 0,
     "price_current_cents": 16799,
     "price_prev_cents": 14279,
-    "price_low_cents": 14279,
+    "price_low_cents": 16799,
     "price_high_cents": 16799
   },
   "https://www.buyrocketmotors.com/products/aerotech-k828fj-p-fast-jack?variant=50855084458281": {
@@ -12281,7 +12281,7 @@
     "restock_count": 0,
     "price_current_cents": 29499,
     "price_prev_cents": 25074,
-    "price_low_cents": 25074,
+    "price_low_cents": 29499,
     "price_high_cents": 29499
   },
   "https://wildmanrocketry.com/products/k990dm": {
@@ -12320,7 +12320,7 @@
     "restock_count": 0,
     "price_current_cents": 25699,
     "price_prev_cents": 21844,
-    "price_low_cents": 21844,
+    "price_low_cents": 25699,
     "price_high_cents": 25699
   },
   "https://wildmanrocketry.com/products/l1000w": {
@@ -12359,7 +12359,7 @@
     "restock_count": 0,
     "price_current_cents": 35400,
     "price_prev_cents": 30090,
-    "price_low_cents": 30090,
+    "price_low_cents": 35400,
     "price_high_cents": 35400
   },
   "https://www.buyrocketmotors.com/products/pre-order-only-aerotech-l1040dm-ps-metalstorm-dark-matter?variant=50855091503401": {
@@ -12411,7 +12411,7 @@
     "restock_count": 0,
     "price_current_cents": 26999,
     "price_prev_cents": 22949,
-    "price_low_cents": 22949,
+    "price_low_cents": 26999,
     "price_high_cents": 26999
   },
   "https://wildmanrocketry.com/products/l1150r": {
@@ -12450,7 +12450,7 @@
     "restock_count": 0,
     "price_current_cents": 28999,
     "price_prev_cents": 24649,
-    "price_low_cents": 24649,
+    "price_low_cents": 28999,
     "price_high_cents": 28999
   },
   "https://www.buyrocketmotors.com/products/aerotech-l1170fj-p-fast-jack?variant=50855091896617": {
@@ -12489,7 +12489,7 @@
     "restock_count": 0,
     "price_current_cents": 45599,
     "price_prev_cents": 38759,
-    "price_low_cents": 38759,
+    "price_low_cents": 45599,
     "price_high_cents": 45599
   },
   "https://wildmanrocketry.com/products/l1256ws": {
@@ -12528,7 +12528,7 @@
     "restock_count": 0,
     "price_current_cents": 28999,
     "price_prev_cents": 24649,
-    "price_low_cents": 24649,
+    "price_low_cents": 28999,
     "price_high_cents": 28999
   },
   "https://www.buyrocketmotors.com/products/aerotech-l1365m-ps-metalstorm-sparky?variant=50855092322601": {
@@ -12580,7 +12580,7 @@
     "restock_count": 0,
     "price_current_cents": 28999,
     "price_prev_cents": 24649,
-    "price_low_cents": 24649,
+    "price_low_cents": 28999,
     "price_high_cents": 28999
   },
   "https://wildmanrocketry.com/products/l1420r": {
@@ -12619,7 +12619,7 @@
     "restock_count": 0,
     "price_current_cents": 37699,
     "price_prev_cents": 32044,
-    "price_low_cents": 32044,
+    "price_low_cents": 37699,
     "price_high_cents": 37699
   },
   "https://wildmanrocketry.com/products/l1520t": {
@@ -12658,7 +12658,7 @@
     "restock_count": 0,
     "price_current_cents": 28999,
     "price_prev_cents": 24649,
-    "price_low_cents": 24649,
+    "price_low_cents": 28999,
     "price_high_cents": 28999
   },
   "https://wildmanrocketry.com/products/l1940x-ps": {
@@ -12697,7 +12697,7 @@
     "restock_count": 0,
     "price_current_cents": 30399,
     "price_prev_cents": 25839,
-    "price_low_cents": 25839,
+    "price_low_cents": 30399,
     "price_high_cents": 30399
   },
   "https://wildmanrocketry.com/products/l2200g": {
@@ -12736,7 +12736,7 @@
     "restock_count": 0,
     "price_current_cents": 37699,
     "price_prev_cents": 32044,
-    "price_low_cents": 32044,
+    "price_low_cents": 37699,
     "price_high_cents": 37699
   },
   "https://wildmanrocketry.com/products/l2500st": {
@@ -12762,7 +12762,7 @@
     "restock_count": 0,
     "price_current_cents": 46199,
     "price_prev_cents": 39269,
-    "price_low_cents": 39269,
+    "price_low_cents": 46199,
     "price_high_cents": 46199
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1537&virtuemart_category_id=158&Itemid=533": {
@@ -12775,7 +12775,7 @@
     "restock_count": 0,
     "price_current_cents": 42699,
     "price_prev_cents": 36294,
-    "price_low_cents": 36294,
+    "price_low_cents": 42699,
     "price_high_cents": 42699
   },
   "https://wildmanrocketry.com/products/l850w": {
@@ -12814,7 +12814,7 @@
     "restock_count": 0,
     "price_current_cents": 28999,
     "price_prev_cents": 24649,
-    "price_low_cents": 24649,
+    "price_low_cents": 28999,
     "price_high_cents": 28999
   },
   "https://www.buyrocketmotors.com/products/aerotech-l875dm-ps-dms-metalstorm-dark-matter?variant=50855184531753": {
@@ -12840,7 +12840,7 @@
     "restock_count": 0,
     "price_current_cents": 75999,
     "price_prev_cents": 64599,
-    "price_low_cents": 64599,
+    "price_low_cents": 75999,
     "price_high_cents": 75999
   },
   "https://wildmanrocketry.com/products/l900dm": {
@@ -12879,7 +12879,7 @@
     "restock_count": 0,
     "price_current_cents": 37699,
     "price_prev_cents": 32044,
-    "price_low_cents": 32044,
+    "price_low_cents": 37699,
     "price_high_cents": 37699
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1542&virtuemart_category_id=160&Itemid=533": {
@@ -12892,7 +12892,7 @@
     "restock_count": 0,
     "price_current_cents": 64199,
     "price_prev_cents": 54569,
-    "price_low_cents": 54569,
+    "price_low_cents": 64199,
     "price_high_cents": 64199
   },
   "https://wildmanrocketry.com/products/m1297w": {
@@ -12931,7 +12931,7 @@
     "restock_count": 0,
     "price_current_cents": 37699,
     "price_prev_cents": 32044,
-    "price_low_cents": 32044,
+    "price_low_cents": 37699,
     "price_high_cents": 37699
   },
   "https://wildmanrocketry.com/products/m1315w": {
@@ -12970,7 +12970,7 @@
     "restock_count": 0,
     "price_current_cents": 45559,
     "price_prev_cents": 38725,
-    "price_low_cents": 38725,
+    "price_low_cents": 45559,
     "price_high_cents": 45559
   },
   "https://wildmanrocketry.com/products/m1340w": {
@@ -13009,7 +13009,7 @@
     "restock_count": 0,
     "price_current_cents": 70599,
     "price_prev_cents": 60009,
-    "price_low_cents": 60009,
+    "price_low_cents": 70599,
     "price_high_cents": 70599
   },
   "https://wildmanrocketry.com/products/m1350w": {
@@ -13048,7 +13048,7 @@
     "restock_count": 0,
     "price_current_cents": 77999,
     "price_prev_cents": 66299,
-    "price_low_cents": 66299,
+    "price_low_cents": 77999,
     "price_high_cents": 77999
   },
   "https://wildmanrocketry.com/products/m1419w": {
@@ -13074,7 +13074,7 @@
     "restock_count": 0,
     "price_current_cents": 64199,
     "price_prev_cents": 54569,
-    "price_low_cents": 54569,
+    "price_low_cents": 64199,
     "price_high_cents": 64199
   },
   "https://www.buyrocketmotors.com/products/aerotech-m1500g-p-mojave-green?variant=50855094288681": {
@@ -13100,7 +13100,7 @@
     "restock_count": 0,
     "price_current_cents": 37699,
     "price_prev_cents": 32044,
-    "price_low_cents": 32044,
+    "price_low_cents": 37699,
     "price_high_cents": 37699
   },
   "https://wildmanrocketry.com/products/m1550r": {
@@ -13139,7 +13139,7 @@
     "restock_count": 0,
     "price_current_cents": 45599,
     "price_prev_cents": 38759,
-    "price_low_cents": 38759,
+    "price_low_cents": 45599,
     "price_high_cents": 45599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1545&virtuemart_category_id=160&Itemid=533": {
@@ -13152,7 +13152,7 @@
     "restock_count": 0,
     "price_current_cents": 64199,
     "price_prev_cents": 54569,
-    "price_low_cents": 54569,
+    "price_low_cents": 64199,
     "price_high_cents": 64199
   },
   "https://wildmanrocketry.com/products/m1780nt": {
@@ -13191,7 +13191,7 @@
     "restock_count": 0,
     "price_current_cents": 37699,
     "price_prev_cents": 32044,
-    "price_low_cents": 32044,
+    "price_low_cents": 37699,
     "price_high_cents": 37699
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1550&virtuemart_category_id=161&Itemid=533": {
@@ -13204,7 +13204,7 @@
     "restock_count": 0,
     "price_current_cents": 94500,
     "price_prev_cents": 80325,
-    "price_low_cents": 80325,
+    "price_low_cents": 94500,
     "price_high_cents": 94500
   },
   "https://wildmanrocketry.com/products/m1845nt": {
@@ -13230,7 +13230,7 @@
     "restock_count": 0,
     "price_current_cents": 64199,
     "price_prev_cents": 54569,
-    "price_low_cents": 54569,
+    "price_low_cents": 64199,
     "price_high_cents": 64199
   },
   "https://wildmanrocketry.com/products/m1850w": {
@@ -13269,7 +13269,7 @@
     "restock_count": 0,
     "price_current_cents": 53899,
     "price_prev_cents": 45814,
-    "price_low_cents": 45814,
+    "price_low_cents": 53899,
     "price_high_cents": 53899
   },
   "https://wildmanrocketry.com/products/m1939w": {
@@ -13295,7 +13295,7 @@
     "restock_count": 0,
     "price_current_cents": 94500,
     "price_prev_cents": 80325,
-    "price_low_cents": 80325,
+    "price_low_cents": 94500,
     "price_high_cents": 94500
   },
   "https://wildmanrocketry.com/products/m2050x": {
@@ -13334,7 +13334,7 @@
     "restock_count": 0,
     "price_current_cents": 40599,
     "price_prev_cents": 34509,
-    "price_low_cents": 34509,
+    "price_low_cents": 40599,
     "price_high_cents": 40599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1546&virtuemart_category_id=160&Itemid=533": {
@@ -13347,7 +13347,7 @@
     "restock_count": 0,
     "price_current_cents": 64199,
     "price_prev_cents": 54569,
-    "price_low_cents": 54569,
+    "price_low_cents": 64199,
     "price_high_cents": 64199
   },
   "https://www.buyrocketmotors.com/products/aerotech-m2225ws-ps-super-white-lightning-new?variant=50855320781097": {
@@ -13373,7 +13373,7 @@
     "restock_count": 0,
     "price_current_cents": 40599,
     "price_prev_cents": 34509,
-    "price_low_cents": 34509,
+    "price_low_cents": 40599,
     "price_high_cents": 40599
   },
   "https://wildmanrocketry.com/products/m2400t": {
@@ -13399,7 +13399,7 @@
     "restock_count": 0,
     "price_current_cents": 64199,
     "price_prev_cents": 54569,
-    "price_low_cents": 54569,
+    "price_low_cents": 64199,
     "price_high_cents": 64199
   },
   "https://wildmanrocketry.com/products/m2500t": {
@@ -13477,7 +13477,7 @@
     "restock_count": 0,
     "price_current_cents": 98700,
     "price_prev_cents": 83895,
-    "price_low_cents": 83895,
+    "price_low_cents": 98700,
     "price_high_cents": 98700
   },
   "https://wildmanrocketry.com/products/m650w": {
@@ -13516,7 +13516,7 @@
     "restock_count": 0,
     "price_current_cents": 47499,
     "price_prev_cents": 40374,
-    "price_low_cents": 40374,
+    "price_low_cents": 47499,
     "price_high_cents": 47499
   },
   "https://wildmanrocketry.com/products/m685w": {
@@ -13555,7 +13555,7 @@
     "restock_count": 0,
     "price_current_cents": 57799,
     "price_prev_cents": 49129,
-    "price_low_cents": 49129,
+    "price_low_cents": 57799,
     "price_high_cents": 57799
   },
   "https://wildmanrocketry.com/products/n1000w": {
@@ -13659,7 +13659,7 @@
     "restock_count": 0,
     "price_current_cents": 91763,
     "price_prev_cents": 77999,
-    "price_low_cents": 77999,
+    "price_low_cents": 91763,
     "price_high_cents": 91763
   },
   "https://wildmanrocketry.com/products/n3120x-ps-75mm-dms": {
@@ -14296,7 +14296,7 @@
     "restock_count": 0,
     "price_current_cents": 6999,
     "price_prev_cents": 5949,
-    "price_low_cents": 5949,
+    "price_low_cents": 6999,
     "price_high_cents": 6999
   },
   "https://wildmanrocketry.com/products/o5040x-ps": {
