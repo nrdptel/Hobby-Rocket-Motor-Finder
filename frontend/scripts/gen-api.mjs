@@ -14,76 +14,32 @@
 //
 // The motor → public-shape mapping lives here (buildApi/toPublicMotor) and is
 // unit-tested via lib/publicApi.test.ts (which imports these exports), so the
-// public contract is guarded. The small in-stock/pack helpers mirror lib/derive
-// + lib/pack (kept in sync; same inlined copy gen-og.mjs uses).
+// public contract is guarded. The in-stock / pack / hazmat / slug helpers come
+// from ./derive-shared.mjs — the single script-side mirror of lib/derive.ts +
+// lib/pack.ts, pinned to them by lib/scriptParity.test.ts.
 //
 // Runs in `prebuild` after copy-snapshot.mjs. Idempotent.
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import {
+  cheapestInStockListing,
+  designationToSlug,
+  hazmatStatus,
+  listingInStock,
+  manufacturerSlug,
+  packSize,
+  unitPriceCents,
+} from "./derive-shared.mjs";
+
 export const SCHEMA_VERSION = 1;
 const MIN_CLASS = "D"; // match the site's catalog floor (mirror lib/derive MIN_CLASS)
 const SITE_URL = "https://motor.fusionspace.co";
 
-// --- inlined in-stock / pack helpers (mirror lib/derive.ts + lib/pack.ts) ---
-const IN_STOCK = new Set(["in_stock", "in_stock_with_count"]);
-const listingInStock = (status) => IN_STOCK.has(status);
+// Re-exported for lib/publicApi.test.ts, which imports these from this module.
+export { designationToSlug, hazmatStatus, manufacturerSlug };
 
-// DOT hazmat status, mirror of lib/derive.ts hazmatStatus(): hybrids exempt
-// (inert fuel grain), H+ or >62.5g propellant required, A–E none, F/G gray zone.
-const HAZMAT_PROP_WEIGHT_G = 62.5;
-const isHighPowerClass = (cls) => cls.length === 1 && cls >= "H" && cls <= "Z";
-export function hazmatStatus(m) {
-  if (m.motor_type === "hybrid") return "none";
-  const cls = (m.impulse_class || "").toUpperCase();
-  if (isHighPowerClass(cls)) return "required";
-  if (m.prop_weight_g != null && m.prop_weight_g > HAZMAT_PROP_WEIGHT_G) return "required";
-  if (cls === "F" || cls === "G") return "varies";
-  return "none";
-}
-const MAX_PACK = 24;
-function packFromUrl(url) {
-  const m = /(\d+)\s*[- ]?\s*pack/i.exec(url || "");
-  if (m) {
-    const n = Number(m[1]);
-    if (Number.isInteger(n) && n >= 2 && n <= MAX_PACK) return n;
-  }
-  return 1;
-}
-function packSize(l) {
-  const ps = l.pack_size;
-  if (ps != null) return Number.isInteger(ps) && ps >= 2 && ps <= MAX_PACK ? ps : 1;
-  return packFromUrl(l.url ?? "");
-}
-function unitPriceCents(priceCents, l) {
-  if (priceCents == null) return null;
-  const n = packSize(l);
-  return n > 1 ? Math.round(priceCents / n) : priceCents;
-}
-function cheapestInStockListing(m) {
-  let best = null;
-  let bestUnit = Number.POSITIVE_INFINITY;
-  for (const l of m.listings) {
-    if (!listingInStock(l.status)) continue;
-    const unit = unitPriceCents(l.price_cents, l);
-    if (unit == null) continue;
-    if (unit < bestUnit) {
-      best = l;
-      bestUnit = unit;
-    }
-  }
-  return best ?? m.listings.find((l) => listingInStock(l.status)) ?? null;
-}
-
-// --- slugs (mirror gen-og.mjs / the site's /motor/<mfr>/<designation> route) ---
-function manufacturerLabel(m) {
-  if (m === "Cesaroni Technology") return "Cesaroni";
-  if (m === "Loki Research") return "Loki";
-  return m;
-}
-export const manufacturerSlug = (m) => manufacturerLabel(m).toLowerCase();
-export const designationToSlug = (d) => d.replaceAll("/", "~");
 /** Per-motor API path (relative to public/), mirroring the site URL + OG path. */
 export function motorApiPath(motor) {
   return `motors/${manufacturerSlug(motor.manufacturer)}/${designationToSlug(motor.designation)}.json`;

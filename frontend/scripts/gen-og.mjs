@@ -23,6 +23,18 @@ import { fileURLToPath } from "node:url";
 import React from "react";
 import { ImageResponse } from "next/og.js";
 
+import {
+  cheapestInStockListing,
+  designationToSlug,
+  formatImpulse,
+  formatPrice,
+  formatThrust,
+  listingInStock,
+  manufacturerLabel,
+  manufacturerSlug,
+  unitPriceCents,
+} from "./derive-shared.mjs";
+
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, "..", "data");
 const ogDir = resolve(here, "..", "public", "og");
@@ -30,61 +42,8 @@ const ogDir = resolve(here, "..", "public", "og");
 const MIN_CLASS = "D";
 const SIZE = { width: 1200, height: 630 };
 
-// --- inlined derive formatters (mirror lib/derive.ts) ----------------------
-function manufacturerLabel(m) {
-  if (m === "Cesaroni Technology") return "Cesaroni";
-  if (m === "Loki Research") return "Loki";
-  return m;
-}
-const manufacturerSlug = (m) => manufacturerLabel(m).toLowerCase();
-const designationToSlug = (d) => d.replaceAll("/", "~");
-const formatImpulse = (ns) => (ns == null ? "—" : `${ns.toFixed(0)} N·s`);
-const formatThrust = (n) => (n == null ? "—" : `${Math.round(n)} N`);
-function formatPrice(cents, currency) {
-  if (cents == null) return "—";
-  try {
-    return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(cents / 100);
-  } catch {
-    return `$${(cents / 100).toFixed(2)}`;
-  }
-}
-// listingInStock: in_stock* statuses count as buyable (mirror lib/derive).
-const IN_STOCK = new Set(["in_stock", "in_stock_with_count"]);
-const listingInStock = (status) => IN_STOCK.has(status);
-// packSize / unitPriceCents (pack-aware per-unit price) — mirror lib/pack.ts.
-const MAX_PACK = 24;
-function packFromUrl(url) {
-  const m = /(\d+)\s*[- ]?\s*pack/i.exec(url || "");
-  if (m) {
-    const n = Number(m[1]);
-    if (Number.isInteger(n) && n >= 2 && n <= MAX_PACK) return n;
-  }
-  return 1;
-}
-function packSize(l) {
-  const ps = l.pack_size;
-  if (ps != null) return Number.isInteger(ps) && ps >= 2 && ps <= MAX_PACK ? ps : 1;
-  return packFromUrl(l.url ?? "");
-}
-function unitPriceCents(priceCents, l) {
-  if (priceCents == null) return null;
-  const n = packSize(l);
-  return n > 1 ? Math.round(priceCents / n) : priceCents;
-}
-function cheapestInStockListing(m) {
-  let best = null;
-  let bestUnit = Number.POSITIVE_INFINITY;
-  for (const l of m.listings) {
-    if (!listingInStock(l.status)) continue;
-    const unit = unitPriceCents(l.price_cents, l);
-    if (unit == null) continue;
-    if (unit < bestUnit) {
-      best = l;
-      bestUnit = unit;
-    }
-  }
-  return best ?? m.listings.find((l) => listingInStock(l.status)) ?? null;
-}
+// The pure derive/pack formatters used below come from ./derive-shared.mjs (the
+// single script-side mirror of lib/derive.ts + lib/pack.ts, parity-tested there).
 
 // --- shared layout chrome --------------------------------------------------
 const h = React.createElement;

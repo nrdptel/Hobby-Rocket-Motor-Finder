@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import asyncio
 import html as _html
+import logging
 import re
 
 from ..http import PoliteAsyncClient
@@ -34,6 +35,8 @@ from ..models import Listing, StockStatus, _utc_now
 from ..normalize import extract_cti_designation, extract_designation
 from .base import Scraper
 from .prices import price_to_cents
+
+log = logging.getLogger(__name__)
 
 BASE_URL = "https://www.moto-joe.com"
 AEROTECH = "AeroTech"
@@ -113,7 +116,11 @@ class MotoJoeScraper(Scraper):
             try:
                 r = await client.get(url)
                 r.raise_for_status()
-            except Exception:
+            except Exception as e:
+                # Skip this product but leave a trail — every other scraper logs
+                # its per-item fetch failures, and a silent drop here could bleed
+                # stock without any signal (the exact staleness we alert on).
+                log.warning("moto_joe: skipping %s: %s", url, e)
                 return None
             return build_listing(r.text, url, manufacturer, price_cents, cat_name)
 
