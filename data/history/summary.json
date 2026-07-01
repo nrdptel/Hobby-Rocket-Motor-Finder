@@ -17095,10 +17095,10 @@
     "price_high_cents": 8351
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j350w-14a-rms-reload-kit-hazmat-1558.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:28",
-    "last_change_at": "2026-05-31T04:26:28",
+    "last_change_at": "2026-07-01T03:04:50+00:00",
     "last_in_stock_at": "2026-05-31T04:26:28",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17576,10 +17576,10 @@
     "price_high_cents": 14615
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k550w-l-reload-kit-hazmat-443.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:27:05",
-    "last_change_at": "2026-05-31T04:27:05",
+    "last_change_at": "2026-07-01T03:05:27+00:00",
     "last_in_stock_at": "2026-05-31T04:27:05",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17602,10 +17602,10 @@
     "price_high_cents": 17660
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k695r-l-reload-kit-hazmat-444.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:27:07",
-    "last_change_at": "2026-05-31T04:27:07",
+    "last_change_at": "2026-07-01T03:05:29+00:00",
     "last_in_stock_at": "2026-05-31T04:27:07",
     "last_restock_at": null,
     "restock_count": 0,
