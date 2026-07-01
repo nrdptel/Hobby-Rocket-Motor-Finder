@@ -13380,14 +13380,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:13",
-    "last_change_at": "2026-05-31T01:16:13",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 64199,
-    "price_prev_cents": null,
-    "price_low_cents": 64199,
-    "price_high_cents": 64199
+    "price_current_cents": 71999,
+    "price_prev_cents": 64199,
+    "price_low_cents": 71999,
+    "price_high_cents": 71999
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1547&virtuemart_category_id=160&Itemid=533": {
     "currently_in_stock": false,
@@ -13406,14 +13406,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:13",
-    "last_change_at": "2026-05-31T01:16:13",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 85999,
-    "price_prev_cents": null,
-    "price_low_cents": 85999,
-    "price_high_cents": 85999
+    "price_current_cents": 96399,
+    "price_prev_cents": 85999,
+    "price_low_cents": 96399,
+    "price_high_cents": 96399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1245&virtuemart_category_id=161&Itemid=533": {
     "currently_in_stock": false,
@@ -13432,14 +13432,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:14",
-    "last_change_at": "2026-05-31T01:16:14",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 69299,
-    "price_prev_cents": null,
-    "price_low_cents": 69299,
-    "price_high_cents": 69299
+    "price_current_cents": 77699,
+    "price_prev_cents": 69299,
+    "price_low_cents": 77699,
+    "price_high_cents": 77699
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1548&virtuemart_category_id=160&Itemid=533": {
     "currently_in_stock": false,
@@ -13458,14 +13458,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:14",
-    "last_change_at": "2026-05-31T01:16:14",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 89799,
-    "price_prev_cents": null,
-    "price_low_cents": 89799,
-    "price_high_cents": 89799
+    "price_current_cents": 100599,
+    "price_prev_cents": 89799,
+    "price_low_cents": 100599,
+    "price_high_cents": 100599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1552&virtuemart_category_id=161&Itemid=533": {
     "currently_in_stock": false,
@@ -13484,14 +13484,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:14",
-    "last_change_at": "2026-05-31T01:16:14",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 47499,
-    "price_prev_cents": null,
-    "price_low_cents": 47499,
-    "price_high_cents": 47499
+    "price_current_cents": 53199,
+    "price_prev_cents": 47499,
+    "price_low_cents": 53199,
+    "price_high_cents": 53199
   },
   "https://www.buyrocketmotors.com/products/aerotech-m650w-ps-white-lightning?variant=50855095042345": {
     "currently_in_stock": false,
@@ -13523,14 +13523,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:15",
-    "last_change_at": "2026-05-31T01:16:15",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 57799,
-    "price_prev_cents": null,
-    "price_low_cents": 57799,
-    "price_high_cents": 57799
+    "price_current_cents": 64799,
+    "price_prev_cents": 57799,
+    "price_low_cents": 64799,
+    "price_high_cents": 64799
   },
   "https://www.buyrocketmotors.com/products/aerotech-m685w-ps-white-lightning?variant=50855097270569": {
     "currently_in_stock": false,
@@ -13562,14 +13562,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:15",
-    "last_change_at": "2026-05-31T01:16:15",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 125799,
-    "price_prev_cents": null,
-    "price_low_cents": 125799,
-    "price_high_cents": 125799
+    "price_current_cents": 140899,
+    "price_prev_cents": 125799,
+    "price_low_cents": 140899,
+    "price_high_cents": 140899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1555&virtuemart_category_id=162&Itemid=533": {
     "currently_in_stock": false,
@@ -13588,14 +13588,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:15",
-    "last_change_at": "2026-05-31T01:16:15",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 121599,
-    "price_prev_cents": null,
-    "price_low_cents": 121599,
-    "price_high_cents": 121599
+    "price_current_cents": 136199,
+    "price_prev_cents": 121599,
+    "price_low_cents": 136199,
+    "price_high_cents": 136199
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1553&virtuemart_category_id=162&Itemid=533": {
     "currently_in_stock": false,
@@ -13666,27 +13666,27 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:16",
-    "last_change_at": "2026-05-31T01:16:16",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 149999,
-    "price_prev_cents": null,
-    "price_low_cents": 149999,
-    "price_high_cents": 149999
+    "price_current_cents": 167999,
+    "price_prev_cents": 149999,
+    "price_low_cents": 167999,
+    "price_high_cents": 167999
   },
   "https://wildmanrocketry.com/products/n3300r": {
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:16",
-    "last_change_at": "2026-05-31T01:16:16",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 115399,
-    "price_prev_cents": null,
-    "price_low_cents": 115399,
-    "price_high_cents": 115399
+    "price_current_cents": 129299,
+    "price_prev_cents": 115399,
+    "price_low_cents": 129299,
+    "price_high_cents": 129299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1556&virtuemart_category_id=162&Itemid=533": {
     "currently_in_stock": true,
@@ -13705,14 +13705,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:16",
-    "last_change_at": "2026-06-09T17:07:35+00:00",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": "2026-05-31T01:16:16",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 179999,
-    "price_prev_cents": null,
+    "price_current_cents": 201599,
+    "price_prev_cents": 179999,
     "price_low_cents": 179999,
-    "price_high_cents": 179999
+    "price_high_cents": 201599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1624&virtuemart_category_id=163&Itemid=533": {
     "currently_in_stock": false,
@@ -13731,14 +13731,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:16:17",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
-    "last_in_stock_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
+    "last_in_stock_at": "2026-07-01T23:00:27+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 299999,
-    "price_prev_cents": null,
+    "price_current_cents": 335999,
+    "price_prev_cents": 299999,
     "price_low_cents": 299999,
-    "price_high_cents": 299999
+    "price_high_cents": 335999
   },
   "https://www.buyrocketmotors.com/products/aerotech-o5500x-ps-propellant-x?variant=50855331168553": {
     "currently_in_stock": true,
@@ -13770,14 +13770,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:17",
-    "last_change_at": "2026-05-31T01:16:17",
+    "last_change_at": "2026-07-01T23:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 999900,
-    "price_prev_cents": null,
-    "price_low_cents": 999900,
-    "price_high_cents": 999900
+    "price_current_cents": 1119999,
+    "price_prev_cents": 999900,
+    "price_low_cents": 1119999,
+    "price_high_cents": 1119999
   },
   "https://wildmanrocketry.com/products/a3-4-q-jet": {
     "currently_in_stock": true,
@@ -16783,10 +16783,10 @@
     "price_high_cents": 7220
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i285r-14a-reload-kit-hazmat-1722.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:03",
-    "last_change_at": "2026-05-31T04:26:03",
+    "last_change_at": "2026-07-01T23:04:19+00:00",
     "last_in_stock_at": "2026-05-31T04:26:03",
     "last_restock_at": null,
     "restock_count": 0,
