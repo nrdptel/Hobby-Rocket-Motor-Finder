@@ -30,14 +30,13 @@ export type {
 // file traces outside the project root, so reading from `../data/` would
 // not survive the static export / deployment to Cloudflare Pages.
 //
-// Live snapshot — copied from `<repo>/data/snapshot.json` if present.
-const SNAPSHOT_PATH = path.resolve(process.cwd(), "data", "snapshot.json");
-// Frozen reference snapshot, tracked in git at `<repo>/data/snapshot.example.json`
-// and copied in alongside the live one. Lets the UI render even when no live
-// scrape has been run yet.
-const EXAMPLE_SNAPSHOT_PATH = path.resolve(
-  process.cwd(), "data", "snapshot.example.json"
-);
+// The data directory (`<cwd>/data`) holding both the live snapshot
+// (`snapshot.json`, copied from `<repo>/data/` when present) and the frozen
+// reference seed (`snapshot.example.json`, tracked in git) that lets the UI
+// render before any live scrape has run. Injectable into loadSnapshot as an
+// argument so tests can point at a throwaway temp dir instead of mutating the
+// real working-copy files the dev server reads.
+const DATA_DIR = path.resolve(process.cwd(), "data");
 // Compact per-listing history summary — copied in from
 // `<repo>/data/history/summary.json` by `copy-snapshot.mjs`. Optional: a fresh
 // clone (or a deploy before the first backfill) simply has no history overlay.
@@ -65,8 +64,12 @@ export class SnapshotParseError extends Error {
   }
 }
 
-async function loadSnapshotImpl(): Promise<Snapshot | null> {
-  for (const candidate of [SNAPSHOT_PATH, EXAMPLE_SNAPSHOT_PATH]) {
+async function loadSnapshotImpl(dataDir: string = DATA_DIR): Promise<Snapshot | null> {
+  const candidates = [
+    path.join(dataDir, "snapshot.json"),
+    path.join(dataDir, "snapshot.example.json"),
+  ];
+  for (const candidate of candidates) {
     let raw: string;
     try {
       raw = await readFile(candidate, "utf-8");
