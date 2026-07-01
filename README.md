@@ -72,11 +72,12 @@ Today: AeroTech across ten vendors (including manufacturer-direct from AeroTech 
 | [AeroTech (direct)](https://aerotech-rocketry.com) | UT | Shopify | AeroTech (manufacturer-direct) |
 | [Moto-Joe Rocketry](https://www.moto-joe.com) | — | OpenCart | AeroTech, Cesaroni |
 | [Balsa Machining Service](https://www.balsamachining.com) | NV | Custom (single-page ASP) | AeroTech |
+| [New Century Rocketry](https://newcenturyrocketry.shop) | SC | Shopify | AeroTech |
 | [eRockets](https://www.erockets.biz) | OH | BigCommerce | AeroTech (low/mid-power) |
 
 AeroTech currently backorders nearly everything rather than holding stock, and their store doesn't expose real inventory — so AeroTech-direct listings are shown as **special-order with a fulfillment lead-time** (e.g. "special order · ~16–20 weeks"), parsed live from AeroTech's own published lead-time banner, rather than as "in stock."
 
-> **eRockets** is scraped, but its host currently blocks the GitHub Actions data-center IPs (it works fine from residential IPs), so in production it contributes **no live listings** — the site effectively shows ten vendors today. The scrape-health report flags it as a zero-coverage vendor rather than letting it vanish silently; it would self-recover if the block lifts or the scrape runs from a different host.
+> **eRockets** is scraped, but its host currently blocks the GitHub Actions data-center IPs (it works fine from residential IPs), so in production it contributes **no live listings** — the site effectively shows eleven vendors today. The scrape-health report flags it as a zero-coverage vendor rather than letting it vanish silently; it would self-recover if the block lifts or the scrape runs from a different host.
 
 The architecture isn't motor-specific — see [Adding a vendor](#adding-a-vendor) and [Extending beyond motors](#extending-beyond-motors) if you want to grow it.
 
@@ -101,7 +102,7 @@ To run a real scrape against live vendors:
 ```sh
 cd backend
 hpr catalog refresh         # download AeroTech, Cesaroni, and Loki motors from ThrustCurve
-hpr scrape run all          # ~5-10 min across all 11 vendors
+hpr scrape run all          # ~5-10 min across all 12 vendors
 hpr snapshot export         # writes data/snapshot.json
 ```
 
