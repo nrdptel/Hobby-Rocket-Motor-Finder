@@ -174,6 +174,33 @@ def test_prune_drops_old_events_but_keeps_latest():
     assert kept == ["2026-06-01T00:00:00+00:00"]  # only the in-window event survives
 
 
+def test_prune_and_summarize_handle_mixed_naive_and_aware_timestamps():
+    """Early archived snapshots wrote tz-NAIVE seen_at; current ones are tz-aware.
+    _parse normalizes naive -> UTC so prune/summarize can compare event times
+    against an aware `now` without a 'can't compare offset-naive and offset-aware
+    datetimes' TypeError on the mixed archive."""
+    log = history.empty_log()
+    # Legacy event: tz-naive timestamp (no offset).
+    log = history.apply_snapshot(
+        log, _snap("2026-01-01T00:00:00", [_listing("u1", "out_of_stock", 1500, "2026-01-01T00:00:00")])
+    )
+    # Recent event: tz-aware.
+    log = history.apply_snapshot(
+        log, _snap("2026-06-01T00:00:00+00:00", [_listing("u1", "in_stock", 1500, "2026-06-01T00:00:00+00:00")])
+    )
+
+    # prune against an AWARE now must not crash on the naive event, and must drop
+    # it (>30d old) while keeping the recent one.
+    pruned = history.prune(log, "2026-06-02T00:00:00+00:00", window_days=30)
+    assert [e["t"] for e in pruned["listings"]["u1"]["events"]] == ["2026-06-01T00:00:00+00:00"]
+
+    # summarize against an AWARE now must not crash either; the naive OOS event is
+    # the prior state, so the in-stock event is a genuine restock.
+    summary = history.summarize(log, "2026-06-02T00:00:00+00:00")
+    assert summary["u1"]["restock_count"] == 1
+    assert summary["u1"]["currently_in_stock"] is True
+
+
 def test_prune_keeps_single_latest_when_all_old():
     log = history.empty_log()
     for t in ["2026-01-01T00:00:00+00:00", "2026-01-02T00:00:00+00:00"]:
