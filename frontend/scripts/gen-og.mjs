@@ -12,8 +12,8 @@
 // via the explicit `next/og.js` specifier so it resolves from a plain node
 // script as well as inside Next's bundler. The OG layout JSX is reproduced with
 // React.createElement so this stays a plain .mjs, matching the other prebuild
-// scripts. The small derive formatters it needs are inlined below — kept in sync
-// with lib/derive.ts (trivial, pure functions).
+// scripts. The derive/pack formatters it needs come from ./derive-shared.mjs (the
+// single script-side mirror of lib/, pinned by lib/scriptParity.test.ts).
 //
 // Runs in `prebuild` after copy-snapshot.mjs. Idempotent.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
@@ -107,23 +107,26 @@ function defaultCard(markUri) {
         backgroundImage:
           "radial-gradient(56% 64% at 50% 31%, rgba(99,102,241,0.27) 0%, rgba(99,102,241,0) 76%)",
         color: "#fafafa",
-        fontFamily: "sans-serif",
+        // Real Geist weights are embedded for this card (see main()) so the name
+        // renders in SemiBold — matching the site's font-semibold <h1> — with the
+        // tagline in Regular for hierarchy.
+        fontFamily: "Geist",
       },
     },
     h("img", { src: markUri, width: 130, height: 120, style: { marginBottom: 40 } }),
     h(
       "div",
-      { style: { fontSize: 100, fontWeight: 800, lineHeight: 1.0, letterSpacing: "-0.03em" } },
+      { style: { fontSize: 100, fontWeight: 600, lineHeight: 1.0, letterSpacing: "-0.03em" } },
       "HPR Motor Finder",
     ),
     h(
       "div",
-      { style: { fontSize: 40, fontWeight: 600, color: "#d4d4d8", marginTop: 32, maxWidth: 1040 } },
+      { style: { fontSize: 40, fontWeight: 400, color: "#d4d4d8", marginTop: 32, maxWidth: 1040 } },
       "Live motor stock and pricing across U.S. vendors",
     ),
     h(
       "div",
-      { style: { fontSize: 26, color: "#818cf8", marginTop: 28, fontFamily: "monospace", letterSpacing: "0.02em" } },
+      { style: { fontSize: 26, fontWeight: 400, color: "#818cf8", marginTop: 28, letterSpacing: "0.02em" } },
       "motor.fusionspace.co",
     ),
   );
@@ -169,8 +172,10 @@ function motorCard(motor, logoUri) {
   );
 }
 
-async function render(element) {
-  const resp = new ImageResponse(element, { ...SIZE });
+async function render(element, fonts) {
+  // `fonts` embeds specific weights (the default card wants real Geist SemiBold);
+  // omitted, next/og falls back to its built-in Geist Regular (per-motor cards).
+  const resp = new ImageResponse(element, fonts ? { ...SIZE, fonts } : { ...SIZE });
   return Buffer.from(await resp.arrayBuffer());
 }
 
@@ -184,10 +189,18 @@ async function main() {
   const markUri = markSrc.match(/data:image\/png;base64,[A-Za-z0-9+/=]+/)?.[0];
   if (!markUri) throw new Error("gen-og: could not extract OG_MARK_PNG from lib/og-mark.ts");
 
+  // Vendored Geist weights for the default card's title/tagline (next/og only
+  // bundles Regular). Kept local so the build never depends on a font fetch.
+  const fontsDir = resolve(here, "fonts");
+  const brandFonts = [
+    { name: "Geist", data: await readFile(resolve(fontsDir, "Geist-Regular.ttf")), weight: 400, style: "normal" },
+    { name: "Geist", data: await readFile(resolve(fontsDir, "Geist-SemiBold.ttf")), weight: 600, style: "normal" },
+  ];
+
   await mkdir(ogDir, { recursive: true });
 
-  // Site-wide default card.
-  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(markUri)));
+  // Site-wide default card (rendered with the embedded Geist weights).
+  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(markUri), brandFonts));
   console.log("gen-og: wrote public/og/default.png");
 
   // Per-motor cards for the SAME universe the dynamic route covered: stocked
