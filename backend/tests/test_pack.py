@@ -120,6 +120,22 @@ def test_null_priced_straggler_left_alone():
     assert sizes["noprice"] == 1
 
 
+def test_consensus_without_priced_packs_leaves_stragglers_alone():
+    """Consensus can name the pack size (>=2 vendors' URLs agree it's a 3-pack),
+    but if NONE of those confirmed packs carries a price there's no reference to
+    band a straggler against. A priced url-less listing is then left a single
+    rather than guessed — the pack size is known, but its per-unit value isn't."""
+    snap = _motor([
+        _l("sirius", "https://s/d24-3-pack", None),
+        _l("buyrocketmotors", "https://b/d24-3-pack", None),
+        _l("straggler", "https://x/d24-plain", 2400),
+    ])
+    resolve_pack_sizes(snap)
+    sizes = {l["vendor_slug"]: l["pack_size"] for l in snap["motors"][0]["listings"]}
+    assert sizes["straggler"] == 1  # no priced pack to compare against → not converted
+    assert sizes["sirius"] == 3 and sizes["buyrocketmotors"] == 3  # URL sizes still stand
+
+
 def test_explicit_url_size_kept_even_outside_consensus():
     """A listing whose URL says 2-pack keeps 2 even when the motor's consensus is
     3 — explicit per-listing data wins."""
