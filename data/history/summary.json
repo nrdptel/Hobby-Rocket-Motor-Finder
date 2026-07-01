@@ -8570,14 +8570,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:15:47",
-    "last_change_at": "2026-06-30T16:00:32+00:00",
-    "last_in_stock_at": "2026-06-30T16:00:32+00:00",
+    "last_change_at": "2026-07-01T14:00:35+00:00",
+    "last_in_stock_at": "2026-07-01T14:00:35+00:00",
     "last_restock_at": "2026-06-30T16:00:32+00:00",
     "restock_count": 1,
-    "price_current_cents": 5499,
-    "price_prev_cents": null,
+    "price_current_cents": 6199,
+    "price_prev_cents": 5499,
     "price_low_cents": 5499,
-    "price_high_cents": 5499
+    "price_high_cents": 6199
   },
   "https://www.buyrocketmotors.com/products/aerotech-h219-14a-blue-thunder-38-mm-dms?variant=50855203963177": {
     "currently_in_stock": false,
