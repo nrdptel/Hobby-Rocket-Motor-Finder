@@ -52,6 +52,6 @@ secrets.
 
 - Pages static requests + bandwidth: **unlimited**.
 - Pages builds: 500/mo — avoided (we build in Actions, direct-upload).
-- Files per deployment: **20,000** (≈2–4k now; watch as the catalog grows).
+- Files per deployment: **20,000** (≈8k now — per-motor HTML + OG card + API JSON, ~3 files each; watch as the catalog grows).
 - Functions (Workers): **100k/day**, **10ms CPU**, **3MB** bundle — alerts only,
   low volume; never bundle the ~2MB snapshot into a Function.
