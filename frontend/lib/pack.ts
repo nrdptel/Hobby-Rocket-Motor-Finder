@@ -12,7 +12,7 @@
 // Matches the digit-led forms: "3-pack" / "3 pack" / "3 packs" / "12-pack" /
 // "3pk" / "2-pk" / "2 - pack" / "2-motor-pack" / "pack of 3". Separators are
 // hyphen/space (any run), an optional "motor" word is allowed before "pack(s)".
-const PACK_RE = /(\d+)[-\s]*(?:motor[-\s]*)?packs?\b|(\d+)[-\s]*pks?\b|pack\s*of\s*(\d+)/i;
+const PACK_RE = /(\d+)[-\s]*(?:motor[-\s]*)?packs?\b|(\d+)[-\s]*pks?\b|pack[-\s]*of[-\s]*(\d+)/i;
 // And the spelled-out forms vendors actually use: "two pack", "three-pack".
 const WORD_PACK_RE = /\b(two|three|four|six|twelve)[-\s]*(?:motor[-\s]*)?packs?\b/i;
 const WORD_TO_N: Record<string, number> = { two: 2, three: 3, four: 4, six: 6, twelve: 12 };

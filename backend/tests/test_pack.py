@@ -17,6 +17,12 @@ def test_url_pack_digit_forms():
     assert pack_size_from_url("https://v/e24c-2-motor-pack-52407") == 2
     # URL-encoded "#D24-4T 3 Pack"
     assert pack_size_from_url("https://v/store.aspx?groupid=72#D24-4T%203%20Pack") == 3
+    # "pack of N" — spaced (encoded) and hyphenated URL-slug forms both resolve;
+    # the hyphenated separators match like every other alternative in the regex.
+    # (URLs are kept free of a "<digits>-pack" substring, which the higher-priority
+    # N-pack alternative would match first — that precedence is intended.)
+    assert pack_size_from_url("https://v/store#white-lightning%20%28pack%20of%203%29") == 3
+    assert pack_size_from_url("https://v/aerotech-white-lightning-pack-of-3-reload") == 3
 
 
 def test_url_pack_word_forms():

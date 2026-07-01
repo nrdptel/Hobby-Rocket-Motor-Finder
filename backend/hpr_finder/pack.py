@@ -31,7 +31,7 @@ from urllib.parse import unquote
 # Mirror of the patterns in frontend/lib/pack.ts — keep the two in sync.
 # "3-pack" / "3 pack" / "12-pack" / "3pk" / "2-pk" / "2-motor-pack" / "pack of 3"
 _PACK_RE = re.compile(
-    r"(\d+)[-\s]*(?:motor[-\s]*)?packs?\b|(\d+)[-\s]*pks?\b|pack\s*of\s*(\d+)",
+    r"(\d+)[-\s]*(?:motor[-\s]*)?packs?\b|(\d+)[-\s]*pks?\b|pack[-\s]*of[-\s]*(\d+)",
     re.I,
 )
 # Spelled-out forms vendors actually use: "two pack", "three-pack".

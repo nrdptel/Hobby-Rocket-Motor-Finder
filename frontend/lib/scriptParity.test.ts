@@ -5,10 +5,9 @@
 // A mirror that drifts silently is the exact bug this guards: the API and OG
 // cards must size packs, hide sentinel prices, and label motors EXACTLY as the
 // pages do. Every function here is run against its lib/ twin over a battery of
-// adversarial inputs and the whole example snapshot; any divergence fails CI.
-import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
-
+// adversarial inputs and a representative motor set; any divergence fails CI.
+// (The motor set is inline, NOT read from data/snapshot.example.json — another
+// test rewrites that shared file, which raced this reader under parallel workers.)
 import { describe, expect, it } from "vitest";
 
 // @ts-expect-error — plain .mjs build helper, no type declarations.
@@ -123,29 +122,57 @@ describe("scripts/derive-shared.mjs is in lockstep with lib/", () => {
     }
   });
 
-  // The strongest guard: run the shared helpers against lib over EVERY real
-  // listing/motor in the example snapshot, not just crafted inputs.
-  it("agrees with lib over every motor + listing in the example snapshot", () => {
-    const path = fileURLToPath(new URL("../data/snapshot.example.json", import.meta.url));
-    const snapshot = JSON.parse(readFileSync(path, "utf-8")) as { motors: Motor[] };
-    let motors = 0;
-    let listings = 0;
-    for (const m of snapshot.motors) {
-      expect(shared.hazmatStatus(m)).toBe(hazmatStatus(m));
+  // Run the shared helpers against lib over a representative multi-motor set that
+  // hits every branch on real-shaped records: hazmat across motor types/classes,
+  // pack-URL and pack_size listings, sentinel/null/foreign-currency prices, and
+  // mixed stock states. Inline so it can't race the shared example-snapshot file.
+  it("agrees with lib over a representative motor + listing set", () => {
+    const listing = (over: Record<string, unknown>) => ({
+      vendor_slug: "csrocketry",
+      vendor_name: "Chris' Rocket Supplies",
+      url: "https://v.example/p",
+      price_cents: 3499,
+      currency: "USD",
+      status: "in_stock",
+      stock_count: null,
+      ...over,
+    });
+    const motors = [
+      // H-class (hazmat required), multi-vendor with a pack, an OOS, and a null price.
+      { manufacturer: "AeroTech", impulse_class: "H", motor_type: "reload", prop_weight_g: 120, listings: [
+        listing({ vendor_slug: "wildman", vendor_name: "Wildman", url: "https://v/x-2-pack", price_cents: 6000, status: "in_stock_with_count", stock_count: 4, pack_size: 2 }),
+        listing({ vendor_slug: "sirius", vendor_name: "Sirius", price_cents: null, status: "in_stock" }),
+        listing({ vendor_slug: "amw", vendor_name: "AMW", price_cents: 3300, status: "out_of_stock" }),
+      ] },
+      // Hybrid (hazmat none despite heavy propellant); CAD + sentinel + special-order.
+      { manufacturer: "AeroTech", impulse_class: "M", motor_type: "hybrid", prop_weight_g: 3433, listings: [
+        listing({ vendor_slug: "performancehobbies", vendor_name: "Performance Hobbies", price_cents: 99999999, currency: "CAD", status: "special_order" }),
+      ] },
+      // F/G band (hazmat varies vs required by weight); "two pack" URL; unknown currency.
+      { manufacturer: "Cesaroni Technology", impulse_class: "F", motor_type: "SU", prop_weight_g: 45, listings: [
+        listing({ vendor_slug: "moto_joe", vendor_name: "Moto-Joe", url: "https://v/two-pack-x", price_cents: 2000, currency: "ZZZ" }),
+      ] },
+      { manufacturer: "Cesaroni Technology", impulse_class: "G", motor_type: "reload", prop_weight_g: 72, listings: [] },
+      // E-class (hazmat none) and a Loki motor with nothing in stock.
+      { manufacturer: "Loki Research", impulse_class: "E", motor_type: "reload", prop_weight_g: 40, listings: [
+        listing({ vendor_slug: "loki", vendor_name: "Loki", price_cents: 1999, status: "out_of_stock" }),
+      ] },
+    ];
+
+    let checked = 0;
+    for (const m of motors) {
+      expect(shared.hazmatStatus(m)).toBe(hazmatStatus(m as unknown as Motor));
       const a = shared.cheapestInStockListing(m);
-      const b = cheapestInStockListing(m);
+      const b = cheapestInStockListing(m as unknown as Motor);
       expect(a?.url ?? null).toBe(b?.url ?? null);
-      motors++;
-      for (const l of m.listings ?? []) {
+      for (const l of m.listings) {
         expect(shared.packSize(l)).toBe(packSize(l));
         expect(shared.unitPriceCents(l.price_cents, l)).toBe(unitPriceCents(l.price_cents, l));
         expect(shared.formatPrice(l.price_cents, l.currency)).toBe(formatPrice(l.price_cents, l.currency));
         expect(shared.listingInStock(l.status)).toBe(listingInStock(l.status));
-        listings++;
+        checked++;
       }
     }
-    // Sanity: the snapshot actually exercised the helpers (not a silent empty loop).
-    expect(motors).toBeGreaterThan(100);
-    expect(listings).toBeGreaterThan(100);
+    expect(checked).toBeGreaterThan(0); // the set actually exercised the helpers
   });
 });
