@@ -186,6 +186,20 @@ describe("buildOrderPlan — cheapest total = motor cost + shipping × orders", 
     expect(plan.unavailable.map((m) => m.id)).toEqual([4]);
     expect(plan.assignments.some((a) => a.lines.some((l) => l.motor.id === 1))).toBe(true);
   });
+
+  it("returns a coherent empty plan when nothing is coverable — no phantom shipping", () => {
+    // Star only motors that are sold out everywhere, then open the planner.
+    const oosA = M(7, "G", [L("v1", "V1", 1000, "out_of_stock")]);
+    const oosB = M(8, "H", [L("v2", "V2", 2000, "out_of_stock")]);
+    // Non-zero shipping must NOT leak into the total when there are zero orders.
+    const plan = buildOrderPlan([{ motor: oosA, qty: 1 }, { motor: oosB, qty: 2 }], 5000);
+    expect(plan.assignments).toEqual([]);
+    expect(plan.ordersCount).toBe(0);
+    expect(plan.motorCostCents).toBe(0);
+    expect(plan.shippingCents).toBe(0);
+    expect(plan.totalCents).toBe(0);
+    expect(plan.unavailable.map((m) => m.id).sort()).toEqual([7, 8]);
+  });
 });
 
 describe("bestSingleVendor", () => {
