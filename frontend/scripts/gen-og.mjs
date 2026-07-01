@@ -57,7 +57,9 @@ const CARD_STYLE = {
   padding: "80px",
   background: "linear-gradient(135deg, #09090b 0%, #18181b 100%)",
   color: "#fafafa",
-  fontFamily: "sans-serif",
+  // Real Geist weights are embedded (see main()) so the hero designation renders
+  // in Bold and the stock line in SemiBold, matching their fontWeight below.
+  fontFamily: "Geist",
   position: "relative",
 };
 
@@ -173,8 +175,8 @@ function motorCard(motor, logoUri) {
 }
 
 async function render(element, fonts) {
-  // `fonts` embeds specific weights (the default card wants real Geist SemiBold);
-  // omitted, next/og falls back to its built-in Geist Regular (per-motor cards).
+  // `fonts` embeds specific Geist weights so bold/semibold text actually renders
+  // heavier; omitted, next/og falls back to its built-in Geist Regular only.
   const resp = new ImageResponse(element, fonts ? { ...SIZE, fonts } : { ...SIZE });
   return Buffer.from(await resp.arrayBuffer());
 }
@@ -189,18 +191,20 @@ async function main() {
   const markUri = markSrc.match(/data:image\/png;base64,[A-Za-z0-9+/=]+/)?.[0];
   if (!markUri) throw new Error("gen-og: could not extract OG_MARK_PNG from lib/og-mark.ts");
 
-  // Vendored Geist weights for the default card's title/tagline (next/og only
-  // bundles Regular). Kept local so the build never depends on a font fetch.
+  // Vendored Geist weights (next/og only bundles Regular). Kept local so the
+  // build never depends on a font fetch. Used for BOTH cards so weights render:
+  // the default card's title in SemiBold; the per-motor hero designation in Bold.
   const fontsDir = resolve(here, "fonts");
-  const brandFonts = [
+  const geistFonts = [
     { name: "Geist", data: await readFile(resolve(fontsDir, "Geist-Regular.ttf")), weight: 400, style: "normal" },
     { name: "Geist", data: await readFile(resolve(fontsDir, "Geist-SemiBold.ttf")), weight: 600, style: "normal" },
+    { name: "Geist", data: await readFile(resolve(fontsDir, "Geist-Bold.ttf")), weight: 700, style: "normal" },
   ];
 
   await mkdir(ogDir, { recursive: true });
 
   // Site-wide default card (rendered with the embedded Geist weights).
-  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(markUri), brandFonts));
+  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(markUri), geistFonts));
   console.log("gen-og: wrote public/og/default.png");
 
   // Per-motor cards for the SAME universe the dynamic route covered: stocked
@@ -228,7 +232,7 @@ async function main() {
     const mfrDir = resolve(ogDir, "motor", manufacturerSlug(m.manufacturer));
     await mkdir(mfrDir, { recursive: true });
     const file = resolve(mfrDir, `${designationToSlug(m.designation)}.png`);
-    await writeFile(file, await render(motorCard(m, logoUri)));
+    await writeFile(file, await render(motorCard(m, logoUri), geistFonts));
     written++;
     if (written % 100 === 0) console.log(`gen-og: ${written}/${motors.length} motor cards…`);
   }
