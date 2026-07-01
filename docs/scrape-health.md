@@ -1,6 +1,6 @@
 # Scrape health monitoring
 
-With ~11 fragile, often-old vendor sites, a scraper can break in several ways.
+With ~12 fragile, often-old vendor sites, a scraper can break in several ways.
 Health monitoring exists so a silent break doesn't just make the aggregator look
 emptier with nobody noticing. There are three layers, from loudest to quietest.
 
