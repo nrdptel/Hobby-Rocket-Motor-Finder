@@ -19,6 +19,13 @@ export function ComparePageBody({
   motors: Motor[];
   curveSeries: CurveSeries[];
 }) {
+  // Container width is deliberate, not arbitrary. This holds the widest view in
+  // the app — a 4-motor (MAX_COMPARE) side-by-side plus an overlaid thrust-curve
+  // chart — yet max-w-5xl (1024px) was verified comfortable at 1440/1920: the
+  // curves stay large and legible and the columns are roomy, not cramped.
+  // Widening to 6xl/7xl only pads already-spacious cells, so it stays 5xl. On
+  // mobile the table + curve scroll inside their own overflow-x-auto (no page
+  // scroll); raising a max-w can't affect narrower viewports anyway.
   return (
     <main className="mx-auto max-w-5xl px-4 py-8 md:px-6 md:py-10">
       <SiteHeader />
