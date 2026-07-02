@@ -348,7 +348,13 @@ export type PriceHistory = {
  * dropped). Returns null unless the best price actually MOVED — a flat line says
  * nothing, so the chart only appears once there's a real trend. */
 export function buildPriceHistory(
-  listings: { url: string }[],
+  // `pack_size` must be carried through: for a multipack whose size came from
+  // cross-vendor consensus (not the URL), unitPriceCents can't recover it from
+  // the url alone — dropping it prices the pack as a single, which both doubles
+  // its per-unit points AND, by inflating the median, makes the plausibility
+  // guard reject genuine cheap per-unit prices as "noise". Mirrors what
+  // buildMotorAvailability already carries, so the two agree.
+  listings: { url: string; pack_size?: number | null }[],
   log: HistoryLog,
   nowIso: string,
 ): PriceHistory | null {
@@ -356,7 +362,7 @@ export function buildPriceHistory(
   if (Number.isNaN(now)) return null;
 
   const series = listings
-    .map((l) => ({ url: l.url, events: sortedEvents(log[l.url]?.events ?? []) }))
+    .map((l) => ({ url: l.url, pack_size: l.pack_size, events: sortedEvents(log[l.url]?.events ?? []) }))
     .filter((s) => s.events.length > 0);
   if (series.length === 0) return null;
 

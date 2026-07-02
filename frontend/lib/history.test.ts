@@ -363,6 +363,32 @@ describe("buildPriceHistory", () => {
     expect(ph.points.map((p) => p.cents)).toEqual([2000, 2200]);
   });
 
+  it("prices a consensus-resolved multipack per-unit via pack_size, not the URL", () => {
+    // A 2-pack whose SIZE came from cross-vendor consensus, not the URL (the url
+    // carries no "-2-pack" marker, so packFromUrl alone would read it as a
+    // single). buildPriceHistory must honour the carried pack_size and halve the
+    // pack total. Dropping it (the bug) doubles the per-unit points AND inflates
+    // the median, so genuine cheap per-unit prices get rejected as noise — the
+    // real F67W detail-page symptom (chart low $19.14 vs true $16.50).
+    const log: HistoryLog = {
+      "https://shop/f67-6w?variant=1": {
+        vendor_slug: "brm",
+        events: [
+          { t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 3000 }, // $30 pack → $15/unit
+          { t: "2026-06-05T00:00:00Z", status: "in_stock", price_cents: 4000 }, // $40 pack → $20/unit
+        ],
+      },
+    };
+    const ph = buildPriceHistory(
+      [{ url: "https://shop/f67-6w?variant=1", pack_size: 2 }],
+      log,
+      NOWP,
+    )!;
+    expect(ph.lowCents).toBe(1500); // $15/unit, NOT the $30 pack total
+    expect(ph.highCents).toBe(2000); // $20/unit, NOT $40
+    expect(ph.points.map((p) => p.cents)).toEqual([1500, 2000]);
+  });
+
   it("returns null when the price never moved (a flat line says nothing)", () => {
     const { log, listings } = oneVendor([
       { t: "2026-06-01T00:00:00Z", status: "in_stock", price_cents: 2000 },
