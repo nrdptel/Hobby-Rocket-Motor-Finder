@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ServiceWorker from "@/app/components/ServiceWorker";
 import { observancesForDate } from "@/lib/observances";
 
 const geistSans = Geist({
@@ -44,6 +45,17 @@ export const metadata: Metadata = {
     description,
     images: ["/og/default.png"],
   },
+  // Installable, offline-capable PWA (public/manifest.webmanifest + public/sw.js,
+  // registered by <ServiceWorker/>). Lets a flyer add the catalog to their home
+  // screen and open it — with the last-synced stock + "Snapshot generated" time —
+  // at the pad with no signal. (icon.svg / apple-icon.png are auto-detected from
+  // app/.)
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "HPR Motor Finder",
+    statusBarStyle: "black-translucent",
+  },
 };
 
 // Emits <meta name="color-scheme" content="light dark">. The browser reads this
@@ -52,6 +64,12 @@ export const metadata: Metadata = {
 // the white flash on refresh for dark-mode users.
 export const viewport: Viewport = {
   colorScheme: "light dark",
+  // Tint the browser/PWA chrome to match the active theme (near-black in dark,
+  // white in light) instead of a single fixed color.
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
 };
 
 // Apply the persisted theme choice as a class on <html>: `dark` or `light` for an
@@ -98,6 +116,7 @@ export default function RootLayout({
           />
         ))}
         {children}
+        <ServiceWorker />
       </body>
     </html>
   );

@@ -1,0 +1,16 @@
+{
+  "name": "HPR Motor Finder",
+  "short_name": "Motor Finder",
+  "description": "Live high-power rocket motor stock and pricing across U.S. vendors — works offline with the last-synced snapshot, so you have stock and its update time at the pad with no signal.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
