@@ -16328,10 +16328,10 @@
     "price_high_cents": 4523
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h283st-14a-38mm-dms-hazmat-1872.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:32",
-    "last_change_at": "2026-07-02T21:03:59+00:00",
+    "last_change_at": "2026-07-03T19:03:59+00:00",
     "last_in_stock_at": "2026-07-02T21:03:59+00:00",
     "last_restock_at": "2026-07-02T21:03:59+00:00",
     "restock_count": 1,
