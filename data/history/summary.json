@@ -31330,10 +31330,10 @@
     "price_high_cents": 5800
   },
   "https://www.balsamachining.com/hpmp.htm#077214": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-04T14:00:29+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32383,10 +32383,10 @@
     "price_high_cents": 3869
   },
   "https://www.balsamachining.com/hpmp.htm#07138L": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-04T14:00:29+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -33878,10 +33878,10 @@
     "price_high_cents": 4699
   },
   "https://www.balsamachining.com/hpmp.htm#0817014": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-04T14:00:29+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -39754,10 +39754,10 @@
     "price_high_cents": 7799
   },
   "https://www.balsamachining.com/hpmp.htm#109014": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-04T14:00:29+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
