@@ -24271,10 +24271,10 @@
     "price_high_cents": 53338
   },
   "https://wildmanrocketry.com/products/pr75-5g-g": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:39:11+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-07-07T05:00:45+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -24375,10 +24375,10 @@
     "price_high_cents": 53338
   },
   "https://wildmanrocketry.com/products/pr75-5g-r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:39:15+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-07-07T05:00:45+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
