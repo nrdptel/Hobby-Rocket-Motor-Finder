@@ -11826,7 +11826,7 @@
     "restock_count": 0,
     "price_current_cents": 18899,
     "price_prev_cents": 16799,
-    "price_low_cents": 16799,
+    "price_low_cents": 18899,
     "price_high_cents": 18899
   },
   "https://www.buyrocketmotors.com/products/aerotech-k456dm-14a-metalstorm-darkmatter?variant=50855079805225": {
@@ -12333,7 +12333,7 @@
     "restock_count": 0,
     "price_current_cents": 34499,
     "price_prev_cents": 30799,
-    "price_low_cents": 30799,
+    "price_low_cents": 34499,
     "price_high_cents": 34499
   },
   "https://www.buyrocketmotors.com/products/aerotech-l1000-18a-white-lightning-54-mm-dms?variant=50855116669225": {
@@ -13377,13 +13377,13 @@
     "price_high_cents": 40599
   },
   "https://wildmanrocketry.com/products/m2400t": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:16:13",
-    "last_change_at": "2026-07-01T23:00:27+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-07-10T00:00:37+00:00",
+    "last_in_stock_at": "2026-07-10T00:00:37+00:00",
+    "last_restock_at": "2026-07-10T00:00:37+00:00",
+    "restock_count": 1,
     "price_current_cents": 71999,
     "price_prev_cents": 64199,
     "price_low_cents": 71999,
