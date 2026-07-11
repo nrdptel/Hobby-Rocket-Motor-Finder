@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 253.99999999999994,
-    "samples": 918,
+    "samples": 919,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "amw": {
     "count": 279.9999999999999,
@@ -17,35 +17,35 @@
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 912,
-    "stock": 45.02672692202336,
+    "samples": 913,
+    "stock": 45.02004519151752,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "buyrocketmotors": {
     "count": 280.9999999999999,
-    "samples": 892,
-    "stock": 102.00007567918237,
+    "samples": 893,
+    "stock": 102.00005675938678,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "csrocketry": {
-    "count": 556.9999999995509,
-    "samples": 898,
-    "stock": 233.00000565684675,
+    "count": 556.9999999996633,
+    "samples": 899,
+    "stock": 233.00000424263507,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 924,
+    "samples": 925,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
@@ -57,19 +57,19 @@
   },
   "newcenturyrocketry": {
     "count": 95.0,
-    "samples": 568,
+    "samples": 569,
     "stock": 68.00000000000003,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "performancehobbies": {
     "count": 596.9999999999998,
-    "samples": 924,
+    "samples": 925,
     "stock": 113.00000000000003,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-07-11T01:07:32+00:00"
+    "updated_at": "2026-07-11T02:02:57+00:00"
   },
   "sirius": {
     "count": 307.9999999999999,
