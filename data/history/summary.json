@@ -11401,10 +11401,10 @@
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k1103x": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:01",
-    "last_change_at": "2026-07-01T22:00:29+00:00",
+    "last_change_at": "2026-07-11T02:47:01+00:00",
     "last_in_stock_at": "2026-07-01T22:00:29+00:00",
     "last_restock_at": "2026-06-21T05:06:15+00:00",
     "restock_count": 1,
@@ -16432,10 +16432,10 @@
     "price_high_cents": 6333
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h115dm-14a-29mm-dms-hazmat-1459.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:11",
-    "last_change_at": "2026-07-03T19:28:40+00:00",
+    "last_change_at": "2026-07-11T02:50:02+00:00",
     "last_in_stock_at": "2026-07-03T19:28:40+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17043,10 +17043,10 @@
     "price_high_cents": 10787
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j250w-14a-54mm-dms-hazmat-1650.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:23",
-    "last_change_at": "2026-07-03T19:29:53+00:00",
+    "last_change_at": "2026-07-11T02:51:14+00:00",
     "last_in_stock_at": "2026-07-03T19:29:53+00:00",
     "last_restock_at": null,
     "restock_count": 0,
