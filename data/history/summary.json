@@ -1989,10 +1989,10 @@
     "price_high_cents": 4499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/38mm/dms-rocket-motors/aerotech-h283-15a-super-thunder-dms-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:20",
-    "last_change_at": "2026-05-30T22:33:20",
+    "last_change_at": "2026-07-12T01:01:44+00:00",
     "last_in_stock_at": "2026-05-30T22:33:20",
     "last_restock_at": null,
     "restock_count": 0,
@@ -11375,10 +11375,10 @@
     "price_high_cents": 18899
   },
   "https://www.buyrocketmotors.com/products/aerotech-k1100t-14a-blue-thunder?variant=50855081935145": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:21",
-    "last_change_at": "2026-05-31T02:24:21",
+    "last_change_at": "2026-07-12T01:00:36+00:00",
     "last_in_stock_at": "2026-05-31T02:24:21",
     "last_restock_at": null,
     "restock_count": 0,
