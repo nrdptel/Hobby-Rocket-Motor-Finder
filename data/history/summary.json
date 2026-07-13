@@ -16341,10 +16341,10 @@
     "price_high_cents": 5579
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h550st-14a-38mm-dms-hazmat-1638.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:34",
-    "last_change_at": "2026-07-03T19:29:04+00:00",
+    "last_change_at": "2026-07-13T16:04:38+00:00",
     "last_in_stock_at": "2026-07-03T19:29:04+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16471,10 +16471,10 @@
     "price_high_cents": 4769
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h195nt-14a-29mm-dms-hazmat-1390.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:24",
-    "last_change_at": "2026-07-03T19:28:54+00:00",
+    "last_change_at": "2026-07-13T16:04:27+00:00",
     "last_in_stock_at": "2026-07-03T19:28:54+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -34866,10 +34866,10 @@
     "price_high_cents": 4700
   },
   "https://www.balsamachining.com/hpmp.htm#081914": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-13T16:00:40+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
