@@ -28,6 +28,31 @@ by `frontend/lib/publicApi.test.ts`.
 | `GET /api/v1/motors/{manufacturer}/{designation}.json` | A single motor. Slugs mirror the site's `/motor` URL — e.g. [`…/motors/aerotech/H128W.json`](https://motor.fusionspace.co/api/v1/motors/aerotech/H128W.json) (`manufacturer` ∈ `aerotech`/`cesaroni`/`loki`; a `/` in a designation is encoded as `~`). |
 | [`GET /api/v1/openapi.json`](https://motor.fusionspace.co/api/v1/openapi.json) | OpenAPI 3.1 spec for everything above (drop it into Swagger/Postman/codegen). |
 
+## Bulk availability feed
+
+[`GET /availability.json`](https://motor.fusionspace.co/availability.json) — one
+small (~30 KB) static file with a stock summary for **every** listed motor, so a
+client can badge a whole list ("in stock now · N vendors") from a single fetch
+instead of one page load per motor. Same origin CORS + ~10 min cache as the API;
+refreshed on the hourly build.
+
+```jsonc
+{
+  "_generated": "2026-07-14T02:00:00Z",   // ISO 8601 UTC
+  "motors": {
+    // key = "<manufacturer-slug>/<designation>", matching the /motor/<mfr>/<designation> URL
+    "aerotech/I161W":          { "vendors": 9, "inStock": 4 },  // 9 vendors list it; 4 have it in stock now
+    "cesaroni/1234J567-15A":   { "vendors": 3, "inStock": 0 }
+  }
+}
+```
+
+`vendors` = distinct vendors listing the motor; `inStock` = distinct vendors with
+it in stock right now (these mirror `vendor_count` / `in_stock_vendor_count` in
+the Motor schema below). Designations are verbatim as ThrustCurve spells them; the
+few containing a `/` (e.g. `aerotech/F42T/L`) are also emitted under the site's
+URL spelling with `/` → `~` (`aerotech/F42T~L`), so a lookup by either resolves.
+
 ## Schema
 
 Every payload carries `schema_version` (currently `1`) and `generated_at` (ISO
