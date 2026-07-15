@@ -7,9 +7,11 @@ import { describe, expect, it } from "vitest";
 import {
   SCHEMA_VERSION,
   buildApi,
+  buildAvailability,
   buildOpenApi,
   designationToSlug,
   hazmatStatus as hazmatStatusApi,
+  isoUtcZ,
   manufacturerSlug,
   motorApiPath,
   toPublicMotor,
@@ -167,6 +169,48 @@ describe("per-motor endpoint + slugs", () => {
     const one = api.perMotor.find((p: { path: string }) => p.path === "motors/aerotech/H128W.json");
     expect(one.payload.schema_version).toBe(SCHEMA_VERSION);
     expect(one.payload.motor.designation).toBe("H128W");
+  });
+});
+
+describe("buildAvailability (bulk feed for Muster)", () => {
+  const feed = buildAvailability(api);
+
+  it("keys by <mfr-slug>/<designation> over the same D+ listed set as the API", () => {
+    // Same universe as /api: motor 3 (no listings) + motor 4 (sub-D) are absent.
+    expect(Object.keys(feed.motors).sort()).toEqual(["aerotech/H128W", "cesaroni/J360"]);
+  });
+
+  it("summarizes distinct vendors + distinct in-stock vendors (no prices)", () => {
+    // H128W: 3 distinct vendors (csrocketry ×2, wildman, sirius), 2 in stock.
+    expect(feed.motors["aerotech/H128W"]).toEqual({ vendors: 3, inStock: 2 });
+    // J360: one vendor, out of stock.
+    expect(feed.motors["cesaroni/J360"]).toEqual({ vendors: 1, inStock: 0 });
+    // Summary only — no price/url fields leak in.
+    expect(Object.keys(feed.motors["aerotech/H128W"])).toEqual(["vendors", "inStock"]);
+  });
+
+  it("stamps _generated as ISO-8601 UTC with a Z suffix (no offset, no millis)", () => {
+    expect(feed._generated).toBe("2026-06-19T00:00:00Z");
+    expect(isoUtcZ("2026-07-03T01:03:02+00:00")).toBe("2026-07-03T01:03:02Z");
+    expect(isoUtcZ(null)).toBeNull();
+  });
+
+  it("also emits the '~' URL-path spelling as an alias for slashed designations", () => {
+    // A designation with '/' (a few AeroTech motors) — the site URL encodes it as
+    // '~'. Both the verbatim ThrustCurve key and the exact page-URL path resolve.
+    const snap2 = {
+      generated_at: "2026-06-19T00:00:00.000Z",
+      motors: [
+        {
+          id: 9, manufacturer: "AeroTech", designation: "F42T/L", diameter_mm: 29, impulse_class: "F",
+          listings: [listing({ vendor_slug: "wildman", vendor_name: "Wildman", url: "u", price_cents: 2000 })],
+        },
+      ],
+      unmatched: [],
+    };
+    const f2 = buildAvailability(buildApi(snap2));
+    expect(f2.motors["aerotech/F42T/L"]).toEqual({ vendors: 1, inStock: 1 }); // verbatim
+    expect(f2.motors["aerotech/F42T~L"]).toEqual({ vendors: 1, inStock: 1 }); // URL-path alias
   });
 });
 

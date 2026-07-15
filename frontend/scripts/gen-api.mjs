@@ -186,6 +186,50 @@ export function buildApi(snapshot) {
   };
 }
 
+/** Normalize an ISO-8601 instant to the "…Z" UTC spelling at second precision.
+ * The snapshot stamps generated_at as "+00:00"; Muster's feed advertises plain
+ * "…Z" (matching its documented example). Null/unparseable passes through. */
+export function isoUtcZ(ts) {
+  if (!ts) return null;
+  const d = new Date(ts);
+  return Number.isNaN(d.getTime()) ? ts : d.toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
+/**
+ * Compact BULK availability feed, written to the site root as /availability.json.
+ * Built for Muster (muster.fusionspace.co), which badges rocket-motor hardware
+ * compatibility and links here for stock: reading one small static file lets it
+ * badge a whole list ("in stock now · N vendors") from a single fetch, instead of
+ * a ~110 KB page load per motor to read that motor's schema.org AggregateOffer.
+ *
+ * A flat map of "<manufacturer-slug>/<designation>" → { vendors, inStock } over
+ * the SAME motor set the public API emits (listed, class D+), so every key lines
+ * up with a real /motor/<mfr>/<designation> page and the counts match /api/v1:
+ *   vendors = distinct vendors listing the motor          (API vendor_count)
+ *   inStock = distinct vendors with it in stock right now  (in_stock_vendor_count)
+ * Summary only — no prices (Muster shows availability, not price).
+ *
+ * Keys use the designation VERBATIM (as ThrustCurve spells it, and as Muster has
+ * it). A few AeroTech designations contain "/", which the site URL encodes as "~"
+ * (designationToSlug); for those we ALSO emit the "~" spelling as an alias, so a
+ * lookup by either the raw designation or the exact page-URL path resolves. No
+ * designation contains "~", so the two spellings never collide.
+ *
+ * Takes the already-built `api` (from buildApi) to reuse its tested filter +
+ * distinct-vendor counts — no separate motor walk to drift out of sync. Pure.
+ */
+export function buildAvailability(api) {
+  const motors = {};
+  for (const m of api.motors.motors) {
+    const mfr = manufacturerSlug(m.manufacturer);
+    const summary = { vendors: m.vendor_count, inStock: m.in_stock_vendor_count };
+    motors[`${mfr}/${m.designation}`] = summary;
+    const slug = designationToSlug(m.designation);
+    if (slug !== m.designation) motors[`${mfr}/${slug}`] = summary;
+  }
+  return { _generated: isoUtcZ(api.motors.generated_at), motors };
+}
+
 /** A small OpenAPI 3.1 document describing the endpoints + schemas. */
 export function buildOpenApi() {
   const listing = {
@@ -326,7 +370,8 @@ export function buildOpenApi() {
 async function main() {
   const here = dirname(fileURLToPath(import.meta.url));
   const dataDir = resolve(here, "..", "data");
-  const outDir = resolve(here, "..", "public", "api", "v1");
+  const publicDir = resolve(here, "..", "public");
+  const outDir = resolve(publicDir, "api", "v1");
   const readJson = async (name) => {
     try {
       return JSON.parse(await readFile(resolve(dataDir, name), "utf-8"));
@@ -340,6 +385,10 @@ async function main() {
   };
   const api = buildApi(snapshot);
   await mkdir(outDir, { recursive: true });
+  // Bulk availability feed at the site root (Muster reads this cross-origin; CORS
+  // for /availability.json is set in public/_headers). Written from the same api.
+  const availability = buildAvailability(api);
+  await writeFile(resolve(publicDir, "availability.json"), JSON.stringify(availability));
   await writeFile(resolve(outDir, "meta.json"), JSON.stringify(api.meta));
   await writeFile(resolve(outDir, "motors.json"), JSON.stringify(api.motors));
   await writeFile(resolve(outDir, "in-stock.json"), JSON.stringify(api.inStock));
@@ -358,6 +407,7 @@ async function main() {
   }
   console.log(
     `gen-api: wrote meta/motors/in-stock/vendors/openapi + ${api.perMotor.length} per-motor files ` +
+      `+ availability.json (${Object.keys(availability.motors).length} keys) ` +
       `(${api.meta.counts.motors} motors, ${api.meta.counts.in_stock} in stock, ${api.meta.counts.vendors} vendors)`,
   );
 }
