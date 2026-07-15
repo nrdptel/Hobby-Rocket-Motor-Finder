@@ -9,19 +9,19 @@
   },
   "amw": {
     "count": 279.9999999999999,
-    "samples": 871,
+    "samples": 872,
     "stock": 129.00000000000006,
     "streak": 0,
     "unmatched": 0.9999999999999998,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 1038,
-    "stock": 39.316481665453495,
+    "samples": 1039,
+    "stock": 39.23736124909012,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "buyrocketmotors": {
     "count": 280.9999999999999,
@@ -33,27 +33,27 @@
   },
   "csrocketry": {
     "count": 556.9999999999998,
-    "samples": 1024,
-    "stock": 231.0000000013472,
+    "samples": 1025,
+    "stock": 231.0000000010104,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 1050,
+    "samples": 1051,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
-    "samples": 871,
+    "samples": 872,
     "stock": 4.000000000000002,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "newcenturyrocketry": {
     "count": 95.0,
@@ -65,19 +65,19 @@
   },
   "performancehobbies": {
     "count": 596.9999999999998,
-    "samples": 1050,
-    "stock": 112.75000000000003,
+    "samples": 1051,
+    "stock": 112.56250000000003,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "sirius": {
     "count": 307.9999999999999,
-    "samples": 817,
-    "stock": 156.00000636393366,
+    "samples": 818,
+    "stock": 156.00000477295026,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-15T16:08:06+00:00"
+    "updated_at": "2026-07-15T17:07:43+00:00"
   },
   "wildman": {
     "count": 489.0000000000001,
