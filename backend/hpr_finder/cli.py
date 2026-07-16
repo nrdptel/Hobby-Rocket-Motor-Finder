@@ -156,12 +156,20 @@ async def _async_scrape_run(
             started = _utc_now().isoformat(timespec="seconds")
             run_id = db.start_run(conn, vendor_id, started)
 
+        # Route this vendor through the rotating proxy only if it opts in
+        # (use_proxy) AND the deploy secret is set. Unset secret → None → direct,
+        # so nothing changes for the vendors that scrape fine as-is.
+        proxy = os.environ.get("SCRAPER_PROXY_URL") if getattr(scraper, "use_proxy", False) else None
+
         ok, err, count = True, None, 0
         try:
             async with polite_async_client(
                 max_concurrent_per_host=max_concurrent,
                 min_start_interval_s=interval_s,
+                proxy=proxy,
             ) as client:
+                if proxy:
+                    typer.echo(f"{scraper.slug}: routing via proxy")
                 listings = await scraper.scrape(client, limit=limit, only_urls=only_urls_list)
             with db.connect() as conn:
                 count = db.upsert_listings(conn, vendor_id, listings)

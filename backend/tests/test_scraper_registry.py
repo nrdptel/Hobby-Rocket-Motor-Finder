@@ -79,3 +79,25 @@ def test_each_scraper_implements_scrape():
 
 def test_registry_is_non_empty():
     assert REGISTRY, "no scrapers registered"
+
+
+def test_proxy_opt_in_matches_the_known_blocked_vendors():
+    """Exactly the vendors whose WAF/CDN 429/403s the CI IP route through the
+    rotating proxy (use_proxy). This pins the set so a new proxy opt-in (or an
+    accidental one on a healthy vendor) is a deliberate, reviewed change. Every
+    other vendor must default to direct."""
+    expected_proxied = {
+        "aerotechdirect",
+        "buyrocketmotors",
+        "newcenturyrocketry",
+        "wildman",
+        "erockets",
+    }
+    proxied = {slug for slug, cls in REGISTRY.items() if getattr(cls, "use_proxy", False)}
+    assert proxied == expected_proxied, (
+        f"proxy opt-in drifted — unexpected: {proxied - expected_proxied}, "
+        f"missing: {expected_proxied - proxied}"
+    )
+    # Everyone defines the flag (inherited from base), defaulting False.
+    for cls in REGISTRY.values():
+        assert isinstance(cls.use_proxy, bool)

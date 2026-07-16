@@ -55,6 +55,7 @@ class ERocketsScraper(Scraper):
     # Few category-page GETs; host signals bot-wariness, so crawl slowly.
     max_concurrent_per_host = 1
     min_start_interval_s = 2.0
+    use_proxy = True  # Cloudflare 403s the CI data-center IP; go via proxy.
 
     async def scrape(
         self,

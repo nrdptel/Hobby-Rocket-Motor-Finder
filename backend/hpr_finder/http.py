@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import random
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -15,10 +16,12 @@ USER_AGENT = (
 
 DEFAULT_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
 
-# Transient server-side failures worth a retry. 429 is handled separately: it
-# means "you're going too fast," so we honor Retry-After and back off rather
-# than hammering again.
-RETRYABLE_STATUS = (502, 503, 504)
+# Statuses worth a retry after a backoff. 5xx are transient server hiccups; 429
+# (rate-limited) and 403 (often a WAF/bot block) are retried too — a retry routed
+# through a ROTATING proxy lands on a fresh IP, the most likely way past a per-IP
+# block, and even direct a short backoff can clear a soft rate limit. When the
+# server sends Retry-After we honor it in place of our own backoff.
+RETRYABLE_STATUS = (403, 429, 502, 503, 504)
 
 # A vendor sending an absurd Retry-After (or a malicious/buggy one) shouldn't be
 # able to stall the whole hourly run. Cap how long we'll honor it.
@@ -36,13 +39,19 @@ class PoliteAsyncClient:
     gives ~8 reqs/s sustained, suitable for a small ecommerce host that has no
     published Crawl-delay but should still be treated kindly.
 
-    Resilience: transient transport errors (connection resets, timeouts) and
-    transient server errors (502/503/504) are retried up to ``max_retries`` times
-    with exponential backoff. This is what keeps an intermittently-flaky vendor
-    (e.g. AMW/Sirius blocking CI data-center IPs on the first hit) from failing a
-    whole scrape on a single hiccup. A 429 is NOT retried — it means we're being
-    rate-limited, so we honor ``Retry-After`` by sleeping and return the response
-    so the caller spaces out naturally rather than retrying into the same wall.
+    Resilience: transient transport errors (connection resets, timeouts) and the
+    retryable statuses above (5xx, plus 429/403) are retried up to ``max_retries``
+    times with exponentially-growing, jittered backoff — the jitter keeps parallel
+    retries from re-synchronizing into a thundering herd. This is what keeps an
+    intermittently-flaky or rate-limiting vendor from failing a whole scrape on a
+    single hiccup; paired with a rotating proxy (``proxy=``), each 429/403 retry
+    also arrives on a fresh IP. ``Retry-After`` is honored when present. If the
+    retries are exhausted the final response is still RETURNED (not raised), so a
+    persistently-blocked vendor degrades to carry-forward rather than crashing.
+
+    ``proxy``: an optional proxy URL (e.g. a rotating residential endpoint). When
+    None — the default, and whenever the deploy secret is unset — every request
+    goes out on the direct connection exactly as before.
     """
 
     def __init__(
@@ -53,12 +62,14 @@ class PoliteAsyncClient:
         max_retries: int = 2,
         backoff_base_s: float = 0.5,
         timeout: httpx.Timeout = DEFAULT_TIMEOUT,
+        proxy: str | None = None,
     ) -> None:
         self._client = httpx.AsyncClient(
             headers={"User-Agent": USER_AGENT, "Accept": "*/*"},
             timeout=timeout,
             follow_redirects=True,
             limits=httpx.Limits(max_connections=max_concurrent_per_host * 4),
+            proxy=proxy,  # None → direct connection (unchanged behavior)
         )
         self._max_concurrent = max_concurrent_per_host
         self._min_interval_s = min_start_interval_s
@@ -99,6 +110,13 @@ class PoliteAsyncClient:
         except ValueError:
             return None
 
+    def _backoff_delay(self, attempt: int) -> float:
+        """Exponential backoff with jitter: a random wait in ``[d, 2d)`` where
+        ``d = backoff_base_s * 2**attempt``. The floor guarantees a real pause on a
+        struggling host; the jitter desynchronizes concurrent retries."""
+        d = self._backoff_base_s * 2**attempt
+        return d + random.uniform(0.0, d)
+
     async def get(self, url: str, **kwargs) -> httpx.Response:
         host = httpx.URL(url).host
         sem = self._semaphore_for(host)
@@ -113,19 +131,19 @@ class PoliteAsyncClient:
                     # Connection reset / timeout / protocol error: retry if we can.
                     last_exc = exc
                     if attempt < self._max_retries:
-                        await asyncio.sleep(self._backoff_base_s * 2**attempt)
+                        await asyncio.sleep(self._backoff_delay(attempt))
                         continue
                     raise
-                if resp.status_code == 429:
-                    # Rate-limited: honor Retry-After, then return (don't retry).
-                    ra = self._retry_after_seconds(resp)
-                    if ra is not None:
-                        await asyncio.sleep(ra)
-                    return resp
                 if resp.status_code in RETRYABLE_STATUS and attempt < self._max_retries:
+                    # Transient / rate-limited / blocked: back off (honoring
+                    # Retry-After when sent) and retry — through a rotating proxy the
+                    # retry is a fresh IP.
                     ra = self._retry_after_seconds(resp)
-                    await asyncio.sleep(ra if ra is not None else self._backoff_base_s * 2**attempt)
+                    await asyncio.sleep(ra if ra is not None else self._backoff_delay(attempt))
                     continue
+                # Success, a non-retryable status, or retries exhausted: hand the
+                # response back so the caller decides. A final 429/403 returns (not
+                # raises), so a blocked vendor carries forward instead of crashing.
                 return resp
             # Unreachable for status paths (they return); only transport errors
             # exhaust the loop, and the final attempt re-raises above.
@@ -142,11 +160,13 @@ async def polite_async_client(
     max_concurrent_per_host: int = 4,
     min_start_interval_s: float = 0.5,
     max_retries: int = 2,
+    proxy: str | None = None,
 ) -> AsyncIterator[PoliteAsyncClient]:
     c = PoliteAsyncClient(
         max_concurrent_per_host=max_concurrent_per_host,
         min_start_interval_s=min_start_interval_s,
         max_retries=max_retries,
+        proxy=proxy,
     )
     try:
         yield c

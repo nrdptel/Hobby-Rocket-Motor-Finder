@@ -54,6 +54,11 @@ jobs:
         run: hpr catalog refresh
 
       - name: Scrape all vendors
+        # Rotating residential proxy for the vendors whose WAF/CDN 429/403s the CI
+        # data-center IP (opt-in per scraper via use_proxy). Unset → those vendors
+        # scrape direct, unchanged. Only the blocked vendors' traffic is proxied.
+        env:
+          SCRAPER_PROXY_URL: ${{ secrets.SCRAPER_PROXY_URL }}
         run: hpr scrape run all
 
       - name: Export snapshot (resilient to a flaky vendor)

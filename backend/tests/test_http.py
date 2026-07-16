@@ -160,17 +160,19 @@ async def test_concurrency_cap_enforced_per_host():
 # --- Retry-After honoring ---------------------------------------------------
 
 @pytest.mark.asyncio
-async def test_retry_after_sleeps_before_returning_429():
-    """A 429 with ``Retry-After: 0.15`` (seconds) must produce at least
-    ~150ms of waiting before the response is returned. The client doesn't
-    retry — it just sleeps, so the caller's next attempt is naturally
-    spaced. (We choose 429 because 503 is identical here.)"""
+async def test_retry_after_honored_before_429_retry():
+    """A 429 carrying ``Retry-After: 0.15`` waits at least ~150ms before the
+    retry — we honor the host's requested pause instead of our own backoff. The
+    retry then succeeds and that 200 is returned."""
     RETRY_AFTER = 0.15
+    attempts = 0
 
     def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(
-            429, text="too many", headers={"Retry-After": str(RETRY_AFTER)}
-        )
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            return httpx.Response(429, text="too many", headers={"Retry-After": str(RETRY_AFTER)})
+        return httpx.Response(200, text="ok")
 
     pc = _make_client_with_mock_transport(handler, min_start_interval_s=0.0)
     try:
@@ -181,7 +183,8 @@ async def test_retry_after_sleeps_before_returning_429():
     finally:
         await pc.close()
 
-    assert resp.status_code == 429
+    assert resp.status_code == 200
+    assert attempts == 2
     assert elapsed >= RETRY_AFTER - 0.01, (
         f"elapsed {elapsed:.3f}s < Retry-After {RETRY_AFTER}s — header was ignored"
     )
@@ -295,9 +298,10 @@ async def test_transport_error_raised_after_retries_exhausted():
 
 
 @pytest.mark.asyncio
-async def test_429_is_not_retried():
-    """A 429 is honored via Retry-After sleep and returned — NOT retried, so we
-    don't hammer a host that just told us to slow down."""
+async def test_429_retried_then_returns_final():
+    """A 429 is now retried with backoff (through a rotating proxy each retry is a
+    fresh IP). If it persists through every attempt, the final 429 is RETURNED —
+    the vendor degrades to carry-forward rather than crashing the run."""
     attempts = 0
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -312,7 +316,53 @@ async def test_429_is_not_retried():
         await pc.close()
 
     assert resp.status_code == 429
-    assert attempts == 1
+    assert attempts == 3  # initial + 2 retries, then returned (not raised)
+
+
+@pytest.mark.asyncio
+async def test_403_retried_then_succeeds():
+    """A 403 (WAF/bot block) is retried — through a rotating proxy the retry lands
+    on a fresh IP, which is the whole point of routing blocked vendors via proxy."""
+    attempts = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        if attempts == 1:
+            return httpx.Response(403, text="forbidden")
+        return httpx.Response(200, text="ok")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/blocked")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert attempts == 2
+
+
+@pytest.mark.asyncio
+async def test_proxy_is_forwarded_to_httpx_client(monkeypatch):
+    """PoliteAsyncClient(proxy=...) must hand the proxy straight to the underlying
+    httpx.AsyncClient; the default (no proxy) passes None so traffic goes direct."""
+    captured: list[dict] = []
+    real = httpx.AsyncClient
+
+    def spy(*args, **kwargs):
+        captured.append(kwargs)
+        return real(*args, **kwargs)
+
+    monkeypatch.setattr(httpx, "AsyncClient", spy)
+
+    with_proxy = PoliteAsyncClient(proxy="http://user:pass@gw.example:823")
+    without = PoliteAsyncClient()
+    try:
+        assert captured[0].get("proxy") == "http://user:pass@gw.example:823"
+        assert captured[1].get("proxy") is None
+    finally:
+        await with_proxy.close()
+        await without.close()
 
 
 @pytest.mark.asyncio

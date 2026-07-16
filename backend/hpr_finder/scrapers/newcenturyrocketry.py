@@ -65,6 +65,7 @@ class NewCenturyRocketryScraper(Scraper):
     # the conservative cadence the other Shopify vendors use from GH Actions.
     max_concurrent_per_host = 2
     min_start_interval_s = 1.0
+    use_proxy = True  # Shopify/Cloudflare 429s the CI data-center IP; go via proxy.
 
     async def scrape(
         self,
