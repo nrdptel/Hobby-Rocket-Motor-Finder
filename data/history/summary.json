@@ -48467,14 +48467,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-19T14:00:28+00:00",
-    "last_change_at": "2026-06-19T14:00:28+00:00",
+    "last_change_at": "2026-07-16T21:00:29+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4599,
-    "price_prev_cents": null,
+    "price_current_cents": 5049,
+    "price_prev_cents": 4599,
     "price_low_cents": 4599,
-    "price_high_cents": 4599
+    "price_high_cents": 5049
   },
   "https://newcenturyrocketry.shop/products/aerotech-rms-29-180-h165r-14a-redline-model-rocket-motor-reload-kit": {
     "currently_in_stock": false,
@@ -48597,14 +48597,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-19T14:00:28+00:00",
-    "last_change_at": "2026-06-19T14:00:28+00:00",
+    "last_change_at": "2026-07-16T21:00:29+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2599,
-    "price_prev_cents": null,
+    "price_current_cents": 2949,
+    "price_prev_cents": 2599,
     "price_low_cents": 2599,
-    "price_high_cents": 2599
+    "price_high_cents": 2949
   },
   "https://aerotech-rocketry.com/products/aerotech-classic-enerjet\u00ae-g73c-enerjet\u00ae-30-29mm-single-use-rocket-motor-77311-copy-1": {
     "currently_in_stock": false,
