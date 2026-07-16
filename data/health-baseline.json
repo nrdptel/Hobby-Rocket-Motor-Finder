@@ -1,11 +1,11 @@
 {
   "aerotechdirect": {
     "count": 253.99999999999994,
-    "samples": 1032,
+    "samples": 1033,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-16T02:07:57+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "amw": {
     "count": 279.9999999999999,
@@ -17,35 +17,35 @@
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 1051,
-    "stock": 39.00751873848305,
+    "samples": 1052,
+    "stock": 39.00563905386229,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-16T10:52:17+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "buyrocketmotors": {
     "count": 280.9999999999999,
-    "samples": 993,
-    "stock": 98.61549360068253,
+    "samples": 994,
+    "stock": 98.7116202005119,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-16T10:52:17+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "csrocketry": {
     "count": 556.9999999999998,
-    "samples": 1037,
-    "stock": 230.316406250032,
+    "samples": 1038,
+    "stock": 230.237304687524,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-16T10:52:17+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 1063,
+    "samples": 1064,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-16T10:52:17+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
@@ -57,19 +57,19 @@
   },
   "newcenturyrocketry": {
     "count": 95.0,
-    "samples": 683,
+    "samples": 684,
     "stock": 68.00000000000003,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-16T10:52:17+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "performancehobbies": {
     "count": 596.9999999999998,
-    "samples": 1063,
-    "stock": 112.01781794801357,
+    "samples": 1064,
+    "stock": 112.01336346101019,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-07-16T10:52:17+00:00"
+    "updated_at": "2026-07-16T11:04:19+00:00"
   },
   "sirius": {
     "count": 307.9999999999999,
