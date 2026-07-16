@@ -130,6 +130,22 @@ def scrape_run(
     asyncio.run(_async_scrape_run(vendor, limit, interval, concurrency, min_diameter_mm, list(only_urls) if only_urls else None))
 
 
+def _normalize_proxy_url(raw: str | None) -> str | None:
+    """The SCRAPER_PROXY_URL env value made safe for httpx. None when unset/blank.
+
+    httpx requires a scheme; a very common mistake is pasting a proxy endpoint as
+    ``user:pass@host:port`` with no ``http://``. Default a scheme-less value to
+    ``http://`` (what these residential endpoints use) instead of letting httpx
+    raise ``Unknown scheme`` — which, since the fail-over proxy is built for every
+    vendor, would otherwise crash the whole scrape."""
+    raw = (raw or "").strip()
+    if not raw:
+        return None
+    if "://" not in raw:
+        raw = "http://" + raw
+    return raw
+
+
 async def _async_scrape_run(
     vendor: str,
     limit: int | None,
@@ -159,7 +175,7 @@ async def _async_scrape_run(
         # Proxy fail-over endpoint, shared by every vendor: requests go direct and
         # only retry through the proxy if a vendor 429/403s us (see PoliteAsyncClient).
         # Unset secret → None → no proxy client, everyone stays direct as before.
-        proxy_fallback = os.environ.get("SCRAPER_PROXY_URL") or None
+        proxy_fallback = _normalize_proxy_url(os.environ.get("SCRAPER_PROXY_URL"))
 
         ok, err, count = True, None, 0
         try:

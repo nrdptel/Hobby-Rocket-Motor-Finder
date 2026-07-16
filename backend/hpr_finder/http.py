@@ -85,9 +85,17 @@ class PoliteAsyncClient:
         self._client = httpx.AsyncClient(**common)
         # A second client bound to the proxy, built only when a fallback endpoint is
         # given. Lazy: httpx opens no connection until a request actually fails over.
-        self._proxy_client = (
-            httpx.AsyncClient(proxy=proxy_fallback, **common) if proxy_fallback else None
-        )
+        # A malformed proxy URL must NOT crash scraping — the proxy is best-effort,
+        # so on a bad value we log and carry on direct-only (no fail-over).
+        self._proxy_client: httpx.AsyncClient | None = None
+        if proxy_fallback:
+            try:
+                self._proxy_client = httpx.AsyncClient(proxy=proxy_fallback, **common)
+            except Exception:  # noqa: BLE001 — any bad proxy config; degrade, don't crash
+                log.warning(
+                    "SCRAPER_PROXY_URL is not a usable proxy URL — scraping direct "
+                    "with no fail-over"
+                )
         self._max_concurrent = max_concurrent_per_host
         self._min_interval_s = min_start_interval_s
         self._max_retries = max_retries

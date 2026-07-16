@@ -12,6 +12,23 @@ import typer
 
 import hpr_finder.cli as cli
 import hpr_finder.db as db
+from hpr_finder.cli import _normalize_proxy_url
+
+
+def test_normalize_proxy_url_defaults_missing_scheme_to_http():
+    """A scheme-less endpoint (the real outage: SCRAPER_PROXY_URL saved as
+    'user:pass@host:port') gets an http:// prefix so httpx accepts it; a value that
+    already has a scheme is left alone; blank/unset → None."""
+    assert _normalize_proxy_url("user:pass@gw.dataimpulse.com:823") == (
+        "http://user:pass@gw.dataimpulse.com:823"
+    )
+    assert _normalize_proxy_url("http://u:p@h:1") == "http://u:p@h:1"
+    assert _normalize_proxy_url("https://u:p@h:1") == "https://u:p@h:1"
+    assert _normalize_proxy_url("socks5://h:1") == "socks5://h:1"
+    assert _normalize_proxy_url("  gw.host:823  ") == "http://gw.host:823"
+    assert _normalize_proxy_url("") is None
+    assert _normalize_proxy_url(None) is None
+    assert _normalize_proxy_url("   ") is None
 
 
 class _OkScraper:

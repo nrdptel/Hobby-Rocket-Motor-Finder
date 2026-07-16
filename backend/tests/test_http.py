@@ -383,6 +383,26 @@ async def test_proxy_fallback_builds_a_second_proxied_client(monkeypatch):
         await direct_only.close()
 
 
+@pytest.mark.asyncio
+async def test_bad_proxy_url_disables_failover_without_crashing():
+    """A malformed proxy URL (httpx rejects the scheme) must NOT raise at
+    construction — it disables fail-over (no proxy client) and scraping continues
+    direct. This is the guard for the outage where a scheme-less SCRAPER_PROXY_URL
+    crashed every vendor with 'Unknown scheme for proxy URL'."""
+    pc = PoliteAsyncClient(proxy_fallback="ftp://not-a-valid-proxy-scheme:1")
+    try:
+        assert pc._proxy_client is None  # fail-over silently disabled
+        # And the direct client still works — swap in a mock and fetch.
+        pc._client = httpx.AsyncClient(
+            transport=httpx.MockTransport(lambda req: httpx.Response(200, text="ok")),
+            headers={"User-Agent": USER_AGENT},
+        )
+        resp = await pc.get("https://example.com/")
+        assert resp.status_code == 200
+    finally:
+        await pc.close()
+
+
 # --- proxy fail-over --------------------------------------------------------
 
 @pytest.mark.asyncio
