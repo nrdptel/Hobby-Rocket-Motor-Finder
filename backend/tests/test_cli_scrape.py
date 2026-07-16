@@ -69,60 +69,50 @@ async def test_scrape_all_isolates_one_vendor_failure(monkeypatch, tmp_path):
     assert states["boom"] == 0, "failed vendor should be recorded failed, not crash the run"
 
 
-class _ProxiedScraper(_OkScraper):
-    slug = "proxied"
-    name = "Proxied Vendor"
-    use_proxy = True
-
-
-class _DirectScraper(_OkScraper):
-    slug = "direct"
-    name = "Direct Vendor"
-    use_proxy = False
+class _Vendor2Scraper(_OkScraper):
+    slug = "ok2"
+    name = "OK Vendor 2"
 
 
 @pytest.mark.asyncio
-async def test_proxy_routed_only_for_opted_in_vendors(monkeypatch, tmp_path):
-    """With SCRAPER_PROXY_URL set, a use_proxy vendor's client is built with the
-    proxy URL and a non-opted-in vendor's client is built with proxy=None — so
-    only the blocked vendors go through the proxy, everyone else stays direct."""
+async def test_proxy_fallback_passed_to_every_vendor_when_secret_set(monkeypatch, tmp_path):
+    """SCRAPER_PROXY_URL is handed to EVERY vendor's client as the proxy fail-over
+    endpoint (the client only actually uses it on a 429/403). Universal, no
+    per-vendor allow-list — any vendor that gets blocked self-heals via the proxy."""
     db_path = tmp_path / "hpr.db"
     monkeypatch.setattr(db, "DEFAULT_DB_PATH", db_path)
-    monkeypatch.setattr(cli, "REGISTRY", {"proxied": _ProxiedScraper, "direct": _DirectScraper})
+    monkeypatch.setattr(cli, "REGISTRY", {"ok": _OkScraper, "ok2": _Vendor2Scraper})
     monkeypatch.setenv("SCRAPER_PROXY_URL", "http://user:pass@gw.example:823")
 
     seen: list[str | None] = []
     real = cli.polite_async_client
 
-    def spy(*args, proxy=None, **kwargs):
-        seen.append(proxy)
-        return real(*args, proxy=proxy, **kwargs)
+    def spy(*args, proxy_fallback=None, **kwargs):
+        seen.append(proxy_fallback)
+        return real(*args, proxy_fallback=proxy_fallback, **kwargs)
 
     monkeypatch.setattr(cli, "polite_async_client", spy)
 
     await cli._async_scrape_run("all", None, None, None, 0, None)
 
-    # One client was built WITH the proxy URL (the opted-in vendor), one with None.
-    assert "http://user:pass@gw.example:823" in seen
-    assert None in seen
-    assert len(seen) == 2
+    assert seen == ["http://user:pass@gw.example:823"] * 2
 
 
 @pytest.mark.asyncio
-async def test_no_proxy_when_secret_unset(monkeypatch, tmp_path):
-    """Even a use_proxy vendor scrapes direct when the secret isn't set — the
-    feature is inert until a proxy is configured."""
+async def test_no_proxy_fallback_when_secret_unset(monkeypatch, tmp_path):
+    """No secret → proxy_fallback=None for every vendor → no proxy client at all.
+    The feature is inert until a proxy is configured."""
     db_path = tmp_path / "hpr.db"
     monkeypatch.setattr(db, "DEFAULT_DB_PATH", db_path)
-    monkeypatch.setattr(cli, "REGISTRY", {"proxied": _ProxiedScraper})
+    monkeypatch.setattr(cli, "REGISTRY", {"ok": _OkScraper})
     monkeypatch.delenv("SCRAPER_PROXY_URL", raising=False)
 
     seen: list[str | None] = []
     real = cli.polite_async_client
 
-    def spy(*args, proxy=None, **kwargs):
-        seen.append(proxy)
-        return real(*args, proxy=proxy, **kwargs)
+    def spy(*args, proxy_fallback=None, **kwargs):
+        seen.append(proxy_fallback)
+        return real(*args, proxy_fallback=proxy_fallback, **kwargs)
 
     monkeypatch.setattr(cli, "polite_async_client", spy)
 

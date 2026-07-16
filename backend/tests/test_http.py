@@ -28,23 +28,31 @@ def _make_client_with_mock_transport(
     min_start_interval_s: float = 0.0,
     max_retries: int = 2,
     backoff_base_s: float = 0.0,
+    proxy_handler=None,
 ) -> PoliteAsyncClient:
-    """Build a PoliteAsyncClient whose underlying transport is mocked.
+    """Build a PoliteAsyncClient whose underlying transport(s) are mocked.
 
-    The handler is invoked for every request; tests use it to record
-    timestamps, return canned responses, or vary by URL. ``backoff_base_s``
-    defaults to 0 so retry tests don't sleep on real wall-clock.
+    ``handler`` serves the DIRECT client. When ``proxy_handler`` is given, a
+    second mocked client stands in for the proxy path, so fail-over tests can make
+    the proxy behave differently from direct. ``backoff_base_s`` defaults to 0 so
+    retry tests don't sleep on real wall-clock.
     """
     pc = PoliteAsyncClient(
         max_concurrent_per_host=max_concurrent_per_host,
         min_start_interval_s=min_start_interval_s,
         max_retries=max_retries,
         backoff_base_s=backoff_base_s,
+        proxy_fallback="http://proxy.test:823" if proxy_handler is not None else None,
     )
     pc._client = httpx.AsyncClient(
         transport=httpx.MockTransport(handler),
         headers={"User-Agent": USER_AGENT},
     )
+    if proxy_handler is not None:
+        pc._proxy_client = httpx.AsyncClient(
+            transport=httpx.MockTransport(proxy_handler),
+            headers={"User-Agent": USER_AGENT},
+        )
     return pc
 
 
@@ -299,9 +307,9 @@ async def test_transport_error_raised_after_retries_exhausted():
 
 @pytest.mark.asyncio
 async def test_429_retried_then_returns_final():
-    """A 429 is now retried with backoff (through a rotating proxy each retry is a
-    fresh IP). If it persists through every attempt, the final 429 is RETURNED —
-    the vendor degrades to carry-forward rather than crashing the run."""
+    """A 429 is retried with backoff. If it persists through every attempt the final
+    429 is RETURNED (not raised) so the vendor degrades to carry-forward rather than
+    crashing. (This is the no-proxy path; fail-over is covered separately.)"""
     attempts = 0
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -321,8 +329,8 @@ async def test_429_retried_then_returns_final():
 
 @pytest.mark.asyncio
 async def test_403_retried_then_succeeds():
-    """A 403 (WAF/bot block) is retried — through a rotating proxy the retry lands
-    on a fresh IP, which is the whole point of routing blocked vendors via proxy."""
+    """A 403 (WAF/bot block) is retryable: a transient one clears on the retry.
+    (Direct path here — proxy fail-over is covered separately.)"""
     attempts = 0
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -343,9 +351,10 @@ async def test_403_retried_then_succeeds():
 
 
 @pytest.mark.asyncio
-async def test_proxy_is_forwarded_to_httpx_client(monkeypatch):
-    """PoliteAsyncClient(proxy=...) must hand the proxy straight to the underlying
-    httpx.AsyncClient; the default (no proxy) passes None so traffic goes direct."""
+async def test_proxy_fallback_builds_a_second_proxied_client(monkeypatch):
+    """proxy_fallback=<url> builds a SECOND httpx client bound to that proxy while
+    the direct client stays proxy-less. With no fallback there's only the direct
+    client and no proxy path at all."""
     captured: list[dict] = []
     real = httpx.AsyncClient
 
@@ -355,14 +364,122 @@ async def test_proxy_is_forwarded_to_httpx_client(monkeypatch):
 
     monkeypatch.setattr(httpx, "AsyncClient", spy)
 
-    with_proxy = PoliteAsyncClient(proxy="http://user:pass@gw.example:823")
-    without = PoliteAsyncClient()
+    with_proxy = PoliteAsyncClient(proxy_fallback="http://user:pass@gw.example:823")
     try:
-        assert captured[0].get("proxy") == "http://user:pass@gw.example:823"
-        assert captured[1].get("proxy") is None
+        # Direct client is built first (no proxy), then the proxied fallback client.
+        assert captured[0].get("proxy") is None
+        assert captured[1].get("proxy") == "http://user:pass@gw.example:823"
+        assert with_proxy._proxy_client is not None
     finally:
         await with_proxy.close()
-        await without.close()
+
+    captured.clear()
+    direct_only = PoliteAsyncClient()
+    try:
+        assert len(captured) == 1  # only the direct client, no proxy path
+        assert captured[0].get("proxy") is None
+        assert direct_only._proxy_client is None
+    finally:
+        await direct_only.close()
+
+
+# --- proxy fail-over --------------------------------------------------------
+
+@pytest.mark.asyncio
+async def test_429_fails_over_to_proxy_then_succeeds():
+    """Direct-first: a 429 from the direct connection fails the retry over to the
+    proxy, whose fresh IP succeeds. The direct client is hit once, the proxy once."""
+    direct_hits = 0
+    proxy_hits = 0
+
+    def direct(request: httpx.Request) -> httpx.Response:
+        nonlocal direct_hits
+        direct_hits += 1
+        return httpx.Response(429, text="blocked")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        nonlocal proxy_hits
+        proxy_hits += 1
+        return httpx.Response(200, text="ok via proxy")
+
+    pc = _make_client_with_mock_transport(direct, proxy_handler=proxy, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/blocked")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert resp.text == "ok via proxy"
+    assert direct_hits == 1 and proxy_hits == 1
+
+
+@pytest.mark.asyncio
+async def test_403_fails_over_to_proxy():
+    """A 403 (WAF/bot block) also triggers the proxy fail-over."""
+    seen: list[str] = []
+
+    def direct(request: httpx.Request) -> httpx.Response:
+        seen.append("direct")
+        return httpx.Response(403, text="forbidden")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        seen.append("proxy")
+        return httpx.Response(200, text="ok")
+
+    pc = _make_client_with_mock_transport(direct, proxy_handler=proxy, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/blocked")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert seen == ["direct", "proxy"]
+
+
+@pytest.mark.asyncio
+async def test_5xx_does_not_fail_over_to_proxy():
+    """A 503 is a server hiccup, not a per-IP block — the retry stays on the direct
+    connection and the proxy is never touched (no wasted proxy bandwidth)."""
+    proxy_touched = False
+
+    def direct(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(503, text="unavailable")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        nonlocal proxy_touched
+        proxy_touched = True
+        return httpx.Response(200, text="should not be used")
+
+    pc = _make_client_with_mock_transport(direct, proxy_handler=proxy, max_retries=2)
+    try:
+        resp = await pc.get("https://example.com/down")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 503  # exhausted on direct, returned
+    assert proxy_touched is False, "5xx must not fail over to the proxy"
+
+
+@pytest.mark.asyncio
+async def test_no_proxy_configured_stays_direct_on_429():
+    """With no proxy_fallback, a 429 just retries on the direct connection and
+    returns the final 429 — the pre-proxy behavior, unchanged when the secret is
+    unset."""
+    attempts = 0
+
+    def direct(request: httpx.Request) -> httpx.Response:
+        nonlocal attempts
+        attempts += 1
+        return httpx.Response(429, text="slow down")
+
+    pc = _make_client_with_mock_transport(direct, max_retries=2)  # no proxy_handler
+    try:
+        resp = await pc.get("https://example.com/throttled")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 429
+    assert attempts == 3  # initial + 2 retries, all direct
 
 
 @pytest.mark.asyncio

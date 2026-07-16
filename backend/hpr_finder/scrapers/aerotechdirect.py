@@ -98,7 +98,6 @@ class AeroTechDirectScraper(Scraper):
     # Shopify host; modest pagination. Be gentle.
     max_concurrent_per_host = 2
     min_start_interval_s = 0.5
-    use_proxy = True  # Cloudflare 429s the CI data-center IP; go via proxy.
 
     async def scrape(
         self,

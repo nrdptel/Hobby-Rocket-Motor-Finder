@@ -16,11 +16,6 @@ class Scraper(ABC):
     # Politeness defaults; overridable per-vendor.
     max_concurrent_per_host: int = 4
     min_start_interval_s: float = 0.5
-    # Route this vendor's requests through the rotating proxy (SCRAPER_PROXY_URL)
-    # when that secret is set. Opt-in per vendor: only sites that block the CI
-    # data-center IP (429/403) need it; everyone else scrapes direct. No-op when
-    # the secret is unset, so this is inert until a proxy is configured.
-    use_proxy: bool = False
 
     @abstractmethod
     async def scrape(
