@@ -29,6 +29,7 @@ def _make_client_with_mock_transport(
     max_retries: int = 2,
     backoff_base_s: float = 0.0,
     proxy_handler=None,
+    max_proxy_failovers: int = 40,
 ) -> PoliteAsyncClient:
     """Build a PoliteAsyncClient whose underlying transport(s) are mocked.
 
@@ -43,6 +44,7 @@ def _make_client_with_mock_transport(
         max_retries=max_retries,
         backoff_base_s=backoff_base_s,
         proxy_fallback="http://proxy.test:823" if proxy_handler is not None else None,
+        max_proxy_failovers=max_proxy_failovers,
     )
     pc._client = httpx.AsyncClient(
         transport=httpx.MockTransport(handler),
@@ -478,6 +480,37 @@ async def test_5xx_does_not_fail_over_to_proxy():
 
     assert resp.status_code == 503  # exhausted on direct, returned
     assert proxy_touched is False, "5xx must not fail over to the proxy"
+
+
+@pytest.mark.asyncio
+async def test_proxy_failover_budget_caps_proxied_requests():
+    """The per-run proxy budget bounds how many requests may use the proxy. With a
+    budget of 1, a blocked vendor's first request fails over (recovers via proxy),
+    but a second blocked request is over budget → stays direct and returns the block.
+    This is the guard against a blocked high-volume vendor routing hundreds of
+    fetches through the metered proxy."""
+    proxy_hits = 0
+
+    def direct(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(429, text="blocked")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        nonlocal proxy_hits
+        proxy_hits += 1
+        return httpx.Response(200, text="ok via proxy")
+
+    pc = _make_client_with_mock_transport(
+        direct, proxy_handler=proxy, max_retries=2, max_proxy_failovers=1
+    )
+    try:
+        first = await pc.get("https://example.com/a")   # fails over (budget 1/1)
+        second = await pc.get("https://example.com/b")   # over budget → stays direct
+    finally:
+        await pc.close()
+
+    assert first.status_code == 200      # recovered via proxy
+    assert second.status_code == 429     # budget spent → direct → returns the block
+    assert proxy_hits == 1               # the proxy was used exactly once
 
 
 @pytest.mark.asyncio
