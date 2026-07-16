@@ -61,7 +61,6 @@ class BuyRocketMotorsScraper(Scraper):
     # per-product-fetch pace is no longer needed; keep it polite regardless.
     max_concurrent_per_host = 2
     min_start_interval_s = 0.5
-    use_proxy = True  # Shopify/Cloudflare 429s the CI data-center IP; go via proxy.
 
     async def scrape(
         self,

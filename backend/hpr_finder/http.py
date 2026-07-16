@@ -2,11 +2,14 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import random
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 import httpx
+
+log = logging.getLogger(__name__)
 
 USER_AGENT = (
     "HPRMotorFinder/0.1 "
@@ -17,11 +20,16 @@ USER_AGENT = (
 DEFAULT_TIMEOUT = httpx.Timeout(30.0, connect=10.0)
 
 # Statuses worth a retry after a backoff. 5xx are transient server hiccups; 429
-# (rate-limited) and 403 (often a WAF/bot block) are retried too — a retry routed
-# through a ROTATING proxy lands on a fresh IP, the most likely way past a per-IP
-# block, and even direct a short backoff can clear a soft rate limit. When the
-# server sends Retry-After we honor it in place of our own backoff.
+# (rate-limited) and 403 (often a WAF/bot block) are retried too. When the server
+# sends Retry-After we honor it in place of our own backoff.
 RETRYABLE_STATUS = (403, 429, 502, 503, 504)
+
+# The subset that means "this IP is being blocked/throttled" rather than "the
+# server hiccuped." These — and only these — trigger a one-time fail-over to the
+# proxy (when one is configured): the retry then leaves from a fresh residential
+# IP, the most likely way past a per-IP block. A 5xx stays on the same connection
+# because a different IP won't fix a server-side error.
+PROXY_FAILOVER_STATUS = (403, 429)
 
 # A vendor sending an absurd Retry-After (or a malicious/buggy one) shouldn't be
 # able to stall the whole hourly run. Cap how long we'll honor it.
@@ -42,16 +50,19 @@ class PoliteAsyncClient:
     Resilience: transient transport errors (connection resets, timeouts) and the
     retryable statuses above (5xx, plus 429/403) are retried up to ``max_retries``
     times with exponentially-growing, jittered backoff — the jitter keeps parallel
-    retries from re-synchronizing into a thundering herd. This is what keeps an
-    intermittently-flaky or rate-limiting vendor from failing a whole scrape on a
-    single hiccup; paired with a rotating proxy (``proxy=``), each 429/403 retry
-    also arrives on a fresh IP. ``Retry-After`` is honored when present. If the
-    retries are exhausted the final response is still RETURNED (not raised), so a
-    persistently-blocked vendor degrades to carry-forward rather than crashing.
+    retries from re-synchronizing into a thundering herd. ``Retry-After`` is honored
+    when present. If the retries are exhausted the final response is still RETURNED
+    (not raised), so a persistently-blocked vendor degrades to carry-forward rather
+    than crashing.
 
-    ``proxy``: an optional proxy URL (e.g. a rotating residential endpoint). When
-    None — the default, and whenever the deploy secret is unset — every request
-    goes out on the direct connection exactly as before.
+    Proxy fail-over (``proxy_fallback``): every request goes out DIRECT first. Only
+    when one comes back 429/403 — a per-IP block/throttle — does the retry switch to
+    the proxy, so its fresh residential IP can get through. That means the proxy (a
+    metered, paid endpoint) costs nothing while vendors are healthy and kicks in
+    automatically the moment one starts blocking us — no per-vendor allow-list to
+    maintain, and any vendor (even a new one) self-heals. When ``proxy_fallback`` is
+    None — the default, and whenever the deploy secret is unset — there's no proxy
+    client at all and every request stays direct, exactly as before.
     """
 
     def __init__(
@@ -62,14 +73,20 @@ class PoliteAsyncClient:
         max_retries: int = 2,
         backoff_base_s: float = 0.5,
         timeout: httpx.Timeout = DEFAULT_TIMEOUT,
-        proxy: str | None = None,
+        proxy_fallback: str | None = None,
     ) -> None:
-        self._client = httpx.AsyncClient(
+        common = dict(
             headers={"User-Agent": USER_AGENT, "Accept": "*/*"},
             timeout=timeout,
             follow_redirects=True,
             limits=httpx.Limits(max_connections=max_concurrent_per_host * 4),
-            proxy=proxy,  # None → direct connection (unchanged behavior)
+        )
+        # The direct connection is the default path for every request.
+        self._client = httpx.AsyncClient(**common)
+        # A second client bound to the proxy, built only when a fallback endpoint is
+        # given. Lazy: httpx opens no connection until a request actually fails over.
+        self._proxy_client = (
+            httpx.AsyncClient(proxy=proxy_fallback, **common) if proxy_fallback else None
         )
         self._max_concurrent = max_concurrent_per_host
         self._min_interval_s = min_start_interval_s
@@ -122,11 +139,13 @@ class PoliteAsyncClient:
         sem = self._semaphore_for(host)
         async with sem:
             last_exc: Exception | None = None
+            client = self._client  # direct first
+            via_proxy = False
             for attempt in range(self._max_retries + 1):
                 # Re-pace on every attempt — a retry is another request start.
                 await self._await_start_slot(host)
                 try:
-                    resp = await self._client.get(url, **kwargs)
+                    resp = await client.get(url, **kwargs)
                 except httpx.TransportError as exc:
                     # Connection reset / timeout / protocol error: retry if we can.
                     last_exc = exc
@@ -135,9 +154,19 @@ class PoliteAsyncClient:
                         continue
                     raise
                 if resp.status_code in RETRYABLE_STATUS and attempt < self._max_retries:
-                    # Transient / rate-limited / blocked: back off (honoring
-                    # Retry-After when sent) and retry — through a rotating proxy the
-                    # retry is a fresh IP.
+                    # A 429/403 (per-IP block) fails over to the proxy for the retry
+                    # so it leaves from a fresh IP; a 5xx just retries on the same
+                    # connection. Fail over at most once — once on the proxy, stay.
+                    if (
+                        resp.status_code in PROXY_FAILOVER_STATUS
+                        and self._proxy_client is not None
+                        and not via_proxy
+                    ):
+                        client = self._proxy_client
+                        via_proxy = True
+                        log.info(
+                            "%s returned %d — retrying via proxy", host, resp.status_code
+                        )
                     ra = self._retry_after_seconds(resp)
                     await asyncio.sleep(ra if ra is not None else self._backoff_delay(attempt))
                     continue
@@ -152,6 +181,8 @@ class PoliteAsyncClient:
 
     async def close(self) -> None:
         await self._client.aclose()
+        if self._proxy_client is not None:
+            await self._proxy_client.aclose()
 
 
 @asynccontextmanager
@@ -160,13 +191,13 @@ async def polite_async_client(
     max_concurrent_per_host: int = 4,
     min_start_interval_s: float = 0.5,
     max_retries: int = 2,
-    proxy: str | None = None,
+    proxy_fallback: str | None = None,
 ) -> AsyncIterator[PoliteAsyncClient]:
     c = PoliteAsyncClient(
         max_concurrent_per_host=max_concurrent_per_host,
         min_start_interval_s=min_start_interval_s,
         max_retries=max_retries,
-        proxy=proxy,
+        proxy_fallback=proxy_fallback,
     )
     try:
         yield c
