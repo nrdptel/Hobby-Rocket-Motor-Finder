@@ -35,6 +35,15 @@ PROXY_FAILOVER_STATUS = (403, 429)
 # able to stall the whole hourly run. Cap how long we'll honor it.
 MAX_RETRY_AFTER_S = 30.0
 
+# Ceiling on how many requests may fail over to the (metered) proxy per client —
+# i.e. per vendor, per run. The vendors that legitimately fail over fetch a handful
+# of pages (Shopify products.json is ~3-10 requests); this cap is well above that.
+# Its job is to bound the blow-out case: a PER-PRODUCT vendor (moto_joe/csrocketry
+# fetch ~550 pages each) that gets WAF-blocked would otherwise route every one of
+# those through the proxy. Past the cap we stop failing over and let the vendor
+# carry-forward — bounded cost beats a surprise bill.
+DEFAULT_MAX_PROXY_FAILOVERS = 40
+
 
 class PoliteAsyncClient:
     """httpx.AsyncClient wrapped with per-host politeness controls.
@@ -63,6 +72,11 @@ class PoliteAsyncClient:
     maintain, and any vendor (even a new one) self-heals. When ``proxy_fallback`` is
     None — the default, and whenever the deploy secret is unset — there's no proxy
     client at all and every request stays direct, exactly as before.
+
+    ``max_proxy_failovers`` bounds how many requests may use the proxy per run, so a
+    blocked HIGH-VOLUME vendor (a per-product scraper doing ~550 fetches) can't route
+    them all through the metered proxy — past the cap it stays direct and carries
+    forward. The vendors that legitimately fail over use a handful, far under it.
     """
 
     def __init__(
@@ -74,6 +88,7 @@ class PoliteAsyncClient:
         backoff_base_s: float = 0.5,
         timeout: httpx.Timeout = DEFAULT_TIMEOUT,
         proxy_fallback: str | None = None,
+        max_proxy_failovers: int = DEFAULT_MAX_PROXY_FAILOVERS,
     ) -> None:
         common = dict(
             headers={"User-Agent": USER_AGENT, "Accept": "*/*"},
@@ -100,6 +115,8 @@ class PoliteAsyncClient:
         self._min_interval_s = min_start_interval_s
         self._max_retries = max_retries
         self._backoff_base_s = backoff_base_s
+        self._max_proxy_failovers = max_proxy_failovers
+        self._proxy_failover_count = 0  # requests that have used the proxy this run
         self._semaphores: dict[str, asyncio.Semaphore] = {}
         self._next_start_time: dict[str, float] = {}
         self._rate_lock = asyncio.Lock()
@@ -164,17 +181,30 @@ class PoliteAsyncClient:
                 if resp.status_code in RETRYABLE_STATUS and attempt < self._max_retries:
                     # A 429/403 (per-IP block) fails over to the proxy for the retry
                     # so it leaves from a fresh IP; a 5xx just retries on the same
-                    # connection. Fail over at most once — once on the proxy, stay.
+                    # connection. Fail over at most once per request (once on the
+                    # proxy, stay) and only while under the per-run proxy budget —
+                    # past it we stay direct so a blocked high-volume vendor can't
+                    # run up the metered proxy (it carries-forward instead).
                     if (
                         resp.status_code in PROXY_FAILOVER_STATUS
                         and self._proxy_client is not None
                         and not via_proxy
+                        and self._proxy_failover_count < self._max_proxy_failovers
                     ):
+                        self._proxy_failover_count += 1
                         client = self._proxy_client
                         via_proxy = True
                         log.info(
-                            "%s returned %d — retrying via proxy", host, resp.status_code
+                            "%s returned %d — retrying via proxy (%d/%d)",
+                            host, resp.status_code, self._proxy_failover_count,
+                            self._max_proxy_failovers,
                         )
+                        if self._proxy_failover_count == self._max_proxy_failovers:
+                            log.warning(
+                                "proxy fail-over budget (%d) reached — further blocks "
+                                "this run stay direct (carry-forward)",
+                                self._max_proxy_failovers,
+                            )
                     ra = self._retry_after_seconds(resp)
                     await asyncio.sleep(ra if ra is not None else self._backoff_delay(attempt))
                     continue
