@@ -84,6 +84,7 @@ class WildmanScraper(Scraper):
     # default; there are only ~10 page fetches.
     max_concurrent_per_host = 2
     min_start_interval_s = 0.5
+    use_proxy = True  # Shopify/Cloudflare 429s the CI data-center IP; go via proxy.
 
     async def scrape(
         self,
