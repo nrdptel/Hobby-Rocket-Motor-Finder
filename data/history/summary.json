@@ -12727,10 +12727,10 @@
     "price_high_cents": 35814
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1522&virtuemart_category_id=154&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:13",
-    "last_change_at": "2026-06-09T23:01:09+00:00",
+    "last_change_at": "2026-07-18T17:00:59+00:00",
     "last_in_stock_at": "2026-06-09T23:01:09+00:00",
     "last_restock_at": null,
     "restock_count": 0,
