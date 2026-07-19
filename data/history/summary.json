@@ -8424,10 +8424,10 @@
     "price_high_cents": 6949
   },
   "https://www.buyrocketmotors.com/products/aerotech-h170m-14a-metalstorm-sparky?variant=50855056867625": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:05",
-    "last_change_at": "2026-05-31T02:24:05",
+    "last_change_at": "2026-07-19T02:02:01+00:00",
     "last_in_stock_at": "2026-05-31T02:24:05",
     "last_restock_at": null,
     "restock_count": 0,
@@ -15856,7 +15856,7 @@
     "restock_count": 0,
     "price_current_cents": 4179,
     "price_prev_cents": 3704,
-    "price_low_cents": 3704,
+    "price_low_cents": 4179,
     "price_high_cents": 4179
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-g77-7r-single-use-motor-lq-266.html": {
