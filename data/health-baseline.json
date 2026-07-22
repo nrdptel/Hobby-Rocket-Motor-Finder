@@ -17,11 +17,11 @@
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 1206,
+    "samples": 1207,
     "stock": 37.000000000000014,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   },
   "buyrocketmotors": {
     "count": 280.9999999999999,
@@ -33,27 +33,27 @@
   },
   "csrocketry": {
     "count": 556.9999999999998,
-    "samples": 1192,
-    "stock": 227.0000000000048,
+    "samples": 1193,
+    "stock": 227.0000000000036,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 1217,
+    "samples": 1218,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
-    "samples": 1011,
+    "samples": 1012,
     "stock": 4.000000000000002,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   },
   "newcenturyrocketry": {
     "count": 95.0,
@@ -65,26 +65,26 @@
   },
   "performancehobbies": {
     "count": 596.9999999999998,
-    "samples": 1217,
+    "samples": 1218,
     "stock": 112.00000000000003,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   },
   "sirius": {
     "count": 307.9999999999999,
-    "samples": 953,
-    "stock": 150.791072135875,
+    "samples": 954,
+    "stock": 150.59330410190626,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   },
   "wildman": {
     "count": 489.0000000000001,
-    "samples": 1073,
-    "stock": 159.6906712119395,
+    "samples": 1074,
+    "stock": 159.26800340895463,
     "streak": 0,
     "unmatched": 1.9999999999999996,
-    "updated_at": "2026-07-22T03:07:34+00:00"
+    "updated_at": "2026-07-22T04:07:46+00:00"
   }
 }
