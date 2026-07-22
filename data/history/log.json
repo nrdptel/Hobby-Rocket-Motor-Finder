@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-07-22T02:07:40+00:00",
+  "updated_at": "2026-07-22T02:49:24+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -7669,6 +7669,11 @@
           "t": "2026-07-08T19:27:43+00:00",
           "status": "in_stock",
           "price_cents": 4399
+        },
+        {
+          "t": "2026-07-22T02:47:10+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4399
         }
       ]
     },
@@ -9313,6 +9318,11 @@
         {
           "t": "2026-07-01T22:00:29+00:00",
           "status": "in_stock",
+          "price_cents": 12999
+        },
+        {
+          "t": "2026-07-22T02:47:10+00:00",
+          "status": "out_of_stock",
           "price_cents": 12999
         }
       ]
@@ -21713,6 +21723,11 @@
         {
           "t": "2026-06-25T01:34:12+00:00",
           "status": "in_stock",
+          "price_cents": 2720
+        },
+        {
+          "t": "2026-07-22T02:47:10+00:00",
+          "status": "out_of_stock",
           "price_cents": 2720
         }
       ]
@@ -46499,6 +46514,646 @@
           "t": "2026-07-01T07:00:24+00:00",
           "status": "special_order",
           "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-e16-7w-1pk-aer-51607-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 2299
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-e16-4w-1pk-aer-51604-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 2299
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-e20-4w-2pk-aer-52004-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-e20-7w-2pk-aer-52007-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:36+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-e23-8t-1pk-aer-52308-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 2299
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-e23-5t-1pk-aer-52305-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 2299
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-e24-10c-2pk-aer-52410-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4749
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-e24-7c-2pk-aer-52407-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4749
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-e24-4c-2pk-aer-52404-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4749
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-e30-7t-2pk-aer-53007-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-e30-4t-2pk-aer-53004-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f20-7w-2pk-aer-62007-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:36+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f20-4w-2pk-aer-62004-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:36+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f23-4fj-2pk-aer-62304-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:36+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-rms-f24-7w-3pk-aer-62407-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:48+00:00",
+          "status": "in_stock",
+          "price_cents": 4899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-rms-f24-4w-3pk-aer-62404-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:48+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f26-9fj-1pk-aer-62609-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3599
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f26-6fj-1pk-aer-62606-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4049
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f27-4r-2pk-aer-62704-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f27-8r-2pk-aer-62708-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f30-8fj-1pk-aer-63008-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f30-6fj-1pk-aer-63006-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f30-4fj-1pk-aer-63004-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 2899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f32-8t-1pk-aer-63208-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 2899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f32-4t-1pk-aer-63204-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 2899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f32-6t-1pk-aer-63206-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 2899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-rms-f39-6t-3pk-aer-63906-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 4899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-rms-f39-9t-3pk-aer-63909-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:48+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f42-4t-2pk-aer-64204-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:36+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f42-8t-2pk-aer-64208-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:36+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f44-8w-2pk-aer-64408-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-f44-4w-2pk-aer-64404-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f50-9t-1pk-aer-65009-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4049
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f50-6t-1pk-aer-65006-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4049
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f50-4t-1pk-aer-65004-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4049
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f52-12c-2pk-aer-65216-required-to-pay-for-ups-ground-shipping-oop/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f52-8c-2pk-aer-65214-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f52-5c-2pk-aer-65212-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f67-14c-2pk-aer-66714-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f67-9c-2pk-aer-66712-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 5199
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f67-6c-2pk-aer-66710-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 5199
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f67-9w-2pk-aer-66709-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f67-6w-2pk-aer-66706-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f67-4w-2pk-aer-66704-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4949
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g38-7fj-1pk-aer-73807-required-to-pay-for-ups-ground-shipping-oop/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g38-4fj-1pk-aer-73804-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 3899
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g40-10w-1pk-aer-74010-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g40-7w-1pk-aer-74007-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g40-4w-1pk-aer-74004-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g53-10fj-1pk-aer-73310-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g53-7fj-1pk-aer-73307-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:48+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g53-5fj-1pk-aer-73305-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:48+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g64-7w-1pk-aer-76407-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g64-4w-1pk-aer-76404-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g64-10w-1pk-aer-76410-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:48+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g76-10g-1pk-aer-77510-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g76-4g-1pk-aer-77504-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g76-7g-1pk-aer-77507-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g77-10r-1pk-aer-77710-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g77-7r-1pk-aer-77707-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g77-4r-1pk-aer-77704-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-38mm-composite-model-rocket-motor-dms-h100w-14a-1pk-aer-081014-required-to-pay-for-ups-ground-shipping-requires-level-1-certification/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 5499
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-h165r-14a-1pk-aer-081614-required-to-pay-for-ups-ground-shipping-requires-level-1-certification/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:44+00:00",
+          "status": "in_stock",
+          "price_cents": 3999
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-dms-h135w-14a-1pk-aer-081314-required-to-pay-for-ups-ground-shipping-requires-level-1-certification/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-07-22T02:42:28+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4699
         }
       ]
     }
