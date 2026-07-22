@@ -9,19 +9,19 @@
   },
   "amw": {
     "count": 279.9999999999999,
-    "samples": 1007,
-    "stock": 127.00000000056824,
+    "samples": 1008,
+    "stock": 127.00000000042618,
     "streak": 0,
     "unmatched": 0.9999999999999998,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "balsa_machining": {
     "count": 204.0,
-    "samples": 1202,
+    "samples": 1203,
     "stock": 37.000000000000014,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "buyrocketmotors": {
     "count": 280.9999999999999,
@@ -33,27 +33,27 @@
   },
   "csrocketry": {
     "count": 556.9999999999998,
-    "samples": 1188,
-    "stock": 227.00000000001518,
+    "samples": 1189,
+    "stock": 227.00000000001137,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "loki": {
     "count": 50.0,
-    "samples": 1213,
+    "samples": 1214,
     "stock": 29.999999999999993,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "moto_joe": {
     "count": 527.9999999999998,
-    "samples": 1007,
+    "samples": 1008,
     "stock": 4.000000000000002,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "newcenturyrocketry": {
     "count": 95.0,
@@ -65,19 +65,19 @@
   },
   "performancehobbies": {
     "count": 596.9999999999998,
-    "samples": 1213,
+    "samples": 1214,
     "stock": 112.00000000000003,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "sirius": {
     "count": 307.9999999999999,
-    "samples": 949,
-    "stock": 152.50017860227155,
+    "samples": 950,
+    "stock": 151.87513395170367,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-07-22T00:07:52+00:00"
+    "updated_at": "2026-07-22T01:07:28+00:00"
   },
   "wildman": {
     "count": 489.0000000000001,
