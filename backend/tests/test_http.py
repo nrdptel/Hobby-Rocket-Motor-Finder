@@ -29,20 +29,24 @@ def _make_client_with_mock_transport(
     max_retries: int = 2,
     backoff_base_s: float = 0.0,
     proxy_handler=None,
+    relay: bool = False,
     max_proxy_failovers: int = 40,
 ) -> PoliteAsyncClient:
     """Build a PoliteAsyncClient whose underlying transport(s) are mocked.
 
-    ``handler`` serves the DIRECT client. When ``proxy_handler`` is given, a
-    second mocked client stands in for the proxy path, so fail-over tests can make
-    the proxy behave differently from direct. ``backoff_base_s`` defaults to 0 so
-    retry tests don't sleep on real wall-clock.
+    ``handler`` serves the DIRECT client — and, when ``relay=True``, the relay tier
+    too (it rides on the direct client, just re-addressed to the Worker), so the
+    handler should route by ``request.url.host`` (``relay.test`` vs the vendor). When
+    ``proxy_handler`` is given, a second mocked client stands in for the proxy path.
+    ``backoff_base_s`` defaults to 0 so retry tests don't sleep on real wall-clock.
     """
     pc = PoliteAsyncClient(
         max_concurrent_per_host=max_concurrent_per_host,
         min_start_interval_s=min_start_interval_s,
         max_retries=max_retries,
         backoff_base_s=backoff_base_s,
+        relay_url="https://relay.test" if relay else None,
+        relay_secret="s3cret" if relay else None,
         proxy_fallback="http://proxy.test:823" if proxy_handler is not None else None,
         max_proxy_failovers=max_proxy_failovers,
     )
@@ -554,3 +558,107 @@ async def test_persistent_503_returns_last_response_not_raises():
 
     assert resp.status_code == 503
     assert attempts == 3  # initial + 2 retries, then returned
+
+
+# --- relay fail-over (Cloudflare Worker tier) -------------------------------
+
+@pytest.mark.asyncio
+async def test_429_escalates_to_relay_then_succeeds():
+    """A 429 escalates to the relay tier FIRST (before the proxy). The relay request
+    goes to the Worker host carrying the vendor URL + auth, and its 200 is returned."""
+    seen: list[str] = []
+    relay_req: dict = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.host == "relay.test":
+            seen.append("relay")
+            relay_req["target"] = request.url.params.get("url")
+            relay_req["auth"] = request.headers.get("X-Relay-Auth")
+            relay_req["ua_fwd"] = request.headers.get("X-Relay-UA")
+            return httpx.Response(200, text="ok via relay")
+        seen.append("direct")
+        return httpx.Response(429, text="blocked")
+
+    pc = _make_client_with_mock_transport(handler, relay=True, max_retries=2)
+    try:
+        resp = await pc.get("https://wildmanrocketry.com/products.json", params={"page": 1})
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert resp.text == "ok via relay"
+    assert seen == ["direct", "relay"]
+    # The Worker was handed the full origin URL (params folded in), the shared secret,
+    # and our honest UA to forward to the origin.
+    assert relay_req["target"] == "https://wildmanrocketry.com/products.json?page=1"
+    assert relay_req["auth"] == "s3cret"
+    assert "HPRMotorFinder" in (relay_req["ua_fwd"] or "")
+
+
+@pytest.mark.asyncio
+async def test_relay_first_then_proxy_last_resort():
+    """Full chain: direct 429 → relay 429 → proxy 200. The proxy is only reached
+    once the free relay is also blocked (backup-of-the-backup)."""
+    seen: list[str] = []
+
+    def direct_and_relay(request: httpx.Request) -> httpx.Response:
+        if request.url.host == "relay.test":
+            seen.append("relay")
+            return httpx.Response(429, text="relay blocked too")
+        seen.append("direct")
+        return httpx.Response(429, text="blocked")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        seen.append("proxy")
+        return httpx.Response(200, text="ok via proxy")
+
+    pc = _make_client_with_mock_transport(
+        direct_and_relay, relay=True, proxy_handler=proxy, max_retries=2
+    )
+    try:
+        resp = await pc.get("https://wildmanrocketry.com/products.json")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert resp.text == "ok via proxy"
+    assert seen == ["direct", "relay", "proxy"]  # strict escalation order
+
+
+@pytest.mark.asyncio
+async def test_relay_success_never_touches_proxy():
+    """When the relay clears the block, the metered proxy is never used at all."""
+    proxy_used = False
+
+    def direct_and_relay(request: httpx.Request) -> httpx.Response:
+        if request.url.host == "relay.test":
+            return httpx.Response(200, text="ok via relay")
+        return httpx.Response(429, text="blocked")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        nonlocal proxy_used
+        proxy_used = True
+        return httpx.Response(200, text="should not be used")
+
+    pc = _make_client_with_mock_transport(
+        direct_and_relay, relay=True, proxy_handler=proxy, max_retries=2
+    )
+    try:
+        resp = await pc.get("https://wildmanrocketry.com/products.json")
+    finally:
+        await pc.close()
+
+    assert resp.status_code == 200
+    assert resp.text == "ok via relay"
+    assert proxy_used is False
+
+
+@pytest.mark.asyncio
+async def test_bad_relay_url_disables_tier_without_crashing():
+    """A malformed SCRAPER_RELAY_URL must NOT crash — the relay tier is skipped and
+    scraping continues (direct, then proxy if configured)."""
+    pc = PoliteAsyncClient(relay_url="not-a-url", relay_secret="x")
+    try:
+        assert pc._relay_url is None  # tier disabled, no exception at construction
+    finally:
+        await pc.close()

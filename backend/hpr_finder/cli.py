@@ -172,9 +172,12 @@ async def _async_scrape_run(
             started = _utc_now().isoformat(timespec="seconds")
             run_id = db.start_run(conn, vendor_id, started)
 
-        # Proxy fail-over endpoint, shared by every vendor: requests go direct and
-        # only retry through the proxy if a vendor 429/403s us (see PoliteAsyncClient).
-        # Unset secret → None → no proxy client, everyone stays direct as before.
+        # Fail-over egress, shared by every vendor: requests go DIRECT first and only
+        # escalate if a vendor 429/403s us — to the free Cloudflare Worker relay
+        # first, then the metered proxy as last resort (see PoliteAsyncClient). Unset
+        # secrets → those tiers are skipped and everyone stays direct as before.
+        relay_url = os.environ.get("SCRAPER_RELAY_URL") or None
+        relay_secret = os.environ.get("SCRAPER_RELAY_SECRET") or None
         proxy_fallback = _normalize_proxy_url(os.environ.get("SCRAPER_PROXY_URL"))
 
         ok, err, count = True, None, 0
@@ -182,6 +185,8 @@ async def _async_scrape_run(
             async with polite_async_client(
                 max_concurrent_per_host=max_concurrent,
                 min_start_interval_s=interval_s,
+                relay_url=relay_url,
+                relay_secret=relay_secret,
                 proxy_fallback=proxy_fallback,
             ) as client:
                 listings = await scraper.scrape(client, limit=limit, only_urls=only_urls_list)

@@ -1,0 +1,12 @@
+# Cloudflare Worker config for the scraper fetch-relay. Deploy with:
+#   cd workers/scrape-relay
+#   npx wrangler deploy
+#   npx wrangler secret put RELAY_SECRET   # paste the shared secret
+#
+# (Or deploy by pasting worker.js into the Cloudflare dashboard — see README.md.)
+name = "hpr-scrape-relay"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# RELAY_SECRET is a Worker *secret*, never committed here. It must match the
+# SCRAPER_RELAY_SECRET GitHub Actions secret the scraper sends.
