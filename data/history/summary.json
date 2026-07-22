@@ -11804,10 +11804,10 @@
     "price_high_cents": 28024
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1296&virtuemart_category_id=104&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:34",
-    "last_change_at": "2026-06-09T23:00:31+00:00",
+    "last_change_at": "2026-07-22T19:00:32+00:00",
     "last_in_stock_at": "2026-06-09T23:00:31+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16250,13 +16250,13 @@
     "price_high_cents": 4132
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h219t-14a-38mm-dms-hazmat-1861.html": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T04:25:26",
-    "last_change_at": "2026-07-22T00:04:00+00:00",
-    "last_in_stock_at": "2026-07-03T19:28:56+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-07-22T19:03:51+00:00",
+    "last_in_stock_at": "2026-07-22T19:03:51+00:00",
+    "last_restock_at": "2026-07-22T19:03:51+00:00",
+    "restock_count": 1,
     "price_current_cents": 5579,
     "price_prev_cents": 4949,
     "price_low_cents": 5579,
