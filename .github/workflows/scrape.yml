@@ -54,12 +54,15 @@ jobs:
         run: hpr catalog refresh
 
       - name: Scrape all vendors
-        # Rotating residential proxy used as a FAIL-OVER: every vendor scrapes
-        # direct and only retries through the proxy if a host 429/403s the CI
-        # data-center IP (see PoliteAsyncClient). Unset secret → no proxy, all
-        # direct. Costs nothing while vendors are healthy; kicks in automatically
-        # for whichever vendor gets blocked — no per-vendor allow-list.
+        # Fail-over egress: every vendor scrapes DIRECT and only escalates if a host
+        # 429/403s the CI data-center IP (see PoliteAsyncClient). Order:
+        #   1. Cloudflare Worker relay (SCRAPER_RELAY_URL) — free, clean egress IP.
+        #   2. Residential proxy (SCRAPER_PROXY_URL) — metered, last resort.
+        # Any unset secret just skips that tier. Nothing engages while vendors are
+        # healthy; it kicks in automatically for whichever vendor gets blocked.
         env:
+          SCRAPER_RELAY_URL: ${{ secrets.SCRAPER_RELAY_URL }}
+          SCRAPER_RELAY_SECRET: ${{ secrets.SCRAPER_RELAY_SECRET }}
           SCRAPER_PROXY_URL: ${{ secrets.SCRAPER_PROXY_URL }}
         run: hpr scrape run all
 
