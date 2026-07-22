@@ -20,7 +20,24 @@ You need a (free) Cloudflare account. Pick a strong random secret first, e.g.:
 openssl rand -hex 24        # copy the output — this is your RELAY_SECRET
 ```
 
-### Option A — Wrangler (CLI)
+### Option A (recommended) — GitHub Action, reusing the Pages credentials
+
+No local tooling and no new token: the **Deploy scrape-relay Worker** workflow
+(`.github/workflows/deploy-relay-worker.yml`) deploys this Worker using the same
+`CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` repo secrets that already deploy the
+site to Pages, and sets the Worker's `RELAY_SECRET` from the `SCRAPER_RELAY_SECRET`
+repo secret.
+
+1. Add the repo secret `SCRAPER_RELAY_SECRET` (your value from above).
+2. Actions tab → **Deploy scrape-relay Worker** → **Run workflow**.
+3. The run log prints the Worker URL (`https://hpr-scrape-relay.<subdomain>.workers.dev`).
+   Add it as the repo secret `SCRAPER_RELAY_URL`.
+
+If the run fails on a permissions error, the `CLOUDFLARE_API_TOKEN` is Pages-only —
+edit it at `dash.cloudflare.com/profile/api-tokens` to add **Workers Scripts: Edit**,
+then re-run.
+
+### Option B — Wrangler (CLI)
 
 ```sh
 cd workers/scrape-relay

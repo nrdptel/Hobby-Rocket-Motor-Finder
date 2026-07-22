@@ -1,0 +1,39 @@
+name: Deploy scrape-relay Worker
+
+# Deploys the Cloudflare Worker in workers/scrape-relay/ using the SAME Cloudflare
+# credentials the Pages deploy already uses (CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID
+# repo secrets) — no new token needed. Run it by hand from the Actions tab whenever the
+# Worker code changes.
+#
+# It also (re)sets the Worker's RELAY_SECRET from the SCRAPER_RELAY_SECRET repo secret,
+# so the Worker and the scraper always share exactly one value — no drift.
+#
+# Note: the CLOUDFLARE_API_TOKEN must have the "Workers Scripts: Edit" permission. If
+# the existing (Pages) token doesn't, edit it at dash.cloudflare.com/profile/api-tokens
+# to add that permission, then re-run this workflow.
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-relay-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Worker + set RELAY_SECRET
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: workers/scrape-relay
+          command: deploy
+          # Uploads the Worker secret from the env below (keeps it in sync with the
+          # value the scraper sends).
+          secrets: |
+            RELAY_SECRET
+        env:
+          RELAY_SECRET: ${{ secrets.SCRAPER_RELAY_SECRET }}
