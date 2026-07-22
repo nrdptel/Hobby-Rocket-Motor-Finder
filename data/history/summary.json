@@ -17511,10 +17511,10 @@
     "price_high_cents": 19529
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k455nw-17a-54mm-dms-hazmat-2000.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:27:00",
-    "last_change_at": "2026-07-03T19:30:29+00:00",
+    "last_change_at": "2026-07-22T16:05:37+00:00",
     "last_in_stock_at": "2026-07-03T19:30:29+00:00",
     "last_restock_at": null,
     "restock_count": 0,
