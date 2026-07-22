@@ -7,6 +7,8 @@
 name = "hpr-scrape-relay"
 main = "worker.js"
 compatibility_date = "2024-11-01"
+# Publish to <name>.<account-subdomain>.workers.dev so the scraper can reach it.
+workers_dev = true
 
 # RELAY_SECRET is a Worker *secret*, never committed here. It must match the
 # SCRAPER_RELAY_SECRET GitHub Actions secret the scraper sends.
