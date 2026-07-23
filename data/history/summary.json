@@ -8255,10 +8255,10 @@
     "price_high_cents": 5049
   },
   "https://www.buyrocketmotors.com/products/aerotech-h148r-14a-redline?variant=50855051460905": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:04",
-    "last_change_at": "2026-05-31T02:24:04",
+    "last_change_at": "2026-07-23T19:02:06+00:00",
     "last_in_stock_at": "2026-05-31T02:24:04",
     "last_restock_at": null,
     "restock_count": 0,
@@ -8905,10 +8905,10 @@
     "price_high_cents": 4499
   },
   "https://www.buyrocketmotors.com/products/aerotech-h97j-m-black-jack?variant=50855043858729": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:08",
-    "last_change_at": "2026-05-31T02:24:08",
+    "last_change_at": "2026-07-23T19:02:06+00:00",
     "last_in_stock_at": "2026-05-31T02:24:08",
     "last_restock_at": null,
     "restock_count": 0,
