@@ -13351,10 +13351,10 @@
     "price_high_cents": 64199
   },
   "https://www.buyrocketmotors.com/products/aerotech-m2225ws-ps-super-white-lightning-new?variant=50855320781097": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:31",
-    "last_change_at": "2026-06-12T16:04:03+00:00",
+    "last_change_at": "2026-07-23T04:01:54+00:00",
     "last_in_stock_at": "2026-06-12T16:04:03+00:00",
     "last_restock_at": "2026-06-12T16:04:03+00:00",
     "restock_count": 1,
