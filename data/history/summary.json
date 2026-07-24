@@ -15639,10 +15639,10 @@
     "price_high_cents": 2740
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-g61w-14a-38mm-reload-kit-lq-1841.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:24:38",
-    "last_change_at": "2026-07-03T19:28:11+00:00",
+    "last_change_at": "2026-07-24T01:02:57+00:00",
     "last_in_stock_at": "2026-07-03T19:28:11+00:00",
     "last_restock_at": null,
     "restock_count": 0,
