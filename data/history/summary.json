@@ -45620,14 +45620,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:22+00:00",
-    "last_change_at": "2026-06-05T17:00:22+00:00",
+    "last_change_at": "2026-07-24T21:02:34+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 40599,
-    "price_prev_cents": null,
-    "price_low_cents": 40599,
-    "price_high_cents": 40599
+    "price_current_cents": 42999,
+    "price_prev_cents": 40599,
+    "price_low_cents": 42999,
+    "price_high_cents": 42999
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9179#M2050X-PS": {
     "currently_in_stock": false,
