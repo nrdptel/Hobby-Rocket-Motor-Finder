@@ -46569,14 +46569,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-24T19:01:29+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 149999,
-    "price_prev_cents": null,
-    "price_low_cents": 149999,
-    "price_high_cents": 149999
+    "price_current_cents": 167999,
+    "price_prev_cents": 149999,
+    "price_low_cents": 167999,
+    "price_high_cents": 167999
   },
   "https://www.balsamachining.com/hpmp.htm#14330P": {
     "currently_in_stock": false,
