@@ -8736,10 +8736,10 @@
     "price_high_cents": 4749
   },
   "https://www.buyrocketmotors.com/products/aerotech-h250g-14a-mojave-green?variant=50855045857577": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:07",
-    "last_change_at": "2026-05-31T02:24:07",
+    "last_change_at": "2026-07-24T05:02:02+00:00",
     "last_in_stock_at": "2026-05-31T02:24:07",
     "last_restock_at": null,
     "restock_count": 0,
@@ -10569,10 +10569,10 @@
     "price_high_cents": 12399
   },
   "https://www.buyrocketmotors.com/products/aerotech-j315r-14a-redline?variant=50855075741993": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:17",
-    "last_change_at": "2026-05-31T02:24:17",
+    "last_change_at": "2026-07-24T05:02:02+00:00",
     "last_in_stock_at": "2026-05-31T02:24:17",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12051,10 +12051,10 @@
     "price_high_cents": 16799
   },
   "https://www.buyrocketmotors.com/products/aerotech-k695r-14a-redline?variant=50855080460585": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:25",
-    "last_change_at": "2026-05-31T02:24:25",
+    "last_change_at": "2026-07-24T05:02:02+00:00",
     "last_in_stock_at": "2026-05-31T02:24:25",
     "last_restock_at": null,
     "restock_count": 0,
