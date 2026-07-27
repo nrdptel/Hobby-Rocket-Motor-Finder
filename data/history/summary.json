@@ -8996,10 +8996,10 @@
     "price_high_cents": 5299
   },
   "https://www.buyrocketmotors.com/products/aerotech-h135-14a-white-lightning-29-mm-dms?variant=50855109919017": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:03",
-    "last_change_at": "2026-06-12T16:01:44+00:00",
+    "last_change_at": "2026-07-27T19:02:01+00:00",
     "last_in_stock_at": "2026-06-12T16:01:44+00:00",
     "last_restock_at": "2026-06-12T16:01:44+00:00",
     "restock_count": 1,
@@ -29809,10 +29809,10 @@
     "price_high_cents": 3700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#VMax%202%20grain%20G250": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -29900,10 +29900,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%203%20grain%20G131-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -30082,10 +30082,10 @@
     "price_high_cents": 4500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%203%20grain%20G106-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -30433,10 +30433,10 @@
     "price_high_cents": 3700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%202%20grain%20G80-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32461,10 +32461,10 @@
     "price_high_cents": 5600
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Blue%20Streak%203%20grain%20H133-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32513,10 +32513,10 @@
     "price_high_cents": 3900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#White%20Thunder%203%20grain%20H163-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32539,10 +32539,10 @@
     "price_high_cents": 3900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%204%20grain%20H175-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32565,10 +32565,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#VMax%203%20grain%20H410": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32578,10 +32578,10 @@
     "price_high_cents": 3431
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#White%203%20grain%20H54": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32630,10 +32630,10 @@
     "price_high_cents": 4500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%204%20grain%20H123-12": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32669,10 +32669,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%205%20grain%20H237-13": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -32877,10 +32877,10 @@
     "price_high_cents": 6300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#H53%20Mello": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -33267,10 +33267,10 @@
     "price_high_cents": 6900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Green%206%20grain%20H159-15": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -33358,10 +33358,10 @@
     "price_high_cents": 6400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Blue%20Streak%206%20grain%20H255-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -34996,10 +34996,10 @@
     "price_high_cents": 7900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Imax%206%20grain%20I204-13": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-06-05T17:00:34+00:00",
+    "last_change_at": "2026-07-27T19:00:42+00:00",
     "last_in_stock_at": "2026-06-05T17:00:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -35269,10 +35269,10 @@
     "price_high_cents": 8164
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Skidmark%204%20grain%20434-I223-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -35477,10 +35477,10 @@
     "price_high_cents": 8800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%20Thunder%204%20grain%20540-I470-15A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -35555,10 +35555,10 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%205%20grain%20601-I350-16A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -37648,10 +37648,10 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Classic%205%20grain%20648-J285-15A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -37674,10 +37674,10 @@
     "price_high_cents": 10100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Red%20Lightning%205%20grain%20649-J335-15A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -37726,10 +37726,10 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Pink%205%20grain%20654-J316-17A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -37882,10 +37882,10 @@
     "price_high_cents": 12700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%206%20grain%20700-J400-16A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -46826,10 +46826,10 @@
     "price_high_cents": 5561
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Skidmark%205%20grain%20543-I297-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-07-27T19:00:43+00:00",
     "last_in_stock_at": "2026-06-05T17:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
