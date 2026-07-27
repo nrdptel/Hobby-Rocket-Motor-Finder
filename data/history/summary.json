@@ -10413,10 +10413,10 @@
     "price_high_cents": 14899
   },
   "https://wildmanrocketry.com/products/j180t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:56",
-    "last_change_at": "2026-07-01T22:00:29+00:00",
+    "last_change_at": "2026-07-27T14:05:08+00:00",
     "last_in_stock_at": "2026-07-01T22:00:29+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -13689,10 +13689,10 @@
     "price_high_cents": 129299
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1556&virtuemart_category_id=162&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:20",
-    "last_change_at": "2026-06-17T02:01:12+00:00",
+    "last_change_at": "2026-07-27T14:01:18+00:00",
     "last_in_stock_at": "2026-06-17T02:01:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -22724,10 +22724,10 @@
     "price_high_cents": 19595
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-54/4g-reloads/cesaroni-k400-14a-green3-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:38+00:00",
-    "last_change_at": "2026-06-03T02:28:38+00:00",
+    "last_change_at": "2026-07-27T14:02:34+00:00",
     "last_in_stock_at": "2026-06-03T02:28:38+00:00",
     "last_restock_at": null,
     "restock_count": 0,
