@@ -403,10 +403,10 @@
     "price_high_cents": 8199
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d24-10t-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:30",
-    "last_change_at": "2026-05-30T22:32:30",
+    "last_change_at": "2026-07-27T00:01:03+00:00",
     "last_in_stock_at": "2026-05-30T22:32:30",
     "last_restock_at": null,
     "restock_count": 0,
@@ -416,10 +416,10 @@
     "price_high_cents": 2799
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d24-4t-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:30",
-    "last_change_at": "2026-05-30T22:32:30",
+    "last_change_at": "2026-07-27T00:01:03+00:00",
     "last_in_stock_at": "2026-05-30T22:32:30",
     "last_restock_at": null,
     "restock_count": 0,
@@ -429,10 +429,10 @@
     "price_high_cents": 2799
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d24-7t-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:33",
-    "last_change_at": "2026-05-30T22:32:33",
+    "last_change_at": "2026-07-27T00:01:03+00:00",
     "last_in_stock_at": "2026-05-30T22:32:33",
     "last_restock_at": null,
     "restock_count": 0,
@@ -14456,10 +14456,10 @@
     "price_high_cents": 3044
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-d24-10t-reload-kit-3-pack-1710.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:23:01",
-    "last_change_at": "2026-07-03T19:26:34+00:00",
+    "last_change_at": "2026-07-27T00:01:33+00:00",
     "last_in_stock_at": "2026-07-03T19:26:34+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -14469,10 +14469,10 @@
     "price_high_cents": 2740
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-d24-4t-reload-kit-3-pack-1707.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:23:02",
-    "last_change_at": "2026-07-03T19:26:35+00:00",
+    "last_change_at": "2026-07-27T00:01:34+00:00",
     "last_in_stock_at": "2026-07-03T19:26:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -14482,10 +14482,10 @@
     "price_high_cents": 2740
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-d24-7t-reload-kit-3-pack-1709.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:23:03",
-    "last_change_at": "2026-07-03T19:26:36+00:00",
+    "last_change_at": "2026-07-27T00:01:35+00:00",
     "last_in_stock_at": "2026-07-03T19:26:36+00:00",
     "last_restock_at": null,
     "restock_count": 0,
