@@ -9126,10 +9126,10 @@
     "price_high_cents": 5984
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1254&virtuemart_category_id=104&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:34",
-    "last_change_at": "2026-06-09T23:00:31+00:00",
+    "last_change_at": "2026-07-28T22:00:23+00:00",
     "last_in_stock_at": "2026-06-09T23:00:31+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -11319,7 +11319,7 @@
     "restock_count": 0,
     "price_current_cents": 22799,
     "price_prev_cents": 20299,
-    "price_low_cents": 20299,
+    "price_low_cents": 22799,
     "price_high_cents": 22799
   },
   "https://www.buyrocketmotors.com/products/aerotech-k1000t-p-blue-thunder?variant=50855089406249": {
