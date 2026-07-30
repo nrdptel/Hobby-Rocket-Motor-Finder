@@ -16185,10 +16185,10 @@
     "price_high_cents": 3436
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h169ws-13a-29mm-dms-hazmat-2002.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:19",
-    "last_change_at": "2026-07-03T19:28:49+00:00",
+    "last_change_at": "2026-07-30T00:03:57+00:00",
     "last_in_stock_at": "2026-07-03T19:28:49+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16250,10 +16250,10 @@
     "price_high_cents": 4132
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h219t-14a-38mm-dms-hazmat-1861.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:26",
-    "last_change_at": "2026-07-22T19:03:51+00:00",
+    "last_change_at": "2026-07-30T00:04:04+00:00",
     "last_in_stock_at": "2026-07-22T19:03:51+00:00",
     "last_restock_at": "2026-07-22T19:03:51+00:00",
     "restock_count": 1,
@@ -16640,10 +16640,10 @@
     "price_high_cents": 7307
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i175ws-13a-38mm-dms-hazmat-2017.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:51",
-    "last_change_at": "2026-07-03T19:29:20+00:00",
+    "last_change_at": "2026-07-30T00:04:28+00:00",
     "last_in_stock_at": "2026-07-03T19:29:20+00:00",
     "last_restock_at": null,
     "restock_count": 0,
