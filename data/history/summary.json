@@ -165,7 +165,7 @@
     "restock_count": 1,
     "price_current_cents": 3499,
     "price_prev_cents": 3099,
-    "price_low_cents": 3099,
+    "price_low_cents": 3499,
     "price_high_cents": 3499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/120-reloads/aerotech-g79w-14a-white-lightning-rocket-motor.html": {
@@ -10569,13 +10569,13 @@
     "price_high_cents": 12399
   },
   "https://www.buyrocketmotors.com/products/aerotech-j315r-14a-redline?variant=50855075741993": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T02:24:17",
-    "last_change_at": "2026-07-24T05:02:02+00:00",
-    "last_in_stock_at": "2026-05-31T02:24:17",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-07-30T17:00:31+00:00",
+    "last_in_stock_at": "2026-07-30T17:00:31+00:00",
+    "last_restock_at": "2026-07-30T17:00:31+00:00",
+    "restock_count": 1,
     "price_current_cents": 10449,
     "price_prev_cents": null,
     "price_low_cents": 10449,
