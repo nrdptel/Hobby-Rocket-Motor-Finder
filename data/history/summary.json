@@ -32201,10 +32201,10 @@
     "price_high_cents": 5000
   },
   "https://www.balsamachining.com/hpmp.htm#078014": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-31T15:00:24+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -33488,10 +33488,10 @@
     "price_high_cents": 4500
   },
   "https://www.balsamachining.com/hpmp.htm#081214": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-06-05T17:00:21+00:00",
+    "last_change_at": "2026-07-31T15:00:24+00:00",
     "last_in_stock_at": "2026-06-05T17:00:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -49205,10 +49205,10 @@
     "price_high_cents": 4949
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g38-7fj-1pk-aer-73807-required-to-pay-for-ups-ground-shipping-oop/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:28+00:00",
-    "last_change_at": "2026-07-22T02:42:28+00:00",
+    "last_change_at": "2026-07-31T15:00:26+00:00",
     "last_in_stock_at": "2026-07-22T02:42:28+00:00",
     "last_restock_at": null,
     "restock_count": 0,
