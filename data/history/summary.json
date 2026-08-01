@@ -20787,10 +20787,10 @@
     "price_high_cents": 7120
   },
   "https://wildmanrocketry.com/products/pr29-6xl-ss": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:36:51+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-08-01T19:00:36+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -21411,10 +21411,10 @@
     "price_high_cents": 9074
   },
   "https://wildmanrocketry.com/products/pr38-4g-r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:37:19+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-08-01T19:00:36+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
