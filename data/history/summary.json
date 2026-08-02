@@ -12922,10 +12922,10 @@
     "price_high_cents": 35814
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1524&virtuemart_category_id=154&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:13",
-    "last_change_at": "2026-06-09T23:01:09+00:00",
+    "last_change_at": "2026-08-02T01:01:00+00:00",
     "last_in_stock_at": "2026-06-09T23:01:09+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17641,10 +17641,10 @@
     "price_high_cents": 16964
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k780r-p-reload-kit-hazmat-905.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:27:10",
-    "last_change_at": "2026-07-03T19:30:40+00:00",
+    "last_change_at": "2026-08-02T01:05:34+00:00",
     "last_in_stock_at": "2026-07-03T19:30:40+00:00",
     "last_restock_at": null,
     "restock_count": 0,
