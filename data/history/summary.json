@@ -7176,10 +7176,10 @@
     "price_high_cents": 6499
   },
   "https://wildmanrocketry.com/products/g74-6w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:39",
-    "last_change_at": "2026-07-22T21:05:06+00:00",
+    "last_change_at": "2026-08-03T14:42:00+00:00",
     "last_in_stock_at": "2026-07-22T21:05:06+00:00",
     "last_restock_at": "2026-07-22T21:05:06+00:00",
     "restock_count": 1,
@@ -8983,10 +8983,10 @@
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h135w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:45",
-    "last_change_at": "2026-07-22T21:05:06+00:00",
+    "last_change_at": "2026-08-03T14:42:00+00:00",
     "last_in_stock_at": "2026-07-22T21:05:06+00:00",
     "last_restock_at": "2026-07-22T21:05:06+00:00",
     "restock_count": 2,
