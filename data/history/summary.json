@@ -17082,10 +17082,10 @@
     "price_high_cents": 10787
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j340-m14a-reload-kit-hazmat-580.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:27",
-    "last_change_at": "2026-07-03T19:29:57+00:00",
+    "last_change_at": "2026-08-05T01:04:51+00:00",
     "last_in_stock_at": "2026-07-03T19:29:57+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -18135,10 +18135,10 @@
     "price_high_cents": 77119
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m2050x-ps-reload-kit-hazmat-2073.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:27:49",
-    "last_change_at": "2026-07-03T19:31:18+00:00",
+    "last_change_at": "2026-08-05T01:06:12+00:00",
     "last_in_stock_at": "2026-07-03T19:31:18+00:00",
     "last_restock_at": null,
     "restock_count": 0,
