@@ -2674,7 +2674,7 @@
     "restock_count": 1,
     "price_current_cents": 18899,
     "price_prev_cents": 16799,
-    "price_low_cents": 16799,
+    "price_low_cents": 18899,
     "price_high_cents": 18899
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/54mm/54/852-reloads/aerotech-j460t-14a-blue-thunder-rocket-motor.html": {
@@ -8138,10 +8138,10 @@
     "price_high_cents": 3949
   },
   "https://www.buyrocketmotors.com/products/aerotech-h128w-14a-white-lightning?variant=50855042384169": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:03",
-    "last_change_at": "2026-06-12T16:01:40+00:00",
+    "last_change_at": "2026-08-06T17:07:11+00:00",
     "last_in_stock_at": "2026-06-12T16:01:40+00:00",
     "last_restock_at": "2026-06-12T16:01:40+00:00",
     "restock_count": 1,
@@ -46995,10 +46995,10 @@
     "price_high_cents": 3599
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=74&virtuemart_category_id=3&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-06-18T21:01:20+00:00",
-    "last_change_at": "2026-06-18T21:01:20+00:00",
+    "last_change_at": "2026-08-06T17:07:58+00:00",
     "last_in_stock_at": "2026-06-18T21:01:20+00:00",
     "last_restock_at": null,
     "restock_count": 0,
