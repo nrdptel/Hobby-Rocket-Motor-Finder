@@ -4212,10 +4212,10 @@
     "price_high_cents": 3849
   },
   "https://www.buyrocketmotors.com/products/aerotech-e20-white-lightning-24-mm-single-use-2-pack?variant=50855168508201": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:51",
-    "last_change_at": "2026-05-31T02:23:51",
+    "last_change_at": "2026-08-07T17:00:31+00:00",
     "last_in_stock_at": "2026-05-31T02:23:51",
     "last_restock_at": null,
     "restock_count": 0,
