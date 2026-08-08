@@ -26,9 +26,12 @@ test("selecting motors fills the tray and opens a side-by-side compare", async (
   // The floating tray reflects the selection count.
   await expect(page.getByText("Compare (2/4)")).toBeVisible();
 
-  // Open the compare view from the tray.
+  // Open the compare view from the tray. waitForURL, not toHaveURL: this is a
+  // client-side route transition and the App Router only writes the URL once the
+  // destination has rendered, which scales with CPU pressure — an assertion
+  // timeout (5s) is the wrong budget for a navigation.
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
-  await expect(page).toHaveURL(/\/compare\?ids=\d+,\d+/);
+  await page.waitForURL(/\/compare\?ids=\d+,\d+/);
 
   await expect(page.getByRole("heading", { name: "Compare motors" })).toBeVisible();
   // The spec table is present (one row per dimension) …
@@ -52,7 +55,7 @@ test("a shared compare link renders without any local selection", async ({ page 
   // in a context whose localStorage is irrelevant to the page.
   await pickForCompare(page, 2);
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
-  await expect(page).toHaveURL(/\/compare\?ids=\d+,\d+/);
+  await page.waitForURL(/\/compare\?ids=\d+,\d+/);
   const ids = page.url().match(/[?&]ids=([\d,]+)/)![1];
   expect(ids).toMatch(/^\d+,\d+$/);
 
@@ -64,7 +67,7 @@ test("a shared compare link renders without any local selection", async ({ page 
 test("a legacy /compare/<ids> path link redirects to the ?ids= query form", async ({ page }) => {
   await pickForCompare(page, 2);
   await page.getByRole("link", { name: /Compare 2 motors/ }).click();
-  await expect(page).toHaveURL(/\/compare\?ids=\d+,\d+/);
+  await page.waitForURL(/\/compare\?ids=\d+,\d+/);
   const ids = page.url().match(/[?&]ids=([\d,]+)/)![1];
 
   // The old shareable path form must 302 to the query form and still render.

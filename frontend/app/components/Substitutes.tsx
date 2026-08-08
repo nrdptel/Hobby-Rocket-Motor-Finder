@@ -10,11 +10,31 @@ import { SubstituteLink } from "./SubstituteLink";
  * swap's own detail page — the same {@link SubstituteLink} the detail page's
  * "Similar motors in stock" list uses — so a shopper can vet a suggestion
  * (specs, thrust curve, every vendor) before leaving the site to buy it.
- * A native <details> — no JS. */
-export function Substitutes({ subs }: { subs: Substitute[] | undefined }) {
+ *
+ * A native <details>, and it stays that way: React never renders `open`, so a
+ * toggle costs nothing but the browser's own. The catalog passes `motorId` +
+ * `onToggle` so it can remember which disclosures were expanded and re-open them
+ * after a Back navigation (which remounts the list and would otherwise collapse
+ * the one you were reading) — it does that by setting `.open` on the stamped
+ * node, not by re-rendering. See MotorResults / lib/catalogSession. */
+export function Substitutes({
+  subs,
+  motorId,
+  onToggle,
+}: {
+  subs: Substitute[] | undefined;
+  /** Stamps the disclosure so the catalog can find and re-open it after a
+   * remount. Both layouts render a copy, so this is not unique in the document. */
+  motorId?: number;
+  onToggle?: (open: boolean) => void;
+}) {
   if (!subs || subs.length === 0) return null;
   return (
-    <details className="mt-1">
+    <details
+      className="mt-1"
+      data-swaps-for={motorId}
+      onToggle={onToggle && ((e) => onToggle(e.currentTarget.open))}
+    >
       <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs font-medium text-emerald-700 hover:underline dark:text-emerald-400">
         <span aria-hidden>↻</span>
         {subs.length} similar {subs.length === 1 ? "motor" : "motors"} in stock

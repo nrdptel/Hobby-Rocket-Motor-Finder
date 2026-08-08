@@ -21,9 +21,12 @@ async function starFirstInStock(page: Page, n: number, query = "in_stock=1") {
 test("planner builds a cheapest order from starred motors", async ({ page }) => {
   await starFirstInStock(page, 3);
 
-  // The Plan-order entry point appears once you've starred motors.
+  // The Plan-order entry point appears once you've starred motors. waitForURL,
+  // not toHaveURL: this is a client-side route transition and the App Router
+  // only writes the URL once /plan has rendered — ~300ms unloaded, but it scales
+  // with CPU pressure, so the 5s assertion timeout is the wrong budget for it.
   await page.getByRole("link", { name: /Plan order/ }).first().click();
-  await expect(page).toHaveURL(/\/plan/);
+  await page.waitForURL(/\/plan/);
 
   await expect(page.getByText("Cheapest total")).toBeVisible();
   await expect(page.getByRole("heading", { name: /Your list \(3\)/ })).toBeVisible();

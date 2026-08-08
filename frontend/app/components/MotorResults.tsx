@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   BURN_LABEL,
@@ -22,7 +22,7 @@ import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import type { CatalogHistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
-import { loadScroll, saveScroll } from "@/lib/catalogSession";
+import { loadOpenSwaps, loadScroll, saveOpenSwaps, saveScroll } from "@/lib/catalogSession";
 import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
@@ -39,6 +39,20 @@ import { NotifyButton } from "./NotifyButton";
 import { CompareButton } from "./CompareButton";
 import { StarButton } from "./StarButton";
 import { Substitutes } from "./Substitutes";
+
+/** Shared empty set for the "nothing remembered" case, so the ref initializer
+ * doesn't allocate one on every render (useRef evaluates its argument each time
+ * and keeps only the first). Never mutated — toggling replaces the whole set. */
+const NO_OPEN_SWAPS: ReadonlySet<number> = new Set();
+
+/** Both layouts render a copy of a motor's swap disclosure (the desktop table and
+ * the mobile card list are both always in the DOM, one hidden by CSS), so this
+ * returns 0-2 nodes. */
+function swapNodes(motorId: number): HTMLDetailsElement[] {
+  return [
+    ...document.querySelectorAll<HTMLDetailsElement>(`details[data-swaps-for="${motorId}"]`),
+  ];
+}
 
 /** The interactive results area: a grouped desktop table and the mobile card
  * list, plus the watchlist overlay. It's a client component so the "starred
@@ -109,6 +123,46 @@ export function MotorResults({
     return () => cancelAnimationFrame(id);
   }, [shown, visible.length]);
   const windowed = visible.slice(0, shown);
+
+  // Which motors' swap disclosures are expanded. <details> open state is DOM state
+  // React doesn't re-apply, and rows are unmounted and remounted freely here — on
+  // a Back navigation from a motor page (this whole component remounts), and
+  // whenever the render window resets to the first batch on a filter change. Any
+  // of those would otherwise collapse the list the viewer was reading.
+  //
+  // The set is kept in a ref and applied to the DOM directly, never rendered as an
+  // `open` prop. That keeps a toggle as cheap as the native <details> it is:
+  // routing it through state instead costs ~2s of main-thread work per toggle once
+  // the window has filled, because every re-render rebuilds all ~600 motors' rows.
+  const openSwapsRef = useRef<ReadonlySet<number>>(NO_OPEN_SWAPS);
+  useEffect(() => {
+    openSwapsRef.current = new Set(loadOpenSwaps());
+  }, []);
+
+  // Re-open remembered disclosures whenever rows may have (re)mounted. Only ever
+  // opens: a disclosure the viewer closed has already left the ref, so it stays
+  // shut. Runs after the restore effect above on mount (declaration order), so the
+  // remembered set is populated by the time this first fires.
+  useEffect(() => {
+    for (const id of openSwapsRef.current) {
+      for (const d of swapNodes(id)) if (!d.open) d.open = true;
+    }
+  }, [shown, motors, applyStarred]);
+
+  const toggleSwaps = useCallback((id: number, open: boolean) => {
+    // No-op guard: restoring sets `.open` on both layouts' copies, and each fires
+    // its own toggle event back here. Without this they'd re-persist what was just
+    // read, and the sibling sync below would bounce between the two copies.
+    if (openSwapsRef.current.has(id) === open) return;
+    const next = new Set(openSwapsRef.current);
+    if (open) next.add(id);
+    else next.delete(id);
+    openSwapsRef.current = next;
+    saveOpenSwaps(next);
+    // Keep the other layout's copy in step, so crossing the `md` breakpoint can't
+    // show a disclosure in a state the viewer didn't choose.
+    for (const d of swapNodes(id)) if (d.open !== open) d.open = open;
+  }, []);
 
   // Scroll restoration: on a Back navigation from a motor page (which remounts
   // this component), return the viewer to where they were in the list. The saved
@@ -350,7 +404,11 @@ export function MotorResults({
                   rows.push(
                     <tr key={`${m.id}-subs`}>
                       <td colSpan={6} className="px-3 pb-2 pl-6">
-                        <Substitutes subs={subs} />
+                        <Substitutes
+                          subs={subs}
+                          motorId={m.id}
+                          onToggle={(o) => toggleSwaps(m.id, o)}
+                        />
                       </td>
                     </tr>,
                   );
@@ -379,6 +437,7 @@ export function MotorResults({
               history={history}
               availability={availability[m.id]}
               substitutes={substitutes[m.id]}
+              onToggleSwaps={(o) => toggleSwaps(m.id, o)}
               sparkline={sparklines[m.id]}
             />
           ))

@@ -22,8 +22,11 @@ test("an active rocket shows its loadout and 'add all' loads the order", async (
   await page.addInitScript((r) => window.localStorage.setItem("hpr.rockets.v1", r), ROCKET);
   await page.goto("/?dia=38&cert=l1");
 
-  // The loadout appears (after hydration reads the saved rocket).
-  await expect(page.getByRole("heading", { name: /Fly it:/ })).toBeVisible();
+  // The loadout appears (after hydration reads the saved rocket). Hydrating the
+  // catalog is the slow part and runs ~3s here, so the 5s default leaves almost
+  // no headroom on a loaded machine — give the one hydration-gated assertion a
+  // budget that matches what it's actually waiting for.
+  await expect(page.getByRole("heading", { name: /Fly it:/ })).toBeVisible({ timeout: 30_000 });
 
   const addAll = page.getByRole("button", { name: /Add all \d+ to order/ });
   await expect(addAll).toBeVisible();

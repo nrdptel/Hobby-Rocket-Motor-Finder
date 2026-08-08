@@ -14,6 +14,7 @@
 
 const FILTER_KEY = "hpr.catalog.filter";
 const SCROLL_KEY = "hpr.catalog.scroll";
+const OPEN_SWAPS_KEY = "hpr.catalog.openSwaps";
 
 /** Parse a persisted scroll offset, tolerating absent or corrupt data by
  * returning 0 (top) rather than throwing. Pure — unit-tested in a node env. */
@@ -59,4 +60,32 @@ export function loadScroll(): number {
 
 export function saveScroll(y: number): void {
   write(SCROLL_KEY, String(Math.round(y)));
+}
+
+/** Parse the persisted motor ids whose "similar motors in stock" disclosure was
+ * left open, tolerating absent or corrupt data by returning [] rather than
+ * throwing. Pure — unit-tested in a node env. */
+export function parseOpenSwaps(raw: string | null): number[] {
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((n): n is number => typeof n === "number" && Number.isFinite(n));
+  } catch {
+    return [];
+  }
+}
+
+/** Motor ids whose swap disclosure was open when this tab last left the catalog.
+ * A <details> is DOM state React doesn't re-apply, and the catalog remounts on a
+ * Back navigation from a motor page — so without this, following a swap and
+ * coming back collapses the very list you were reading. */
+export function loadOpenSwaps(): number[] {
+  return parseOpenSwaps(read(OPEN_SWAPS_KEY));
+}
+
+/** Takes any iterable (the caller holds a Set) so the ids are copied once, on the
+ * way into JSON, rather than by both sides. */
+export function saveOpenSwaps(ids: Iterable<number>): void {
+  write(OPEN_SWAPS_KEY, JSON.stringify([...ids]));
 }
