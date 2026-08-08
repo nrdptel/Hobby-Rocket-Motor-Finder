@@ -56,6 +56,14 @@ for (const [name, path] of PAGES) {
       // it's collapsed and never scanned.
       if (name === "catalog") {
         await page.getByRole("button", { name: /Add rocket/ }).click();
+        // Same reason: the swap suggestions under a sold-out motor sit inside a
+        // closed <details>, and axe skips anything with no layout box — so the
+        // substitutes this file's header claims to cover were never scanned.
+        const swaps = page
+          .locator("details")
+          .filter({ has: page.locator("summary", { hasText: /similar motors? in stock/i }) })
+          .first();
+        if (await swaps.count()) await swaps.locator("summary").click();
         await page.waitForTimeout(150);
       }
       const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze();
