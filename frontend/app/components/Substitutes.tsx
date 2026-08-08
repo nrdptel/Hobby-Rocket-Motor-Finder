@@ -1,8 +1,10 @@
+import Link from "next/link";
 import {
   formatImpulse,
   formatPrice,
   formatThrust,
   manufacturerLabel,
+  motorPath,
   safeHref,
 } from "@/lib/derive";
 import type { Substitute } from "@/lib/derive";
@@ -11,7 +13,10 @@ import { PackHint } from "./PackHint";
 /** "N similar motors in stock" disclosure shown under a motor that's sold out
  * everywhere. Each entry is a same-mount (diameter), same-cert (impulse class)
  * motor whose impulse/thrust are close enough to fly in its place, with the
- * cheapest in-stock price and a link to buy it. A native <details> — no JS. */
+ * cheapest in-stock price and a link to buy it. The designation links to the
+ * swap's own detail page — the same affordance the detail page's "Similar motors
+ * in stock" list has — so a shopper can vet a suggestion (specs, thrust curve,
+ * every vendor) before leaving the site to buy it. A native <details> — no JS. */
 export function Substitutes({ subs }: { subs: Substitute[] | undefined }) {
   if (!subs || subs.length === 0) return null;
   return (
@@ -34,13 +39,17 @@ export function Substitutes({ subs }: { subs: Substitute[] | undefined }) {
             key={`${s.designation}-${i}`}
             className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5"
           >
-            <span className="min-w-0">
+            <Link
+              href={motorPath(s)}
+              className="min-w-0 hover:underline"
+              title={`${s.designation} details, specs & all vendors`}
+            >
               <span className="font-mono text-zinc-800 dark:text-zinc-200">{s.designation}</span>
               <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
                 {manufacturerLabel(s.manufacturer)} · {formatImpulse(s.total_impulse_ns)} ·{" "}
                 {formatThrust(s.avg_thrust_n)}
               </span>
-            </span>
+            </Link>
             <span className="shrink-0 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
               {formatPrice(s.bestPriceCents, s.currency)}
               <PackHint listing={s} />
