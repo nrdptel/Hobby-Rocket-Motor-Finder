@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import {
   BURN_LABEL,
@@ -22,7 +22,7 @@ import type { GroupedMotor, Substitute } from "@/lib/derive";
 import type { CatalogAvailability } from "@/lib/history";
 import type { CatalogHistorySummary } from "@/lib/snapshot";
 import { useWatchlist } from "@/lib/watchlist";
-import { loadScroll, saveScroll } from "@/lib/catalogSession";
+import { loadOpenSwaps, loadScroll, saveOpenSwaps, saveScroll } from "@/lib/catalogSession";
 import { unitPriceCents } from "@/lib/pack";
 import { priceSignal } from "@/lib/priceSignal";
 import { BestPriceTag } from "./BestPriceTag";
@@ -109,6 +109,37 @@ export function MotorResults({
     return () => cancelAnimationFrame(id);
   }, [shown, visible.length]);
   const windowed = visible.slice(0, shown);
+
+  // Which motors' swap disclosures were open when this tab last left the catalog.
+  // <details> open state is DOM state React doesn't re-apply, and this component
+  // remounts on a Back navigation from a motor page — so following a swap and
+  // coming back would otherwise collapse the list the viewer was reading.
+  //
+  // This is an INITIAL value, not controlled state. It starts empty (so the first
+  // client render matches the static SSR HTML) and is set once, on mount, from
+  // sessionStorage. Toggling deliberately does NOT setState: it only updates the
+  // ref and storage, so opening a disclosure stays as cheap as the native
+  // <details> it is. Making it controlled instead costs ~2s of main-thread work
+  // per toggle once the window has filled, because every re-render rebuilds all
+  // ~600 motors' rows. React only writes `open` to the DOM when the prop CHANGES
+  // between renders, so a viewer's own toggle survives the auto-fill re-renders.
+  const openSwapsRef = useRef<ReadonlySet<number>>(new Set());
+  const [initialOpenSwaps, setInitialOpenSwaps] = useState<ReadonlySet<number>>(
+    openSwapsRef.current,
+  );
+  useEffect(() => {
+    const restored: ReadonlySet<number> = new Set(loadOpenSwaps());
+    if (restored.size === 0) return; // nothing remembered — skip the re-render
+    openSwapsRef.current = restored;
+    setInitialOpenSwaps(restored);
+  }, []);
+  const toggleSwaps = useCallback((id: number, open: boolean) => {
+    const next = new Set(openSwapsRef.current);
+    if (open) next.add(id);
+    else next.delete(id);
+    openSwapsRef.current = next;
+    saveOpenSwaps([...next]);
+  }, []);
 
   // Scroll restoration: on a Back navigation from a motor page (which remounts
   // this component), return the viewer to where they were in the list. The saved
@@ -350,7 +381,11 @@ export function MotorResults({
                   rows.push(
                     <tr key={`${m.id}-subs`}>
                       <td colSpan={6} className="px-3 pb-2 pl-6">
-                        <Substitutes subs={subs} />
+                        <Substitutes
+                          subs={subs}
+                          open={initialOpenSwaps.has(m.id)}
+                          onToggle={(o) => toggleSwaps(m.id, o)}
+                        />
                       </td>
                     </tr>,
                   );
@@ -379,6 +414,8 @@ export function MotorResults({
               history={history}
               availability={availability[m.id]}
               substitutes={substitutes[m.id]}
+              swapsOpen={initialOpenSwaps.has(m.id)}
+              onToggleSwaps={(o) => toggleSwaps(m.id, o)}
               sparkline={sparklines[m.id]}
             />
           ))

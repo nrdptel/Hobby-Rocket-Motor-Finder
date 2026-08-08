@@ -50,7 +50,11 @@ async function expectSwapOpensItsDetailPage(page: Page, scope: Locator, hidden: 
 
   await swap.click();
 
-  await expect.poll(() => new URL(page.url()).pathname).toBe(href);
+  // waitForURL, not an expect() on page.url(): this is a client-side route
+  // transition, and the App Router only writes the URL once the destination has
+  // rendered. That takes ~300ms unloaded but scales with CPU pressure, so an
+  // assertion timeout (5s) is the wrong budget for it — a navigation one is.
+  await page.waitForURL((u) => u.pathname === href);
   // The real check that the link points at the RIGHT motor: the page it lands on
   // is titled with the designation we clicked.
   await expect(page.getByRole("heading", { level: 1, name: designation })).toBeVisible();
@@ -65,6 +69,33 @@ test("the same swap link works in the mobile card list", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
   await expectSwapOpensItsDetailPage(page, resultsCards(page), resultsTable(page));
+});
+
+// Coming Back from a swap must land you on the list you left, still open. The
+// catalog remounts on Back (that's why it restores scroll), and <details> open
+// state is DOM state React doesn't otherwise re-apply — so without persistence
+// the shopper who followed swap 1 has to re-find and re-open the disclosure to
+// look at swap 2.
+test("the swap list is still open after coming Back from a swap", async ({ page }) => {
+  await page.goto("/");
+  const details = await firstSwapDisclosure(page, resultsTable(page));
+  await details.locator("summary").click();
+
+  const swap = details.locator('a[href^="/motor/"]').first();
+  const href = (await swap.getAttribute("href"))!;
+  await expect(swap).toBeVisible();
+  await swap.click();
+  await page.waitForURL((u) => u.pathname === href);
+
+  await page.goBack();
+  await page.waitForURL((u) => u.pathname === "/");
+
+  // Open means readable: a collapsed <details> hides its body, so asserting the
+  // swap we followed is visible inside the same disclosure is both the
+  // user-facing claim and a sturdier check than the open attribute. Scoped to
+  // that one disclosure — a popular swap is suggested under several motors.
+  const back = await firstSwapDisclosure(page, resultsTable(page));
+  await expect(back.locator(`a[href="${href}"]`)).toBeVisible({ timeout: 15_000 });
 });
 
 // The designation must look like a link at rest, not only on hover: there is no

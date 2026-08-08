@@ -50,6 +50,8 @@ export function MotorCard({
   history,
   availability,
   substitutes,
+  swapsOpen,
+  onToggleSwaps,
   sparkline,
 }: {
   motor: GroupedMotor;
@@ -58,6 +60,10 @@ export function MotorCard({
   history: CatalogHistorySummary;
   availability: CatalogAvailability | undefined;
   substitutes?: Substitute[];
+  /** Whether the swap disclosure starts open — an INITIAL value restored by
+   * MotorResults after a Back navigation, not live state. See its comment. */
+  swapsOpen?: boolean;
+  onToggleSwaps?: (open: boolean) => void;
   /** Precomputed thrust-curve sparkline path for this motor, if any. */
   sparkline?: string;
 }) {
@@ -177,7 +183,7 @@ export function MotorCard({
 
       {substitutes && substitutes.length > 0 && (
         <div className="mt-3 border-t border-zinc-200 pt-2 dark:border-zinc-800/80">
-          <Substitutes subs={substitutes} />
+          <Substitutes subs={substitutes} open={swapsOpen} onToggle={onToggleSwaps} />
         </div>
       )}
     </article>
