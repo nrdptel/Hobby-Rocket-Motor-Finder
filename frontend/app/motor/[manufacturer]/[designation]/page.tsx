@@ -58,6 +58,7 @@ import { NotifyButton } from "@/app/components/NotifyButton";
 import { SnapshotTime } from "@/app/components/SnapshotTime";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { StarButton } from "@/app/components/StarButton";
+import { SubstituteLink } from "@/app/components/SubstituteLink";
 
 // Hazmat shipping (derived in lib/derive). H+ / >62.5g propellant must ship
 // hazmat; A–E never do; F/G sit in a legal-but-vendor-dependent gray zone.
@@ -521,16 +522,7 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                   key={s.id}
                   className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-0.5 px-3 py-2"
                 >
-                  <Link
-                    href={motorPath(s)}
-                    className="min-w-0 hover:underline"
-                  >
-                    <span className="font-mono text-zinc-900 dark:text-zinc-100">{s.designation}</span>
-                    <span className="ml-2 text-xs text-zinc-500 dark:text-zinc-400">
-                      {manufacturerLabel(s.manufacturer)} · {formatImpulse(s.total_impulse_ns)} ·{" "}
-                      {formatThrust(s.avg_thrust_n)}
-                    </span>
-                  </Link>
+                  <SubstituteLink motor={s} />
                   <span className="shrink-0 text-xs tabular-nums text-zinc-600 dark:text-zinc-300">
                     {formatPrice(price, cur)}
                     <PackHint listing={cheapestL} />
