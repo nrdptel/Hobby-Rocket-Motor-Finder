@@ -20,6 +20,16 @@ const resultsTable = (page: Page) =>
 // MotorCard is the only <article> on the catalog page.
 const resultsCards = (page: Page) => page.locator("article");
 
+// Wait until the catalog is hydrated and React owns the page. The static export
+// ships the first batch of ~50 motors, and the window auto-grows past that only
+// once client JS is running — so more cards than the SSR batch proves hydration.
+// Tests that merely click something must gate on this: <details> opens natively
+// with no JS, so a pre-hydration click toggles the disclosure without React ever
+// hearing the toggle event, and nothing gets recorded.
+async function waitForHydration(page: Page) {
+  await expect.poll(() => resultsCards(page).count(), { timeout: 30_000 }).toBeGreaterThan(60);
+}
+
 // The first swap disclosure inside `scope`. Matching on the SUMMARY's text (not
 // the whole <details>) keeps this off the Methodology panel, which also contains
 // the phrase "Similar motors in stock" — in its body, as a <dt>. The results
@@ -76,9 +86,13 @@ test("the same swap link works in the mobile card list", async ({ page }) => {
 // state is DOM state React doesn't otherwise re-apply — so without persistence
 // the shopper who followed swap 1 has to re-find and re-open the disclosure to
 // look at swap 2.
-test("the swap list is still open after coming Back from a swap", async ({ page }) => {
-  await page.goto("/");
-  const details = await firstSwapDisclosure(page, resultsTable(page));
+async function expectSwapListSurvivesBack(page: Page, scope: Locator, hidden: Locator) {
+  await expect(scope.first()).toBeVisible();
+  await expect(hidden.first()).toBeHidden();
+  // Recording the toggle needs React attached — see waitForHydration.
+  await waitForHydration(page);
+
+  const details = await firstSwapDisclosure(page, scope);
   await details.locator("summary").click();
 
   const swap = details.locator('a[href^="/motor/"]').first();
@@ -94,8 +108,47 @@ test("the swap list is still open after coming Back from a swap", async ({ page 
   // swap we followed is visible inside the same disclosure is both the
   // user-facing claim and a sturdier check than the open attribute. Scoped to
   // that one disclosure — a popular swap is suggested under several motors.
-  const back = await firstSwapDisclosure(page, resultsTable(page));
+  const back = await firstSwapDisclosure(page, scope);
   await expect(back.locator(`a[href="${href}"]`)).toBeVisible({ timeout: 15_000 });
+}
+
+test("the swap list is still open after coming Back from a swap", async ({ page }) => {
+  test.setTimeout(90_000); // waits out a full hydrate, a route change, and a Back
+  await page.goto("/");
+  await expectSwapListSurvivesBack(page, resultsTable(page), resultsCards(page));
+});
+
+test("the swap list survives Back in the mobile card list too", async ({ page }) => {
+  test.setTimeout(90_000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expectSwapListSurvivesBack(page, resultsCards(page), resultsTable(page));
+});
+
+// A filter change resets the render window to its first batch, unmounting and
+// remounting every row past it. A disclosure the viewer opened in THIS session
+// (never persisted through a navigation) has to survive that too — otherwise it
+// collapses under them, the same way a Back used to.
+test("an open swap list survives the remount a filter change causes", async ({ page }) => {
+  // Drives a full hydrate plus two complete re-filters, each re-rendering the
+  // whole catalog — more wall-clock than the 30s default allows under load.
+  test.setTimeout(90_000);
+  await page.goto("/");
+  await waitForHydration(page);
+
+  const details = await firstSwapDisclosure(page, resultsTable(page));
+  await details.locator("summary").click();
+  const href = (await details.locator('a[href^="/motor/"]').first().getAttribute("href"))!;
+  await expect(details.locator(`a[href="${href}"]`)).toBeVisible();
+
+  // Any filter change resets the window (and re-renders the whole list).
+  await page.getByRole("button", { name: "In stock only" }).click();
+  await expect(page).toHaveURL(/in_stock=1/);
+  await page.getByRole("button", { name: "In stock only" }).click();
+  await expect(page).not.toHaveURL(/in_stock/);
+
+  const after = await firstSwapDisclosure(page, resultsTable(page));
+  await expect(after.locator(`a[href="${href}"]`)).toBeVisible({ timeout: 15_000 });
 });
 
 // The designation must look like a link at rest, not only on hover: there is no

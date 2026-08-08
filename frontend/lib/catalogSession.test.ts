@@ -39,7 +39,9 @@ describe("parseOpenSwaps", () => {
 
   it("drops non-numeric and non-finite entries rather than the whole list", () => {
     expect(parseOpenSwaps('[364,"366",null,370]')).toEqual([364, 370]);
-    // JSON has no Infinity/NaN literal; they arrive as null and are dropped.
-    expect(parseOpenSwaps("[null,364]")).toEqual([364]);
+    // An overflowing numeric literal parses to Infinity (JSON.stringify can't
+    // produce one, but a corrupt/hand-edited value can), so the finite check is
+    // load-bearing, not belt-and-braces.
+    expect(parseOpenSwaps("[1e999,364]")).toEqual([364]);
   });
 });

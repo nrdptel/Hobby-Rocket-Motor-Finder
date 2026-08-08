@@ -11,26 +11,28 @@ import { SubstituteLink } from "./SubstituteLink";
  * "Similar motors in stock" list uses — so a shopper can vet a suggestion
  * (specs, thrust curve, every vendor) before leaving the site to buy it.
  *
- * A native <details>: with no `open`/`onToggle` it needs no JS at all, and even
- * with them the toggle itself stays native — `open` is an INITIAL value the
- * catalog uses to reopen the disclosure after a Back navigation (which remounts
- * the list and would otherwise collapse it), and `onToggle` only records the
- * change. Neither drives a re-render. See MotorResults / lib/catalogSession. */
+ * A native <details>, and it stays that way: React never renders `open`, so a
+ * toggle costs nothing but the browser's own. The catalog passes `motorId` +
+ * `onToggle` so it can remember which disclosures were expanded and re-open them
+ * after a Back navigation (which remounts the list and would otherwise collapse
+ * the one you were reading) — it does that by setting `.open` on the stamped
+ * node, not by re-rendering. See MotorResults / lib/catalogSession. */
 export function Substitutes({
   subs,
-  open,
+  motorId,
   onToggle,
 }: {
   subs: Substitute[] | undefined;
-  /** Initial open state only — this is not a controlled disclosure. */
-  open?: boolean;
+  /** Stamps the disclosure so the catalog can find and re-open it after a
+   * remount. Both layouts render a copy, so this is not unique in the document. */
+  motorId?: number;
   onToggle?: (open: boolean) => void;
 }) {
   if (!subs || subs.length === 0) return null;
   return (
     <details
       className="mt-1"
-      open={open}
+      data-swaps-for={motorId}
       onToggle={onToggle && ((e) => onToggle(e.currentTarget.open))}
     >
       <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs font-medium text-emerald-700 hover:underline dark:text-emerald-400">

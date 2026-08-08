@@ -84,6 +84,8 @@ export function loadOpenSwaps(): number[] {
   return parseOpenSwaps(read(OPEN_SWAPS_KEY));
 }
 
-export function saveOpenSwaps(ids: readonly number[]): void {
+/** Takes any iterable (the caller holds a Set) so the ids are copied once, on the
+ * way into JSON, rather than by both sides. */
+export function saveOpenSwaps(ids: Iterable<number>): void {
   write(OPEN_SWAPS_KEY, JSON.stringify([...ids]));
 }
