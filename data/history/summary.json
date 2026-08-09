@@ -17381,10 +17381,10 @@
     "price_high_cents": 16442
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1275r-p-reload-kit-hazmat-451.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:50",
-    "last_change_at": "2026-07-03T19:30:20+00:00",
+    "last_change_at": "2026-08-09T18:48:13+00:00",
     "last_in_stock_at": "2026-07-03T19:30:20+00:00",
     "last_restock_at": null,
     "restock_count": 0,
