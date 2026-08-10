@@ -27030,14 +27030,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-07-01T07:00:24+00:00",
+    "last_change_at": "2026-08-10T18:59:12+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4799,
-    "price_prev_cents": 4199,
-    "price_low_cents": 4799,
-    "price_high_cents": 4799
+    "price_current_cents": 4749,
+    "price_prev_cents": 4799,
+    "price_low_cents": 4749,
+    "price_high_cents": 4749
   },
   "https://aerotech-rocketry.com/products/enerjet-by-aerotech-e24-4c-2-motor-pack-52407": {
     "currently_in_stock": false,
@@ -36416,14 +36416,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:22+00:00",
-    "last_change_at": "2026-06-05T17:00:22+00:00",
+    "last_change_at": "2026-08-10T18:59:13+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 7499,
-    "price_prev_cents": null,
-    "price_low_cents": 7499,
-    "price_high_cents": 7499
+    "price_current_cents": 8399,
+    "price_prev_cents": 7499,
+    "price_low_cents": 8399,
+    "price_high_cents": 8399
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9154#I215R-M": {
     "currently_in_stock": false,
@@ -36559,14 +36559,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:22+00:00",
-    "last_change_at": "2026-06-05T17:00:22+00:00",
+    "last_change_at": "2026-08-10T18:59:13+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 7499,
-    "price_prev_cents": null,
-    "price_low_cents": 7499,
-    "price_high_cents": 7499
+    "price_current_cents": 8399,
+    "price_prev_cents": 7499,
+    "price_low_cents": 8399,
+    "price_high_cents": 8399
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9154#I229T-M": {
     "currently_in_stock": true,
@@ -39536,14 +39536,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:22+00:00",
-    "last_change_at": "2026-06-05T17:00:22+00:00",
+    "last_change_at": "2026-08-10T18:59:12+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 11599,
-    "price_prev_cents": null,
-    "price_low_cents": 11599,
-    "price_high_cents": 11599
+    "price_current_cents": 12999,
+    "price_prev_cents": 11599,
+    "price_low_cents": 12999,
+    "price_high_cents": 12999
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9134#J570W-14A": {
     "currently_in_stock": true,
@@ -39718,14 +39718,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:22+00:00",
-    "last_change_at": "2026-06-05T17:00:22+00:00",
+    "last_change_at": "2026-08-10T18:59:12+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 11599,
-    "price_prev_cents": null,
-    "price_low_cents": 11599,
-    "price_high_cents": 11599
+    "price_current_cents": 12999,
+    "price_prev_cents": 11599,
+    "price_low_cents": 12999,
+    "price_high_cents": 12999
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9134#J825R-14A": {
     "currently_in_stock": false,
