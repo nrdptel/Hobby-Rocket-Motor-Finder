@@ -338,10 +338,10 @@
     "price_high_cents": 3149
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d13-4w-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:29",
-    "last_change_at": "2026-07-29T01:00:56+00:00",
+    "last_change_at": "2026-08-12T17:01:06+00:00",
     "last_in_stock_at": "2026-07-29T01:00:56+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -351,10 +351,10 @@
     "price_high_cents": 3149
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d13-7w-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:30",
-    "last_change_at": "2026-07-29T01:00:57+00:00",
+    "last_change_at": "2026-08-12T17:01:06+00:00",
     "last_in_stock_at": "2026-07-29T01:00:57+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -8567,10 +8567,10 @@
     "price_high_cents": 4199
   },
   "https://wildmanrocketry.com/products/h219t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:47",
-    "last_change_at": "2026-07-01T14:00:35+00:00",
+    "last_change_at": "2026-08-12T17:00:33+00:00",
     "last_in_stock_at": "2026-07-01T14:00:35+00:00",
     "last_restock_at": "2026-06-30T16:00:32+00:00",
     "restock_count": 1,
@@ -8788,10 +8788,10 @@
     "price_high_cents": 4939
   },
   "https://wildmanrocketry.com/products/h283st": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:48",
-    "last_change_at": "2026-07-01T22:00:29+00:00",
+    "last_change_at": "2026-08-12T17:00:33+00:00",
     "last_in_stock_at": "2026-07-01T22:00:29+00:00",
     "last_restock_at": null,
     "restock_count": 0,
