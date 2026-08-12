@@ -49429,14 +49429,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:28+00:00",
-    "last_change_at": "2026-07-22T02:42:28+00:00",
+    "last_change_at": "2026-08-12T18:00:25+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 5499,
-    "price_prev_cents": null,
+    "price_current_cents": 6199,
+    "price_prev_cents": 5499,
     "price_low_cents": 5499,
-    "price_high_cents": 5499
+    "price_high_cents": 6199
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-h165r-14a-1pk-aer-081614-required-to-pay-for-ups-ground-shipping-requires-level-1-certification/": {
     "currently_in_stock": true,
@@ -49455,13 +49455,13 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:28+00:00",
-    "last_change_at": "2026-07-22T02:42:28+00:00",
+    "last_change_at": "2026-08-12T18:00:25+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4699,
-    "price_prev_cents": null,
+    "price_current_cents": 5299,
+    "price_prev_cents": 4699,
     "price_low_cents": 4699,
-    "price_high_cents": 4699
+    "price_high_cents": 5299
   }
 }
