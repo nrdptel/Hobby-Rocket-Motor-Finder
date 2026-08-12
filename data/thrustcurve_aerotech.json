@@ -2985,7 +2985,7 @@
     "caseInfo": "RMS-29/240",
     "certOrg": "National Association of Rocketry",
     "commonName": "H220",
-    "dataFiles": 2,
+    "dataFiles": 3,
     "delayAdjustable": false,
     "delays": "4,6,8,10,12,14",
     "designation": "H220T",
