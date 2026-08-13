@@ -23842,10 +23842,10 @@
     "price_high_cents": 32931
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-75/3g-reloads/cesaroni-l1050-blue-streak-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:49+00:00",
-    "last_change_at": "2026-06-03T02:28:49+00:00",
+    "last_change_at": "2026-08-13T02:02:36+00:00",
     "last_in_stock_at": "2026-06-03T02:28:49+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -24700,10 +24700,10 @@
     "price_high_cents": 58923
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-75/6g-reloads/cesaroni-m840-white-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:59+00:00",
-    "last_change_at": "2026-06-03T02:28:59+00:00",
+    "last_change_at": "2026-08-13T02:02:43+00:00",
     "last_in_stock_at": "2026-06-03T02:28:59+00:00",
     "last_restock_at": null,
     "restock_count": 0,
