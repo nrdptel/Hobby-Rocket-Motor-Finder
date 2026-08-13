@@ -19669,10 +19669,10 @@
     "price_high_cents": 4489
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-29/3g-reloads/cesaroni-g106-14a-skidmark-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:05+00:00",
-    "last_change_at": "2026-06-03T02:28:05+00:00",
+    "last_change_at": "2026-08-13T06:02:20+00:00",
     "last_in_stock_at": "2026-06-03T02:28:05+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -20982,10 +20982,10 @@
     "price_high_cents": 7619
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-38/3g-reloads/cesaroni-i212-14a-smokey-sam-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:21+00:00",
-    "last_change_at": "2026-06-03T02:28:21+00:00",
+    "last_change_at": "2026-08-13T06:02:34+00:00",
     "last_in_stock_at": "2026-06-03T02:28:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -21138,10 +21138,10 @@
     "price_high_cents": 8708
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-38/3g-reloads/cesaroni-i195-16a-red-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:20+00:00",
-    "last_change_at": "2026-06-03T02:28:20+00:00",
+    "last_change_at": "2026-08-13T06:02:33+00:00",
     "last_in_stock_at": "2026-06-03T02:28:20+00:00",
     "last_restock_at": null,
     "restock_count": 0,
