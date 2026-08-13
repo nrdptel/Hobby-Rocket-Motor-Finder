@@ -338,7 +338,7 @@
     "commonName": "I110",
     "dataFiles": 2,
     "delayAdjustable": false,
-    "delays": "P",
+    "delays": "5,8,10",
     "designation": "I110-LW",
     "diameter": 38,
     "impulseClass": "I",
@@ -348,11 +348,13 @@
     "maxThrustN": 284,
     "motorId": "5f4294d20002310000000205",
     "propInfo": "Loki White",
+    "propWeightG": 289,
     "source_url": "http://www.thrustcurve.org/motors/Loki/I110-LW/",
     "sparky": false,
     "totImpulseNs": 487.8,
+    "totalWeightG": 588,
     "type": "reload",
-    "updatedOn": "2019-04-17"
+    "updatedOn": "2026-08-13"
   },
   {
     "availability": "regular",

@@ -2375,7 +2375,7 @@
   {
     "availability": "regular",
     "avgThrustN": 180.9,
-    "burnTimeS": 1.873,
+    "burnTimeS": 1.87,
     "caseInfo": "Pro38-3G",
     "certOrg": "Tripoli Rocketry Association, Inc.",
     "commonName": "I180",
@@ -2385,7 +2385,8 @@
     "designation": "338I180-14A",
     "diameter": 38,
     "impulseClass": "I",
-    "length": 243,
+    "infoUrl": "https://pro38.com/products/p38-3g/338i180-14a/",
+    "length": 245,
     "manufacturer": "Cesaroni Technology",
     "manufacturerAbbrev": "Cesaroni",
     "maxThrustN": 212.96,
@@ -2397,7 +2398,7 @@
     "totImpulseNs": 338.42,
     "totalWeightG": 394,
     "type": "reload",
-    "updatedOn": "2019-04-17"
+    "updatedOn": "2026-08-13"
   },
   {
     "availability": "regular",
@@ -4916,7 +4917,7 @@
     "designation": "2014K1200-16A",
     "diameter": 54,
     "impulseClass": "K",
-    "length": 404,
+    "length": 488,
     "manufacturer": "Cesaroni Technology",
     "manufacturerAbbrev": "Cesaroni",
     "maxThrustN": 1363.9,
@@ -4926,9 +4927,9 @@
     "source_url": "http://www.thrustcurve.org/motors/Cesaroni/2014K1200-16A/",
     "sparky": false,
     "totImpulseNs": 2014,
-    "totalWeightG": 1631.9,
+    "totalWeightG": 1631.8999999999999,
     "type": "reload",
-    "updatedOn": "2019-04-17"
+    "updatedOn": "2026-08-13"
   },
   {
     "availability": "regular",
