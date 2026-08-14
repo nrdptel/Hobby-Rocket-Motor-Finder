@@ -47,6 +47,12 @@ DEFAULTS: dict[str, float] = {
     "unmatched_spike_ratio": 2.0,   # unmatched above 2x baseline = anomalous
     "min_unmatched_baseline": 8,    # ignore vendors whose unmatched baseline is tiny
     "min_unmatched_spike": 15,      # and require an absolute jump at least this big
+    # Chronic degradation (see ``update_carry_window``). Sized for the hourly
+    # scrape, so the window is about a day.
+    "carry_window": 24,        # runs of carry/healthy history kept per vendor
+    "chronic_min_window": 12,  # need this much history before judging
+    "chronic_open": 5,         # carried in >= this many of the window → escalate
+    "chronic_close": 2,        # ...and stays escalated until it falls to <= this
 }
 
 
@@ -210,6 +216,95 @@ def sustained_anomalies(
         annotated = {**an, "streak": streak}
         if streak >= cfg["streak_to_alert"]:
             out.append(annotated)
+    return out
+
+
+def update_carry_window(
+    baseline: dict[str, dict],
+    decision: dict[str, str],
+    cfg: dict[str, float] | None = None,
+) -> dict[str, dict]:
+    """Return a NEW baseline with each vendor's rolling carry history advanced by
+    this run, and its latched ``chronic`` flag re-evaluated.
+
+    This is the CHRONIC-degradation signal, and it's deliberately the one piece of
+    health state that records non-healthy runs. Everything else here learns only
+    from healthy runs (see ``update_baseline``), and the staleness alerter only
+    fires on ONE sustained outage — so a vendor that fails a fifth of its runs and
+    recovers within a couple of hours each time is invisible to both: never stale
+    long enough to escalate, never fresh enough to be judged against its baseline.
+    That is exactly the shape of a vendor blocking the CI egress IP intermittently.
+
+    ``carry_window`` outcomes are kept per vendor (1 = carried or failed, 0 =
+    healthy), most recent last. The verdict is latched with hysteresis — it opens
+    at ``chronic_open`` and only clears at ``chronic_close`` — so a vendor sitting
+    near the threshold can't flap the tracking issue open and closed every hour.
+
+    Vendors absent from ``decision`` keep their history untouched: a vendor
+    dropped from the registry shouldn't have its record rewritten, and a run that
+    never reached a vendor has no outcome to record.
+    """
+    cfg = {**DEFAULTS, **(cfg or {})}
+    size = int(cfg["carry_window"])
+    out = {k: dict(v) for k, v in baseline.items()}
+    for vendor, d in decision.items():
+        b = dict(out.get(vendor, {}))
+        window = [int(x) for x in b.get("carry_window", [])][-size:]
+        window.append(0 if d == "healthy" else 1)
+        window = window[-size:]
+        carried = sum(window)
+        was_chronic = bool(b.get("chronic", False))
+        if len(window) < int(cfg["chronic_min_window"]):
+            # Not enough history to change the verdict either way.
+            chronic = was_chronic
+        elif carried >= int(cfg["chronic_open"]):
+            chronic = True
+        elif carried <= int(cfg["chronic_close"]):
+            chronic = False
+        else:
+            chronic = was_chronic
+        b["carry_window"] = window
+        b["chronic"] = chronic
+        out[vendor] = b
+    return out
+
+
+def chronic_vendors(
+    baseline: dict[str, dict],
+    cfg: dict[str, float] | None = None,
+) -> list[dict]:
+    """Vendors currently latched chronic, with the carry counts behind the verdict.
+    Read AFTER ``update_carry_window`` so the numbers match this run."""
+    cfg = {**DEFAULTS, **(cfg or {})}
+    out: list[dict] = []
+    for vendor in sorted(baseline):
+        b = baseline[vendor]
+        if not b.get("chronic"):
+            continue
+        window = [int(x) for x in b.get("carry_window", [])]
+        out.append(
+            {
+                "vendor": vendor,
+                "carried": sum(window),
+                "window": len(window),
+                "reason": (
+                    f"degraded in {sum(window)} of the last {len(window)} runs "
+                    f"(opens at {int(cfg['chronic_open'])}, clears at "
+                    f"{int(cfg['chronic_close'])})"
+                ),
+            }
+        )
+    return out
+
+
+def carry_rates(baseline: dict[str, dict]) -> dict[str, dict[str, int]]:
+    """Per-vendor ``{"carried", "window"}`` from the rolling history — reported
+    every run so the trend is visible before it crosses the threshold."""
+    out: dict[str, dict[str, int]] = {}
+    for vendor, b in baseline.items():
+        window = [int(x) for x in b.get("carry_window", [])]
+        if window:
+            out[vendor] = {"carried": sum(window), "window": len(window)}
     return out
 
 

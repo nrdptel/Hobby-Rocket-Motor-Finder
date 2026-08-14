@@ -186,3 +186,58 @@ def test_vendor_floor_override_still_carries_a_truly_degraded_small_vendor():
             "unmatched": []}
     _, report = carry_forward(fresh, prev, floor=200, vendor_floors={"loki": 10})
     assert report["decision"]["loki"] == "carried"
+
+
+# --- production floors match the real vendors -------------------------------
+#
+# The floor is meant to catch a COLLAPSE (parse break → near-zero). A vendor whose
+# healthy catalog sits below its floor is permanently "carried" instead: it never
+# publishes a fresh decision, never enters the health baseline, and so is excluded
+# from anomaly detection entirely — a vendor with no working failure detection at
+# all. eRockets (~64 listings vs the global floor of 200) sat like that. These
+# tests are the structural guard, so the next small vendor added can't repeat it.
+
+import json  # noqa: E402
+from pathlib import Path  # noqa: E402
+
+import pytest  # noqa: E402
+
+from hpr_finder.cli import _VENDOR_FLOORS  # noqa: E402
+from hpr_finder.scrapers import REGISTRY  # noqa: E402
+
+# The floor the production workflow passes (.github/workflows/scrape.yml).
+_PRODUCTION_FLOOR = 200
+_SNAPSHOT = Path(__file__).resolve().parents[2] / "data" / "snapshot.json"
+
+
+def _published_counts() -> dict[str, int]:
+    if not _SNAPSHOT.exists():
+        pytest.skip("no committed snapshot to check floors against")
+    snap = json.loads(_SNAPSHOT.read_text())
+    return vendor_counts(snap)
+
+
+def test_every_published_vendor_clears_its_own_floor():
+    counts = _published_counts()
+    assert counts, "committed snapshot has no listings"
+    under = {
+        vendor: (n, _VENDOR_FLOORS.get(vendor, _PRODUCTION_FLOOR))
+        for vendor, n in counts.items()
+        if n < _VENDOR_FLOORS.get(vendor, _PRODUCTION_FLOOR)
+    }
+    assert not under, (
+        "these vendors publish fewer listings than their carry-forward floor, so "
+        "they are permanently 'carried' and invisible to anomaly detection — give "
+        f"each a _VENDOR_FLOORS override (~60% of its healthy count): {under}"
+    )
+
+
+def test_vendor_floor_overrides_refer_to_registered_vendors():
+    unknown = sorted(set(_VENDOR_FLOORS) - set(REGISTRY))
+    assert not unknown, f"_VENDOR_FLOORS names vendors that aren't registered: {unknown}"
+
+
+def test_erockets_healthy_catalog_is_above_its_floor():
+    # The specific regression: ~64 listings against a global floor of 200.
+    floor = _VENDOR_FLOORS.get("erockets", _PRODUCTION_FLOOR)
+    assert floor < 64, "eRockets' healthy catalog (~64) must clear its floor"

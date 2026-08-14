@@ -13,6 +13,10 @@
 #      runs (partial degradation, or an in-stock collapse that staleness misses
 #      because the data is fresh). Computed in hpr health and reported as
 #      .anomaly_sustained.
+#   3. Chronic degradation — a vendor that keeps failing and recovering: never
+#      stale long enough to trip (1) and never freshly-scraped when it fails, so
+#      invisible to (2). Reported as .chronic_any, latched with hysteresis in
+#      hpr health so a vendor near the threshold can't flap the issue hourly.
 # Total failures exit the workflow non-zero and are covered by GitHub's native
 # failure email, so they're not the issue's job.
 #
@@ -55,6 +59,22 @@ detail=$(jq -r '
 # Sustained-staleness gate: is the freshest published data older than the threshold?
 sustained=$(jq -r --argjson t "$THRESHOLD_HOURS" '(.max_stale_hours // 0) >= $t' "$REPORT")
 
+# Chronic degradation (older reports lack the fields → default empty/false).
+chronic_any=$(jq -r '.chronic_any // false' "$REPORT")
+chronic=$(jq -r '
+  (.chronic // [])
+  | if length == 0 then "none"
+    else map("- **\(.vendor)**: \(.reason)") | join("\n")
+    end
+' "$REPORT")
+# Every vendor's recent carry rate — visible before it crosses the threshold.
+rates=$(jq -r '
+  (.carry_rates // {}) | to_entries | map(select(.value.carried > 0)) | sort_by(-.value.carried)
+  | if length == 0 then "all vendors clean over the tracked window"
+    else map("- **\(.key)**: \(.value.carried)/\(.value.window) runs degraded") | join("\n")
+    end
+' "$REPORT")
+
 # Sustained below-baseline anomaly (older reports lack the field → default false).
 anomaly_sustained=$(jq -r '.anomaly_sustained // false' "$REPORT")
 anomalies=$(jq -r '
@@ -87,9 +107,10 @@ scrape_errors=$(jq -r '
     end
 ' "$REPORT")
 
-# Either sustained signal escalates to the single tracking issue.
+# Any sustained signal escalates to the single tracking issue.
 escalate=false
-[[ "$sustained" == "true" || "$anomaly_sustained" == "true" ]] && escalate=true
+[[ "$sustained" == "true" || "$anomaly_sustained" == "true" || "$chronic_any" == "true" ]] \
+  && escalate=true
 
 # --- always: run summary ---------------------------------------------------
 if [[ "$escalate" == "true" ]]; then
@@ -97,6 +118,7 @@ if [[ "$escalate" == "true" ]]; then
   reasons=()
   [[ "$sustained" == "true" ]] && reasons+=("data stale ${max_stale}h (≥ ${THRESHOLD_HOURS}h)")
   [[ "$anomaly_sustained" == "true" ]] && reasons+=("vendor below baseline")
+  [[ "$chronic_any" == "true" ]] && reasons+=("vendor chronically degraded")
   head="SUSTAINED: $(IFS=';'; echo "${reasons[*]}")"
 elif [[ "$degraded" == "true" ]]; then
   icon="⚠️"; head="degraded but within threshold (carry-forward absorbing it)"
@@ -112,6 +134,12 @@ ${detail}
 
 **Below-baseline anomalies:**
 ${anomalies}
+
+**Chronically degraded:**
+${chronic}
+
+**Recent degradation rate:**
+${rates}
 
 **Scrape duration** (max ${max_run}s · no finished run: ${no_finished}):
 ${durations}
@@ -137,6 +165,7 @@ A sustained scrape-health problem is being masked by carry-forward / fresh-but-d
 **Run:** ${generated}
 **Staleness:** max ${max_stale}h (threshold ${THRESHOLD_HOURS}h) — sustained: ${sustained}
 **Below-baseline anomaly sustained:** ${anomaly_sustained}
+**Chronic degradation:** ${chronic_any}
 **Carried forward (serving last-good data):** ${carried}
 **Failed (no data at all):** ${failed}
 
@@ -145,6 +174,12 @@ ${detail}
 
 Below-baseline anomalies (vendor above floor + fresh, but well under its own normal counts):
 ${anomalies}
+
+Chronically degraded (keeps failing and recovering — each outage too short to go stale):
+${chronic}
+
+Recent degradation rate, all vendors:
+${rates}
 
 Last scrape errors (categorized — why the latest run failed):
 ${scrape_errors}
@@ -172,7 +207,7 @@ if [[ "$escalate" == "true" ]]; then
 else
   if [[ -n "$existing" ]]; then
     echo "recovered; closing issue #$existing"
-    gh issue comment "$existing" --body "✅ Recovered as of ${generated} — staleness ${max_stale}h (< ${THRESHOLD_HOURS}h) and no sustained below-baseline anomaly. Closing."
+    gh issue comment "$existing" --body "✅ Recovered as of ${generated} — staleness ${max_stale}h (< ${THRESHOLD_HOURS}h), no sustained below-baseline anomaly, and no chronic degradation. Closing."
     gh issue close "$existing"
   else
     echo "no sustained problem; nothing to do (summary written)"

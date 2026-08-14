@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 import typer
 
-from hpr_finder import db
+from hpr_finder import db, health
 from hpr_finder.cli import (
     _categorize_scrape_error,
     _parse_iso,
@@ -703,3 +703,48 @@ def test_snapshot_marks_discontinued_oop_motor(tmp_db, tmp_path):
     snap = json.loads(out.read_text())
     e15 = next(m for m in snap["motors"] if m["designation"] == "E15W")
     assert e15["discontinued"] is True
+
+
+# --- chronic degradation in the report ---------------------------------------
+
+
+def test_report_tracks_carry_history_and_stays_quiet_on_one_run(tmp_db, tmp_path):
+    """One healthy run seeds the rolling carry window without escalating."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert status["chronic"] == []
+    assert status["chronic_any"] is False
+    assert status["carry_rates"] == {"csrocketry": {"carried": 0, "window": 1}}
+    b = json.loads(baseline.read_text())
+    assert b["csrocketry"]["carry_window"] == [0]
+    assert b["csrocketry"]["chronic"] is False
+
+
+def test_report_escalates_a_chronically_degraded_vendor(tmp_db, tmp_path):
+    """A vendor already carrying a mostly-degraded history escalates on this run —
+    the failure shape the staleness and anomaly paths both miss."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+    # Prime a window that's one degraded run short of the open threshold.
+    opens = int(health.DEFAULTS["chronic_open"])
+    span = int(health.DEFAULTS["chronic_min_window"])
+    primed = [1] * (opens - 1) + [0] * (span - opens)
+    baseline.write_text(json.dumps({"csrocketry": {"carry_window": primed, "chronic": False}}))
+
+    # floor=2 with a single seeded listing → csrocketry is below floor this run.
+    snapshot_export(out=out, floor=2, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert status["chronic_any"] is True
+    assert [c["vendor"] for c in status["chronic"]] == ["csrocketry"]
+    assert status["chronic"][0]["carried"] == opens
+    # Escalation comes from the carry history alone — no anomaly was detected.
+    assert status["anomaly_sustained"] is False

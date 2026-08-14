@@ -143,3 +143,66 @@ def test_missing_report_is_a_noop(tmp_path):
     calls, summary = _run(tmp_path, _base_report(), write_report=False)
     assert calls == []
     assert "No health report" in summary
+
+
+# --- chronic degradation -----------------------------------------------------
+
+
+def _chronic_report(**overrides):
+    return _base_report(
+        degraded=True,
+        carried=["sirius"],
+        max_stale_hours=2.0,  # well under the 6h threshold — staleness won't fire
+        decision={"sirius": "carried"},
+        chronic_any=True,
+        chronic=[
+            {
+                "vendor": "sirius",
+                "carried": 5,
+                "window": 24,
+                "reason": "degraded in 5 of the last 24 runs (opens at 5, clears at 2)",
+            }
+        ],
+        carry_rates={"sirius": {"carried": 5, "window": 24}},
+        **overrides,
+    )
+
+
+def test_chronic_degradation_opens_a_tracking_issue(tmp_path):
+    # The gap this closes: short outages that recover before the staleness
+    # threshold, on a vendor that's carried (so the anomaly path skips it).
+    calls, summary = _run(tmp_path, _chronic_report())
+    assert _did(calls, "issue", "create")
+    assert "🚨" in summary
+    assert "chronically degraded" in summary or "Chronically degraded" in summary
+
+
+def test_chronic_issue_names_the_vendor_and_its_rate(tmp_path):
+    calls, summary = _run(tmp_path, _chronic_report())
+    body = "\n".join(calls)
+    assert "sirius" in body
+    assert "5 of the last 24 runs" in body
+    assert "5/24 runs degraded" in summary
+
+
+def test_chronic_recovery_closes_the_issue(tmp_path):
+    report = _base_report(chronic_any=False, chronic=[], carry_rates={"sirius": {"carried": 1, "window": 24}})
+    calls, _ = _run(tmp_path, report, existing="42")
+    assert _did(calls, "issue", "close", "42")
+
+
+def test_carry_rates_are_reported_without_escalating(tmp_path):
+    # Below the chronic threshold: visible in the summary, but no issue.
+    report = _base_report(carry_rates={"amw": {"carried": 2, "window": 24}})
+    calls, summary = _run(tmp_path, report)
+    assert not _did(calls, "issue", "create")
+    assert "2/24 runs degraded" in summary
+
+
+def test_report_without_chronic_fields_still_works(tmp_path):
+    # An older report (pre-chronic) must not crash the alerter or escalate.
+    report = _base_report()
+    report.pop("chronic_any", None)
+    calls, summary = _run(tmp_path, report)
+    assert not _did(calls, "issue", "create")
+    assert "✅" in summary
