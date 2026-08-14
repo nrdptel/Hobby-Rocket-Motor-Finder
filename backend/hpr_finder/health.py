@@ -219,6 +219,11 @@ def sustained_anomalies(
     return out
 
 
+def _window(entry: dict) -> list[int]:
+    """A baseline entry's carry history as ints (missing/legacy → empty)."""
+    return [int(x) for x in entry.get("carry_window", [])]
+
+
 def update_carry_window(
     baseline: dict[str, dict],
     decision: dict[str, str],
@@ -249,9 +254,7 @@ def update_carry_window(
     out = {k: dict(v) for k, v in baseline.items()}
     for vendor, d in decision.items():
         b = dict(out.get(vendor, {}))
-        window = [int(x) for x in b.get("carry_window", [])][-size:]
-        window.append(0 if d == "healthy" else 1)
-        window = window[-size:]
+        window = (_window(b) + [0 if d == "healthy" else 1])[-size:]
         carried = sum(window)
         was_chronic = bool(b.get("chronic", False))
         if len(window) < int(cfg["chronic_min_window"]):
@@ -271,24 +274,34 @@ def update_carry_window(
 
 def chronic_vendors(
     baseline: dict[str, dict],
+    vendors: set[str] | None = None,
     cfg: dict[str, float] | None = None,
 ) -> list[dict]:
     """Vendors currently latched chronic, with the carry counts behind the verdict.
-    Read AFTER ``update_carry_window`` so the numbers match this run."""
+    Read AFTER ``update_carry_window`` so the numbers match this run.
+
+    ``vendors`` restricts the result to the ones this run actually knows about.
+    Pass it: the latch is only ever re-evaluated for vendors that appear in a run
+    (see ``update_carry_window``), so a renamed or retired slug would otherwise sit
+    in the baseline latched forever, with no code path able to clear it — pinning
+    the tracking issue open on a vendor that no longer exists."""
     cfg = {**DEFAULTS, **(cfg or {})}
     out: list[dict] = []
     for vendor in sorted(baseline):
+        if vendors is not None and vendor not in vendors:
+            continue
         b = baseline[vendor]
         if not b.get("chronic"):
             continue
-        window = [int(x) for x in b.get("carry_window", [])]
+        window = _window(b)
+        carried, size = sum(window), len(window)
         out.append(
             {
                 "vendor": vendor,
-                "carried": sum(window),
-                "window": len(window),
+                "carried": carried,
+                "window": size,
                 "reason": (
-                    f"degraded in {sum(window)} of the last {len(window)} runs "
+                    f"degraded in {carried} of the last {size} runs "
                     f"(opens at {int(cfg['chronic_open'])}, clears at "
                     f"{int(cfg['chronic_close'])})"
                 ),
@@ -302,7 +315,7 @@ def carry_rates(baseline: dict[str, dict]) -> dict[str, dict[str, int]]:
     every run so the trend is visible before it crosses the threshold."""
     out: dict[str, dict[str, int]] = {}
     for vendor, b in baseline.items():
-        window = [int(x) for x in b.get("carry_window", [])]
+        window = _window(b)
         if window:
             out[vendor] = {"carried": sum(window), "window": len(window)}
     return out

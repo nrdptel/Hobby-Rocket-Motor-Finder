@@ -1,7 +1,19 @@
 """Tests for snapshot.carry_forward — keep a degraded vendor's last-good data."""
 from __future__ import annotations
 
+import json
+import re
+from pathlib import Path
+
+import pytest
+
+from hpr_finder.cli import _VENDOR_FLOORS
+from hpr_finder.scrapers import REGISTRY
 from hpr_finder.snapshot import carry_forward, vendor_counts
+
+_REPO_ROOT = Path(__file__).resolve().parents[2]
+_SNAPSHOT = _REPO_ROOT / "data" / "snapshot.json"
+_BASELINE = _REPO_ROOT / "data" / "health-baseline.json"
 
 
 def _listing(vendor, url, status="in_stock"):
@@ -197,47 +209,56 @@ def test_vendor_floor_override_still_carries_a_truly_degraded_small_vendor():
 # all. eRockets (~64 listings vs the global floor of 200) sat like that. These
 # tests are the structural guard, so the next small vendor added can't repeat it.
 
-import json  # noqa: E402
-from pathlib import Path  # noqa: E402
 
-import pytest  # noqa: E402
-
-from hpr_finder.cli import _VENDOR_FLOORS  # noqa: E402
-from hpr_finder.scrapers import REGISTRY  # noqa: E402
-
-# The floor the production workflow passes (.github/workflows/scrape.yml).
-_PRODUCTION_FLOOR = 200
-_SNAPSHOT = Path(__file__).resolve().parents[2] / "data" / "snapshot.json"
+def _production_floor() -> int:
+    """The floor the hourly workflow actually passes. Read from the workflow rather
+    than duplicated here: a hard-coded copy would keep reporting green after someone
+    raised --floor, silently disarming the very guard below."""
+    wf = (_REPO_ROOT / ".github" / "workflows" / "scrape.yml").read_text()
+    m = re.search(r"snapshot export --floor (\d+)", wf)
+    assert m, "couldn't find `snapshot export --floor N` in scrape.yml"
+    return int(m.group(1))
 
 
-def _published_counts() -> dict[str, int]:
+def _healthy_counts() -> dict[str, int]:
+    """Each vendor's HEALTHY listing count.
+
+    Prefers the EWMA count in data/health-baseline.json, which by construction only
+    learns from healthy runs — so a snapshot published while a vendor is degraded
+    can't make this guard fail on an unrelated PR. Falls back to the snapshot for a
+    vendor with no baseline yet (a newly added one), which is exactly when a missing
+    floor override should be caught.
+    """
     if not _SNAPSHOT.exists():
         pytest.skip("no committed snapshot to check floors against")
-    snap = json.loads(_SNAPSHOT.read_text())
-    return vendor_counts(snap)
+    counts = vendor_counts(json.loads(_SNAPSHOT.read_text()))
+    baseline = {}
+    if _BASELINE.exists():
+        baseline = json.loads(_BASELINE.read_text())
+    for vendor, entry in baseline.items():
+        learned = entry.get("count")
+        if vendor in counts and learned:
+            counts[vendor] = round(learned)
+    return counts
 
 
-def test_every_published_vendor_clears_its_own_floor():
-    counts = _published_counts()
+def test_every_vendor_clears_its_own_floor():
+    floor = _production_floor()
+    counts = _healthy_counts()
     assert counts, "committed snapshot has no listings"
     under = {
-        vendor: (n, _VENDOR_FLOORS.get(vendor, _PRODUCTION_FLOOR))
+        vendor: (n, _VENDOR_FLOORS.get(vendor, floor))
         for vendor, n in counts.items()
-        if n < _VENDOR_FLOORS.get(vendor, _PRODUCTION_FLOOR)
+        if n < _VENDOR_FLOORS.get(vendor, floor)
     }
     assert not under, (
-        "these vendors publish fewer listings than their carry-forward floor, so "
-        "they are permanently 'carried' and invisible to anomaly detection — give "
-        f"each a _VENDOR_FLOORS override (~60% of its healthy count): {under}"
+        "these vendors' healthy catalogs are smaller than their carry-forward "
+        "floor, so they are permanently 'carried' and invisible to anomaly "
+        "detection — give each a _VENDOR_FLOORS override (~60% of its healthy "
+        f"count): {under}"
     )
 
 
 def test_vendor_floor_overrides_refer_to_registered_vendors():
     unknown = sorted(set(_VENDOR_FLOORS) - set(REGISTRY))
     assert not unknown, f"_VENDOR_FLOORS names vendors that aren't registered: {unknown}"
-
-
-def test_erockets_healthy_catalog_is_above_its_floor():
-    # The specific regression: ~64 listings against a global floor of 200.
-    floor = _VENDOR_FLOORS.get("erockets", _PRODUCTION_FLOOR)
-    assert floor < 64, "eRockets' healthy catalog (~64) must clear its floor"

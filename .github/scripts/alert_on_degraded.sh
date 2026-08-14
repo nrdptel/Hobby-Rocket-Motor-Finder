@@ -4,7 +4,7 @@
 #
 # Philosophy: carry-forward already handles transient vendor blips gracefully,
 # so we do NOT alert on every degraded run. We escalate to a tracking issue only
-# on a SUSTAINED problem, of which there are now two kinds:
+# on a SUSTAINED problem, of which there are now three kinds:
 #   1. Staleness — a vendor whose published data has gone stale beyond a
 #      threshold (carried-forward data keeps its original seen_at, so staleness
 #      grows each hour the outage persists).
@@ -21,9 +21,15 @@
 # failure email, so they're not the issue's job.
 #
 # Every run:   write a one-line health note to the Actions run summary.
-# Sustained:   open ONE tracking issue (keyed on a fixed title; no duplicates).
+# Sustained:   open ONE tracking issue per KIND (keyed on a fixed title).
 # While open:  stay silent — the open issue is the signal, no hourly comments.
 # Recovered:   comment "recovered" and close the issue.
+#
+# Outage (1-2) and chronic (3) get SEPARATE issues on purpose. Chronic degradation
+# is by nature long-lived — a vendor failing ~a fifth of its runs sits latched for
+# weeks — and "stay silent while open" is scoped to one issue. Sharing an issue
+# would mean a chronic vendor pins it open and silences the outage alert for the
+# entire time, which is strictly worse than the gap this is meant to close.
 #
 # Requires: gh (authenticated via GH_TOKEN), jq. Needs `issues: write`.
 set -euo pipefail
@@ -31,6 +37,7 @@ set -euo pipefail
 REPORT="${1:-data/scrape-status.json}"
 THRESHOLD_HOURS="${2:-6}"
 TITLE="🚨 Scrape health: a vendor needs attention"
+CHRONIC_TITLE="⚠️ Scrape health: a vendor is chronically degraded"
 # Repo owner (from the workflow's github.repository_owner). When set, the tracking
 # issue @mentions and is assigned to them, so the alert notifies reliably even if
 # their repo watch is "participating only". Forks get their own owner here.
@@ -107,7 +114,8 @@ scrape_errors=$(jq -r '
     end
 ' "$REPORT")
 
-# Any sustained signal escalates to the single tracking issue.
+# Any sustained signal drives the 🚨 run-summary headline. Which ISSUE it opens is
+# decided per-kind below.
 escalate=false
 [[ "$sustained" == "true" || "$anomaly_sustained" == "true" || "$chronic_any" == "true" ]] \
   && escalate=true
@@ -149,51 +157,25 @@ ${durations}
 **Last scrape errors:**
 ${scrape_errors}"
 
-# --- issue lifecycle: sustained staleness OR a sustained below-baseline anomaly ---
-# Tolerate a transient GitHub API hiccup: under `set -e` an un-guarded failure
-# here would abort the whole alerter (after the run summary, before opening or
-# closing the issue) on the very run an outage needs it. Degrade to "no issue
-# action this run" instead of crashing.
-existing=$(gh issue list --state open --search "in:title $TITLE" \
-  --json number,title \
-  --jq "map(select(.title == \"$TITLE\")) | .[0].number // empty" 2>/dev/null || echo "")
+# --- issue lifecycle ---------------------------------------------------------
+# One auto-closing issue per KIND, keyed on its title. Tolerate a transient GitHub
+# API hiccup: under `set -e` an un-guarded failure here would abort the whole
+# alerter (after the run summary, before opening or closing) on the very run an
+# outage needs it. Degrade to "no issue action this run" instead of crashing.
+sync_issue() {
+  local title="$1" want_open="$2" body="$3" recovery="$4"
+  local existing url num
+  existing=$(gh issue list --state open --search "in:title $title" \
+    --json number,title \
+    --jq "map(select(.title == \"$title\")) | .[0].number // empty" 2>/dev/null || echo "")
 
-body="${OWNER:+@$OWNER — }Automated by the hourly scrape workflow.
-
-A sustained scrape-health problem is being masked by carry-forward / fresh-but-degraded data — not a transient blip.
-
-**Run:** ${generated}
-**Staleness:** max ${max_stale}h (threshold ${THRESHOLD_HOURS}h) — sustained: ${sustained}
-**Below-baseline anomaly sustained:** ${anomaly_sustained}
-**Chronic degradation:** ${chronic_any}
-**Carried forward (serving last-good data):** ${carried}
-**Failed (no data at all):** ${failed}
-
-Per-vendor decision:
-${detail}
-
-Below-baseline anomalies (vendor above floor + fresh, but well under its own normal counts):
-${anomalies}
-
-Chronically degraded (keeps failing and recovering — each outage too short to go stale):
-${chronic}
-
-Recent degradation rate, all vendors:
-${rates}
-
-Last scrape errors (categorized — why the latest run failed):
-${scrape_errors}
-
-Vendors with no finished scrape run this cycle (likely a hang): ${no_finished}
-
-This issue auto-closes once the scrape is healthy again. Logs: [Actions](../../actions/workflows/scrape.yml)."
-
-if [[ "$escalate" == "true" ]]; then
-  if [[ -n "$existing" ]]; then
-    echo "sustained problem; issue #$existing already open — staying quiet"
-  else
-    echo "sustained problem; opening tracking issue"
-    url=$(gh issue create --title "$TITLE" --body "$body")
+  if [[ "$want_open" == "true" ]]; then
+    if [[ -n "$existing" ]]; then
+      echo "problem persists; issue #$existing already open — staying quiet"
+      return
+    fi
+    echo "opening tracking issue: $title"
+    url=$(gh issue create --title "$title" --body "$body")
     echo "opened: $url"
     # Assign the owner on top of the @mention so the notification lands even with
     # a "participating only" watch. Tolerate a non-assignable owner (some fork/org
@@ -203,13 +185,66 @@ if [[ "$escalate" == "true" ]]; then
       gh issue edit "$num" --add-assignee "$OWNER" >/dev/null 2>&1 \
         || echo "note: couldn't assign @$OWNER (not assignable?) — relying on the @mention"
     fi
-  fi
-else
-  if [[ -n "$existing" ]]; then
-    echo "recovered; closing issue #$existing"
-    gh issue comment "$existing" --body "✅ Recovered as of ${generated} — staleness ${max_stale}h (< ${THRESHOLD_HOURS}h), no sustained below-baseline anomaly, and no chronic degradation. Closing."
-    gh issue close "$existing"
   else
-    echo "no sustained problem; nothing to do (summary written)"
+    if [[ -n "$existing" ]]; then
+      echo "recovered; closing issue #$existing"
+      gh issue comment "$existing" --body "$recovery"
+      gh issue close "$existing"
+    else
+      echo "nothing to do for: $title (summary written)"
+    fi
   fi
-fi
+}
+
+# 1-2: a sustained OUTAGE — data stale past the threshold, or a vendor sustained
+# below its own baseline.
+outage_body="${OWNER:+@$OWNER — }Automated by the hourly scrape workflow.
+
+A sustained scrape-health problem is being masked by carry-forward / fresh-but-degraded data — not a transient blip.
+
+**Run:** ${generated}
+**Staleness:** max ${max_stale}h (threshold ${THRESHOLD_HOURS}h) — sustained: ${sustained}
+**Below-baseline anomaly sustained:** ${anomaly_sustained}
+**Carried forward (serving last-good data):** ${carried}
+**Failed (no data at all):** ${failed}
+
+Per-vendor decision:
+${detail}
+
+Below-baseline anomalies (vendor above floor + fresh, but well under its own normal counts):
+${anomalies}
+
+Last scrape errors (categorized — why the latest run failed):
+${scrape_errors}
+
+Vendors with no finished scrape run this cycle (likely a hang): ${no_finished}
+
+This issue auto-closes once the scrape is healthy again. Logs: [Actions](../../actions/workflows/scrape.yml)."
+
+outage=false
+[[ "$sustained" == "true" || "$anomaly_sustained" == "true" ]] && outage=true
+sync_issue "$TITLE" "$outage" "$outage_body" \
+  "✅ Recovered as of ${generated} — staleness ${max_stale}h (< ${THRESHOLD_HOURS}h) and no sustained below-baseline anomaly. Closing."
+
+# 3: CHRONIC degradation — a vendor that keeps failing and recovering. Tracked
+# separately so it can stay open for as long as it's true without silencing the
+# outage issue above.
+chronic_body="${OWNER:+@$OWNER — }Automated by the hourly scrape workflow.
+
+A vendor is failing and recovering repeatedly. Each outage is short enough that the published data never goes stale long enough to escalate, and the vendor is carried on exactly those runs — so the staleness and below-baseline checks both miss it.
+
+**Run:** ${generated}
+
+Chronically degraded:
+${chronic}
+
+Recent degradation rate, all vendors:
+${rates}
+
+Last scrape errors (categorized — why the latest run failed):
+${scrape_errors}
+
+Expect this to stay open while the pattern holds; it auto-closes once the rate drops back. Logs: [Actions](../../actions/workflows/scrape.yml)."
+
+sync_issue "$CHRONIC_TITLE" "$chronic_any" "$chronic_body" \
+  "✅ Recovered as of ${generated} — no vendor is chronically degraded any more. Closing."

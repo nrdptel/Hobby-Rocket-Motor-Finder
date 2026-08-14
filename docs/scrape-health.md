@@ -8,13 +8,15 @@ emptier with nobody noticing. There are four layers, from loudest to quietest.
 
 `hpr snapshot export --floor 200` compares each vendor's fresh listing count to a
 floor (global 200, with per-vendor overrides in `cli._VENDOR_FLOORS` for small
-catalogs). Every override matters: a vendor whose *healthy* catalog sits below its
+catalogs). A vendor below its floor is **carried** (its last-good listings are
+reused from the previous snapshot) or, with no prior data, **failed** (kept but
+flagged).
+
+Every per-vendor override matters. A vendor whose *healthy* catalog sits below its
 floor is carried on **every** run, which quietly removes it from the baseline and
 from layer 3 entirely — it ends up with no failure detection at all. A test in
-`test_snapshot_carry_forward.py` fails if any published vendor is under its floor.
-A vendor below its floor is **carried** (its last-good listings are
-reused from the previous snapshot) or, with no prior data, **failed** (kept but
-flagged). A snapshot with *no* listings at all refuses to publish (exit non-zero
+`test_snapshot_carry_forward.py` fails if any vendor's healthy count is under its
+floor, checked against the floor the workflow actually passes. A snapshot with *no* listings at all refuses to publish (exit non-zero
 → GitHub's native workflow-failure email). See `snapshot.py:carry_forward`.
 
 ## 2. Sustained staleness → tracking issue
@@ -104,7 +106,15 @@ after hour.
 
 Reported as `.chronic` / `.chronic_any`, plus `.carry_rates` for **every** vendor
 every run — so a vendor trending toward the threshold is visible in the run
-summary before it crosses it.
+summary before it crosses it. Registered vendors that published nothing at all are
+recorded as degraded too: a vendor blocked to zero with no prior data never reaches
+`carry_forward`'s decision map, and that is the failure most worth catching.
+
+This escalates to its **own** tracking issue, separate from layers 2–3. Chronic
+degradation is long-lived by nature — a vendor failing ~a fifth of its runs stays
+latched for weeks — and the alerter is deliberately silent while an issue is open.
+Sharing one issue would let a chronic vendor pin it open and suppress every outage
+alert for the whole time, which is worse than the gap this closes.
 
 ## Where each signal shows up
 
@@ -114,7 +124,7 @@ summary before it crosses it.
 | Total scrape failure | Workflow fails → GitHub native email |
 | Sustained staleness | One auto-closing GitHub issue |
 | Sustained below-baseline anomaly | Same GitHub issue |
-| Chronic degradation (flapping vendor) | Same GitHub issue |
+| Chronic degradation (flapping vendor) | A second, independent GitHub issue |
 | Per-vendor recent degradation rate | Run summary every run (`carry_rates`) |
 | Slow scrape / hung vendor | Run summary only (duration + no-finished-run list) |
 

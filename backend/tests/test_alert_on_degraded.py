@@ -24,10 +24,20 @@ SCRIPT = Path(__file__).resolve().parents[2] / ".github" / "scripts" / "alert_on
 # Fake `gh`: log every invocation, and for `gh issue list` emit the configured
 # existing-issue number (or nothing) so the script's "is an issue already open?"
 # check can be driven from the test.
+#
+# The script keeps TWO independent tracking issues (outage vs chronic) and tells
+# them apart by title, so the stub has to as well — real `gh` filters by exact
+# title via --jq. A stub that answered every search with the same number would let
+# one lifecycle close the other's issue, which is precisely the failure the split
+# exists to prevent.
 _FAKE_GH = """#!/usr/bin/env bash
 echo "$*" >> "$GH_LOG"
 if [[ "$1" == "issue" && "$2" == "list" ]]; then
-  [[ -n "${GH_EXISTING:-}" ]] && echo "$GH_EXISTING"
+  if [[ "$*" == *"chronically degraded"* ]]; then
+    [[ -n "${GH_EXISTING_CHRONIC:-}" ]] && echo "$GH_EXISTING_CHRONIC"
+  else
+    [[ -n "${GH_EXISTING:-}" ]] && echo "$GH_EXISTING"
+  fi
 fi
 exit 0
 """
@@ -59,7 +69,7 @@ def _base_report(**overrides) -> dict:
     return report
 
 
-def _run(tmp_path, report, *, existing="", threshold="6", write_report=True):
+def _run(tmp_path, report, *, existing="", existing_chronic="", threshold="6", write_report=True):
     """Run the alert script against ``report`` with a stubbed gh. Returns
     (gh_calls, run_summary_text)."""
     report_path = tmp_path / "status.json"
@@ -81,6 +91,7 @@ def _run(tmp_path, report, *, existing="", threshold="6", write_report=True):
         "PATH": f"{bin_dir}{os.pathsep}{os.environ['PATH']}",
         "GH_LOG": str(gh_log),
         "GH_EXISTING": existing,
+        "GH_EXISTING_CHRONIC": existing_chronic,
         "GITHUB_STEP_SUMMARY": str(summary),
     }
     subprocess.run(["bash", str(SCRIPT), str(report_path), threshold], env=env, check=True)
@@ -91,6 +102,13 @@ def _run(tmp_path, report, *, existing="", threshold="6", write_report=True):
 def _did(calls, *needles) -> bool:
     """True if some gh invocation contains all of ``needles``."""
     return any(all(n in c for n in needles) for c in calls)
+
+
+def _closed(calls) -> bool:
+    """True if `gh issue close` was actually invoked. Matched exactly, because the
+    fake logs multi-line issue BODIES too and they contain phrases like "this issue
+    auto-closes" — a loose ("issue", "close") match reads those as a real close."""
+    return any(c.startswith("issue close") for c in calls)
 
 
 def test_healthy_run_opens_no_issue(tmp_path):
@@ -149,10 +167,10 @@ def test_missing_report_is_a_noop(tmp_path):
 
 
 def _chronic_report(**overrides):
+    overrides.setdefault("max_stale_hours", 2.0)  # under 6h — staleness won't fire
     return _base_report(
         degraded=True,
         carried=["sirius"],
-        max_stale_hours=2.0,  # well under the 6h threshold — staleness won't fire
         decision={"sirius": "carried"},
         chronic_any=True,
         chronic=[
@@ -187,7 +205,7 @@ def test_chronic_issue_names_the_vendor_and_its_rate(tmp_path):
 
 def test_chronic_recovery_closes_the_issue(tmp_path):
     report = _base_report(chronic_any=False, chronic=[], carry_rates={"sirius": {"carried": 1, "window": 24}})
-    calls, _ = _run(tmp_path, report, existing="42")
+    calls, _ = _run(tmp_path, report, existing_chronic="42")
     assert _did(calls, "issue", "close", "42")
 
 
@@ -206,3 +224,23 @@ def test_report_without_chronic_fields_still_works(tmp_path):
     calls, summary = _run(tmp_path, report)
     assert not _did(calls, "issue", "create")
     assert "✅" in summary
+
+
+def test_chronic_issue_does_not_silence_a_new_outage(tmp_path):
+    """The reason chronic gets its own issue: it stays open for weeks at realistic
+    rates, and the alerter is deliberately silent while ITS issue is open. Sharing
+    one issue would mean a chronic vendor suppresses every outage alert."""
+    report = _chronic_report(max_stale_hours=9.0)  # a genuinely new sustained outage
+    calls, _ = _run(tmp_path, report, existing_chronic="42")  # chronic already open
+    # The outage issue is still opened, despite the chronic issue sitting open.
+    assert _did(calls, "issue", "create", "needs attention")
+    # ...and the chronic one is neither duplicated nor closed.
+    assert not _did(calls, "issue", "create", "chronically degraded")
+    assert not _closed(calls)
+
+
+def test_open_outage_issue_does_not_block_a_chronic_issue(tmp_path):
+    """And the reverse: an unrelated open outage issue must not swallow chronic."""
+    calls, _ = _run(tmp_path, _chronic_report(), existing="7")
+    assert _did(calls, "issue", "create", "chronically degraded")
+    assert not _did(calls, "issue", "create", "needs attention")

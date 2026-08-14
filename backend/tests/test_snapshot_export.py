@@ -715,15 +715,42 @@ def test_report_tracks_carry_history_and_stays_quiet_on_one_run(tmp_db, tmp_path
     report = tmp_path / "status.json"
     baseline = tmp_path / "baseline.json"
 
-    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+    snapshot_export(out=out, floor=1, report_json=report, baseline_json=baseline)
 
     status = json.loads(report.read_text())
     assert status["chronic"] == []
     assert status["chronic_any"] is False
-    assert status["carry_rates"] == {"csrocketry": {"carried": 0, "window": 1}}
     b = json.loads(baseline.read_text())
     assert b["csrocketry"]["carry_window"] == [0]
     assert b["csrocketry"]["chronic"] is False
+    # Every REGISTERED vendor is recorded, not just the ones that published: a
+    # vendor blocked to zero with no prior data never reaches carry_forward's
+    # decision map, and that's the failure most worth catching.
+    assert status["carry_rates"]["csrocketry"] == {"carried": 0, "window": 1}
+    assert status["carry_rates"]["erockets"] == {"carried": 1, "window": 1}
+
+
+def test_carry_history_is_not_advanced_without_a_floor(tmp_db, tmp_path):
+    """With no floor there is no carry-forward, so every vendor is synthesized
+    'healthy'. Recording that would let a local export push clean runs into the
+    committed baseline and un-latch a vendor that is degraded in production."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+    baseline.write_text(json.dumps({"sirius": {"carry_window": [1] * 8, "chronic": True}}))
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    b = json.loads(baseline.read_text())
+    assert b["sirius"]["carry_window"] == [1] * 8, "must not touch the real history"
+    assert b["sirius"]["chronic"] is True
+    # The existing history is still REPORTED (read-only is fine); it just wasn't
+    # advanced, and no vendor was newly recorded.
+    status = json.loads(report.read_text())
+    assert status["carry_rates"] == {"sirius": {"carried": 8, "window": 8}}
+    # ...and the stale latch isn't escalated, since sirius isn't in this run.
+    assert status["chronic_any"] is False
 
 
 def test_report_escalates_a_chronically_degraded_vendor(tmp_db, tmp_path):
