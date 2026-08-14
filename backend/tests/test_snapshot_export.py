@@ -14,7 +14,7 @@ from pathlib import Path
 import pytest
 import typer
 
-from hpr_finder import db
+from hpr_finder import db, health
 from hpr_finder.cli import (
     _categorize_scrape_error,
     _parse_iso,
@@ -703,3 +703,75 @@ def test_snapshot_marks_discontinued_oop_motor(tmp_db, tmp_path):
     snap = json.loads(out.read_text())
     e15 = next(m for m in snap["motors"] if m["designation"] == "E15W")
     assert e15["discontinued"] is True
+
+
+# --- chronic degradation in the report ---------------------------------------
+
+
+def test_report_tracks_carry_history_and_stays_quiet_on_one_run(tmp_db, tmp_path):
+    """One healthy run seeds the rolling carry window without escalating."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+
+    snapshot_export(out=out, floor=1, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert status["chronic"] == []
+    assert status["chronic_any"] is False
+    b = json.loads(baseline.read_text())
+    assert b["csrocketry"]["carry_window"] == [0]
+    assert b["csrocketry"]["chronic"] is False
+    # Every REGISTERED vendor is recorded, not just the ones that published: a
+    # vendor blocked to zero with no prior data never reaches carry_forward's
+    # decision map, and that's the failure most worth catching.
+    assert status["carry_rates"]["csrocketry"] == {"carried": 0, "window": 1}
+    assert status["carry_rates"]["erockets"] == {"carried": 1, "window": 1}
+
+
+def test_carry_history_is_not_advanced_without_a_floor(tmp_db, tmp_path):
+    """With no floor there is no carry-forward, so every vendor is synthesized
+    'healthy'. Recording that would let a local export push clean runs into the
+    committed baseline and un-latch a vendor that is degraded in production."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+    baseline.write_text(json.dumps({"sirius": {"carry_window": [1] * 8, "chronic": True}}))
+
+    snapshot_export(out=out, report_json=report, baseline_json=baseline)
+
+    b = json.loads(baseline.read_text())
+    assert b["sirius"]["carry_window"] == [1] * 8, "must not touch the real history"
+    assert b["sirius"]["chronic"] is True
+    # The existing history is still REPORTED (read-only is fine); it just wasn't
+    # advanced, and no vendor was newly recorded.
+    status = json.loads(report.read_text())
+    assert status["carry_rates"] == {"sirius": {"carried": 8, "window": 8}}
+    # ...and the stale latch isn't escalated, since sirius isn't in this run.
+    assert status["chronic_any"] is False
+
+
+def test_report_escalates_a_chronically_degraded_vendor(tmp_db, tmp_path):
+    """A vendor already carrying a mostly-degraded history escalates on this run —
+    the failure shape the staleness and anomaly paths both miss."""
+    _seed_minimal(tmp_db)
+    out = tmp_path / "snap.json"
+    report = tmp_path / "status.json"
+    baseline = tmp_path / "baseline.json"
+    # Prime a window that's one degraded run short of the open threshold.
+    opens = int(health.DEFAULTS["chronic_open"])
+    span = int(health.DEFAULTS["chronic_min_window"])
+    primed = [1] * (opens - 1) + [0] * (span - opens)
+    baseline.write_text(json.dumps({"csrocketry": {"carry_window": primed, "chronic": False}}))
+
+    # floor=2 with a single seeded listing → csrocketry is below floor this run.
+    snapshot_export(out=out, floor=2, report_json=report, baseline_json=baseline)
+
+    status = json.loads(report.read_text())
+    assert status["chronic_any"] is True
+    assert [c["vendor"] for c in status["chronic"]] == ["csrocketry"]
+    assert status["chronic"][0]["carried"] == opens
+    # Escalation comes from the carry history alone — no anomaly was detected.
+    assert status["anomaly_sustained"] is False

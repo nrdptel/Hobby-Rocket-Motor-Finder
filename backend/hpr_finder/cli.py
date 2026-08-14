@@ -52,6 +52,7 @@ _DEFAULT_HEALTH_BASELINE = _REPO_ROOT / "data" / "health-baseline.json"
 _VENDOR_FLOORS = {
     "loki": 10,
     "newcenturyrocketry": 40,  # healthy ~95 listings, products.json all-or-nothing
+    "erockets": 40,  # healthy ~64 — two AeroTech categories, a few pages each
     "balsa_machining": 120,  # healthy ~204, single-page all-or-nothing
     "amw": 150,  # healthy ~247
     "aerotechdirect": 150,  # healthy ~252, full-catalog backorder vendor
@@ -330,14 +331,36 @@ def _scrape_run_health(latest_runs, decision):
     return run_durations, scrape_errors, no_finished_run
 
 
-def _anomaly_report(fresh_stock, fresh_unmatched, decision, generated_at, baseline_json):
+def _carry_decision(decision: dict[str, str], floor: int) -> dict[str, str] | None:
+    """The per-vendor outcome to record in the chronic-degradation window, or None
+    when this run has no real outcome to record.
+
+    Two corrections over the raw ``decision``:
+
+    * A registered vendor that published NOTHING — no fresh listings and none in
+      the previous snapshot — never reaches ``carry_forward``'s decision map at
+      all (it iterates fresh ∪ prev), so the single worst failure would otherwise
+      be the one the window never sees. Those are recorded as failed.
+    * With no floor there IS no carry-forward, so every vendor is synthesized as
+      "healthy" (see snapshot_export). Recording that would let a local
+      ``hpr snapshot export --report-json`` push 12 clean runs into the committed
+      baseline and un-latch a vendor that is genuinely degraded in production.
+    """
+    if floor <= 0:
+        return None
+    return {v: decision.get(v, "failed") for v in set(decision) | set(REGISTRY)}
+
+
+def _anomaly_report(fresh_stock, fresh_unmatched, decision, generated_at, baseline_json,
+                    carry_decision=None):
     """Baseline-relative anomaly detection: catch a vendor that's above floor but
-    well below its own normal listing/in-stock counts (or whose unmatched spiked).
-    Reads, updates, and rewrites the rolling baseline. Returns
-    ``(anomalies, sustained)``; both empty when ``baseline_json`` is None (a test
-    calling the command directly without a baseline path)."""
+    well below its own normal listing/in-stock counts (or whose unmatched spiked),
+    plus the rolling carry history behind the CHRONIC-degradation signal. Reads,
+    updates, and rewrites the rolling baseline. Returns ``(anomalies, sustained,
+    chronic, rates)``; all empty when ``baseline_json`` is None (a test calling the
+    command directly without a baseline path)."""
     if baseline_json is None:
-        return [], []
+        return [], [], [], {}
     baseline = _load_json(baseline_json) or {}
     anomalies_now = health.detect_anomalies(
         fresh_stock, baseline, decision, fresh_unmatched=fresh_unmatched
@@ -346,11 +369,19 @@ def _anomaly_report(fresh_stock, fresh_unmatched, decision, generated_at, baseli
         baseline, fresh_stock, decision, anomalies_now, generated_at,
         fresh_unmatched=fresh_unmatched,
     )
+    # Advance the carry history — the one signal that has to see the degraded runs.
+    # Skipped entirely when there's no real decision to record (see _carry_decision).
+    if carry_decision:
+        baseline = health.update_carry_window(baseline, carry_decision)
     anomalies = health.annotate_streaks(anomalies_now, baseline)
     sustained = health.sustained_anomalies(anomalies_now, baseline)
+    # Scope the latch to the vendors this run knows about, so a retired slug left
+    # in the baseline can't stay latched forever with nothing able to clear it.
+    chronic = health.chronic_vendors(baseline, vendors=set(carry_decision or {}))
+    rates = health.carry_rates(baseline)
     baseline_json.parent.mkdir(parents=True, exist_ok=True)
     baseline_json.write_text(json.dumps(baseline, indent=2, sort_keys=True))
-    return anomalies, sustained
+    return anomalies, sustained, chronic, rates
 
 
 @snapshot_app.command("export")
@@ -487,8 +518,9 @@ def snapshot_export(
 
         # Vendors above floor but well below their own baseline (count/in-stock or
         # unmatched spike), and whether any has persisted long enough to escalate.
-        anomalies, sustained = _anomaly_report(
-            fresh_stock, fresh_unmatched, decision, payload["generated_at"], baseline_json
+        anomalies, sustained, chronic, rates = _anomaly_report(
+            fresh_stock, fresh_unmatched, decision, payload["generated_at"], baseline_json,
+            carry_decision=_carry_decision(decision, floor),
         )
 
         # Per-vendor scrape duration + categorized last error + likely hangs.
@@ -532,6 +564,12 @@ def snapshot_export(
             "anomaly_sustained": bool(sustained),
             # Registered vendors contributing zero published listings this run.
             "zero_coverage": zero_coverage,
+            # Chronic degradation: vendors carried in a large share of recent runs.
+            # Reported every run (``carry_rates``) so the trend is visible before it
+            # crosses the threshold; ``chronic`` is the latched, escalating subset.
+            "carry_rates": rates,
+            "chronic": chronic,
+            "chronic_any": bool(chronic),
         }
         report_json.parent.mkdir(parents=True, exist_ok=True)
         report_json.write_text(json.dumps(status, indent=2))
@@ -539,12 +577,15 @@ def snapshot_export(
             f"wrote health report {report_json} "
             f"(degraded={status['degraded']}, max_stale_hours={status['max_stale_hours']}, "
             f"max_run_seconds={status['max_run_seconds']}, "
-            f"anomalies={len(anomalies)}, anomaly_sustained={status['anomaly_sustained']})"
+            f"anomalies={len(anomalies)}, anomaly_sustained={status['anomaly_sustained']}, "
+            f"chronic={len(chronic)})"
         )
         if zero_coverage:
             typer.echo(
                 f"  zero-coverage (registered, 0 published listings): {', '.join(zero_coverage)}"
             )
+        for c in chronic:
+            typer.echo(f"  CHRONIC {c['vendor']}: {c['reason']}")
 
     # Resolve per-listing pack sizes on the FINAL set of listings (fresh +
     # carried), so the per-unit price the UI shows reflects multipacks even for

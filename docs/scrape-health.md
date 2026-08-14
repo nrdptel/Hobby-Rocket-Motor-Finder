@@ -2,7 +2,7 @@
 
 With ~12 fragile, often-old vendor sites, a scraper can break in several ways.
 Health monitoring exists so a silent break doesn't just make the aggregator look
-emptier with nobody noticing. There are three layers, from loudest to quietest.
+emptier with nobody noticing. There are four layers, from loudest to quietest.
 
 ## 1. Near-total failure → carry-forward + floor
 
@@ -10,7 +10,13 @@ emptier with nobody noticing. There are three layers, from loudest to quietest.
 floor (global 200, with per-vendor overrides in `cli._VENDOR_FLOORS` for small
 catalogs). A vendor below its floor is **carried** (its last-good listings are
 reused from the previous snapshot) or, with no prior data, **failed** (kept but
-flagged). A snapshot with *no* listings at all refuses to publish (exit non-zero
+flagged).
+
+Every per-vendor override matters. A vendor whose *healthy* catalog sits below its
+floor is carried on **every** run, which quietly removes it from the baseline and
+from layer 3 entirely — it ends up with no failure detection at all. A test in
+`test_snapshot_carry_forward.py` fails if any vendor's healthy count is under its
+floor, checked against the floor the workflow actually passes. A snapshot with *no* listings at all refuses to publish (exit non-zero
 → GitHub's native workflow-failure email). See `snapshot.py:carry_forward`.
 
 ## 2. Sustained staleness → tracking issue
@@ -79,6 +85,37 @@ so the run summary can say *why* it broke — `timeout`/`connection` (usually
 transient) vs `http`/`parse` (usually a real break: IP blocked, site HTML
 changed) — without opening the CI logs. Healthy runs record nothing here.
 
+## 4. Chronic degradation → tracking issue (the flapping failures)
+
+Layers 1–3 all assume a failure is either brief (carry-forward absorbs it) or
+continuous (staleness grows until it escalates). A vendor that fails *repeatedly
+but briefly* falls between them: each outage recovers well inside the 6h staleness
+threshold, and because the vendor is **carried** on exactly those runs, layer 3
+skips it — anomaly detection only judges healthy vendors. The result is a vendor
+serving hours-old data on a large share of runs while every signal reads normal.
+That is the ordinary shape of a vendor intermittently blocking the CI egress IP.
+
+`health.update_carry_window` is the one piece of health state that records
+non-healthy runs: a rolling window of the last `carry_window` (24) outcomes per
+vendor, `1` for carried/failed and `0` for healthy, kept in the same
+`data/health-baseline.json`. A vendor is flagged **chronic** once `chronic_open`
+(5) of that window are degraded, and stays flagged until it falls to
+`chronic_close` (2). The gap between the two is deliberate hysteresis: a vendor
+hovering at the threshold would otherwise open and close the tracking issue hour
+after hour.
+
+Reported as `.chronic` / `.chronic_any`, plus `.carry_rates` for **every** vendor
+every run — so a vendor trending toward the threshold is visible in the run
+summary before it crosses it. Registered vendors that published nothing at all are
+recorded as degraded too: a vendor blocked to zero with no prior data never reaches
+`carry_forward`'s decision map, and that is the failure most worth catching.
+
+This escalates to its **own** tracking issue, separate from layers 2–3. Chronic
+degradation is long-lived by nature — a vendor failing ~a fifth of its runs stays
+latched for weeks — and the alerter is deliberately silent while an issue is open.
+Sharing one issue would let a chronic vendor pin it open and suppress every outage
+alert for the whole time, which is worse than the gap this closes.
+
 ## Where each signal shows up
 
 | Signal | Surfaced |
@@ -87,8 +124,12 @@ changed) — without opening the CI logs. Healthy runs record nothing here.
 | Total scrape failure | Workflow fails → GitHub native email |
 | Sustained staleness | One auto-closing GitHub issue |
 | Sustained below-baseline anomaly | Same GitHub issue |
+| Chronic degradation (flapping vendor) | A second, independent GitHub issue |
+| Per-vendor recent degradation rate | Run summary every run (`carry_rates`) |
 | Slow scrape / hung vendor | Run summary only (duration + no-finished-run list) |
 
 The baseline warms up over the first several runs (needs ≥5 healthy samples per
 vendor before it will flag that vendor), so anomaly detection becomes active a few
-hours after first deploy.
+hours after first deploy. The chronic window needs `chronic_min_window` (12) runs
+of history before it will change its verdict, so it becomes active about half a
+day after first deploy.

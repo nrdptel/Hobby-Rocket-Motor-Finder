@@ -228,3 +228,117 @@ def test_full_flow_warmup_then_sustained_break():
         if health.sustained_anomalies(an, baseline):
             sustained_seen = True
     assert sustained_seen and baseline["v"]["streak"] == 3
+
+
+# --- chronic degradation (rolling carry window) ------------------------------
+
+
+def _run_window(decisions, baseline=None):
+    """Feed a sequence of per-run decisions for one vendor 'v' through the window."""
+    baseline = baseline if baseline is not None else {}
+    for d in decisions:
+        baseline = health.update_carry_window(baseline, {"v": d})
+    return baseline
+
+
+def test_carry_window_records_degraded_runs_not_just_healthy_ones():
+    # This is the one signal that must see non-healthy runs — update_baseline
+    # deliberately ignores them, which is why chronic flapping was invisible.
+    b = _run_window(["healthy", "carried", "failed", "healthy"])
+    assert b["v"]["carry_window"] == [0, 1, 1, 0]
+
+
+def test_carry_window_is_bounded():
+    b = _run_window(["carried"] * 40)
+    assert len(b["v"]["carry_window"]) == health.DEFAULTS["carry_window"]
+
+
+def test_not_chronic_before_enough_history():
+    # Degraded every run, but too few runs to judge yet.
+    n = int(health.DEFAULTS["chronic_min_window"]) - 1
+    b = _run_window(["carried"] * n)
+    assert b["v"]["chronic"] is False
+    assert health.chronic_vendors(b) == []
+
+
+def test_chronic_opens_at_the_threshold():
+    # 12 runs of history with exactly `chronic_open` degraded.
+    opens = int(health.DEFAULTS["chronic_open"])
+    span = int(health.DEFAULTS["chronic_min_window"])
+    b = _run_window(["carried"] * opens + ["healthy"] * (span - opens))
+    assert b["v"]["chronic"] is True
+    chronic = health.chronic_vendors(b)
+    assert [c["vendor"] for c in chronic] == ["v"]
+    assert chronic[0]["carried"] == opens and chronic[0]["window"] == span
+
+
+def test_one_off_blip_is_not_chronic():
+    # A single carried run in a full window is exactly what carry-forward is for.
+    span = int(health.DEFAULTS["carry_window"])
+    b = _run_window(["carried"] + ["healthy"] * (span - 1))
+    assert b["v"]["chronic"] is False
+
+
+def test_chronic_latches_through_the_hysteresis_band():
+    # Open it, then sit between chronic_close and chronic_open: stays open, so the
+    # tracking issue can't flap open/closed hour to hour.
+    span = int(health.DEFAULTS["carry_window"])
+    opens = int(health.DEFAULTS["chronic_open"])
+    closes = int(health.DEFAULTS["chronic_close"])
+    b = _run_window(["carried"] * opens + ["healthy"] * (span - opens))
+    assert b["v"]["chronic"] is True
+    # Slide the window until the degraded count sits strictly inside the band
+    # (above chronic_close, below chronic_open): the latch must hold.
+    seen_in_band = False
+    while sum(b["v"]["carry_window"]) > closes:
+        b = _run_window(["healthy"], b)
+        if closes < sum(b["v"]["carry_window"]) < opens:
+            seen_in_band = True
+            assert b["v"]["chronic"] is True, "must stay latched inside the band"
+    assert seen_in_band, "test needs a band between close and open to exercise"
+    b = _run_window(["healthy"] * span, b)  # flush the window clean
+    assert b["v"]["chronic"] is False, "a fully clean window must clear the latch"
+
+
+def test_chronic_clears_only_at_the_close_threshold():
+    span = int(health.DEFAULTS["carry_window"])
+    opens = int(health.DEFAULTS["chronic_open"])
+    closes = int(health.DEFAULTS["chronic_close"])
+    b = _run_window(["carried"] * opens + ["healthy"] * (span - opens))
+    assert b["v"]["chronic"] is True
+    # Refill the window so exactly `chronic_close` runs are degraded → clears.
+    b = _run_window(["carried"] * closes + ["healthy"] * (span - closes), b)
+    assert sum(b["v"]["carry_window"]) == closes
+    assert b["v"]["chronic"] is False
+
+
+def test_carry_window_leaves_vendors_absent_from_this_run_alone():
+    b = {"gone": {"carry_window": [1, 1], "chronic": True}}
+    out = health.update_carry_window(b, {"v": "healthy"})
+    assert out["gone"] == b["gone"]
+
+
+def test_carry_window_preserves_existing_baseline_fields():
+    b = {"v": {"count": 600.0, "stock": 200.0, "samples": 10, "streak": 0}}
+    out = health.update_carry_window(b, {"v": "healthy"})
+    assert out["v"]["count"] == 600.0 and out["v"]["samples"] == 10
+
+
+def test_carry_rates_reports_only_vendors_with_history():
+    b = _run_window(["carried", "healthy"])
+    b["quiet"] = {"count": 1.0}
+    rates = health.carry_rates(b)
+    assert rates == {"v": {"carried": 1, "window": 2}}
+
+
+def test_chronic_catches_the_flapping_vendor_staleness_misses():
+    # The real shape: ~1 run in 5 degraded, each outage short enough that the
+    # published data never goes stale long enough to escalate. update_baseline
+    # never sees the bad runs (vendor is carried), so only the carry window
+    # can catch it.
+    baseline: dict = {}
+    for i in range(24):
+        d = "carried" if i % 5 == 0 else "healthy"
+        baseline = health.update_carry_window(baseline, {"v": d})
+    assert sum(baseline["v"]["carry_window"]) == 5
+    assert baseline["v"]["chronic"] is True
