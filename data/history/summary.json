@@ -8697,10 +8697,10 @@
     "price_high_cents": 5049
   },
   "https://www.buyrocketmotors.com/products/aerotech-h242t-14a-blue-thunder?variant=50855050576169": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:07",
-    "last_change_at": "2026-05-31T02:24:07",
+    "last_change_at": "2026-08-15T18:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:07",
     "last_restock_at": null,
     "restock_count": 0,
@@ -9451,10 +9451,10 @@
     "price_high_cents": 6949
   },
   "https://www.buyrocketmotors.com/products/aerotech-i161w-14a-38mm-rms-plus-white-lightning?variant=50855054213417": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:10",
-    "last_change_at": "2026-05-31T02:24:10",
+    "last_change_at": "2026-08-15T18:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:10",
     "last_restock_at": null,
     "restock_count": 0,
@@ -9854,10 +9854,10 @@
     "price_high_cents": 8199
   },
   "https://www.buyrocketmotors.com/products/aerotech-i285r-14a-redline?variant=50855059915049": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:12",
-    "last_change_at": "2026-05-31T02:24:12",
+    "last_change_at": "2026-08-15T18:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:12",
     "last_restock_at": null,
     "restock_count": 0,
@@ -9971,10 +9971,10 @@
     "price_high_cents": 6949
   },
   "https://www.buyrocketmotors.com/products/aerotech-i357t-14a-38mm-rms-plus-blue-thunder?variant=50855055950121": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:13",
-    "last_change_at": "2026-05-31T02:24:13",
+    "last_change_at": "2026-08-15T18:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:13",
     "last_restock_at": null,
     "restock_count": 0,
@@ -11895,10 +11895,10 @@
     "price_high_cents": 23299
   },
   "https://www.buyrocketmotors.com/products/aerotech-k513fj-14a-fast-jack?variant=50855079903529": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:24",
-    "last_change_at": "2026-05-31T02:24:24",
+    "last_change_at": "2026-08-15T18:00:26+00:00",
     "last_in_stock_at": "2026-05-31T02:24:24",
     "last_restock_at": null,
     "restock_count": 0,
