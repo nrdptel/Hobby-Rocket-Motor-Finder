@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-15T05:07:27+00:00",
+  "updated_at": "2026-08-15T06:07:27+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -539,6 +539,11 @@
           "t": "2026-07-29T01:00:59+00:00",
           "status": "out_of_stock",
           "price_cents": 4299
+        },
+        {
+          "t": "2026-08-15T06:01:05+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4299
         }
       ]
     },
@@ -573,6 +578,11 @@
         {
           "t": "2026-07-29T01:01:02+00:00",
           "status": "out_of_stock",
+          "price_cents": 3849
+        },
+        {
+          "t": "2026-08-15T06:01:12+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 3849
         }
       ]
@@ -649,6 +659,11 @@
           "t": "2026-07-29T01:00:59+00:00",
           "status": "out_of_stock",
           "price_cents": 4299
+        },
+        {
+          "t": "2026-08-15T06:01:05+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4299
         }
       ]
     },
@@ -678,6 +693,11 @@
         {
           "t": "2026-07-29T01:01:02+00:00",
           "status": "out_of_stock",
+          "price_cents": 3849
+        },
+        {
+          "t": "2026-08-15T06:01:12+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 3849
         }
       ]
@@ -763,6 +783,11 @@
         {
           "t": "2026-05-30T22:32:56",
           "status": "out_of_stock",
+          "price_cents": 4399
+        },
+        {
+          "t": "2026-08-15T06:01:26+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 4399
         }
       ]
@@ -964,6 +989,11 @@
           "t": "2026-07-29T01:01:03+00:00",
           "status": "out_of_stock",
           "price_cents": 2899
+        },
+        {
+          "t": "2026-08-15T06:01:13+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 2899
         }
       ]
     },
@@ -1099,6 +1129,11 @@
           "t": "2026-07-29T01:01:17+00:00",
           "status": "out_of_stock",
           "price_cents": 4949
+        },
+        {
+          "t": "2026-08-15T06:01:27+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4949
         }
       ]
     },
@@ -1188,6 +1223,11 @@
         {
           "t": "2026-07-29T01:01:01+00:00",
           "status": "out_of_stock",
+          "price_cents": 4299
+        },
+        {
+          "t": "2026-08-15T06:01:11+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 4299
         }
       ]
@@ -1288,6 +1328,11 @@
         {
           "t": "2026-05-30T22:32:35",
           "status": "out_of_stock",
+          "price_cents": 3799
+        },
+        {
+          "t": "2026-08-15T06:01:11+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 3799
         }
       ]
@@ -1689,6 +1734,11 @@
           "t": "2026-07-29T01:01:12+00:00",
           "status": "out_of_stock",
           "price_cents": 4399
+        },
+        {
+          "t": "2026-08-15T06:01:22+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -1703,6 +1753,11 @@
         {
           "t": "2026-07-29T01:01:22+00:00",
           "status": "out_of_stock",
+          "price_cents": 4399
+        },
+        {
+          "t": "2026-08-15T06:01:32+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 4399
         }
       ]
@@ -1739,6 +1794,11 @@
           "t": "2026-07-29T01:01:23+00:00",
           "status": "out_of_stock",
           "price_cents": 4399
+        },
+        {
+          "t": "2026-08-15T06:01:33+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4399
         }
       ]
     },
@@ -1768,6 +1828,11 @@
         {
           "t": "2026-07-29T01:01:19+00:00",
           "status": "out_of_stock",
+          "price_cents": 6499
+        },
+        {
+          "t": "2026-08-15T06:01:29+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 6499
         }
       ]
@@ -2099,6 +2164,11 @@
           "t": "2026-07-29T01:01:33+00:00",
           "status": "out_of_stock",
           "price_cents": 6199
+        },
+        {
+          "t": "2026-08-15T06:01:43+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 6199
         }
       ]
     },
@@ -2118,6 +2188,11 @@
         {
           "t": "2026-08-06T20:01:32+00:00",
           "status": "out_of_stock",
+          "price_cents": 5049
+        },
+        {
+          "t": "2026-08-15T06:01:37+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 5049
         }
       ]
@@ -2518,6 +2593,11 @@
         {
           "t": "2026-07-29T01:01:30+00:00",
           "status": "out_of_stock",
+          "price_cents": 8649
+        },
+        {
+          "t": "2026-08-15T06:01:40+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 8649
         }
       ]
@@ -3088,6 +3168,11 @@
         {
           "t": "2026-07-29T01:01:42+00:00",
           "status": "out_of_stock",
+          "price_cents": 12399
+        },
+        {
+          "t": "2026-08-15T06:01:52+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 12399
         }
       ]
@@ -3754,6 +3839,11 @@
           "t": "2026-07-29T01:01:46+00:00",
           "status": "out_of_stock",
           "price_cents": 32499
+        },
+        {
+          "t": "2026-08-15T06:01:56+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 32499
         }
       ]
     },
@@ -4034,6 +4124,11 @@
           "t": "2026-07-29T01:01:55+00:00",
           "status": "out_of_stock",
           "price_cents": 71999
+        },
+        {
+          "t": "2026-08-15T06:02:04+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 71999
         }
       ]
     },
@@ -4244,6 +4339,11 @@
           "t": "2026-07-29T01:01:56+00:00",
           "status": "out_of_stock",
           "price_cents": 77699
+        },
+        {
+          "t": "2026-08-15T06:02:05+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 77699
         }
       ]
     },
@@ -4273,6 +4373,11 @@
         {
           "t": "2026-07-29T01:01:50+00:00",
           "status": "out_of_stock",
+          "price_cents": 53199
+        },
+        {
+          "t": "2026-08-15T06:01:59+00:00",
+          "status": "in_stock_with_count",
           "price_cents": 53199
         }
       ]
