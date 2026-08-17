@@ -1417,10 +1417,10 @@
     "price_high_cents": 3949
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-g64-10w-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:48",
-    "last_change_at": "2026-07-29T01:01:10+00:00",
+    "last_change_at": "2026-08-17T21:01:11+00:00",
     "last_in_stock_at": "2026-07-29T01:01:10+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16029,10 +16029,10 @@
     "price_high_cents": 4179
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-g80t-14a-dms-single-use-motor-lq-1389.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:04",
-    "last_change_at": "2026-07-03T19:28:35+00:00",
+    "last_change_at": "2026-08-17T21:03:18+00:00",
     "last_in_stock_at": "2026-07-03T19:28:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -48867,10 +48867,10 @@
     "price_high_cents": 4049
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f27-4r-2pk-aer-62704-required-to-pay-for-ups-ground-shipping/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:32+00:00",
-    "last_change_at": "2026-07-22T02:42:32+00:00",
+    "last_change_at": "2026-08-17T21:00:30+00:00",
     "last_in_stock_at": "2026-07-22T02:42:32+00:00",
     "last_restock_at": null,
     "restock_count": 0,
