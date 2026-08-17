@@ -6357,10 +6357,10 @@
     "price_high_cents": 3300
   },
   "https://www.buyrocketmotors.com/products/aerotech-f67-white-lightning-economax-29-mm-single-use-2-pack?variant=50855203406121": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:57",
-    "last_change_at": "2026-06-12T16:01:09+00:00",
+    "last_change_at": "2026-08-17T16:00:27+00:00",
     "last_in_stock_at": "2026-06-12T16:01:09+00:00",
     "last_restock_at": "2026-06-12T16:01:09+00:00",
     "restock_count": 1,
