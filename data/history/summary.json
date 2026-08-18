@@ -27810,14 +27810,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-07-01T07:00:24+00:00",
+    "last_change_at": "2026-08-18T00:00:24+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4999,
-    "price_prev_cents": 4399,
-    "price_low_cents": 4999,
-    "price_high_cents": 4999
+    "price_current_cents": 4949,
+    "price_prev_cents": 4999,
+    "price_low_cents": 4949,
+    "price_high_cents": 4949
   },
   "https://aerotech-rocketry.com/products/product_0f6d71fc-1c02-3f46-a2a5-ddaacbe6fe05": {
     "currently_in_stock": false,
