@@ -10556,10 +10556,10 @@
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j315r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:57",
-    "last_change_at": "2026-07-01T22:00:29+00:00",
+    "last_change_at": "2026-08-20T15:01:30+00:00",
     "last_in_stock_at": "2026-07-01T22:00:29+00:00",
     "last_restock_at": null,
     "restock_count": 0,
