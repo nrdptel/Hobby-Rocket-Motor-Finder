@@ -1118,10 +1118,10 @@
     "price_high_cents": 2599
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-f52-8t-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:46",
-    "last_change_at": "2026-07-29T01:01:09+00:00",
+    "last_change_at": "2026-08-20T17:01:09+00:00",
     "last_in_stock_at": "2026-07-29T01:01:09+00:00",
     "last_restock_at": null,
     "restock_count": 0,
