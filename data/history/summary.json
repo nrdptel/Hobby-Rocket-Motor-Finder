@@ -49400,10 +49400,10 @@
     "price_high_cents": 4399
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g77-7r-1pk-aer-77707-required-to-pay-for-ups-ground-shipping/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:28+00:00",
-    "last_change_at": "2026-07-22T02:42:28+00:00",
+    "last_change_at": "2026-08-21T01:22:08+00:00",
     "last_in_stock_at": "2026-07-22T02:42:28+00:00",
     "last_restock_at": null,
     "restock_count": 0,
