@@ -11674,10 +11674,10 @@
     "price_high_cents": 26099
   },
   "https://www.buyrocketmotors.com/products/aerotech-k270w-p-white-lightning?variant=50855082328361": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:23",
-    "last_change_at": "2026-05-31T02:24:23",
+    "last_change_at": "2026-08-21T21:00:23+00:00",
     "last_in_stock_at": "2026-05-31T02:24:23",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12168,10 +12168,10 @@
     "price_high_cents": 22799
   },
   "https://www.buyrocketmotors.com/products/aerotech-k780r-p-redline?variant=50855088980265": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:25",
-    "last_change_at": "2026-05-31T02:24:25",
+    "last_change_at": "2026-08-21T21:00:23+00:00",
     "last_in_stock_at": "2026-05-31T02:24:25",
     "last_restock_at": null,
     "restock_count": 0,
