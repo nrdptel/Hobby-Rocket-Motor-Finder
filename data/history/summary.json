@@ -13624,10 +13624,10 @@
     "price_high_cents": 126900
   },
   "https://wildmanrocketry.com/products/n2700-w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:16",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-08-26T22:00:27+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
