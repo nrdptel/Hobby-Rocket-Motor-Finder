@@ -28,11 +28,11 @@
     ],
     "chronic": false,
     "count": 253.99999999999994,
-    "samples": 2087,
+    "samples": 2088,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "amw": {
     "carry_window": [
@@ -63,11 +63,11 @@
     ],
     "chronic": false,
     "count": 275.0000000000001,
-    "samples": 1830,
-    "stock": 109.75000000000023,
+    "samples": 1831,
+    "stock": 109.56250000000017,
     "streak": 0,
     "unmatched": 0.9999999999999998,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "balsa_machining": {
     "carry_window": [
@@ -98,11 +98,11 @@
     ],
     "chronic": false,
     "count": 204.0,
-    "samples": 2149,
-    "stock": 20.010022595757626,
+    "samples": 2150,
+    "stock": 20.00751694681822,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "buyrocketmotors": {
     "carry_window": [
@@ -133,11 +133,11 @@
     ],
     "chronic": false,
     "count": 280.9999999999999,
-    "samples": 2066,
-    "stock": 56.08062957578006,
+    "samples": 2067,
+    "stock": 56.060472181835046,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "csrocketry": {
     "carry_window": [
@@ -168,11 +168,11 @@
     ],
     "chronic": false,
     "count": 556.9999999999998,
-    "samples": 2145,
-    "stock": 187.09885857293997,
+    "samples": 2146,
+    "stock": 187.07414392970497,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "erockets": {
     "carry_window": [
@@ -203,11 +203,11 @@
     ],
     "chronic": false,
     "count": 64.0,
-    "samples": 336,
-    "stock": 44.99996605902508,
+    "samples": 337,
+    "stock": 44.99997454426881,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "loki": {
     "carry_window": [
@@ -238,11 +238,11 @@
     ],
     "chronic": false,
     "count": 50.0,
-    "samples": 2170,
+    "samples": 2171,
     "stock": 29.000000000000007,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "moto_joe": {
     "carry_window": [
@@ -273,11 +273,11 @@
     ],
     "chronic": false,
     "count": 527.9999999999998,
-    "samples": 1836,
+    "samples": 1837,
     "stock": 4.000000000000002,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "newcenturyrocketry": {
     "carry_window": [
@@ -308,11 +308,11 @@
     ],
     "chronic": false,
     "count": 95.0,
-    "samples": 1746,
+    "samples": 1747,
     "stock": 67.00000000000003,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "performancehobbies": {
     "carry_window": [
@@ -343,11 +343,11 @@
     ],
     "chronic": false,
     "count": 596.9999999999998,
-    "samples": 2170,
-    "stock": 86.02004519151527,
+    "samples": 2171,
+    "stock": 86.01503389363646,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   },
   "sirius": {
     "carry_window": [
@@ -374,7 +374,7 @@
       0,
       0,
       0,
-      0
+      1
     ],
     "chronic": false,
     "count": 304.9999999999985,
@@ -413,10 +413,10 @@
     ],
     "chronic": false,
     "count": 489.0000000000001,
-    "samples": 2005,
-    "stock": 171.95656625796676,
+    "samples": 2006,
+    "stock": 171.96742469347507,
     "streak": 0,
     "unmatched": 1.9999999999999996,
-    "updated_at": "2026-08-26T07:07:22+00:00"
+    "updated_at": "2026-08-26T08:05:04+00:00"
   }
 }
