@@ -28,11 +28,11 @@
     ],
     "chronic": false,
     "count": 253.99999999999994,
-    "samples": 2083,
+    "samples": 2084,
     "stock": 0.0,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "amw": {
     "carry_window": [
@@ -63,11 +63,11 @@
     ],
     "chronic": false,
     "count": 275.0000000000001,
-    "samples": 1826,
-    "stock": 110.00000000000077,
+    "samples": 1827,
+    "stock": 110.00000000000057,
     "streak": 0,
     "unmatched": 0.9999999999999998,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "balsa_machining": {
     "carry_window": [
@@ -98,11 +98,11 @@
     ],
     "chronic": false,
     "count": 204.0,
-    "samples": 2145,
-    "stock": 20.031676352024085,
+    "samples": 2146,
+    "stock": 20.023757264018066,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "buyrocketmotors": {
     "carry_window": [
@@ -133,11 +133,11 @@
     ],
     "chronic": false,
     "count": 280.9999999999999,
-    "samples": 2062,
-    "stock": 56.25482927653945,
+    "samples": 2063,
+    "stock": 56.19112195740459,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "csrocketry": {
     "carry_window": [
@@ -168,11 +168,11 @@
     ],
     "chronic": false,
     "count": 556.9999999999998,
-    "samples": 2141,
-    "stock": 187.31244190953865,
+    "samples": 2142,
+    "stock": 187.234331432154,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "erockets": {
     "carry_window": [
@@ -203,11 +203,11 @@
     ],
     "chronic": false,
     "count": 64.0,
-    "samples": 332,
-    "stock": 44.99989272975827,
+    "samples": 333,
+    "stock": 44.999919547318704,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "loki": {
     "carry_window": [
@@ -238,11 +238,11 @@
     ],
     "chronic": false,
     "count": 50.0,
-    "samples": 2166,
+    "samples": 2167,
     "stock": 29.000000000000007,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "moto_joe": {
     "carry_window": [
@@ -273,11 +273,11 @@
     ],
     "chronic": false,
     "count": 527.9999999999998,
-    "samples": 1832,
+    "samples": 1833,
     "stock": 4.000000000000002,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "newcenturyrocketry": {
     "carry_window": [
@@ -308,11 +308,11 @@
     ],
     "chronic": false,
     "count": 95.0,
-    "samples": 1742,
+    "samples": 1743,
     "stock": 67.00000000000003,
     "streak": 0,
     "unmatched": 0.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "performancehobbies": {
     "carry_window": [
@@ -343,11 +343,11 @@
     ],
     "chronic": false,
     "count": 596.9999999999998,
-    "samples": 2166,
-    "stock": 86.06335270404819,
+    "samples": 2167,
+    "stock": 86.04751452803615,
     "streak": 0,
     "unmatched": 3.000000000000001,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "sirius": {
     "carry_window": [
@@ -377,12 +377,12 @@
       0
     ],
     "chronic": false,
-    "count": 304.99999999999545,
-    "samples": 1752,
-    "stock": 121.00000024461247,
+    "count": 304.9999999999966,
+    "samples": 1753,
+    "stock": 121.00000018345935,
     "streak": 0,
     "unmatched": 1.0,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   },
   "wildman": {
     "carry_window": [
@@ -413,10 +413,10 @@
     ],
     "chronic": false,
     "count": 489.0000000000001,
-    "samples": 2001,
-    "stock": 171.86272792641347,
+    "samples": 2002,
+    "stock": 171.8970459448101,
     "streak": 0,
     "unmatched": 1.9999999999999996,
-    "updated_at": "2026-08-26T04:07:27+00:00"
+    "updated_at": "2026-08-26T05:07:19+00:00"
   }
 }
