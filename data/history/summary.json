@@ -2080,10 +2080,10 @@
     "price_high_cents": 5299
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/38mm/dms-rocket-motors/aerotech-h45w-p-white-lightning-dms-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:19",
-    "last_change_at": "2026-07-29T01:01:33+00:00",
+    "last_change_at": "2026-08-27T15:01:33+00:00",
     "last_in_stock_at": "2026-07-29T01:01:33+00:00",
     "last_restock_at": null,
     "restock_count": 0,
