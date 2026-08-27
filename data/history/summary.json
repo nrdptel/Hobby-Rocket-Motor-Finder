@@ -1790,7 +1790,7 @@
     "restock_count": 0,
     "price_current_cents": 4399,
     "price_prev_cents": 3899,
-    "price_low_cents": 3899,
+    "price_low_cents": 4399,
     "price_high_cents": 4399
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/dms-rocket-motors/aerotech-g8st-p-super-thunder-rocket-motor.html": {
@@ -4420,13 +4420,13 @@
     "price_high_cents": 2249
   },
   "https://wildmanrocketry.com/products/e26-4w-q-jet-2-pk": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:15:13",
-    "last_change_at": "2026-08-05T19:00:29+00:00",
-    "last_in_stock_at": "2026-07-01T18:00:30+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-08-27T23:00:28+00:00",
+    "last_in_stock_at": "2026-08-27T23:00:28+00:00",
+    "last_restock_at": "2026-08-27T23:00:28+00:00",
+    "restock_count": 1,
     "price_current_cents": 2249,
     "price_prev_cents": 1999,
     "price_low_cents": 2249,
@@ -12584,13 +12584,13 @@
     "price_high_cents": 28999
   },
   "https://wildmanrocketry.com/products/l1420r": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:16:07",
-    "last_change_at": "2026-07-01T22:00:29+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-08-27T23:00:28+00:00",
+    "last_in_stock_at": "2026-08-27T23:00:28+00:00",
+    "last_restock_at": "2026-08-27T23:00:28+00:00",
+    "restock_count": 1,
     "price_current_cents": 42299,
     "price_prev_cents": 37699,
     "price_low_cents": 42299,
