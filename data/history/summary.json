@@ -16653,10 +16653,10 @@
     "price_high_cents": 7829
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i180w-14a-rms-reload-kit-1699.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:52",
-    "last_change_at": "2026-07-03T19:29:21+00:00",
+    "last_change_at": "2026-08-28T21:51:39+00:00",
     "last_in_stock_at": "2026-07-03T19:29:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
