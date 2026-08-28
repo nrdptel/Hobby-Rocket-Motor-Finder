@@ -10049,10 +10049,10 @@
     "price_high_cents": 6649
   },
   "https://wildmanrocketry.com/products/i435t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:54",
-    "last_change_at": "2026-08-25T21:00:40+00:00",
+    "last_change_at": "2026-08-28T04:00:33+00:00",
     "last_in_stock_at": "2026-08-25T21:00:40+00:00",
     "last_restock_at": "2026-08-25T21:00:40+00:00",
     "restock_count": 1,
@@ -15379,10 +15379,10 @@
     "price_high_cents": 2566
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-f63-10r-reload-kit-1905.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:24:16",
-    "last_change_at": "2026-07-03T19:27:49+00:00",
+    "last_change_at": "2026-08-28T04:02:42+00:00",
     "last_in_stock_at": "2026-07-03T19:27:49+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -21801,10 +21801,10 @@
     "price_high_cents": 16193
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-54/3g-reloads/cesaroni-j295-16a-classic-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:35+00:00",
-    "last_change_at": "2026-06-03T02:28:35+00:00",
+    "last_change_at": "2026-08-28T04:02:38+00:00",
     "last_in_stock_at": "2026-06-03T02:28:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
