@@ -15145,10 +15145,10 @@
     "price_high_cents": 2469
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-f40-4w-reload-kit-lq-186.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:24:00",
-    "last_change_at": "2026-07-03T19:27:33+00:00",
+    "last_change_at": "2026-08-29T15:02:22+00:00",
     "last_in_stock_at": "2026-07-03T19:27:33+00:00",
     "last_restock_at": null,
     "restock_count": 0,
