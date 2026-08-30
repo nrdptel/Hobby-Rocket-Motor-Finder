@@ -27066,10 +27066,10 @@
     "price_high_cents": 4749
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=42#E24-4C%20Enerjet%20%282%20pack%29": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:31+00:00",
-    "last_change_at": "2026-08-27T16:00:35+00:00",
+    "last_change_at": "2026-08-30T01:00:31+00:00",
     "last_in_stock_at": "2026-08-27T16:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -27079,10 +27079,10 @@
     "price_high_cents": 4749
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=42#E24-7C%20Enerjet%20%282%20pack%29": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:31+00:00",
-    "last_change_at": "2026-08-27T16:00:35+00:00",
+    "last_change_at": "2026-08-30T01:00:31+00:00",
     "last_in_stock_at": "2026-08-27T16:00:35+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -41388,7 +41388,7 @@
     "restock_count": 0,
     "price_current_cents": 26099,
     "price_prev_cents": 23299,
-    "price_low_cents": 23299,
+    "price_low_cents": 26099,
     "price_high_cents": 26099
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=239": {
