@@ -5265,10 +5265,10 @@
     "price_high_cents": 2899
   },
   "https://wildmanrocketry.com/products/f32-6t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:19",
-    "last_change_at": "2026-07-01T18:00:30+00:00",
+    "last_change_at": "2026-08-31T18:01:56+00:00",
     "last_in_stock_at": "2026-07-01T18:00:30+00:00",
     "last_restock_at": "2026-06-12T14:02:49+00:00",
     "restock_count": 1,
@@ -5278,10 +5278,10 @@
     "price_high_cents": 2899
   },
   "https://wildmanrocketry.com/products/f32-8t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:20",
-    "last_change_at": "2026-07-01T18:00:30+00:00",
+    "last_change_at": "2026-08-31T18:01:56+00:00",
     "last_in_stock_at": "2026-07-01T18:00:30+00:00",
     "last_restock_at": "2026-06-12T14:02:50+00:00",
     "restock_count": 1,
@@ -29809,17 +29809,17 @@
     "price_high_cents": 3700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#VMax%202%20grain%20G250": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3193,
-    "price_prev_cents": null,
-    "price_low_cents": 3193,
-    "price_high_cents": 3193
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 3908,
+    "price_prev_cents": 3193,
+    "price_low_cents": 3908,
+    "price_high_cents": 3908
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=91620109123853#Skidmark%206%20grain%20G100": {
     "currently_in_stock": false,
@@ -29900,17 +29900,17 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%203%20grain%20G131-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3431,
-    "price_prev_cents": null,
-    "price_low_cents": 3431,
-    "price_high_cents": 3431
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4047,
+    "price_prev_cents": 3431,
+    "price_low_cents": 4047,
+    "price_high_cents": 4047
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=478": {
     "currently_in_stock": false,
@@ -29929,14 +29929,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3667,
-    "price_prev_cents": null,
-    "price_low_cents": 3667,
-    "price_high_cents": 3667
+    "price_current_cents": 4327,
+    "price_prev_cents": 3667,
+    "price_low_cents": 4327,
+    "price_high_cents": 4327
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=484": {
     "currently_in_stock": false,
@@ -29952,30 +29952,30 @@
     "price_high_cents": 4200
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#VMAX%201%20grain%20128-G185-12A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 4141,
-    "price_prev_cents": null,
-    "price_low_cents": 4141,
-    "price_high_cents": 4141
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4885,
+    "price_prev_cents": 4141,
+    "price_low_cents": 4885,
+    "price_high_cents": 4885
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%201%20grain%20129-G79-13A": {
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3786,
-    "price_prev_cents": null,
-    "price_low_cents": 3786,
-    "price_high_cents": 3786
+    "price_current_cents": 4466,
+    "price_prev_cents": 3786,
+    "price_low_cents": 4466,
+    "price_high_cents": 4466
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=91620109123853#Green%206%20grain%20G84-10A": {
     "currently_in_stock": false,
@@ -30007,14 +30007,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3904,
-    "price_prev_cents": null,
-    "price_low_cents": 3904,
-    "price_high_cents": 3904
+    "price_current_cents": 4607,
+    "price_prev_cents": 3904,
+    "price_low_cents": 4607,
+    "price_high_cents": 4607
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=489": {
     "currently_in_stock": false,
@@ -30056,17 +30056,17 @@
     "price_high_cents": 4100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%201%20grain%20137-G58-13A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3904,
-    "price_prev_cents": null,
-    "price_low_cents": 3904,
-    "price_high_cents": 3904
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4607,
+    "price_prev_cents": 3904,
+    "price_low_cents": 4607,
+    "price_high_cents": 4607
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=488": {
     "currently_in_stock": false,
@@ -30082,17 +30082,17 @@
     "price_high_cents": 4500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%203%20grain%20G106-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3786,
-    "price_prev_cents": null,
-    "price_low_cents": 3786,
-    "price_high_cents": 3786
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4466,
+    "price_prev_cents": 3786,
+    "price_low_cents": 4466,
+    "price_high_cents": 4466
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=470": {
     "currently_in_stock": false,
@@ -30160,17 +30160,17 @@
     "price_high_cents": 4100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%20Thunder%201%20grain%20141-G115-13A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3904,
-    "price_prev_cents": null,
-    "price_low_cents": 3904,
-    "price_high_cents": 3904
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4607,
+    "price_prev_cents": 3904,
+    "price_low_cents": 4607,
+    "price_high_cents": 4607
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=472": {
     "currently_in_stock": false,
@@ -30189,14 +30189,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3904,
-    "price_prev_cents": null,
-    "price_low_cents": 3904,
-    "price_high_cents": 3904
+    "price_current_cents": 4607,
+    "price_prev_cents": 3904,
+    "price_low_cents": 4607,
+    "price_high_cents": 4607
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=493": {
     "currently_in_stock": false,
@@ -30306,14 +30306,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4022,
-    "price_prev_cents": null,
-    "price_low_cents": 4022,
-    "price_high_cents": 4022
+    "price_current_cents": 4746,
+    "price_prev_cents": 4022,
+    "price_low_cents": 4746,
+    "price_high_cents": 4746
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=485": {
     "currently_in_stock": false,
@@ -30433,17 +30433,17 @@
     "price_high_cents": 3700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%202%20grain%20G80-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3312,
-    "price_prev_cents": null,
-    "price_low_cents": 3312,
-    "price_high_cents": 3312
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 3908,
+    "price_prev_cents": 3312,
+    "price_low_cents": 3908,
+    "price_high_cents": 3908
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=495": {
     "currently_in_stock": false,
@@ -32461,17 +32461,17 @@
     "price_high_cents": 5600
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Blue%20Streak%203%20grain%20H133-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3431,
-    "price_prev_cents": null,
-    "price_low_cents": 3431,
-    "price_high_cents": 3431
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4047,
+    "price_prev_cents": 3431,
+    "price_low_cents": 4047,
+    "price_high_cents": 4047
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=506": {
     "currently_in_stock": false,
@@ -32513,17 +32513,17 @@
     "price_high_cents": 3900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#White%20Thunder%203%20grain%20H163-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3431,
-    "price_prev_cents": null,
-    "price_low_cents": 3431,
-    "price_high_cents": 3431
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4047,
+    "price_prev_cents": 3431,
+    "price_low_cents": 4047,
+    "price_high_cents": 4047
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=515": {
     "currently_in_stock": false,
@@ -32539,17 +32539,17 @@
     "price_high_cents": 3900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%204%20grain%20H175-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 4141,
-    "price_prev_cents": null,
-    "price_low_cents": 4141,
-    "price_high_cents": 4141
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4885,
+    "price_prev_cents": 4141,
+    "price_low_cents": 4885,
+    "price_high_cents": 4885
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=517": {
     "currently_in_stock": false,
@@ -32565,17 +32565,17 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#VMax%203%20grain%20H410": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 3431,
-    "price_prev_cents": null,
-    "price_low_cents": 3431,
-    "price_high_cents": 3431
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 4047,
+    "price_prev_cents": 3431,
+    "price_low_cents": 4047,
+    "price_high_cents": 4047
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#White%203%20grain%20H54": {
     "currently_in_stock": false,
@@ -32630,17 +32630,17 @@
     "price_high_cents": 4500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%204%20grain%20H123-12": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 4377,
-    "price_prev_cents": null,
-    "price_low_cents": 4377,
-    "price_high_cents": 4377
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 5165,
+    "price_prev_cents": 4377,
+    "price_low_cents": 5165,
+    "price_high_cents": 5165
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=503": {
     "currently_in_stock": false,
@@ -32669,17 +32669,17 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%205%20grain%20H237-13": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 4732,
-    "price_prev_cents": null,
-    "price_low_cents": 4732,
-    "price_high_cents": 4732
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 5584,
+    "price_prev_cents": 4732,
+    "price_low_cents": 5584,
+    "price_high_cents": 5584
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=524": {
     "currently_in_stock": false,
@@ -32851,17 +32851,17 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Skidmark%202%20grain%20232-H123-14A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5442,
-    "price_prev_cents": null,
-    "price_low_cents": 5442,
-    "price_high_cents": 5442
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6422,
+    "price_prev_cents": 5442,
+    "price_low_cents": 6422,
+    "price_high_cents": 6422
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=504": {
     "currently_in_stock": false,
@@ -32903,17 +32903,17 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%202%20grain%20247-H143-13A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5206,
-    "price_prev_cents": null,
-    "price_low_cents": 5206,
-    "price_high_cents": 5206
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6142,
+    "price_prev_cents": 5206,
+    "price_low_cents": 6142,
+    "price_high_cents": 6142
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%206%20grain%20H295-13": {
     "currently_in_stock": false,
@@ -32945,14 +32945,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 5442,
-    "price_prev_cents": null,
-    "price_low_cents": 5442,
-    "price_high_cents": 5442
+    "price_current_cents": 6422,
+    "price_prev_cents": 5442,
+    "price_low_cents": 6422,
+    "price_high_cents": 6422
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%206%20grain%20H180-14": {
     "currently_in_stock": false,
@@ -33007,17 +33007,17 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Red%20Lightning%202%20grain%20261-H120-14A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5206,
-    "price_prev_cents": null,
-    "price_low_cents": 5206,
-    "price_high_cents": 5206
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6142,
+    "price_prev_cents": 5206,
+    "price_low_cents": 6142,
+    "price_high_cents": 6142
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=502": {
     "currently_in_stock": false,
@@ -33059,17 +33059,17 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Classic%202%20grain%20266-H125-12A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5087,
-    "price_prev_cents": null,
-    "price_low_cents": 5087,
-    "price_high_cents": 5087
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6142,
+    "price_prev_cents": 5087,
+    "price_low_cents": 6142,
+    "price_high_cents": 6142
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=505": {
     "currently_in_stock": false,
@@ -33111,17 +33111,17 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%202%20Grain%20269-H110-14A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5206,
-    "price_prev_cents": null,
-    "price_low_cents": 5206,
-    "price_high_cents": 5206
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6142,
+    "price_prev_cents": 5206,
+    "price_low_cents": 6142,
+    "price_high_cents": 6142
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=500": {
     "currently_in_stock": false,
@@ -33137,17 +33137,17 @@
     "price_high_cents": 6000
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%20Thunder%202%20grain%20273-H225-14A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5324,
-    "price_prev_cents": null,
-    "price_low_cents": 5324,
-    "price_high_cents": 5324
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6422,
+    "price_prev_cents": 5324,
+    "price_low_cents": 6422,
+    "price_high_cents": 6422
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=522": {
     "currently_in_stock": false,
@@ -33163,17 +33163,17 @@
     "price_high_cents": 6100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Blue%20Streak%202%20grain%20276-H152-15A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5206,
-    "price_prev_cents": null,
-    "price_low_cents": 5206,
-    "price_high_cents": 5206
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6142,
+    "price_prev_cents": 5206,
+    "price_low_cents": 6142,
+    "price_high_cents": 6142
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=511": {
     "currently_in_stock": false,
@@ -33218,14 +33218,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
+    "last_change_at": "2026-08-31T18:01:05+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 5442,
-    "price_prev_cents": null,
-    "price_low_cents": 5442,
-    "price_high_cents": 5442
+    "price_current_cents": 6422,
+    "price_prev_cents": 5442,
+    "price_low_cents": 6422,
+    "price_high_cents": 6422
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=499": {
     "currently_in_stock": false,
@@ -33267,17 +33267,17 @@
     "price_high_cents": 6900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Green%206%20grain%20H159-15": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5561,
-    "price_prev_cents": null,
-    "price_low_cents": 5561,
-    "price_high_cents": 5561
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6561,
+    "price_prev_cents": 5561,
+    "price_low_cents": 6561,
+    "price_high_cents": 6561
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=512": {
     "currently_in_stock": false,
@@ -33358,17 +33358,17 @@
     "price_high_cents": 6400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Blue%20Streak%206%20grain%20H255-14": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-07-27T19:00:42+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:34+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 5561,
-    "price_prev_cents": null,
-    "price_low_cents": 5561,
-    "price_high_cents": 5561
+    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:04+00:00",
+    "last_restock_at": "2026-08-31T18:01:04+00:00",
+    "restock_count": 1,
+    "price_current_cents": 6561,
+    "price_prev_cents": 5561,
+    "price_low_cents": 6561,
+    "price_high_cents": 6561
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#VMAX%203%20grain%20370-H565-15A": {
     "currently_in_stock": false,
@@ -35256,26 +35256,26 @@
     "price_high_cents": 7300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Vmax%204%20grain%20419-I800-15A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-06-05T17:00:35+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 8164,
-    "price_prev_cents": null,
-    "price_low_cents": 8164,
-    "price_high_cents": 8164
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 8500,
+    "price_prev_cents": 8164,
+    "price_low_cents": 8500,
+    "price_high_cents": 8500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Skidmark%204%20grain%20434-I223-14A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
     "price_current_cents": 8164,
     "price_prev_cents": null,
     "price_low_cents": 8164,
@@ -35428,14 +35428,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:36+00:00",
-    "last_change_at": "2026-06-05T17:00:36+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:36+00:00",
+    "last_change_at": "2026-08-31T18:01:06+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:06+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 7572,
-    "price_prev_cents": null,
-    "price_low_cents": 7572,
-    "price_high_cents": 7572
+    "price_current_cents": 8000,
+    "price_prev_cents": 7572,
+    "price_low_cents": 8000,
+    "price_high_cents": 8000
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=542": {
     "currently_in_stock": false,
@@ -35477,13 +35477,13 @@
     "price_high_cents": 8800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%20Thunder%204%20grain%20540-I470-15A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
     "price_current_cents": 8046,
     "price_prev_cents": null,
     "price_low_cents": 8046,
@@ -35555,13 +35555,13 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%205%20grain%20601-I350-16A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
     "price_current_cents": 8992,
     "price_prev_cents": null,
     "price_low_cents": 8992,
@@ -37648,17 +37648,17 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Classic%205%20grain%20648-J285-15A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 8756,
-    "price_prev_cents": null,
-    "price_low_cents": 8756,
-    "price_high_cents": 8756
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 10331,
+    "price_prev_cents": 8756,
+    "price_low_cents": 10331,
+    "price_high_cents": 10331
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=580": {
     "currently_in_stock": false,
@@ -37674,17 +37674,17 @@
     "price_high_cents": 10100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Red%20Lightning%205%20grain%20649-J335-15A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 8992,
-    "price_prev_cents": null,
-    "price_low_cents": 8992,
-    "price_high_cents": 8992
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 10611,
+    "price_prev_cents": 8992,
+    "price_low_cents": 10611,
+    "price_high_cents": 10611
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=586": {
     "currently_in_stock": false,
@@ -37726,17 +37726,17 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Pink%205%20grain%20654-J316-17A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 8992,
-    "price_prev_cents": null,
-    "price_low_cents": 8992,
-    "price_high_cents": 8992
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 10611,
+    "price_prev_cents": 8992,
+    "price_low_cents": 10611,
+    "price_high_cents": 10611
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=584": {
     "currently_in_stock": false,
@@ -37882,17 +37882,17 @@
     "price_high_cents": 12700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%206%20grain%20700-J400-16A": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-07-27T19:00:43+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:35+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 10057,
-    "price_prev_cents": null,
-    "price_low_cents": 10057,
-    "price_high_cents": 10057
+    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_restock_at": "2026-08-31T18:01:05+00:00",
+    "restock_count": 1,
+    "price_current_cents": 11867,
+    "price_prev_cents": 10057,
+    "price_low_cents": 11867,
+    "price_high_cents": 11867
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=101502105556613#716-J280-16A%20-%20Smoky_Sam": {
     "currently_in_stock": true,
