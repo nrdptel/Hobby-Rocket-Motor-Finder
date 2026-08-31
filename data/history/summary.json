@@ -16198,10 +16198,10 @@
     "price_high_cents": 4769
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h170m-14a-reload-kit-hazmat-581.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:20",
-    "last_change_at": "2026-07-03T19:28:50+00:00",
+    "last_change_at": "2026-08-31T00:03:36+00:00",
     "last_in_stock_at": "2026-07-03T19:28:50+00:00",
     "last_restock_at": null,
     "restock_count": 0,
