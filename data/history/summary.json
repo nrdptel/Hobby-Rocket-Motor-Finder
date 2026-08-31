@@ -9776,10 +9776,10 @@
     "price_high_cents": 6949
   },
   "https://www.buyrocketmotors.com/products/aerotech-i245g-14a-mojave-green?variant=50855055524137": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:12",
-    "last_change_at": "2026-05-31T02:24:12",
+    "last_change_at": "2026-08-31T21:00:27+00:00",
     "last_in_stock_at": "2026-05-31T02:24:12",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12896,13 +12896,13 @@
     "price_high_cents": 64199
   },
   "https://wildmanrocketry.com/products/m1297w": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:16:10",
-    "last_change_at": "2026-08-31T20:00:44+00:00",
-    "last_in_stock_at": "2026-08-24T23:00:27+00:00",
-    "last_restock_at": "2026-08-24T23:00:27+00:00",
-    "restock_count": 1,
+    "last_change_at": "2026-08-31T21:00:35+00:00",
+    "last_in_stock_at": "2026-08-31T21:00:35+00:00",
+    "last_restock_at": "2026-08-31T21:00:35+00:00",
+    "restock_count": 2,
     "price_current_cents": 42299,
     "price_prev_cents": 37699,
     "price_low_cents": 42299,
@@ -27823,14 +27823,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-07-01T07:00:24+00:00",
+    "last_change_at": "2026-08-31T21:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4999,
-    "price_prev_cents": 4399,
-    "price_low_cents": 4999,
-    "price_high_cents": 4999
+    "price_current_cents": 4949,
+    "price_prev_cents": 4999,
+    "price_low_cents": 4949,
+    "price_high_cents": 4949
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=42#F20-4W%20Enerjet%20%282%20pack%29": {
     "currently_in_stock": false,
@@ -29305,14 +29305,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:22+00:00",
-    "last_change_at": "2026-06-05T17:00:22+00:00",
+    "last_change_at": "2026-08-31T21:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4399,
-    "price_prev_cents": null,
-    "price_low_cents": 4399,
-    "price_high_cents": 4399
+    "price_current_cents": 4949,
+    "price_prev_cents": 4399,
+    "price_low_cents": 4949,
+    "price_high_cents": 4949
   },
   "https://aerotech-rocketry.com/products/product_85136e9f-a89f-f595-76cf-9146994fb771": {
     "currently_in_stock": false,
@@ -29682,14 +29682,14 @@
     "currently_in_stock": false,
     "status_current": "special_order",
     "first_seen_at": "2026-06-05T17:00:21+00:00",
-    "last_change_at": "2026-07-01T07:00:24+00:00",
+    "last_change_at": "2026-08-31T21:00:27+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4999,
-    "price_prev_cents": 4399,
-    "price_low_cents": 4999,
-    "price_high_cents": 4999
+    "price_current_cents": 4949,
+    "price_prev_cents": 4999,
+    "price_low_cents": 4949,
+    "price_high_cents": 4949
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=42#F67-4W%20Enerjet%20%282%20pack%29": {
     "currently_in_stock": true,
@@ -38041,14 +38041,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:36+00:00",
-    "last_change_at": "2026-06-05T17:00:36+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:36+00:00",
+    "last_change_at": "2026-08-31T21:00:41+00:00",
+    "last_in_stock_at": "2026-08-31T21:00:41+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 11004,
-    "price_prev_cents": null,
-    "price_low_cents": 11004,
-    "price_high_cents": 11004
+    "price_current_cents": 12985,
+    "price_prev_cents": 11004,
+    "price_low_cents": 12985,
+    "price_high_cents": 12985
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=598": {
     "currently_in_stock": false,
@@ -42526,14 +42526,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
+    "last_change_at": "2026-08-31T21:00:42+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 20116,
-    "price_prev_cents": null,
-    "price_low_cents": 20116,
-    "price_high_cents": 20116
+    "price_current_cents": 23736,
+    "price_prev_cents": 20116,
+    "price_low_cents": 23736,
+    "price_high_cents": 23736
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=670": {
     "currently_in_stock": false,
@@ -43371,14 +43371,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-06-05T17:00:27+00:00",
+    "last_change_at": "2026-08-31T21:00:33+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 37699,
-    "price_prev_cents": null,
-    "price_low_cents": 37699,
-    "price_high_cents": 37699
+    "price_current_cents": 42299,
+    "price_prev_cents": 37699,
+    "price_low_cents": 42299,
+    "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=270": {
     "currently_in_stock": false,
@@ -43579,14 +43579,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-06-05T17:00:27+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:27+00:00",
+    "last_change_at": "2026-08-31T21:00:33+00:00",
+    "last_in_stock_at": "2026-08-31T21:00:33+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 37699,
-    "price_prev_cents": null,
-    "price_low_cents": 37699,
-    "price_high_cents": 37699
+    "price_current_cents": 42299,
+    "price_prev_cents": 37699,
+    "price_low_cents": 42299,
+    "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=271": {
     "currently_in_stock": false,
@@ -43891,14 +43891,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-06-05T17:00:27+00:00",
+    "last_change_at": "2026-08-31T21:00:33+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 37699,
-    "price_prev_cents": null,
-    "price_low_cents": 37699,
-    "price_high_cents": 37699
+    "price_current_cents": 42299,
+    "price_prev_cents": 37699,
+    "price_low_cents": 42299,
+    "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=272": {
     "currently_in_stock": false,
@@ -44889,17 +44889,17 @@
     "price_high_cents": 42299
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9179#M1297W-P": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-08-25T18:40:57+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:27+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 37699,
-    "price_prev_cents": null,
+    "last_change_at": "2026-08-31T21:00:33+00:00",
+    "last_in_stock_at": "2026-08-31T21:00:33+00:00",
+    "last_restock_at": "2026-08-31T21:00:33+00:00",
+    "restock_count": 1,
+    "price_current_cents": 42299,
+    "price_prev_cents": 37699,
     "price_low_cents": 37699,
-    "price_high_cents": 37699
+    "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=273": {
     "currently_in_stock": false,
@@ -45191,14 +45191,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-08-27T01:00:30+00:00",
+    "last_change_at": "2026-08-31T21:00:33+00:00",
     "last_in_stock_at": "2026-06-05T17:00:27+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 37699,
-    "price_prev_cents": null,
+    "price_current_cents": 42299,
+    "price_prev_cents": 37699,
     "price_low_cents": 37699,
-    "price_high_cents": 37699
+    "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=381": {
     "currently_in_stock": false,
@@ -45344,17 +45344,17 @@
     "price_high_cents": 42299
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9179#M1780NT-PS": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-08-25T18:40:57+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:27+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 37699,
-    "price_prev_cents": null,
+    "last_change_at": "2026-08-31T21:00:33+00:00",
+    "last_in_stock_at": "2026-08-31T21:00:33+00:00",
+    "last_restock_at": "2026-08-31T21:00:33+00:00",
+    "restock_count": 1,
+    "price_current_cents": 42299,
+    "price_prev_cents": 37699,
     "price_low_cents": 37699,
-    "price_high_cents": 37699
+    "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=382": {
     "currently_in_stock": false,
@@ -45633,14 +45633,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:27+00:00",
-    "last_change_at": "2026-06-05T17:00:27+00:00",
+    "last_change_at": "2026-08-31T21:00:33+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 40599,
-    "price_prev_cents": null,
-    "price_low_cents": 40599,
-    "price_high_cents": 40599
+    "price_current_cents": 42999,
+    "price_prev_cents": 40599,
+    "price_low_cents": 42999,
+    "price_high_cents": 42999
   },
   "https://www.balsamachining.com/hpmp.htm#13210P": {
     "currently_in_stock": false,
