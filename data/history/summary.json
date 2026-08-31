@@ -7826,10 +7826,10 @@
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/g80-13t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:43",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-08-31T14:00:27+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -10556,13 +10556,13 @@
     "price_high_cents": 10999
   },
   "https://wildmanrocketry.com/products/j315r": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:15:57",
-    "last_change_at": "2026-08-20T15:01:30+00:00",
-    "last_in_stock_at": "2026-07-01T22:00:29+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-08-31T14:00:27+00:00",
+    "last_in_stock_at": "2026-08-31T14:00:27+00:00",
+    "last_restock_at": "2026-08-31T14:00:27+00:00",
+    "restock_count": 1,
     "price_current_cents": 12399,
     "price_prev_cents": 10999,
     "price_low_cents": 12399,
@@ -45149,10 +45149,10 @@
     "price_high_cents": 71999
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9218#M1419W-P": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:28+00:00",
-    "last_change_at": "2026-06-05T17:00:28+00:00",
+    "last_change_at": "2026-08-31T14:00:31+00:00",
     "last_in_stock_at": "2026-06-05T17:00:28+00:00",
     "last_restock_at": null,
     "restock_count": 0,
