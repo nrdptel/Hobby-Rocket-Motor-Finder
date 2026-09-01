@@ -26065,10 +26065,10 @@
     "price_high_cents": 43200
   },
   "https://lokiresearch.com/secure/storeDetail.asp?id=31620052392598": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T12:11:02+00:00",
-    "last_change_at": "2026-06-11T19:00:31+00:00",
+    "last_change_at": "2026-09-01T17:00:25+00:00",
     "last_in_stock_at": "2026-06-11T19:00:31+00:00",
     "last_restock_at": "2026-06-11T19:00:31+00:00",
     "restock_count": 1,
@@ -26195,13 +26195,13 @@
     "price_high_cents": 77500
   },
   "https://lokiresearch.com/secure/storeDetail.asp?id=71020074553030": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T12:11:02+00:00",
-    "last_change_at": "2026-06-05T12:11:02+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-09-01T17:00:25+00:00",
+    "last_in_stock_at": "2026-09-01T17:00:25+00:00",
+    "last_restock_at": "2026-09-01T17:00:25+00:00",
+    "restock_count": 1,
     "price_current_cents": 50900,
     "price_prev_cents": null,
     "price_low_cents": 50900,
