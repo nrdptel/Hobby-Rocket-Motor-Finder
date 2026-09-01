@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-01T13:07:21+00:00",
+  "updated_at": "2026-09-01T14:07:25+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -12374,6 +12374,11 @@
           "t": "2026-07-01T22:00:29+00:00",
           "status": "out_of_stock",
           "price_cents": 13499
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "in_stock",
+          "price_cents": 13499
         }
       ]
     },
@@ -12739,6 +12744,11 @@
           "t": "2026-08-31T14:00:27+00:00",
           "status": "in_stock",
           "price_cents": 12399
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "out_of_stock",
+          "price_cents": 12399
         }
       ]
     },
@@ -12898,6 +12908,11 @@
         {
           "t": "2026-07-01T22:00:29+00:00",
           "status": "out_of_stock",
+          "price_cents": 15299
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "in_stock",
           "price_cents": 15299
         }
       ]
@@ -13489,6 +13504,11 @@
           "t": "2026-07-24T06:05:08+00:00",
           "status": "out_of_stock",
           "price_cents": 12399
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "in_stock",
+          "price_cents": 12399
         }
       ]
     },
@@ -13748,6 +13768,11 @@
         {
           "t": "2026-07-11T02:47:01+00:00",
           "status": "out_of_stock",
+          "price_cents": 18899
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "in_stock",
           "price_cents": 18899
         }
       ]
@@ -14434,6 +14459,11 @@
           "t": "2026-07-01T22:00:29+00:00",
           "status": "out_of_stock",
           "price_cents": 18899
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "in_stock",
+          "price_cents": 18899
         }
       ]
     },
@@ -14513,6 +14543,11 @@
         {
           "t": "2026-05-31T01:16:05",
           "status": "out_of_stock",
+          "price_cents": 16799
+        },
+        {
+          "t": "2026-09-01T14:00:33+00:00",
+          "status": "in_stock",
           "price_cents": 16799
         }
       ]
