@@ -44723,14 +44723,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:38+00:00",
-    "last_change_at": "2026-06-05T17:00:38+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:38+00:00",
+    "last_change_at": "2026-09-01T11:16:58+00:00",
+    "last_in_stock_at": "2026-09-01T11:16:58+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 82834,
-    "price_prev_cents": null,
-    "price_low_cents": 82834,
-    "price_high_cents": 82834
+    "price_current_cents": 97742,
+    "price_prev_cents": 82834,
+    "price_low_cents": 97742,
+    "price_high_cents": 97742
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=695": {
     "currently_in_stock": false,
