@@ -26601,14 +26601,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2128,
-    "price_prev_cents": null,
-    "price_low_cents": 2128,
-    "price_high_cents": 2128
+    "price_current_cents": 2512,
+    "price_prev_cents": 2128,
+    "price_low_cents": 2512,
+    "price_high_cents": 2512
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=451": {
     "currently_in_stock": false,
@@ -26627,14 +26627,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2128,
-    "price_prev_cents": null,
-    "price_low_cents": 2128,
-    "price_high_cents": 2128
+    "price_current_cents": 2512,
+    "price_prev_cents": 2128,
+    "price_low_cents": 2512,
+    "price_high_cents": 2512
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=452": {
     "currently_in_stock": false,
@@ -27342,14 +27342,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
+    "last_in_stock_at": "2026-09-01T16:00:37+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2365,
-    "price_prev_cents": null,
-    "price_low_cents": 2365,
-    "price_high_cents": 2365
+    "price_current_cents": 2791,
+    "price_prev_cents": 2365,
+    "price_low_cents": 2791,
+    "price_high_cents": 2791
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=464": {
     "currently_in_stock": false,
@@ -27420,14 +27420,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2365,
-    "price_prev_cents": null,
-    "price_low_cents": 2365,
-    "price_high_cents": 2365
+    "price_current_cents": 2791,
+    "price_prev_cents": 2365,
+    "price_low_cents": 2791,
+    "price_high_cents": 2791
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=466": {
     "currently_in_stock": false,
@@ -27537,14 +27537,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2602,
-    "price_prev_cents": null,
-    "price_low_cents": 2602,
-    "price_high_cents": 2602
+    "price_current_cents": 3070,
+    "price_prev_cents": 2602,
+    "price_low_cents": 3070,
+    "price_high_cents": 3070
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=462": {
     "currently_in_stock": false,
@@ -27563,14 +27563,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2602,
-    "price_prev_cents": null,
-    "price_low_cents": 2602,
-    "price_high_cents": 2602
+    "price_current_cents": 3070,
+    "price_prev_cents": 2602,
+    "price_low_cents": 3070,
+    "price_high_cents": 3070
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=467": {
     "currently_in_stock": false,
@@ -27589,14 +27589,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2602,
-    "price_prev_cents": null,
-    "price_low_cents": 2602,
-    "price_high_cents": 2602
+    "price_current_cents": 3070,
+    "price_prev_cents": 2602,
+    "price_low_cents": 3070,
+    "price_high_cents": 3070
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=457": {
     "currently_in_stock": false,
@@ -27615,14 +27615,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2602,
-    "price_prev_cents": null,
-    "price_low_cents": 2602,
-    "price_high_cents": 2602
+    "price_current_cents": 3070,
+    "price_prev_cents": 2602,
+    "price_low_cents": 3070,
+    "price_high_cents": 3070
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=468": {
     "currently_in_stock": false,
@@ -27641,14 +27641,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2602,
-    "price_prev_cents": null,
-    "price_low_cents": 2602,
-    "price_high_cents": 2602
+    "price_current_cents": 3070,
+    "price_prev_cents": 2602,
+    "price_low_cents": 3070,
+    "price_high_cents": 3070
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=463": {
     "currently_in_stock": false,
@@ -29825,14 +29825,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=469": {
     "currently_in_stock": false,
@@ -29981,14 +29981,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=497": {
     "currently_in_stock": false,
@@ -30033,14 +30033,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=477": {
     "currently_in_stock": false,
@@ -30111,14 +30111,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=471": {
     "currently_in_stock": false,
@@ -30137,14 +30137,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=479": {
     "currently_in_stock": false,
@@ -30215,14 +30215,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=473": {
     "currently_in_stock": false,
@@ -30241,14 +30241,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=480": {
     "currently_in_stock": false,
@@ -30280,14 +30280,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-06-05T17:00:33+00:00",
+    "last_change_at": "2026-09-01T16:00:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3548,
-    "price_prev_cents": null,
-    "price_low_cents": 3548,
-    "price_high_cents": 3548
+    "price_current_cents": 4188,
+    "price_prev_cents": 3548,
+    "price_low_cents": 4188,
+    "price_high_cents": 4188
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=490": {
     "currently_in_stock": false,
