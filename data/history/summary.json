@@ -9633,13 +9633,13 @@
     "price_high_cents": 7299
   },
   "https://wildmanrocketry.com/products/i215r": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-05-31T01:15:51",
-    "last_change_at": "2026-07-01T22:00:29+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-09-01T22:00:28+00:00",
+    "last_in_stock_at": "2026-09-01T22:00:28+00:00",
+    "last_restock_at": "2026-09-01T22:00:28+00:00",
+    "restock_count": 1,
     "price_current_cents": 8399,
     "price_prev_cents": 7499,
     "price_low_cents": 8399,
@@ -41018,14 +41018,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:26+00:00",
-    "last_change_at": "2026-06-05T17:00:26+00:00",
+    "last_change_at": "2026-09-01T22:00:30+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 23299,
-    "price_prev_cents": null,
-    "price_low_cents": 23299,
-    "price_high_cents": 23299
+    "price_current_cents": 26099,
+    "price_prev_cents": 23299,
+    "price_low_cents": 26099,
+    "price_high_cents": 26099
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=237": {
     "currently_in_stock": false,
@@ -41616,14 +41616,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:26+00:00",
-    "last_change_at": "2026-06-05T17:00:26+00:00",
+    "last_change_at": "2026-09-01T22:00:30+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 23299,
-    "price_prev_cents": null,
-    "price_low_cents": 23299,
-    "price_high_cents": 23299
+    "price_current_cents": 26099,
+    "price_prev_cents": 23299,
+    "price_low_cents": 26099,
+    "price_high_cents": 26099
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=240": {
     "currently_in_stock": false,
@@ -42032,14 +42032,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:26+00:00",
-    "last_change_at": "2026-06-05T17:00:26+00:00",
+    "last_change_at": "2026-09-01T22:00:30+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 23299,
-    "price_prev_cents": null,
-    "price_low_cents": 23299,
-    "price_high_cents": 23299
+    "price_current_cents": 26099,
+    "price_prev_cents": 23299,
+    "price_low_cents": 26099,
+    "price_high_cents": 26099
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=259": {
     "currently_in_stock": false,
@@ -42357,14 +42357,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:26+00:00",
-    "last_change_at": "2026-06-05T17:00:26+00:00",
+    "last_change_at": "2026-09-01T22:00:30+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 28499,
-    "price_prev_cents": null,
-    "price_low_cents": 28499,
-    "price_high_cents": 28499
+    "price_current_cents": 28799,
+    "price_prev_cents": 28499,
+    "price_low_cents": 28799,
+    "price_high_cents": 28799
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=101502105556613#L265%20Mello": {
     "currently_in_stock": false,
@@ -43059,14 +43059,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:26+00:00",
-    "last_change_at": "2026-06-05T17:00:26+00:00",
+    "last_change_at": "2026-09-01T22:00:30+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 26999,
-    "price_prev_cents": null,
-    "price_low_cents": 26999,
-    "price_high_cents": 26999
+    "price_current_cents": 30299,
+    "price_prev_cents": 26999,
+    "price_low_cents": 30299,
+    "price_high_cents": 30299
   },
   "https://www.balsamachining.com/hpmp.htm#12115P": {
     "currently_in_stock": true,
@@ -46514,10 +46514,10 @@
     "price_high_cents": 103859
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9218#N2220DM-PS": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:28+00:00",
-    "last_change_at": "2026-08-07T03:00:32+00:00",
+    "last_change_at": "2026-09-01T22:00:32+00:00",
     "last_in_stock_at": "2026-08-07T03:00:32+00:00",
     "last_restock_at": "2026-08-07T03:00:32+00:00",
     "restock_count": 1,
