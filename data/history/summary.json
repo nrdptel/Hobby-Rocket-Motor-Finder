@@ -1547,10 +1547,10 @@
     "price_high_cents": 6499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/enerjet-by-aerotech/aerotech-g74-6w-2-pack-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:59",
-    "last_change_at": "2026-08-15T06:01:29+00:00",
+    "last_change_at": "2026-09-03T02:01:22+00:00",
     "last_in_stock_at": "2026-08-15T06:01:29+00:00",
     "last_restock_at": "2026-08-15T06:01:29+00:00",
     "restock_count": 1,
@@ -2028,10 +2028,10 @@
     "price_high_cents": 6499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/dms-rocket-motors/aerotech-h115dm-14a-dark-matter-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:52",
-    "last_change_at": "2026-07-29T01:01:13+00:00",
+    "last_change_at": "2026-09-03T02:01:16+00:00",
     "last_in_stock_at": "2026-07-29T01:01:13+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12740,10 +12740,10 @@
     "price_high_cents": 37699
   },
   "https://wildmanrocketry.com/products/l2500st": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:08",
-    "last_change_at": "2026-09-01T19:00:33+00:00",
+    "last_change_at": "2026-09-03T02:00:29+00:00",
     "last_in_stock_at": "2026-09-01T19:00:33+00:00",
     "last_restock_at": "2026-09-01T19:00:33+00:00",
     "restock_count": 1,
