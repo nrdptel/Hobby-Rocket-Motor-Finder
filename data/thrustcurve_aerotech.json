@@ -1748,7 +1748,7 @@
     "updatedOn": "2019-04-17"
   },
   {
-    "availability": "regular",
+    "availability": "OOP",
     "avgThrustN": 40.22,
     "burnTimeS": 2.18,
     "certOrg": "National Association of Rocketry",
@@ -1772,7 +1772,7 @@
     "totImpulseNs": 87.68,
     "totalWeightG": 126,
     "type": "SU",
-    "updatedOn": "2019-04-17"
+    "updatedOn": "2026-09-03"
   },
   {
     "availability": "OOP",
