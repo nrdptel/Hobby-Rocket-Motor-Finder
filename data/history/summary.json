@@ -22594,10 +22594,10 @@
     "price_high_cents": 12927
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-54/3g-reloads/cesaroni-k360-13a-white-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:36+00:00",
-    "last_change_at": "2026-06-03T02:28:36+00:00",
+    "last_change_at": "2026-09-04T14:02:30+00:00",
     "last_in_stock_at": "2026-06-03T02:28:36+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -22958,10 +22958,10 @@
     "price_high_cents": 23133
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-54/5g-reloads/cesaroni-k490-16a-green3-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:40+00:00",
-    "last_change_at": "2026-06-03T02:28:40+00:00",
+    "last_change_at": "2026-09-04T14:02:33+00:00",
     "last_in_stock_at": "2026-06-03T02:28:40+00:00",
     "last_restock_at": null,
     "restock_count": 0,
