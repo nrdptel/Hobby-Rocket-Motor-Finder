@@ -33059,10 +33059,10 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Classic%202%20grain%20266-H125-12A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-04T13:00:57+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -33137,10 +33137,10 @@
     "price_high_cents": 6000
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%20Thunder%202%20grain%20273-H225-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-04T13:00:57+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -35555,10 +35555,10 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%205%20grain%20601-I350-16A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-04T13:00:57+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
