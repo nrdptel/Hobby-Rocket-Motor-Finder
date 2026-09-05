@@ -24076,10 +24076,10 @@
     "price_high_cents": 51982
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-75/4g-reloads/cesaroni-l1115-classic-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:51+00:00",
-    "last_change_at": "2026-06-03T02:28:51+00:00",
+    "last_change_at": "2026-09-05T16:02:48+00:00",
     "last_in_stock_at": "2026-06-03T02:28:51+00:00",
     "last_restock_at": null,
     "restock_count": 0,
