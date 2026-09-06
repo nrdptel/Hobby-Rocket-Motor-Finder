@@ -2678,10 +2678,10 @@
     "price_high_cents": 18899
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/54mm/54/852-reloads/aerotech-j460t-14a-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:30",
-    "last_change_at": "2026-09-01T11:02:16+00:00",
+    "last_change_at": "2026-09-06T20:01:59+00:00",
     "last_in_stock_at": "2026-09-01T11:02:16+00:00",
     "last_restock_at": "2026-09-01T11:02:16+00:00",
     "restock_count": 2,
