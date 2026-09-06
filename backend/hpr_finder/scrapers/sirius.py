@@ -108,6 +108,15 @@ IN_CART_BUTTON_RE = re.compile(r'button_in_cart', re.I)
 PRODUCT_ID_FROM_URL_RE = re.compile(r"-(\d+)\.html$")
 
 
+def _has_products(resp) -> bool:
+    """Does this response body actually look like the product listing?
+
+    Sirius answers a blocked/throttled run with a 200 and a product-free body, so
+    the status code alone can't tell a real page from a wall. See
+    ``PoliteAsyncClient.get``'s ``content_ok``."""
+    return bool(PRODUCT_URL_RE.search(resp.text))
+
+
 class SiriusScraper(Scraper):
     slug = "sirius"
     name = "Sirius Rocketry"
@@ -164,7 +173,14 @@ class SiriusScraper(Scraper):
                 else f"{MANUFACTURER_PAGE_URL}index-{page}.html"
             )
             try:
-                r = await client.get(url)
+                # Page 1 always lists products, so a page-1 body with no product
+                # link is a block, not an empty catalogue — reject it so the
+                # client retries and fails over to a cleaner egress. Later pages
+                # legitimately come back empty (that's how pagination ends), so
+                # only page 1 carries the check.
+                r = await client.get(
+                    url, content_ok=_has_products if page == 1 else None
+                )
                 r.raise_for_status()
             except Exception as e:
                 log.warning("sirius: manufacturer page %d fetch failed (%s): %s", page, url, e)

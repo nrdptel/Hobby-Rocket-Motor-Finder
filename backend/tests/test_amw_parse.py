@@ -11,7 +11,14 @@ from pathlib import Path
 import pytest
 
 from hpr_finder.models import StockStatus
-from hpr_finder.scrapers.amw import PRICE_RE, AMWScraper, _parse_status
+from hpr_finder.scrapers.amw import (
+    CATEGORY_IDS,
+    CATEGORY_URL_TEMPLATE,
+    PRICE_RE,
+    AMWScraper,
+    _is_category_page,
+    _parse_status,
+)
 from hpr_finder.scrapers.prices import price_to_cents
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -205,11 +212,26 @@ async def test_scrape_url_lookup_is_unsupported():
 
 @pytest.mark.asyncio
 async def test_scrape_isolates_a_failing_category():
-    class _FailClient:
-        async def get(self, url, **kwargs):
-            raise RuntimeError("category page down")
+    """One dead category is skipped; the rest of the walk still produces listings."""
+    body = _load("amw_cat104_dms.html")
+    dead = CATEGORY_URL_TEMPLATE.format(cid=sorted(CATEGORY_IDS)[0])
 
-    assert await AMWScraper().scrape(_FailClient()) == []
+    class _OneFailClient:
+        async def get(self, url, **kwargs):
+            if url == dead:
+                raise RuntimeError("category page down")
+            return _FakeResp(body)
+
+    assert len(await AMWScraper().scrape(_OneFailClient())) > 0
+
+
+def test_category_page_marker_accepts_a_real_page_and_rejects_a_block():
+    class _Resp:
+        def __init__(self, text):
+            self.text = text
+
+    assert _is_category_page(_Resp(_load("amw_cat104_dms.html")))
+    assert not _is_category_page(_Resp("<html><body>Access denied</body></html>"))
 
 
 # --- Cesaroni (CTI) categories ----------------------------------------------

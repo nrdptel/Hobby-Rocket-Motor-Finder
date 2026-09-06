@@ -103,6 +103,23 @@ DESC_RE = re.compile(r'product_s_desc"[^>]*>\s*([^<]+)\s*<')
 URL_RE = re.compile(
     r'href="(/index\.php[^"]*virtuemart_product_id=\d+[^"]*)"'
 )
+# "Is this a real category page?" — deliberately structural rather than a product
+# count, because a handful of the 56 categories we walk legitimately parse to zero
+# listings (hardware-only, or empty), so "no products" alone can't mean "blocked".
+# Either marker is enough: ``browse-view`` is VirtueMart's category container (on
+# every page, product-bearing or not), and a product link proves it outright. Two
+# independent markers so a theme tweak to one can't silently turn every fetch into
+# a retry-and-escalate — a block page carries neither.
+CATEGORY_PAGE_RE = re.compile(r"browse-view|virtuemart_product_id=", re.I)
+
+
+def _is_category_page(resp) -> bool:
+    """Does this response body actually look like a VirtueMart category page?
+
+    AMW answers a blocked run with a 200 and a body that has none of the store's
+    markup, so the status code alone can't tell a real page from a wall. See
+    ``PoliteAsyncClient.get``'s ``content_ok``."""
+    return bool(CATEGORY_PAGE_RE.search(resp.text))
 
 
 class AMWScraper(Scraper):
@@ -139,7 +156,7 @@ class AMWScraper(Scraper):
 
         async def _safe(cat_url: str, manufacturer: str, diameter_mm: int | None) -> list[Listing]:
             try:
-                r = await client.get(cat_url)
+                r = await client.get(cat_url, content_ok=_is_category_page)
                 r.raise_for_status()
                 return self._parse_category(r.text, manufacturer, diameter_mm)
             except Exception as e:
