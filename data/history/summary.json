@@ -2197,10 +2197,10 @@
     "price_high_cents": 7499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/38mm/38/480-reloads/aerotech-i1299n-p-warp-9-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:15",
-    "last_change_at": "2026-09-01T11:01:58+00:00",
+    "last_change_at": "2026-09-06T18:01:34+00:00",
     "last_in_stock_at": "2026-09-01T11:01:58+00:00",
     "last_restock_at": "2026-09-01T11:01:58+00:00",
     "restock_count": 2,
