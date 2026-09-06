@@ -15,8 +15,10 @@ out-of-stock plus the URL-id and product-URL regexes used at discovery time.
 import re
 from pathlib import Path
 
+import httpx
 import pytest
 
+from hpr_finder.http import PoliteAsyncClient
 from hpr_finder.models import StockStatus
 from hpr_finder.scrapers.sirius import (
     H1_RE,
@@ -25,6 +27,7 @@ from hpr_finder.scrapers.sirius import (
     SiriusScraper,
     _classify_status,
     _extract_price_cents,
+    _has_products,
     _product_id_from_url,
 )
 
@@ -377,3 +380,65 @@ async def test_crawl_stops_and_keeps_page1_when_a_later_page_fails():
     scraper = SiriusScraper()
     urls = await scraper._crawl_for_products(_FailOnIndexClient())
     assert len(urls) == 2
+
+
+@pytest.mark.asyncio
+async def test_crawl_asks_the_client_to_validate_page_one_only():
+    """Page 1 must contain products (a bare 200 doesn't prove the fetch worked);
+    later pages are allowed to be empty — that IS the pagination stop condition."""
+    checked: list[tuple[str, bool]] = []
+
+    class _RecordingClient:
+        async def get(self, url, **kwargs):
+            checked.append((url, kwargs.get("content_ok") is not None))
+            return _FakeResp(_MANUFACTURER_PAGE_1 if "index-" not in url else "<html></html>")
+
+    await SiriusScraper()._crawl_for_products(_RecordingClient())
+    assert checked[0][1] is True
+    assert all(validated is False for _, validated in checked[1:])
+
+
+def test_has_products_accepts_the_catalogue_and_rejects_a_block():
+    class _Resp:
+        def __init__(self, text):
+            self.text = text
+
+    assert _has_products(_Resp(_MANUFACTURER_PAGE_1))
+    assert not _has_products(_Resp("<html><body>Access denied</body></html>"))
+
+
+@pytest.mark.asyncio
+async def test_blocked_discovery_escalates_to_the_relay_end_to_end():
+    """The whole path wired as production wires it — scraper, real client, relay.
+
+    The unit tests above use a fake client that ignores ``content_ok``, so this is
+    the one that proves the check actually reaches ``PoliteAsyncClient`` and does
+    something: the origin answers the catalogue request with a product-free 200
+    (the observed failure), the client rejects it, and the retry via the relay
+    returns the real page."""
+    hits: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.host == "relay.test":
+            hits.append("relay")
+            return httpx.Response(200, text=_MANUFACTURER_PAGE_1)
+        hits.append("direct")
+        return httpx.Response(200, text="<html><body>Access denied</body></html>")
+
+    client = PoliteAsyncClient(
+        min_start_interval_s=0.0,
+        backoff_base_s=0.0,
+        relay_url="https://relay.test",
+        relay_secret="s3cret",
+    )
+    client._client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    try:
+        urls = await SiriusScraper()._crawl_for_products(client)
+    finally:
+        await client.close()
+
+    assert hits[:2] == ["direct", "relay"], "a product-free 200 must fail over"
+    assert urls == {
+        "https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html",
+        "https://www.siriusrocketry.biz/ishop/aerotech-h112j-hpr-reload-kit-901.html",
+    }

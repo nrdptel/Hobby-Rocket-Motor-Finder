@@ -22,7 +22,7 @@ The U.S. hobby motor shortage makes finding a specific impulse / diameter / prop
 - **Restock email alerts** — get notified when a specific motor, or anything that fits a saved rocket, comes back in stock — *or appears in stock for the first time* (watch a "phantom" motor no vendor stocks and hear the moment one lists it) ([setup](docs/email-alerts.md)).
 - **History-powered buying signals** — a catalog badge flags motors that are *in stock now but rarely are* (grab it) vs. *often out* (the scarcity verdict only fires once a motor has been tracked for several days, and never on discontinued stock); each **in-stock** listing's price gets a marker vs. its own tracked history (`↓ lowest tracked` / `↓ price dropped` / `↑ above its low`). Cadence-sensitive stats are clipped to the reliable-scrape epoch; price min/max isn't, so it uses full history with a noise guard.
 - **Restock & last-in-stock history** plus **best-price-across-vendors** (compared per motor, so multipacks — some vendors sell small motors in 2/3/12-packs — are priced by the unit with the pack total noted), derived from successive hourly snapshots.
-- **Scrape-health monitoring** — catches silent breakages (carry-forward, sustained staleness, below-baseline count / in-stock / match-rate anomalies, and a registered vendor contributing zero listings) and opens a single auto-closing tracking issue ([details](docs/scrape-health.md)).
+- **Scrape-health monitoring** — catches silent breakages (carry-forward, sustained staleness, below-baseline count / in-stock / match-rate anomalies, a block served as a *successful* HTTP 200, and a registered vendor contributing zero listings) and opens a single auto-closing tracking issue ([details](docs/scrape-health.md)).
 - **Free public JSON API** — the whole dataset (every motor + per-vendor stock and pricing) as static, CORS-open, no-key, **no-rate-limit** JSON, refreshed hourly ([docs](docs/api.md) · [on the site](https://motor.fusionspace.co/api)).
 - Plus a ★ watchlist, dark mode, and an on-page explainer of exactly how every figure is derived. Interactive behavior is covered by a headless-browser (Playwright) end-to-end suite in CI.
 
@@ -77,7 +77,7 @@ Today: AeroTech across ten vendors (including manufacturer-direct from AeroTech 
 
 AeroTech currently backorders nearly everything rather than holding stock, and their store doesn't expose real inventory — so AeroTech-direct listings are shown as **special-order with a fulfillment lead-time** (e.g. "special order · ~16–20 weeks"), parsed live from AeroTech's own published lead-time banner, rather than as "in stock."
 
-> **eRockets** is scraped, but its host currently blocks the GitHub Actions data-center IPs (it works fine from residential IPs), so in production it contributes **no live listings** — the site effectively shows eleven vendors today. The scrape-health report flags it as a zero-coverage vendor rather than letting it vanish silently; it would self-recover if the block lifts or the scrape runs from a different host.
+> **eRockets'** host blocks the GitHub Actions data-center IPs outright (403 on every request; it works fine from residential IPs). Its listings are live anyway: the block trips the scraper's egress fail-over, and the free Cloudflare Worker relay fetches the pages from a clean IP. Nothing else engages that path today — it stays dormant unless a vendor blocks us.
 
 The architecture isn't motor-specific — see [Adding a vendor](#adding-a-vendor) and [Extending beyond motors](#extending-beyond-motors) if you want to grow it.
 

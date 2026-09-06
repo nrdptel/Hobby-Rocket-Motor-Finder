@@ -4,6 +4,40 @@ With ~12 fragile, often-old vendor sites, a scraper can break in several ways.
 Health monitoring exists so a silent break doesn't just make the aggregator look
 emptier with nobody noticing. There are four layers, from loudest to quietest.
 
+## 0. Soft blocks → a real error, not a zero-listing "success"
+
+The quietest failure of all doesn't reach the layers below in a usable form. Some
+hosts answer a blocked run with **HTTP 200** and a body that isn't the page we
+asked for — a WAF interstitial, an empty shell. Nothing in the client sees a
+problem (a 200 is a 200), the parser finds no products, and the vendor stores
+**zero** listings with `ok=1` and no error. Carry-forward papers over it, so the
+only symptom is a vendor that degrades and recovers for no visible reason, with
+`scrape_errors` reading `none` — which is what a chronic-degradation issue with
+nothing to act on looks like (that's what AMW, Moto-Joe and Sirius were doing).
+
+Two halves fix it:
+
+* **Detect and route around it.** `PoliteAsyncClient.get` takes an optional
+  `content_ok` predicate for callers that know what a good response must contain
+  (Sirius/Moto-Joe: page 1 of a listing always has products; AMW: the VirtueMart
+  `browse-view` container, since a few of its categories legitimately hold no
+  motors). A 2xx whose body fails the check is retried and escalated to the free
+  Cloudflare relay — the same egress fail-over that carries eRockets past its
+  outright 403 — and the rejected body's first 200 characters go to the run log,
+  because nobody has yet seen what one of these walls actually says. It stops
+  short of the **metered** proxy on purpose: a status code is the origin
+  declaring the block, a content check is us inferring it, and an inference
+  doesn't get to spend money (a check that goes stale after a site redesign would
+  otherwise spend it on every request).
+* **Never report it as success.** A *full* scrape that produces zero listings
+  raises `EmptyScrapeError`, recorded against the run with the `empty-scrape`
+  category so the health report names the vendor. This lives in
+  `cli._async_scrape_run`, not in each scraper, so it covers every vendor —
+  including ones added later — and every route to nothing: discovery walking into
+  a wall, *or* discovery succeeding and every product page behind it being
+  blocked. `--limit`/`--url` runs are exempt (those legitimately return nothing).
+  Carry-forward is unaffected — the published data is still intact.
+
 ## 1. Near-total failure → carry-forward + floor
 
 `hpr snapshot export --floor 200` compares each vendor's fresh listing count to a

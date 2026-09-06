@@ -662,3 +662,179 @@ async def test_bad_relay_url_disables_tier_without_crashing():
         assert pc._relay_url is None  # tier disabled, no exception at construction
     finally:
         await pc.close()
+
+
+# --- soft blocks: HTTP 200 with a body that isn't the page ------------------
+
+def _looks_like_catalogue(resp: httpx.Response) -> bool:
+    return "product" in resp.text
+
+
+@pytest.mark.asyncio
+async def test_soft_blocked_200_escalates_to_relay_then_succeeds():
+    """The failure this exists for: a blocked run gets 200s with a product-free
+    body. No status check can see it, so ``content_ok`` rejects the body and the
+    request escalates to a cleaner egress exactly as a 403 would."""
+    seen: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.host == "relay.test":
+            seen.append("relay")
+            return httpx.Response(200, text="<div class=product>G80</div>")
+        seen.append("direct")
+        return httpx.Response(200, text="<html>Access denied</html>")
+
+    pc = _make_client_with_mock_transport(handler, relay=True, max_retries=2)
+    try:
+        resp = await pc.get(
+            "https://cart.amwprox.com/index.php", content_ok=_looks_like_catalogue
+        )
+    finally:
+        await pc.close()
+
+    assert seen == ["direct", "relay"]
+    assert "G80" in resp.text
+
+
+@pytest.mark.asyncio
+async def test_soft_block_returns_the_last_response_once_retries_run_out():
+    """With nowhere left to escalate, the rejected response is still handed back
+    — the caller decides what to do (the scrapers raise EmptyDiscoveryError), the
+    same contract as a final 403."""
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(200, text="<html>Access denied</html>")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://www.moto-joe.com/", content_ok=_looks_like_catalogue)
+    finally:
+        await pc.close()
+
+    assert calls == 3  # the original attempt plus both retries
+    assert resp.status_code == 200
+    assert "Access denied" in resp.text
+
+
+@pytest.mark.asyncio
+async def test_accepted_body_is_not_retried():
+    """A good body passes the check on the first attempt — no extra requests."""
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(200, text="<div class=product>G80</div>")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://www.moto-joe.com/", content_ok=_looks_like_catalogue)
+    finally:
+        await pc.close()
+
+    assert calls == 1
+    assert resp.status_code == 200
+
+
+@pytest.mark.asyncio
+async def test_content_check_that_raises_accepts_the_response():
+    """A broken validator must not turn every good fetch into a retry storm."""
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(200, text="fine")
+
+    def boom(resp: httpx.Response) -> bool:
+        raise ValueError("validator is broken")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://www.moto-joe.com/", content_ok=boom)
+    finally:
+        await pc.close()
+
+    assert calls == 1
+    assert resp.text == "fine"
+
+
+@pytest.mark.asyncio
+async def test_content_check_is_not_applied_to_error_statuses():
+    """``content_ok`` judges bodies that came back *successful*; a 404 body is the
+    caller's to handle (``raise_for_status``), not something to retry-and-escalate."""
+    calls = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal calls
+        calls += 1
+        return httpx.Response(404, text="no such page")
+
+    pc = _make_client_with_mock_transport(handler, max_retries=2)
+    try:
+        resp = await pc.get("https://www.moto-joe.com/", content_ok=_looks_like_catalogue)
+    finally:
+        await pc.close()
+
+    assert calls == 1
+    assert resp.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_soft_block_never_reaches_the_metered_proxy():
+    """Deliberate asymmetry: a 403 is the origin declaring the block, a failed
+    content check is us inferring it, and an inference doesn't get to spend money.
+    A soft block takes the free relay and then stops — so a content check that
+    goes wrong after a site redesign can't quietly run up a proxy bill."""
+    seen: list[str] = []
+
+    def direct_and_relay(request: httpx.Request) -> httpx.Response:
+        seen.append("relay" if request.url.host == "relay.test" else "direct")
+        return httpx.Response(200, text="<html>Access denied</html>")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        seen.append("proxy")
+        return httpx.Response(200, text="<div class=product>G80</div>")
+
+    pc = _make_client_with_mock_transport(
+        direct_and_relay, relay=True, proxy_handler=proxy, max_retries=3
+    )
+    try:
+        resp = await pc.get(
+            "https://cart.amwprox.com/index.php", content_ok=_looks_like_catalogue
+        )
+    finally:
+        await pc.close()
+
+    assert "proxy" not in seen
+    assert resp.status_code == 200 and "Access denied" in resp.text
+
+
+@pytest.mark.asyncio
+async def test_a_real_403_still_reaches_the_proxy():
+    """The other half of that asymmetry: a declared block keeps the full ladder."""
+    seen: list[str] = []
+
+    def direct_and_relay(request: httpx.Request) -> httpx.Response:
+        seen.append("relay" if request.url.host == "relay.test" else "direct")
+        return httpx.Response(403, text="blocked")
+
+    def proxy(request: httpx.Request) -> httpx.Response:
+        seen.append("proxy")
+        return httpx.Response(200, text="<div class=product>G80</div>")
+
+    pc = _make_client_with_mock_transport(
+        direct_and_relay, relay=True, proxy_handler=proxy, max_retries=3
+    )
+    try:
+        resp = await pc.get(
+            "https://cart.amwprox.com/index.php", content_ok=_looks_like_catalogue
+        )
+    finally:
+        await pc.close()
+
+    assert seen == ["direct", "relay", "proxy"]
+    assert "G80" in resp.text

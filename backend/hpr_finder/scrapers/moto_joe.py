@@ -72,6 +72,15 @@ _DIAM_DASH_RE = re.compile(r"\b(\d{2,3})-\d{2,4}\b")
 _DIAM_RMS_RE = re.compile(r"RMS-(\d{2,3})", re.I)
 
 
+def _has_products(resp) -> bool:
+    """Does this response body actually look like an OpenCart product grid?
+
+    Moto-Joe answers a blocked run with a 200 and a product-free body, so the
+    status code alone can't tell a real category page from a wall. See
+    ``PoliteAsyncClient.get``'s ``content_ok``."""
+    return bool(_THUMB_RE.search(resp.text))
+
+
 class MotoJoeScraper(Scraper):
     slug = "moto_joe"
     name = "Moto-Joe Rocketry"
@@ -91,7 +100,14 @@ class MotoJoeScraper(Scraper):
         discovered: dict[str, tuple[str, int | None, str]] = {}  # url -> (mfr, price, name)
         for path, manufacturer in CATEGORIES:
             for page in range(1, _MAX_PAGES + 1):
-                r = await client.get(category_url(path, page))
+                # Page 1 of a brand category always has products, so a 200 with
+                # none is a block, not an empty brand — reject it and let the
+                # client retry via a cleaner egress. Later pages are allowed to
+                # be empty; that's the pagination stop condition below.
+                r = await client.get(
+                    category_url(path, page),
+                    content_ok=_has_products if page == 1 else None,
+                )
                 r.raise_for_status()
                 rows = parse_category(r.text)
                 if not rows:

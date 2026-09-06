@@ -19,6 +19,7 @@ from .models import _utc_now
 from .normalize import is_out_of_scope
 from .pack import resolve_pack_sizes
 from .scrapers import REGISTRY
+from .scrapers.base import EmptyScrapeError
 from .snapshot import CARRIED, carry_forward, vendor_counts
 
 app = typer.Typer(help="HPR motor availability aggregator CLI", no_args_is_help=True)
@@ -194,6 +195,21 @@ async def _async_scrape_run(
             with db.connect() as conn:
                 count = db.upsert_listings(conn, vendor_id, listings)
             typer.echo(f"{scraper.slug}: stored {count} listings")
+            # A FULL scrape that produced nothing is a failure, not a vendor with
+            # an empty catalogue. Left as a successful zero-listing run it is the
+            # quietest break there is: carry-forward republishes the last-good
+            # data, `scrape_errors` stays empty, and the only symptom is a vendor
+            # that degrades for no stated reason. Checked here rather than inside
+            # each scraper so it covers every vendor and every route to nothing —
+            # discovery walking into a wall, or discovery succeeding and every
+            # product page behind it being blocked. `--limit`/`--url` runs are
+            # exempt: those legitimately return nothing (the first few product
+            # URLs are often hardware).
+            if count == 0 and limit is None and not only_urls_list:
+                raise EmptyScrapeError(
+                    f"{scraper.slug}: a full scrape produced no listings — the "
+                    "pages we got are not the catalogue"
+                )
         except Exception as e:
             ok = False
             err = repr(e)
@@ -708,6 +724,10 @@ def _categorize_scrape_error(err: str | None) -> str:
     if not err:
         return "none"
     e = err.lower()
+    # Checked first: the message names the vendor's pages, so the generic
+    # keyword buckets below would otherwise claim it.
+    if "emptyscrape" in e:
+        return "empty-scrape"
     if "timeout" in e or "timedout" in e:
         return "timeout"
     if any(k in e for k in ("connect", "connection", "ssl", "getaddrinfo", "dns", "reset", "econn")):
