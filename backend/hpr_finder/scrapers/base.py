@@ -6,6 +6,25 @@ from ..http import PoliteAsyncClient
 from ..models import Listing
 
 
+class EmptyScrapeError(RuntimeError):
+    """A full scrape of a vendor finished cleanly and produced no listings at all.
+
+    That is never a real state for a stocked vendor: it means the pages we walked
+    weren't the pages we asked for — typically a block served with HTTP 200 (see
+    ``PoliteAsyncClient``'s ``content_ok``), which no status-code check can see.
+    Returning an empty list there is the worst failure mode available: the run is
+    recorded ``ok`` with zero listings, ``scrape_errors`` stays empty, and the
+    only trace is carry-forward quietly republishing yesterday's stock.
+
+    Raised centrally in ``cli._async_scrape_run`` rather than per scraper, so it
+    covers every vendor (including ones added later) and every way of arriving at
+    nothing — discovery walking into a wall, *or* discovery succeeding and every
+    product page behind it being blocked. Carry-forward is unaffected; the only
+    change is that ``scrape_runs`` now carries a categorized error naming the
+    vendor.
+    """
+
+
 class Scraper(ABC):
     """A vendor scraper. Subclasses set class-level metadata and implement scrape()."""
 

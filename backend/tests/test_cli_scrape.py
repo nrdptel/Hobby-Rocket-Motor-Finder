@@ -12,7 +12,8 @@ import typer
 
 import hpr_finder.cli as cli
 import hpr_finder.db as db
-from hpr_finder.cli import _normalize_proxy_url
+from hpr_finder.cli import _categorize_scrape_error, _normalize_proxy_url
+from hpr_finder.models import Listing, StockStatus
 
 
 def test_normalize_proxy_url_defaults_missing_scheme_to_http():
@@ -31,6 +32,21 @@ def test_normalize_proxy_url_defaults_missing_scheme_to_http():
     assert _normalize_proxy_url("   ") is None
 
 
+def _listing(slug: str) -> Listing:
+    return Listing(
+        vendor_slug=slug,
+        motor_designation="H128W",
+        motor_id=None,
+        url=f"https://{slug}.test/h128w",
+        sku="1",
+        price_cents=4999,
+        currency="USD",
+        status=StockStatus.IN_STOCK,
+        stock_count=None,
+        raw_title="AeroTech H128W",
+    )
+
+
 class _OkScraper:
     slug = "ok"
     name = "OK Vendor"
@@ -40,7 +56,17 @@ class _OkScraper:
     min_start_interval_s = 0.0
 
     async def scrape(self, client, limit=None, only_urls=None):
-        return []  # healthy run, zero listings is fine for orchestration
+        return [_listing(self.slug)]
+
+
+class _EmptyScraper(_OkScraper):
+    """Scrapes cleanly and finds nothing — a block served as HTTP 200."""
+
+    slug = "empty"
+    name = "Empty Vendor"
+
+    async def scrape(self, client, limit=None, only_urls=None):
+        return []
 
 
 class _BoomScraper:
@@ -150,3 +176,50 @@ async def test_scrape_all_exits_when_every_vendor_fails(monkeypatch, tmp_path):
 
     states = _run_states(db_path)
     assert states == {"boom": 0, "boom2": 0}
+
+
+@pytest.mark.asyncio
+async def test_full_scrape_that_finds_nothing_is_recorded_as_a_failure(monkeypatch, tmp_path):
+    """The silent break this exists for: a vendor answers every request with HTTP
+    200 and a body holding no products, so the scraper "succeeds" with zero
+    listings. Carry-forward then republishes the last-good data and nothing in the
+    health report says why — the vendor just degrades for no stated reason. A full
+    scrape finding nothing has to be an error."""
+    db_path = tmp_path / "hpr.db"
+    monkeypatch.setattr(db, "DEFAULT_DB_PATH", db_path)
+    monkeypatch.setattr(cli, "REGISTRY", {"ok": _OkScraper, "empty": _EmptyScraper})
+
+    # Still no raise — the healthy vendor publishes, exactly as for any other
+    # single-vendor failure.
+    await cli._async_scrape_run("all", None, None, None, 0, None)
+
+    states = _run_states(db_path)
+    assert states["ok"] == 1
+    assert states["empty"] == 0, "an empty full scrape must not be recorded successful"
+
+    with db.connect(db_path) as conn:
+        err = conn.execute(
+            "SELECT sr.error AS error FROM scrape_runs sr JOIN vendors v ON v.id = sr.vendor_id "
+            "WHERE v.slug = 'empty'"
+        ).fetchone()["error"]
+    assert "EmptyScrapeError" in err
+    assert _categorize_scrape_error(err) == "empty-scrape"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "limit, only_urls",
+    [(3, None), (None, ["https://empty.test/x"])],
+    ids=["--limit", "--url"],
+)
+async def test_partial_run_finding_nothing_is_not_an_error(monkeypatch, tmp_path, limit, only_urls):
+    """`--limit`/`--url` runs legitimately return nothing (the first few product
+    URLs on a vendor are often hardware), so the empty-scrape rule is scoped to
+    full runs and can't make smoke-testing look like an outage."""
+    db_path = tmp_path / "hpr.db"
+    monkeypatch.setattr(db, "DEFAULT_DB_PATH", db_path)
+    monkeypatch.setattr(cli, "REGISTRY", {"empty": _EmptyScraper})
+
+    await cli._async_scrape_run("all", limit, None, None, 0, only_urls)
+
+    assert _run_states(db_path) == {"empty": 1}

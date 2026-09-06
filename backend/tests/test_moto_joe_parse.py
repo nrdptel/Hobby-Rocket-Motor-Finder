@@ -16,6 +16,7 @@ from hpr_finder.scrapers.moto_joe import (
     _AVAIL_RE,
     MotoJoeScraper,
     _block_price_cents,
+    _has_products,
     build_listing,
     classify_availability,
     parse_category,
@@ -226,3 +227,31 @@ async def test_scrape_stops_at_total_pages_count():
         _AllPagesClient(_load("moto_joe_category_aerotech.html"), _load("moto_joe_product_oos.html"))
     )
     assert len(listings) > 0
+
+
+@pytest.mark.asyncio
+async def test_scrape_validates_page_one_of_each_category_only():
+    """Page 1 of a brand category always has products, so it gets a content check;
+    later pages may legitimately be empty and must not be retried as blocks."""
+    checked: list[tuple[str, bool]] = []
+    client = _client()
+
+    class _RecordingClient:
+        async def get(self, url, **kwargs):
+            if "route=product/category" in url:
+                checked.append((url, kwargs.get("content_ok") is not None))
+            return await client.get(url, **kwargs)
+
+    await MotoJoeScraper().scrape(_RecordingClient())
+    assert checked, "expected category pages to be fetched"
+    for url, validated in checked:
+        assert validated is ("page=1" in url)
+
+
+def test_has_products_accepts_a_category_page_and_rejects_a_block():
+    class _Resp:
+        def __init__(self, text):
+            self.text = text
+
+    assert _has_products(_Resp(_load("moto_joe_category_aerotech.html")))
+    assert not _has_products(_Resp("<html><body>Access denied</body></html>"))

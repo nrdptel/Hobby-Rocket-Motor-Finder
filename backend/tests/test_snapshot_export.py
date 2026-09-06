@@ -470,6 +470,14 @@ def test_report_flags_vendor_with_no_finished_run(tmp_db, tmp_path):
         ("KeyError('price')", "parse"),
         ("JSONDecodeError('Expecting value')", "parse"),
         ("ValueError('something weird')", "other"),
+        # A vendor whose pages came back 200 but empty — the silent outage the
+        # bucket exists to name. Wins over the generic buckets even though the
+        # message mentions pages.
+        (
+            "EmptyScrapeError('sirius: a full scrape produced no listings — the "
+            "pages we got are not the catalogue')",
+            "empty-scrape",
+        ),
     ],
 )
 def test_categorize_scrape_error(err, expected):

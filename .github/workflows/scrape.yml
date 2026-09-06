@@ -18,7 +18,58 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # The `schedule` trigger only exists to cover an external-cron outage. While the
+  # hourly dispatch is alive the fallback has nothing to add: GitHub delivers it
+  # late enough to queue behind the hourly run, so it re-scrapes twelve small
+  # vendor sites minutes after they were just scraped, burns ~7 minutes of Actions
+  # time, and races the hourly run for the same regenerated data files. Skip it
+  # while the published snapshot is fresh; every other trigger always runs.
+  decide:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Only the snapshot is needed, and only for its generated_at header.
+          sparse-checkout: data/snapshot.json
+          sparse-checkout-cone-mode: false
+      - id: check
+        env:
+          # The fallback fires 6-hourly; anything under this means the hourly
+          # external cron delivered recently and is doing its job.
+          MAX_FRESH_MINUTES: "90"
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "${{ github.event_name }} — scraping."
+            exit 0
+          fi
+          # Fail OPEN: if the age can't be read for any reason, scrape. A missed
+          # refresh is a real outage; a redundant one only costs minutes.
+          age=$(python3 -c "import datetime as dt, json; print(int((dt.datetime.now(dt.UTC) - dt.datetime.fromisoformat(json.load(open('data/snapshot.json'))['generated_at'])).total_seconds() // 60))" 2>/dev/null || echo unknown)
+          if [ "$age" != "unknown" ] && [ "$age" -lt "$MAX_FRESH_MINUTES" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "Snapshot is ${age}m old (< ${MAX_FRESH_MINUTES}m) — the hourly cron is healthy, so this fallback run is redundant. Skipping." \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            if [ "$age" = "unknown" ]; then
+              why="the snapshot's age could not be read"
+            else
+              why="the snapshot is ${age}m old (>= ${MAX_FRESH_MINUTES}m)"
+            fi
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "Running the fallback scrape — ${why}, so the hourly cron is not delivering." \
+              | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+
   scrape:
+    needs: decide
+    # Fail OPEN, twice over: scrape unless `decide` positively said not to. A
+    # plain `== 'true'` would turn any failure in that job — a checkout blip, a
+    # runner dying — into a silently skipped scrape, which is a worse outage than
+    # the redundant run the check exists to avoid.
+    if: ${{ !cancelled() && needs.decide.outputs.run != 'false' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -143,17 +194,40 @@ jobs:
           # health-baseline.json is the rolling per-vendor count/in-stock
           # baseline that powers below-baseline anomaly detection; it's rewritten
           # each run and must persist across runs to learn.
-          git add data/snapshot.json data/thrustcurve_*.json \
-                  data/history/log.json data/history/summary.json \
-                  data/health-baseline.json
-          # No-op when scrape produced no changes (e.g. all vendors quiet).
-          # [skip ci] keeps the regular test workflow from running on these
-          # data-only commits — saves Actions minutes and avoids noise.
-          if git diff --cached --quiet; then
-            echo "no changes to commit"
-          else
-            git commit -m "Hourly scrape: refresh snapshot [skip ci]"
-            # Rebase onto any concurrent push (e.g. a merged PR) so a
-            # non-fast-forward doesn't silently drop this run's data.
-            git pull --rebase --autostash origin main && git push
-          fi
+          DATA_PATHS=(data/snapshot.json data/thrustcurve_*.json
+                      data/history/log.json data/history/summary.json
+                      data/health-baseline.json)
+
+          commit_and_push() {
+            git add "${DATA_PATHS[@]}"
+            # No-op when scrape produced no changes (e.g. all vendors quiet).
+            if git diff --cached --quiet; then
+              echo "no changes to commit"
+              return 0
+            fi
+            # [skip ci] keeps the regular test workflow from running on these
+            # data-only commits — saves Actions minutes and avoids noise.
+            git commit -q -m "Hourly scrape: refresh snapshot [skip ci]"
+            git push
+          }
+
+          # A concurrent scrape can land its own commit between our checkout and
+          # our push. Rebasing is the wrong tool for it: every file above is
+          # regenerated whole each run, so replaying our commit over another run's
+          # means a three-way merge of two complete snapshots — it conflicts on
+          # every one of them, which is exactly how an overlapping run used to die
+          # (red X, data dropped, nothing published). Rebuild the commit on the new
+          # tip instead and let the newer, internally-consistent set win outright.
+          for attempt in 1 2 3; do
+            if commit_and_push; then exit 0; fi
+            echo "push rejected — replaying this run's data on the updated main (attempt ${attempt})"
+            git fetch origin main
+            # --mixed moves HEAD and the index to the new tip but leaves the working
+            # tree — i.e. THIS run's freshly generated files — alone. Only the data
+            # paths are re-staged, so a code commit that landed alongside us is
+            # carried forward rather than reverted.
+            git reset --mixed --quiet FETCH_HEAD
+            sleep $((attempt * 3))
+          done
+          echo "::error::could not push this run's scrape results after 3 attempts"
+          exit 1
