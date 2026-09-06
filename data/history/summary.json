@@ -16965,10 +16965,10 @@
     "price_high_cents": 12149
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j425r-14a-38mm-dms-hazmat-1512.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:32",
-    "last_change_at": "2026-07-03T19:30:02+00:00",
+    "last_change_at": "2026-09-06T22:04:55+00:00",
     "last_in_stock_at": "2026-07-03T19:30:02+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -17147,10 +17147,10 @@
     "price_high_cents": 9395
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j435ws-14a-38mm-dms-hazmat-1871.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:33",
-    "last_change_at": "2026-07-03T19:30:03+00:00",
+    "last_change_at": "2026-09-06T22:04:56+00:00",
     "last_in_stock_at": "2026-07-03T19:30:03+00:00",
     "last_restock_at": null,
     "restock_count": 0,
