@@ -19,6 +19,20 @@ outage can't leave the data badly stale — it just won't refresh hourly until t
 external trigger is back. (A sustained-stale run also opens a tracking issue; see
 the alerting step in `scrape.yml`.)
 
+## The fallback only runs when it's needed
+
+A `schedule` firing is delivered late enough that it usually queues *behind* the
+hourly dispatch and starts minutes after it finishes. Left alone it then rescrapes
+twelve small vendor sites that were just scraped, spends ~7 minutes of Actions
+time, and races the hourly run for the same wholly-regenerated data files — which
+used to end in a rebase conflict that failed the run and dropped its data (the
+`Commit changes` step now rebuilds its commit on the new tip instead of rebasing).
+
+So the workflow's `decide` job skips a `schedule` run while `data/snapshot.json`
+is under 90 minutes old: fresh data means the external cron is doing its job.
+Every other trigger (manual or cron-job.org dispatch) always runs, and the check
+fails **open** — if the snapshot's age can't be read, the fallback scrapes.
+
 ## External cron configuration (cron-job.org)
 
 - **URL:** `https://api.github.com/repos/nrdptel/Hobby-Rocket-Motor-Finder/actions/workflows/scrape.yml/dispatches`
