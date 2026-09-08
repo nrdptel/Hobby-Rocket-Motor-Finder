@@ -20930,10 +20930,10 @@
     "price_high_cents": 6395
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-38/3g-reloads/cesaroni-i180-14a-skidmark-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:19+00:00",
-    "last_change_at": "2026-06-03T02:28:19+00:00",
+    "last_change_at": "2026-09-08T01:02:25+00:00",
     "last_in_stock_at": "2026-06-03T02:28:19+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -21242,10 +21242,10 @@
     "price_high_cents": 7347
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-38/4g-reloads/cesaroni-i223-14a-skidmark-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:21+00:00",
-    "last_change_at": "2026-06-03T02:28:21+00:00",
+    "last_change_at": "2026-09-08T01:02:26+00:00",
     "last_in_stock_at": "2026-06-03T02:28:21+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -29955,13 +29955,13 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
-    "last_in_stock_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-08T01:00:43+00:00",
+    "last_in_stock_at": "2026-09-08T01:00:43+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
-    "price_current_cents": 4885,
-    "price_prev_cents": 4141,
-    "price_low_cents": 4885,
+    "price_current_cents": 4607,
+    "price_prev_cents": 4885,
+    "price_low_cents": 4607,
     "price_high_cents": 4885
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Smokey%20Sam%201%20grain%20129-G79-13A": {
@@ -32461,10 +32461,10 @@
     "price_high_cents": 5600
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Blue%20Streak%203%20grain%20H133-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-09-08T01:00:42+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -35269,10 +35269,10 @@
     "price_high_cents": 8500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Skidmark%204%20grain%20434-I223-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-08T01:00:43+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -40560,10 +40560,10 @@
     "price_high_cents": 26500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=10120092362615#K555-P%20White%202%20Grain": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
+    "last_change_at": "2026-09-08T01:00:45+00:00",
     "last_in_stock_at": "2026-06-05T17:00:37+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -43979,10 +43979,10 @@
     "price_high_cents": 106300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=10120092362615#M1101%20White%204%20Grain": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-08-31T19:00:38+00:00",
+    "last_change_at": "2026-09-08T01:00:45+00:00",
     "last_in_stock_at": "2026-08-31T19:00:38+00:00",
     "last_restock_at": null,
     "restock_count": 0,
