@@ -15925,10 +15925,10 @@
     "price_high_cents": 2664
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-g78-7g-single-use-motor-lq-269.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:24:56",
-    "last_change_at": "2026-07-03T19:28:27+00:00",
+    "last_change_at": "2026-09-09T22:03:31+00:00",
     "last_in_stock_at": "2026-07-03T19:28:27+00:00",
     "last_restock_at": null,
     "restock_count": 0,
