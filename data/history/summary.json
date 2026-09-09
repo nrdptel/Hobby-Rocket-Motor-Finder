@@ -2301,10 +2301,10 @@
     "price_high_cents": 6949
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/54mm/54/426-reloads/aerotech-i229t-14a-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:28",
-    "last_change_at": "2026-07-29T01:01:40+00:00",
+    "last_change_at": "2026-09-09T00:01:57+00:00",
     "last_in_stock_at": "2026-07-29T01:01:40+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -2834,10 +2834,10 @@
     "price_high_cents": 21699
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/2560-reloads/aerotech-k1000-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:35",
-    "last_change_at": "2026-07-29T01:01:45+00:00",
+    "last_change_at": "2026-09-09T00:02:03+00:00",
     "last_in_stock_at": "2026-07-29T01:01:45+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -3159,10 +3159,10 @@
     "price_high_cents": 19499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/2560-reloads/aerotech-k780-redline-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:36",
-    "last_change_at": "2026-07-29T01:01:46+00:00",
+    "last_change_at": "2026-09-09T00:02:04+00:00",
     "last_in_stock_at": "2026-07-29T01:01:46+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -16055,10 +16055,10 @@
     "price_high_cents": 3740
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-g138t-14a-hpr-reload-kit-hazmat-744.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:24:28",
-    "last_change_at": "2026-07-03T19:28:00+00:00",
+    "last_change_at": "2026-09-09T00:03:03+00:00",
     "last_in_stock_at": "2026-07-03T19:28:00+00:00",
     "last_restock_at": "2026-06-03T17:38:14+00:00",
     "restock_count": 1,
