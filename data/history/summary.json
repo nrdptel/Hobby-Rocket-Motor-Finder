@@ -3419,10 +3419,10 @@
     "price_high_cents": 32499
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/dms-rocket-motors/aerotech-l875-dark-matter-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:42",
-    "last_change_at": "2026-05-30T22:33:42",
+    "last_change_at": "2026-09-10T22:01:57+00:00",
     "last_in_stock_at": "2026-05-30T22:33:42",
     "last_restock_at": null,
     "restock_count": 0,
@@ -6490,14 +6490,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:57",
-    "last_change_at": "2026-05-31T02:23:57",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3704,
-    "price_prev_cents": null,
-    "price_low_cents": 3704,
-    "price_high_cents": 3704
+    "price_current_cents": 4399,
+    "price_prev_cents": 3704,
+    "price_low_cents": 4399,
+    "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1287&virtuemart_category_id=104&Itemid=533": {
     "currently_in_stock": true,
@@ -6932,14 +6932,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:59",
-    "last_change_at": "2026-06-11T17:01:19+00:00",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": "2026-05-31T02:23:59",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3324,
-    "price_prev_cents": null,
-    "price_low_cents": 3324,
-    "price_high_cents": 3324
+    "price_current_cents": 3949,
+    "price_prev_cents": 3324,
+    "price_low_cents": 3949,
+    "price_high_cents": 3949
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1428&virtuemart_category_id=137&Itemid=533": {
     "currently_in_stock": true,
@@ -7140,14 +7140,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:59",
-    "last_change_at": "2026-05-31T02:23:59",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3704,
-    "price_prev_cents": null,
-    "price_low_cents": 3704,
-    "price_high_cents": 3704
+    "price_current_cents": 4399,
+    "price_prev_cents": 3704,
+    "price_low_cents": 4399,
+    "price_high_cents": 4399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1238&virtuemart_category_id=104&Itemid=533": {
     "currently_in_stock": false,
@@ -7205,40 +7205,40 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-05-31T02:23:52",
-    "last_change_at": "2026-05-31T02:23:52",
-    "last_in_stock_at": "2026-05-31T02:23:52",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
+    "last_in_stock_at": "2026-09-10T22:00:31+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4639,
-    "price_prev_cents": null,
-    "price_low_cents": 4639,
-    "price_high_cents": 4639
+    "price_current_cents": 6499,
+    "price_prev_cents": 4639,
+    "price_low_cents": 6499,
+    "price_high_cents": 6499
   },
   "https://www.buyrocketmotors.com/products/aerotech-economax-g74-white-lightning-29-mm-single-use-2-pack?variant=50855167197481": {
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:52",
-    "last_change_at": "2026-05-31T02:23:52",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4639,
-    "price_prev_cents": null,
-    "price_low_cents": 4639,
-    "price_high_cents": 4639
+    "price_current_cents": 6499,
+    "price_prev_cents": 4639,
+    "price_low_cents": 6499,
+    "price_high_cents": 6499
   },
   "https://www.buyrocketmotors.com/products/aerotech-economax-g74-white-lightning-29-mm-single-use-2-pack?variant=50855167230249": {
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:52",
-    "last_change_at": "2026-05-31T02:23:52",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4639,
-    "price_prev_cents": null,
-    "price_low_cents": 4639,
-    "price_high_cents": 4639
+    "price_current_cents": 6499,
+    "price_prev_cents": 4639,
+    "price_low_cents": 6499,
+    "price_high_cents": 6499
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1344&virtuemart_category_id=124&Itemid=533": {
     "currently_in_stock": true,
@@ -7725,14 +7725,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:01",
-    "last_change_at": "2026-06-12T15:01:46+00:00",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": "2026-05-31T02:24:01",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2944,
-    "price_prev_cents": null,
-    "price_low_cents": 2944,
-    "price_high_cents": 2944
+    "price_current_cents": 3499,
+    "price_prev_cents": 2944,
+    "price_low_cents": 3499,
+    "price_high_cents": 3499
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1358&virtuemart_category_id=124&Itemid=533": {
     "currently_in_stock": true,
@@ -8050,14 +8050,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:02",
-    "last_change_at": "2026-05-31T02:24:02",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 5224,
-    "price_prev_cents": null,
-    "price_low_cents": 5224,
-    "price_high_cents": 5224
+    "price_current_cents": 6199,
+    "price_prev_cents": 5224,
+    "price_low_cents": 6199,
+    "price_high_cents": 6199
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1253&virtuemart_category_id=104&Itemid=533": {
     "currently_in_stock": false,
@@ -8102,14 +8102,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:03",
-    "last_change_at": "2026-05-31T02:24:03",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 4274,
-    "price_prev_cents": null,
-    "price_low_cents": 4274,
-    "price_high_cents": 4274
+    "price_current_cents": 5049,
+    "price_prev_cents": 4274,
+    "price_low_cents": 5049,
+    "price_high_cents": 5049
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1433&virtuemart_category_id=138&Itemid=533": {
     "currently_in_stock": false,
@@ -8141,14 +8141,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:03",
-    "last_change_at": "2026-08-06T17:07:11+00:00",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": "2026-06-12T16:01:40+00:00",
     "last_restock_at": "2026-06-12T16:01:40+00:00",
     "restock_count": 1,
-    "price_current_cents": 3324,
-    "price_prev_cents": null,
-    "price_low_cents": 3324,
-    "price_high_cents": 3324
+    "price_current_cents": 3949,
+    "price_prev_cents": 3324,
+    "price_low_cents": 3949,
+    "price_high_cents": 3949
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1418&virtuemart_category_id=134&Itemid=533": {
     "currently_in_stock": false,
@@ -8349,14 +8349,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:04",
-    "last_change_at": "2026-05-31T02:24:04",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3324,
-    "price_prev_cents": null,
-    "price_low_cents": 3324,
-    "price_high_cents": 3324
+    "price_current_cents": 3949,
+    "price_prev_cents": 3324,
+    "price_low_cents": 3949,
+    "price_high_cents": 3949
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1419&virtuemart_category_id=134&Itemid=533": {
     "currently_in_stock": false,
@@ -8505,14 +8505,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:05",
-    "last_change_at": "2026-08-24T02:00:21+00:00",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": "2026-06-12T16:01:52+00:00",
     "last_restock_at": "2026-06-12T16:01:52+00:00",
     "restock_count": 1,
-    "price_current_cents": 3989,
-    "price_prev_cents": null,
+    "price_current_cents": 4749,
+    "price_prev_cents": 3989,
     "price_low_cents": 3989,
-    "price_high_cents": 3989
+    "price_high_cents": 4749
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1422&virtuemart_category_id=135&Itemid=533": {
     "currently_in_stock": false,
@@ -8544,14 +8544,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:06",
-    "last_change_at": "2026-09-05T00:00:22+00:00",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": "2026-06-15T21:01:49+00:00",
     "last_restock_at": "2026-06-15T21:01:49+00:00",
     "restock_count": 2,
-    "price_current_cents": 3989,
-    "price_prev_cents": null,
+    "price_current_cents": 4749,
+    "price_prev_cents": 3989,
     "price_low_cents": 3989,
-    "price_high_cents": 3989
+    "price_high_cents": 4749
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1423&virtuemart_category_id=135&Itemid=533": {
     "currently_in_stock": false,
@@ -8622,14 +8622,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:06",
-    "last_change_at": "2026-05-31T02:24:06",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3989,
-    "price_prev_cents": null,
-    "price_low_cents": 3989,
-    "price_high_cents": 3989
+    "price_current_cents": 4749,
+    "price_prev_cents": 3989,
+    "price_low_cents": 4749,
+    "price_high_cents": 4749
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1424&virtuemart_category_id=135&Itemid=533": {
     "currently_in_stock": false,
@@ -8661,14 +8661,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:06",
-    "last_change_at": "2026-05-31T02:24:06",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 3324,
-    "price_prev_cents": null,
-    "price_low_cents": 3324,
-    "price_high_cents": 3324
+    "price_current_cents": 3949,
+    "price_prev_cents": 3324,
+    "price_low_cents": 3949,
+    "price_high_cents": 3949
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1420&virtuemart_category_id=134&Itemid=533": {
     "currently_in_stock": false,
@@ -10455,14 +10455,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:16",
-    "last_change_at": "2026-05-31T02:24:16",
+    "last_change_at": "2026-09-10T22:00:31+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 12254,
-    "price_prev_cents": null,
-    "price_low_cents": 12254,
-    "price_high_cents": 12254
+    "price_current_cents": 12899,
+    "price_prev_cents": 12254,
+    "price_low_cents": 12899,
+    "price_high_cents": 12899
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1481&virtuemart_category_id=146&Itemid=533": {
     "currently_in_stock": false,
