@@ -49489,5 +49489,57 @@
     "price_prev_cents": null,
     "price_low_cents": 1400,
     "price_high_cents": 1400
+  },
+  "https://www.siriusrocketry.biz/ishop/aerotech-high-power-f115sn-12a-29mm-single-use-lq-589.html": {
+    "currently_in_stock": true,
+    "status_current": "in_stock",
+    "first_seen_at": "2026-09-10T21:03:36+00:00",
+    "last_change_at": "2026-09-10T21:03:36+00:00",
+    "last_in_stock_at": "2026-09-10T21:03:36+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 2849,
+    "price_prev_cents": null,
+    "price_low_cents": 2849,
+    "price_high_cents": 2849
+  },
+  "https://www.siriusrocketry.biz/ishop/aerotech-g73-11c-single-use-motor-lq-2202.html": {
+    "currently_in_stock": true,
+    "status_current": "in_stock",
+    "first_seen_at": "2026-09-10T21:03:14+00:00",
+    "last_change_at": "2026-09-10T21:03:14+00:00",
+    "last_in_stock_at": "2026-09-10T21:03:14+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 4179,
+    "price_prev_cents": null,
+    "price_low_cents": 4179,
+    "price_high_cents": 4179
+  },
+  "https://www.siriusrocketry.biz/ishop/aerotech-g73-15c-single-use-motor-lq-2203.html": {
+    "currently_in_stock": true,
+    "status_current": "in_stock",
+    "first_seen_at": "2026-09-10T21:03:15+00:00",
+    "last_change_at": "2026-09-10T21:03:15+00:00",
+    "last_in_stock_at": "2026-09-10T21:03:15+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 4179,
+    "price_prev_cents": null,
+    "price_low_cents": 4179,
+    "price_high_cents": 4179
+  },
+  "https://www.siriusrocketry.biz/ishop/aerotech-g73-7c-single-use-motor-lq-2201.html": {
+    "currently_in_stock": true,
+    "status_current": "in_stock",
+    "first_seen_at": "2026-09-10T21:03:16+00:00",
+    "last_change_at": "2026-09-10T21:03:16+00:00",
+    "last_in_stock_at": "2026-09-10T21:03:16+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 4179,
+    "price_prev_cents": null,
+    "price_low_cents": 4179,
+    "price_high_cents": 4179
   }
 }
