@@ -6214,10 +6214,10 @@
     "price_high_cents": 2949
   },
   "https://www.buyrocketmotors.com/products/aerotech-f62t-14a-blue-thunder-rms-29-60?variant=50855190855977": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:56",
-    "last_change_at": "2026-09-11T17:00:35+00:00",
+    "last_change_at": "2026-09-11T22:00:28+00:00",
     "last_in_stock_at": "2026-09-11T17:00:35+00:00",
     "last_restock_at": "2026-09-11T17:00:35+00:00",
     "restock_count": 1,
@@ -11960,10 +11960,10 @@
     "price_high_cents": 16799
   },
   "https://wildmanrocketry.com/products/k550w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:05",
-    "last_change_at": "2026-09-01T14:00:33+00:00",
+    "last_change_at": "2026-09-11T22:00:31+00:00",
     "last_in_stock_at": "2026-09-01T14:00:33+00:00",
     "last_restock_at": "2026-09-01T14:00:33+00:00",
     "restock_count": 1,
@@ -13078,10 +13078,10 @@
     "price_high_cents": 64199
   },
   "https://www.buyrocketmotors.com/products/aerotech-m1500g-p-mojave-green?variant=50855094288681": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:30",
-    "last_change_at": "2026-09-11T17:00:35+00:00",
+    "last_change_at": "2026-09-11T22:00:28+00:00",
     "last_in_stock_at": "2026-09-11T17:00:35+00:00",
     "last_restock_at": "2026-09-11T17:00:35+00:00",
     "restock_count": 1,
