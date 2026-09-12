@@ -7488,10 +7488,10 @@
     "price_high_cents": 4399
   },
   "https://wildmanrocketry.com/products/g77r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:41",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-12T19:00:37+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -7709,10 +7709,10 @@
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g79w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:42",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-12T19:00:37+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -48074,10 +48074,10 @@
     "price_high_cents": 4399
   },
   "https://newcenturyrocketry.shop/products/enerjet-by-aerotech-f52c-classic-rocket-motor-2-pack?variant=47852015812906": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-19T14:00:28+00:00",
-    "last_change_at": "2026-06-19T14:00:28+00:00",
+    "last_change_at": "2026-09-12T19:00:35+00:00",
     "last_in_stock_at": "2026-06-19T14:00:28+00:00",
     "last_restock_at": null,
     "restock_count": 0,
