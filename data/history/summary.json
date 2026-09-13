@@ -7215,10 +7215,10 @@
     "price_high_cents": 6499
   },
   "https://www.buyrocketmotors.com/products/aerotech-economax-g74-white-lightning-29-mm-single-use-2-pack?variant=50855167197481": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:52",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-13T00:00:52+00:00",
     "last_in_stock_at": "2026-09-11T19:00:34+00:00",
     "last_restock_at": "2026-09-11T19:00:34+00:00",
     "restock_count": 1,
@@ -7644,10 +7644,10 @@
     "price_high_cents": 3119
   },
   "https://www.buyrocketmotors.com/products/aerotech-g78-mojave-green-29-mm-single-use?variant=50855182467369": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:01",
-    "last_change_at": "2026-05-31T02:24:01",
+    "last_change_at": "2026-09-13T00:00:52+00:00",
     "last_in_stock_at": "2026-05-31T02:24:01",
     "last_restock_at": null,
     "restock_count": 0,
