@@ -7374,40 +7374,40 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:00",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-13T20:00:35+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2212,
-    "price_prev_cents": 2079,
+    "price_current_cents": 2949,
+    "price_prev_cents": 2212,
     "price_low_cents": 2212,
-    "price_high_cents": 2212
+    "price_high_cents": 2949
   },
   "https://www.buyrocketmotors.com/products/aerotech-g76-mojave-green-rms-29-40-120?variant=50855171555625": {
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:00",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-13T20:00:35+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 2212,
-    "price_prev_cents": 2079,
+    "price_current_cents": 2949,
+    "price_prev_cents": 2212,
     "price_low_cents": 2212,
-    "price_high_cents": 2212
+    "price_high_cents": 2949
   },
   "https://www.buyrocketmotors.com/products/aerotech-g76-mojave-green-rms-29-40-120?variant=50855171588393": {
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-05-31T02:24:00",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
-    "last_in_stock_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-13T20:00:35+00:00",
+    "last_in_stock_at": "2026-09-13T20:00:35+00:00",
     "last_restock_at": "2026-09-11T19:00:34+00:00",
     "restock_count": 1,
-    "price_current_cents": 2212,
-    "price_prev_cents": 2079,
+    "price_current_cents": 2949,
+    "price_prev_cents": 2212,
     "price_low_cents": 2212,
-    "price_high_cents": 2212
+    "price_high_cents": 2949
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1408&virtuemart_category_id=130&Itemid=533": {
     "currently_in_stock": false,
