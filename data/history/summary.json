@@ -7332,10 +7332,10 @@
     "price_high_cents": 3899
   },
   "https://wildmanrocketry.com/products/g76-10g": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:40",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-14T21:00:49+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -7345,10 +7345,10 @@
     "price_high_cents": 2949
   },
   "https://wildmanrocketry.com/products/g76-4g": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:40",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-14T21:00:49+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -7358,10 +7358,10 @@
     "price_high_cents": 2949
   },
   "https://wildmanrocketry.com/products/g76-7g": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:40",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-14T21:00:49+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -11024,10 +11024,10 @@
     "price_high_cents": 13599
   },
   "https://wildmanrocketry.com/products/j550st-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:00",
-    "last_change_at": "2026-07-22T21:05:06+00:00",
+    "last_change_at": "2026-09-14T21:00:49+00:00",
     "last_in_stock_at": "2026-07-22T21:05:06+00:00",
     "last_restock_at": "2026-07-22T21:05:06+00:00",
     "restock_count": 1,
@@ -32565,10 +32565,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#VMax%203%20grain%20H410": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-09-14T21:00:58+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -49541,5 +49541,18 @@
     "price_prev_cents": null,
     "price_low_cents": 4179,
     "price_high_cents": 4179
+  },
+  "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/38mm/38/360-reloads/aerotech-h112j-10a-black-jack-rocket-motor.html": {
+    "currently_in_stock": true,
+    "status_current": "in_stock_with_count",
+    "first_seen_at": "2026-09-14T21:02:04+00:00",
+    "last_change_at": "2026-09-14T21:02:04+00:00",
+    "last_in_stock_at": "2026-09-14T21:02:04+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 4959,
+    "price_prev_cents": null,
+    "price_low_cents": 4959,
+    "price_high_cents": 4959
   }
 }

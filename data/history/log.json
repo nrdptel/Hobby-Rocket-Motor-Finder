@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-14T20:07:59+00:00",
+  "updated_at": "2026-09-14T21:07:42+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -9189,6 +9189,11 @@
           "t": "2026-07-01T21:00:30+00:00",
           "status": "in_stock",
           "price_cents": 2949
+        },
+        {
+          "t": "2026-09-14T21:00:49+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2949
         }
       ]
     },
@@ -9209,6 +9214,11 @@
           "t": "2026-07-01T21:00:30+00:00",
           "status": "in_stock",
           "price_cents": 2949
+        },
+        {
+          "t": "2026-09-14T21:00:49+00:00",
+          "status": "out_of_stock",
+          "price_cents": 2949
         }
       ]
     },
@@ -9228,6 +9238,11 @@
         {
           "t": "2026-07-01T21:00:30+00:00",
           "status": "in_stock",
+          "price_cents": 2949
+        },
+        {
+          "t": "2026-09-14T21:00:49+00:00",
+          "status": "out_of_stock",
           "price_cents": 2949
         }
       ]
@@ -14048,6 +14063,11 @@
         {
           "t": "2026-07-22T21:05:06+00:00",
           "status": "in_stock",
+          "price_cents": 12399
+        },
+        {
+          "t": "2026-09-14T21:00:49+00:00",
+          "status": "out_of_stock",
           "price_cents": 12399
         }
       ]
@@ -51609,6 +51629,11 @@
           "t": "2026-08-31T18:01:04+00:00",
           "status": "in_stock",
           "price_cents": 4047
+        },
+        {
+          "t": "2026-09-14T21:00:58+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4047
         }
       ]
     },
@@ -71964,6 +71989,16 @@
           "t": "2026-09-10T21:03:16+00:00",
           "status": "in_stock",
           "price_cents": 4179
+        }
+      ]
+    },
+    "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/38mm/38/360-reloads/aerotech-h112j-10a-black-jack-rocket-motor.html": {
+      "vendor_slug": "csrocketry",
+      "events": [
+        {
+          "t": "2026-09-14T21:02:04+00:00",
+          "status": "in_stock_with_count",
+          "price_cents": 4959
         }
       ]
     }
