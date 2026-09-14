@@ -8411,10 +8411,10 @@
     "price_high_cents": 4699
   },
   "https://wildmanrocketry.com/products/h170m": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:46",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-14T20:00:43+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -10309,10 +10309,10 @@
     "price_high_cents": 12999
   },
   "https://www.buyrocketmotors.com/products/aerotech-j1299n-p-warp-9?variant=50855076725033": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:15",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-14T20:00:38+00:00",
     "last_in_stock_at": "2026-09-11T19:00:34+00:00",
     "last_restock_at": "2026-09-11T19:00:34+00:00",
     "restock_count": 1,
@@ -30082,10 +30082,10 @@
     "price_high_cents": 4500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%203%20grain%20G106-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-09-14T20:00:50+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -30433,10 +30433,10 @@
     "price_high_cents": 3700
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%202%20grain%20G80-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-09-14T20:00:50+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -32630,10 +32630,10 @@
     "price_high_cents": 4500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Skidmark%204%20grain%20H123-12": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-09-14T20:00:50+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -32851,10 +32851,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Skidmark%202%20grain%20232-H123-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-14T20:00:51+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
