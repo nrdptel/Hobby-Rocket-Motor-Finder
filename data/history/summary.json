@@ -2720,14 +2720,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:09",
-    "last_change_at": "2026-05-30T22:33:09",
+    "last_change_at": "2026-09-15T15:02:01+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 11599,
-    "price_prev_cents": null,
-    "price_low_cents": 11599,
-    "price_high_cents": 11599
+    "price_current_cents": 5800,
+    "price_prev_cents": 11599,
+    "price_low_cents": 5800,
+    "price_high_cents": 5800
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/54mm/54/1280-reloads/aerotech-j540r-14a-redline-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3097,27 +3097,27 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:45",
-    "last_change_at": "2026-05-30T22:33:45",
+    "last_change_at": "2026-09-15T15:02:34+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 24399,
-    "price_prev_cents": null,
-    "price_low_cents": 24399,
-    "price_high_cents": 24399
+    "price_current_cents": 12200,
+    "price_prev_cents": 24399,
+    "price_low_cents": 12200,
+    "price_high_cents": 12200
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/98mm/98/2560-reloads/aerotech-k680-redline-rocket-motor.html": {
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:46",
-    "last_change_at": "2026-05-30T22:33:46",
+    "last_change_at": "2026-09-15T15:02:35+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 24399,
-    "price_prev_cents": null,
-    "price_low_cents": 24399,
-    "price_high_cents": 24399
+    "price_current_cents": 12200,
+    "price_prev_cents": 24399,
+    "price_low_cents": 12200,
+    "price_high_cents": 12200
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/54mm/54/1706-reloads/aerotech-k695r-14a-redline-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3279,14 +3279,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:47",
-    "last_change_at": "2026-05-30T22:33:47",
+    "last_change_at": "2026-09-15T15:02:35+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 42699,
-    "price_prev_cents": null,
-    "price_low_cents": 42699,
-    "price_high_cents": 42699
+    "price_current_cents": 21350,
+    "price_prev_cents": 42699,
+    "price_low_cents": 21350,
+    "price_high_cents": 21350
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/3840-reloads/aerotech-l1390-mojave-green-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3318,14 +3318,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:46",
-    "last_change_at": "2026-05-30T22:33:46",
+    "last_change_at": "2026-09-15T15:02:35+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 42699,
-    "price_prev_cents": null,
-    "price_low_cents": 42699,
-    "price_high_cents": 42699
+    "price_current_cents": 21350,
+    "price_prev_cents": 42699,
+    "price_low_cents": 21350,
+    "price_high_cents": 21350
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/3840-reloads/aerotech-l1520-blue-thunder-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3383,14 +3383,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:46",
-    "last_change_at": "2026-05-30T22:33:46",
+    "last_change_at": "2026-09-15T15:02:35+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 25599,
-    "price_prev_cents": null,
-    "price_low_cents": 25599,
-    "price_high_cents": 25599
+    "price_current_cents": 12800,
+    "price_prev_cents": 25599,
+    "price_low_cents": 12800,
+    "price_high_cents": 12800
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/98mm/98/5120-reloads/aerotech-l400-white-lightning-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3448,14 +3448,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:48",
-    "last_change_at": "2026-05-30T22:33:48",
+    "last_change_at": "2026-09-15T15:02:36+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 42699,
-    "price_prev_cents": null,
-    "price_low_cents": 42699,
-    "price_high_cents": 42699
+    "price_current_cents": 21350,
+    "price_prev_cents": 42699,
+    "price_low_cents": 21350,
+    "price_high_cents": 21350
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/98mm/98/7680-reloads/aerotech-m1075-dark-matter-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3487,14 +3487,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:48",
-    "last_change_at": "2026-05-30T22:33:48",
+    "last_change_at": "2026-09-15T15:02:37+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 64199,
-    "price_prev_cents": null,
-    "price_low_cents": 64199,
-    "price_high_cents": 64199
+    "price_current_cents": 32100,
+    "price_prev_cents": 64199,
+    "price_low_cents": 32100,
+    "price_high_cents": 32100
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/6400-reloads/aerotech-m1315-white-lightning-rocket-motor.html": {
     "currently_in_stock": false,
@@ -3656,14 +3656,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:43",
-    "last_change_at": "2026-05-30T22:33:43",
+    "last_change_at": "2026-09-15T15:02:32+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 85999,
-    "price_prev_cents": null,
-    "price_low_cents": 85999,
-    "price_high_cents": 85999
+    "price_current_cents": 43000,
+    "price_prev_cents": 85999,
+    "price_low_cents": 43000,
+    "price_high_cents": 43000
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/5120-reloads/aerotech-m2050-propellant-x-rocket-motor.html": {
     "currently_in_stock": false,
@@ -17173,10 +17173,10 @@
     "price_high_cents": 17009
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j460t-l-reload-kit-hazmat-432.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:36",
-    "last_change_at": "2026-09-10T20:05:13+00:00",
+    "last_change_at": "2026-09-15T15:05:01+00:00",
     "last_in_stock_at": "2026-09-10T20:05:13+00:00",
     "last_restock_at": "2026-09-10T20:05:13+00:00",
     "restock_count": 1,
@@ -17238,10 +17238,10 @@
     "price_high_cents": 13310
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-j550st-14a-reload-kit-hazmat-2188.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:41",
-    "last_change_at": "2026-07-03T19:30:10+00:00",
+    "last_change_at": "2026-09-15T15:05:06+00:00",
     "last_in_stock_at": "2026-07-03T19:30:10+00:00",
     "last_restock_at": null,
     "restock_count": 0,
