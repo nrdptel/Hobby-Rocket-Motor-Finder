@@ -195,10 +195,10 @@
     "price_high_cents": 3949
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/180-reloads/aerotech-h165r-14a-redline-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T18:36:19",
-    "last_change_at": "2026-07-29T01:01:05+00:00",
+    "last_change_at": "2026-09-15T17:01:26+00:00",
     "last_in_stock_at": "2026-07-29T01:01:05+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -9893,10 +9893,10 @@
     "price_high_cents": 8199
   },
   "https://www.buyrocketmotors.com/products/aerotech-i300t-14a-blue-thunder?variant=50855060439337": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:13",
-    "last_change_at": "2026-09-11T18:00:35+00:00",
+    "last_change_at": "2026-09-15T17:00:34+00:00",
     "last_in_stock_at": "2026-09-11T18:00:35+00:00",
     "last_restock_at": "2026-09-11T18:00:35+00:00",
     "restock_count": 1,
@@ -10114,10 +10114,10 @@
     "price_high_cents": 9199
   },
   "https://www.buyrocketmotors.com/products/aerotech-i599n-p-warp-9?variant=50855072530729": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:14",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-15T17:00:34+00:00",
     "last_in_stock_at": "2026-09-11T19:00:34+00:00",
     "last_restock_at": "2026-09-11T19:00:34+00:00",
     "restock_count": 1,
