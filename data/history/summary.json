@@ -315,14 +315,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:30",
-    "last_change_at": "2026-05-30T22:32:30",
+    "last_change_at": "2026-09-15T14:01:21+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 1599,
-    "price_prev_cents": null,
-    "price_low_cents": 1599,
-    "price_high_cents": 1599
+    "price_current_cents": 800,
+    "price_prev_cents": 1599,
+    "price_low_cents": 800,
+    "price_high_cents": 800
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d13-10w-white-lightning-rocket-motor.html": {
     "currently_in_stock": true,
@@ -393,14 +393,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:31",
-    "last_change_at": "2026-05-30T22:32:31",
+    "last_change_at": "2026-09-15T14:01:21+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 8199,
-    "price_prev_cents": null,
-    "price_low_cents": 8199,
-    "price_high_cents": 8199
+    "price_current_cents": 4100,
+    "price_prev_cents": 8199,
+    "price_low_cents": 4100,
+    "price_high_cents": 4100
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/18mm/18-20-reloads/aerotech-d24-10t-blue-thunder-rocket-motor.html": {
     "currently_in_stock": false,
@@ -1251,14 +1251,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:09",
-    "last_change_at": "2026-07-29T01:01:25+00:00",
+    "last_change_at": "2026-09-15T14:01:55+00:00",
     "last_in_stock_at": "2026-05-30T22:33:09",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 5399,
-    "price_prev_cents": 4299,
-    "price_low_cents": 5399,
-    "price_high_cents": 5399
+    "price_current_cents": 2700,
+    "price_prev_cents": 5399,
+    "price_low_cents": 2700,
+    "price_high_cents": 2700
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/dms-rocket-motors/aerotech-g125t-14a-blue-thunder-rocket-motor.html": {
     "currently_in_stock": false,
@@ -2018,14 +2018,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:14",
-    "last_change_at": "2026-05-30T22:33:14",
+    "last_change_at": "2026-09-15T14:02:00+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 6499,
-    "price_prev_cents": null,
-    "price_low_cents": 6499,
-    "price_high_cents": 6499
+    "price_current_cents": 3250,
+    "price_prev_cents": 6499,
+    "price_low_cents": 3250,
+    "price_high_cents": 3250
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/dms-rocket-motors/aerotech-h115dm-14a-dark-matter-rocket-motor.html": {
     "currently_in_stock": false,
@@ -2889,14 +2889,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:35",
-    "last_change_at": "2026-05-30T22:33:35",
+    "last_change_at": "2026-09-15T14:02:20+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 17999,
-    "price_prev_cents": null,
-    "price_low_cents": 17999,
-    "price_high_cents": 17999
+    "price_current_cents": 9000,
+    "price_prev_cents": 17999,
+    "price_low_cents": 9000,
+    "price_high_cents": 9000
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/75mm/75/2560-reloads/aerotech-k1800-super-thunder-rocket-motor.html": {
     "currently_in_stock": false,
