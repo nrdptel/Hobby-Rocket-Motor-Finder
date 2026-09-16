@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-16T03:07:41+00:00",
+  "updated_at": "2026-09-16T04:05:12+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -64239,6 +64239,11 @@
           "t": "2026-08-27T19:00:30+00:00",
           "status": "out_of_stock",
           "price_cents": 10099
+        },
+        {
+          "t": "2026-09-16T04:00:38+00:00",
+          "status": "in_stock",
+          "price_cents": 10099
         }
       ]
     },
@@ -64754,6 +64759,11 @@
           "t": "2026-08-31T19:00:37+00:00",
           "status": "in_stock",
           "price_cents": 16614
+        },
+        {
+          "t": "2026-09-16T04:00:49+00:00",
+          "status": "out_of_stock",
+          "price_cents": 16614
         }
       ]
     },
@@ -65113,6 +65123,11 @@
         {
           "t": "2026-08-31T19:00:37+00:00",
           "status": "in_stock",
+          "price_cents": 12985
+        },
+        {
+          "t": "2026-09-16T04:00:49+00:00",
+          "status": "out_of_stock",
           "price_cents": 12985
         }
       ]
@@ -66649,6 +66664,11 @@
           "t": "2026-06-05T17:00:40+00:00",
           "status": "out_of_stock",
           "price_cents": 12500
+        },
+        {
+          "t": "2026-09-16T04:00:53+00:00",
+          "status": "in_stock",
+          "price_cents": 15500
         }
       ]
     },
@@ -66914,6 +66934,11 @@
           "t": "2026-06-05T17:00:40+00:00",
           "status": "out_of_stock",
           "price_cents": 12500
+        },
+        {
+          "t": "2026-09-16T04:00:53+00:00",
+          "status": "in_stock",
+          "price_cents": 15500
         }
       ]
     },
@@ -67008,6 +67033,11 @@
         {
           "t": "2026-09-01T23:00:29+00:00",
           "status": "out_of_stock",
+          "price_cents": 12399
+        },
+        {
+          "t": "2026-09-16T04:00:39+00:00",
+          "status": "in_stock",
           "price_cents": 12399
         }
       ]
@@ -67214,6 +67244,11 @@
           "t": "2026-08-31T19:00:37+00:00",
           "status": "in_stock",
           "price_cents": 24155
+        },
+        {
+          "t": "2026-09-16T04:00:49+00:00",
+          "status": "out_of_stock",
+          "price_cents": 24155
         }
       ]
     },
@@ -67394,6 +67429,11 @@
           "t": "2026-08-31T19:00:37+00:00",
           "status": "in_stock",
           "price_cents": 27785
+        },
+        {
+          "t": "2026-09-16T04:00:49+00:00",
+          "status": "out_of_stock",
+          "price_cents": 27785
         }
       ]
     },
@@ -67528,6 +67568,11 @@
         {
           "t": "2026-08-31T19:00:37+00:00",
           "status": "in_stock",
+          "price_cents": 31276
+        },
+        {
+          "t": "2026-09-16T04:00:49+00:00",
+          "status": "out_of_stock",
           "price_cents": 31276
         }
       ]
@@ -70764,6 +70809,11 @@
           "t": "2026-09-08T01:00:45+00:00",
           "status": "out_of_stock",
           "price_cents": 43983
+        },
+        {
+          "t": "2026-09-16T04:00:50+00:00",
+          "status": "in_stock",
+          "price_cents": 43983
         }
       ]
     },
@@ -70838,6 +70888,11 @@
         {
           "t": "2026-08-31T19:00:38+00:00",
           "status": "out_of_stock",
+          "price_cents": 47474
+        },
+        {
+          "t": "2026-09-16T04:00:50+00:00",
+          "status": "in_stock",
           "price_cents": 47474
         }
       ]
@@ -71943,6 +71998,11 @@
         {
           "t": "2026-09-02T18:00:31+00:00",
           "status": "out_of_stock",
+          "price_cents": 42299
+        },
+        {
+          "t": "2026-09-16T04:00:40+00:00",
+          "status": "in_stock",
           "price_cents": 42299
         }
       ]
