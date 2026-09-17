@@ -49554,5 +49554,18 @@
     "price_prev_cents": null,
     "price_low_cents": 4959,
     "price_high_cents": 4959
+  },
+  "https://performancehobbies.com/secure/store.aspx?groupid=42#D21-4T%20%28single%20pack%29": {
+    "currently_in_stock": true,
+    "status_current": "in_stock",
+    "first_seen_at": "2026-09-17T04:00:45+00:00",
+    "last_change_at": "2026-09-17T04:00:45+00:00",
+    "last_in_stock_at": "2026-09-17T04:00:45+00:00",
+    "last_restock_at": null,
+    "restock_count": 0,
+    "price_current_cents": 1000,
+    "price_prev_cents": null,
+    "price_low_cents": 1000,
+    "price_high_cents": 1000
   }
 }
