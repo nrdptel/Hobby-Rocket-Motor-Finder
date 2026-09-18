@@ -5070,10 +5070,10 @@
     "price_high_cents": 4949
   },
   "https://wildmanrocketry.com/products/f27-8r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:18",
-    "last_change_at": "2026-07-01T18:00:30+00:00",
+    "last_change_at": "2026-09-18T21:00:48+00:00",
     "last_in_stock_at": "2026-07-01T18:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -25714,10 +25714,10 @@
     "price_high_cents": 5700
   },
   "https://lokiresearch.com/secure/storeDetail.asp?id=475814709104626": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T12:11:02+00:00",
-    "last_change_at": "2026-06-05T12:11:02+00:00",
+    "last_change_at": "2026-09-18T21:00:44+00:00",
     "last_in_stock_at": "2026-06-05T12:11:02+00:00",
     "last_restock_at": null,
     "restock_count": 0,
