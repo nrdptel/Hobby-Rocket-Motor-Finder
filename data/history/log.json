@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-21T07:07:27+00:00",
+  "updated_at": "2026-09-21T08:08:24+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -9294,6 +9294,11 @@
           "t": "2026-06-09T23:00:50+00:00",
           "status": "special_order",
           "price_cents": 3499
+        },
+        {
+          "t": "2026-09-21T08:01:30+00:00",
+          "status": "special_order",
+          "price_cents": 3949
         }
       ]
     },
@@ -11024,6 +11029,11 @@
           "t": "2026-06-17T15:00:53+00:00",
           "status": "special_order",
           "price_cents": 4199
+        },
+        {
+          "t": "2026-09-21T08:01:31+00:00",
+          "status": "special_order",
+          "price_cents": 4749
         }
       ]
     },
@@ -11114,6 +11124,11 @@
           "t": "2026-06-17T15:00:53+00:00",
           "status": "special_order",
           "price_cents": 4199
+        },
+        {
+          "t": "2026-09-21T08:01:31+00:00",
+          "status": "special_order",
+          "price_cents": 4749
         }
       ]
     },
@@ -11254,6 +11269,11 @@
           "t": "2026-06-17T15:00:53+00:00",
           "status": "special_order",
           "price_cents": 4199
+        },
+        {
+          "t": "2026-09-21T08:01:31+00:00",
+          "status": "special_order",
+          "price_cents": 4749
         }
       ]
     },
@@ -11324,6 +11344,11 @@
           "t": "2026-06-09T23:00:50+00:00",
           "status": "special_order",
           "price_cents": 3499
+        },
+        {
+          "t": "2026-09-21T08:01:30+00:00",
+          "status": "special_order",
+          "price_cents": 3949
         }
       ]
     },
@@ -11664,6 +11689,11 @@
           "t": "2026-06-09T23:00:51+00:00",
           "status": "special_order",
           "price_cents": 4199
+        },
+        {
+          "t": "2026-09-21T08:01:31+00:00",
+          "status": "special_order",
+          "price_cents": 4749
         }
       ]
     },
