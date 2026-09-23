@@ -33111,10 +33111,10 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#White%202%20Grain%20269-H110-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-23T01:00:44+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -33163,10 +33163,10 @@
     "price_high_cents": 6100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Blue%20Streak%202%20grain%20276-H152-15A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-23T01:00:44+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -37648,10 +37648,10 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Classic%205%20grain%20648-J285-15A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-23T01:00:44+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -37726,10 +37726,10 @@
     "price_high_cents": 10300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Pink%205%20grain%20654-J316-17A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-23T01:00:44+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
