@@ -1103,7 +1103,7 @@
     "burnTimeS": 1.66,
     "certOrg": "National Association of Rocketry",
     "commonName": "F32",
-    "dataFiles": 2,
+    "dataFiles": 3,
     "delayAdjustable": false,
     "delays": "4,6,8",
     "designation": "F32T",
