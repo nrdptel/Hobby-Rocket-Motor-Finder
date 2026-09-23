@@ -40147,14 +40147,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
+    "last_change_at": "2026-09-23T16:00:50+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 20116,
-    "price_prev_cents": null,
-    "price_low_cents": 20116,
-    "price_high_cents": 20116
+    "price_current_cents": 23736,
+    "price_prev_cents": 20116,
+    "price_low_cents": 23736,
+    "price_high_cents": 23736
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=640": {
     "currently_in_stock": false,
@@ -40446,14 +40446,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
+    "last_change_at": "2026-09-23T16:00:50+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 21181,
-    "price_prev_cents": null,
-    "price_low_cents": 21181,
-    "price_high_cents": 21181
+    "price_current_cents": 24992,
+    "price_prev_cents": 21181,
+    "price_low_cents": 24992,
+    "price_high_cents": 24992
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=101502105556613#2352-K750-18A%20-%20Red_Lightning": {
     "currently_in_stock": false,
@@ -40560,17 +40560,17 @@
     "price_high_cents": 26500
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=10120092362615#K555-P%20White%202%20Grain": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-09-08T01:00:45+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:37+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 20116,
-    "price_prev_cents": null,
+    "last_change_at": "2026-09-23T16:00:50+00:00",
+    "last_in_stock_at": "2026-09-23T16:00:50+00:00",
+    "last_restock_at": "2026-09-23T16:00:50+00:00",
+    "restock_count": 1,
+    "price_current_cents": 23736,
+    "price_prev_cents": 20116,
     "price_low_cents": 20116,
-    "price_high_cents": 20116
+    "price_high_cents": 23736
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=628": {
     "currently_in_stock": false,
@@ -40589,14 +40589,14 @@
     "currently_in_stock": false,
     "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
+    "last_change_at": "2026-09-23T16:00:50+00:00",
     "last_in_stock_at": null,
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 21181,
-    "price_prev_cents": null,
-    "price_low_cents": 21181,
-    "price_high_cents": 21181
+    "price_current_cents": 24992,
+    "price_prev_cents": 21181,
+    "price_low_cents": 24992,
+    "price_high_cents": 24992
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=608": {
     "currently_in_stock": false,
@@ -40615,14 +40615,14 @@
     "currently_in_stock": true,
     "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
-    "last_in_stock_at": "2026-06-05T17:00:37+00:00",
+    "last_change_at": "2026-09-23T16:00:50+00:00",
+    "last_in_stock_at": "2026-09-23T16:00:50+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 20116,
-    "price_prev_cents": null,
-    "price_low_cents": 20116,
-    "price_high_cents": 20116
+    "price_current_cents": 23736,
+    "price_prev_cents": 20116,
+    "price_low_cents": 23736,
+    "price_high_cents": 23736
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=637": {
     "currently_in_stock": false,
@@ -40677,17 +40677,17 @@
     "price_high_cents": 20199
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=10120092362615#2486-K510-P%20Classic%202%20Grain": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock",
     "first_seen_at": "2026-06-05T17:00:37+00:00",
-    "last_change_at": "2026-06-05T17:00:37+00:00",
-    "last_in_stock_at": null,
-    "last_restock_at": null,
-    "restock_count": 0,
-    "price_current_cents": 20116,
-    "price_prev_cents": null,
-    "price_low_cents": 20116,
-    "price_high_cents": 20116
+    "last_change_at": "2026-09-23T16:00:50+00:00",
+    "last_in_stock_at": "2026-09-23T16:00:50+00:00",
+    "last_restock_at": "2026-09-23T16:00:50+00:00",
+    "restock_count": 1,
+    "price_current_cents": 23736,
+    "price_prev_cents": 20116,
+    "price_low_cents": 23736,
+    "price_high_cents": 23736
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=624": {
     "currently_in_stock": false,
