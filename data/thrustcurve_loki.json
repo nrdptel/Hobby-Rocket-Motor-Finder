@@ -336,7 +336,7 @@
     "caseInfo": "38/480",
     "certOrg": "Tripoli Rocketry Association, Inc.",
     "commonName": "I110",
-    "dataFiles": 2,
+    "dataFiles": 3,
     "delayAdjustable": false,
     "delays": "5,8,10",
     "designation": "I110-LW",
