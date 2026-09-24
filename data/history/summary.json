@@ -4290,10 +4290,10 @@
     "price_high_cents": 2249
   },
   "https://www.buyrocketmotors.com/products/aerotech-e23-blue-thunder-rms-29-40-120?variant=50855176143145": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:51",
-    "last_change_at": "2026-05-31T02:23:51",
+    "last_change_at": "2026-09-24T21:00:33+00:00",
     "last_in_stock_at": "2026-05-31T02:23:51",
     "last_restock_at": null,
     "restock_count": 0,
@@ -6929,10 +6929,10 @@
     "price_high_cents": 3949
   },
   "https://www.buyrocketmotors.com/products/aerotech-g61w-14a-38mm-rms-plus-white-lightning?variant=50855047168297": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:59",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-24T21:00:33+00:00",
     "last_in_stock_at": "2026-09-11T19:00:34+00:00",
     "last_restock_at": "2026-09-11T19:00:34+00:00",
     "restock_count": 1,
@@ -14625,10 +14625,10 @@
     "price_high_cents": 3349
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-e23-5t-reload-kit-182.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:23:14",
-    "last_change_at": "2026-07-03T19:26:47+00:00",
+    "last_change_at": "2026-09-24T21:01:37+00:00",
     "last_in_stock_at": "2026-07-03T19:26:47+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -33007,10 +33007,10 @@
     "price_high_cents": 5400
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Red%20Lightning%202%20grain%20261-H120-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-09-24T21:00:45+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
@@ -39091,10 +39091,10 @@
     "price_high_cents": 10799
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9134#J420R-14A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:25+00:00",
-    "last_change_at": "2026-09-16T02:00:35+00:00",
+    "last_change_at": "2026-09-24T21:00:35+00:00",
     "last_in_stock_at": "2026-09-16T02:00:35+00:00",
     "last_restock_at": "2026-09-16T02:00:35+00:00",
     "restock_count": 1,
