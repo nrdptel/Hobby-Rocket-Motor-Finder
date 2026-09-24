@@ -884,10 +884,10 @@
     "price_high_cents": 4299
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/24mm/24/60-reloads/aerotech-f35-5w-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:35",
-    "last_change_at": "2026-07-29T01:01:00+00:00",
+    "last_change_at": "2026-09-24T18:01:34+00:00",
     "last_in_stock_at": "2026-07-29T01:01:00+00:00",
     "last_restock_at": null,
     "restock_count": 0,
