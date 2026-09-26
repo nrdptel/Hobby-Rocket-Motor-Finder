@@ -7722,10 +7722,10 @@
     "price_high_cents": 3499
   },
   "https://www.buyrocketmotors.com/products/aerotech-g79w-14a-white-lightning-rms-29-120?variant=50855189479721": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:01",
-    "last_change_at": "2026-09-11T19:00:34+00:00",
+    "last_change_at": "2026-09-26T01:00:36+00:00",
     "last_in_stock_at": "2026-09-11T19:00:34+00:00",
     "last_restock_at": "2026-09-11T19:00:34+00:00",
     "restock_count": 1,
@@ -45197,7 +45197,7 @@
     "restock_count": 0,
     "price_current_cents": 42299,
     "price_prev_cents": 37699,
-    "price_low_cents": 37699,
+    "price_low_cents": 42299,
     "price_high_cents": 42299
   },
   "https://www.moto-joe.com/index.php?route=product/product&product_id=381": {
