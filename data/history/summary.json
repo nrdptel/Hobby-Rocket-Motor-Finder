@@ -8242,10 +8242,10 @@
     "price_high_cents": 5799
   },
   "https://wildmanrocketry.com/products/h148r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:45",
-    "last_change_at": "2026-07-01T21:00:30+00:00",
+    "last_change_at": "2026-09-29T21:00:40+00:00",
     "last_in_stock_at": "2026-07-01T21:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12584,10 +12584,10 @@
     "price_high_cents": 32499
   },
   "https://wildmanrocketry.com/products/l1420r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:07",
-    "last_change_at": "2026-08-27T23:00:28+00:00",
+    "last_change_at": "2026-09-29T21:00:40+00:00",
     "last_in_stock_at": "2026-08-27T23:00:28+00:00",
     "last_restock_at": "2026-08-27T23:00:28+00:00",
     "restock_count": 1,
