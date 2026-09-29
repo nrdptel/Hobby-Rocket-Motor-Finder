@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-29T16:07:53+00:00",
+  "updated_at": "2026-09-29T17:07:37+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -12919,6 +12919,11 @@
           "t": "2026-07-01T22:00:29+00:00",
           "status": "in_stock",
           "price_cents": 6949
+        },
+        {
+          "t": "2026-09-29T17:01:46+00:00",
+          "status": "out_of_stock",
+          "price_cents": 6949
         }
       ]
     },
@@ -22434,6 +22439,11 @@
           "t": "2026-09-10T20:03:58+00:00",
           "status": "in_stock",
           "price_cents": 6046
+        },
+        {
+          "t": "2026-09-29T17:03:52+00:00",
+          "status": "out_of_stock",
+          "price_cents": 6046
         }
       ]
     },
@@ -23583,6 +23593,11 @@
         {
           "t": "2026-07-03T19:29:52+00:00",
           "status": "in_stock",
+          "price_cents": 10787
+        },
+        {
+          "t": "2026-09-29T17:04:53+00:00",
+          "status": "out_of_stock",
           "price_cents": 10787
         }
       ]
