@@ -11466,10 +11466,10 @@
     "price_high_cents": 22134
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1506&virtuemart_category_id=149&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:08",
-    "last_change_at": "2026-09-21T00:01:04+00:00",
+    "last_change_at": "2026-10-01T14:01:10+00:00",
     "last_in_stock_at": "2026-09-21T00:01:04+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12103,10 +12103,10 @@
     "price_high_cents": 22134
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1504&virtuemart_category_id=149&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:08",
-    "last_change_at": "2026-09-21T00:01:04+00:00",
+    "last_change_at": "2026-10-01T14:01:10+00:00",
     "last_in_stock_at": "2026-09-21T00:01:04+00:00",
     "last_restock_at": null,
     "restock_count": 0,
