@@ -637,10 +637,10 @@
     "price_high_cents": 4949
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/enerjet-by-aerotech/aerotech-f20-7w-2-pack-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:54",
-    "last_change_at": "2026-07-29T01:01:16+00:00",
+    "last_change_at": "2026-10-02T00:01:43+00:00",
     "last_in_stock_at": "2026-07-29T01:01:16+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -5382,10 +5382,10 @@
     "price_high_cents": 4299
   },
   "https://wildmanrocketry.com/products/f35-5w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:20",
-    "last_change_at": "2026-07-01T18:00:30+00:00",
+    "last_change_at": "2026-10-02T00:00:43+00:00",
     "last_in_stock_at": "2026-07-01T18:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -6227,10 +6227,10 @@
     "price_high_cents": 2949
   },
   "https://wildmanrocketry.com/products/f63-10r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:25",
-    "last_change_at": "2026-07-01T18:00:30+00:00",
+    "last_change_at": "2026-10-02T00:00:43+00:00",
     "last_in_stock_at": "2026-07-01T18:00:30+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12519,13 +12519,13 @@
     "price_high_cents": 32499
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1516&virtuemart_category_id=153&Itemid=533": {
-    "currently_in_stock": false,
-    "status_current": "special_order",
+    "currently_in_stock": true,
+    "status_current": "in_stock_with_count",
     "first_seen_at": "2026-05-31T02:58:13",
-    "last_change_at": "2026-09-29T01:01:11+00:00",
-    "last_in_stock_at": "2026-09-21T01:01:43+00:00",
-    "last_restock_at": "2026-09-20T23:01:09+00:00",
-    "restock_count": 1,
+    "last_change_at": "2026-10-02T00:01:10+00:00",
+    "last_in_stock_at": "2026-10-02T00:01:10+00:00",
+    "last_restock_at": "2026-10-02T00:01:10+00:00",
+    "restock_count": 2,
     "price_current_cents": 32499,
     "price_prev_cents": 28999,
     "price_low_cents": 28999,
