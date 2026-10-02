@@ -2132,10 +2132,10 @@
     "price_high_cents": 8699
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/dms-rocket-motors/aerotech-i205w-14a-white-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:53",
-    "last_change_at": "2026-07-29T01:01:15+00:00",
+    "last_change_at": "2026-10-02T16:01:38+00:00",
     "last_in_stock_at": "2026-07-29T01:01:15+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -24856,13 +24856,13 @@
     "price_high_cents": 65863
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-75/6g-reloads/cesaroni-m2020-imax-rocket-motor.html": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock_with_count",
     "first_seen_at": "2026-06-03T02:28:58+00:00",
-    "last_change_at": "2026-08-10T17:02:37+00:00",
-    "last_in_stock_at": "2026-06-03T02:28:58+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-10-02T16:03:20+00:00",
+    "last_in_stock_at": "2026-10-02T16:03:20+00:00",
+    "last_restock_at": "2026-10-02T16:03:20+00:00",
+    "restock_count": 1,
     "price_current_cents": 84617,
     "price_prev_cents": null,
     "price_low_cents": 84617,
