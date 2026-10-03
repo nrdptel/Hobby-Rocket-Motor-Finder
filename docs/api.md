@@ -148,12 +148,24 @@ const { motors } = await (await fetch("https://motor.fusionspace.co/api/v1/in-st
 const cti54 = motors.filter((m) => m.manufacturer === "Cesaroni Technology" && m.diameter_mm === 54);
 ```
 
+## Data licence
+
+The API's responses, and the compilation of motor, listing, stock and price data
+in them, are licensed under
+[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+Attribute it as: **"Motor stock data from motor.fusionspace.co"**. Caching
+responses and storing recorded responses (for example as software test fixtures)
+is permitted under the licence.
+
+Vendor names, prices, stock levels and product links are factual information
+gathered from the listed retailers, provided **as-is, with no warranty** of
+accuracy or availability; trademarks belong to their owners.
+
 ## Terms
 
-Free to use; attribution to **motor.fusionspace.co** is appreciated. The data is
-aggregated from public vendor listings and [ThrustCurve](https://www.thrustcurve.org);
-it's provided **as-is, with no warranty** — verify stock and price on the
-vendor's own page before relying on it.
+Use of the data is covered by the [data licence](#data-licence) above. The data
+is aggregated from public vendor listings and [ThrustCurve](https://www.thrustcurve.org)
+— verify stock and price on the vendor's own page before relying on it.
 
 Please **use this API rather than scraping the vendors directly** — that's the
 whole point of it, and it keeps load off the shops. The catalog is small and
