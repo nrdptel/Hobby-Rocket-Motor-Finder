@@ -164,11 +164,38 @@ const cti54 = motors.filter(
 );`}</Code>
         </section>
 
+        <section id="data-licence" className="scroll-mt-6">
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Data licence</h2>
+          <p className="mt-2">
+            The API&apos;s responses, and the compilation of motor, listing, stock and price data in
+            them, are licensed under{" "}
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noopener noreferrer license"
+              className="underline hover:text-zinc-900 dark:hover:text-zinc-100"
+            >
+              Creative Commons Attribution 4.0 International (CC BY 4.0)
+            </a>
+            . Attribute it as: <strong>&ldquo;Motor stock data from motor.fusionspace.co&rdquo;</strong>.
+            Caching responses and storing recorded responses (for example as software test fixtures)
+            is permitted under the licence.
+          </p>
+          <p className="mt-2">
+            Vendor names, prices, stock levels and product links are factual information gathered
+            from the listed retailers, provided <strong>as-is, with no warranty</strong> of accuracy or
+            availability; trademarks belong to their owners.
+          </p>
+        </section>
+
         <section>
           <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Terms</h2>
           <p className="mt-2">
-            Free to use; attribution to <strong>motor.fusionspace.co</strong> is appreciated. The data
-            is aggregated from public vendor listings and{" "}
+            Use of the data is covered by the{" "}
+            <a href="#data-licence" className="underline hover:text-zinc-900 dark:hover:text-zinc-100">
+              data licence
+            </a>{" "}
+            above. The data is aggregated from public vendor listings and{" "}
             <a
               href="https://www.thrustcurve.org"
               target="_blank"
@@ -176,9 +203,8 @@ const cti54 = motors.filter(
               className="underline hover:text-zinc-900 dark:hover:text-zinc-100"
             >
               ThrustCurve
-            </a>
-            ; it&apos;s provided <strong>as-is, with no warranty</strong> — verify stock and price on
-            the vendor&apos;s own page before relying on it.
+            </a>{" "}
+            — verify stock and price on the vendor&apos;s own page before relying on it.
           </p>
           <p className="mt-2">
             Please <strong>use this API rather than scraping the vendors directly</strong> — that&apos;s

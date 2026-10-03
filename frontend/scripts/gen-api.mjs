@@ -171,8 +171,9 @@ export function buildApi(snapshot) {
     },
     docs: "https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/blob/main/docs/api.md",
     license:
-      "Free to use; attribution to motor.fusionspace.co appreciated. " +
-      "Aggregated from public vendor listings + ThrustCurve; provided as-is, no warranty.",
+      "CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Attribution: " +
+      "\"Motor stock data from motor.fusionspace.co\". Provided as-is, no warranty. " +
+      "See https://motor.fusionspace.co/api#data-licence",
     notes: "Static JSON, refreshed ~hourly. CORS-enabled (Access-Control-Allow-Origin: *). No rate limits.",
   };
   return {
@@ -304,7 +305,7 @@ export function buildOpenApi() {
       description:
         "Free, read-only JSON of U.S. high-power rocket motor stock & pricing (AeroTech, " +
         "Cesaroni, Loki). Static files on a CDN — no key, no rate limit, CORS-open, refreshed ~hourly.",
-      license: { name: "Free to use; attribution appreciated; provided as-is", url: `${SITE_URL}/api` },
+      license: { name: "CC BY 4.0", url: "https://creativecommons.org/licenses/by/4.0/" },
     },
     servers: [{ url: `${SITE_URL}/api/v1` }],
     paths: {
