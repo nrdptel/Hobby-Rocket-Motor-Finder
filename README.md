@@ -48,7 +48,7 @@ curl -s https://motor.fusionspace.co/api/v1/in-stock.json \
         | {designation, from: .cheapest_in_stock.unit_price_cents, vendor: .cheapest_in_stock.vendor}'
 ```
 
-Full field reference, schema, and terms: **[docs/api.md](docs/api.md)**.
+Full field reference, schema, and terms: **[docs/api.md](docs/api.md)**. The API data is licensed [CC BY 4.0](docs/api.md#data-licence) (attribution: "Motor stock data from motor.fusionspace.co") — separate from the MIT licence on the code.
 
 ## Disclaimer
 
