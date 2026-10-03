@@ -16484,10 +16484,10 @@
     "price_high_cents": 4769
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h45w-p-38mm-dms-hazmat-1511.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:33",
-    "last_change_at": "2026-07-03T19:29:03+00:00",
+    "last_change_at": "2026-10-03T01:03:54+00:00",
     "last_in_stock_at": "2026-07-03T19:29:03+00:00",
     "last_restock_at": null,
     "restock_count": 0,
