@@ -18954,10 +18954,10 @@
     "price_high_cents": 2512
   },
   "https://wildmanrocketry.com/products/pr24-1g-ss": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:34:11+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-10-04T02:01:09+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -18967,10 +18967,10 @@
     "price_high_cents": 2448
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-24/1g-reloads/cesaroni-e31-15a-white-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:27:58+00:00",
-    "last_change_at": "2026-06-03T02:27:58+00:00",
+    "last_change_at": "2026-10-04T02:02:52+00:00",
     "last_in_stock_at": "2026-06-03T02:27:58+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -18980,10 +18980,10 @@
     "price_high_cents": 2512
   },
   "https://wildmanrocketry.com/products/pr24-1g-wt": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:34:12+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-10-04T02:01:09+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -19045,10 +19045,10 @@
     "price_high_cents": 2720
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-29/1g-reloads/cesaroni-f36-14a-blue-streak-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:03+00:00",
-    "last_change_at": "2026-06-03T02:28:03+00:00",
+    "last_change_at": "2026-10-04T02:02:57+00:00",
     "last_in_stock_at": "2026-06-03T02:28:03+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -20267,10 +20267,10 @@
     "price_high_cents": 4885
   },
   "https://wildmanrocketry.com/products/pr29-4g-c": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:36:28+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-10-04T02:01:09+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -20579,10 +20579,10 @@
     "price_high_cents": 5584
   },
   "https://wildmanrocketry.com/products/pr29-5g-b": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:36:35+00:00",
-    "last_change_at": "2026-09-25T15:00:37+00:00",
+    "last_change_at": "2026-10-04T02:01:09+00:00",
     "last_in_stock_at": "2026-09-25T15:00:37+00:00",
     "last_restock_at": "2026-09-25T15:00:37+00:00",
     "restock_count": 1,
