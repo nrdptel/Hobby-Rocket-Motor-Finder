@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-10-04T02:08:29+00:00",
+  "updated_at": "2026-10-04T03:07:44+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -43394,6 +43394,11 @@
           "t": "2026-09-24T06:00:41+00:00",
           "status": "in_stock",
           "price_cents": 3070
+        },
+        {
+          "t": "2026-10-04T03:00:54+00:00",
+          "status": "out_of_stock",
+          "price_cents": 3070
         }
       ]
     },
@@ -61954,6 +61959,11 @@
           "t": "2026-08-31T18:01:04+00:00",
           "status": "in_stock",
           "price_cents": 4047
+        },
+        {
+          "t": "2026-10-04T03:00:55+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4047
         }
       ]
     },
@@ -80354,6 +80364,11 @@
           "t": "2026-08-31T18:01:04+00:00",
           "status": "in_stock",
           "price_cents": 4885
+        },
+        {
+          "t": "2026-10-04T03:00:55+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4885
         }
       ]
     },
@@ -81898,6 +81913,11 @@
         {
           "t": "2026-08-31T18:01:04+00:00",
           "status": "in_stock",
+          "price_cents": 5584
+        },
+        {
+          "t": "2026-10-04T03:00:55+00:00",
+          "status": "out_of_stock",
           "price_cents": 5584
         }
       ]
@@ -101309,6 +101329,11 @@
           "t": "2026-09-16T04:00:53+00:00",
           "status": "in_stock",
           "price_cents": 15500
+        },
+        {
+          "t": "2026-10-04T03:01:01+00:00",
+          "status": "out_of_stock",
+          "price_cents": 15500
         }
       ]
     },
@@ -101583,6 +101608,11 @@
         {
           "t": "2026-09-16T04:00:53+00:00",
           "status": "in_stock",
+          "price_cents": 15500
+        },
+        {
+          "t": "2026-10-04T03:01:01+00:00",
+          "status": "out_of_stock",
           "price_cents": 15500
         }
       ]
