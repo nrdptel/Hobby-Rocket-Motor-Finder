@@ -27560,10 +27560,10 @@
     "price_high_cents": 3000
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=91620109123853#Smokey%20Sam%203%20grain%20F79-13A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:33+00:00",
-    "last_change_at": "2026-09-24T06:00:41+00:00",
+    "last_change_at": "2026-10-04T03:00:54+00:00",
     "last_in_stock_at": "2026-09-24T06:00:41+00:00",
     "last_restock_at": "2026-09-24T06:00:41+00:00",
     "restock_count": 1,
@@ -29900,10 +29900,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%203%20grain%20G131-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-10-04T03:00:55+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -32539,10 +32539,10 @@
     "price_high_cents": 3900
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%204%20grain%20H175-14": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-10-04T03:00:55+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -32669,10 +32669,10 @@
     "price_high_cents": 4800
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=9320098590738#Smokey%20Sam%205%20grain%20H237-13": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:34+00:00",
-    "last_change_at": "2026-08-31T18:01:04+00:00",
+    "last_change_at": "2026-10-04T03:00:55+00:00",
     "last_in_stock_at": "2026-08-31T18:01:04+00:00",
     "last_restock_at": "2026-08-31T18:01:04+00:00",
     "restock_count": 1,
@@ -39416,10 +39416,10 @@
     "price_high_cents": 13199
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=105200411250931#J525%20%20White%20Reload": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:40+00:00",
-    "last_change_at": "2026-09-16T04:00:53+00:00",
+    "last_change_at": "2026-10-04T03:01:01+00:00",
     "last_in_stock_at": "2026-09-16T04:00:53+00:00",
     "last_restock_at": "2026-09-16T04:00:53+00:00",
     "restock_count": 1,
@@ -39689,10 +39689,10 @@
     "price_high_cents": 9300
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=105200411250931#J820%20Star%20Grain%20White%20Reload": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:40+00:00",
-    "last_change_at": "2026-09-16T04:00:53+00:00",
+    "last_change_at": "2026-10-04T03:01:01+00:00",
     "last_in_stock_at": "2026-09-16T04:00:53+00:00",
     "last_restock_at": "2026-09-16T04:00:53+00:00",
     "restock_count": 1,
