@@ -16289,10 +16289,10 @@
     "price_high_cents": 3436
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h242t-14a-reload-kit-hazmat-1775.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:29",
-    "last_change_at": "2026-09-10T20:04:08+00:00",
+    "last_change_at": "2026-10-05T19:04:08+00:00",
     "last_in_stock_at": "2026-09-10T20:04:08+00:00",
     "last_restock_at": "2026-09-10T20:04:08+00:00",
     "restock_count": 1,
@@ -16614,10 +16614,10 @@
     "price_high_cents": 7133
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i161w-14a-rms-reload-kit-hazmat-1415.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:48",
-    "last_change_at": "2026-09-10T20:04:26+00:00",
+    "last_change_at": "2026-10-05T19:04:26+00:00",
     "last_in_stock_at": "2026-09-10T20:04:26+00:00",
     "last_restock_at": "2026-09-10T20:04:26+00:00",
     "restock_count": 1,
@@ -16770,10 +16770,10 @@
     "price_high_cents": 6046
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-i284w-14a-rms-reload-kit-hazmat-1557.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:02",
-    "last_change_at": "2026-07-03T19:29:32+00:00",
+    "last_change_at": "2026-10-05T19:04:40+00:00",
     "last_in_stock_at": "2026-07-03T19:29:32+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -18096,10 +18096,10 @@
     "price_high_cents": 57599
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-m1850w-p-reload-kit-hazmat-920.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:27:47",
-    "last_change_at": "2026-09-10T20:06:23+00:00",
+    "last_change_at": "2026-10-05T19:06:23+00:00",
     "last_in_stock_at": "2026-09-10T20:06:23+00:00",
     "last_restock_at": "2026-09-10T20:06:23+00:00",
     "restock_count": 1,
