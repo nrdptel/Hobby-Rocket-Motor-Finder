@@ -16159,10 +16159,10 @@
     "price_high_cents": 5219
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h148r-14a-reload-kit-hazmat-1721.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:17",
-    "last_change_at": "2026-09-10T20:03:54+00:00",
+    "last_change_at": "2026-10-05T21:21:16+00:00",
     "last_in_stock_at": "2026-09-10T20:03:54+00:00",
     "last_restock_at": "2026-09-10T20:03:54+00:00",
     "restock_count": 1,
@@ -16302,10 +16302,10 @@
     "price_high_cents": 4393
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-h250g-14a-reload-kit-368.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:25:30",
-    "last_change_at": "2026-09-10T20:04:09+00:00",
+    "last_change_at": "2026-10-05T21:21:29+00:00",
     "last_in_stock_at": "2026-09-10T20:04:09+00:00",
     "last_restock_at": "2026-09-10T20:04:09+00:00",
     "restock_count": 1,
@@ -17355,10 +17355,10 @@
     "price_high_cents": 25055
   },
   "https://www.siriusrocketry.biz/ishop/aerotech-high-power-k1100t-l-reload-kit-hazmat-445.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T04:26:48",
-    "last_change_at": "2026-07-03T19:30:18+00:00",
+    "last_change_at": "2026-10-05T21:22:46+00:00",
     "last_in_stock_at": "2026-07-03T19:30:18+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -47190,10 +47190,10 @@
     "price_high_cents": 11399
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=793&virtuemart_category_id=5&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-06-18T21:01:22+00:00",
-    "last_change_at": "2026-06-18T21:01:22+00:00",
+    "last_change_at": "2026-10-05T21:18:57+00:00",
     "last_in_stock_at": "2026-06-18T21:01:22+00:00",
     "last_restock_at": null,
     "restock_count": 0,
