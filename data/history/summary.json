@@ -936,13 +936,13 @@
     "price_high_cents": 3879
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-f40-7w-white-lightning-rocket-motor.html": {
-    "currently_in_stock": false,
-    "status_current": "out_of_stock",
+    "currently_in_stock": true,
+    "status_current": "in_stock_with_count",
     "first_seen_at": "2026-05-30T22:32:46",
-    "last_change_at": "2026-10-06T00:01:28+00:00",
-    "last_in_stock_at": "2026-07-29T01:01:09+00:00",
-    "last_restock_at": null,
-    "restock_count": 0,
+    "last_change_at": "2026-10-06T14:01:26+00:00",
+    "last_in_stock_at": "2026-10-06T14:01:26+00:00",
+    "last_restock_at": "2026-10-06T14:01:26+00:00",
+    "restock_count": 1,
     "price_current_cents": 2599,
     "price_prev_cents": 2299,
     "price_low_cents": 2599,
@@ -20592,10 +20592,10 @@
     "price_high_cents": 5442
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-38/2g-reloads/cesaroni-h125-12a-classic-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:18+00:00",
-    "last_change_at": "2026-06-03T02:28:18+00:00",
+    "last_change_at": "2026-10-06T14:02:36+00:00",
     "last_in_stock_at": "2026-06-03T02:28:18+00:00",
     "last_restock_at": null,
     "restock_count": 0,
