@@ -24963,13 +24963,13 @@
     "currently_in_stock": true,
     "status_current": "in_stock_with_count",
     "first_seen_at": "2026-06-03T02:28:59+00:00",
-    "last_change_at": "2026-10-06T10:03:23+00:00",
-    "last_in_stock_at": "2026-10-06T10:03:23+00:00",
+    "last_change_at": "2026-10-06T15:03:48+00:00",
+    "last_in_stock_at": "2026-10-06T15:03:48+00:00",
     "last_restock_at": null,
     "restock_count": 0,
-    "price_current_cents": 108494,
-    "price_prev_cents": 87599,
-    "price_low_cents": 87599,
+    "price_current_cents": 86795,
+    "price_prev_cents": 108494,
+    "price_low_cents": 86795,
     "price_high_cents": 108494
   },
   "https://wildmanrocketry.com/products/pr75-6gxl-i": {
