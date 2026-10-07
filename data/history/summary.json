@@ -11544,10 +11544,10 @@
     "price_high_cents": 18899
   },
   "https://www.buyrocketmotors.com/products/aerotech-k185w-14a-white-lightning?variant=50855079477545": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:22",
-    "last_change_at": "2026-05-31T02:24:22",
+    "last_change_at": "2026-10-07T23:00:35+00:00",
     "last_in_stock_at": "2026-05-31T02:24:22",
     "last_restock_at": null,
     "restock_count": 0,
