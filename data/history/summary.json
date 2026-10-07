@@ -650,10 +650,10 @@
     "price_high_cents": 4949
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/enerjet-by-aerotech/aerotech-f23-4fj-2-pack-black-max-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:55",
-    "last_change_at": "2026-10-03T22:01:54+00:00",
+    "last_change_at": "2026-10-07T11:01:38+00:00",
     "last_in_stock_at": "2026-10-03T22:01:54+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -663,10 +663,10 @@
     "price_high_cents": 2200
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/enerjet-by-aerotech/aerotech-f23-7fj-2-pack-black-max-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:56",
-    "last_change_at": "2026-10-03T22:01:54+00:00",
+    "last_change_at": "2026-10-07T11:01:38+00:00",
     "last_in_stock_at": "2026-10-03T22:01:54+00:00",
     "last_restock_at": "2026-08-15T06:01:26+00:00",
     "restock_count": 1,
