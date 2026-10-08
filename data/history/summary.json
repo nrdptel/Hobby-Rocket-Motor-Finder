@@ -5668,10 +5668,10 @@
     "price_high_cents": 4949
   },
   "https://wildmanrocketry.com/products/f42-8t": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:15:22",
-    "last_change_at": "2026-07-01T18:00:30+00:00",
+    "last_change_at": "2026-10-08T15:05:15+00:00",
     "last_in_stock_at": "2026-07-01T18:00:30+00:00",
     "last_restock_at": "2026-06-12T13:21:09+00:00",
     "restock_count": 1,
@@ -9620,10 +9620,10 @@
     "price_high_cents": 8199
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1451&virtuemart_category_id=140&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:59",
-    "last_change_at": "2026-09-21T00:00:55+00:00",
+    "last_change_at": "2026-10-08T15:01:03+00:00",
     "last_in_stock_at": "2026-09-21T00:00:55+00:00",
     "last_restock_at": "2026-09-20T23:00:56+00:00",
     "restock_count": 1,
