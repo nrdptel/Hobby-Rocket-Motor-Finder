@@ -25363,10 +25363,10 @@
     "price_high_cents": 158808
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-98/6gxl-reloads/cesaroni-n4100-red-lightning-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:29:09+00:00",
-    "last_change_at": "2026-06-03T02:29:09+00:00",
+    "last_change_at": "2026-10-09T16:03:36+00:00",
     "last_in_stock_at": "2026-06-03T02:29:09+00:00",
     "last_restock_at": null,
     "restock_count": 0,
