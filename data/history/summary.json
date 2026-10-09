@@ -8047,10 +8047,10 @@
     "price_high_cents": 6199
   },
   "https://www.buyrocketmotors.com/products/aerotech-h100-14a-white-lightning-38-mm-dms?variant=50855185088809": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:02",
-    "last_change_at": "2026-10-07T18:00:40+00:00",
+    "last_change_at": "2026-10-09T00:01:29+00:00",
     "last_in_stock_at": "2026-10-07T18:00:40+00:00",
     "last_restock_at": "2026-10-07T18:00:40+00:00",
     "restock_count": 2,
@@ -13104,10 +13104,10 @@
     "price_high_cents": 42299
   },
   "https://wildmanrocketry.com/products/m1550r": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:11",
-    "last_change_at": "2026-07-22T21:05:06+00:00",
+    "last_change_at": "2026-10-09T00:04:34+00:00",
     "last_in_stock_at": "2026-07-22T21:05:06+00:00",
     "last_restock_at": "2026-07-22T21:05:06+00:00",
     "restock_count": 1,
@@ -13208,10 +13208,10 @@
     "price_high_cents": 96300
   },
   "https://wildmanrocketry.com/products/m1845nt": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T01:16:12",
-    "last_change_at": "2026-08-24T23:00:27+00:00",
+    "last_change_at": "2026-10-09T00:04:34+00:00",
     "last_in_stock_at": "2026-08-24T23:00:27+00:00",
     "last_restock_at": "2026-08-24T23:00:27+00:00",
     "restock_count": 1,
@@ -24453,10 +24453,10 @@
     "price_high_cents": 53338
   },
   "https://wildmanrocketry.com/products/pr75-5g-w": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:39:18+00:00",
-    "last_change_at": "2026-06-25T01:34:12+00:00",
+    "last_change_at": "2026-10-09T00:04:34+00:00",
     "last_in_stock_at": "2026-06-25T01:34:12+00:00",
     "last_restock_at": null,
     "restock_count": 0,
