@@ -1707,7 +1707,7 @@
     "caseInfo": "Pro29-4G",
     "certOrg": "Canadian Association of Rocketry",
     "commonName": "H255",
-    "dataFiles": 2,
+    "dataFiles": 1,
     "delayAdjustable": true,
     "delays": "5,7,9,11,14",
     "designation": "229H255-14A",
