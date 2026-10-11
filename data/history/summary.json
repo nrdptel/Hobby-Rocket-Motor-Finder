@@ -806,10 +806,10 @@
     "price_high_cents": 2899
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/24mm/single-use/aerotech-f30-6fj-black-max-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:38",
-    "last_change_at": "2026-07-29T01:01:03+00:00",
+    "last_change_at": "2026-10-11T21:01:13+00:00",
     "last_in_stock_at": "2026-07-29T01:01:03+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -845,10 +845,10 @@
     "price_high_cents": 2899
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/24mm/single-use/aerotech-f32-6t-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:39",
-    "last_change_at": "2026-08-15T06:01:13+00:00",
+    "last_change_at": "2026-10-11T21:01:14+00:00",
     "last_in_stock_at": "2026-08-15T06:01:13+00:00",
     "last_restock_at": "2026-08-15T06:01:13+00:00",
     "restock_count": 1,
@@ -5304,10 +5304,10 @@
     "price_high_cents": 2899
   },
   "https://www.buyrocketmotors.com/products/aerotech-f32-blue-thunder-24-mm-single-use?variant=50855181779241": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:23:54",
-    "last_change_at": "2026-09-11T20:00:37+00:00",
+    "last_change_at": "2026-10-11T21:02:01+00:00",
     "last_in_stock_at": "2026-09-11T20:00:37+00:00",
     "last_restock_at": null,
     "restock_count": 0,
