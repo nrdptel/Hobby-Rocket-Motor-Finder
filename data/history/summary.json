@@ -20020,10 +20020,10 @@
     "price_high_cents": 3809
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-29/3g-reloads/cesaroni-h133-14a-blue-streak-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:06+00:00",
-    "last_change_at": "2026-06-03T02:28:06+00:00",
+    "last_change_at": "2026-10-12T16:02:20+00:00",
     "last_in_stock_at": "2026-06-03T02:28:06+00:00",
     "last_restock_at": null,
     "restock_count": 0,
