@@ -22100,10 +22100,10 @@
     "price_high_cents": 12985
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-38/5g-reloads/cesaroni-j290-15a-white-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:26+00:00",
-    "last_change_at": "2026-06-03T02:28:26+00:00",
+    "last_change_at": "2026-10-14T17:02:48+00:00",
     "last_in_stock_at": "2026-06-03T02:28:26+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -25415,10 +25415,10 @@
     "price_high_cents": 183847
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-98/6gxl-reloads/cesaroni-n3301-white-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:29:08+00:00",
-    "last_change_at": "2026-06-03T02:29:08+00:00",
+    "last_change_at": "2026-10-14T17:03:18+00:00",
     "last_in_stock_at": "2026-06-03T02:29:08+00:00",
     "last_restock_at": null,
     "restock_count": 0,
