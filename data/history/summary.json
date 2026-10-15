@@ -11219,10 +11219,10 @@
     "price_high_cents": 12399
   },
   "https://www.buyrocketmotors.com/products/aerotech-j90w-14a-white-lightning?variant=50855073120553": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-31T02:24:20",
-    "last_change_at": "2026-05-31T02:24:20",
+    "last_change_at": "2026-10-15T04:02:04+00:00",
     "last_in_stock_at": "2026-05-31T02:24:20",
     "last_restock_at": null,
     "restock_count": 0,
@@ -37674,10 +37674,10 @@
     "price_high_cents": 10100
   },
   "https://performancehobbies.com/secure/store.aspx?groupid=32902113819491#Red%20Lightning%205%20grain%20649-J335-15A": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-05T17:00:35+00:00",
-    "last_change_at": "2026-08-31T18:01:05+00:00",
+    "last_change_at": "2026-10-15T04:00:47+00:00",
     "last_in_stock_at": "2026-08-31T18:01:05+00:00",
     "last_restock_at": "2026-08-31T18:01:05+00:00",
     "restock_count": 1,
