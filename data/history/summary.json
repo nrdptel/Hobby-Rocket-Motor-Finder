@@ -49244,10 +49244,10 @@
     "price_high_cents": 4399
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-g40-7w-1pk-aer-74007-required-to-pay-for-ups-ground-shipping/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:28+00:00",
-    "last_change_at": "2026-08-24T20:00:29+00:00",
+    "last_change_at": "2026-10-16T19:00:30+00:00",
     "last_in_stock_at": "2026-08-24T20:00:29+00:00",
     "last_restock_at": "2026-08-24T20:00:29+00:00",
     "restock_count": 1,
@@ -49270,10 +49270,10 @@
     "price_high_cents": 4399
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-rms-g53-10fj-1pk-aer-73310-required-to-pay-for-ups-ground-shipping/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:44+00:00",
-    "last_change_at": "2026-07-22T02:42:44+00:00",
+    "last_change_at": "2026-10-16T19:00:45+00:00",
     "last_in_stock_at": "2026-07-22T02:42:44+00:00",
     "last_restock_at": null,
     "restock_count": 0,
