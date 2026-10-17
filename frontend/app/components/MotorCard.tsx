@@ -33,6 +33,7 @@ import { NotifyButton } from "./NotifyButton";
 import { CompareButton } from "./CompareButton";
 import { StarButton } from "./StarButton";
 import { Substitutes } from "./Substitutes";
+import { VendorName } from "./VendorName";
 
 /** Stacked, single-column rendering of one motor and its listings — the
  * narrow-screen counterpart to a row group in the desktop table. The table
@@ -145,8 +146,8 @@ export function MotorCard({
                       className="flex items-center justify-between gap-3"
                     >
                       <div className="min-w-0">
-                        <div className="truncate text-zinc-700 dark:text-zinc-300">
-                          {l.vendor_name}
+                        <div className="break-words text-zinc-700 dark:text-zinc-300">
+                          <VendorName name={l.vendor_name} />
                         </div>
                         <div className="mt-0.5 flex flex-wrap items-center">
                           <ListingStatus listing={l} history={history} now={snapshotTime} />

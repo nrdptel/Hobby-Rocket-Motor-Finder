@@ -75,7 +75,7 @@ export function AvailabilityHistory({
             <div className="mt-4 space-y-2">
               {a.vendors.map((v) => (
                 <div key={v.vendorSlug} className="flex items-center gap-3">
-                  <span className="w-28 shrink-0 truncate text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="w-32 shrink-0 break-words leading-tight text-xs text-zinc-500 dark:text-zinc-400">
                     {v.vendorName}
                   </span>
                   <div className="min-w-0 flex-1">

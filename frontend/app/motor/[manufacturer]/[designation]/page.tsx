@@ -59,6 +59,7 @@ import { SnapshotTime } from "@/app/components/SnapshotTime";
 import { SiteHeader } from "@/app/components/SiteHeader";
 import { StarButton } from "@/app/components/StarButton";
 import { SubstituteLink } from "@/app/components/SubstituteLink";
+import { VendorName } from "@/app/components/VendorName";
 
 // Hazmat shipping (derived in lib/derive). H+ / >62.5g propellant must ship
 // hazmat; A–E never do; F/G sit in a legal-but-vendor-dependent gray zone.
@@ -450,7 +451,9 @@ export default async function MotorDetailPage({ params }: { params: Promise<Para
                         className="flex items-start justify-between gap-3 border-t border-zinc-100 pt-2 first:border-0 first:pt-0 dark:border-zinc-800/60"
                       >
                         <div className="min-w-0">
-                          <div className="truncate text-zinc-700 dark:text-zinc-300">{l.vendor_name}</div>
+                          <div className="break-words text-zinc-700 dark:text-zinc-300">
+                            <VendorName name={l.vendor_name} />
+                          </div>
                           <div className="mt-0.5">
                             <ListingStatus listing={l} history={history} now={now} />
                           </div>
