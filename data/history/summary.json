@@ -2314,10 +2314,10 @@
     "price_high_cents": 8399
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/38mm/38/360-reloads/aerotech-i245g-14a-mojave-green-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:33:14",
-    "last_change_at": "2026-07-29T01:01:29+00:00",
+    "last_change_at": "2026-10-17T01:01:42+00:00",
     "last_in_stock_at": "2026-07-29T01:01:29+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12688,10 +12688,10 @@
     "price_high_cents": 28879
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1518&virtuemart_category_id=153&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:13",
-    "last_change_at": "2026-09-21T01:01:43+00:00",
+    "last_change_at": "2026-10-17T01:01:08+00:00",
     "last_in_stock_at": "2026-09-21T01:01:43+00:00",
     "last_restock_at": "2026-09-20T23:01:09+00:00",
     "restock_count": 1,
@@ -19071,10 +19071,10 @@
     "price_high_cents": 3265
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-29/1g-reloads/cesaroni-f32-12a-white-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:02+00:00",
-    "last_change_at": "2026-06-03T02:28:02+00:00",
+    "last_change_at": "2026-10-17T01:02:14+00:00",
     "last_in_stock_at": "2026-06-03T02:28:02+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -19890,10 +19890,10 @@
     "price_high_cents": 4625
   },
   "https://www.csrocketry.com/rocket-motors/cesaroni/motors/pro-29/3g-reloads/cesaroni-g118-15a-blue-streak-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-06-03T02:28:05+00:00",
-    "last_change_at": "2026-06-03T02:28:05+00:00",
+    "last_change_at": "2026-10-17T01:02:16+00:00",
     "last_in_stock_at": "2026-06-03T02:28:05+00:00",
     "last_restock_at": null,
     "restock_count": 0,
