@@ -69,7 +69,7 @@ test("search narrows the catalog client-side (debounced)", async ({ page }) => {
   const before = await matchCount(page);
 
   await setSentinel(page);
-  await page.getByPlaceholder(/designation or vendor SKU/i).fill("J90");
+  await page.getByRole("searchbox", { name: /motor designation or vendor SKU/i }).fill("J90");
 
   await expect(page).toHaveURL(/q=J90/); // after the debounce
   expect(await sentinelSurvived(page)).toBe(true);

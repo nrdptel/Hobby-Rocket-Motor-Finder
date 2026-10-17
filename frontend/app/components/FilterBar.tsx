@@ -245,7 +245,10 @@ export function FilterBar({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="motor designation or vendor SKU — e.g. H242 or J350"
+            // Short enough to show whole in the input's narrowest box (min-w-[14rem]
+            // less padding ≈ 198px of 14px Geist; this is ≈ 166px), so it is never
+            // cut off at phone width. The aria-label carries the full description.
+            placeholder="motor or SKU — e.g. H242"
             className="w-full rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder:text-zinc-500"
             aria-label="Search motor designation or vendor SKU"
           />
