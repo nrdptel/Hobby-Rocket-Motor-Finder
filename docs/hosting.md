@@ -14,7 +14,7 @@ could bite us — the Workers 100k req/day cap — stays well out of reach.
 |---|---|
 | `/`, `/plan`, `/motor/[…]`, `/alerts`, `/privacy`, `/compare` shell | **static export** (`out/`), served as Pages static assets |
 | `/compare?ids=…` | **client-rendered** from a static catalog JSON |
-| OG images | **pre-generated PNGs** at build (`scripts/gen-og.mjs`) → static assets |
+| OG images | **pre-generated PNGs** at build (`scripts/gen-og.mjs`, per-motor cards) → static assets; the site-wide `public/og/default.png` is a committed static file |
 | `/api/alerts/*` (9 routes) | **Pages Functions** (`functions/api/alerts/*`) over the shared `lib/alerts/*` |
 | Data refresh | hourly scrape commit → GitHub Actions build + `wrangler pages deploy` |
 
