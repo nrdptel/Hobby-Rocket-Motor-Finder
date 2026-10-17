@@ -4,9 +4,12 @@
 // next/og ImageResponses on demand, reading the snapshot via fs. Static export
 // forbids runtime fs / dynamic image routes, so we render the SAME layouts to
 // static PNGs here instead:
-//   public/og/default.png                                 (site-wide card)
 //   public/og/motor/<manufacturer>/<designation>.png      (per-motor cards)
 // The page generateMetadata then points openGraph/twitter.images at these paths.
+//
+// The site-wide card, public/og/default.png, is NOT generated here: it is the
+// FusionSpace brand kit's ready-made HPR Motor Finder card (Rev C), committed as
+// a static file. Replace that file to change it.
 //
 // We use next/og's `ImageResponse` (Next's built-in OG image renderer), imported
 // via the explicit `next/og.js` specifier so it resolves from a plain node
@@ -77,58 +80,11 @@ function footer(logoUri) {
         opacity: 0.85,
       },
     },
-    h("img", { src: logoUri, width: 233, height: 52, alt: "Fusion Space" }),
+    // Rev C horizontal lockup (1000 x 169 PNG), drawn at its own aspect ratio.
+    h("img", { src: logoUri, width: 237, height: 40, alt: "FusionSpace" }),
     h(
       "span",
       { style: { fontSize: 26, color: "#a1a1aa", letterSpacing: "0.04em" } },
-      "motor.fusionspace.co",
-    ),
-  );
-}
-
-// Site-wide card — centered brand lockup, shared template with the rest of the
-// Fusion Space tools (charge.fusionspace.co etc.) so they read as one family:
-// sparkle mark → product name → tagline → domain on a dark background with a
-// soft indigo glow. The only per-tool changes are the three strings (name,
-// tagline, domain); type scale, glow, and mark are identical across tools. The
-// name is sized to fill the frame at the same visual weight regardless of
-// length — "HPR Motor Finder" runs longer than most, so it sits at 100px.
-function defaultCard(markUri) {
-  return h(
-    "div",
-    {
-      style: {
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-        background: "#09090b",
-        backgroundImage:
-          "radial-gradient(56% 64% at 50% 31%, rgba(99,102,241,0.27) 0%, rgba(99,102,241,0) 76%)",
-        color: "#fafafa",
-        // Real Geist weights are embedded for this card (see main()) so the name
-        // renders in SemiBold — matching the site's font-semibold <h1> — with the
-        // tagline in Regular for hierarchy.
-        fontFamily: "Geist",
-      },
-    },
-    h("img", { src: markUri, width: 130, height: 120, style: { marginBottom: 40 } }),
-    h(
-      "div",
-      { style: { fontSize: 100, fontWeight: 600, lineHeight: 1.0, letterSpacing: "-0.03em" } },
-      "HPR Motor Finder",
-    ),
-    h(
-      "div",
-      { style: { fontSize: 40, fontWeight: 400, color: "#d4d4d8", marginTop: 32, maxWidth: 1040 } },
-      "Live motor stock and pricing across U.S. vendors",
-    ),
-    h(
-      "div",
-      { style: { fontSize: 26, fontWeight: 400, color: "#818cf8", marginTop: 28, letterSpacing: "0.02em" } },
       "motor.fusionspace.co",
     ),
   );
@@ -182,18 +138,15 @@ async function render(element, fonts) {
 }
 
 async function main() {
-  // Extract the embedded data URIs (robust to formatting changes): the wordmark
-  // for the per-motor footer, the sparkle mark for the centered default card.
+  // Extract the embedded data URI (robust to formatting changes): the lockup
+  // for the per-motor footer.
   const logoSrc = await readFile(resolve(here, "..", "lib", "og-logo.ts"), "utf-8");
   const logoUri = logoSrc.match(/data:image\/png;base64,[A-Za-z0-9+/=]+/)?.[0];
   if (!logoUri) throw new Error("gen-og: could not extract OG_LOGO_PNG from lib/og-logo.ts");
-  const markSrc = await readFile(resolve(here, "..", "lib", "og-mark.ts"), "utf-8");
-  const markUri = markSrc.match(/data:image\/png;base64,[A-Za-z0-9+/=]+/)?.[0];
-  if (!markUri) throw new Error("gen-og: could not extract OG_MARK_PNG from lib/og-mark.ts");
 
   // Vendored Geist weights (next/og only bundles Regular). Kept local so the
-  // build never depends on a font fetch. Used for BOTH cards so weights render:
-  // the default card's title in SemiBold; the per-motor hero designation in Bold.
+  // build never depends on a font fetch, so the per-motor hero designation
+  // renders in Bold and the stock line in SemiBold.
   const fontsDir = resolve(here, "fonts");
   const geistFonts = [
     { name: "Geist", data: await readFile(resolve(fontsDir, "Geist-Regular.ttf")), weight: 400, style: "normal" },
@@ -202,10 +155,6 @@ async function main() {
   ];
 
   await mkdir(ogDir, { recursive: true });
-
-  // Site-wide default card (rendered with the embedded Geist weights).
-  await writeFile(resolve(ogDir, "default.png"), await render(defaultCard(markUri), geistFonts));
-  console.log("gen-og: wrote public/og/default.png");
 
   // Per-motor cards for the SAME universe the dynamic route covered: stocked
   // motors (a listing) of class >= MIN_CLASS.
@@ -220,7 +169,7 @@ async function main() {
     }
   }
   if (!snapshot) {
-    console.log("gen-og: no snapshot — only the default card was generated");
+    console.log("gen-og: no snapshot — no per-motor cards generated");
     return;
   }
 

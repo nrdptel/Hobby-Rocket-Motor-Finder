@@ -31,7 +31,7 @@ import { Methodology } from "./components/Methodology";
 import { SnapshotTime } from "./components/SnapshotTime";
 import { StatusBadge } from "./components/StatusBadge";
 import { ApiButton } from "./components/ApiButton";
-import { FusionSpaceBadge } from "./components/FusionSpaceBadge";
+import { FusionSpaceBadge, FusionSpaceLockup } from "./components/FusionSpaceBadge";
 import { KofiButton } from "./components/KofiButton";
 import { ThemeToggle } from "./components/ThemeToggle";
 
@@ -382,18 +382,11 @@ export default async function Home() {
             href="https://fusionspace.co"
             target="_blank"
             rel="noopener noreferrer"
-            title="Fusion Space — free, polished tools for high-power rocketry"
+            title="FusionSpace — free, polished tools for high-power rocketry"
             className="group inline-flex items-center gap-1.5 transition hover:opacity-80"
           >
             <span>A</span>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/brand/fusion-space-wordmark.svg"
-              alt="Fusion Space"
-              width={1598}
-              height={281}
-              className="h-5 w-auto"
-            />
+            <FusionSpaceLockup />
             <span>
               project{" "}
               <span aria-hidden className="opacity-0 transition group-hover:opacity-100">
