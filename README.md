@@ -1,3 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/brand/readme-banner-dark@2x.png">
+  <source media="(prefers-color-scheme: light)" srcset=".github/brand/readme-banner-light@2x.png">
+  <img alt="HPR Motor Finder · FS · SW · TOOL 001" src=".github/brand/readme-banner-dark@2x.png" width="100%">
+</picture>
+
 # Hobby Rocket Motor Finder
 
 [![test](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/actions/workflows/test.yml/badge.svg)](https://github.com/nrdptel/Hobby-Rocket-Motor-Finder/actions/workflows/test.yml)
