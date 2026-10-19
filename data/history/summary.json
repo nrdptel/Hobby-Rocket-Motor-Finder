@@ -377,10 +377,10 @@
     "price_high_cents": 3099
   },
   "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/24mm/24/40-reloads/aerotech-d15-7t-blue-thunder-rocket-motor.html": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-05-30T22:32:31",
-    "last_change_at": "2026-05-30T22:32:31",
+    "last_change_at": "2026-10-19T18:01:20+00:00",
     "last_in_stock_at": "2026-05-30T22:32:31",
     "last_restock_at": null,
     "restock_count": 0,
