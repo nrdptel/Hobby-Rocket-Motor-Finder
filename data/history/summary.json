@@ -8359,10 +8359,10 @@
     "price_high_cents": 3949
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1419&virtuemart_category_id=134&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:57:54",
-    "last_change_at": "2026-10-06T19:00:56+00:00",
+    "last_change_at": "2026-10-19T15:00:55+00:00",
     "last_in_stock_at": "2026-10-06T19:00:56+00:00",
     "last_restock_at": "2026-10-06T19:00:56+00:00",
     "restock_count": 2,
@@ -12181,10 +12181,10 @@
     "price_high_cents": 19284
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1512&virtuemart_category_id=152&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:11",
-    "last_change_at": "2026-09-21T01:01:42+00:00",
+    "last_change_at": "2026-10-19T15:01:12+00:00",
     "last_in_stock_at": "2026-09-21T01:01:42+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -12441,10 +12441,10 @@
     "price_high_cents": 27549
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=1515&virtuemart_category_id=153&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-05-31T02:58:13",
-    "last_change_at": "2026-09-21T01:01:43+00:00",
+    "last_change_at": "2026-10-19T15:01:13+00:00",
     "last_in_stock_at": "2026-09-21T01:01:43+00:00",
     "last_restock_at": null,
     "restock_count": 0,
@@ -47268,10 +47268,10 @@
     "price_high_cents": 21119
   },
   "https://cart.amwprox.com/index.php?option=com_virtuemart&view=productdetails&virtuemart_product_id=756&virtuemart_category_id=7&Itemid=533": {
-    "currently_in_stock": true,
-    "status_current": "in_stock_with_count",
+    "currently_in_stock": false,
+    "status_current": "special_order",
     "first_seen_at": "2026-06-18T21:01:24+00:00",
-    "last_change_at": "2026-06-18T21:01:24+00:00",
+    "last_change_at": "2026-10-19T15:01:28+00:00",
     "last_in_stock_at": "2026-06-18T21:01:24+00:00",
     "last_restock_at": null,
     "restock_count": 0,
