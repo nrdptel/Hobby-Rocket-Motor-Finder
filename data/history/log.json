@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-10-22T21:05:06+00:00",
+  "updated_at": "2026-10-22T22:07:36+00:00",
   "listings": {
     "https://www.csrocketry.com/rocket-motors/aerotech-rocketry/motors/29mm/29/40-120-reloads/aerotech-e16-4w-white-lightning-rocket-motor.html": {
       "vendor_slug": "csrocketry",
@@ -123324,6 +123324,11 @@
           "t": "2026-07-22T02:42:28+00:00",
           "status": "in_stock",
           "price_cents": 4749
+        },
+        {
+          "t": "2026-10-22T22:00:32+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4749
         }
       ]
     },
@@ -123333,6 +123338,11 @@
         {
           "t": "2026-07-22T02:42:28+00:00",
           "status": "out_of_stock",
+          "price_cents": 4749
+        },
+        {
+          "t": "2026-10-22T22:00:37+00:00",
+          "status": "in_stock",
           "price_cents": 4749
         }
       ]
@@ -123479,6 +123489,11 @@
           "t": "2026-08-24T20:00:33+00:00",
           "status": "in_stock",
           "price_cents": 4949
+        },
+        {
+          "t": "2026-10-22T22:00:37+00:00",
+          "status": "out_of_stock",
+          "price_cents": 4949
         }
       ]
     },
@@ -123488,6 +123503,11 @@
         {
           "t": "2026-07-22T02:42:32+00:00",
           "status": "out_of_stock",
+          "price_cents": 4949
+        },
+        {
+          "t": "2026-10-22T22:00:40+00:00",
+          "status": "in_stock",
           "price_cents": 4949
         }
       ]
@@ -123673,6 +123693,11 @@
         {
           "t": "2026-10-07T00:00:33+00:00",
           "status": "out_of_stock",
+          "price_cents": 4049
+        },
+        {
+          "t": "2026-10-22T22:00:32+00:00",
+          "status": "in_stock",
           "price_cents": 4049
         }
       ]
@@ -124199,6 +124224,16 @@
           "t": "2026-09-29T01:00:38+00:00",
           "status": "out_of_stock",
           "price_cents": 12399
+        }
+      ]
+    },
+    "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f23-7fj-2pk-aer-62307-required-to-pay-for-ups-ground-shipping/": {
+      "vendor_slug": "erockets",
+      "events": [
+        {
+          "t": "2026-10-22T22:00:32+00:00",
+          "status": "in_stock",
+          "price_cents": 4399
         }
       ]
     }
