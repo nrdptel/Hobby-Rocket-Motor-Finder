@@ -48672,10 +48672,10 @@
     "price_high_cents": 3899
   },
   "https://www.erockets.biz/aerotech-24mm-composite-model-rocket-motor-single-use-e20-7w-2pk-aer-52007-required-to-pay-for-ups-ground-shipping/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:36+00:00",
-    "last_change_at": "2026-08-24T20:00:37+00:00",
+    "last_change_at": "2026-10-23T18:02:00+00:00",
     "last_in_stock_at": "2026-08-24T20:00:37+00:00",
     "last_restock_at": "2026-08-24T20:00:37+00:00",
     "restock_count": 1,
@@ -48802,10 +48802,10 @@
     "price_high_cents": 4949
   },
   "https://www.erockets.biz/aerotech-29mm-composite-model-rocket-motor-single-use-f23-4fj-2pk-aer-62304-required-to-pay-for-ups-ground-shipping/": {
-    "currently_in_stock": true,
-    "status_current": "in_stock",
+    "currently_in_stock": false,
+    "status_current": "out_of_stock",
     "first_seen_at": "2026-07-22T02:42:36+00:00",
-    "last_change_at": "2026-07-22T02:42:36+00:00",
+    "last_change_at": "2026-10-23T18:02:00+00:00",
     "last_in_stock_at": "2026-07-22T02:42:36+00:00",
     "last_restock_at": null,
     "restock_count": 0,
